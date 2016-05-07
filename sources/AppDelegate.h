@@ -39,6 +39,8 @@ public:
 
 private:
     ProjectConfig m_projectConfig;
+
+    void init_lua_env();
 };
 
 #endif // _APP_DELEGATE_H_

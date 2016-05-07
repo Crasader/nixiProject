@@ -6,6 +6,9 @@
 #include "CCLuaEngine.h"
 #include <string>
 
+#include "DataManager.h"
+#include "TestScene.h"
+
 using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -31,17 +34,34 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
+    //
+    float fixed_height = 1136.0f;
+    float fixed_width = 852.0f;
+    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(fixed_width, fixed_height, kResolutionFixedHeight);
+    // 配置文件搜索路径
+    CCFileUtils::sharedFileUtils()->addSearchPath("res/");
+    //
+    DataManager::Inst()->config_UUID();
+    const char* uuid = DataManager::Inst()->obtain_UUID();
+    CCLOG("========UUID=========\n%s\n", uuid);
+    // first scene
+    CCScene* pScene = TestScene::create();
+    CCDirector::sharedDirector()->runWithScene(pScene);
+    //
+    return true;
+}
 
+void AppDelegate::init_lua_env() {
     // register lua engine
     CCLuaEngine *pEngine = CCLuaEngine::defaultEngine();
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
-
+    
     CCLuaStack *pStack = pEngine->getLuaStack();
-
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // load framework
     pStack->loadChunksFromZIP("res/framework_precompiled.zip");
-
+    
     // set script path
     string path = CCFileUtils::sharedFileUtils()->fullPathForFilename("scripts/main.lua");
 #else
@@ -51,11 +71,11 @@ bool AppDelegate::applicationDidFinishLaunching()
         const string precompiledFrameworkPath = SimulatorConfig::sharedDefaults()->getPrecompiledFrameworkPath();
         pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
     }
-
+    
     // set script path
     string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(m_projectConfig.getScriptFileRealPath().c_str());
 #endif
-
+    
     size_t pos;
     while ((pos = path.find_first_of("\\")) != std::string::npos)
     {
@@ -66,25 +86,23 @@ bool AppDelegate::applicationDidFinishLaunching()
     {
         const string dir = path.substr(0, p);
         pStack->addSearchPath(dir.c_str());
-
+        
         p = dir.find_last_of("/\\");
         if (p != dir.npos)
         {
             pStack->addSearchPath(dir.substr(0, p).c_str());
         }
     }
-
+    
     string env = "__LUA_STARTUP_FILE__=\"";
     env.append(path);
     env.append("\"");
     pEngine->executeString(env.c_str());
-
+    
     CCLOG("------------------------------------------------");
     CCLOG("LOAD LUA FILE: %s", path.c_str());
     CCLOG("------------------------------------------------");
     pEngine->executeScriptFile(path.c_str());
-
-    return true;
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
