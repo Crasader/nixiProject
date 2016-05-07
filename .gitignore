@@ -11,6 +11,7 @@
 *.log
 
 # Xcode
+*.xcodeproj
 xcuserdata/
 *.DS_Store
 *.pbxuser
