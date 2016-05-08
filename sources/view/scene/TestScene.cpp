@@ -71,5 +71,5 @@ void TestScene::create_view() {
 }
 
 void TestScene::fast_login() {
-    DataManager::Inst()->cur_timestamp();
+    NetManager::Inst()->fast_login_9008(DataManager::Inst()->obtain_UUID());
 }

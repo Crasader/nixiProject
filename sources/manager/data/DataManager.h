@@ -25,9 +25,12 @@ public:
     void config_UUID();
     const char* obtain_UUID();
     time_t cur_timestamp();
- 
+    
+    const char* obtain_sid();
+    
 private:
     string          _uuid;
+    string          _sid;
 };
 
 #endif /* DataManager_hpp */

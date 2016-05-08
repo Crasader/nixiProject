@@ -7,6 +7,10 @@
 //
 
 #include "NetManager.h"
+#include "DataManager.h"
+
+#include "json_lib.h"
+using namespace CSJson;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "network/CCNetwork.h"
@@ -16,7 +20,7 @@ USING_NS_CC_EXTRA;
 static NetManager* _instance = nullptr;
 
 const int CONNECT_TIMEOUT = 60;
-const char* LOGIN_ADDR = "http://192.168.1.234:9765";
+const char* LOGIN_ADDR = "http://192.168.1.234:9765/account";
 
 NetManager::~NetManager() {
     
@@ -28,6 +32,11 @@ NetManager* NetManager::Inst() {
     }
     
     return _instance;
+}
+
+const char* NetManager::generate_sign() {
+    CCString* rtn = CCString::createWithFormat("%ld", DataManager::Inst()->cur_timestamp());
+    return rtn->getCString();
 }
 
 CCString* NetManager::obtain_login_url(const char* sid, int cid, const char* sign) {
@@ -51,7 +60,8 @@ void NetManager::post_data(const char* url, string data)
 
 void NetManager::requestFinished(CCHTTPRequest *request)
 {
-    std::string response_string = request->getResponseString();
+    std::string response = request->getResponseString();
+    CCLOG("NetManager::requestFinished() -\n%s", response.c_str());
 //    if (_delegate) {
 //        _delegate->http_response_handle(response_string.c_str());
 //    }
@@ -60,10 +70,9 @@ void NetManager::requestFinished(CCHTTPRequest *request)
 //    }
 }
 
-
 void NetManager::requestFailed(CCHTTPRequest *request)
 {
-    CCLOG("NetManager::requestFailed() - error: %d", request->getErrorCode());
+    CCLOG("NetManager::requestFailed() -\nError: %d", request->getErrorCode());
 //    if (_delegate) {
 //        _delegate->http_response_error(request->getErrorCode());
 //    }
@@ -77,6 +86,18 @@ NetEnv NetManager::obtain_net_env() {
 #endif
 }
 
-void NetManager::fast_login(const char *uuid) {
-    CCString* url = this->obtain_login_url("", 9008, "");
+void NetManager::fast_login_9008(const char* uuid) {
+    DataManager* dm = DataManager::Inst();
+    CCString* url = this->obtain_login_url(dm->obtain_sid(), 9007, this->generate_sign());
+    
+//    FastWriter writer;
+//    Value root;
+//    root["uuid"] = uuid;
+//    string data = writer.write(root);
+    string data = "give a cuowu";
+    this->post_data(url->getCString(), data);
 }
+
+
+
+

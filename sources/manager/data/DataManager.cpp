@@ -27,6 +27,8 @@ DataManager* DataManager::Inst() {
         _instance = new DataManager();
     }
     
+    _instance->_sid = "";
+    
     return _instance;
 }
 
@@ -44,6 +46,10 @@ void DataManager::config_UUID() {
 
 const char* DataManager::obtain_UUID() {
     return _uuid.c_str();
+}
+
+const char* DataManager::obtain_sid() {
+    return _sid.c_str();
 }
 
 time_t DataManager::cur_timestamp() {

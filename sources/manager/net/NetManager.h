@@ -11,11 +11,9 @@
 
 #include "cocos2d.h"
 #include "network/CCHTTPRequest.h"
-//#include "cocos-ext.h"
 
 USING_NS_CC;
 USING_NS_CC_EXTRA;
-//USING_NS_CC_EXT;
 
 typedef enum
     { e_NetEnv_NotReachable = 0
@@ -35,10 +33,10 @@ public:
     
 public:
     NetEnv obtain_net_env();
-    void fast_login(const char* uuid);
+    void fast_login_9008(const char* uuid);
     
 private:
-
+    const char* generate_sign();
     CCString* obtain_login_url(const char* sid, int cid, const char* sign);
     CCString* obtain_game_url(const char* sid, int cid, const char* sign);
     void post_data(const char* url, string data);
