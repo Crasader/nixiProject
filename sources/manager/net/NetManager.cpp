@@ -88,13 +88,13 @@ NetEnv NetManager::obtain_net_env() {
 
 void NetManager::fast_login_9008(const char* uuid) {
     DataManager* dm = DataManager::Inst();
-    CCString* url = this->obtain_login_url(dm->obtain_sid(), 9007, this->generate_sign());
+    CCString* url = this->obtain_login_url(dm->obtain_sid(), 9008, this->generate_sign());
     
-//    FastWriter writer;
-//    Value root;
-//    root["uuid"] = uuid;
-//    string data = writer.write(root);
-    string data = "give a cuowu";
+    FastWriter writer;
+    Value root;
+    root["uuid"] = uuid;
+    string data = writer.write(root);
+    
     this->post_data(url->getCString(), data);
 }
 
