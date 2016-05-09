@@ -33,12 +33,12 @@ public:
     
 public:
     NetEnv obtain_net_env();
-    void fast_login_9008(const char* uuid);
+    void fast_login_900(const char* uuid);
     
 private:
     const char* generate_sign();
-    CCString* obtain_login_url(const char* sid, int cid, const char* sign);
-    CCString* obtain_game_url(const char* sid, int cid, const char* sign);
+    CCString* obtain_login_url(const char* sid, const char* cid, const char* sign);
+    CCString* obtain_game_url(const char* sid, const char* cid, const char* sign);
     void post_data(const char* url, string data);
 };
 

@@ -39,13 +39,13 @@ const char* NetManager::generate_sign() {
     return rtn->getCString();
 }
 
-CCString* NetManager::obtain_login_url(const char* sid, int cid, const char* sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", LOGIN_ADDR, sid, cid, sign);
+CCString* NetManager::obtain_login_url(const char* sid, const char* cid, const char* sign) {
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", LOGIN_ADDR, sid, cid, sign);
     return rtn;
 }
 
-CCString* NetManager::obtain_game_url(const char* sid, int cid, const char* sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", LOGIN_ADDR, sid, cid, sign);
+CCString* NetManager::obtain_game_url(const char* sid, const char* cid, const char* sign) {
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", LOGIN_ADDR, sid, cid, sign);
     return rtn;
 }
 
@@ -86,13 +86,14 @@ NetEnv NetManager::obtain_net_env() {
 #endif
 }
 
-void NetManager::fast_login_9008(const char* uuid) {
+void NetManager::fast_login_900(const char* uuid) {
     DataManager* dm = DataManager::Inst();
-    CCString* url = this->obtain_login_url(dm->obtain_sid(), 9008, this->generate_sign());
+    CCString* url = this->obtain_login_url(dm->obtain_sid(), "900", this->generate_sign());
     
     FastWriter writer;
     Value root;
     root["uuid"] = uuid;
+    root["type"] = 1;
     string data = writer.write(root);
     
     this->post_data(url->getCString(), data);
