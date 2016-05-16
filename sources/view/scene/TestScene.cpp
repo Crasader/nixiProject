@@ -71,5 +71,6 @@ void TestScene::create_view() {
 }
 
 void TestScene::fast_login() {
-    NetManager::Inst()->fast_login_900(DataManager::Inst()->obtain_UUID());
+    NetManager::Inst()->fast_login_900(DataManager::Inst()->getLogin()->obtain_UUID());
 }
+

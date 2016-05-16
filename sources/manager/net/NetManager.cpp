@@ -62,20 +62,13 @@ void NetManager::requestFinished(CCHTTPRequest *request)
 {
     std::string response = request->getResponseString();
     CCLOG("NetManager::requestFinished() -\n%s", response.c_str());
-//    if (_delegate) {
-//        _delegate->http_response_handle(response_string.c_str());
-//    }
-//    else {
-//        this->response_handle(response_string.c_str());
-//    }
+    DataManager::Inst()->http_response_handle(response);
 }
 
 void NetManager::requestFailed(CCHTTPRequest *request)
 {
-    CCLOG("NetManager::requestFailed() -\nError: %d", request->getErrorCode());
-//    if (_delegate) {
-//        _delegate->http_response_error(request->getErrorCode());
-//    }
+    CCLOG("NetManager::requestFailed() -\nError<%d>: %s", request->getErrorCode(), request->getErrorMessage().c_str());
+    DataManager::Inst()->http_response_error(request->getErrorCode(), request->getErrorMessage());
 }
 
 NetEnv NetManager::obtain_net_env() {
@@ -88,7 +81,7 @@ NetEnv NetManager::obtain_net_env() {
 
 void NetManager::fast_login_900(const char* uuid) {
     DataManager* dm = DataManager::Inst();
-    CCString* url = this->obtain_login_url(dm->obtain_sid(), "900", this->generate_sign());
+    CCString* url = this->obtain_login_url(dm->getLogin()->obtain_sid(), "900", this->generate_sign());
     
     FastWriter writer;
     Value root;

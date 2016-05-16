@@ -41,8 +41,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     //
-    DataManager::Inst()->config_UUID();
-    const char* uuid = DataManager::Inst()->obtain_UUID();
+    DataManager::Inst()->getLogin()->config_UUID();
+    const char* uuid = DataManager::Inst()->getLogin()->obtain_UUID();
     CCLOG("========UUID=========\n%s\n", uuid);
     // first scene
     CCScene* pScene = TestScene::create();

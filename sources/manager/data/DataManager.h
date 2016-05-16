@@ -11,9 +11,14 @@
 
 #include "cocos2d.h"
 //#include "cocos-ext.h"
+#include "json_lib.h"
+
+#include "LoginComp.h"
 
 USING_NS_CC;
 //USING_NS_CC_EXT;
+using namespace CSJson;
+
 
 class DataManager
 {
@@ -21,16 +26,20 @@ public:
     ~DataManager();
     static DataManager* Inst();
     
-public:
-    void config_UUID();
-    const char* obtain_UUID();
-    time_t cur_timestamp();
+    void http_response_error(int code, string msg);
+    void http_response_handle(string response);
     
-    const char* obtain_sid();
+    time_t cur_timestamp();
+
+public:
+    CC_SYNTHESIZE_RETAIN(LoginComp*, _login, Login);
     
 private:
-    string          _uuid;
-    string          _sid;
+
+    
+private:
+    void init_data();
+    void handle_protocol(int cid, Value content);
 };
 
 #endif /* DataManager_hpp */

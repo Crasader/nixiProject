@@ -9,13 +9,6 @@
 #include "DataManager.h"
 #include <sys/time.h>
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#include "native/CCNative.h"
-USING_NS_CC_EXTRA;
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-#endif
-
 static DataManager* _instance = nullptr;
 
 DataManager::~DataManager() {
@@ -25,31 +18,14 @@ DataManager::~DataManager() {
 DataManager* DataManager::Inst() {
     if (_instance == nullptr) {
         _instance = new DataManager();
+        _instance->init_data();
     }
-    
-    _instance->_sid = "";
     
     return _instance;
 }
 
-void DataManager::config_UUID() {
-    if (!_uuid.empty()) {
-        CCLOG("UUID 只需获取一次，请确认是否正确使用???");
-        return;
-    }
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    _uuid = cocos2d::extra::CCNative::getOpenUDID();
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    _uuid = "没有获得";
-#endif
-}
-
-const char* DataManager::obtain_UUID() {
-    return _uuid.c_str();
-}
-
-const char* DataManager::obtain_sid() {
-    return _sid.c_str();
+void DataManager::init_data() {
+    this->setLogin(LoginComp::create());
 }
 
 time_t DataManager::cur_timestamp() {
@@ -60,3 +36,40 @@ time_t DataManager::cur_timestamp() {
     CCLOG("Now time = %ld", rtn);
     return rtn;
 }
+
+void DataManager::http_response_error(int code, string msg) {
+
+}
+
+void DataManager::http_response_handle(string response) {
+    Reader reader;
+    Value root;
+    if (!reader.parse(response, root, false)) {
+        CCLOG("DataManager::http_response_handle() json reader error.");
+        return;
+    }
+    
+    int code = root["code"].asInt();
+    if (0 == code) {
+        CCString* cid = ccs(root["cid"].asString());
+        Value content = root["content"];
+        this->handle_protocol(cid->intValue(), content);
+    }
+    else {
+//        string msg = root["content"].asString();
+    }
+}
+
+void DataManager::handle_protocol(int cid, Value content) {
+    switch (cid) {
+        case 900: {
+            _login->init_with_json(content);
+        } break;
+            
+        default:
+            break;
+    }
+}
+
+
+
