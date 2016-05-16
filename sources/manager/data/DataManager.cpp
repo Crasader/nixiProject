@@ -61,6 +61,8 @@ void DataManager::http_response_handle(string response) {
 }
 
 void DataManager::handle_protocol(int cid, Value content) {
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    const char* notif_format = "HTTP_FINISHED_%d";
     switch (cid) {
         case 900: {
             _login->init_with_json(content);
@@ -69,6 +71,8 @@ void DataManager::handle_protocol(int cid, Value content) {
         default:
             break;
     }
+    
+    nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString());
 }
 
 

@@ -26,6 +26,7 @@ protected:
     
 private:
     void fast_login();
+    void login_game_server();
 };
 
 #endif /* TestScene_hpp */

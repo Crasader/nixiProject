@@ -45,7 +45,7 @@ CCString* NetManager::obtain_login_url(const char* sid, const char* cid, const c
 }
 
 CCString* NetManager::obtain_game_url(const char* sid, const char* cid, const char* sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", LOGIN_ADDR, sid, cid, sign);
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", DataManager::Inst()->getLogin()->obtain_game_addr(), sid, cid, sign);
     return rtn;
 }
 
@@ -80,8 +80,8 @@ NetEnv NetManager::obtain_net_env() {
 }
 
 void NetManager::fast_login_900(const char* uuid) {
-    DataManager* dm = DataManager::Inst();
-    CCString* url = this->obtain_login_url(dm->getLogin()->obtain_sid(), "900", this->generate_sign());
+    LoginComp* login = DataManager::Inst()->getLogin();
+    CCString* url = this->obtain_login_url(login->obtain_sid(), "900", this->generate_sign());
     
     FastWriter writer;
     Value root;
@@ -92,6 +92,16 @@ void NetManager::fast_login_900(const char* uuid) {
     this->post_data(url->getCString(), data);
 }
 
-
+void NetManager::login_game_server_902() {
+    LoginComp* login = DataManager::Inst()->getLogin();
+    CCString* url = this->obtain_game_url(login->obtain_sid(), "902", this->generate_sign());
+    
+    FastWriter writer;
+    Value root;
+    root["skey"] = login->obtain_sid();
+    string data = writer.write(root);
+    
+    this->post_data(url->getCString(), data);
+}
 
 

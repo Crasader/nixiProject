@@ -25,7 +25,8 @@ bool TestScene::init() {
 void TestScene::onEnter() {
     CCScene::onEnter();
     
-//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::login_game_server), "HTTP_FINISHED_900", NULL);
     
     NetEnv netenv = NetManager::Inst()->obtain_net_env();
     std::string env_info;
@@ -74,3 +75,6 @@ void TestScene::fast_login() {
     NetManager::Inst()->fast_login_900(DataManager::Inst()->getLogin()->obtain_UUID());
 }
 
+void TestScene::login_game_server() {
+    NetManager::Inst()->login_game_server_902();
+}

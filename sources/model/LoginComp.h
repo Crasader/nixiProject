@@ -26,6 +26,7 @@ public:
     void config_UUID();
     const char* obtain_UUID();
     const char* obtain_sid();
+    const char* obtain_skey();
     const char* obtain_game_addr();
     
 public:

@@ -22,7 +22,6 @@ bool LoginComp::init() {
     _sid = "";
     _uuid = "";
     _skey = "";
-    _gameaddr = "";
     
     return true;
 }
@@ -45,6 +44,10 @@ const char* LoginComp::obtain_UUID() {
 
 const char* LoginComp::obtain_sid() {
     return _sid.c_str();
+}
+
+const char* LoginComp::obtain_skey() {
+    return _skey.c_str();
 }
 
 const char* LoginComp::obtain_game_addr() {

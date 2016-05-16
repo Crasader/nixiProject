@@ -33,7 +33,9 @@ public:
     
 public:
     NetEnv obtain_net_env();
+    
     void fast_login_900(const char* uuid);
+    void login_game_server_902();
     
 private:
     const char* generate_sign();
