@@ -51,9 +51,9 @@ void DataManager::http_response_handle(string response) {
     
     int code = root["code"].asInt();
     if (0 == code) {
-        CCString* cid = ccs(root["cid"].asString());
+        int cid = root["cid"].asInt();
         Value content = root["content"];
-        this->handle_protocol(cid->intValue(), content);
+        this->handle_protocol(cid, content);
     }
     else {
 //        string msg = root["content"].asString();
