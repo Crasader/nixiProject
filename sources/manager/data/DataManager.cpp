@@ -38,10 +38,15 @@ time_t DataManager::cur_timestamp() {
 }
 
 void DataManager::http_response_error(int code, string msg) {
-
+    
 }
 
-void DataManager::http_response_handle(string response) {
+void DataManager::http_response_handle(int resp_code, string response) {
+    if (200 != resp_code) {
+        CCLOG("DataManager::http_response_handle() - HTTP response status code: %d.", resp_code);
+        return;
+    }
+    
     Reader reader;
     Value root;
     if (!reader.parse(response, root, false)) {

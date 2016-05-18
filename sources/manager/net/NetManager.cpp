@@ -51,8 +51,9 @@ CCString* NetManager::obtain_game_url(const char* sid, const char* cid, const ch
 
 void NetManager::post_data(const char* url, string data)
 {
-    CCLOG("NetManager::post_data() -\nurl >> %s\ndata >> %s", url, data.c_str());
+    CCLOG("====== *** NetManager::post_data() *** ======\nurl >> %s\ndata >> %s", url, data.c_str());
     CCHTTPRequest* request = CCHTTPRequest::createWithUrl(this, url, kCCHTTPRequestMethodPOST);
+    request->addRequestHeader("Web-Scope: mzplay");
     request->setPOSTData(data.c_str());
     request->setTimeout(CONNECT_TIMEOUT);
     request->start();
@@ -60,9 +61,10 @@ void NetManager::post_data(const char* url, string data)
 
 void NetManager::requestFinished(CCHTTPRequest *request)
 {
+    int resp_code = request->getResponseStatusCode();
     std::string response = request->getResponseString();
-    CCLOG("NetManager::requestFinished() -\n%s", response.c_str());
-    DataManager::Inst()->http_response_handle(response);
+    CCLOG("NetManager::requestFinished(%d) -\n%s\n", resp_code, response.c_str());
+    DataManager::Inst()->http_response_handle(resp_code, response);
 }
 
 void NetManager::requestFailed(CCHTTPRequest *request)
@@ -98,7 +100,7 @@ void NetManager::login_game_server_902() {
     
     FastWriter writer;
     Value root;
-    root["skey"] = login->obtain_sid();
+    root["skey"] = login->obtain_skey();
     string data = writer.write(root);
     
     this->post_data(url->getCString(), data);

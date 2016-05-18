@@ -27,7 +27,7 @@ public:
     static DataManager* Inst();
     
     void http_response_error(int code, string msg);
-    void http_response_handle(string response);
+    void http_response_handle(int resp_code, string response);
     
     time_t cur_timestamp();
 
