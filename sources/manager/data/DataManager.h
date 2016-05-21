@@ -14,6 +14,7 @@
 #include "json_lib.h"
 
 #include "LoginComp.h"
+#include "PlayerComp.h"
 
 USING_NS_CC;
 //USING_NS_CC_EXT;
@@ -33,6 +34,7 @@ public:
 
 public:
     CC_SYNTHESIZE_RETAIN(LoginComp*, _login, Login);
+    CC_SYNTHESIZE_RETAIN(PlayerComp*, _player, Player);
     
 private:
 

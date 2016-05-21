@@ -38,10 +38,10 @@ public:
     void login_game_server_902();
     
 private:
-    const char* generate_sign();
-    CCString* obtain_login_url(const char* sid, const char* cid, const char* sign);
-    CCString* obtain_game_url(const char* sid, const char* cid, const char* sign);
-    void post_data(const char* url, string data);
+    string generate_sign(int cid, const char* data);
+    CCString* obtain_login_url(const char* sid, const char* cid, string sign);
+    CCString* obtain_game_url(const char* sid, const char* cid, string sign);
+    void post_data(int cid, string data);
 };
 
 #endif /* NetManager_hpp */

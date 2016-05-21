@@ -26,6 +26,8 @@ DataManager* DataManager::Inst() {
 
 void DataManager::init_data() {
     this->setLogin(LoginComp::create());
+    this->setPlayer(PlayerComp::create());
+    
 }
 
 time_t DataManager::cur_timestamp() {
@@ -71,6 +73,10 @@ void DataManager::handle_protocol(int cid, Value content) {
     switch (cid) {
         case 900: {
             _login->init_with_json(content);
+        } break;
+            
+        case 902: {
+            _player->init_with_json(content);
         } break;
             
         default:

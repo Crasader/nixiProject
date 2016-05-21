@@ -8,7 +8,7 @@
 
 #include "NetManager.h"
 #include "DataManager.h"
-
+#include "IMD5.h"
 #include "json_lib.h"
 using namespace CSJson;
 
@@ -34,25 +34,39 @@ NetManager* NetManager::Inst() {
     return _instance;
 }
 
-const char* NetManager::generate_sign() {
-    CCString* rtn = CCString::createWithFormat("%ld", DataManager::Inst()->cur_timestamp());
-    return rtn->getCString();
+string NetManager::generate_sign(int cid, const char* data) {
+    LoginComp* login = DataManager::Inst()->getLogin();
+    CCString* sign_origin = CCString::createWithFormat("%s%s%s", login->obtain_sid(), data, login->obtain_skey());
+    IMD5 imd5;
+    imd5.GenerateMD5((unsigned char*)sign_origin->getCString(), sign_origin->length());
+    return imd5.ToString();
+//    CCString* rtn = CCString::createWithFormat("%ld", DataManager::Inst()->cur_timestamp());
+//    CCLOG("MD5=%s", result.c_str());
+//    return result.c_str();
 }
 
-CCString* NetManager::obtain_login_url(const char* sid, const char* cid, const char* sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", LOGIN_ADDR, sid, cid, sign);
+CCString* NetManager::obtain_login_url(const char* sid, const char* cid, string sign) {
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", LOGIN_ADDR, sid, cid, sign.c_str());
     return rtn;
 }
 
-CCString* NetManager::obtain_game_url(const char* sid, const char* cid, const char* sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", DataManager::Inst()->getLogin()->obtain_game_addr(), sid, cid, sign);
+CCString* NetManager::obtain_game_url(const char* sid, const char* cid, string sign) {
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", DataManager::Inst()->getLogin()->obtain_game_addr(), sid, cid, sign.c_str());
     return rtn;
 }
 
-void NetManager::post_data(const char* url, string data)
+void NetManager::post_data(int cid, string data)
 {
-    CCLOG("====== *** NetManager::post_data() *** ======\nurl >> %s\ndata >> %s", url, data.c_str());
-    CCHTTPRequest* request = CCHTTPRequest::createWithUrl(this, url, kCCHTTPRequestMethodPOST);
+    LoginComp* login = DataManager::Inst()->getLogin();
+    CCString* url = NULL;
+    if (900 == cid) {
+        url = this->obtain_login_url(login->obtain_sid(), "900", this->generate_sign(cid, data.c_str()));
+    }
+    else {
+        url = this->obtain_game_url(login->obtain_sid(), "902", this->generate_sign(cid, data.c_str()));
+    }
+    CCLOG("====== *** NetManager::post_data() *** ======\nurl >> %s\ndata >> %s", url->getCString(), data.c_str());
+    CCHTTPRequest* request = CCHTTPRequest::createWithUrl(this, url->getCString(), kCCHTTPRequestMethodPOST);
     request->addRequestHeader("Web-Scope: mzplay");
     request->setPOSTData(data.c_str());
     request->setTimeout(CONNECT_TIMEOUT);
@@ -82,28 +96,21 @@ NetEnv NetManager::obtain_net_env() {
 }
 
 void NetManager::fast_login_900(const char* uuid) {
-    LoginComp* login = DataManager::Inst()->getLogin();
-    CCString* url = this->obtain_login_url(login->obtain_sid(), "900", this->generate_sign());
-    
     FastWriter writer;
     Value root;
     root["uuid"] = uuid;
     root["type"] = 1;
     string data = writer.write(root);
-    
-    this->post_data(url->getCString(), data);
+    this->post_data(900, data);
 }
 
 void NetManager::login_game_server_902() {
-    LoginComp* login = DataManager::Inst()->getLogin();
-    CCString* url = this->obtain_game_url(login->obtain_sid(), "902", this->generate_sign());
-    
     FastWriter writer;
     Value root;
+    LoginComp* login = DataManager::Inst()->getLogin();
     root["skey"] = login->obtain_skey();
     string data = writer.write(root);
-    
-    this->post_data(url->getCString(), data);
+    this->post_data(902, data);
 }
 
 
