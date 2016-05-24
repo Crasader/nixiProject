@@ -27,7 +27,18 @@ DataManager* DataManager::Inst() {
 void DataManager::init_data() {
     this->setLogin(LoginComp::create());
     this->setPlayer(PlayerComp::create());
-    
+    this->setClothes(ClothesComp::create());
+    this->setIAP(IAPComp::create());
+    this->setMail(MailComp::create());
+    this->setMessage(MessageComp::create());
+    this->setMission(MissionComp::create());
+    this->setNews(NewsComp::create());
+    this->setNotice(NoticeComp::create());
+    this->setRanking(RankingComp::create());
+    this->setShow(ShowComp::create());
+    this->setSignin(SigninComp::create());
+    this->setSocial(SocialComp::create());
+    this->setStory(StoryComp::create());
 }
 
 time_t DataManager::cur_timestamp() {

@@ -21,15 +21,14 @@ public:
     ~LoginComp();
     CREATE_FUNC(LoginComp);
     bool init();
-    
     void init_with_json(Value json);
     void config_UUID();
+    
+public:
     const char* obtain_UUID();
     const char* obtain_sid();
     const char* obtain_skey();
     const char* obtain_game_addr();
-    
-public:
     
 protected:
     

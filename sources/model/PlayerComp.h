@@ -21,9 +21,9 @@ public:
     ~PlayerComp();
     CREATE_FUNC(PlayerComp);
     bool init();
-    
     void init_with_json(Value json);
     
+public:
     int energy();
     int exp();
     int grade();
@@ -33,8 +33,6 @@ public:
     int diam();
     int cur_mission();
     int company_phase();    // 公司规模
-    
-public:
     
 protected:
     
