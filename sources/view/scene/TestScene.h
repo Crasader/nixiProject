@@ -22,11 +22,15 @@ public:
     virtual void onExit();
     
 protected:
-    void create_view();
+    CCLayer*        _content;
     
 private:
+    void login_view();
+    void social_view();
+    
     void fast_login();
     void login_game_server();
+    void recommend_stranger();
 };
 
 #endif /* TestScene_hpp */

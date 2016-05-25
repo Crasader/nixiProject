@@ -45,13 +45,13 @@ string NetManager::generate_sign(int cid, const char* data) {
 //    return result.c_str();
 }
 
-CCString* NetManager::obtain_login_url(const char* sid, const char* cid, string sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", LOGIN_ADDR, sid, cid, sign.c_str());
+CCString* NetManager::obtain_login_url(const char* sid, int cid, string sign) {
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", LOGIN_ADDR, sid, cid, sign.c_str());
     return rtn;
 }
 
-CCString* NetManager::obtain_game_url(const char* sid, const char* cid, string sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%s&sign=%s", DataManager::Inst()->getLogin()->obtain_game_addr(), sid, cid, sign.c_str());
+CCString* NetManager::obtain_game_url(const char* sid, int cid, string sign) {
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", DataManager::Inst()->getLogin()->obtain_game_addr(), sid, cid, sign.c_str());
     return rtn;
 }
 
@@ -60,10 +60,10 @@ void NetManager::post_data(int cid, string data)
     LoginComp* login = DataManager::Inst()->getLogin();
     CCString* url = NULL;
     if (900 == cid) {
-        url = this->obtain_login_url(login->obtain_sid(), "900", this->generate_sign(cid, data.c_str()));
+        url = this->obtain_login_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
     }
     else {
-        url = this->obtain_game_url(login->obtain_sid(), "902", this->generate_sign(cid, data.c_str()));
+        url = this->obtain_game_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
     }
     CCLOG("====== *** NetManager::post_data() *** ======\nurl >> %s\ndata >> %s", url->getCString(), data.c_str());
     CCHTTPRequest* request = CCHTTPRequest::createWithUrl(this, url->getCString(), kCCHTTPRequestMethodPOST);
@@ -113,4 +113,6 @@ void NetManager::login_game_server_902() {
     this->post_data(902, data);
 }
 
-
+void NetManager::recommend_stranger_802() {
+    this->post_data(802, string(""));
+}

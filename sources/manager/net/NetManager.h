@@ -37,10 +37,12 @@ public:
     void fast_login_900(const char* uuid);
     void login_game_server_902();
     
+    void recommend_stranger_802();
+    
 private:
     string generate_sign(int cid, const char* data);
-    CCString* obtain_login_url(const char* sid, const char* cid, string sign);
-    CCString* obtain_game_url(const char* sid, const char* cid, string sign);
+    CCString* obtain_login_url(const char* sid, int cid, string sign);
+    CCString* obtain_game_url(const char* sid, int cid, string sign);
     void post_data(int cid, string data);
 };
 

@@ -90,6 +90,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content);
         } break;
             
+        case 802: {
+            _player->init_with_json(content);
+        } break;
+            
         default:
             break;
     }
