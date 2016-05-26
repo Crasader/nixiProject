@@ -117,3 +117,13 @@ void NetManager::login_game_server_902() {
 void NetManager::recommend_stranger_802() {
     this->post_data(802, string(""));
 }
+
+void NetManager::send_message_803(const char *other_sid, int type) {
+    FastWriter writer;
+    Value root;
+    root["other"] = other_sid;
+    root["type"] = type;
+    string data = writer.write(root);
+    this->post_data(803, data);
+}
+

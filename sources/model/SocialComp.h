@@ -15,6 +15,12 @@
 USING_NS_CC;
 using namespace CSJson;
 
+typedef enum {
+    e_Msg_Friend_Ask = 1,
+    e_Msg_Send_Energy,
+    e_Msg_Friend_Deletem,
+} MesssageType;
+
 class SocialComp : public CCObject
 {
 public:
@@ -26,6 +32,7 @@ public:
     void update_stranger(Value json);
     
 public:
+    CCDictionary* strangers() const;
     
 protected:
     

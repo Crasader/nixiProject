@@ -52,3 +52,7 @@ void SocialComp::update_stranger(CSJson::Value json) {
         _strangers->retain();
     }
 }
+
+CCDictionary* SocialComp::strangers() const {
+    return _strangers;
+}

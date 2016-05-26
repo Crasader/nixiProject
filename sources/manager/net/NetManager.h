@@ -38,6 +38,7 @@ public:
     void login_game_server_902();
     
     void recommend_stranger_802();
+    void send_message_803(const char *other_sid, int type);
     
 private:
     string generate_sign(int cid, const char* data);

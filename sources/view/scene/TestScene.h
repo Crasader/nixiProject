@@ -27,10 +27,14 @@ protected:
 private:
     void login_view();
     void social_view();
+    void stranger_view();
+    
+    void on_return(CCMenuItem* btn);
     
     void fast_login();
     void login_game_server();
     void recommend_stranger();
+    void msg_with_friend_ask(CCMenuItem* btn);
 };
 
 #endif /* TestScene_hpp */
