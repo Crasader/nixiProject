@@ -106,7 +106,6 @@ CCArray* AppUtil::array_with_json(CSJson::Value root) {
     return (CCArray*)AppUtil::object_with_json(root);
 }
 
-
 CCDictionary* AppUtil::dictionary_with_json(CSJson::Value root) {
     return (CCDictionary*)AppUtil::object_with_json(root);
 }

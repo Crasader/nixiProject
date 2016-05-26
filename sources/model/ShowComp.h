@@ -25,6 +25,7 @@ public:
     void init_with_json(Value json);
     
 public:
+    void print_dress();
     const char* nickname();
     int collected();            // 收集
     CCDictionary* ondress();    // 着装

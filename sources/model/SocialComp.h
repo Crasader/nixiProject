@@ -23,13 +23,14 @@ public:
     bool init();
     
     void init_with_json(Value json);
+    void update_stranger(Value json);
     
 public:
     
 protected:
     
 private:
-    
+    CCDictionary*       _strangers;
 };
 
 #endif /* SocialComp_hpp */

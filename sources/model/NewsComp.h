@@ -24,6 +24,7 @@ public:
     void init_with_json(Value json);
     
 public:
+    void print_news();
     bool is_other_day();
     int energy();
     int mail();

@@ -27,4 +27,15 @@ void NewsComp::init_with_json(Value json) {
     _mail = json["I"].asInt();
     _message = json["M"].asInt();
     _paper = json["P"].asInt();
+    
+    this->print_news();
+}
+
+void NewsComp::print_news() {
+    CCLOG("====== News ======");
+    CCLOG("Is other day: %d", _otherday);
+    CCLOG("Energy: %d", _energy);
+    CCLOG("Mail: %d", _mail);
+    CCLOG("Message: %d", _message);
+    CCLOG("Paper: %d", _paper);
 }

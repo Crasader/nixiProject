@@ -21,6 +21,7 @@ static NetManager* _instance = nullptr;
 
 const int CONNECT_TIMEOUT = 60;
 const char* LOGIN_ADDR = "http://192.168.1.234:9765/account";
+//const char* LOGIN_ADDR = "http://115.28.179.17:9765/account";
 
 NetManager::~NetManager() {
     

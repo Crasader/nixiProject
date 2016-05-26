@@ -21,11 +21,26 @@ bool ShowComp::init() {
 
 void ShowComp::init_with_json(Value json) {
     if (!json.isObject()) {
-        CCLOG("LoginComp::init_with_json() json object error.");
+        CCLOG("ShowComp::init_with_json() json object error.");
         return;
     }
     
     _nickname = json["nickname"].asString();
     _collected = json["collected"].asInt();
-    AppUtil::setNewObj(_ondress, AppUtil::dictionary_with_json(json["clothes"]));
+    {
+        CC_SAFE_RELEASE(_ondress);
+        _ondress = AppUtil::dictionary_with_json(json["ondress"]);
+        _ondress->retain();
+        this->print_dress();
+    }
+}
+
+void ShowComp::print_dress() {
+    CCLOG("My name is [%s].", _nickname.c_str());
+    CCDictElement* pElem = NULL;
+    CCDICT_FOREACH(_ondress, pElem) {
+        const char* key = pElem->getStrKey();
+        CCInteger* value = (CCInteger* )pElem->getObject();
+        CCLOG("part<%s> := %d", key, value->getValue());
+    }
 }
