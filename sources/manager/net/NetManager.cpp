@@ -127,3 +127,15 @@ void NetManager::send_message_803(const char *other_sid, int type) {
     this->post_data(803, data);
 }
 
+void NetManager::all_messages_804() {
+    this->post_data(804, string(""));
+}
+
+void NetManager::response_message_805(int id, int oper) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["oper"] = oper;
+    string data = writer.write(root);
+    this->post_data(805, data);
+}

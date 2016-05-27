@@ -28,6 +28,7 @@ private:
     void login_view();
     void social_view();
     void stranger_view();
+    void message_view();
     
     void on_return(CCMenuItem* btn);
     
@@ -35,6 +36,8 @@ private:
     void login_game_server();
     void recommend_stranger();
     void msg_with_friend_ask(CCMenuItem* btn);
+    void all_messages();
+    void response_message(CCMenuItem* btn);
 };
 
 #endif /* TestScene_hpp */

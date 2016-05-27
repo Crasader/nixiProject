@@ -38,7 +38,7 @@ void TestScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&TestScene::login_game_server), "HTTP_FINISHED_900", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::social_view), "HTTP_FINISHED_902", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_802", NULL);
-//    nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_803", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::message_view), "HTTP_FINISHED_804", NULL);
     
     NetEnv netenv = NetManager::Inst()->obtain_net_env();
     std::string env_info;
@@ -91,8 +91,9 @@ void TestScene::social_view() {
     }
     
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
+    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
-    CCMenu* menu = CCMenu::create(btn_recommend_stranger, NULL);
+    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_all_messages, NULL);
     menu->setColor(ccORANGE);
     menu->alignItemsVerticallyWithPadding(10);
     _content->addChild(menu);
@@ -117,6 +118,45 @@ void TestScene::stranger_view() {
         CCString* sid = (CCString* )pObj;
         CCMenuItemFont* btn = CCMenuItemFont::create(sid->getCString(), this, SEL_MenuHandler(&TestScene::msg_with_friend_ask));
         btn->setUserObject(ccs(sid->getCString()));
+        btns->addObject(btn);
+    }
+    
+    CCMenu* menu = CCMenu::createWithArray(btns);
+    menu->setColor(ccBLUE);
+    menu->alignItemsVerticallyWithPadding(10);
+    menu->getChildren();
+    _content->addChild(menu);
+}
+
+void TestScene::message_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 社交", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(800);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCArray* messages = DataManager::Inst()->getMessage()->messages();
+    CCObject* pObj = NULL;
+    CCArray* btns = CCArray::create();
+    CCARRAY_FOREACH(messages, pObj) {
+        MessageItem* msg = (MessageItem* )pObj;
+        CCString* format = NULL;
+        int type = msg->type;
+        if (1 == type) {
+            format = CCString::createWithFormat("玩家%s向您请求加为好友!", msg->sender.c_str());
+        }
+        else if (2 == type) {
+            format = CCString::createWithFormat("玩家%s向您送出xx点体力!", msg->sender.c_str());
+        }
+        else if (3 == type) {
+            format = CCString::createWithFormat("玩家%s 。。。。。。!", msg->sender.c_str());
+        }
+        CCMenuItemFont* btn = CCMenuItemFont::create(format->getCString(), this, SEL_MenuHandler(&TestScene::response_message));
+        btn->setTag(msg->id);
         btns->addObject(btn);
     }
     
@@ -155,8 +195,17 @@ void TestScene::recommend_stranger() {
     NetManager::Inst()->recommend_stranger_802();
 }
 
+void TestScene::all_messages() {
+    NetManager::Inst()->all_messages_804();
+}
+
 void TestScene::msg_with_friend_ask(CCMenuItem* btn) {
     CCString* other_sid = (CCString* )btn->getUserObject();
     CCLOG("Send msg to other: %s", other_sid->getCString());
     NetManager::Inst()->send_message_803(other_sid->getCString(), e_Msg_Friend_Ask);
 }
+
+void TestScene::response_message(cocos2d::CCMenuItem *btn) {
+    NetManager::Inst()->response_message_805(btn->getTag(), 1);
+}
+
