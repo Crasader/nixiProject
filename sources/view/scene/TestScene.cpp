@@ -198,21 +198,20 @@ void TestScene::recommend_stranger() {
     NetManager::Inst()->recommend_stranger_802();
 }
 
-void TestScene::search_other() {
-    NetManager::Inst()->search_other_806("8A79B644");
-}
-
-void TestScene::all_messages() {
-    NetManager::Inst()->all_messages_804();
-}
-
 void TestScene::msg_with_friend_ask(CCMenuItem* btn) {
     CCString* other_sid = (CCString* )btn->getUserObject();
     CCLOG("Send msg to other: %s", other_sid->getCString());
     NetManager::Inst()->send_message_803(other_sid->getCString(), e_Msg_Friend_Ask);
 }
 
+void TestScene::all_messages() {
+    NetManager::Inst()->all_messages_804();
+}
+
 void TestScene::response_message(cocos2d::CCMenuItem *btn) {
     NetManager::Inst()->response_message_805(btn->getTag(), 1);
 }
 
+void TestScene::search_other() {
+    NetManager::Inst()->search_other_806("8A79B644");
+}
