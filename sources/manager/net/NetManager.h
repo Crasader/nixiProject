@@ -38,9 +38,10 @@ public:
     void login_game_server_902();
     
     void recommend_stranger_802();
-    void send_message_803(const char *other_sid, int type);
+    void send_message_803(const char* other_sid, int type);
     void all_messages_804();
     void response_message_805(int id, int oper);  // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
+    void search_other_806(const char* other_sid);
     
 private:
     string generate_sign(int cid, const char* data);

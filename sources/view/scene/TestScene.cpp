@@ -10,6 +10,8 @@
 #include "DataManager.h"
 #include "NetManager.h"
 
+#define PADDING 16
+
 bool TestScene::init() {
     if (!CCScene::init()) {
         return false;
@@ -75,7 +77,7 @@ void TestScene::login_view() {
     CCMenuItemFont* btn_fast_login = CCMenuItemFont::create("游客登入", this, SEL_MenuHandler(&TestScene::fast_login));
     CCMenu* menu = CCMenu::createWithItem(btn_fast_login);
     menu->setColor(ccRED);
-    menu->alignItemsVerticallyWithPadding(10);
+    menu->alignItemsVerticallyWithPadding(PADDING);
     _content->addChild(menu);
 }
 
@@ -91,11 +93,12 @@ void TestScene::social_view() {
     }
     
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
+    CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
-    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_all_messages, NULL);
+    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_search_other, btn_all_messages, NULL);
     menu->setColor(ccORANGE);
-    menu->alignItemsVerticallyWithPadding(10);
+    menu->alignItemsVerticallyWithPadding(PADDING);
     _content->addChild(menu);
 }
 
@@ -123,7 +126,7 @@ void TestScene::stranger_view() {
     
     CCMenu* menu = CCMenu::createWithArray(btns);
     menu->setColor(ccBLUE);
-    menu->alignItemsVerticallyWithPadding(10);
+    menu->alignItemsVerticallyWithPadding(PADDING);
     menu->getChildren();
     _content->addChild(menu);
 }
@@ -162,7 +165,7 @@ void TestScene::message_view() {
     
     CCMenu* menu = CCMenu::createWithArray(btns);
     menu->setColor(ccBLUE);
-    menu->alignItemsVerticallyWithPadding(10);
+    menu->alignItemsVerticallyWithPadding(PADDING);
     menu->getChildren();
     _content->addChild(menu);
 }
@@ -193,6 +196,10 @@ void TestScene::login_game_server() {
 
 void TestScene::recommend_stranger() {
     NetManager::Inst()->recommend_stranger_802();
+}
+
+void TestScene::search_other() {
+    NetManager::Inst()->search_other_806("8A79B644");
 }
 
 void TestScene::all_messages() {

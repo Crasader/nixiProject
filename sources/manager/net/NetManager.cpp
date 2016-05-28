@@ -139,3 +139,11 @@ void NetManager::response_message_805(int id, int oper) {
     string data = writer.write(root);
     this->post_data(805, data);
 }
+
+void NetManager::search_other_806(const char *other_sid) {
+    FastWriter writer;
+    Value root;
+    root["other"] = other_sid;
+    string data = writer.write(root);
+    this->post_data(806, data);
+}

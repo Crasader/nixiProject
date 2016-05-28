@@ -35,6 +35,7 @@ private:
     void fast_login();
     void login_game_server();
     void recommend_stranger();
+    void search_other();
     void msg_with_friend_ask(CCMenuItem* btn);
     void all_messages();
     void response_message(CCMenuItem* btn);
