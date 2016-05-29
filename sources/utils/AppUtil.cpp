@@ -110,6 +110,20 @@ CCDictionary* AppUtil::dictionary_with_json(CSJson::Value root) {
     return (CCDictionary*)AppUtil::object_with_json(root);
 }
 
+void AppUtil::sort_string_array(cocos2d::CCArray* arr) {
+    int size = arr->count();
+    for (int i = 0; i < size - 1; ++i) {
+        CCString* pA = (CCString* )arr->objectAtIndex(i);
+        for (int j = i + 1; j < size; ++j) {
+            CCString* pB = (CCString* )arr->objectAtIndex(j);
+            if (pA->compare(pB->getCString()) > 0) {
+                arr->exchangeObjectAtIndex(i, j);
+                
+            }
+        }
+    }
+}
+
 CCSprite* AppUtil::get_self_sprite(const char* file) {
     CCSprite* spt = CCSprite::create(file);
     CCSize size = spt->boundingBox().size;

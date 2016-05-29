@@ -147,3 +147,9 @@ void NetManager::search_other_806(const char *other_sid) {
     string data = writer.write(root);
     this->post_data(806, data);
 }
+
+
+
+void NetManager::all_products_100() {
+    this->post_data(100, string(""));
+}

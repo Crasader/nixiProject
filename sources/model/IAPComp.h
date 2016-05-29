@@ -25,11 +25,12 @@ public:
     void init_with_json(Value json);
     
 public:
+    CCArray* products();
     
 protected:
     
 private:
-    
+    CCArray*        _products;
 };
 
 #endif /* IAPComp_hpp */

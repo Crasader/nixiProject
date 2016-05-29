@@ -81,6 +81,26 @@ void TestScene::login_view() {
     _content->addChild(menu);
 }
 
+void TestScene::IAP_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCMenuItemFont* btn_iOS = CCMenuItemFont::create("iOS 产品列表", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_android = CCMenuItemFont::create("Android 产品列表", this, SEL_MenuHandler(&TestScene::all_products));
+    
+    CCMenu* menu = CCMenu::create(btn_iOS, btn_android, NULL);
+    menu->setColor(ccORANGE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    _content->addChild(menu);
+}
+
 void TestScene::social_view() {
     _content->removeAllChildren();
     {
@@ -92,11 +112,15 @@ void TestScene::social_view() {
         _content->addChild(rtn_menu);
     }
     
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::IAP_view));
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
-    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_search_other, btn_all_messages, NULL);
+    CCMenu* menu = CCMenu::create(btn_IAP
+                                  , btn_recommend_stranger
+                                  , btn_search_other
+                                  , btn_all_messages, NULL);
     menu->setColor(ccORANGE);
     menu->alignItemsVerticallyWithPadding(PADDING);
     _content->addChild(menu);
@@ -214,4 +238,8 @@ void TestScene::response_message(cocos2d::CCMenuItem *btn) {
 
 void TestScene::search_other() {
     NetManager::Inst()->search_other_806("8A79B644");
+}
+
+void TestScene::all_products() {
+    NetManager::Inst()->all_products_100();
 }

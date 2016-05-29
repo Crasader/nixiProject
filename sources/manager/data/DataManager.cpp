@@ -105,6 +105,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _message->init_with_json(content["messages"]);
         } break;
             
+            
+        case 100: {
+            _IAP->init_with_json(content);
+        } break;
+            
         default:
             break;
     }

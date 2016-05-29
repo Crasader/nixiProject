@@ -26,6 +26,7 @@ protected:
     
 private:
     void login_view();
+    void IAP_view();
     void social_view();
     void stranger_view();
     void message_view();
@@ -39,6 +40,8 @@ private:
     void msg_with_friend_ask(CCMenuItem* btn);
     void all_messages();
     void response_message(CCMenuItem* btn);
+    
+    void all_products();
 };
 
 #endif /* TestScene_hpp */

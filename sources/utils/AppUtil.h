@@ -34,6 +34,9 @@ public:
     static CCArray* array_with_json(CSJson::Value root);
     static CCDictionary* dictionary_with_json(CSJson::Value root);
     
+    // array排序
+    static void sort_string_array(CCArray* arr);
+    
     // 动画及显示
     static CCSprite* get_self_sprite(const char* file); // 返回一个中心位置的精灵
     static CCAnimation* animationWithFrame(const char* frameFormat, int frameCount, int startNum, float interval);
