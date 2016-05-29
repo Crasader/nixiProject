@@ -32,16 +32,18 @@ private:
     void message_view();
     
     void on_return(CCMenuItem* btn);
-    
+    // 登录
     void fast_login();
     void login_game_server();
+    // 社交
     void recommend_stranger();
     void search_other();
     void msg_with_friend_ask(CCMenuItem* btn);
     void all_messages();
     void response_message(CCMenuItem* btn);
-    
+    // IAP
     void all_products();
+    void buy_product(CCMenuItem* btn);
 };
 
 #endif /* TestScene_hpp */

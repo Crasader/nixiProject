@@ -42,6 +42,8 @@ void TestScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::message_view), "HTTP_FINISHED_804", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::IAP_view), "HTTP_FINISHED_100", NULL);
+    
     NetEnv netenv = NetManager::Inst()->obtain_net_env();
     std::string env_info;
     switch (netenv) {
@@ -92,12 +94,22 @@ void TestScene::IAP_view() {
         _content->addChild(rtn_menu);
     }
     
-    CCMenuItemFont* btn_iOS = CCMenuItemFont::create("iOS 产品列表", this, SEL_MenuHandler(&TestScene::all_products));
-    CCMenuItemFont* btn_android = CCMenuItemFont::create("Android 产品列表", this, SEL_MenuHandler(&TestScene::all_products));
+    CCArray* products = DataManager::Inst()->getIAP()->products();
+    CCObject* pObj = NULL;
+    CCArray* btns = CCArray::create();
+    CCARRAY_FOREACH(products, pObj) {
+        ProductItem* prod = (ProductItem* )pObj;
+        CCString* format = CCString::createWithFormat("Id:%s money:%s  => diam:%s",
+                    prod->id.c_str(), prod->money.c_str(), prod->diam.c_str());
+        CCMenuItemFont* btn = CCMenuItemFont::create(format->getCString(), this, SEL_MenuHandler(&TestScene::buy_product));
+        btn->setUserObject(ccs(prod->id));
+        btns->addObject(btn);
+    }
     
-    CCMenu* menu = CCMenu::create(btn_iOS, btn_android, NULL);
-    menu->setColor(ccORANGE);
+    CCMenu* menu = CCMenu::createWithArray(btns);
+    menu->setColor(ccBLUE);
     menu->alignItemsVerticallyWithPadding(PADDING);
+    menu->getChildren();
     _content->addChild(menu);
 }
 
@@ -112,7 +124,7 @@ void TestScene::social_view() {
         _content->addChild(rtn_menu);
     }
     
-    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::IAP_view));
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
@@ -242,4 +254,9 @@ void TestScene::search_other() {
 
 void TestScene::all_products() {
     NetManager::Inst()->all_products_100();
+}
+
+void TestScene::buy_product(cocos2d::CCMenuItem *btn) {
+    CCString* prod_id = (CCString* )btn->getUserObject();
+    CCLOG("buy_product() - %s", prod_id->getCString());
 }
