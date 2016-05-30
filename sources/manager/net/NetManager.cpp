@@ -7,6 +7,7 @@
 //
 
 #include "NetManager.h"
+#include "ConfigManager.h"
 #include "DataManager.h"
 #include "IMD5.h"
 #include "json_lib.h"
@@ -20,8 +21,6 @@ USING_NS_CC_EXTRA;
 static NetManager* _instance = nullptr;
 
 const int CONNECT_TIMEOUT = 60;
-//const char* LOGIN_ADDR = "http://192.168.1.234:9765/account";
-const char* LOGIN_ADDR = "http://115.28.179.17:9765/account";
 
 NetManager::~NetManager() {
     
@@ -47,7 +46,7 @@ string NetManager::generate_sign(int cid, const char* data) {
 }
 
 CCString* NetManager::obtain_login_url(const char* sid, int cid, string sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", LOGIN_ADDR, sid, cid, sign.c_str());
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", ConfigManager::Inst()->login_addr.c_str(), sid, cid, sign.c_str());
     return rtn;
 }
 
