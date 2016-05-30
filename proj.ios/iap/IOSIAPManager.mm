@@ -177,8 +177,8 @@ void IOSIAPManager::printProducts() {
         CCLOG("PriceLocale: %s", pro->getPriceLocale().c_str());
         CCLOG("LocalizedTitle: %s", pro->getLocalizedTitle().c_str());
         CCLOG("LocalizedDescription: %s", pro->getLocalizedDescription().c_str());
+        CCLOG("---------- product ---------");
     }
-    CCLOG("---------- product ---------");
 }
 
 void IOSIAPManager::printTransactions() {
