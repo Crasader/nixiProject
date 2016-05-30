@@ -6,6 +6,7 @@
 #include "CCLuaEngine.h"
 #include <string>
 
+#include "ConfigManager.h"
 #include "DataManager.h"
 #include "TestScene.h"
 
@@ -40,9 +41,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(fixed_width, fixed_height, kResolutionFixedHeight);
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
+    CONFIG->config();
     //
-    DataManager::Inst()->getLogin()->config_UUID();
-    const char* uuid = DataManager::Inst()->getLogin()->obtain_UUID();
+    DATA->getLogin()->config_UUID();
+    const char* uuid = DATA->getLogin()->obtain_UUID();
     CCLOG("========UUID=========\n%s\n", uuid);
     // first scene
     CCScene* pScene = TestScene::create();
