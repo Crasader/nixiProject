@@ -1,18 +1,16 @@
 //
-//  MZIOSStoreUtil.cpp
+//  IOSIAPUtil.cpp
 //  mm3c
 //
 //  Created by lakkey on 14-7-18.
 //
 //
 
-#import "MZIOSStoreUtil.h"
+#import "IOSIAPUtil.h"
 #import "platform/ios/CCStoreIOS.h"
 #import <StoreKit/SKPaymentTransaction.h>
 
-
-@implementation MZIOSStoreUtil
-
+@implementation IOSIAPUtil
 
 + (const char*)getReceiptByProductId:(CCStorePaymentTransaction *)cctransaction
 {

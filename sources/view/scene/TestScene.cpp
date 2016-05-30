@@ -11,6 +11,8 @@
 #include "NetManager.h"
 #include "DisplayManager.h"
 
+#include "IOSIAPManager.h"
+
 #define PADDING 16
 
 bool TestScene::init() {
@@ -63,6 +65,7 @@ void TestScene::onEnter() {
     CCLOG("%s", env_info.c_str());
     
     this->login_view();
+    IOSIAPManager::Inst();
 }
 
 void TestScene::onExit() {
@@ -258,4 +261,14 @@ void TestScene::all_products() {
 void TestScene::buy_product(cocos2d::CCMenuItem *btn) {
     CCString* prod_id = (CCString* )btn->getUserObject();
     CCLOG("buy_product() - %s", prod_id->getCString());
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IOSIAPManager* d = IOSIAPManager::Inst();
+    if (d->canMakePurchases()) {
+        CCLOG("can purchases");
+        d->buyProduct(prod_id->getCString());
+    }
+    else {
+        CCLOG("can not purchases");
+    }
+#endif
 }
