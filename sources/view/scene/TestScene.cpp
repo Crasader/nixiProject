@@ -10,8 +10,9 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
-
 #include "IOSIAPManager.h"
+
+#include "MailPanel.h"
 
 #define PADDING 16
 
@@ -42,6 +43,8 @@ void TestScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&TestScene::social_view), "HTTP_FINISHED_902", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::message_view), "HTTP_FINISHED_804", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::mail_view), "HTTP_FINISHED_700", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TestScene::IAP_view), "HTTP_FINISHED_100", NULL);
     
@@ -126,32 +129,8 @@ void TestScene::mail_view() {
         _content->addChild(rtn_menu);
     }
     
-    CCArray* messages = DATA->getMail()->mails();
-    CCObject* pObj = NULL;
-    CCArray* btns = CCArray::create();
-    CCARRAY_FOREACH(messages, pObj) {
-        MessageItem* msg = (MessageItem* )pObj;
-        CCString* format = NULL;
-        int type = msg->type;
-        if (1 == type) {
-            format = CCString::createWithFormat("玩家%s向您请求加为好友!", msg->sender.c_str());
-        }
-        else if (2 == type) {
-            format = CCString::createWithFormat("玩家%s向您送出xx点体力!", msg->sender.c_str());
-        }
-        else if (3 == type) {
-            format = CCString::createWithFormat("玩家%s 。。。。。。!", msg->sender.c_str());
-        }
-        CCMenuItemFont* btn = CCMenuItemFont::create(format->getCString(), this, SEL_MenuHandler(&TestScene::response_message));
-        btn->setTag(msg->id);
-        btns->addObject(btn);
-    }
-    
-    CCMenu* menu = CCMenu::createWithArray(btns);
-    menu->setColor(ccBLUE);
-    menu->alignItemsVerticallyWithPadding(PADDING);
-    menu->getChildren();
-    _content->addChild(menu);
+    MailPanel* panel = MailPanel::create();
+    panel->show();
 }
 
 void TestScene::social_view() {
@@ -176,7 +155,7 @@ void TestScene::social_view() {
                                   , btn_recommend_stranger
                                   , btn_search_other
                                   , btn_all_messages, NULL);
-    menu->setColor(ccGREEN);
+    menu->setColor(ccORANGE);
     menu->alignItemsVerticallyWithPadding(PADDING);
     _content->addChild(menu);
 }
@@ -274,7 +253,7 @@ void TestScene::login_game_server() {
 }
 
 void TestScene::all_mails() {
-    NET->all_mais_700();
+    NET->all_mails_700();
 }
 
 void TestScene::recommend_stranger() {

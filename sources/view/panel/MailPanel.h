@@ -27,13 +27,15 @@ public:
     virtual void onExit();
 
 public:
-    void config_with_module();
+    void config_with_module(MailItem* item);
     
 private:
 };
 
 
-class MailPanel : public CCLayer
+class MailPanel
+: public CCLayer
+, public CCTableViewDataSource
 {
 public:
     ~MailPanel();
@@ -42,9 +44,24 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    virtual CCSize tableCellSizeForIndex(CCTableView *table, unsigned int idx);
+    virtual CCSize cellSizeForTable(CCTableView *table);
+    virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
+    virtual unsigned int numberOfCellsInTableView(CCTableView *table);
+    
+public:
+    void show();
+    
 private:
     void do_enter();
     void do_exit();
+    void config_cell(CCTableViewCell* cell, int idx);
+    
+    void on_mail_delete(CCMenuItem* btn);
+    void on_mail_take(CCMenuItem* btn);
+    
+private:
+    CCTableView*        _tv;
 };
 
 #endif /* MailPanel_hpp */

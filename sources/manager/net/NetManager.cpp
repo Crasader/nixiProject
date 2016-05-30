@@ -147,8 +147,17 @@ void NetManager::search_other_806(const char *other_sid) {
     this->post_data(806, data);
 }
 
-void NetManager::all_mais_700() {
+void NetManager::all_mails_700() {
     this->post_data(700, string(""));
+}
+
+void NetManager::response_mail_701(int id, int oper) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["oper"] = oper;
+    string data = writer.write(root);
+    this->post_data(701, data);
 }
 
 

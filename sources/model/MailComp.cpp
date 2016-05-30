@@ -7,10 +7,10 @@
 //
 
 #include "MailComp.h"
-#include "Rewards.h"
+#include "Reward.h"
 
 MailItem::~MailItem() {
-    CC_SAFE_DELETE(rewards);
+    CC_SAFE_DELETE(reward);
 }
 
 bool MailItem::init() {
@@ -28,8 +28,8 @@ void MailItem::init_with_json(Value json) {
     sender = json["sender"].asString();
     title = json["title"].asString();
     content = json["content"].asString();
-    rewards = Rewards::create();
-    rewards->init_with_json(json["attachment"]);
+    reward = Reward::create();
+    reward->init_with_json(json["attachment"]);
 }
 
 void MailItem::print_self() {
@@ -39,7 +39,7 @@ void MailItem::print_self() {
     CCLOG("    title = %s", title.c_str());
     CCLOG("    content = %s", content.c_str());
     CCLOG("    sender = %s", sender.c_str());
-    rewards->print_self();
+    reward->print_self();
 }
 
 // --------------------------------------------------

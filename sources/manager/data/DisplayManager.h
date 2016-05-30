@@ -29,6 +29,8 @@ public:
     float               halfW(); // screen half width
     float               halfH(); // screen half height
     
+    float               btn_scale();
+    
 private:
     float               _width;
     float               _height;

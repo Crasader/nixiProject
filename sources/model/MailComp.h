@@ -15,7 +15,7 @@
 USING_NS_CC;
 using namespace CSJson;
 
-class Rewards;
+class Reward;
 
 class MailItem : public CCObject
 {
@@ -32,7 +32,7 @@ public:
     string          sender;
     string          title;
     string          content;
-    Rewards*        rewards;
+    Reward*        reward;
     
 protected:
 private:

@@ -1,26 +1,26 @@
 //
-//  Rewards.cpp
+//  Reward.cpp
 //  tiegao
 //
 //  Created by mac on 16/5/30.
 //
 //
 
-#include "Rewards.h"
+#include "Reward.h"
 
-Rewards::~Rewards() {
+Reward::~Reward() {
 }
 
-bool Rewards::init() {
+bool Reward::init() {
     coin = 0;
     diam = 0;
     energy = 0;
     return true;
 }
 
-void Rewards::init_with_json(Value json) {
+void Reward::init_with_json(Value json) {
     if (!json.isObject()) {
-        CCLOG("Rewards::init_with_json() json object error.");
+        CCLOG("Reward::init_with_json() json object error.");
         return;
     }
     
@@ -29,8 +29,8 @@ void Rewards::init_with_json(Value json) {
     energy = json["energy"].asInt();
 }
 
-void Rewards::print_self() {
-    CCLOG("    Rewards:");
+void Reward::print_self() {
+    CCLOG("    Reward:");
     CCLOG("        coin = %d", coin);
     CCLOG("        diam = %d", diam);
     CCLOG("        energy = %d", energy);

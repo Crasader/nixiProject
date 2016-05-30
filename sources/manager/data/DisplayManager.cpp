@@ -33,3 +33,23 @@ CCPoint DisplayManager::center() {
     return CCPointMake(_width * 0.5, _height * 0.5);
 }
 
+float DisplayManager::W() {
+    return _width;
+}
+
+float DisplayManager::H() {
+    return _height;
+}
+
+float DisplayManager::halfW() {
+    return _width * 0.5;
+}
+
+float DisplayManager::halfH() {
+    return _height * 0.5;
+}
+
+float DisplayManager::btn_scale() {
+    return 1.02f;
+}
+
