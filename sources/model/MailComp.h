@@ -15,21 +15,45 @@
 USING_NS_CC;
 using namespace CSJson;
 
+class Rewards;
+
+class MailItem : public CCObject
+{
+public:
+    ~MailItem();
+    CREATE_FUNC(MailItem);
+    bool init();
+    void init_with_json(Value json);
+    
+public:
+    void print_self();
+    int             id;
+    int             send_time;
+    string          sender;
+    string          title;
+    string          content;
+    Rewards*        rewards;
+    
+protected:
+private:
+};
+
 class MailComp : public CCObject
 {
 public:
     ~MailComp();
     CREATE_FUNC(MailComp);
     bool init();
-    
     void init_with_json(Value json);
     
 public:
+    void print_mails();
+    CCArray* mails() const;
     
 protected:
     
 private:
-
+    CCArray*            _mails;
 };
 
 #endif /* MailComp_hpp */

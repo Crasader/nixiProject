@@ -27,6 +27,7 @@ protected:
 private:
     void login_view();
     void IAP_view();
+    void mail_view();
     void social_view();
     void stranger_view();
     void message_view();
@@ -35,6 +36,8 @@ private:
     // 登录
     void fast_login();
     void login_game_server();
+    // mail
+    void all_mails();
     // 社交
     void recommend_stranger();
     void search_other();

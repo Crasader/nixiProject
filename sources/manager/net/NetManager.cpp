@@ -147,6 +147,9 @@ void NetManager::search_other_806(const char *other_sid) {
     this->post_data(806, data);
 }
 
+void NetManager::all_mais_700() {
+    this->post_data(700, string(""));
+}
 
 
 void NetManager::all_products_100() {

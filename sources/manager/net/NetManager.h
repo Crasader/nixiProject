@@ -45,6 +45,8 @@ public:
     void response_message_805(int id, int oper);  // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void search_other_806(const char* other_sid);
     
+    void all_mais_700();
+    
     void all_products_100();
     
 private:

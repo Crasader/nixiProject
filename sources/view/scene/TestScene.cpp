@@ -115,6 +115,45 @@ void TestScene::IAP_view() {
     _content->addChild(menu);
 }
 
+void TestScene::mail_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCArray* messages = DATA->getMail()->mails();
+    CCObject* pObj = NULL;
+    CCArray* btns = CCArray::create();
+    CCARRAY_FOREACH(messages, pObj) {
+        MessageItem* msg = (MessageItem* )pObj;
+        CCString* format = NULL;
+        int type = msg->type;
+        if (1 == type) {
+            format = CCString::createWithFormat("玩家%s向您请求加为好友!", msg->sender.c_str());
+        }
+        else if (2 == type) {
+            format = CCString::createWithFormat("玩家%s向您送出xx点体力!", msg->sender.c_str());
+        }
+        else if (3 == type) {
+            format = CCString::createWithFormat("玩家%s 。。。。。。!", msg->sender.c_str());
+        }
+        CCMenuItemFont* btn = CCMenuItemFont::create(format->getCString(), this, SEL_MenuHandler(&TestScene::response_message));
+        btn->setTag(msg->id);
+        btns->addObject(btn);
+    }
+    
+    CCMenu* menu = CCMenu::createWithArray(btns);
+    menu->setColor(ccBLUE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    menu->getChildren();
+    _content->addChild(menu);
+}
+
 void TestScene::social_view() {
     _content->removeAllChildren();
     {
@@ -127,15 +166,17 @@ void TestScene::social_view() {
     }
     
     CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
-    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
+    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看 所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
     CCMenu* menu = CCMenu::create(btn_IAP
+                                  , btn_mail
                                   , btn_recommend_stranger
                                   , btn_search_other
                                   , btn_all_messages, NULL);
-    menu->setColor(ccORANGE);
+    menu->setColor(ccGREEN);
     menu->alignItemsVerticallyWithPadding(PADDING);
     _content->addChild(menu);
 }
@@ -230,6 +271,10 @@ void TestScene::fast_login() {
 
 void TestScene::login_game_server() {
     NET->login_game_server_902();
+}
+
+void TestScene::all_mails() {
+    NET->all_mais_700();
 }
 
 void TestScene::recommend_stranger() {
