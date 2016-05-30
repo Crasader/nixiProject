@@ -82,24 +82,27 @@ void TestScene::login_view() {
 }
 
 void TestScene::social_view() {
-    _content->removeAllChildren();
-    {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(900);
-        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
-        rtn_menu->setColor(ccRED);
-        rtn_menu->setPosition(ccp(550, 1066));
-        _content->addChild(rtn_menu);
-    }
+//    _content->removeAllChildren();
+//    {
+//        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+//        btn_return->setTag(900);
+//        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+//        rtn_menu->setColor(ccRED);
+//        rtn_menu->setPosition(ccp(550, 1066));
+//        _content->addChild(rtn_menu);
+//    }
+//    
+//    CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
+//    CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
+//    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
+//    
+//    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_search_other, btn_all_messages, NULL);
+//    menu->setColor(ccORANGE);
+//    menu->alignItemsVerticallyWithPadding(PADDING);
+//    _content->addChild(menu);
     
-    CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
-    CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
-    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
-    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_search_other, btn_all_messages, NULL);
-    menu->setColor(ccORANGE);
-    menu->alignItemsVerticallyWithPadding(PADDING);
-    _content->addChild(menu);
+    
 }
 
 void TestScene::stranger_view() {
