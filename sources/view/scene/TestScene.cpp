@@ -9,6 +9,7 @@
 #include "TestScene.h"
 #include "DataManager.h"
 #include "NetManager.h"
+#include "DisplayManager.h"
 
 #define PADDING 16
 
@@ -20,11 +21,9 @@ bool TestScene::init() {
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
-    
-    CCSize win_size = CCDirector::sharedDirector()->getWinSize();
-    
+        
     CCSprite* bg = CCSprite::create("pic/test_bg.png");
-    bg->setPosition(ccp(win_size.width * 0.5, win_size.height * 0.5));
+    bg->setPosition(DISPLAY->center());
     this->addChild(bg);
     
     _content = CCLayer::create();
@@ -44,7 +43,7 @@ void TestScene::onEnter() {
     
     nc->addObserver(this, SEL_CallFuncO(&TestScene::IAP_view), "HTTP_FINISHED_100", NULL);
     
-    NetEnv netenv = NetManager::Inst()->obtain_net_env();
+    NetEnv netenv = NET->obtain_net_env();
     std::string env_info;
     switch (netenv) {
         case e_NetEnv_NotReachable:
@@ -149,7 +148,7 @@ void TestScene::stranger_view() {
         _content->addChild(rtn_menu);
     }
     
-    CCDictionary* strangers = DataManager::Inst()->getSocial()->strangers();
+    CCDictionary* strangers = DATA->getSocial()->strangers();
     CCArray* sids = strangers->allKeys();
     CCObject* pObj = NULL;
     CCArray* btns = CCArray::create();
@@ -178,7 +177,7 @@ void TestScene::message_view() {
         _content->addChild(rtn_menu);
     }
     
-    CCArray* messages = DataManager::Inst()->getMessage()->messages();
+    CCArray* messages = DATA->getMessage()->messages();
     CCObject* pObj = NULL;
     CCArray* btns = CCArray::create();
     CCARRAY_FOREACH(messages, pObj) {
@@ -223,33 +222,33 @@ void TestScene::on_return(CCMenuItem* btn) {
 }
 
 void TestScene::fast_login() {
-    NetManager::Inst()->fast_login_900(DataManager::Inst()->getLogin()->obtain_UUID());
+    NET->fast_login_900(DATA->getLogin()->obtain_UUID());
 }
 
 void TestScene::login_game_server() {
-    NetManager::Inst()->login_game_server_902();
+    NET->login_game_server_902();
 }
 
 void TestScene::recommend_stranger() {
-    NetManager::Inst()->recommend_stranger_802();
+    NET->recommend_stranger_802();
 }
 
 void TestScene::msg_with_friend_ask(CCMenuItem* btn) {
     CCString* other_sid = (CCString* )btn->getUserObject();
     CCLOG("Send msg to other: %s", other_sid->getCString());
-    NetManager::Inst()->send_message_803(other_sid->getCString(), e_Msg_Friend_Ask);
+    NET->send_message_803(other_sid->getCString(), e_Msg_Friend_Ask);
 }
 
 void TestScene::all_messages() {
-    NetManager::Inst()->all_messages_804();
+    NET->all_messages_804();
 }
 
 void TestScene::response_message(cocos2d::CCMenuItem *btn) {
-    NetManager::Inst()->response_message_805(btn->getTag(), 1);
+    NET->response_message_805(btn->getTag(), 1);
 }
 
 void TestScene::search_other() {
-    NetManager::Inst()->search_other_806("8A79B644");
+    NET->search_other_806("8A79B644");
 }
 
 void TestScene::all_products() {

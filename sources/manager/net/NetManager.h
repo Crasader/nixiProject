@@ -15,6 +15,8 @@
 USING_NS_CC;
 USING_NS_CC_EXTRA;
 
+#define NET         NetManager::Inst()
+
 typedef enum
     { e_NetEnv_NotReachable = 0
     , e_NetEnv_ViaWiFi = 1
