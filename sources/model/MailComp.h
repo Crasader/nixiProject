@@ -50,6 +50,7 @@ public:
     CCArray* mails() const;
     void print_mails();
     void handle_mail_oper(int id, int oper);
+    int item_index_by_mail_id(int id);
     
 protected:
     

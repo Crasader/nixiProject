@@ -34,21 +34,27 @@ public:
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
-    void show();
+    void show_from(CCPoint from);
     
 private:
     void do_enter();
     void do_exit();
+    void remove();
+    
     void config_cell(CCTableViewCell* cell, int idx);
     
     void on_mail_delete(CCMenuItem* btn);
     void on_mail_take(CCMenuItem* btn);
     
     void hanle_mail_oper(CCObject* pObj);
+    void display_reward_take(int mail_id);
+    void take_reward_done();
     
 private:
+    CCLayer*            _content;
     CCSprite*           _bg;
     CCTableView*        _tv;
+    CCPoint             _enter_pos;
 };
 
 #endif /* MailPanel_hpp */

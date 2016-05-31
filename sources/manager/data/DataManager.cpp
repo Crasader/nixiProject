@@ -8,6 +8,7 @@
 
 #include "DataManager.h"
 #include <sys/time.h>
+#include "AppUtil.h"
 
 static DataManager* _instance = nullptr;
 
@@ -81,6 +82,7 @@ void DataManager::http_response_handle(int resp_code, string response) {
 void DataManager::handle_protocol(int cid, Value content) {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     const char* notif_format = "HTTP_FINISHED_%d";
+    CCObject* pData = NULL;
     switch (cid) {
         case 900: {
             _login->init_with_json(content);
@@ -111,7 +113,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 701: {
             _player->init_with_json(content["player"]);
-            _mail->handle_mail_oper(content["id"].asInt(), content["oper"].asInt());
+//            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
+            pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
             
         case 100: {
@@ -122,7 +125,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             break;
     }
     
-    nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString());
+    nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString(), pData);
 }
 
 

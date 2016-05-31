@@ -68,7 +68,8 @@ void TestScene::onEnter() {
     CCLOG("%s", env_info.c_str());
     
     this->login_view();
-    IOSIAPManager::Inst();
+    
+//    IOSIAPManager::Inst();
 }
 
 void TestScene::onExit() {
@@ -130,7 +131,7 @@ void TestScene::mail_view() {
     }
     
     MailPanel* panel = MailPanel::create();
-    panel->show();
+    panel->show_from(CCPointMake(560, 900));
 }
 
 void TestScene::social_view() {
