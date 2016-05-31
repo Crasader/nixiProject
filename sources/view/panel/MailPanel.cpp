@@ -14,35 +14,6 @@
 #define CELL_WIDTH          542
 #define CELL_HEIGHT         228
 
-MailCell::~MailCell() {
-}
-
-bool MailCell::init() {
-    if (CCSprite::init()) {
-        
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-void MailCell::onEnter() {
-    CCSprite::onEnter();
-}
-
-void MailCell::onExit() {
-    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    this->unscheduleAllSelectors();
-    CCSprite::onExit();
-}
-
-void MailCell::config_with_module(MailItem* item) {
-    
-}
-
-
-// --------------------------------------------------------
 
 MailPanel::~MailPanel() {
 }
@@ -53,9 +24,10 @@ bool MailPanel::init() {
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
-        CCSprite* bg = CCSprite::create("pic/panel/mail/mail_bg.png");
-        bg->setPosition(DISPLAY->center());
-        this->addChild(bg);
+        _bg = CCSprite::create("pic/panel/mail/mail_bg.png");
+        _bg->setPosition(DISPLAY->center());
+        this->addChild(_bg);
+        
         // pic size 542, 788
         float panelW = CELL_WIDTH;
         float panelH = 670;
@@ -74,6 +46,13 @@ bool MailPanel::init() {
 
 void MailPanel::onEnter() {
     CCLayer::onEnter();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&MailPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
+    
+    this->setTouchEnabled(true);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchSwallowEnabled(true);
 }
 
 void MailPanel::onExit() {
@@ -82,9 +61,28 @@ void MailPanel::onExit() {
     CCLayer::onExit();
 }
 
+bool MailPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInView = pTouch->getLocationInView();
+    CCLOG("location(x = %f, y = %f), locationInView(x = %f, y = %f)", location.x, location.y,
+          locationInView.x, locationInView.y);
+    if (_bg->boundingBox().containsPoint(location)) {
+        
+    }
+    else {
+        this->removeFromParentAndCleanup(true);
+    }
+    
+    return true;
+}
+
+#pragma mark - export
+
 void MailPanel::show() {
     CCDirector::sharedDirector()->getRunningScene()->addChild(this);
 }
+
+#pragma mark - inner
 
 void MailPanel::do_enter() {
 
@@ -140,7 +138,8 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
 }
 
 void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
-    
+    int* id = (int*)btn->getUserData();
+    NET->response_mail_701(*id, 2);
 }
 
 void MailPanel::on_mail_take(cocos2d::CCMenuItem *btn) {
@@ -148,7 +147,13 @@ void MailPanel::on_mail_take(cocos2d::CCMenuItem *btn) {
     NET->response_mail_701(*id, 1);
 }
 
-#pragma - CCTableViewDataSource
+void MailPanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
+    _tv->reloadData();
+}
+
+
+
+#pragma mark - CCTableViewDataSource
 
 CCSize MailPanel::tableCellSizeForIndex(CCTableView *table, unsigned int idx) {
     return this->cellSizeForTable(table);

@@ -29,6 +29,7 @@ void MailItem::init_with_json(Value json) {
     title = json["title"].asString();
     content = json["content"].asString();
     reward = Reward::create();
+    reward->retain();
     reward->init_with_json(json["attachment"]);
 }
 
@@ -59,12 +60,13 @@ void MailComp::init_with_json(Value json) {
         return;
     }
     
-    CCArray* array = CCArray::create();
-    for (CSJson::ValueIterator iterator = json.begin(); iterator != json.end(); iterator++) {
-        CSJson::Value value = (CSJson::Value)* iterator;
+    int size = json.size();
+    CCArray* array = CCArray::createWithCapacity(size);
+    for (int i = size - 1; i >= 0; i--) {
         MailItem* item = MailItem::create();
-        item->init_with_json(value);
+        item->init_with_json(json[i]);
         array->addObject(item);
+
     }
     
     CC_SAFE_RELEASE(_mails);
@@ -85,4 +87,16 @@ void MailComp::print_mails() {
         item->print_self();
     }
 }
+
+void MailComp::handle_mail_oper(int id, int oper) {
+    int size = _mails->count();
+    for (int i = 0; i < size; i++) {
+        MailItem* item = (MailItem* )_mails->objectAtIndex(i);
+        if (item->id == id) {
+            _mails->removeObjectAtIndex(i);
+            break;
+        }
+    }
+}
+
 

@@ -47,8 +47,9 @@ public:
     void init_with_json(Value json);
     
 public:
-    void print_mails();
     CCArray* mails() const;
+    void print_mails();
+    void handle_mail_oper(int id, int oper);
     
 protected:
     

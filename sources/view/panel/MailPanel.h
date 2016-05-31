@@ -15,24 +15,6 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class MailItem;
-
-class MailCell : public CCSprite
-{
-public:
-    ~MailCell();
-    CREATE_FUNC(MailCell);
-    virtual bool init();
-    virtual void onEnter();
-    virtual void onExit();
-
-public:
-    void config_with_module(MailItem* item);
-    
-private:
-};
-
-
 class MailPanel
 : public CCLayer
 , public CCTableViewDataSource
@@ -49,6 +31,8 @@ public:
     virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
     virtual unsigned int numberOfCellsInTableView(CCTableView *table);
     
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    
 public:
     void show();
     
@@ -60,7 +44,10 @@ private:
     void on_mail_delete(CCMenuItem* btn);
     void on_mail_take(CCMenuItem* btn);
     
+    void hanle_mail_oper(CCObject* pObj);
+    
 private:
+    CCSprite*           _bg;
     CCTableView*        _tv;
 };
 
