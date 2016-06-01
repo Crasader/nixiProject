@@ -11,6 +11,9 @@
 #include "NetManager.h"
 #include "DisplayManager.h"
 #include "MainScene.h"
+#include "IOSIAPManager.h"
+
+#include "MailPanel.h"
 
 #define PADDING 16
 
@@ -42,6 +45,10 @@ void TestScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::message_view), "HTTP_FINISHED_804", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::mail_view), "HTTP_FINISHED_700", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::IAP_view), "HTTP_FINISHED_100", NULL);
+    
     NetEnv netenv = NET->obtain_net_env();
     std::string env_info;
     switch (netenv) {
@@ -62,6 +69,7 @@ void TestScene::onEnter() {
     CCLOG("%s", env_info.c_str());
     
     this->login_view();
+    IOSIAPManager::Inst();
 }
 
 void TestScene::onExit() {
@@ -79,6 +87,51 @@ void TestScene::login_view() {
     menu->setColor(ccRED);
     menu->alignItemsVerticallyWithPadding(PADDING);
     _content->addChild(menu);
+}
+
+void TestScene::IAP_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCArray* products = DataManager::Inst()->getIAP()->products();
+    CCObject* pObj = NULL;
+    CCArray* btns = CCArray::create();
+    CCARRAY_FOREACH(products, pObj) {
+        ProductItem* prod = (ProductItem* )pObj;
+        CCString* format = CCString::createWithFormat("Id:%s money:%s  => diam:%s",
+                    prod->id.c_str(), prod->money.c_str(), prod->diam.c_str());
+        CCMenuItemFont* btn = CCMenuItemFont::create(format->getCString(), this, SEL_MenuHandler(&TestScene::buy_product));
+        btn->setUserObject(ccs(prod->id));
+        btns->addObject(btn);
+    }
+    
+    CCMenu* menu = CCMenu::createWithArray(btns);
+    menu->setColor(ccBLUE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    menu->getChildren();
+    _content->addChild(menu);
+}
+
+void TestScene::mail_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    MailPanel* panel = MailPanel::create();
+    panel->show();
 }
 
 void TestScene::social_view() {
@@ -101,10 +154,24 @@ void TestScene::social_view() {
 //    menu->alignItemsVerticallyWithPadding(PADDING);
 //    _content->addChild(menu);
     
-    
     CCScene* scene = MainScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
+
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
+    CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
+    CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
+    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看 所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
+    
+    CCMenu* menu = CCMenu::create(btn_IAP
+                                  , btn_mail
+                                  , btn_recommend_stranger
+                                  , btn_search_other
+                                  , btn_all_messages, NULL);
+    menu->setColor(ccORANGE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    _content->addChild(menu);
 }
 
 void TestScene::stranger_view() {
@@ -199,6 +266,10 @@ void TestScene::login_game_server() {
     NET->login_game_server_902();
 }
 
+void TestScene::all_mails() {
+    NET->all_mails_700();
+}
+
 void TestScene::recommend_stranger() {
     NET->recommend_stranger_802();
 }
@@ -219,4 +290,23 @@ void TestScene::response_message(cocos2d::CCMenuItem *btn) {
 
 void TestScene::search_other() {
     NET->search_other_806("8A79B644");
+}
+
+void TestScene::all_products() {
+    NetManager::Inst()->all_products_100();
+}
+
+void TestScene::buy_product(cocos2d::CCMenuItem *btn) {
+    CCString* prod_id = (CCString* )btn->getUserObject();
+    CCLOG("buy_product() - %s", prod_id->getCString());
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IOSIAPManager* d = IOSIAPManager::Inst();
+    if (d->canMakePurchases()) {
+        CCLOG("can purchases");
+        d->buyProduct(prod_id->getCString());
+    }
+    else {
+        CCLOG("can not purchases");
+    }
+#endif
 }

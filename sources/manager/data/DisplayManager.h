@@ -33,6 +33,8 @@ public:
     float               halfH(); // screen half height
     
     CCString* GetOffTheNumber(int index);
+
+    float               btn_scale();
     
 private:
     float               _width;

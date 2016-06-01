@@ -35,29 +35,29 @@ NetManager* NetManager::Inst() {
 }
 
 string NetManager::generate_sign(int cid, const char* data) {
-    LoginComp* login = DataManager::Inst()->getLogin();
+    LoginComp* login = DATA->getLogin();
     CCString* sign_origin = CCString::createWithFormat("%s%s%s", login->obtain_sid(), data, login->obtain_skey());
     IMD5 imd5;
     imd5.GenerateMD5((unsigned char*)sign_origin->getCString(), sign_origin->length());
     return imd5.ToString();
-//    CCString* rtn = CCString::createWithFormat("%ld", DataManager::Inst()->cur_timestamp());
+//    CCString* rtn = CCString::createWithFormat("%ld", DATA->cur_timestamp());
 //    CCLOG("MD5=%s", result.c_str());
 //    return result.c_str();
 }
 
 CCString* NetManager::obtain_login_url(const char* sid, int cid, string sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", ConfigManager::Inst()->login_addr.c_str(), sid, cid, sign.c_str());
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", CONFIG->login_addr.c_str(), sid, cid, sign.c_str());
     return rtn;
 }
 
 CCString* NetManager::obtain_game_url(const char* sid, int cid, string sign) {
-    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", DataManager::Inst()->getLogin()->obtain_game_addr(), sid, cid, sign.c_str());
+    CCString* rtn = CCString::createWithFormat("%s?sid=%s&cid=%d&sign=%s", DATA->getLogin()->obtain_game_addr(), sid, cid, sign.c_str());
     return rtn;
 }
 
 void NetManager::post_data(int cid, string data)
 {
-    LoginComp* login = DataManager::Inst()->getLogin();
+    LoginComp* login = DATA->getLogin();
     CCString* url = NULL;
     if (900 == cid) {
         url = this->obtain_login_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
@@ -78,13 +78,13 @@ void NetManager::requestFinished(CCHTTPRequest *request)
     int resp_code = request->getResponseStatusCode();
     std::string response = request->getResponseString();
     CCLOG("NetManager::requestFinished(%d) -\n%s\n", resp_code, response.c_str());
-    DataManager::Inst()->http_response_handle(resp_code, response);
+    DATA->http_response_handle(resp_code, response);
 }
 
 void NetManager::requestFailed(CCHTTPRequest *request)
 {
     CCLOG("NetManager::requestFailed() -\nError<%d>: %s", request->getErrorCode(), request->getErrorMessage().c_str());
-    DataManager::Inst()->http_response_error(request->getErrorCode(), request->getErrorMessage());
+    DATA->http_response_error(request->getErrorCode(), request->getErrorMessage());
 }
 
 NetEnv NetManager::obtain_net_env() {
@@ -107,7 +107,7 @@ void NetManager::fast_login_900(const char* uuid) {
 void NetManager::login_game_server_902() {
     FastWriter writer;
     Value root;
-    LoginComp* login = DataManager::Inst()->getLogin();
+    LoginComp* login = DATA->getLogin();
     root["skey"] = login->obtain_skey();
     string data = writer.write(root);
     this->post_data(902, data);
@@ -145,4 +145,22 @@ void NetManager::search_other_806(const char *other_sid) {
     root["other"] = other_sid;
     string data = writer.write(root);
     this->post_data(806, data);
+}
+
+void NetManager::all_mails_700() {
+    this->post_data(700, string(""));
+}
+
+void NetManager::response_mail_701(int id, int oper) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["oper"] = oper;
+    string data = writer.write(root);
+    this->post_data(701, data);
+}
+
+
+void NetManager::all_products_100() {
+    this->post_data(100, string(""));
 }

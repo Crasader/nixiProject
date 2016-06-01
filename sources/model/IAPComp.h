@@ -15,6 +15,24 @@
 USING_NS_CC;
 using namespace CSJson;
 
+class ProductItem : public CCObject
+{
+public:
+    ~ProductItem();
+    CREATE_FUNC(ProductItem);
+    bool init();
+    void init_with_json(Value json);
+    
+public:
+    void print_self();
+    string              id;
+    string              diam;
+    string              money;
+    
+protected:
+private:
+};
+
 class IAPComp : public CCObject
 {
 public:
@@ -25,11 +43,13 @@ public:
     void init_with_json(Value json);
     
 public:
+    void print_all_products();
+    CCArray* products();
     
 protected:
     
 private:
-    
+    CCArray*        _products;
 };
 
 #endif /* IAPComp_hpp */
