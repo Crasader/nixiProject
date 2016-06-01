@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
+#include "MainScene.h"
 #include "IOSIAPManager.h"
 
 #include "MailPanel.h"
@@ -172,6 +173,12 @@ void TestScene::social_view() {
         _content->addChild(rtn_menu);
     }
     
+//    CCScene* scene = MainScene::scene();
+//    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
+
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看 所有消息", this, SEL_MenuHandler(&TestScene::all_messages));

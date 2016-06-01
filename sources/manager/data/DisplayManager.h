@@ -25,11 +25,16 @@ public:
 public:
     const char*         font();
     CCPoint             center();
+    float               ScreenWidth();
+    float               ScreenHeight();
+    float               OriginWidth();
     float               W(); // screen width
     float               H(); // screen height
     float               halfW(); // screen half width
     float               halfH(); // screen half height
     
+    CCString* GetOffTheNumber(int index);
+
     float               btn_scale();
     
 private:
