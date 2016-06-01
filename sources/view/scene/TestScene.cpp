@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
+#include "MainScene.h"
 
 #define PADDING 16
 
@@ -101,7 +102,9 @@ void TestScene::social_view() {
 //    _content->addChild(menu);
     
     
-    
+    CCScene* scene = MainScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void TestScene::stranger_view() {
