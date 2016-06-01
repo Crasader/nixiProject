@@ -26,6 +26,7 @@ protected:
     
 private:
     void login_view();
+    void master_view();
     void IAP_view();
     void mail_view();
     void social_view();

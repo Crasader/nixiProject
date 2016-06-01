@@ -1,12 +1,12 @@
 //
-//  MailPanel.cpp
+//  PurchasePanel.cpp
 //  tiegao
 //
-//  Created by mac on 16/5/30.
+//  Created by mac on 16/6/1.
 //
 //
 
-#include "MailPanel.h"
+#include "PurchasePanel.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
@@ -18,10 +18,10 @@
 #define CELL_HEIGHT         228
 
 
-MailPanel::~MailPanel() {
+PurchasePanel::~PurchasePanel() {
 }
 
-bool MailPanel::init() {
+bool PurchasePanel::init() {
     if (CCLayer::init()) {
         CCSprite* mask = CCSprite::create("pic/mask.png");
         mask->setPosition(DISPLAY->center());
@@ -56,22 +56,22 @@ bool MailPanel::init() {
     }
 }
 
-void MailPanel::onEnter() {
+void PurchasePanel::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&MailPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
     
     this->do_enter();
 }
 
-void MailPanel::onExit() {
+void PurchasePanel::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     CCLayer::onExit();
 }
 
-bool MailPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
+bool PurchasePanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _bg->boundingBox().containsPoint(location)) {
         this->do_exit();
@@ -82,14 +82,14 @@ bool MailPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
 
 #pragma mark - export
 
-void MailPanel::show_from(CCPoint from) {
+void PurchasePanel::show_from(CCPoint from) {
     _enter_pos = CCPointMake(from.x, from.y);
     CCDirector::sharedDirector()->getRunningScene()->addChild(this);
 }
 
 #pragma mark - inner
 
-void MailPanel::do_enter() {
+void PurchasePanel::do_enter() {
     _content->setPosition(_enter_pos - DISPLAY->center());
     _content->setVisible(true);
     
@@ -97,7 +97,7 @@ void MailPanel::do_enter() {
     CCMoveTo* moveto = CCMoveTo::create(duration, CCPointZero);
     CCScaleTo* scaleto = CCScaleTo::create(duration, 1.0);
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
-//    _content->runAction(CCEaseBounceOut::create(spawn));
+    //    _content->runAction(CCEaseBounceOut::create(spawn));
     _content->runAction(CCEaseElasticOut::create(spawn));
     
     this->setTouchEnabled(true);
@@ -105,20 +105,20 @@ void MailPanel::do_enter() {
     this->setTouchSwallowEnabled(true);
 }
 
-void MailPanel::do_exit() {
+void PurchasePanel::do_exit() {
     float duration = 0.6f;
     CCMoveTo* moveto = CCMoveTo::create(duration, _enter_pos - DISPLAY->center());
-    CCSequence* seq = CCSequence::create(moveto, CCCallFunc::create(this, SEL_CallFunc(&MailPanel::remove)), NULL);
+    CCSequence* seq = CCSequence::create(moveto, CCCallFunc::create(this, SEL_CallFunc(&PurchasePanel::remove)), NULL);
     CCScaleTo* scaleto = CCScaleTo::create(duration, 0.1);
     CCSpawn* spawn = CCSpawn::create(seq, scaleto, NULL);
     _content->runAction(CCEaseElasticIn::create(spawn));
 }
 
-void MailPanel::remove() {
+void PurchasePanel::remove() {
     this->removeFromParentAndCleanup(true);
 }
 
-void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
+void PurchasePanel::config_cell(CCTableViewCell* cell, int idx) {
     CCSprite* plate = CCSprite::create("pic/panel/mail/mail_plate.png");
     plate->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     cell->addChild(plate);
@@ -175,45 +175,45 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     CCSprite* delete1 = CCSprite::create("pic/panel/mail/mail_btn_delete.png");
     CCSprite* delete2 = CCSprite::create("pic/panel/mail/mail_btn_delete.png");
     delete2->setScale(DISPLAY->btn_scale());
-    CCMenuItemSprite* btn_delete = CCMenuItemSprite::create(delete1, delete2, this, SEL_MenuHandler(&MailPanel::on_mail_delete));
+    CCMenuItemSprite* btn_delete = CCMenuItemSprite::create(delete1, delete2, this, SEL_MenuHandler(&PurchasePanel::on_mail_delete));
     btn_delete->setUserData(&(item->id));
     
     CCSprite* take1 = CCSprite::create("pic/panel/mail/mail_btn_take.png");
     CCSprite* take2 = CCSprite::create("pic/panel/mail/mail_btn_take.png");
     take2->setScale(DISPLAY->btn_scale());
-    CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&MailPanel::on_mail_take));
+    CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&PurchasePanel::on_mail_take));
     btn_take->setUserData(&(item->id));
     /* 去掉回复按钮
-    CCSprite* reply1 = CCSprite::create("pic/panel/mail/mail_btn_reply.png");
-    CCSprite* reply2 = CCSprite::create("pic/panel/mail/mail_btn_reply.png");
-    reply2->setScale(DISPLAY->btn_scale());
-    CCMenuItemSprite* btn_reply = CCMenuItemSprite::create(reply1, reply2);
-    btn_reply->setEnabled(false);
-    
-    CCMenu* menu = CCMenu::create(btn_delete, btn_take, btn_reply, NULL);
-    menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.13);
-    menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
-    cell->addChild(menu);
-    */
+     CCSprite* reply1 = CCSprite::create("pic/panel/mail/mail_btn_reply.png");
+     CCSprite* reply2 = CCSprite::create("pic/panel/mail/mail_btn_reply.png");
+     reply2->setScale(DISPLAY->btn_scale());
+     CCMenuItemSprite* btn_reply = CCMenuItemSprite::create(reply1, reply2);
+     btn_reply->setEnabled(false);
+     
+     CCMenu* menu = CCMenu::create(btn_delete, btn_take, btn_reply, NULL);
+     menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.13);
+     menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
+     cell->addChild(menu);
+     */
     CCMenu* menu = CCMenu::create(btn_delete, btn_take, NULL);
     menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.32);
     menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
     cell->addChild(menu);
 }
 
-void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
+void PurchasePanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
     LOADING->show_loading();
     int* id = (int*)btn->getUserData();
     NET->response_mail_701(*id, 2);
 }
 
-void MailPanel::on_mail_take(cocos2d::CCMenuItem *btn) {
+void PurchasePanel::on_mail_take(cocos2d::CCMenuItem *btn) {
     LOADING->show_loading();
     int* id = (int*)btn->getUserData();
     NET->response_mail_701(*id, 1);
 }
 
-void MailPanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
+void PurchasePanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
     LOADING->stop_loading();
     CCDictionary* dic = (CCDictionary* )pObj;
     int id = ((CCInteger* )dic->objectForKey("id"))->getValue();
@@ -228,7 +228,7 @@ void MailPanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
     }
 }
 
-void MailPanel::display_reward_take(int mail_id) {
+void PurchasePanel::display_reward_take(int mail_id) {
     int index = DATA->getMail()->item_index_by_mail_id(mail_id);
     DATA->getMail()->handle_mail_oper(mail_id, 1);
     
@@ -244,7 +244,7 @@ void MailPanel::display_reward_take(int mail_id) {
                     CCNode* node = (CCNode* )icons->objectAtIndex(i);
                     if (i == 0) {
                         CCSequence* seq = CCSequence::create(CCScaleTo::create(duration, scale),
-                            CCCallFunc::create(this, SEL_CallFunc(&MailPanel::take_reward_done)), NULL);
+                                                             CCCallFunc::create(this, SEL_CallFunc(&PurchasePanel::take_reward_done)), NULL);
                         node->runAction(seq);
                     }
                     else {
@@ -260,7 +260,7 @@ void MailPanel::display_reward_take(int mail_id) {
     LOADING->remove();
 }
 
-void MailPanel::take_reward_done() {
+void PurchasePanel::take_reward_done() {
     _tv->reloadData();
     LOADING->remove();
 }
@@ -269,28 +269,29 @@ void MailPanel::take_reward_done() {
 
 #pragma mark - CCTableViewDataSource
 
-CCSize MailPanel::tableCellSizeForIndex(CCTableView *table, unsigned int idx) {
+CCSize PurchasePanel::tableCellSizeForIndex(CCTableView *table, unsigned int idx) {
     return this->cellSizeForTable(table);
 }
 
-CCSize MailPanel::cellSizeForTable(CCTableView *table) {
+CCSize PurchasePanel::cellSizeForTable(CCTableView *table) {
     return CCSizeMake(CELL_WIDTH, CELL_HEIGHT);
 }
 
-CCTableViewCell* MailPanel::tableCellAtIndex(CCTableView *table, unsigned int idx) {
-//    CCTableViewCell* cell = table->dequeueCell();
-//    if (cell) {
-//        cell->removeAllChildren();
-//    }
-//    else {
-//        cell = new CCTableViewCell();
-//    }
+CCTableViewCell* PurchasePanel::tableCellAtIndex(CCTableView *table, unsigned int idx) {
+    //    CCTableViewCell* cell = table->dequeueCell();
+    //    if (cell) {
+    //        cell->removeAllChildren();
+    //    }
+    //    else {
+    //        cell = new CCTableViewCell();
+    //    }
     CCTableViewCell* cell = new CCTableViewCell();
     this->config_cell(cell, idx);
     return cell;
 }
 
-unsigned int MailPanel::numberOfCellsInTableView(CCTableView *table) {
+unsigned int PurchasePanel::numberOfCellsInTableView(CCTableView *table) {
     CCArray* mails = DATA->getMail()->mails();
     return mails->count();
 }
+

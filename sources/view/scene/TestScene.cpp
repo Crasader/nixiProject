@@ -40,7 +40,7 @@ void TestScene::onEnter() {
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TestScene::login_game_server), "HTTP_FINISHED_900", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TestScene::social_view), "HTTP_FINISHED_902", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::master_view), "HTTP_FINISHED_902", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::message_view), "HTTP_FINISHED_804", NULL);
     
@@ -79,6 +79,8 @@ void TestScene::onExit() {
     CCScene::onExit();
 }
 
+#pragma mark -
+
 void TestScene::login_view() {
     _content->removeAllChildren();
     
@@ -89,11 +91,36 @@ void TestScene::login_view() {
     _content->addChild(menu);
 }
 
-void TestScene::IAP_view() {
+
+void TestScene::master_view() {
     _content->removeAllChildren();
     {
         CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
         btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
+    CCMenuItemFont* btn_social = CCMenuItemFont::create("进入 社交", this, SEL_MenuHandler(&TestScene::social_view));
+    
+    CCMenu* menu = CCMenu::create(btn_IAP
+                                  , btn_mail
+                                  , btn_social
+                                  , NULL);
+    menu->setColor(ccORANGE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    _content->addChild(menu);
+}
+
+void TestScene::IAP_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -122,8 +149,8 @@ void TestScene::IAP_view() {
 void TestScene::mail_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(900);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -137,23 +164,19 @@ void TestScene::mail_view() {
 void TestScene::social_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(900);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
         _content->addChild(rtn_menu);
     }
     
-    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
-    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看 所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
-    CCMenu* menu = CCMenu::create(btn_IAP
-                                  , btn_mail
-                                  , btn_recommend_stranger
+    CCMenu* menu = CCMenu::create( btn_recommend_stranger
                                   , btn_search_other
                                   , btn_all_messages, NULL);
     menu->setColor(ccORANGE);
@@ -164,8 +187,8 @@ void TestScene::social_view() {
 void TestScene::stranger_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 社交", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(800);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -193,8 +216,8 @@ void TestScene::stranger_view() {
 void TestScene::message_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 社交", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(800);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -229,6 +252,8 @@ void TestScene::message_view() {
     _content->addChild(menu);
 }
 
+#pragma mark -
+
 void TestScene::on_return(CCMenuItem* btn) {
     int tag = btn->getTag();
     switch (tag) {
@@ -236,8 +261,8 @@ void TestScene::on_return(CCMenuItem* btn) {
             this->login_view();
         } break;
             
-        case 800: {
-            this->social_view();
+        case 902: {
+            this->master_view();
         } break;
             
         default:
