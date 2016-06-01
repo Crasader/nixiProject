@@ -48,6 +48,11 @@ public:
     void all_mails_700();
     void response_mail_701(int id, int oper); // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     
+    void completed_mission_600();
+    void start_mission_601(int id);
+    
+    void completed_story_500();
+    
     void all_products_100();
     
 private:

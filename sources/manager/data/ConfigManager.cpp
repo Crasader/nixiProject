@@ -12,13 +12,16 @@
 static ConfigManager* _instance = nullptr;
 
 ConfigManager::~ConfigManager() {
-    
+    CC_SAFE_DELETE(_mission);
+    CC_SAFE_DELETE(_clothes);
 }
 
 ConfigManager* ConfigManager::Inst() {
     if (_instance == nullptr) {
         _instance = new ConfigManager();
         _instance->_hasconfig = false;
+        _instance->_mission = nullptr;
+        _instance->_clothes = nullptr;
     }
     
     return _instance;
@@ -31,10 +34,21 @@ void ConfigManager::config() {
     
     const char* config_file = "conf/conf";
     CSJson::Value config = AppUtil::read_json_file(config_file);
-    
     net = config["net"].asInt();
     this->conf_login_addr(net);
+    
+    this->conf_mission();
+    this->conf_clothes();
+    
     _hasconfig = true;
+}
+
+CCArray* ConfigManager::mission() {
+    return _mission;
+}
+
+CCArray* ConfigManager::clothes() {
+    return _clothes;
 }
 
 void ConfigManager::conf_login_addr(int net) {
@@ -52,4 +66,14 @@ void ConfigManager::conf_login_addr(int net) {
     }
 }
 
+void ConfigManager::conf_mission() {
+    const char* config_file = "conf/mission";
+    CSJson::Value root = AppUtil::read_json_file(config_file);
+    _mission = AppUtil::array_with_json(root);
+    _mission->retain();
+}
+
+void ConfigManager::conf_clothes() {
+
+}
 

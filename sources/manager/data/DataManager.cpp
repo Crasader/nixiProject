@@ -117,6 +117,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
             
+        case 601: {
+            _player->init_with_json(content["player"]);
+        } break;
+            
         case 100: {
             _IAP->init_with_json(content);
         } break;
