@@ -24,31 +24,25 @@ public:
     void init_with_json(Value json);
     
 public:
-    int energy();
-    int exp();
-    int grade();
-    int popularity();       // 人气
-    int coin();
-    int gold();
-    int diam();
-    int cur_mission();
-    int company_phase();    // 公司规模
+    long long int   update;
+    int             energy;
+    
+    int             exp;
+    int             grade;
+    int             popularity;
+    
+    int             coin;
+    int             gold;
+    int             diam;
+    
+    int             next_mission;
+    int             cur_mission;
+    int             company_phase;
     
 protected:
     
 private:
-    int _energy;
-    
-    int _exp;
-    int _grade;
-    int _popularity;
-    
-    int _coin;
-    int _gold;
-    int _diam;
-    
-    int _cur_mission;
-    int _company_phase;
+
 };
 
 #endif /* PlayerComp_hpp */

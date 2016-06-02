@@ -10,10 +10,13 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
-#include "MainScene.h"
+#include "ConfigManager.h"
 #include "IOSIAPManager.h"
 
+#include "MainScene.h"
+
 #include "MailPanel.h"
+#include "OperationPanel.h"
 
 #define PADDING 16
 
@@ -41,11 +44,13 @@ void TestScene::onEnter() {
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TestScene::login_game_server), "HTTP_FINISHED_900", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TestScene::social_view), "HTTP_FINISHED_902", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::master_view), "HTTP_FINISHED_902", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::stranger_view), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TestScene::message_view), "HTTP_FINISHED_804", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TestScene::mail_view), "HTTP_FINISHED_700", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::mission_view), "HTTP_FINISHED_600", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TestScene::IAP_view), "HTTP_FINISHED_100", NULL);
     
@@ -69,7 +74,8 @@ void TestScene::onEnter() {
     CCLOG("%s", env_info.c_str());
     
     this->login_view();
-    IOSIAPManager::Inst();
+    
+//    IOSIAPManager::Inst();
 }
 
 void TestScene::onExit() {
@@ -78,6 +84,8 @@ void TestScene::onExit() {
     
     CCScene::onExit();
 }
+
+#pragma mark -
 
 void TestScene::login_view() {
     _content->removeAllChildren();
@@ -89,11 +97,78 @@ void TestScene::login_view() {
     _content->addChild(menu);
 }
 
-void TestScene::IAP_view() {
+
+void TestScene::master_view() {
     _content->removeAllChildren();
     {
         CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
         btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
+    CCMenuItemFont* btn_social = CCMenuItemFont::create("进入 社交", this, SEL_MenuHandler(&TestScene::social_view));
+    CCMenuItemFont* btn_mission = CCMenuItemFont::create("换装任务", this, SEL_MenuHandler(&TestScene::mission));
+    
+    CCMenu* menu = CCMenu::create(btn_IAP
+                                  , btn_mail
+                                  , btn_social
+                                  , btn_mission
+                                  , NULL);
+    menu->setColor(ccORANGE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    _content->addChild(menu);
+}
+
+void TestScene::IAP_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCMenuItemFont* btn_operation = CCMenuItemFont::create("运营活动", this, SEL_MenuHandler(&TestScene::operation));
+    CCMenuItemFont* btn_transaction = CCMenuItemFont::create("支付界面", this, SEL_MenuHandler(&TestScene::transaction));
+    CCMenu* menu = CCMenu::create( btn_operation
+                                  , btn_transaction, NULL);
+    menu->setColor(ccBLUE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    menu->getChildren();
+    _content->addChild(menu);
+}
+
+void TestScene::operation() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 IAP", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(100);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    OperationPanel* panel = OperationPanel::create();
+    panel->show_from(CCPointMake(80, 900));
+}
+
+void TestScene::transaction() {
+    
+}
+
+void TestScene::purchase_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 IAP", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(100);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -122,8 +197,8 @@ void TestScene::IAP_view() {
 void TestScene::mail_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(900);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -131,32 +206,23 @@ void TestScene::mail_view() {
     }
     
     MailPanel* panel = MailPanel::create();
-    panel->show();
+    panel->show_from(CCPointMake(560, 900));
 }
 
 void TestScene::social_view() {
-//    _content->removeAllChildren();
-//    {
-//        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-//        btn_return->setTag(900);
-//        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
-//        rtn_menu->setColor(ccRED);
-//        rtn_menu->setPosition(ccp(550, 1066));
-//        _content->addChild(rtn_menu);
-//    }
-//    
-//    CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
-//    CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
-//    CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
-//    
-//    CCMenu* menu = CCMenu::create(btn_recommend_stranger, btn_search_other, btn_all_messages, NULL);
-//    menu->setColor(ccORANGE);
-//    menu->alignItemsVerticallyWithPadding(PADDING);
-//    _content->addChild(menu);
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
     
-    CCScene* scene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+//    CCScene* scene = MainScene::scene();
+//    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
 
     CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
     CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
@@ -164,9 +230,7 @@ void TestScene::social_view() {
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看 所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
     
-    CCMenu* menu = CCMenu::create(btn_IAP
-                                  , btn_mail
-                                  , btn_recommend_stranger
+    CCMenu* menu = CCMenu::create( btn_recommend_stranger
                                   , btn_search_other
                                   , btn_all_messages, NULL);
     menu->setColor(ccORANGE);
@@ -177,8 +241,8 @@ void TestScene::social_view() {
 void TestScene::stranger_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 社交", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(800);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -206,8 +270,8 @@ void TestScene::stranger_view() {
 void TestScene::message_view() {
     _content->removeAllChildren();
     {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 社交", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(800);
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
         CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
         rtn_menu->setColor(ccRED);
         rtn_menu->setPosition(ccp(550, 1066));
@@ -242,6 +306,29 @@ void TestScene::message_view() {
     _content->addChild(menu);
 }
 
+void TestScene::mission_view() {
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 选项", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(902);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCMenuItemFont* btn_start = CCMenuItemFont::create("开始任务", this, SEL_MenuHandler(&TestScene::start_mission));
+    CCMenuItemFont* btn_commit = CCMenuItemFont::create("提交任务", this, SEL_MenuHandler(&TestScene::commit_mission));
+    CCMenu* menu = CCMenu::create( btn_start
+                                  , btn_commit, NULL);
+    menu->setColor(ccBLUE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    menu->getChildren();
+    _content->addChild(menu);
+}
+
+#pragma mark -
+
 void TestScene::on_return(CCMenuItem* btn) {
     int tag = btn->getTag();
     switch (tag) {
@@ -249,8 +336,12 @@ void TestScene::on_return(CCMenuItem* btn) {
             this->login_view();
         } break;
             
-        case 800: {
-            this->social_view();
+        case 902: {
+            this->master_view();
+        } break;
+            
+        case 100: {
+            this->IAP_view();
         } break;
             
         default:
@@ -310,3 +401,21 @@ void TestScene::buy_product(cocos2d::CCMenuItem *btn) {
     }
 #endif
 }
+
+void TestScene::mission() {
+//    CCArray* mission = CONFIG->mission();
+//    CCDictionary* m1 = (CCDictionary* )mission->objectAtIndex(0);
+//    CCString* name = (CCString* )m1->objectForKey("name");
+//    CCLOG("m1:name = %s", name->getCString());
+    NET->completed_mission_600();
+}
+
+void TestScene::start_mission() {
+    int id = DATA->getPlayer()->next_mission;
+    NET->start_mission_601(id);
+}
+
+void TestScene::commit_mission() {
+    NET->commit_mission_602();
+}
+

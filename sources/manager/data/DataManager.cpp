@@ -7,9 +7,13 @@
 //
 
 #include "DataManager.h"
+#include "NetManager.h"
 #include <sys/time.h>
+#include "AppUtil.h"
 
 static DataManager* _instance = nullptr;
+
+const float UpdateInterval = 60.0f;
 
 DataManager::~DataManager() {
     
@@ -81,6 +85,7 @@ void DataManager::http_response_handle(int resp_code, string response) {
 void DataManager::handle_protocol(int cid, Value content) {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     const char* notif_format = "HTTP_FINISHED_%d";
+    CCObject* pData = NULL;
     switch (cid) {
         case 900: {
             _login->init_with_json(content);
@@ -89,6 +94,11 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 902: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
+            _news->init_with_json(content["news"]);
+            this->start_check_news();
+        } break;
+            
+        case 910: {
             _news->init_with_json(content["news"]);
         } break;
             
@@ -111,7 +121,16 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 701: {
             _player->init_with_json(content["player"]);
-            _mail->handle_mail_oper(content["id"].asInt(), content["oper"].asInt());
+//            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
+            pData = AppUtil::dictionary_with_json(content["info"]);
+        } break;
+            
+        case 600: {
+            _mission->init_with_json(content["mission"]);
+        } break;
+            
+        case 601: {
+            _player->init_with_json(content["player"]);
         } break;
             
         case 100: {
@@ -122,8 +141,15 @@ void DataManager::handle_protocol(int cid, Value content) {
             break;
     }
     
-    nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString());
+    nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString(), pData);
 }
 
+void DataManager::start_check_news() {
+    CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::update), this);
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
+}
 
+void DataManager::update(float dt) {
+    NET->check_news_910();
+}
 

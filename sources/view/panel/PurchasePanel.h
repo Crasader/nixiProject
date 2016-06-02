@@ -1,13 +1,13 @@
 //
-//  MailPanel.hpp
+//  PurchasePanel.hpp
 //  tiegao
 //
-//  Created by mac on 16/5/30.
+//  Created by mac on 16/6/1.
 //
 //
 
-#ifndef MailPanel_hpp
-#define MailPanel_hpp
+#ifndef PurchasePanel_hpp
+#define PurchasePanel_hpp
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
@@ -15,13 +15,13 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class MailPanel
+class PurchasePanel
 : public CCLayer
 , public CCTableViewDataSource
 {
 public:
-    ~MailPanel();
-    CREATE_FUNC(MailPanel);
+    ~PurchasePanel();
+    CREATE_FUNC(PurchasePanel);
     virtual bool init();
     virtual void onEnter();
     virtual void onExit();
@@ -57,4 +57,4 @@ private:
     CCPoint             _enter_pos;
 };
 
-#endif /* MailPanel_hpp */
+#endif /* PurchasePanel_hpp */

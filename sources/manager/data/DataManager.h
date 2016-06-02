@@ -34,7 +34,7 @@ using namespace CSJson;
 
 #define DATA         DataManager::Inst()
 
-class DataManager
+class DataManager : CCObject
 {
 public:
     ~DataManager();
@@ -76,6 +76,8 @@ private:
 private:
     void init_data();
     void handle_protocol(int cid, Value content);
+    void start_check_news();
+    void update(float dt);
 };
 
 #endif /* DataManager_hpp */

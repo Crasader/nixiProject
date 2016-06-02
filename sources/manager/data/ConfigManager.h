@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 #define CONFIG         ConfigManager::Inst()
 
 class ConfigManager
@@ -23,11 +25,20 @@ public:
 public:
     int                     net;
     string                  login_addr;
+
+public:
+    CCArray* mission();
+    CCArray* clothes();
     
-protected:
+private:
+    void conf_login_addr(int net);
+    void conf_mission();
+    void conf_clothes();
+
 private:
     bool            _hasconfig;
-    void conf_login_addr(int net);
+    CCArray*        _mission;
+    CCArray*        _clothes;
 };
 
 #endif /* ConfigManager_hpp */

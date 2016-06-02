@@ -23,6 +23,7 @@ public:
     void init();
     
 public:
+    const char*         font();
     CCPoint             center();
     float               ScreenWidth();
     float               ScreenHeight();

@@ -113,6 +113,11 @@ void NetManager::login_game_server_902() {
     this->post_data(902, data);
 }
 
+void NetManager::check_news_910() {
+    this->post_data(910, string(""));
+}
+
+
 void NetManager::recommend_stranger_802() {
     this->post_data(802, string(""));
 }
@@ -147,6 +152,7 @@ void NetManager::search_other_806(const char *other_sid) {
     this->post_data(806, data);
 }
 
+
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
 }
@@ -158,6 +164,28 @@ void NetManager::response_mail_701(int id, int oper) {
     root["oper"] = oper;
     string data = writer.write(root);
     this->post_data(701, data);
+}
+
+
+void NetManager::completed_mission_600() {
+    this->post_data(600, string(""));
+}
+
+void NetManager::start_mission_601(int id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    string data = writer.write(root);
+    this->post_data(601, data);
+}
+
+void NetManager::commit_mission_602() {
+    this->post_data(602, string(""));
+}
+
+
+void NetManager::completed_story_500() {
+    this->post_data(500, string(""));
 }
 
 

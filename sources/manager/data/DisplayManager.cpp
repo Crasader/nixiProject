@@ -29,6 +29,10 @@ void DisplayManager::init() {
     _height = winsize.height;
 }
 
+const char* DisplayManager::font() {
+    return "TRENDS.ttf";
+}
+
 CCPoint DisplayManager::center() {
     return CCPointMake(_width * 0.5, _height * 0.5);
 }

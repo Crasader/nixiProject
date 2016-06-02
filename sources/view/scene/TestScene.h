@@ -26,11 +26,16 @@ protected:
     
 private:
     void login_view();
+    void master_view();
     void IAP_view();
+    void operation();
+    void transaction();
+    void purchase_view();
     void mail_view();
     void social_view();
     void stranger_view();
     void message_view();
+    void mission_view();
     
     void on_return(CCMenuItem* btn);
     // 登录
@@ -47,6 +52,10 @@ private:
     // IAP
     void all_products();
     void buy_product(CCMenuItem* btn);
+    //
+    void mission();
+    void start_mission();
+    void commit_mission();
 };
 
 #endif /* TestScene_hpp */

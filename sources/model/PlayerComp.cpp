@@ -21,14 +21,17 @@ void PlayerComp::init_with_json(Value json) {
         CCLOG("PlayerComp::init_with_json() json object error.");
         return;
     }
-
-    _energy = json["energy"].asInt();
-    _exp = json["exp"].asInt();
-    _grade = json["grade"].asInt();
-    _popularity = json["popularity"].asInt();
-    _coin = json["coin"].asInt();
-    _gold = json["gold"].asInt();
-    _diam = json["diam"].asInt();
-    _cur_mission = json["cur_mission"].asInt();
-    _company_phase = json["company_phase"].asInt();
+    
+    update = json["update"].asInt64();
+    energy = json["energy"].asInt();
+    exp = json["exp"].asInt();
+    grade = json["grade"].asInt();
+    popularity = json["popularity"].asInt();
+    coin = json["coin"].asInt();
+    gold = json["gold"].asInt();
+    diam = json["diam"].asInt();
+    cur_mission = json["cur_mission"].asInt();
+    next_mission = json["next_mission"].asInt();
+    company_phase = json["company_phase"].asInt();
 }
+

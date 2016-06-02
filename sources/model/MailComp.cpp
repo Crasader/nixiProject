@@ -99,4 +99,18 @@ void MailComp::handle_mail_oper(int id, int oper) {
     }
 }
 
+int MailComp::item_index_by_mail_id(int id) {
+    int size = _mails->count();
+    for (int i = 0; i < size; i++) {
+        MailItem* item = (MailItem* )_mails->objectAtIndex(i);
+        if (item->id == id) {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
+
+
 
