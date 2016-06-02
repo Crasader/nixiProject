@@ -10,6 +10,9 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "QingjingScene.h"
+#include "TaskScene.h"
+
+
 
 MainScene::MainScene(){
     
@@ -200,7 +203,9 @@ void MainScene::juqingCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::richangCallBack(CCObject* pSender){
-    
+    CCScene* scene = TaskScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::shezhiCallBack(CCObject* pSender){
     

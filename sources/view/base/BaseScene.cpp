@@ -63,7 +63,7 @@ void BaseScene::init_UI(){
     coinSpr2->setColor(ccGRAY);
     coinItem = CCMenuItemSprite::create(coinSpr1, coinSpr2, this, menu_selector(BaseScene::coinCallBack));
     
-    CCMenu* barMenu = CCMenu::create(nameItem, tiliItem, goldItem, coinItem, NULL);
+    barMenu = CCMenu::create(nameItem, tiliItem, goldItem, coinItem, NULL);
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
         barMenu->alignItemsHorizontallyWithPadding(-2.5f);
     }else{
@@ -71,6 +71,9 @@ void BaseScene::init_UI(){
     }
     barMenu->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .965f));
     this->addChild(barMenu, 10);
+}
+void BaseScene::hideBaseScene(){
+    barMenu->setVisible(false);
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){

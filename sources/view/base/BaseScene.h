@@ -25,6 +25,7 @@ public:
     virtual bool init();
     
     void init_UI();
+    void hideBaseScene();
     
     virtual void onEnter();
     virtual void onExit();
@@ -46,7 +47,7 @@ public:
 public:
     
     CCMenuItem* nameItem, *tiliItem, *coinItem, *goldItem;
-    
+    CCMenu* barMenu;
 };
 
 #endif /* defined(__tiegao__BaseScene__) */

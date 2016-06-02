@@ -59,34 +59,46 @@ void QingjingTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vi
 
 //点击哪个cell
 void QingjingTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
-    if (selectedIndex == -1) {
-        selectedIndex = cell->getIdx();
-        
-        sprNode = cell->getChildByTag(cell->getIdx());
-        CCSprite* button = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
-        CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button2.png");
-        button->setDisplayFrame(frame);
-    }else if (selectedIndex == cell->getIdx()){
-        selectedIndex = -1;
-        
-        sprNode = cell->getChildByTag(cell->getIdx());
-        CCSprite* button = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
-        CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button1.png");
-        button->setDisplayFrame(frame);
-    }else{
-        CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
-        CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button1.png");
-        button1->setDisplayFrame(frame);
-        
-        selectedIndex = cell->getIdx();
-        
-        sprNode = cell->getChildByTag(selectedIndex);
-        CCSprite* button2 = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
-        CCSpriteFrame* frame2 = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button2.png");
-        button2->setDisplayFrame(frame2);
+    
+    if (cell->getIdx() < OpenToWhichOne) {
+        if (selectedIndex == -1) {
+            selectedIndex = cell->getIdx();
+            
+            sprNode = cell->getChildByTag(cell->getIdx());
+            CCSprite* button = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
+            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button2.png");
+            button->setDisplayFrame(frame);
+            
+            DATA->setChapterNumber(selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_Creat_Tishi");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_EnterTheTishi");
+        }else if (selectedIndex == cell->getIdx()){
+            selectedIndex = -1;
+            
+            sprNode = cell->getChildByTag(cell->getIdx());
+            CCSprite* button = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
+            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button1.png");
+            button->setDisplayFrame(frame);
+            
+            DATA->setChapterNumber(selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_ExitTishi");
+        }else{
+            CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
+            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button1.png");
+            button1->setDisplayFrame(frame);
+            
+            selectedIndex = cell->getIdx();
+            
+            sprNode = cell->getChildByTag(selectedIndex);
+            CCSprite* button2 = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
+            CCSpriteFrame* frame2 = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("qj_button2.png");
+            button2->setDisplayFrame(frame2);
+            
+            DATA->setChapterNumber(selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_Creat_Tishi");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_EnterTheTishi");
+        }
     }
-    
-    
 }
 
 //每个cell的size
