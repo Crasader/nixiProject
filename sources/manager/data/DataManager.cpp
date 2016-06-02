@@ -7,10 +7,13 @@
 //
 
 #include "DataManager.h"
+#include "NetManager.h"
 #include <sys/time.h>
 #include "AppUtil.h"
 
 static DataManager* _instance = nullptr;
+
+const float UpdateInterval = 60.0f;
 
 DataManager::~DataManager() {
     
@@ -92,6 +95,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
             _news->init_with_json(content["news"]);
+            this->start_check_news();
+        } break;
+            
+        case 910: {
+            _news->init_with_json(content["news"]);
         } break;
             
         case 802: {
@@ -117,6 +125,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
             
+        case 600: {
+            _mission->init_with_json(content["mission"]);
+        } break;
+            
         case 601: {
             _player->init_with_json(content["player"]);
         } break;
@@ -132,5 +144,12 @@ void DataManager::handle_protocol(int cid, Value content) {
     nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString(), pData);
 }
 
+void DataManager::start_check_news() {
+    CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::update), this);
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
+}
 
+void DataManager::update(float dt) {
+    NET->check_news_910();
+}
 

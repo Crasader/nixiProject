@@ -31,7 +31,7 @@ void PlayerComp::init_with_json(Value json) {
     gold = json["gold"].asInt();
     diam = json["diam"].asInt();
     cur_mission = json["cur_mission"].asInt();
-    next_mission = json["cur_mission"].asInt();
+    next_mission = json["next_mission"].asInt();
     company_phase = json["company_phase"].asInt();
 }
 

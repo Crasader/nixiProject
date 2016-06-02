@@ -21,15 +21,15 @@ public:
     ~MissionComp();
     CREATE_FUNC(MissionComp);
     bool init();
-    
     void init_with_json(Value json);
     
 public:
+    CCDictionary* cmpleted_mission();
     
 protected:
     
 private:
-    
+    CCDictionary*           _cmpleted_mission;
 };
 
 #endif /* MissionComp_hpp */

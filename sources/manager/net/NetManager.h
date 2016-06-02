@@ -38,6 +38,7 @@ public:
     
     void fast_login_900(const char* uuid);
     void login_game_server_902();
+    void check_news_910();
     
     void recommend_stranger_802();
     void send_message_803(const char* other_sid, int type);
@@ -50,6 +51,7 @@ public:
     
     void completed_mission_600();
     void start_mission_601(int id);
+    void commit_mission_602();
     
     void completed_story_500();
     
