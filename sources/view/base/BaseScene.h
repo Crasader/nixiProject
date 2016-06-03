@@ -16,7 +16,7 @@
 USING_NS_CC;
 using namespace extension;
 
-class BaseScene : public CCLayer
+class BaseScene : public CCScene
 {
 public:
     ~BaseScene();

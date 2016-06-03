@@ -7,17 +7,8 @@
 //
 
 #include "OperationPanel.h"
-
-#include "DataManager.h"
 #include "DisplayManager.h"
-#include "NetManager.h"
-
-#include "Reward.h"
-#include "Loading.h"
-
-#define CELL_WIDTH          500
-#define CELL_HEIGHT         196
-
+#include "TransactionScene.h"
 
 OperationPanel::~OperationPanel() {
 }
@@ -33,13 +24,28 @@ bool OperationPanel::init() {
         this->addChild(_content);
         _content->setVisible(false);
         
-        _bg = CCSprite::create("pic/panel/mail/operation_bg.png");
+        _bg = CCSprite::create("pic/panel/operation/operation_bg.png");
         _bg->setPosition(DISPLAY->center());
         _content->addChild(_bg);
         
         CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
         txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
         _content->addChild(txt_close);
+        
+        CCSprite* purchase1 = CCSprite::create("pic/panel/operation/operation_purchase.png");
+        CCSprite* purchase2 = CCSprite::create("pic/panel/operation/operation_purchase.png");
+        purchase2->setScale(DISPLAY->btn_scale());
+        CCMenuItem* btn_purchase = CCMenuItemSprite::create(purchase1, purchase2, this, SEL_MenuHandler(&OperationPanel::on_purchase));
+        btn_purchase->setPosition(ccp(0, DISPLAY->H() * 0.18));
+        
+        CCSprite* monthlycard1 = CCSprite::create("pic/panel/operation/operation_monthlycard.png");
+        CCSprite* monthlycard2 = CCSprite::create("pic/panel/operation/operation_monthlycard.png");
+        purchase2->setScale(DISPLAY->btn_scale());
+        CCMenuItem* btn_monthlycard = CCMenuItemSprite::create(monthlycard1, monthlycard2, this, SEL_MenuHandler(&OperationPanel::on_purchase));
+//        btn_monthlycard->setPosition(ccp(0, DISPLAY->H() * 0.02));
+        
+        CCMenu* menu = CCMenu::create(btn_purchase, btn_monthlycard, NULL);
+        _content->addChild(menu);
         
         return true;
     }
@@ -51,7 +57,7 @@ bool OperationPanel::init() {
 void OperationPanel::onEnter() {
     CCLayer::onEnter();
     
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 //    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
     
     this->do_enter();
@@ -111,11 +117,10 @@ void OperationPanel::remove() {
 }
 
 void OperationPanel::on_purchase(cocos2d::CCMenuItem *btn) {
-    LOADING->show_loading();
-    int* id = (int*)btn->getUserData();
+    TransactionScene* scene = TransactionScene::create();
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void OperationPanel::on_monthlycard(cocos2d::CCMenuItem *btn) {
-    LOADING->show_loading();
-    int* id = (int*)btn->getUserData();
+
 }

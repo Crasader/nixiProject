@@ -11,8 +11,7 @@
 #include "DisplayManager.h"
 #include "MainScene.h"
 #include "QingjingTableView.h"
-#include "MZResourceLoader.h"
-
+#include "AppUtil.h"
 
 QingjingScene::QingjingScene(){
     
@@ -123,13 +122,13 @@ void QingjingScene::creat_Tishi(){
     kuangSpr->addChild(titleLabel3);
     
     // 显示的结局
-    CSJson::Value data = MZResourceLoader::get_instance()->get_json_data_with_file("res/story/storyAchievementArr");
-    CCDictionary* dic = MZResourceLoader::get_instance()->dictionary_with_json(data);
+    CSJson::Value data = AppUtil::read_json_file("res/story/storyAchievementArr");
+    CCDictionary* dic = AppUtil::dictionary_with_json(data);
     CCString* keyStr = CCString::createWithFormat("101_80100_%d", index);
     CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
 
-    CSJson::Value storyData = MZResourceLoader::get_instance()->get_json_data_with_file("story/storyAchievement");
-    CCDictionary* storyDic = MZResourceLoader::get_instance()->dictionary_with_json(storyData);
+    CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
+    CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
     if (!tempBool) {
         for (int i = 0; i < achievemArr->count(); i++) {
             CCString* str = (CCString* )achievemArr->objectAtIndex(i);

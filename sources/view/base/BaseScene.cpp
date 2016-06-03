@@ -22,7 +22,7 @@ CCScene* BaseScene::scene(){
 }
 
 bool BaseScene::init(){
-    if (!CCLayer::init()) {
+    if (!CCScene::init()) {
         return false;
     }
     
@@ -32,10 +32,10 @@ bool BaseScene::init(){
 }
 
 void BaseScene::onEnter(){
-    CCLayer::onEnter();
+    CCScene::onEnter();
 }
 void BaseScene::onExit(){
-    CCLayer::onExit();
+    CCScene::onExit();
 }
 
 void BaseScene::init_UI(){

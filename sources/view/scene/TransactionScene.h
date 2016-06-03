@@ -10,10 +10,11 @@
 #define TransactionScene_hpp
 
 #include "cocos2d.h"
+#include "BaseScene.h"
 
 USING_NS_CC;
 
-class TransactionScene : public CCScene
+class TransactionScene : public BaseScene
 {
 public:
     ~TransactionScene();
