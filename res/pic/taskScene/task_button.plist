@@ -14,11 +14,11 @@
 			<key>spriteColorRect</key>
 			<string>{{2, 2}, {166, 82}}</string>
 			<key>spriteOffset</key>
-			<string>{0, -0}</string>
+			<string>{0, 14}</string>
 			<key>spriteSize</key>
 			<string>{166, 82}</string>
 			<key>spriteSourceSize</key>
-			<string>{170, 86}</string>
+			<string>{170, 114}</string>
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
@@ -36,11 +36,11 @@
 			<key>spriteColorRect</key>
 			<string>{{2, 2}, {166, 82}}</string>
 			<key>spriteOffset</key>
-			<string>{0, -0}</string>
+			<string>{0, 14}</string>
 			<key>spriteSize</key>
 			<string>{166, 82}</string>
 			<key>spriteSourceSize</key>
-			<string>{170, 86}</string>
+			<string>{170, 114}</string>
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>

@@ -74,8 +74,8 @@ public:
     
 public:
         
-    
-    
+    void buttonStatus(int index, CCSprite* button);
+    CCString* getTaskName(int index);
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */

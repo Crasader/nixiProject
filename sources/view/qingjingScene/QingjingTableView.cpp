@@ -119,16 +119,16 @@ cocos2d::extension::CCTableViewCell* QingjingTableView::tableCellAtIndex(cocos2d
         button->setTag(idx);
         spr->addChild(button);
         
-        CCLabelTTF* label = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), "Arial", 25);
+        CCLabelTTF* label = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), DISPLAY->fangzhengFont(), 25);
         label->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .5f));
         label->setColor(ccWHITE);
-        label->enableStroke(ccWHITE, 1.1f);
+//        label->enableStroke(ccWHITE, .4f);
         button->addChild(label, 2);
         
-        CCLabelTTF* label1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), "Arial", 25);
+        CCLabelTTF* label1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), DISPLAY->fangzhengFont(), 25);
         label1->setPosition(ccp(button->getContentSize().width* .5f + 2, button->getContentSize().height* .5f - 2));
         label1->setColor(ccGRAY);
-        label1->enableStroke(ccGRAY, 1.1f);
+//        label1->enableStroke(ccGRAY, .4f);
         button->addChild(label1);
         
     }else{

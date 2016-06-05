@@ -37,6 +37,9 @@ public:
     void EnterTheTishi();
     void ExitTishi();
     
+    CCString* getTaskName(int index);
+    CCString* getTaskDescription(int index);
+    
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
     
@@ -45,6 +48,8 @@ public:
     CCSprite* roomSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;
+    
+    CCArray* taskArr;
     
 };
 #endif /* defined(__tiegao__TaskScene__) */

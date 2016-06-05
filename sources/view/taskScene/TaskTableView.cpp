@@ -9,6 +9,7 @@
 #include "TaskTableView.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "ConfigManager.h"
 
 
 TaskTableView::TaskTableView(){
@@ -26,10 +27,10 @@ bool TaskTableView::init(){
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/taskScene/task_button.plist");
     
     OpenToWhichOne = 30;
-    allNumber = 50;
+    allNumber = CONFIG->mission()->count();
     selectedIndex = -1;
     
-    pTableView = CCTableView::create(this, CCSizeMake(170, 110*def_Page_Index));
+    pTableView = CCTableView::create(this, CCSizeMake(170, 114*def_Page_Index));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
@@ -69,7 +70,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("task_button2.png");
             button->setDisplayFrame(frame);
             
-            DATA->setChapterNumber(selectedIndex);
+            DATA->setTaskNumber(selectedIndex);
             CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_Creat_Tishi");
             CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_EnterTheTishi");
         }else if (selectedIndex == cell->getIdx()){
@@ -80,7 +81,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("task_button1.png");
             button->setDisplayFrame(frame);
             
-            DATA->setChapterNumber(selectedIndex);
+            DATA->setTaskNumber(selectedIndex);
             CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitTishi");
         }else{
             CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
@@ -94,7 +95,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             CCSpriteFrame* frame2 = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("task_button2.png");
             button2->setDisplayFrame(frame2);
             
-            DATA->setChapterNumber(selectedIndex);
+            DATA->setTaskNumber(selectedIndex);
             CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_Creat_Tishi");
             CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_EnterTheTishi");
         }
@@ -103,7 +104,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
 
 //每个cell的size
 cocos2d::CCSize TaskTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){
-    return CCSizeMake(170, 110);
+    return CCSizeMake(170, 114);
 }
 
 //生成cell
@@ -118,17 +119,18 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         button->setPosition(CCPointZero);
         button->setTag(idx);
         spr->addChild(button);
+        this->buttonStatus(idx, button);
         
-        CCLabelTTF* label = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), "Arial", 25);
-        label->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .5f));
+        CCLabelTTF* label = CCLabelTTF::create(getTaskName(idx)->getCString(), DISPLAY->fangzhengFont(), 25);
+        label->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .6f));
         label->setColor(ccWHITE);
-        label->enableStroke(ccWHITE, 1.1f);
+//        label->enableStroke(ccWHITE, .4f);
         button->addChild(label, 2);
         
-        CCLabelTTF* label1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), "Arial", 25);
-        label1->setPosition(ccp(button->getContentSize().width* .5f + 2, button->getContentSize().height* .5f - 2));
+        CCLabelTTF* label1 = CCLabelTTF::create(getTaskName(idx)->getCString(), DISPLAY->fangzhengFont(), 25);
+        label1->setPosition(ccp(button->getContentSize().width* .5f + 2, button->getContentSize().height* .6f - 2));
         label1->setColor(ccGRAY);
-        label1->enableStroke(ccGRAY, 1.1f);
+//        label1->enableStroke(ccGRAY, .4f);
         button->addChild(label1);
         
     }else{
@@ -158,8 +160,46 @@ void TaskTableView::onExit(){
     CCLayer::onExit();
 }
 
-
-
+void TaskTableView::buttonStatus(int index, CCSprite* button){
+    
+    int num = 1 + rand()%3;
+    
+    CCMenuItem* xingItem1,* xingItem2,* xingItem3;
+    CCMenu* menu;
+    for (int i = 1; i <= num; i++) {
+        if (i == 1) {
+            CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing.png");
+            CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing.png");
+            xingItem1 = CCMenuItemSprite::create(xingSpr1, xingSpr2);
+        }else if (i == 2){
+            CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing.png");
+            CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing.png");
+            xingItem2 = CCMenuItemSprite::create(xingSpr1, xingSpr2);
+        }else if (i == 3){
+            CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing.png");
+            CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing.png");
+            xingItem3 = CCMenuItemSprite::create(xingSpr1, xingSpr2);
+        }
+    }
+    if (num == 1) {
+        menu = CCMenu::create(xingItem1, NULL);
+    }else if (num == 2){
+        menu = CCMenu::create(xingItem1, xingItem2, NULL);
+    }else if (num == 3){
+        menu = CCMenu::create(xingItem1, xingItem2, xingItem3, NULL);
+    }
+    menu->setAnchorPoint(ccp(.5f, .5f));
+    menu->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .3f));
+    menu->alignItemsHorizontallyWithPadding(2.f);
+    button->addChild(menu);
+    
+}
+CCString* TaskTableView::getTaskName(int index){
+    CCArray* arr = CONFIG->mission();
+    CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
+    
+    return (CCString*)dic->valueForKey("name");
+}
 
 
 

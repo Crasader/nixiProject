@@ -99,29 +99,33 @@ void TestScene::login_view() {
 
 
 void TestScene::master_view() {
-    _content->removeAllChildren();
-    {
-        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-        btn_return->setTag(900);
-        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
-        rtn_menu->setColor(ccRED);
-        rtn_menu->setPosition(ccp(550, 1066));
-        _content->addChild(rtn_menu);
-    }
+    CCScene* scene = MainScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
     
-    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
-    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
-    CCMenuItemFont* btn_social = CCMenuItemFont::create("进入 社交", this, SEL_MenuHandler(&TestScene::social_view));
-    CCMenuItemFont* btn_mission = CCMenuItemFont::create("换装任务", this, SEL_MenuHandler(&TestScene::mission));
-    
-    CCMenu* menu = CCMenu::create(btn_IAP
-                                  , btn_mail
-                                  , btn_social
-                                  , btn_mission
-                                  , NULL);
-    menu->setColor(ccORANGE);
-    menu->alignItemsVerticallyWithPadding(PADDING);
-    _content->addChild(menu);
+//    _content->removeAllChildren();
+//    {
+//        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+//        btn_return->setTag(900);
+//        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+//        rtn_menu->setColor(ccRED);
+//        rtn_menu->setPosition(ccp(550, 1066));
+//        _content->addChild(rtn_menu);
+//    }
+//    
+//    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+//    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
+//    CCMenuItemFont* btn_social = CCMenuItemFont::create("进入 社交", this, SEL_MenuHandler(&TestScene::social_view));
+//    CCMenuItemFont* btn_mission = CCMenuItemFont::create("换装任务", this, SEL_MenuHandler(&TestScene::mission));
+//    
+//    CCMenu* menu = CCMenu::create(btn_IAP
+//                                  , btn_mail
+//                                  , btn_social
+//                                  , btn_mission
+//                                  , NULL);
+//    menu->setColor(ccORANGE);
+//    menu->alignItemsVerticallyWithPadding(PADDING);
+//    _content->addChild(menu);
 }
 
 void TestScene::IAP_view() {
@@ -219,10 +223,6 @@ void TestScene::social_view() {
         rtn_menu->setPosition(ccp(550, 1066));
         _content->addChild(rtn_menu);
     }
-    
-//    CCScene* scene = MainScene::scene();
-//    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
 
     CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
     CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
@@ -418,4 +418,22 @@ void TestScene::start_mission() {
 void TestScene::commit_mission() {
     NET->commit_mission_602();
 }
+
+
+
+
+/*
+ * series 套系
+ * access_type 付费类型  1-金币 2-钻石 11-赠送
+ * for_sale 是否出售 1-显示出售 2-不显示不出售
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+
+
 

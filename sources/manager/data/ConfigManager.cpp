@@ -67,6 +67,21 @@ void ConfigManager::conf_login_addr(int net) {
 }
 
 void ConfigManager::conf_mission() {
+    /*  "id" : 任务ID
+     *  "company_phase" : 公司等级或者公司阶段
+     *  "tag1" : 任务标签1
+     *  "match1" : 标签1匹配度 我不管
+     *  "tag2" : 任务标签2
+     *  "match2" : 标签2匹配度 我不管
+     *  "match12" : 标签1和2都匹配
+     *  "special" : 是否需要指定衣服(如果是制定就是制定衣服id，没有就是0)
+     *  "rare" : 是否需要特殊衣服
+     *  "name" : 任务名称
+     *  "description" : 任务描述
+     *  "bg" : 任务指定背景
+     *
+     */
+    
     const char* config_file = "conf/mission";
     CSJson::Value root = AppUtil::read_json_file(config_file);
     _mission = AppUtil::array_with_json(root);

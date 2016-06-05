@@ -32,6 +32,9 @@ void DisplayManager::init() {
 const char* DisplayManager::font() {
     return "TRENDS.ttf";
 }
+const char* DisplayManager::fangzhengFont(){
+    return "FZY4JW--GB1-0.ttf";
+}
 
 CCPoint DisplayManager::center() {
     return CCPointMake(_width * 0.5, _height * 0.5);

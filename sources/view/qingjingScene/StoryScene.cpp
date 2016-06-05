@@ -114,10 +114,10 @@ void StoryScene::init_with_story_id(int _index){
     CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_shangkuang.png");
     shangkuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .97f));
     this->addChild(shangkuangSpr, 50);
-    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString(), "Arial", 30);
+    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
     shangLabel->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .5f));
     shangLabel->setColor(ccWHITE);
-    shangLabel->enableStroke(ccWHITE, .8f);
+//    shangLabel->enableStroke(ccWHITE, .4f);
     shangkuangSpr->addChild(shangLabel);
     
     dialog = Dialogs::create();
@@ -158,19 +158,19 @@ void StoryScene::init_with_story_id(int _index){
     kuangSpr->addChild(nameKuang);
     nameKuang->setVisible(false);
     
-    saidLabel = CCLabelTTF::create("", "Arial", 25, CCSizeMake(widSize* .8f, heiSize* .6f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    saidLabel = CCLabelTTF::create("", DISPLAY->fangzhengFont(), 25, CCSizeMake(widSize* .8f, heiSize* .6f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     saidLabel->setAnchorPoint(CCPointZero);
     saidLabel->setPosition(ccp(widSize* .11, 25));
     saidLabel->setTag(0x222);
     saidLabel->setColor(ccc3(80, 63, 68));
-    saidLabel->enableStroke(ccc3(80, 63, 68), .9f);
+//    saidLabel->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(saidLabel, 8);
     
-    nameLab = CCLabelTTF::create("", "Arial", 27);
+    nameLab = CCLabelTTF::create("", DISPLAY->fangzhengFont(), 27);
     nameLab->setPosition(ccp(nameKuang->getContentSize().width* .5f, nameKuang->getContentSize().height* .5f));
     nameLab->setTag(0x111);
     nameLab->setColor(ccWHITE);
-    nameLab->enableStroke(ccWHITE, .8f);
+    nameLab->enableStroke(ccWHITE, .4f);
     nameKuang->addChild(nameLab, 8);
     
     this->dialogueControl(dialogItem);
@@ -223,6 +223,7 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         oneBool = false;
         twoBool = false;
+        nameKuang->setVisible(false);
         
         if (dialItem->getBg() != "keep") {
 //            if (this->getChildByTag(Tag_GJ_kuang) != NULL) {
@@ -263,6 +264,7 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         oneBool = true;
         twoBool = false;
+        nameKuang->setVisible(true);
         
         if (dialItem->getBg() != "keep") {
             
@@ -307,6 +309,7 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         oneBool = false;
         twoBool = true;
+        nameKuang->setVisible(true);
         
         if (dialItem->getBg() != "keep") {
             
@@ -882,7 +885,6 @@ void StoryScene::logic(float dt){
         this->openTouch(0);
     }
     
-    nameKuang->setVisible(true);
     nameLab->setString(dialogItem->getName().c_str());
     
     if (wordCount > contentLength) {
@@ -1194,7 +1196,7 @@ void StoryScene::creatButton(int dex){
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCMenuItem* item1 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(StoryScene::callBackMethods));
-        item1->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .59f));
+        item1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .59f));
         item1->setTag(Tag_Item_0);
         CCMenu* menu1 = CCMenu::create(item1, NULL);
         menu1->setPosition(CCPointMake(0, 0));
@@ -1206,7 +1208,7 @@ void StoryScene::creatButton(int dex){
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCMenuItem* item2 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(StoryScene::callBackMethods));
-        item2->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .5f));
+        item2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         item2->setTag(Tag_Item_1);
         CCMenu* menu2 = CCMenu::create(item2, NULL);
         menu2->setPosition(CCPointMake(0, 0));
@@ -1218,7 +1220,7 @@ void StoryScene::creatButton(int dex){
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCMenuItem* item3 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(StoryScene::callBackMethods));
-        item3->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .41f));
+        item3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .41f));
         item3->setTag(Tag_Item_2);
         CCMenu* menu3 = CCMenu::create(item3, NULL);
         menu3->setPosition(CCPointMake(0, 0));
@@ -1243,25 +1245,26 @@ void StoryScene::initLabel(int dex){
     
     CCLabelTTF* lab;
     if (str->length() > 75) {
-        lab = CCLabelTTF::create(str->getCString(), "Arial", 28.f);
+        lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
     }else if (str->length() > 85){
-        lab = CCLabelTTF::create(str->getCString(), "Arial", 25.f);
+        lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 25.f);
     }
     else{
-        lab = CCLabelTTF::create(str->getCString(), "Arial", 34.f);
+        lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 34.f);
     }
     
     if (dex == 0){
-        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .595f));
+        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .59f));
         lab->setTag(Tag_Label_0);
     }else if (dex == 1){
-        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .505f));
+        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         lab->setTag(Tag_Label_1);
     }else if (dex == 2){
-        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .415f));
+        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .41f));
         lab->setTag(Tag_Label_2);
     }
-    lab->setColor(ccc3(55, 35, 26));
+    lab->setColor(ccWHITE);
+//    lab->enableStroke(ccWHITE, .4f);
     lab->setVisible(true);
     this->addChild(lab, 21);
 }
@@ -1279,7 +1282,7 @@ void StoryScene::menuEffect(int dex){
             node1->runAction(CCSequence::create(CCMoveTo::create(actTime1, CCPointMake(0, 0)), NULL));
             
             labNode1->setPositionX(-900);
-            labNode1->runAction(CCSequence::create(CCMoveTo::create(actTime1, ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .595f)), NULL));
+            labNode1->runAction(CCSequence::create(CCMoveTo::create(actTime1, ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .59f)), NULL));
         }
         
     }else if (dex == 1){
@@ -1290,7 +1293,7 @@ void StoryScene::menuEffect(int dex){
             node2->runAction(CCSequence::create(CCMoveTo::create(actTime2, CCPointMake(0, 0)), NULL));
             
             labNode2->setPositionX(-900);
-            labNode2->runAction(CCSequence::create(CCMoveTo::create(actTime2, ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .505f)), NULL));
+            labNode2->runAction(CCSequence::create(CCMoveTo::create(actTime2, ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f)), NULL));
         }
         
     }else if (dex == 2){
@@ -1301,7 +1304,7 @@ void StoryScene::menuEffect(int dex){
             node3->runAction(CCSequence::create(CCMoveTo::create(actTime3, CCPointMake(0, 0)), NULL));
             
             labNode3->setPositionX(-900);
-            labNode3->runAction(CCSequence::create(CCMoveTo::create(actTime3, ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .415f)), NULL));
+            labNode3->runAction(CCSequence::create(CCMoveTo::create(actTime3, ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .41f)), NULL));
         }
     }
     

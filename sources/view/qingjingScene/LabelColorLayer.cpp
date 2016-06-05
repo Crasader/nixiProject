@@ -111,9 +111,10 @@ void LabelColorLayer::creatLabel(){
 //                CCString* str = CCString::createWithFormat("%s", (char* )_labelArr->objectAtIndex(i));
                 CCString* str = (CCString* )_labelArr->objectAtIndex(i);
 //                CCLog("str ==== %s", str->getCString());
-                m_pLabel = CCLabelTTF::create(str->getCString(), "Arial", 24, CCSizeMake(dkSpr->boundingBox().size.width* .85, dkSpr->boundingBox().size.height* .8), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+                m_pLabel = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 24, CCSizeMake(dkSpr->boundingBox().size.width* .85, dkSpr->boundingBox().size.height* .8), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
                 m_pLabel->setPosition(ccp(dkSpr->boundingBox().size.width/2, dkSpr->boundingBox().size.height/2));
-                m_pLabel->setColor(ccc3(222,222,222));
+                m_pLabel->setColor(ccc3(80, 63, 68));
+//                m_pLabel->enableStroke(ccc3(80, 63, 68), .4f);
                 m_pLabel->setTag(0x77777);
                 dkSpr->addChild(m_pLabel, 10);
             }

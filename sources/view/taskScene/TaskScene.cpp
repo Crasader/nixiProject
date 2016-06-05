@@ -13,6 +13,7 @@
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
 #include "StoryScene.h"
+#include "ConfigManager.h"
 
 
 TaskScene::TaskScene(){
@@ -26,6 +27,8 @@ bool TaskScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    
+    taskArr = CONFIG->mission();
     
     this->creat_view();
     
@@ -76,11 +79,11 @@ void TaskScene::creat_view(){
     
     taskKuang = CCSprite::create("res/pic/taskScene/task_dikuang1.png");
     taskKuang->setAnchorPoint(ccp(1, .5f));
-    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .61f));
-    this->addChild(taskKuang);
+    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .585f));
+    this->addChild(taskKuang, 5);
     
     TaskTableView* tabLayer = TaskTableView::create();
-    tabLayer->setPosition(ccp(17, 45));
+    tabLayer->setPosition(ccp(16, 38));
     tabLayer->setTag(0x77777);
     taskKuang->addChild(tabLayer, 5);
     
@@ -100,146 +103,88 @@ void TaskScene::creat_Tishi(){
         kuangSpr = NULL;
     }
     
-    bool tempBool = false;
-    int index = DATA->getChapterNumber() + 1;
-    std::string renwuStr = "洗碗";
-    int renwuIndex = 64;
+    int index = DATA->getTaskNumber();
     int tiliIndex = 9;
     
     kuangSpr = CCSprite::create("res/pic/taskScene/task_dikuang2.png");
-//    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .155f));
-    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .155f));
+    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .12f));
     kuangSpr->setTag(0x88888);
-    this->addChild(kuangSpr);
+    this->addChild(kuangSpr, 10);
     
-    CCSprite* xianSpr1 = CCSprite::create("res/pic/taskScene/task_xian.png");
-    xianSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
-    kuangSpr->addChild(xianSpr1);
+    CCSprite* xianSpr = CCSprite::create("res/pic/taskScene/task_xian.png");
+    xianSpr->setPosition(ccp(kuangSpr->getContentSize().width* .34f, kuangSpr->getContentSize().height* .21f));
+    kuangSpr->addChild(xianSpr);
     
     // 标题
-    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), "Arial", 25);
-    btLabel1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .9f));
-    btLabel1->setColor(ccWHITE);
-    btLabel1->enableStroke(ccWHITE, 1.1f);
-    kuangSpr->addChild(btLabel1, 2);
+    CCLabelTTF* nameLabel = CCLabelTTF::create(getTaskName(index)->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(310, 25), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    nameLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .86f));
+    nameLabel->setColor(ccc3(80, 63, 68));
+//    nameLabel->enableStroke(ccc3(80, 63, 68), .4f);
+    kuangSpr->addChild(nameLabel, 2);
     
-    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), "Arial", 25);
-    btLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .9f - 2));
-    btLabel2->setColor(ccGRAY);
-    btLabel2->enableStroke(ccGRAY, 1.1f);
-    kuangSpr->addChild(btLabel2);
+    CCLabelTTF* nameLabel2 = CCLabelTTF::create(getTaskName(index)->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(310, 25), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    nameLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .86f - 2));
+    nameLabel2->setColor(ccGRAY);
+//    nameLabel2->enableStroke(ccGRAY, .4f);
+    kuangSpr->addChild(nameLabel2);
     
-    // 解锁条件
-    CCLabelTTF* titleLabel2 = CCLabelTTF::create("解锁条件", "Arial", 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    titleLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .75f));
-    titleLabel2->setColor(ccc3(80, 63, 68));
-    titleLabel2->enableStroke(ccc3(80, 63, 68), .9f);
-    kuangSpr->addChild(titleLabel2);
+    // 提示
+    CCLabelTTF* tishiLabel = CCLabelTTF::create("提示: ", DISPLAY->fangzhengFont(), 20, CCSizeMake(310, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .75f));
+    tishiLabel->setColor(ccc3(103, 81, 95));
+//    tishiLabel->enableStroke(ccc3(103, 81, 95), .4f);
+    kuangSpr->addChild(tishiLabel, 2);
     
-    // 解锁条件内容
-    CCLabelTTF* label1 = CCLabelTTF::create("日常: ", "Arial", 20);
-    label1->setAnchorPoint(CCPointZero);
-    label1->setPosition(ccp(kuangSpr->getContentSize().width* .114f, kuangSpr->getContentSize().height* .565f));
-    label1->setColor(ccc3(80, 63, 68));
-    label1->enableStroke(ccc3(80, 63, 68), .9f);
-    kuangSpr->addChild(label1);
-    // 任务名
-    CCString* labStr2 = CCString::createWithFormat("%s", renwuStr.c_str());
-    CCLabelTTF* label2 = CCLabelTTF::create(labStr2->getCString(), "Arial", 20);
-    label2->setAnchorPoint(CCPointZero);
-    label2->setPosition(ccp(kuangSpr->getContentSize().width* .114f + label1->getContentSize().width, kuangSpr->getContentSize().height* .565f));
-    label2->setColor(ccc3(137, 211, 117));
-    label2->enableStroke(ccc3(137, 211, 117), .7f);
-    kuangSpr->addChild(label2);
-    // 任务数
-    CCString* labStr3 = CCString::createWithFormat(" (%d)  达成", renwuIndex);
-    CCLabelTTF* label3 = CCLabelTTF::create(labStr3->getCString(), "Arial", 20);
-    label3->setAnchorPoint(CCPointZero);
-    label3->setPosition(ccp(kuangSpr->getContentSize().width* .114f + label1->getContentSize().width + label2->getContentSize().width, kuangSpr->getContentSize().height* .565f));
-    label3->setColor(ccc3(80, 63, 68));
-    label3->enableStroke(ccc3(80, 63, 68), .9f);
-    kuangSpr->addChild(label3);
+    // 提示内容
+    CCLabelTTF* descriptionLabel = CCLabelTTF::create(getTaskDescription(index)->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
+    descriptionLabel->setPosition(ccp(kuangSpr->getContentSize().width* .34f, kuangSpr->getContentSize().height* .39f));
+    descriptionLabel->setColor(ccc3(103, 81, 95));
+//    descriptionLabel->enableStroke(ccc3(103, 81, 95), .4f);
+    kuangSpr->addChild(descriptionLabel, 2);
     
-    // 结局成就
-    CCLabelTTF* titleLabel3 = CCLabelTTF::create("结局成就", "Arial", 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    titleLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .48f));
-    titleLabel3->setColor(ccc3(80, 63, 68));
-    titleLabel3->enableStroke(ccc3(80, 63, 68), .9f);
-    kuangSpr->addChild(titleLabel3);
+    CCLabelTTF* descriptionLabel2 = CCLabelTTF::create(getTaskDescription(index)->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
+    descriptionLabel->setPosition(ccp(kuangSpr->getContentSize().width* .34f, kuangSpr->getContentSize().height* .39f));
+    descriptionLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .34f + 2, kuangSpr->getContentSize().height* .39f - 2));
+    descriptionLabel2->setColor(ccGRAY);
+//    descriptionLabel2->enableStroke(ccGRAY, .4f);
+    kuangSpr->addChild(descriptionLabel2);
     
-    // 显示的结局
-    CSJson::Value data = MZResourceLoader::get_instance()->get_json_data_with_file("res/story/storyAchievementArr");
-    CCDictionary* dic = MZResourceLoader::get_instance()->dictionary_with_json(data);
-    CCString* keyStr = CCString::createWithFormat("101_80100_%d", index);
-    CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
-
-    CSJson::Value storyData = MZResourceLoader::get_instance()->get_json_data_with_file("story/storyAchievement");
-    CCDictionary* storyDic = MZResourceLoader::get_instance()->dictionary_with_json(storyData);
-    if (!tempBool) {
-        for (int i = 0; i < achievemArr->count(); i++) {
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), "Arial", 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .535f, kuangSpr->getContentSize().height* .38f - (28 * i)));
-            label->setColor(ccc3(157, 147, 147));
-            label->enableStroke(ccc3(157, 147, 147), .5f);
-            kuangSpr->addChild(label);
-        }
-        
-    }else{
-        for (int i = 0; i < achievemArr->count(); i++) {
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            bool achiBool = false;
-            
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), "Arial", 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .535f, kuangSpr->getContentSize().height* .38f - (28 * i)));
-            if (achiBool) {
-                label->setColor(ccc3(80, 63, 68));
-                label->enableStroke(ccc3(80, 63, 68), .9f);
-            }else{
-                label->setColor(ccc3(157, 147, 147));
-                label->enableStroke(ccc3(157, 147, 147), .5f);
-            }
-            kuangSpr->addChild(label);
-            
-            if (achiBool) {
-                CCSprite* gouSpr1 = CCSprite::create("");
-                gouSpr1->setScale(.3f);
-                gouSpr1->setPosition(ccp(label->getContentSize().width, kuangSpr->getContentSize().height* .47f - (30 * i)));
-                kuangSpr->addChild(gouSpr1, 1);
-            }
-        }
-    }
     
     // 开始故事
     CCSprite* startSpr1 = CCSprite::create("res/pic/taskScene/task_start.png");
     CCSprite* startSpr2 = CCSprite::create("res/pic/taskScene/task_start.png");
     startSpr2->setScale(1.02f);
     CCMenuItem* startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(TaskScene::startCallBack));
-    startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+    startItem->setPosition(ccp(kuangSpr->getContentSize().width* .78f, kuangSpr->getContentSize().height* .32f));
     startItem->setTag(index);
     CCMenu* menu = CCMenu::create(startItem, NULL);
     menu->setPosition(CCPointZero);
     kuangSpr->addChild(menu);
     
+    // 小人
+    CCSprite* xiaorenSpr = CCSprite::create("res/pic/taskScene/task_xiaoren.png");
+    xiaorenSpr->setPosition(ccp(kuangSpr->getContentSize().width* .73f, kuangSpr->getContentSize().height* .74f));
+    kuangSpr->addChild(xiaorenSpr, 100);
     
     // 消耗体力
     CCSprite* tiliSpr = CCSprite::create("res/pic/qingjingScene/qj_tili_bar.png");
-    tiliSpr->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .1f));
+    tiliSpr->setPosition(ccp(kuangSpr->getContentSize().width* .78f, kuangSpr->getContentSize().height* .115f));
     kuangSpr->addChild(tiliSpr);
     // 体力数
     CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
-    CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), "Arial", 15);
+    CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
     tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
     tiliLabel->setColor(ccWHITE);
-    tiliLabel->enableStroke(ccWHITE, .5f);
+//    tiliLabel->enableStroke(ccWHITE, .4f);
     tiliSpr->addChild(tiliLabel);
     // 心
     CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
     xinSpr->setScale(.9f);
     xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .85f, tiliSpr->getContentSize().height* .49f));
     tiliSpr->addChild(xinSpr);
+    
+    
+    
 }
 
 void TaskScene::startCallBack(CCObject* pSender){
@@ -254,7 +199,7 @@ void TaskScene::startCallBack(CCObject* pSender){
 }
 
 void TaskScene::EnterTheTishi(){    
-    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .155f));
+    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .12f));
     kuangSpr->runAction(moveTo);
 }
 void TaskScene::ExitTishi(){
@@ -265,7 +210,16 @@ void TaskScene::ExitTishi(){
     }
 }
 
-
+CCString* TaskScene::getTaskName(int index){
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index);
+    
+    return (CCString*)dic->valueForKey("name");
+}
+CCString* TaskScene::getTaskDescription(int index){
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index);
+    
+    return (CCString*)dic->valueForKey("description");
+}
 
 
 

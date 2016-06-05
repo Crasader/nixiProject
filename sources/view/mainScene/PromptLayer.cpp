@@ -52,7 +52,7 @@ void PromptLayer::promptBox(int idx){
 //    else if (idx == ){
 //        str = CCString::create();
 //    }
-    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), "Arial", 40.f);
+    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 40.f);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
     lbl->setColor(ccc3(222, 222, 222));
@@ -73,7 +73,7 @@ void PromptLayer::promptBox(CCString* str){
     CCSequence* boxSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), NULL);
     box->runAction(boxSeq);
     
-    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), "Arial", 40.f);
+    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 40.f);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
     lbl->setColor(ccc3(222, 222, 222));
@@ -114,7 +114,7 @@ void PromptLayer::show_prompt(CCNode* parent, const char* str){
     CCSequence* boxSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), NULL);
     box->runAction(boxSeq);
     
-    CCLabelTTF* lbl = CCLabelTTF::create(str, "Arial", 40.f);
+    CCLabelTTF* lbl = CCLabelTTF::create(str, DISPLAY->fangzhengFont(), 40.f);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
     lbl->setColor(ccc3(222, 222, 222));

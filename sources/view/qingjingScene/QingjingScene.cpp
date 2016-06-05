@@ -117,47 +117,47 @@ void QingjingScene::creat_Tishi(){
     kuangSpr->addChild(xianSpr1);
     
     // 标题
-    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), "Arial", 25);
+    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), DISPLAY->fangzhengFont(), 25);
     btLabel1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .9f));
     btLabel1->setColor(ccWHITE);
-    btLabel1->enableStroke(ccWHITE, 1.1f);
+//    btLabel1->enableStroke(ccWHITE, .4f);
     kuangSpr->addChild(btLabel1, 2);
     
-    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), "Arial", 25);
+    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), DISPLAY->fangzhengFont(), 25);
     btLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .9f - 2));
     btLabel2->setColor(ccGRAY);
-    btLabel2->enableStroke(ccGRAY, 1.1f);
+//    btLabel2->enableStroke(ccGRAY, .4f);
     kuangSpr->addChild(btLabel2);
     
     // 解锁条件
-    CCLabelTTF* titleLabel2 = CCLabelTTF::create("解锁条件", "Arial", 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* titleLabel2 = CCLabelTTF::create("解锁条件", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     titleLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .75f));
     titleLabel2->setColor(ccc3(80, 63, 68));
-    titleLabel2->enableStroke(ccc3(80, 63, 68), .9f);
+//    titleLabel2->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(titleLabel2);
     
     // 解锁条件内容
-    CCLabelTTF* label1 = CCLabelTTF::create("日常: ", "Arial", 20);
+    CCLabelTTF* label1 = CCLabelTTF::create("日常: ", DISPLAY->fangzhengFont(), 20);
     label1->setAnchorPoint(CCPointZero);
     label1->setPosition(ccp(kuangSpr->getContentSize().width* .114f, kuangSpr->getContentSize().height* .565f));
     label1->setColor(ccc3(80, 63, 68));
-    label1->enableStroke(ccc3(80, 63, 68), .9f);
+//    label1->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(label1);
     // 任务名
     CCString* labStr2 = CCString::createWithFormat("%s", renwuStr.c_str());
-    CCLabelTTF* label2 = CCLabelTTF::create(labStr2->getCString(), "Arial", 20);
+    CCLabelTTF* label2 = CCLabelTTF::create(labStr2->getCString(), DISPLAY->fangzhengFont(), 20);
     label2->setAnchorPoint(CCPointZero);
     label2->setPosition(ccp(kuangSpr->getContentSize().width* .114f + label1->getContentSize().width, kuangSpr->getContentSize().height* .565f));
     label2->setColor(ccc3(137, 211, 117));
-    label2->enableStroke(ccc3(137, 211, 117), .7f);
+//    label2->enableStroke(ccc3(137, 211, 117), .4f);
     kuangSpr->addChild(label2);
     // 任务数
     CCString* labStr3 = CCString::createWithFormat(" (%d)  达成", renwuIndex);
-    CCLabelTTF* label3 = CCLabelTTF::create(labStr3->getCString(), "Arial", 20);
+    CCLabelTTF* label3 = CCLabelTTF::create(labStr3->getCString(), DISPLAY->fangzhengFont(), 20);
     label3->setAnchorPoint(CCPointZero);
     label3->setPosition(ccp(kuangSpr->getContentSize().width* .114f + label1->getContentSize().width + label2->getContentSize().width, kuangSpr->getContentSize().height* .565f));
     label3->setColor(ccc3(80, 63, 68));
-    label3->enableStroke(ccc3(80, 63, 68), .9f);
+//    label3->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(label3);
     // 勾
     CCSprite* rightSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
@@ -165,10 +165,10 @@ void QingjingScene::creat_Tishi(){
     label3->addChild(rightSpr);
     
     // 结局成就
-    CCLabelTTF* titleLabel3 = CCLabelTTF::create("结局成就", "Arial", 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* titleLabel3 = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     titleLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .48f));
     titleLabel3->setColor(ccc3(80, 63, 68));
-    titleLabel3->enableStroke(ccc3(80, 63, 68), .9f);
+//    titleLabel3->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(titleLabel3);
     
     // 显示的结局
@@ -183,10 +183,10 @@ void QingjingScene::creat_Tishi(){
         for (int i = 0; i < achievemArr->count(); i++) {
             CCString* str = (CCString* )achievemArr->objectAtIndex(i);
             CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), "Arial", 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
             label->setPosition(ccp(kuangSpr->getContentSize().width* .535f, kuangSpr->getContentSize().height* .38f - (28 * i)));
             label->setColor(ccc3(157, 147, 147));
-            label->enableStroke(ccc3(157, 147, 147), .5f);
+//            label->enableStroke(ccc3(157, 147, 147), .4f);
             kuangSpr->addChild(label);
         }
         
@@ -196,14 +196,14 @@ void QingjingScene::creat_Tishi(){
             bool achiBool = false;
             
             CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), "Arial", 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
             label->setPosition(ccp(kuangSpr->getContentSize().width* .535f, kuangSpr->getContentSize().height* .38f - (28 * i)));
             if (achiBool) {
                 label->setColor(ccc3(80, 63, 68));
-                label->enableStroke(ccc3(80, 63, 68), .9f);
+//                label->enableStroke(ccc3(80, 63, 68), .4f);
             }else{
                 label->setColor(ccc3(157, 147, 147));
-                label->enableStroke(ccc3(157, 147, 147), .5f);
+//                label->enableStroke(ccc3(157, 147, 147), .4f);
             }
             kuangSpr->addChild(label);
             
@@ -234,10 +234,10 @@ void QingjingScene::creat_Tishi(){
     kuangSpr->addChild(tiliSpr);
     // 体力数
     CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
-    CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), "Arial", 15);
+    CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
     tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
     tiliLabel->setColor(ccWHITE);
-    tiliLabel->enableStroke(ccWHITE, .5f);
+//    tiliLabel->enableStroke(ccWHITE, .4f);
     tiliSpr->addChild(tiliLabel);
     // 心
     CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
