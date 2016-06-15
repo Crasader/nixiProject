@@ -118,7 +118,7 @@ void OperationPanel::remove() {
 
 void OperationPanel::on_purchase(cocos2d::CCMenuItem *btn) {
     TransactionScene* scene = TransactionScene::create();
-    CCDirector::sharedDirector()->replaceScene(scene);
+//    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void OperationPanel::on_monthlycard(cocos2d::CCMenuItem *btn) {

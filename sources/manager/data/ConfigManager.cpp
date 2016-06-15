@@ -67,6 +67,21 @@ void ConfigManager::conf_login_addr(int net) {
 }
 
 void ConfigManager::conf_mission() {
+    /*  "id" : 任务ID
+     *  "company_phase" : 公司等级或者公司阶段
+     *  "tag1" : 任务标签1
+     *  "match1" : 标签1匹配度 我不管
+     *  "tag2" : 任务标签2
+     *  "match2" : 标签2匹配度 我不管
+     *  "match12" : 标签1和2都匹配
+     *  "special" : 是否需要指定衣服(如果是制定就是制定衣服id，没有就是0)
+     *  "rare" : 是否需要特殊衣服
+     *  "name" : 任务名称
+     *  "description" : 任务描述
+     *  "bg" : 任务指定背景
+     *
+     */
+    
     const char* config_file = "conf/mission";
     CSJson::Value root = AppUtil::read_json_file(config_file);
     _mission = AppUtil::array_with_json(root);
@@ -78,14 +93,14 @@ void ConfigManager::conf_clothes() {
     CSJson::Value root = AppUtil::read_json_file(config_file);
     
     CCDictionary* clothes = CCDictionary::create();
-    clothes->setObject(CCArray::create(), "1");
-    clothes->setObject(CCArray::create(), "2");
-    clothes->setObject(CCArray::create(), "3");
-    clothes->setObject(CCArray::create(), "4");
-    clothes->setObject(CCArray::create(), "5");
-    clothes->setObject(CCArray::create(), "6");
-    clothes->setObject(CCArray::create(), "7");
-    clothes->setObject(CCArray::create(), "8");
+    clothes->setObject(CCArray::create(), 1);
+    clothes->setObject(CCArray::create(), 2);
+    clothes->setObject(CCArray::create(), 3);
+    clothes->setObject(CCArray::create(), 4);
+    clothes->setObject(CCArray::create(), 5);
+    clothes->setObject(CCArray::create(), 6);
+    clothes->setObject(CCArray::create(), 7);
+    clothes->setObject(CCArray::create(), 8);
     
     for (CSJson::ValueIterator iterator = root.begin(); iterator != root.end(); iterator++) {
         CSJson::Value value = (CSJson::Value)* iterator;
@@ -95,7 +110,7 @@ void ConfigManager::conf_clothes() {
 //            CCLOG("Cloth part: %s", part->getCString());
 //            CCString* id = (CCString* )cloth->objectForKey("id");
 //            CCLOG("Cloth id: %s", id->getCString());
-            CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->getCString());
+            CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->intValue());
             clothes_part->addObject(cloth);
         }
     }

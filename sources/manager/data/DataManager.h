@@ -61,6 +61,17 @@ public:
     CC_SYNTHESIZE_RETAIN(SocialComp*, _social, Social);
     CC_SYNTHESIZE_RETAIN(StoryComp*, _story, Story);
     
+    // 剧情选中数
+    CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
+    // 剧情存储文字
+    CC_SYNTHESIZE_RETAIN(CCArray* , _storyLabelArr, StoryLabelArr);
+    // 下框的大小
+    CC_SYNTHESIZE(CCSize, _diKuangSize, DiKuangSize);
+    // 剧情快进开关
+    CC_SYNTHESIZE(bool, _fastForward, FastForward);
+    // 日常选中数
+    CC_SYNTHESIZE(int, taskNumber, TaskNumber);
+    
 private:
 
     

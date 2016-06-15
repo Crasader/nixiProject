@@ -34,8 +34,11 @@ public:
     
     void creat_view();
     void creat_Tishi();
+    void EnterTheTishi();
+    void ExitTishi();
     
     void backCallBack(CCObject* pSender);
+    void startCallBack(CCObject* pSender);
     
 public:
     
