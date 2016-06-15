@@ -10,9 +10,9 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "MainScene.h"
+#include "ClothesScene.h"
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
-#include "StoryScene.h"
 #include "ConfigManager.h"
 
 
@@ -191,11 +191,9 @@ void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     int index = item->getTag();
     
-//    CCScene* pScene = CCScene::create();
-//    StoryScene* layer = StoryScene::create_with_story_id(index);
-//    pScene->addChild(layer);
-//    CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
+    CCScene* scene = ClothesScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void TaskScene::EnterTheTishi(){    

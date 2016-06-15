@@ -12,7 +12,7 @@ TransactionScene::~TransactionScene() {
 }
 
 bool TransactionScene::init() {
-    if (CCLayer::init()) {
+    if (BaseScene::init()) {
         
         return true;
     }
@@ -22,11 +22,11 @@ bool TransactionScene::init() {
 }
 
 void TransactionScene::onEnter() {
-    CCLayer::onEnter();
+    BaseScene::onEnter();
 }
 
 void TransactionScene::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
-    CCLayer::onExit();
+    BaseScene::onExit();
 }

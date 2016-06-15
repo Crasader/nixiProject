@@ -27,17 +27,14 @@ public:
     long long int   update;
     int             energy;
     
-    int             exp;
-    int             grade;
-    int             popularity;
-    
     int             coin;
     int             gold;
     int             diam;
     
-    int             next_mission;
-    int             cur_mission;
-    int             company_phase;
+    int             next_mission;       // 进行中的任务
+    int             cur_mission;        // 下一个任务(最新解锁)
+    int             phase;              // 公司规模
+    int             rating;             // 总任务评价(总星数)
     
 protected:
     

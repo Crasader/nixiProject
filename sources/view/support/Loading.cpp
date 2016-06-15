@@ -17,6 +17,7 @@ Loading::~Loading() {
 Loading* Loading::Inst() {
     if (_instance == nullptr) {
         _instance = new Loading();
+        _instance->addChild(CCLayerColor::create(ccc4(255, 255, 255, 0)));
     }
     
     return _instance;
@@ -24,6 +25,10 @@ Loading* Loading::Inst() {
 
 void Loading::onEnter() {
     CCLayer::onEnter();
+    
+    this->setTouchEnabled(true);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchSwallowEnabled(true);
     
     _loading = CCSprite::create("pic/loading.png");
     _loading->setPosition(DISPLAY->center());

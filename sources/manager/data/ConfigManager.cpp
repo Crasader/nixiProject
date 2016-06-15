@@ -89,6 +89,9 @@ void ConfigManager::conf_mission() {
 }
 
 void ConfigManager::conf_clothes() {
-
+    const char* config_file = "conf/clothes";
+    CSJson::Value root = AppUtil::read_json_file(config_file);
+    _clothes = AppUtil::array_with_json(root);
+    _clothes->retain();
 }
 

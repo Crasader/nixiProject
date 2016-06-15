@@ -23,8 +23,8 @@ void ProductItem::init_with_json(Value json) {
     }
     
     id = json["id"].asString();
-    diam = json["diam"].asString();
-    money = json["money"].asString();
+    diam = json["diam"].asInt();
+    money = json["money"].asInt();
 }
 
 void ProductItem::print_self() {

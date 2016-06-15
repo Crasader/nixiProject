@@ -24,14 +24,12 @@ void PlayerComp::init_with_json(Value json) {
     
     update = json["update"].asInt64();
     energy = json["energy"].asInt();
-    exp = json["exp"].asInt();
-    grade = json["grade"].asInt();
-    popularity = json["popularity"].asInt();
     coin = json["coin"].asInt();
     gold = json["gold"].asInt();
     diam = json["diam"].asInt();
     cur_mission = json["cur_mission"].asInt();
     next_mission = json["next_mission"].asInt();
-    company_phase = json["company_phase"].asInt();
+    phase = json["phase"].asInt();
+    rating = json["rating"].asInt();
 }
 

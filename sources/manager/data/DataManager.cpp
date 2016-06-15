@@ -133,6 +133,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
         } break;
             
+        case 602: {
+            _player->init_with_json(content["player"]);
+            _mission->init_with_json(content["mission"]);
+        } break;
+            
         case 100: {
             _IAP->init_with_json(content);
         } break;
