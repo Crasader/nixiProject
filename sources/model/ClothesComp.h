@@ -21,15 +21,13 @@ public:
     ~ClothesComp();
     CREATE_FUNC(ClothesComp);
     bool init();
-    
     void init_with_json(Value json);
     
 public:
-    
-protected:
+    CCDictionary* clothes();
     
 private:
-    
+    CCDictionary*       _clothes;
 };
 
 #endif /* ClothesComp_hpp */

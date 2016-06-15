@@ -47,7 +47,7 @@ CCArray* ConfigManager::mission() {
     return _mission;
 }
 
-CCArray* ConfigManager::clothes() {
+CCDictionary* ConfigManager::clothes() {
     return _clothes;
 }
 
@@ -91,7 +91,31 @@ void ConfigManager::conf_mission() {
 void ConfigManager::conf_clothes() {
     const char* config_file = "conf/clothes";
     CSJson::Value root = AppUtil::read_json_file(config_file);
-    _clothes = AppUtil::array_with_json(root);
+    
+    CCDictionary* clothes = CCDictionary::create();
+    clothes->setObject(CCArray::create(), "1");
+    clothes->setObject(CCArray::create(), "2");
+    clothes->setObject(CCArray::create(), "3");
+    clothes->setObject(CCArray::create(), "4");
+    clothes->setObject(CCArray::create(), "5");
+    clothes->setObject(CCArray::create(), "6");
+    clothes->setObject(CCArray::create(), "7");
+    clothes->setObject(CCArray::create(), "8");
+    
+    for (CSJson::ValueIterator iterator = root.begin(); iterator != root.end(); iterator++) {
+        CSJson::Value value = (CSJson::Value)* iterator;
+        CCDictionary* cloth = AppUtil::dictionary_with_json(value);
+        if (cloth) {
+            CCString* part = (CCString* )cloth->objectForKey("part");
+//            CCLOG("Cloth part: %s", part->getCString());
+//            CCString* id = (CCString* )cloth->objectForKey("id");
+//            CCLOG("Cloth id: %s", id->getCString());
+            CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->getCString());
+            clothes_part->addObject(cloth);
+        }
+    }
+    
+    _clothes = clothes;
     _clothes->retain();
 }
 

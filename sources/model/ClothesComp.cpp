@@ -7,8 +7,10 @@
 //
 
 #include "ClothesComp.h"
+#include "AppUtil.h"
 
 ClothesComp::~ClothesComp() {
+    CC_SAFE_DELETE(_clothes);
 }
 
 bool ClothesComp::init() {
@@ -22,4 +24,7 @@ void ClothesComp::init_with_json(Value json) {
         return;
     }
     
+    CC_SAFE_RELEASE(_clothes);
+    _clothes = AppUtil::dictionary_with_json(json);
+    _clothes->retain();
 }
