@@ -110,6 +110,9 @@ public:
     CCSprite* _spSpr1; // 饰品
     CCSprite* _spSpr2;
     CCSprite* _spSpr3;
+    CCSprite* _bSpr1;  // 包
+    CCSprite* _bSpr2;
+    CCSprite* _bSpr3;
     
     
     

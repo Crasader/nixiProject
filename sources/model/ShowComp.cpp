@@ -44,3 +44,9 @@ void ShowComp::print_dress() {
         CCLOG("part<%s> := %d", key, value->getValue());
     }
 }
+
+CCDictionary* ShowComp::ondress(){
+    return _ondress;
+}
+
+

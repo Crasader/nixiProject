@@ -93,14 +93,14 @@ void ConfigManager::conf_clothes() {
     CSJson::Value root = AppUtil::read_json_file(config_file);
     
     CCDictionary* clothes = CCDictionary::create();
-    clothes->setObject(CCArray::create(), "1");
-    clothes->setObject(CCArray::create(), "2");
-    clothes->setObject(CCArray::create(), "3");
-    clothes->setObject(CCArray::create(), "4");
-    clothes->setObject(CCArray::create(), "5");
-    clothes->setObject(CCArray::create(), "6");
-    clothes->setObject(CCArray::create(), "7");
-    clothes->setObject(CCArray::create(), "8");
+    clothes->setObject(CCArray::create(), 1);
+    clothes->setObject(CCArray::create(), 2);
+    clothes->setObject(CCArray::create(), 3);
+    clothes->setObject(CCArray::create(), 4);
+    clothes->setObject(CCArray::create(), 5);
+    clothes->setObject(CCArray::create(), 6);
+    clothes->setObject(CCArray::create(), 7);
+    clothes->setObject(CCArray::create(), 8);
     
     for (CSJson::ValueIterator iterator = root.begin(); iterator != root.end(); iterator++) {
         CSJson::Value value = (CSJson::Value)* iterator;
@@ -110,7 +110,7 @@ void ConfigManager::conf_clothes() {
 //            CCLOG("Cloth part: %s", part->getCString());
 //            CCString* id = (CCString* )cloth->objectForKey("id");
 //            CCLOG("Cloth id: %s", id->getCString());
-            CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->getCString());
+            CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->intValue());
             clothes_part->addObject(cloth);
         }
     }
