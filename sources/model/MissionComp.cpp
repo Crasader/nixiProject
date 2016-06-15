@@ -20,8 +20,8 @@ bool MissionComp::init() {
 }
 
 void MissionComp::init_with_json(Value json) {
-    if (!json.isObject()) {
-        CCLOG("MissionComp::init_with_json() json object error.");
+    if (!json.isArray()) {
+        CCLOG("<ERROR> MissionComp::init_with_json() json object error.");
         return;
     }
     

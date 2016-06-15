@@ -28,7 +28,7 @@ public:
 
 public:
     CCArray* mission();
-    CCArray* clothes();
+    CCDictionary* clothes();
     
 private:
     void conf_login_addr(int net);
@@ -38,7 +38,7 @@ private:
 private:
     bool            _hasconfig;
     CCArray*        _mission;
-    CCArray*        _clothes;
+    CCDictionary*   _clothes;
 };
 
 #endif /* ConfigManager_hpp */
