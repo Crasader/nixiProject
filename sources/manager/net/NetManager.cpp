@@ -198,8 +198,8 @@ void NetManager::save_dressed_401(CCDictionary *dressed) {
     Value root;
     CCDictElement* pElem = NULL;
     CCDICT_FOREACH(dressed, pElem) {
-        CCString* key = CCString::createWithFormat("%ld", pElem->getIntKey());
-        root[key->getCString()] = ((CCInteger* )dressed->objectForKey(pElem->getIntKey()))->getValue();
+        const char* key = pElem->getStrKey();
+        root[key] = ((CCInteger* )dressed->objectForKey(key))->getValue();
     }
     string data = writer.write(root);
     this->post_data(401, data);

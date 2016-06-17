@@ -146,6 +146,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 401: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
+            _clothes->update_clothes(content["newclothes"]);
         } break;
             
         case 100: {

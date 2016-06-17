@@ -31,7 +31,7 @@ void ShowComp::init_with_json(Value json) {
         CC_SAFE_RELEASE(_ondress);
         _ondress = AppUtil::dictionary_with_json(json["ondress"]);
         _ondress->retain();
-        this->print_dress();
+//        this->print_dress();
     }
 }
 

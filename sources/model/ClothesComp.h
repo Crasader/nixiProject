@@ -23,8 +23,14 @@ public:
     bool init();
     void init_with_json(Value json);
     void init_clothestemp(Value json);
+    void update_clothes(Value json);
+    bool is_owned(int part, int cloth_id);
+    bool is_owned(const char* part, int cloth_id);
     void print_dress();
     
+public:
+    bool                has_init_clothes;
+
 public:
     CCDictionary* clothes();
     CCDictionary* MyClothesTemp(); // 临时数组

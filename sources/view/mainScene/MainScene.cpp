@@ -13,6 +13,8 @@
 #include "TaskScene.h"
 #include "ClothesScene.h"
 
+#include "Loading.h"
+#include "NetManager.h"
 
 MainScene::MainScene(){
     
@@ -49,8 +51,10 @@ CCScene* MainScene::scene(){
 
 void MainScene::onEnter(){
     BaseScene::onEnter();
-    this->setAccelerometerEnabled(true);
+    this->setAccelerometerEnabled(true); // ?
     
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
 }
 
 void MainScene::onExit(){
@@ -192,6 +196,15 @@ void MainScene::renwuCallBack(CCObject* pSender){
     
 }
 void MainScene::huanzhuangCallBack(CCObject* pSender){
+    if (DATA->getClothes()->has_init_clothes == true) {
+        this->_huanzhuangCallBack(pSender);
+    }
+    else {
+        LOADING->show_loading();
+        NET->owned_clothes_400();
+    }
+}
+void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCLayer* layer = ClothesScene::create_with_type(2);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

@@ -48,6 +48,7 @@ public:
     void youjianCallBack(CCObject* pSender);
     void renwuCallBack(CCObject* pSender);
     void huanzhuangCallBack(CCObject* pSender);
+    void _huanzhuangCallBack(CCObject* pSender);
     void paihangCallBack(CCObject* pSender);
     void juqingCallBack(CCObject* pSender);
     void richangCallBack(CCObject* pSender);
