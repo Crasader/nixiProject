@@ -55,6 +55,9 @@ public:
     
     void completed_story_500();
     
+    void owned_clothes_400();
+    void save_dressed_401(CCDictionary* dressed);
+    
     void all_products_100();
     
 private:

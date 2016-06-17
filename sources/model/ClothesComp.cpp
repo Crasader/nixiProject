@@ -28,3 +28,5 @@ void ClothesComp::init_with_json(Value json) {
     _clothes = AppUtil::dictionary_with_json(json);
     _clothes->retain();
 }
+
+
