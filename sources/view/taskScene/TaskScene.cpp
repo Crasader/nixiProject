@@ -15,6 +15,8 @@
 #include "MZResourceLoader.h"
 #include "ConfigManager.h"
 
+#include "Loading.h"
+#include "NetManager.h"
 
 TaskScene::TaskScene(){
     
@@ -56,6 +58,7 @@ void TaskScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::creat_Tishi), "Task_Creat_Tishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::EnterTheTishi), "Task_EnterTheTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::ExitTishi), "Task_ExitTishi", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_startCallBack), "HTTP_FINISHED_400", NULL);
 }
 void TaskScene::onExit(){
     this->unscheduleAllSelectors();
@@ -216,8 +219,19 @@ void TaskScene::creat_Tishi(){
 
 void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    int index = item->getTag();
+    int index = item->getTag(); // ?
     
+    if (DATA->getClothes()->has_init_clothes == true) {
+        this->_startCallBack(pSender);
+    }
+    else {
+        LOADING->show_loading();
+        NET->owned_clothes_400();
+    }
+}
+
+void TaskScene::_startCallBack(CCObject* pSender){
+    LOADING->remove();
     CCLayer* layer = ClothesScene::create_with_type(1);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -225,7 +239,7 @@ void TaskScene::startCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-void TaskScene::EnterTheTishi(){    
+void TaskScene::EnterTheTishi(){
     CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .12f));
     kuangSpr->runAction(moveTo);
 }

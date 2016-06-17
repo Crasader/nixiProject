@@ -146,6 +146,9 @@ public:
     void saveCallBack(CCObject* pSender);
     void texiaoCallBack(CCObject* pSender);
     void zhuangrongCallBack(CCObject* pSender);
+    
+private:
+    void save_dressed_success(CCObject* pObj);
 };
 
 

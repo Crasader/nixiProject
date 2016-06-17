@@ -189,6 +189,23 @@ void NetManager::completed_story_500() {
 }
 
 
+void NetManager::owned_clothes_400() {
+    this->post_data(400, string(""));
+}
+
+void NetManager::save_dressed_401(CCDictionary *dressed) {
+    FastWriter writer;
+    Value root;
+    CCDictElement* pElem = NULL;
+    CCDICT_FOREACH(dressed, pElem) {
+        const char* key = pElem->getStrKey();
+        root[key] = ((CCInteger* )dressed->objectForKey(key))->getValue();
+    }
+    string data = writer.write(root);
+    this->post_data(401, data);
+}
+
+
 void NetManager::all_products_100() {
     this->post_data(100, string(""));
 }

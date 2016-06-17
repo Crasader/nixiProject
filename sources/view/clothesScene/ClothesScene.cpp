@@ -13,7 +13,8 @@
 #include "MZResourceLoader.h"
 #include "ConfigManager.h"
 #include "TaskScene.h"
-
+#include "Loading.h"
+#include "NetManager.h"
 
 ClothesScene::ClothesScene(){
     
@@ -86,6 +87,8 @@ void ClothesScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(ClothesScene::ChangeClothes), "ChangeClothes", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::buttonStatus), "ButtonStatus", NULL);
+    
+    nc->addObserver(this, menu_selector(ClothesScene::save_dressed_success), "HTTP_FINISHED_401", NULL);
     
     BaseScene::onEnter();
 }
@@ -551,7 +554,8 @@ void ClothesScene::buyCallBack(CCObject* pSender){
     
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
-    
+    LOADING->show_loading();
+    NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
 void ClothesScene::creat_Man(){
     
@@ -1448,7 +1452,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
 }
 
 void ClothesScene::buttonStatus(){
-    CCDictionary* clothesTemp = DATA->getShow()->MyClothesTemp(); // 临时数组
+    CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
     
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         CCInteger* clothesTemp_id = ((CCInteger*)clothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()));
@@ -1511,7 +1515,9 @@ void ClothesScene::buttonStatus(){
     }
 }
 
-
+void ClothesScene::save_dressed_success(cocos2d::CCObject *pObj) {
+    LOADING->remove();
+}
 
 
 

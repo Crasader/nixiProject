@@ -94,6 +94,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 902: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
+            _clothes->init_clothestemp(content["dressed"]);
             _news->init_with_json(content["news"]);
             this->start_check_news();
         } break;
@@ -136,6 +137,16 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 602: {
             _player->init_with_json(content["player"]);
             _mission->init_with_json(content["mission"]);
+        } break;
+            
+        case 400: {
+            _clothes->init_with_json(content["clothes"]);
+        } break;
+            
+        case 401: {
+            _player->init_with_json(content["player"]);
+            _show->init_with_json(content["show"]);
+            _clothes->update_clothes(content["newclothes"]);
         } break;
             
         case 100: {

@@ -32,6 +32,7 @@ private:
     void transaction();
     void purchase_view();
     void mail_view();
+    void dress_view();
     void social_view();
     void stranger_view();
     void message_view();
@@ -43,6 +44,8 @@ private:
     void login_game_server();
     // mail
     void all_mails();
+    // 换装
+    void owned_clothes();
     // 社交
     void recommend_stranger();
     void search_other();

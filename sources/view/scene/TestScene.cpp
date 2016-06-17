@@ -52,6 +52,8 @@ void TestScene::onEnter() {
     
     nc->addObserver(this, SEL_CallFuncO(&TestScene::mission_view), "HTTP_FINISHED_600", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&TestScene::dress_view), "HTTP_FINISHED_400", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&TestScene::IAP_view), "HTTP_FINISHED_100", NULL);
     
     NetEnv netenv = NET->obtain_net_env();
@@ -103,29 +105,31 @@ void TestScene::master_view() {
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
     
-//    _content->removeAllChildren();
-//    {
-//        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
-//        btn_return->setTag(900);
-//        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
-//        rtn_menu->setColor(ccRED);
-//        rtn_menu->setPosition(ccp(550, 1066));
-//        _content->addChild(rtn_menu);
-//    }
-//    
-//    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
-//    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
-//    CCMenuItemFont* btn_social = CCMenuItemFont::create("进入 社交", this, SEL_MenuHandler(&TestScene::social_view));
-//    CCMenuItemFont* btn_mission = CCMenuItemFont::create("换装任务", this, SEL_MenuHandler(&TestScene::mission));
-//    
-//    CCMenu* menu = CCMenu::create(btn_IAP
-//                                  , btn_mail
-//                                  , btn_social
-//                                  , btn_mission
-//                                  , NULL);
-//    menu->setColor(ccORANGE);
-//    menu->alignItemsVerticallyWithPadding(PADDING);
-//    _content->addChild(menu);
+    _content->removeAllChildren();
+    {
+        CCMenuItemFont* btn_return = CCMenuItemFont::create("返回 登入", this, SEL_MenuHandler(&TestScene::on_return));
+        btn_return->setTag(900);
+        CCMenu* rtn_menu = CCMenu::createWithItem(btn_return);
+        rtn_menu->setColor(ccRED);
+        rtn_menu->setPosition(ccp(550, 1066));
+        _content->addChild(rtn_menu);
+    }
+    
+    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
+    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
+    CCMenuItemFont* btn_social = CCMenuItemFont::create("进入 社交", this, SEL_MenuHandler(&TestScene::social_view));
+    CCMenuItemFont* btn_mission = CCMenuItemFont::create("换装任务", this, SEL_MenuHandler(&TestScene::mission));
+    CCMenuItemFont* btn_clothes = CCMenuItemFont::create("拥有衣物", this, SEL_MenuHandler(&TestScene::owned_clothes));
+    
+    CCMenu* menu = CCMenu::create(btn_IAP
+                                  , btn_mail
+                                  , btn_social
+                                  , btn_mission
+                                  , btn_clothes
+                                  , NULL);
+    menu->setColor(ccORANGE);
+    menu->alignItemsVerticallyWithPadding(PADDING);
+    _content->addChild(menu);
 }
 
 void TestScene::IAP_view() {
@@ -224,8 +228,6 @@ void TestScene::social_view() {
         _content->addChild(rtn_menu);
     }
 
-    CCMenuItemFont* btn_IAP = CCMenuItemFont::create("IAP", this, SEL_MenuHandler(&TestScene::all_products));
-    CCMenuItemFont* btn_mail = CCMenuItemFont::create("查看 所有邮件", this, SEL_MenuHandler(&TestScene::all_mails));
     CCMenuItemFont* btn_recommend_stranger = CCMenuItemFont::create("推荐陌生人", this, SEL_MenuHandler(&TestScene::recommend_stranger));
     CCMenuItemFont* btn_search_other = CCMenuItemFont::create("查找 玩家", this, SEL_MenuHandler(&TestScene::search_other));
     CCMenuItemFont* btn_all_messages = CCMenuItemFont::create("查看 所有消息", this, SEL_MenuHandler(&TestScene::all_messages));
@@ -304,6 +306,10 @@ void TestScene::message_view() {
     menu->alignItemsVerticallyWithPadding(PADDING);
     menu->getChildren();
     _content->addChild(menu);
+}
+
+void TestScene::dress_view() {
+    
 }
 
 void TestScene::mission_view() {
@@ -408,6 +414,10 @@ void TestScene::mission() {
 //    CCString* name = (CCString* )m1->objectForKey("name");
 //    CCLOG("m1:name = %s", name->getCString());
     NET->completed_mission_600();
+}
+
+void TestScene::owned_clothes() {
+    NET->owned_clothes_400();
 }
 
 void TestScene::start_mission() {

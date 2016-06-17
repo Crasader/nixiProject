@@ -45,6 +45,7 @@ public:
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
+    void _startCallBack(CCObject* pSender);
     
 public:
     
