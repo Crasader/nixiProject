@@ -1448,7 +1448,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
 }
 
 void ClothesScene::buttonStatus(){
-    CCDictionary* clothesTemp = DATA->getShow()->MyClothesTemp(); // 临时数组
+    CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
     
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         CCInteger* clothesTemp_id = ((CCInteger*)clothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()));

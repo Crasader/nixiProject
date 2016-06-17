@@ -101,9 +101,9 @@ void TestScene::login_view() {
 
 
 void TestScene::master_view() {
-//    CCScene* scene = MainScene::scene();
-//    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
+    CCScene* scene = MainScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
     
     _content->removeAllChildren();
     {

@@ -22,12 +22,16 @@ public:
     CREATE_FUNC(ClothesComp);
     bool init();
     void init_with_json(Value json);
+    void init_clothestemp(Value json);
+    void print_dress();
     
 public:
     CCDictionary* clothes();
+    CCDictionary* MyClothesTemp(); // 临时数组
     
 private:
     CCDictionary*       _clothes;
+    CCDictionary*       _myClothesTemp;
 };
 
 #endif /* ClothesComp_hpp */

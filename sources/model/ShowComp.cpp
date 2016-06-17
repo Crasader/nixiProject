@@ -31,11 +31,7 @@ void ShowComp::init_with_json(Value json) {
         CC_SAFE_RELEASE(_ondress);
         _ondress = AppUtil::dictionary_with_json(json["ondress"]);
         _ondress->retain();
-        CC_SAFE_RELEASE(_myClothesTemp);
-        _myClothesTemp = AppUtil::dictionary_with_json(json["ondress"]);
-        _myClothesTemp->retain();
         this->print_dress();
-        this->print_dress2();
     }
 }
 
@@ -52,15 +48,4 @@ void ShowComp::print_dress() {
 CCDictionary* ShowComp::ondress(){
     return _ondress;
 }
-CCDictionary* ShowComp::MyClothesTemp(){
-    return _myClothesTemp;
-}
-void ShowComp::print_dress2(){
-    CCLOG("My name is [%s].", _nickname.c_str());
-    CCDictElement* pElem = NULL;
-    CCDICT_FOREACH(_myClothesTemp, pElem) {
-        const char* key = pElem->getStrKey();
-        CCInteger* value = (CCInteger* )pElem->getObject();
-        CCLOG("_myClothesTemp part<%s> := %d", key, value->getValue());
-    }
-}
+

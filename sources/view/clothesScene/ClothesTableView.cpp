@@ -72,7 +72,7 @@ void ClothesTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vie
 void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
     CCArray* arr = DATA->getDataSource();
-    CCDictionary* clothesTemp = DATA->getShow()->MyClothesTemp(); // 临时数组
+    CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
     
     CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(cell->getIdx());
     int cloth_id = dic->valueForKey("id")->intValue(); // 点击的衣服
@@ -127,7 +127,7 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    CCDictionary* clothesTemp = DATA->getShow()->MyClothesTemp(); // 临时数组
+    CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
     CCArray* arr = DATA->getDataSource();
     
     CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(idx);

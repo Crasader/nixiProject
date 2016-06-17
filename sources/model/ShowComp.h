@@ -26,11 +26,9 @@ public:
     
 public:
     void print_dress();
-    void print_dress2();
     const char* nickname();
     int collected();            // 收集
     CCDictionary* ondress();    // 着装
-    CCDictionary* MyClothesTemp(); // 临时数组
     
 protected:
     
@@ -38,7 +36,6 @@ private:
     string          _nickname;
     int             _collected;
     CCDictionary*   _ondress;
-    CCDictionary*   _myClothesTemp;
 };
 
 #endif /* ShowComp_hpp */
