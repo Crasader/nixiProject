@@ -16,7 +16,7 @@ static DataManager* _instance = nullptr;
 const float UpdateInterval = 60.0f;
 
 DataManager::~DataManager() {
-    
+    CC_SAFE_RELEASE_NULL(_dataSource);
 }
 
 DataManager* DataManager::Inst() {

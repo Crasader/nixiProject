@@ -191,7 +191,9 @@ void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     int index = item->getTag();
     
-    CCScene* scene = ClothesScene::scene();
+    CCLayer* layer = ClothesScene::create_with_type(1);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
