@@ -29,7 +29,7 @@ bool TestScene::init() {
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
         
-    CCSprite* bg = CCSprite::create("pic/test_bg.png");
+    CCSprite* bg = CCSprite::create("pic/login_bg.png");
     bg->setPosition(DISPLAY->center());
     this->addChild(bg);
     

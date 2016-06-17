@@ -8,6 +8,7 @@
 
 #include "ConfigManager.h"
 #include "DataManager.h"
+#include "LoginScene.h"
 #include "TestScene.h"
 
 using namespace std;
@@ -47,7 +48,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     const char* uuid = DATA->getLogin()->obtain_UUID();
     CCLOG("========UUID=========\n%s\n", uuid);
     // first scene
-    CCScene* pScene = TestScene::create();
+//    CCScene* pScene = TestScene::create();
+    CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
     //
     return true;
