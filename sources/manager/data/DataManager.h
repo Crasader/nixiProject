@@ -71,6 +71,7 @@ public:
     CC_SYNTHESIZE(bool, _fastForward, FastForward);
     // 日常选中数
     CC_SYNTHESIZE(int, taskNumber, TaskNumber);
+    CC_SYNTHESIZE_RETAIN(CCArray*, _dataSource, DataSource);
     
 private:
 

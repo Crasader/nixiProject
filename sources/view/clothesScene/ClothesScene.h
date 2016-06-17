@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "PromptLayer.h"
+#include "ClothesTableView.h"
 
 USING_NS_CC;
 
@@ -64,6 +65,9 @@ public:
     
     virtual bool init();
     
+    static ClothesScene* create_with_type(int type_id);
+    void init_with_type(int type_id);
+    
     virtual void onEnter();
     
     virtual void onExit();
@@ -82,7 +86,11 @@ public:
     
 public:
     
+    ClothesTableView* _delegate;
+    
     int buttonTag;
+    int isClothesType;
+    int clothesStatus;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
@@ -113,6 +121,7 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8;
     
     
     
@@ -126,11 +135,17 @@ public:
     void creat_View();
     void creat_Man();
     void initClothes();//穿衣服
+    void ChangeClothes(CCObject* pSender);
+    void buttonStatus();
+    void crate_Tishi();
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
     void buttonCallBack(CCObject* pSender);
     void buyCallBack(CCObject* pSender);
+    void saveCallBack(CCObject* pSender);
+    void texiaoCallBack(CCObject* pSender);
+    void zhuangrongCallBack(CCObject* pSender);
 };
 
 

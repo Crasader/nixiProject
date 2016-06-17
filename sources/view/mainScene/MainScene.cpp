@@ -11,7 +11,7 @@
 #include "DisplayManager.h"
 #include "QingjingScene.h"
 #include "TaskScene.h"
-
+#include "ClothesScene.h"
 
 
 MainScene::MainScene(){
@@ -192,7 +192,11 @@ void MainScene::renwuCallBack(CCObject* pSender){
     
 }
 void MainScene::huanzhuangCallBack(CCObject* pSender){
-    
+    CCLayer* layer = ClothesScene::create_with_type(2);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::paihangCallBack(CCObject* pSender){
     
