@@ -1,245 +1,73 @@
 //
-//  MainScene.cpp
+//  HaoyouScene.cpp
 //  tiegao
 //
-//  Created by mac on 16-5-30.
+//  Created by mac on 16-6-18.
 //
 //
 
-#include "MainScene.h"
+#include "HaoyouScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
-#include "QingjingScene.h"
-#include "TaskScene.h"
-#include "ClothesScene.h"
-#include "HaoyouScene.h"
-
-#include "Loading.h"
-#include "NetManager.h"
+#include "MainScene.h"
 #include "ConfigManager.h"
 
 
-MainScene::MainScene(){
+HaoyouScene::HaoyouScene(){
     
 }
-MainScene::~MainScene(){
+HaoyouScene::~HaoyouScene(){
     
 }
 
-bool MainScene::init(){
+bool HaoyouScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
     
-//    this->setTouchSwallowEnabled(true);
-//    this->setTouchMode(kCCTouchesOneByOne);
-//    this->setTouchEnabled(true);
+    allClothesDic = CONFIG->clothes();// 所有衣服
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
-    
-    allClothesDic = CONFIG->clothes();// 所有衣服
     
     this->creat_view();
     this->creat_Man();
     this->initClothes();
     
-    this->schedule(schedule_selector(MainScene::gengxin), .1f);
-    
     return true;
 }
-
-CCScene* MainScene::scene(){
+CCScene* HaoyouScene::scene(){
     CCScene* scene = CCScene::create();
-    MainScene* layer = MainScene::create();
+    HaoyouScene* layer = HaoyouScene::create();
     scene->addChild(layer);
     
     return scene;
 }
 
-
-void MainScene::onEnter(){
+void HaoyouScene::onEnter(){
     BaseScene::onEnter();
-    this->setAccelerometerEnabled(true); // ?
     
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
+    
 }
-
-void MainScene::onExit(){
-    
+void HaoyouScene::onExit(){
     
     
     BaseScene::onExit();
 }
 
-
-void MainScene::keyBackClicked(){
+void HaoyouScene::keyBackClicked(){
     
 }
 
-
-void MainScene::didAccelerate( CCAcceleration* pAccelerationValue){
-    float deceleration = 0 ;
-    float sensitivity = 500;
-    
-    playerVelocity.x = playerVelocity.x * deceleration+ pAccelerationValue->x*sensitivity;
-    
-    playerVelocity.x = playerVelocity.x/ 10;
-}
-
-void MainScene::gengxin(float dt){
-    if (roomSpr == NULL) {
-        return;
-    }
-    
-    CCPoint pos = roomSpr->getPosition();
-    pos.x = DISPLAY->ScreenWidth()* 0.5 + playerVelocity.x;
-    if (pos.x < DISPLAY->ScreenWidth()* 0.5 - 70) {
-        pos.x = DISPLAY->ScreenWidth()* 0.5 - 70;
-        playerVelocity = CCPointZero;
-    }
-    else if (pos.x > DISPLAY->ScreenWidth()* 0.5 + 70){
-        pos.x = DISPLAY->ScreenWidth()* 0.5 + 70;
-        playerVelocity = CCPointZero;
-    }
-    roomSpr->runAction(CCMoveTo::create(0.1f, ccp(pos.x, pos.y)));
-}
-
-
-bool MainScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
-    
-    
-    return true;
-}
-
-void MainScene::creat_view(){
-    
-    roomSpr = CCSprite::create("res/pic/mainScene/main_bg.png");
+void HaoyouScene::creat_view(){
+    roomSpr = CCSprite::create("res/pic/qingjingScene/qj_bg.png");
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
-    // 活动
-    CCSprite* hdSpr1 = CCSprite::create("res/pic/mainScene/main_huodong.png");
-    CCSprite* hdSpr2 = CCSprite::create("res/pic/mainScene/main_huodong.png");
-    hdSpr2->setScale(1.02f);
-    CCMenuItem* huodongItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::huodongCallBack));
-    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
-    
-    // 签到
-    CCSprite* qdSpr1 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
-    CCSprite* qdSpr2 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
-    qdSpr2->setScale(1.02f);
-    CCMenuItem* qiandaoItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(MainScene::qiandaoCallBack));
-    qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .75f));
-    
-    // 邮件
-    CCSprite* yjSpr1 = CCSprite::create("res/pic/mainScene/main_youjian.png");
-    CCSprite* yjSpr2 = CCSprite::create("res/pic/mainScene/main_youjian.png");
-    yjSpr2->setScale(1.02f);
-    CCMenuItem* youjianItem = CCMenuItemSprite::create(yjSpr1, yjSpr2, this, menu_selector(MainScene::youjianCallBack));
-    youjianItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
-    
-    // 换装
-    CCSprite* hzSpr1 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
-    CCSprite* hzSpr2 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
-    hzSpr2->setScale(1.02f);
-    CCMenuItem* huanzhuangItem = CCMenuItemSprite::create(hzSpr1, hzSpr2, this, menu_selector(MainScene::huanzhuangCallBack));
-    huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .75f));
-    
-    // 排行
-    CCSprite* phSpr1 = CCSprite::create("res/pic/mainScene/main_paihang.png");
-    CCSprite* phSpr2 = CCSprite::create("res/pic/mainScene/main_paihang.png");
-    phSpr2->setScale(1.02f);
-    CCMenuItem* paihangItem = CCMenuItemSprite::create(phSpr1, phSpr2, this, menu_selector(MainScene::paihangCallBack));
-    paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .65f));
-    
-    CCMenu* menu = CCMenu::create(huodongItem, qiandaoItem, youjianItem, huanzhuangItem, paihangItem, NULL);
-    menu->setPosition(CCPointZero);
-    this->addChild(menu);
-    
-    // 剧情
-    CCSprite* jqSpr1 = CCSprite::create("res/pic/mainScene/main_juqing.png");
-    CCSprite* jqSpr2 = CCSprite::create("res/pic/mainScene/main_juqing.png");
-    jqSpr2->setScale(1.02f);
-    CCMenuItem* juqingItem = CCMenuItemSprite::create(jqSpr1, jqSpr2, this, menu_selector(MainScene::juqingCallBack));
-    juqingItem->setPosition(ccp(DISPLAY->ScreenWidth()* .91f, DISPLAY->ScreenHeight()* .3f));
-    
-    //日常
-    CCSprite* rcSpr1 = CCSprite::create("res/pic/mainScene/main_richang.png");
-    CCSprite* rcSpr2 = CCSprite::create("res/pic/mainScene/main_richang.png");
-    rcSpr2->setScale(1.02f);
-    CCMenuItem* richangItem = CCMenuItemSprite::create(rcSpr1, rcSpr2, this, menu_selector(MainScene::richangCallBack));
-    richangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .91f, DISPLAY->ScreenHeight()* .2f));
-    
-    //设置
-    CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
-    CCSprite* szSpr2 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
-    szSpr2->setScale(1.02f);
-    CCMenuItem* shezhiItem = CCMenuItemSprite::create(szSpr1, szSpr2, this, menu_selector(MainScene::shezhiCallBack));
-    shezhiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .05f));
-    
-    CCMenu* downMenu = CCMenu::create(juqingItem, richangItem, shezhiItem, NULL);
-    downMenu->setPosition(CCPointZero);
-    this->addChild(downMenu);
     
 }
 
-void MainScene::huodongCallBack(CCObject* pSender){
-    
-}
-void MainScene::qiandaoCallBack(CCObject* pSender){
-    
-}
-void MainScene::youjianCallBack(CCObject* pSender){
-    
-}
-void MainScene::renwuCallBack(CCObject* pSender){
-    
-}
-void MainScene::huanzhuangCallBack(CCObject* pSender){
-    if (DATA->getClothes()->has_init_clothes == true) {
-        this->_huanzhuangCallBack(pSender);
-    }
-    else {
-        LOADING->show_loading();
-        NET->owned_clothes_400();
-    }
-}
-void MainScene::_huanzhuangCallBack(CCObject* pSender){
-    
-    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-}
-void MainScene::paihangCallBack(CCObject* pSender){
-    
-}
-void MainScene::juqingCallBack(CCObject* pSender){
-    LOADING->show_loading();
-    NET->completed_story_500();
-}
-void MainScene::_500CallBack(CCObject* pSender){
-    CCScene* scene = QingjingScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-}
-void MainScene::richangCallBack(CCObject* pSender){
-    CCScene* scene = TaskScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-}
-void MainScene::shezhiCallBack(CCObject* pSender){
-    CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-}
-
-
-void MainScene::creat_Man(){
+void HaoyouScene::creat_Man(){
     float widthFolt = .65f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;
@@ -253,15 +81,15 @@ void MainScene::creat_Man(){
     _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
     _ManSpr->addChild(_touSpr, 51);
 }
-void MainScene::initClothes(){//穿衣服
+void HaoyouScene::initClothes(){//穿衣服
     CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     float widthFolt = .65f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;
     
     
-    for (int i = Tag_QJ_TouFa; i <= Tag_QJ_Bao; i++) {
-        if (i == Tag_QJ_TouFa) {
+    for (int i = Tag_Hy_TouFa; i <= Tag_Hy_Bao; i++) {
+        if (i == Tag_Hy_TouFa) {
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 10000) {
@@ -269,14 +97,14 @@ void MainScene::initClothes(){//穿衣服
                 _tfSpr1 = CCSprite::create(str1->getCString());
                 _tfSpr1->setScale(scaleFloat);
                 _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _tfSpr1->setTag(Tag_QJ_TouFa1);
+                _tfSpr1->setTag(Tag_Hy_TouFa1);
                 _ManSpr->addChild(_tfSpr1, 100);
                 
                 CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10009);
                 _tfSpr2 = CCSprite::create(str2->getCString());
                 _tfSpr2->setScale(scaleFloat);
                 _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _tfSpr2->setTag(Tag_QJ_TouFa2);
+                _tfSpr2->setTag(Tag_Hy_TouFa2);
                 _ManSpr->addChild(_tfSpr2, 30);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -292,7 +120,7 @@ void MainScene::initClothes(){//穿衣服
                             _tfSpr1 = CCSprite::create(str1->getCString());
                             _tfSpr1->setScale(scaleFloat);
                             _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _tfSpr1->setTag(Tag_QJ_TouFa1);
+                            _tfSpr1->setTag(Tag_Hy_TouFa1);
                             _ManSpr->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -301,7 +129,7 @@ void MainScene::initClothes(){//穿衣服
                             _tfSpr2 = CCSprite::create(str2->getCString());
                             _tfSpr2->setScale(scaleFloat);
                             _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _tfSpr2->setTag(Tag_QJ_TouFa2);
+                            _tfSpr2->setTag(Tag_Hy_TouFa2);
                             _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -310,7 +138,7 @@ void MainScene::initClothes(){//穿衣服
                             _tfSpr3 = CCSprite::create(str3->getCString());
                             _tfSpr3->setScale(scaleFloat);
                             _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _tfSpr3->setTag(Tag_QJ_TouFa3);
+                            _tfSpr3->setTag(Tag_Hy_TouFa3);
                             _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -318,7 +146,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_WaiTao){
+        else if (i == Tag_Hy_WaiTao){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 20000) {
@@ -326,7 +154,7 @@ void MainScene::initClothes(){//穿衣服
                 _wtSpr1 = CCSprite::create(str->getCString());
                 _wtSpr1->setScale(scaleFloat);
                 _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _wtSpr1->setTag(Tag_QJ_WaiTao1);
+                _wtSpr1->setTag(Tag_Hy_WaiTao1);
                 _ManSpr->addChild(_wtSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -342,7 +170,7 @@ void MainScene::initClothes(){//穿衣服
                             _wtSpr1 = CCSprite::create(str1->getCString());
                             _wtSpr1->setScale(scaleFloat);
                             _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wtSpr1->setTag(Tag_QJ_WaiTao1);
+                            _wtSpr1->setTag(Tag_Hy_WaiTao1);
                             _ManSpr->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -351,7 +179,7 @@ void MainScene::initClothes(){//穿衣服
                             _wtSpr2 = CCSprite::create(str2->getCString());
                             _wtSpr2->setScale(scaleFloat);
                             _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wtSpr2->setTag(Tag_QJ_WaiTao2);
+                            _wtSpr2->setTag(Tag_Hy_WaiTao2);
                             _ManSpr->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -360,7 +188,7 @@ void MainScene::initClothes(){//穿衣服
                             _wtSpr3 = CCSprite::create(str3->getCString());
                             _wtSpr3->setScale(scaleFloat);
                             _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wtSpr3->setTag(Tag_QJ_WaiTao3);
+                            _wtSpr3->setTag(Tag_Hy_WaiTao3);
                             _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -368,7 +196,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_ShangYi){
+        else if (i == Tag_Hy_ShangYi){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 30000) {
@@ -376,7 +204,7 @@ void MainScene::initClothes(){//穿衣服
                 _sySpr1 = CCSprite::create(str->getCString());
                 _sySpr1->setScale(scaleFloat);
                 _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _sySpr1->setTag(Tag_QJ_ShangYi1);
+                _sySpr1->setTag(Tag_Hy_ShangYi1);
                 _ManSpr->addChild(_sySpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -392,7 +220,7 @@ void MainScene::initClothes(){//穿衣服
                             _sySpr1 = CCSprite::create(str1->getCString());
                             _sySpr1->setScale(scaleFloat);
                             _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _sySpr1->setTag(Tag_QJ_ShangYi1);
+                            _sySpr1->setTag(Tag_Hy_ShangYi1);
                             _ManSpr->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -401,7 +229,7 @@ void MainScene::initClothes(){//穿衣服
                             _sySpr2 = CCSprite::create(str2->getCString());
                             _sySpr2->setScale(scaleFloat);
                             _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _sySpr2->setTag(Tag_QJ_ShangYi2);
+                            _sySpr2->setTag(Tag_Hy_ShangYi2);
                             _ManSpr->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -410,7 +238,7 @@ void MainScene::initClothes(){//穿衣服
                             _sySpr3 = CCSprite::create(str3->getCString());
                             _sySpr3->setScale(scaleFloat);
                             _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _sySpr3->setTag(Tag_QJ_ShangYi3);
+                            _sySpr3->setTag(Tag_Hy_ShangYi3);
                             _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -418,7 +246,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_KuZi){
+        else if (i == Tag_Hy_KuZi){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 40000) {
@@ -426,7 +254,7 @@ void MainScene::initClothes(){//穿衣服
                 _kzSpr1 = CCSprite::create(str->getCString());
                 _kzSpr1->setScale(scaleFloat);
                 _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _kzSpr1->setTag(Tag_QJ_KuZi1);
+                _kzSpr1->setTag(Tag_Hy_KuZi1);
                 _ManSpr->addChild(_kzSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -442,7 +270,7 @@ void MainScene::initClothes(){//穿衣服
                             _kzSpr1 = CCSprite::create(str1->getCString());
                             _kzSpr1->setScale(scaleFloat);
                             _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _kzSpr1->setTag(Tag_QJ_KuZi1);
+                            _kzSpr1->setTag(Tag_Hy_KuZi1);
                             _ManSpr->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -451,7 +279,7 @@ void MainScene::initClothes(){//穿衣服
                             _kzSpr2 = CCSprite::create(str2->getCString());
                             _kzSpr2->setScale(scaleFloat);
                             _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _kzSpr2->setTag(Tag_QJ_KuZi2);
+                            _kzSpr2->setTag(Tag_Hy_KuZi2);
                             _ManSpr->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -460,7 +288,7 @@ void MainScene::initClothes(){//穿衣服
                             _kzSpr3 = CCSprite::create(str3->getCString());
                             _kzSpr3->setScale(scaleFloat);
                             _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _kzSpr3->setTag(Tag_QJ_KuZi3);
+                            _kzSpr3->setTag(Tag_Hy_KuZi3);
                             _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -468,7 +296,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_WaZi){
+        else if (i == Tag_Hy_WaZi){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 50000) {
@@ -476,7 +304,7 @@ void MainScene::initClothes(){//穿衣服
                 _wzSpr1 = CCSprite::create(str->getCString());
                 _wzSpr1->setScale(scaleFloat);
                 _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _wzSpr1->setTag(Tag_QJ_WaZi1);
+                _wzSpr1->setTag(Tag_Hy_WaZi1);
                 _ManSpr->addChild(_wzSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -492,7 +320,7 @@ void MainScene::initClothes(){//穿衣服
                             _wzSpr1 = CCSprite::create(str1->getCString());
                             _wzSpr1->setScale(scaleFloat);
                             _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wzSpr1->setTag(Tag_QJ_WaZi1);
+                            _wzSpr1->setTag(Tag_Hy_WaZi1);
                             _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -501,7 +329,7 @@ void MainScene::initClothes(){//穿衣服
                             _wzSpr2 = CCSprite::create(str2->getCString());
                             _wzSpr2->setScale(scaleFloat);
                             _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wzSpr2->setTag(Tag_QJ_WaZi2);
+                            _wzSpr2->setTag(Tag_Hy_WaZi2);
                             _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -510,7 +338,7 @@ void MainScene::initClothes(){//穿衣服
                             _wzSpr3 = CCSprite::create(str3->getCString());
                             _wzSpr3->setScale(scaleFloat);
                             _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wzSpr3->setTag(Tag_QJ_WaZi3);
+                            _wzSpr3->setTag(Tag_Hy_WaZi3);
                             _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -518,7 +346,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_XieZi){
+        else if (i == Tag_Hy_XieZi){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 60000) {
@@ -526,7 +354,7 @@ void MainScene::initClothes(){//穿衣服
                 _xzSpr1 = CCSprite::create(str->getCString());
                 _xzSpr1->setScale(scaleFloat);
                 _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _xzSpr1->setTag(Tag_QJ_XieZi1);
+                _xzSpr1->setTag(Tag_Hy_XieZi1);
                 _ManSpr->addChild(_xzSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -542,7 +370,7 @@ void MainScene::initClothes(){//穿衣服
                             _xzSpr1 = CCSprite::create(str1->getCString());
                             _xzSpr1->setScale(scaleFloat);
                             _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _xzSpr1->setTag(Tag_QJ_XieZi1);
+                            _xzSpr1->setTag(Tag_Hy_XieZi1);
                             _ManSpr->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -551,7 +379,7 @@ void MainScene::initClothes(){//穿衣服
                             _xzSpr2 = CCSprite::create(str2->getCString());
                             _xzSpr2->setScale(scaleFloat);
                             _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _xzSpr2->setTag(Tag_QJ_XieZi2);
+                            _xzSpr2->setTag(Tag_Hy_XieZi2);
                             _ManSpr->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -560,7 +388,7 @@ void MainScene::initClothes(){//穿衣服
                             _xzSpr3 = CCSprite::create(str3->getCString());
                             _xzSpr3->setScale(scaleFloat);
                             _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _xzSpr3->setTag(Tag_QJ_XieZi3);
+                            _xzSpr3->setTag(Tag_Hy_XieZi3);
                             _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -568,7 +396,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_ShiPin){
+        else if (i == Tag_Hy_ShiPin){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 70000) {
@@ -576,7 +404,7 @@ void MainScene::initClothes(){//穿衣服
                 _spSpr1 = CCSprite::create(str->getCString());
                 _spSpr1->setScale(scaleFloat);
                 _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _spSpr1->setTag(Tag_QJ_ShiPin1);
+                _spSpr1->setTag(Tag_Hy_ShiPin1);
                 _ManSpr->addChild(_spSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -592,7 +420,7 @@ void MainScene::initClothes(){//穿衣服
                             _spSpr1 = CCSprite::create(str1->getCString());
                             _spSpr1->setScale(scaleFloat);
                             _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _spSpr1->setTag(Tag_QJ_ShiPin1);
+                            _spSpr1->setTag(Tag_Hy_ShiPin1);
                             _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -601,7 +429,7 @@ void MainScene::initClothes(){//穿衣服
                             _spSpr2 = CCSprite::create(str2->getCString());
                             _spSpr2->setScale(scaleFloat);
                             _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _spSpr2->setTag(Tag_QJ_ShiPin2);
+                            _spSpr2->setTag(Tag_Hy_ShiPin2);
                             _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -610,7 +438,7 @@ void MainScene::initClothes(){//穿衣服
                             _spSpr3 = CCSprite::create(str3->getCString());
                             _spSpr3->setScale(scaleFloat);
                             _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _spSpr3->setTag(Tag_QJ_ShiPin3);
+                            _spSpr3->setTag(Tag_Hy_ShiPin3);
                             _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -618,7 +446,7 @@ void MainScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_QJ_Bao){
+        else if (i == Tag_Hy_Bao){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 80000) {
@@ -626,7 +454,7 @@ void MainScene::initClothes(){//穿衣服
                 _bSpr1 = CCSprite::create(str->getCString());
                 _bSpr1->setScale(scaleFloat);
                 _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _bSpr1->setTag(Tag_QJ_Bao1);
+                _bSpr1->setTag(Tag_Hy_Bao1);
                 _ManSpr->addChild(_bSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
@@ -642,7 +470,7 @@ void MainScene::initClothes(){//穿衣服
                             _bSpr1 = CCSprite::create(str1->getCString());
                             _bSpr1->setScale(scaleFloat);
                             _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _bSpr1->setTag(Tag_QJ_Bao1);
+                            _bSpr1->setTag(Tag_Hy_Bao1);
                             _ManSpr->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
@@ -651,7 +479,7 @@ void MainScene::initClothes(){//穿衣服
                             _bSpr2 = CCSprite::create(str2->getCString());
                             _bSpr2->setScale(scaleFloat);
                             _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _bSpr2->setTag(Tag_QJ_Bao2);
+                            _bSpr2->setTag(Tag_Hy_Bao2);
                             _ManSpr->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
@@ -660,7 +488,7 @@ void MainScene::initClothes(){//穿衣服
                             _bSpr3 = CCSprite::create(str3->getCString());
                             _bSpr3->setScale(scaleFloat);
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _bSpr3->setTag(Tag_QJ_Bao3);
+                            _bSpr3->setTag(Tag_Hy_Bao3);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -670,6 +498,7 @@ void MainScene::initClothes(){//穿衣服
         }
     }
 }
+
 
 
 

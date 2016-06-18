@@ -276,7 +276,7 @@ void TaskTableView::onExit(){
 }
 
 void TaskTableView::buttonStatus(int index, CCSprite* button){
-    
+#warning 差我个星级
     int num = 1 + rand()%3;
     
     CCSprite* xingDiSpr1,* xingDiSpr2,* xingDiSpr3;
