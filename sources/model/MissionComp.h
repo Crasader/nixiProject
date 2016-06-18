@@ -25,9 +25,8 @@ public:
     
 public:
     CCDictionary* cmpleted_mission();
-    
-protected:
-    
+    int mission_rating(const char* mission_index);
+        
 private:
     CCDictionary*           _cmpleted_mission;
 };
