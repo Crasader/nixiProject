@@ -59,7 +59,7 @@ void NetManager::post_data(int cid, string data)
 {
     LoginComp* login = DATA->getLogin();
     CCString* url = NULL;
-    if (900 == cid) {
+    if (900 == cid || 901 == cid || 903 == cid) {
         url = this->obtain_login_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
     }
     else {
@@ -104,6 +104,15 @@ void NetManager::fast_login_900(const char* uuid) {
     this->post_data(900, data);
 }
 
+void NetManager::account_login_901(const char *account, const char *password) {
+    FastWriter writer;
+    Value root;
+    root["account"] = account;
+    root["password"] = password;
+    string data = writer.write(root);
+    this->post_data(901, data);
+}
+
 void NetManager::login_game_server_902() {
     FastWriter writer;
     Value root;
@@ -112,6 +121,24 @@ void NetManager::login_game_server_902() {
     string data = writer.write(root);
     this->post_data(902, data);
 }
+
+void NetManager::account_regist_903(const char *account, const char *password) {
+    FastWriter writer;
+    Value root;
+    root["account"] = account;
+    root["password"] = password;
+    string data = writer.write(root);
+    this->post_data(903, data);
+}
+
+void NetManager::save_nickname_904(const char *nickname) {
+    FastWriter writer;
+    Value root;
+    root["nickname"] = nickname;
+    string data = writer.write(root);
+    this->post_data(904, data);
+}
+
 
 void NetManager::check_news_910() {
     this->post_data(910, string(""));

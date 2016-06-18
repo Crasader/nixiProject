@@ -10,6 +10,8 @@
 #include "NetManager.h"
 #include <sys/time.h>
 #include "AppUtil.h"
+#include "Loading.h"
+#include "PromptLayer.h"
 
 static DataManager* _instance = nullptr;
 
@@ -78,7 +80,10 @@ void DataManager::http_response_handle(int resp_code, string response) {
         this->handle_protocol(cid, content);
     }
     else {
-//        string msg = root["content"].asString();
+        LOADING->remove();
+        const char* msg = root["content"].asCString();
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), msg);
     }
 }
 
@@ -91,12 +96,28 @@ void DataManager::handle_protocol(int cid, Value content) {
             _login->init_with_json(content);
         } break;
             
+        case 901: {
+            _login->init_with_json(content);
+        } break;
+            
         case 902: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
             _clothes->init_clothestemp(content["dressed"]);
             _news->init_with_json(content["news"]);
             this->start_check_news();
+        } break;
+            
+        case 903: {
+            _player->init_with_json(content["player"]);
+            _show->init_with_json(content["show"]);
+            _clothes->init_clothestemp(content["dressed"]);
+            _news->init_with_json(content["news"]);
+            this->start_check_news();
+        } break;
+            
+        case 904: {
+            _show->init_with_json(content["show"]);
         } break;
             
         case 910: {
@@ -146,6 +167,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 401: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
+//            _clothes->
             _clothes->update_clothes(content["newclothes"]);
         } break;
             

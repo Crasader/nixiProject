@@ -29,6 +29,11 @@ public:
 public:
     CCArray* mission();
     CCDictionary* clothes();
+    bool has_saved_account();
+    string saved_account();
+    string saved_password();
+    void save_account(const char* str);
+    void save_password(const char* str);
     
 private:
     void conf_login_addr(int net);

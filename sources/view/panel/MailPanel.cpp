@@ -126,13 +126,13 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     CCArray* mails = DATA->getMail()->mails();
     MailItem* item = (MailItem* )mails->objectAtIndex(idx);
     
-    CCLabelTTF* lbl_title = CCLabelTTF::create(item->title.c_str(), DISPLAY->font(), 24);
+    CCLabelTTF* lbl_title = CCLabelTTF::create(item->title.c_str(), DISPLAY->fangzhengFont(), 24);
     lbl_title->setColor(ccc3(140, 82, 82));
     lbl_title->setAnchorPoint(ccp(0, 0.5));
     lbl_title->setPosition(ccp(CELL_WIDTH * 0.12, CELL_HEIGHT * 0.82));
     cell->addChild(lbl_title);
     
-    CCLabelTTF* lbl_content = CCLabelTTF::create(item->content.c_str(), DISPLAY->font(), 22, CCSizeMake(CELL_WIDTH * (1 - 0.14 * 2), CELL_HEIGHT * 0.3), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    CCLabelTTF* lbl_content = CCLabelTTF::create(item->content.c_str(), DISPLAY->fangzhengFont(), 22, CCSizeMake(CELL_WIDTH * (1 - 0.14 * 2), CELL_HEIGHT * 0.3), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     lbl_content->setColor(ccORANGE);
     lbl_content->setAnchorPoint(ccp(0, 0.5));
     lbl_content->setPosition(ccp(CELL_WIDTH * 0.14, CELL_HEIGHT * 0.6));
@@ -164,7 +164,7 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
         cell->addChild(node);
         //
         CCString* num = (CCString* )reward_num->objectAtIndex(i);
-        CCLabelTTF* lbl_num = CCLabelTTF::create(num->getCString(), DISPLAY->font(), 20);
+        CCLabelTTF* lbl_num = CCLabelTTF::create(num->getCString(), DISPLAY->fangzhengFont(), 20);
         lbl_num->setColor(ccORANGE);
         lbl_num->setAnchorPoint(ccp(0, 0.5));
         lbl_num->setPosition(node->getPosition() + ccp(22, -8));

@@ -10,6 +10,7 @@
 #include "DisplayManager.h"
 
 #define PROMPTNAME    "res/pic/prompt.png"
+#define TEXTCOLOR     ccBLACK
 
 PromptLayer::PromptLayer(){
     
@@ -116,7 +117,7 @@ void PromptLayer::show_prompt(CCNode* parent, const char* str){
     CCLabelTTF* lbl = CCLabelTTF::create(str, DISPLAY->fangzhengFont(), 40.f);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
-    lbl->setColor(ccc3(222, 222, 222));
+    lbl->setColor(TEXTCOLOR);
     this->addChild(lbl, 56);
     
     parent->addChild(this);

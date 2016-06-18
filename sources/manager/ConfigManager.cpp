@@ -9,6 +9,9 @@
 #include "ConfigManager.h"
 #include "AppUtil.h"
 
+#define UD_ACCOUNT      "UDA"
+#define UD_PASSWORD     "UDP"
+
 static ConfigManager* _instance = nullptr;
 
 ConfigManager::~ConfigManager() {
@@ -50,6 +53,28 @@ CCArray* ConfigManager::mission() {
 CCDictionary* ConfigManager::clothes() {
     return _clothes;
 }
+
+bool ConfigManager::has_saved_account() {
+    return !(this->saved_account().compare("") == 0);
+}
+
+string ConfigManager::saved_account() {
+    return CCUserDefault::sharedUserDefault()->getStringForKey(UD_ACCOUNT);
+}
+
+string ConfigManager::saved_password() {
+    return CCUserDefault::sharedUserDefault()->getStringForKey(UD_PASSWORD);
+}
+
+void ConfigManager::save_account(const char *str) {
+    CCUserDefault::sharedUserDefault()->setStringForKey(UD_ACCOUNT, str);
+}
+
+void ConfigManager::save_password(const char *str) {
+    CCUserDefault::sharedUserDefault()->setStringForKey(UD_PASSWORD, str);
+}
+
+#pragma - inner API
 
 void ConfigManager::conf_login_addr(int net) {
     string addr;

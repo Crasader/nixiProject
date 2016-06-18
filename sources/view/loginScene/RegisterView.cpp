@@ -48,15 +48,17 @@ void RegisterView::create_view()
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;
-    ccColor3B yanse = ccc3(199, 199, 213);
+    ccColor3B yanse = ccBLACK;
+    ccColor3B yanse2 = ccc3(199, 199, 213);
     
     //
-    CCSize size_bar = CCSizeMake(380, 50);
+    CCSize size_bar = CCSizeMake(380, 44);
     _tf_account = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
     _tf_account->setMaxLength(16);
     _tf_account->setFontColor(yanse);
+    _tf_account->setPlaceholderFontColor(yanse2);
     _tf_account->setPlaceHolder("请输入账号");
-    _tf_account->setFontName(DISPLAY->font());
+    _tf_account->setFontName(DISPLAY->fangzhengFont());
     _tf_account->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_account->setReturnType(kKeyboardReturnTypeDone);
     _tf_account->setTag(tag_tf_account);
@@ -68,8 +70,9 @@ void RegisterView::create_view()
     _tf_password = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
     _tf_password->setMaxLength(16);
     _tf_password->setFontColor(yanse);
+    _tf_password->setPlaceholderFontColor(yanse2);
     _tf_password->setPlaceHolder("请输入密码");
-    _tf_password->setFontName(DISPLAY->font());
+    _tf_password->setFontName(DISPLAY->fangzhengFont());
     _tf_password->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_password->setReturnType(kKeyboardReturnTypeDone);
     _tf_password->setTag(tag_tf_password);
@@ -81,6 +84,7 @@ void RegisterView::create_view()
     _tf_password2 = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
     _tf_password2->setMaxLength(16);
     _tf_password2->setFontColor(yanse);
+    _tf_password2->setPlaceholderFontColor(yanse2);
     _tf_password2->setPlaceHolder("重复该密码");
     _tf_password2->setFontName(DISPLAY->fangzhengFont());
     _tf_password2->setInputMode(kEditBoxInputModeEmailAddr);
@@ -146,41 +150,41 @@ bool RegisterView::check_can_send_request()
     
     if (!_validate->check_legal_text(account.c_str())) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "账号密码不能使用特殊字符及汉字");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "账号密码不能使用特殊字符及汉字");
         return false;
     }
     
     if (!_validate->check_legal_text(password.c_str())) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "账号密码不能使用特殊字符及汉字");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "账号密码不能使用特殊字符及汉字");
         return false;
     }
     
     if (!_validate->check_legal_text(password.c_str())) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "账号密码不能使用特殊字符及汉字");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "账号密码不能使用特殊字符及汉字");
         return false;
     }
     
     
     if (account.length() == 0 || password2.length() == 0) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "账号密码不能为空");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "账号密码不能为空");
         return false;
     }
     else if (account.length() < 6 || account.length() > 16) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "账号为6－16位英文及数字");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "账号为6－16位英文及数字");
         return false;
     }
     else if (password.length() < 6 || password.length() > 16) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "密码为6－16位英文及数字");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "密码为6－16位英文及数字");
         return false;
     }
     else if (password.compare(password2) != 0) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "两次输入的密码不一致");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "两次输入的密码不一致");
         return false;
     }
     
@@ -190,7 +194,7 @@ bool RegisterView::check_can_send_request()
 void RegisterView::send_register_request(CCMenuItem* pSender)
 {
     CCEGLView::sharedOpenGLView()->setIMEKeyboardState(false);
-//    if (this->check_can_send_request()) {
+    if (this->check_can_send_request()) {
 //        std::string account = CCUserDefault::sharedUserDefault()->getStringForKey(kUDK_Usr_String);
 //        if (account.empty() == false) {
 //            AHMessageBox* mb = AHMessageBox::create_with_message("警告！之前登陆的账号会被顶替掉，如果不想丢弃，请先记录旧账号。", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
@@ -200,16 +204,15 @@ void RegisterView::send_register_request(CCMenuItem* pSender)
 //        else {
 //            this->message_box_did_selected_button(NULL, AH_BUTTON_TYPE_YESNO, AH_BUTTON_TAG_YES);
 //        }
-//    }
+        this->start_regist();
+    }
 }
 
 void RegisterView::start_regist() {
-//    AHLoading::showLoading();
-//    
-//    MMDataManager::get_instance()->setStrSendUsr(_tf_account->getText());
-//    MMDataManager::get_instance()->setStrSendPwd(_tf_password->getText());
-//    
-//    MMNetManager::get_instance()->http_9007_register(_tf_account->getText(), _tf_password->getText(), "");
+    CCDictionary* dic = CCDictionary::create();
+    dic->setObject(ccs(_tf_account->getText()), "account");
+    dic->setObject(ccs(_tf_password->getText()), "password");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("start_regist", dic);
 }
 
 //void RegisterView::message_box_did_selected_button(AHMessageBox *box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag) {
