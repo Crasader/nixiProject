@@ -15,7 +15,7 @@ OperationPanel::~OperationPanel() {
 
 bool OperationPanel::init() {
     if (CCLayer::init()) {
-        CCSprite* mask = CCSprite::create("pic/mask.png");
+        CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
@@ -24,22 +24,22 @@ bool OperationPanel::init() {
         this->addChild(_content);
         _content->setVisible(false);
         
-        _bg = CCSprite::create("pic/panel/operation/operation_bg.png");
+        _bg = CCSprite::create("res/pic/panel/operation/operation_bg.png");
         _bg->setPosition(DISPLAY->center());
         _content->addChild(_bg);
         
-        CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
+        CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
         txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
         _content->addChild(txt_close);
         
-        CCSprite* purchase1 = CCSprite::create("pic/panel/operation/operation_purchase.png");
-        CCSprite* purchase2 = CCSprite::create("pic/panel/operation/operation_purchase.png");
+        CCSprite* purchase1 = CCSprite::create("res/pic/panel/operation/operation_purchase.png");
+        CCSprite* purchase2 = CCSprite::create("res/pic/panel/operation/operation_purchase.png");
         purchase2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btn_purchase = CCMenuItemSprite::create(purchase1, purchase2, this, SEL_MenuHandler(&OperationPanel::on_purchase));
         btn_purchase->setPosition(ccp(0, DISPLAY->H() * 0.18));
         
-        CCSprite* monthlycard1 = CCSprite::create("pic/panel/operation/operation_monthlycard.png");
-        CCSprite* monthlycard2 = CCSprite::create("pic/panel/operation/operation_monthlycard.png");
+        CCSprite* monthlycard1 = CCSprite::create("res/pic/panel/operation/operation_monthlycard.png");
+        CCSprite* monthlycard2 = CCSprite::create("res/pic/panel/operation/operation_monthlycard.png");
         purchase2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btn_monthlycard = CCMenuItemSprite::create(monthlycard1, monthlycard2, this, SEL_MenuHandler(&OperationPanel::on_purchase));
 //        btn_monthlycard->setPosition(ccp(0, DISPLAY->H() * 0.02));

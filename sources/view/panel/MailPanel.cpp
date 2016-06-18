@@ -23,7 +23,7 @@ MailPanel::~MailPanel() {
 
 bool MailPanel::init() {
     if (CCLayer::init()) {
-        CCSprite* mask = CCSprite::create("pic/mask.png");
+        CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
@@ -32,7 +32,7 @@ bool MailPanel::init() {
         this->addChild(_content);
         _content->setVisible(false);
         
-        _bg = CCSprite::create("pic/panel/mail/mail_bg.png");
+        _bg = CCSprite::create("res/pic/panel/mail/mail_bg.png");
         _bg->setPosition(DISPLAY->center());
         _content->addChild(_bg);
         
@@ -45,7 +45,7 @@ bool MailPanel::init() {
         _tv->setPosition(DISPLAY->center() - ccp(panelW * 0.5, panelH * 0.52));
         _content->addChild(_tv);
         
-        CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
+        CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
         txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
         _content->addChild(txt_close);
         
@@ -119,7 +119,7 @@ void MailPanel::remove() {
 }
 
 void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
-    CCSprite* plate = CCSprite::create("pic/panel/mail/mail_plate.png");
+    CCSprite* plate = CCSprite::create("res/pic/panel/mail/mail_plate.png");
     plate->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     cell->addChild(plate);
     
@@ -143,17 +143,17 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     CCArray* reward_num = CCArray::createWithCapacity(4);
     Reward* reward = item->reward;
     if (reward->coin > 0) {
-        CCSprite* coin = CCSprite::create("pic/panel/mail/mail_coin.png");
+        CCSprite* coin = CCSprite::create("res/pic/panel/mail/mail_coin.png");
         reward_icons->addObject(coin);
         reward_num->addObject(CCString::createWithFormat("%d", reward->coin));
     }
     if (reward->diam > 0) {
-        CCSprite* diam = CCSprite::create("pic/panel/mail/mail_diam.png");
+        CCSprite* diam = CCSprite::create("res/pic/panel/mail/mail_diam.png");
         reward_icons->addObject(diam);
         reward_num->addObject(CCString::createWithFormat("%d", reward->diam));
     }
     if (reward->energy > 0) {
-        CCSprite* energy = CCSprite::create("pic/panel/mail/mail_energy.png");
+        CCSprite* energy = CCSprite::create("res/pic/panel/mail/mail_energy.png");
         reward_icons->addObject(energy);
         reward_num->addObject(CCString::createWithFormat("%d", reward->energy));
     }
@@ -172,20 +172,20 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     }
     cell->setUserObject(reward_icons);
     
-    CCSprite* delete1 = CCSprite::create("pic/panel/mail/mail_btn_delete.png");
-    CCSprite* delete2 = CCSprite::create("pic/panel/mail/mail_btn_delete.png");
+    CCSprite* delete1 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
+    CCSprite* delete2 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
     delete2->setScale(DISPLAY->btn_scale());
     CCMenuItemSprite* btn_delete = CCMenuItemSprite::create(delete1, delete2, this, SEL_MenuHandler(&MailPanel::on_mail_delete));
     btn_delete->setUserData(&(item->id));
     
-    CCSprite* take1 = CCSprite::create("pic/panel/mail/mail_btn_take.png");
-    CCSprite* take2 = CCSprite::create("pic/panel/mail/mail_btn_take.png");
+    CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+    CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
     take2->setScale(DISPLAY->btn_scale());
     CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&MailPanel::on_mail_take));
     btn_take->setUserData(&(item->id));
     /* 去掉回复按钮
-    CCSprite* reply1 = CCSprite::create("pic/panel/mail/mail_btn_reply.png");
-    CCSprite* reply2 = CCSprite::create("pic/panel/mail/mail_btn_reply.png");
+    CCSprite* reply1 = CCSprite::create("res/pic/panel/mail/mail_btn_reply.png");
+    CCSprite* reply2 = CCSprite::create("res/pic/panel/mail/mail_btn_reply.png");
     reply2->setScale(DISPLAY->btn_scale());
     CCMenuItemSprite* btn_reply = CCMenuItemSprite::create(reply1, reply2);
     btn_reply->setEnabled(false);

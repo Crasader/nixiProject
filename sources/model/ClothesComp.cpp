@@ -89,7 +89,13 @@ bool ClothesComp::is_owned(int part, int cloth_id) {
 
 bool ClothesComp::is_owned(const char* part, int cloth_id) {
     CCArray* part_clothes = (CCArray* )_clothes->objectForKey(part);
-    return part_clothes->containsObject(CCInteger::create(cloth_id));
+    for (int i = 0; i < part_clothes->count(); i++) {
+        CCInteger* cloth_Integer = (CCInteger* )part_clothes->objectAtIndex(i);
+        if (cloth_Integer->getValue() == cloth_id) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void ClothesComp::print_dress(){

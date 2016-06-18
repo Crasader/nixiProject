@@ -9,7 +9,7 @@
 #include "AppUtil.h"
 #include "apptools/HelperFunc.h"
 
-#define PATH_PIC        "pic"
+#define PATH_PIC        "res/pic"
 #define PATH_PLIST      "plist"
 
 void AppUtil::setNewObj(CCObject* old, CCObject* anew) {
@@ -157,7 +157,7 @@ CCAnimation* AppUtil::animationWithPics(const char *picFormat, int picCount,
     }
     
     CCString* str_pic = CCString::createWithFormat(picFormat, startNum);
-    //    MZLog("pic = %s", str_pic->getCString());
+    //    MZLog("res/pic = %s", str_pic->getCString());
     CCSprite* spt = CCSprite::create(str_pic->getCString());
     CCRect spt_rect = spt->getTextureRect();
     char str[64] = {0};

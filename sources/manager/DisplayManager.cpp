@@ -275,6 +275,6 @@ float DisplayManager::halfH() {
 }
 
 float DisplayManager::btn_scale() {
-    return 1.02f;
+    return 1.01f;
 }
 

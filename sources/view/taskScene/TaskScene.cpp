@@ -30,8 +30,11 @@ bool TaskScene::init(){
         return false;
     }
     
-    OpenToWhichOne = 20;
+    OpenToWhichOne = 0;
+    taskPhase = 0;
+    taskIndex = 0;
     
+    OpenToWhichOne = DATA->getPlayer()->next_mission;
     taskArr = CONFIG->mission();
     
     _ManSpr = CCSprite::create();
@@ -73,7 +76,7 @@ void TaskScene::keyBackClicked(){
 void TaskScene::creat_view(){
     
     CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(OpenToWhichOne-1);
-    int taskPhase = dic->valueForKey("phase")->intValue();
+    taskPhase = dic->valueForKey("phase")->intValue();
     CCString* bgStr = CCString::createWithFormat("res/pic/taskScene/task_bg%d.png", taskPhase);
     roomSpr = CCSprite::create(bgStr->getCString());
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
@@ -219,10 +222,10 @@ void TaskScene::creat_Tishi(){
 
 void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    int index = item->getTag();
+    taskIndex = item->getTag();
     
     if (DATA->getClothes()->has_init_clothes == true) {
-        this->_startCallBack((CCObject* )index);
+        this->_startCallBack(NULL);
     }
     else {
         LOADING->show_loading();
@@ -232,7 +235,7 @@ void TaskScene::startCallBack(CCObject* pSender){
 
 void TaskScene::_startCallBack(CCObject* pSender){
     LOADING->remove();
-    CCLayer* layer = ClothesScene::create_with_type(1);
+    CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);

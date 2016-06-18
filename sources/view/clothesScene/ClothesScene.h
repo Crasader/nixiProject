@@ -14,6 +14,7 @@
 #include "BaseScene.h"
 #include "PromptLayer.h"
 #include "ClothesTableView.h"
+#include "AHMessageBox.h"
 
 USING_NS_CC;
 
@@ -56,7 +57,9 @@ typedef enum{
     Tag_GJ_BuLiao = 91
 }GJ_Enum;
 
-class ClothesScene : public BaseScene
+class ClothesScene
+: public BaseScene
+, public AHMessageBoxDelegate
 {
 public:
     
@@ -65,12 +68,14 @@ public:
     
     virtual bool init();
     
-    static ClothesScene* create_with_type(int type_id);
-    void init_with_type(int type_id);
+    static ClothesScene* create_with_type(int _type_id, int _task_index, int _task_phase);
+    void init_with_type(int _type_id, int _task_index, int _task_phase);
     
     virtual void onEnter();
     
     virtual void onExit();
+    
+    virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
     
     void keyBackStatus(float dt);
     virtual void keyBackClicked();
@@ -88,9 +93,14 @@ public:
     
     ClothesTableView* _delegate;
     
+    bool startTask;
+    
     int buttonTag;
     int isClothesType;
     int clothesStatus;
+    int task_index;
+    int task_phase;
+    int tili_AllIndex;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
@@ -146,6 +156,9 @@ public:
     void saveCallBack(CCObject* pSender);
     void texiaoCallBack(CCObject* pSender);
     void zhuangrongCallBack(CCObject* pSender);
+    
+    bool haveEnoughCoin();
+    bool haveEnoughGold();
     
 private:
     void save_dressed_success(CCObject* pObj);

@@ -30,7 +30,7 @@ void Loading::onEnter() {
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
     
-    _loading = CCSprite::create("pic/loading.png");
+    _loading = CCSprite::create("res/pic/loading.png");
     _loading->setPosition(DISPLAY->center());
     this->addChild(_loading);
     this->schedule(SEL_SCHEDULE(&Loading::loading), 0.1f);

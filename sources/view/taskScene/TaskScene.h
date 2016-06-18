@@ -82,6 +82,7 @@ public:
     CCArray* taskArr;
     
     int OpenToWhichOne;
-    
+    int taskPhase;
+    int taskIndex;
 };
 #endif /* defined(__tiegao__TaskScene__) */

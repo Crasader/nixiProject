@@ -207,7 +207,8 @@ void MainScene::huanzhuangCallBack(CCObject* pSender){
     }
 }
 void MainScene::_huanzhuangCallBack(CCObject* pSender){
-    CCLayer* layer = ClothesScene::create_with_type(2);
+    
+    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);

@@ -12,11 +12,16 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "cocos-ext.h"
+#include "FlashNumberLabel1.h"
+#include "FlashNumberLabel2.h"
 
 USING_NS_CC;
 using namespace extension;
 
-class BaseScene : public CCLayer
+class BaseScene
+: public CCLayer
+, public FlashNumberLabel1Delegate
+, public FlashNumberLabel2Delegate
 {
 public:
     ~BaseScene();
@@ -48,6 +53,10 @@ public:
     
     CCMenuItem* nameItem, *tiliItem, *coinItem, *goldItem;
     CCMenu* barMenu;
+    
+    FlashNumberLabel1* m_lbl_coin;
+    FlashNumberLabel2* m_lbl_gold;
+    void updataMoney();
 };
 
 #endif /* defined(__tiegao__BaseScene__) */
