@@ -89,6 +89,8 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::buttonStatus), "ButtonStatus", NULL);
     
     nc->addObserver(this, menu_selector(ClothesScene::save_dressed_success), "HTTP_FINISHED_401", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::start_mission), "HTTP_FINISHED_601", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::submit_mission), "HTTP_FINISHED_602", NULL);
     
     BaseScene::onEnter();
 }
@@ -488,13 +490,15 @@ void ClothesScene::creat_View(){
     this->buttonStatus();
 }
 void ClothesScene::crate_Tishi(){
-    CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
-    renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
-    this->addChild(renwukuangSpr, 10);
-    
+    if (clothesStatus == 1) {// 任务
+        CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
+        this->addChild(renwukuangSpr, 10);
 #warning 传入任务id后，根据属性显示小图标
-    
-    
+        
+    }else if (clothesStatus == 2){// 换装
+        
+    }
     
     CCSprite* zhuangrongSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_zhuangrong.png");
     CCSprite* zhuangrongSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_zhuangrong.png");
@@ -537,6 +541,8 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
     this->creat_View();
 }
 void ClothesScene::backCallBack(CCObject* pSender){
+    DATA->getClothes()->copy_clothesTemp();// 还原衣服
+    
     if (clothesStatus == 1) {// 任务
         CCScene* scene = TaskScene::scene();
         CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
@@ -548,12 +554,16 @@ void ClothesScene::backCallBack(CCObject* pSender){
     }
 }
 void ClothesScene::startCallBack(CCObject* pSender){
-    
+    LOADING->show_loading();
+    NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
 void ClothesScene::buyCallBack(CCObject* pSender){
-    
+#warning 任务跳转过来的 购买，需要判断 钱 够或不够， 再做相应处理（与保存相同）
+    LOADING->show_loading();
+    NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
+#warning 换装跳转过来的 保存，需要判断 钱 够或不够， 再做相应处理（与购买相同）
     LOADING->show_loading();
     NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
@@ -567,7 +577,7 @@ void ClothesScene::creat_Man(){
     _ManSpr->addChild(_touSpr, 51);
 }
 void ClothesScene::initClothes(){//穿衣服
-    CCDictionary* dress = DATA->getShow()->ondress(); // 男宠衣着
+    CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         if (i == Tag_GJ_TouFa) {
@@ -1516,10 +1526,30 @@ void ClothesScene::buttonStatus(){
 }
 
 void ClothesScene::save_dressed_success(cocos2d::CCObject *pObj) {
-    LOADING->remove();
+    
+    if (clothesStatus == 1) {// 任务
+        NET->start_mission_601(0);
+    }else if (clothesStatus == 2){// 换装
+        LOADING->remove();
+    }
 }
-
-
+void ClothesScene::start_mission(CCObject* pObj){
+    int tili = 11;
+    if (tili > 10) {
+        NET->commit_mission_602();
+    }else{
+        LOADING->remove();
+#warning 体力不够的提示
+        
+    }
+}
+void ClothesScene::submit_mission(CCObject* pObj){
+    LOADING->remove();
+    
+    CCScene* scene = TaskScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 
 
 

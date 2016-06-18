@@ -11,6 +11,8 @@
 
 ClothesComp::~ClothesComp() {
     CC_SAFE_DELETE(_clothes);
+    CC_SAFE_DELETE(_myClothesTemp);
+    CC_SAFE_DELETE(_dress);
 }
 
 bool ClothesComp::init() {
@@ -53,13 +55,28 @@ void ClothesComp::init_clothestemp(CSJson::Value json) {
         CCLOG("ClothesComp::init_clothestemp() json object error.");
         return;
     }
+    CC_SAFE_DELETE(_dress);
     
-    CC_SAFE_RELEASE(_myClothesTemp);
-    _myClothesTemp = AppUtil::dictionary_with_json(json);
-    _myClothesTemp->retain();
+    _dress = AppUtil::dictionary_with_json(json);
+    _dress->retain();
+    this->copy_clothesTemp();
     this->print_dress();
 }
+void ClothesComp::copy_clothesTemp(){
+    CC_SAFE_RELEASE(_myClothesTemp);
+    _myClothesTemp = CCDictionary::create();
+    CCDictElement* pElem = NULL;
+    CCDICT_FOREACH(_dress, pElem) {
+        const char* key = pElem->getStrKey();
+        CCInteger* value = (CCInteger* )pElem->getObject();
+        _myClothesTemp->setObject(CCInteger::create(value->getValue()), key);
+    }
+    _myClothesTemp->retain();
+}
 
+CCDictionary* ClothesComp::dress(){
+    return _dress;
+}
 CCDictionary* ClothesComp::MyClothesTemp(){
     return _myClothesTemp;
 }

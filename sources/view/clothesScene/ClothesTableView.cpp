@@ -127,6 +127,8 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
+#warning 需要添加判断衣服是否购买
+    
     CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
     CCArray* arr = DATA->getDataSource();
     

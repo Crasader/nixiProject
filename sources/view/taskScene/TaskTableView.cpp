@@ -26,7 +26,7 @@ bool TaskTableView::init(){
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/taskScene/task_button.plist");
     
-    OpenToWhichOne = 20;
+    OpenToWhichOne = DATA->getPlayer()->next_mission;
     allNumber = CONFIG->mission()->count();
     selectedIndex = -1;
     

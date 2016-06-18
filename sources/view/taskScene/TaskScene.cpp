@@ -219,10 +219,10 @@ void TaskScene::creat_Tishi(){
 
 void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    int index = item->getTag(); // ?
+    int index = item->getTag();
     
     if (DATA->getClothes()->has_init_clothes == true) {
-        this->_startCallBack(pSender);
+        this->_startCallBack((CCObject* )index);
     }
     else {
         LOADING->show_loading();
@@ -275,7 +275,7 @@ void TaskScene::creat_Man(){
     _ManSpr->addChild(_touSpr, 51);
 }
 void TaskScene::initClothes(){//穿衣服
-    CCDictionary* myClothesTemp = DATA->getShow()->MyClothesTemp(); // 男宠衣着
+    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         if (i == Tag_GJ_TouFa) {

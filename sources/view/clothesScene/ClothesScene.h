@@ -149,6 +149,8 @@ public:
     
 private:
     void save_dressed_success(CCObject* pObj);
+    void start_mission(CCObject* pObj);
+    void submit_mission(CCObject* pObj);
 };
 
 
