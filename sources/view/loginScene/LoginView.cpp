@@ -47,15 +47,17 @@ void LoginView::create_view()
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;
-    ccColor3B yanse = ccc3(199, 199, 213);
+    ccColor3B yanse = ccBLACK;
+    ccColor3B yanse2 = ccc3(199, 199, 213);
     
     //
-    CCSize size_bar = CCSizeMake(380, 50);
+    CCSize size_bar = CCSizeMake(380, 44);
     _tf_account = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("pic/loginScene/99.png"));
     _tf_account->setMaxLength(16);
     _tf_account->setFontColor(yanse);
+    _tf_account->setPlaceholderFontColor(yanse2);
     _tf_account->setPlaceHolder("点击输入账号");
-    _tf_account->setFontName(DISPLAY->font());
+    _tf_account->setFontName(DISPLAY->fangzhengFont());
     _tf_account->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_account->setReturnType(kKeyboardReturnTypeDone);
     _tf_account->setTag(tag_tf_account);
@@ -65,22 +67,17 @@ void LoginView::create_view()
     
     
     _tf_password = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("pic/loginScene/99.png"));
-    _tf_password->setMaxLength(10);
+    _tf_password->setMaxLength(16);
     _tf_password->setFontColor(yanse);
+    _tf_password->setPlaceholderFontColor(yanse2);
     _tf_password->setPlaceHolder("点击输入密码");
-    _tf_password->setFontName(DISPLAY->font());
+    _tf_password->setFontName(DISPLAY->fangzhengFont());
     _tf_password->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_password->setReturnType(kKeyboardReturnTypeDone);
     _tf_password->setTag(tag_tf_password);
     _tf_password->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.46));
     _tf_password->setDelegate(this);
     spt_inputbox->addChild(_tf_password);
-    
-    //
-//    std::string account = CCUserDefault::sharedUserDefault()->getStringForKey(kUDK_Usr_String);
-//    _tf_account->setText(account.c_str());
-//    std::string password = CCUserDefault::sharedUserDefault()->getStringForKey(kUDK_Pwd_String);
-//    _tf_password->setText(password.c_str());
     
     //
     CCSprite* login_normal = CCSprite::create("pic/loginScene/login_btn_login.png");
@@ -129,7 +126,7 @@ bool LoginView::check_can_send_request()
     string password = _tf_password->getText();
     if (account.length() == 0 || password.length() == 0) {
         PromptLayer* prompt = PromptLayer::create();
-        prompt->show_prompt(this, "账号密码不能为空");
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "账号密码不能为空");
         return false;
     }
 //    else if (account.length() < 6) {
@@ -153,12 +150,10 @@ void LoginView::send_login_request(CCMenuItem* pSender)
     CCEGLView::sharedOpenGLView()->setIMEKeyboardState(false);
     
     if (this->check_can_send_request()) {
-//        AHLoading::showLoading();
-//        
-//        MMDataManager::get_instance()->setStrSendUsr(_tf_account->getText());
-//        MMDataManager::get_instance()->setStrSendPwd(_tf_password->getText());
-//        
-//        MMNetManager::get_instance()->http_9008_login_by_account(_tf_account->getText(), _tf_password->getText(), false);
+        CCDictionary* dic = CCDictionary::create();
+        dic->setObject(ccs(_tf_account->getText()), "account");
+        dic->setObject(ccs(_tf_password->getText()), "password");
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("start_login", dic);
     }
 }
 
