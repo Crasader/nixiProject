@@ -22,7 +22,7 @@ bool ClothesComp::init() {
 }
 
 void ClothesComp::init_with_json(Value json) {
-    if (!json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("ClothesComp::init_with_json() json is not object.");
         return;
     }
@@ -34,7 +34,7 @@ void ClothesComp::init_with_json(Value json) {
 }
 
 void ClothesComp::update_clothes(CSJson::Value json) {
-    if (!json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("ClothesComp::update_clothes() json is not object.");
         return;
     }
@@ -50,18 +50,19 @@ void ClothesComp::update_clothes(CSJson::Value json) {
     }
 }
 
-void ClothesComp::init_clothestemp(CSJson::Value json) {
-    if (!json.isObject()) {
-        CCLOG("ClothesComp::init_clothestemp() json object error.");
+void ClothesComp::init_dressed(CSJson::Value json) {
+    if (json.type() == nullValue) {
+        CCLOG("ClothesComp::init_dressed() json object error.");
         return;
     }
-    CC_SAFE_DELETE(_dress);
     
+    CC_SAFE_DELETE(_dress);
     _dress = AppUtil::dictionary_with_json(json);
     _dress->retain();
+    
     this->copy_clothesTemp();
-    this->print_dress();
 }
+
 void ClothesComp::copy_clothesTemp(){
     CC_SAFE_RELEASE(_myClothesTemp);
     _myClothesTemp = CCDictionary::create();
@@ -77,6 +78,7 @@ void ClothesComp::copy_clothesTemp(){
 CCDictionary* ClothesComp::dress(){
     return _dress;
 }
+
 CCDictionary* ClothesComp::MyClothesTemp(){
     return _myClothesTemp;
 }

@@ -56,8 +56,8 @@ void BaseScene::init_UI(){
     }else{
         nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .1f, DISPLAY->ScreenHeight()* .97f));
     }
-//    DATA->getShow()->nickname()
-    CCLabelTTF* nameLabel = CCLabelTTF::create("七个字七个字啊", DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    
+    CCLabelTTF* nameLabel = CCLabelTTF::create(DATA->getShow()->nickname(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel->setPosition(ccp(nameItem->getContentSize().width* .55f, nameItem->getContentSize().height* .5f));
     nameLabel->setColor(ccc3(113, 89, 102));
     nameItem->addChild(nameLabel);
@@ -76,7 +76,7 @@ void BaseScene::init_UI(){
     tiliIconSpr->setScale(1.1f);
     tiliIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
     tiliItem->addChild(tiliIconSpr);
-//    DATA->getPlayer()->energy;//体力
+
     CCString* energyStr = CCString::createWithFormat("%d/100", DATA->getPlayer()->energy);
     CCLabelTTF* energyLabel = CCLabelTTF::create(energyStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(110, 22), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
     energyLabel->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .5f));

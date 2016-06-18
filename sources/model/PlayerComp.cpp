@@ -17,7 +17,7 @@ bool PlayerComp::init() {
 }
 
 void PlayerComp::init_with_json(Value json) {
-    if (!json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("PlayerComp::init_with_json() json object error.");
         return;
     }
