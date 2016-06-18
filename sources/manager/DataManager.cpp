@@ -160,6 +160,19 @@ void DataManager::handle_protocol(int cid, Value content) {
             _mission->init_with_json(content["mission"]);
         } break;
             
+        case 500: {
+            _story->init_with_json(content["story"]);
+        } break;
+            
+        case 501: {
+            _player->init_with_json(content["player"]);
+        } break;
+            
+        case 503: {
+            _player->init_with_json(content["player"]);
+            _story->init_with_json(content["story"]);
+        } break;
+            
         case 400: {
             _clothes->init_with_json(content["clothes"]);
         } break;

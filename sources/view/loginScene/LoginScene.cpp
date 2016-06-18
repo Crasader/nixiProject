@@ -196,6 +196,7 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
     const char* nickname = DATA->getShow()->nickname();
     if (strcmp(nickname, "") == 0) {
         LOADING->remove();
+        this->create_views();
         this->show_nicknameview();
     }
     else {
@@ -211,7 +212,9 @@ void LoginScene::account_regist_callback_903(CCObject *pObj) {
     CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
     CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
 #warning "计划添加帐号密码谨记提示!"
-    this->show_nicknameview();
+    
+    LOADING->show_loading();
+    NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
 }
 
 void LoginScene::save_nickname_callback_904(CCObject *pObj) {

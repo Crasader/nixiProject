@@ -20,7 +20,7 @@ bool MissionComp::init() {
 }
 
 void MissionComp::init_with_json(Value json) {
-    if (!json.isArray() && json.type() == nullValue) {
+    if (json.type() == nullValue && !json.isArray()) {
         CCLOG("<ERROR> MissionComp::init_with_json() json object error.");
         return;
     }
@@ -28,6 +28,10 @@ void MissionComp::init_with_json(Value json) {
     CC_SAFE_RELEASE(_cmpleted_mission);
     _cmpleted_mission = AppUtil::dictionary_with_json(json);
     _cmpleted_mission->retain();
+}
+
+CCDictionary* MissionComp::cmpleted_mission() {
+    return _cmpleted_mission;
 }
 
 int MissionComp::mission_rating(const char *mission_index) {
