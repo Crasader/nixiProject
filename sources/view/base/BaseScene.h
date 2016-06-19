@@ -57,6 +57,9 @@ public:
     FlashNumberLabel1* m_lbl_coin;
     FlashNumberLabel2* m_lbl_gold;
     void updataMoney();
+    
+private:
+    void show_purchase_panel();
 };
 
 #endif /* defined(__tiegao__BaseScene__) */

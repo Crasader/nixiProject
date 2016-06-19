@@ -40,6 +40,7 @@ IAPComp::~IAPComp() {
 }
 
 bool IAPComp::init() {
+    _products = NULL;
 
     return true;
 }
@@ -78,15 +79,19 @@ void IAPComp::init_with_json(Value json) {
     this->print_all_products();
 }
 
+bool IAPComp::has_init_products() {
+    return (_products != NULL);
+}
+
+CCArray* IAPComp::products() {
+    return _products;
+}
+
 void IAPComp::print_all_products() {
     CCObject* pObj = NULL;
     CCARRAY_FOREACH(_products, pObj) {
         ProductItem* item = (ProductItem* )pObj;
         item->print_self();
     }
-}
-
-CCArray* IAPComp::products() {
-    return _products;
 }
 

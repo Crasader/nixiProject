@@ -291,7 +291,7 @@ CCTableViewCell* PurchasePanel::tableCellAtIndex(CCTableView *table, unsigned in
 }
 
 unsigned int PurchasePanel::numberOfCellsInTableView(CCTableView *table) {
-    CCArray* mails = DATA->getMail()->mails();
-    return mails->count();
+    CCArray* products = DATA->getIAP()->products();
+    return products->count();
 }
 
