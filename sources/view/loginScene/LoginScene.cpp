@@ -88,16 +88,17 @@ void LoginScene::onEnter() {
     }
     CCLOG("%s", env_info.c_str());
     
+    this->slide_in_logo();
+    
     if (CONFIG->has_saved_account()) {
         LOADING->show_loading();
         NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
     }
     else {
         this->create_views();
+        this->show_registview();
         this->show_loginview();
     }
-
-    this->slide_in_logo();
 }
 
 void LoginScene::onExit() {
@@ -139,21 +140,21 @@ void LoginScene::create_views() {
 }
 
 void LoginScene::show_loginview() {
-    _container->removeAllChildren();
+    _container->removeAllChildrenWithCleanup(true);
     
     CCLayer* layer = (CCLayer* )_views->objectForKey("login");
     _container->addChild(layer);
 }
 
 void LoginScene::show_registview() {
-    _container->removeAllChildren();
+    _container->removeAllChildrenWithCleanup(true);
     
     CCLayer* layer = (CCLayer* )_views->objectForKey("regist");
     _container->addChild(layer);
 }
 
 void LoginScene::show_nicknameview() {
-    _container->removeAllChildren();
+    _container->removeAllChildrenWithCleanup(true);
     
     CCLayer* layer = (CCLayer* )_views->objectForKey("nickname");
     _container->addChild(layer);
@@ -197,6 +198,7 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
     if (strcmp(nickname, "") == 0) {
         LOADING->remove();
         this->create_views();
+        this->show_nicknameview();
         this->show_nicknameview();
     }
     else {

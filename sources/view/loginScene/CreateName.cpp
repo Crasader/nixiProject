@@ -60,8 +60,8 @@ void CreateName::show()
 void CreateName::create_baes_view()
 {
     CCSprite* spt_inputbox = CCSprite::create("res/pic/loginScene/nickname_box.png");
-//    spt_inputbox->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.66f));
-    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 1.4f));
+    spt_inputbox->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.66f));
+//    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 1.4f));
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;
@@ -106,7 +106,7 @@ void CreateName::create_baes_view()
     spt_inputbox->addChild(menu_confirm);
     
     //
-    spt_inputbox->runAction(CCEaseExponentialOut::create(CCMoveTo::create(0.6f, ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f))));
+//    spt_inputbox->runAction(CCEaseExponentialOut::create(CCMoveTo::create(0.6f, ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f))));
 }
 
 void CreateName::create_content_view()

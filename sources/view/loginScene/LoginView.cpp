@@ -43,7 +43,8 @@ bool LoginView::init()
 void LoginView::create_view()
 {
     CCSprite* spt_inputbox = CCSprite::create("res/pic/loginScene/login_box.png");
-    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 1.4f));
+//    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 1.4f));
+    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f));
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;
@@ -59,6 +60,7 @@ void LoginView::create_view()
     _tf_account->setPlaceHolder("点击输入账号");
     _tf_account->setFontName(DISPLAY->fangzhengFont());
     _tf_account->setInputMode(kEditBoxInputModeEmailAddr);
+    _tf_account->setInputFlag(kEditBoxInputFlagSensitive);
     _tf_account->setReturnType(kKeyboardReturnTypeDone);
     _tf_account->setTag(tag_tf_account);
     _tf_account->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.7));
@@ -97,7 +99,7 @@ void LoginView::create_view()
     spt_inputbox->addChild(menu_regist);
     
     //
-    spt_inputbox->runAction(CCEaseExponentialOut::create(CCMoveTo::create(0.6f, ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f))));
+//    spt_inputbox->runAction(CCEaseExponentialOut::create(CCMoveTo::create(0.6f, ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f))));
 }
 
 void LoginView::editBoxEditingDidBegin(CCEditBox* editBox) {
