@@ -44,6 +44,7 @@ bool LoginScene::init() {
         
         _views = NULL;
         _temp_account_pwd = NULL;
+        _container = NULL;
         
         return true;
     }
@@ -201,8 +202,12 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
     const char* nickname = DATA->getShow()->nickname();
     if (strcmp(nickname, "") == 0) {
         LOADING->remove();
-        this->addChild(CreateName::create());
-//        this->show_nicknameview();
+//        this->addChild(CreateName::create());
+        if (_container == NULL) {
+            this->create_views();
+        }
+        
+        this->show_nicknameview();
     }
     else {
         CCScene* scene = MainScene::scene();
