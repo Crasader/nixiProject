@@ -66,11 +66,23 @@ void ClothesComp::init_dressed(CSJson::Value json) {
 void ClothesComp::copy_clothesTemp(){
     CC_SAFE_RELEASE(_myClothesTemp);
     _myClothesTemp = CCDictionary::create();
+    CCDictionary* dic = CCDictionary::create();
     CCDictElement* pElem = NULL;
     CCDICT_FOREACH(_dress, pElem) {
         const char* key = pElem->getStrKey();
-        CCInteger* value = (CCInteger* )pElem->getObject();
-        _myClothesTemp->setObject(CCInteger::create(value->getValue()), key);
+        if (strcmp(key, "7") == 0) {
+            CCDictElement* pElem2 = NULL;
+            CCDictionary* pElemDic = (CCDictionary* )pElem->getObject();
+            CCDICT_FOREACH(pElemDic, pElem2) {
+                const char* key = pElem2->getStrKey();
+                CCInteger* value = (CCInteger* )pElem2->getObject();
+                dic->setObject(CCInteger::create(value->getValue()), key);
+            }
+            _myClothesTemp->setObject(dic, key);
+        }else{
+            CCInteger* value = (CCInteger* )pElem->getObject();
+            _myClothesTemp->setObject(CCInteger::create(value->getValue()), key);
+        }
     }
     _myClothesTemp->retain();
 }

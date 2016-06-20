@@ -53,8 +53,37 @@ typedef enum{
     Tag_GJ_XieZi3,
     Tag_GJ_ShiPin3,
     Tag_GJ_Bao3,
+    Tag_GJ_Bao4 = 60,
     Tag_GJ_ShangCheng = 90,
-    Tag_GJ_BuLiao = 91
+    Tag_GJ_BuLiao = 91,
+    
+    Tag_GJ_ShiPin1_1 = 1011,
+    Tag_GJ_ShiPin1_2,
+    Tag_GJ_ShiPin1_3,
+    Tag_GJ_ShiPin1_4,
+    Tag_GJ_ShiPin1_5,
+    Tag_GJ_ShiPin1_6,
+    Tag_GJ_ShiPin1_7,
+    Tag_GJ_ShiPin1_8,
+    Tag_GJ_ShiPin1_9,
+    Tag_GJ_ShiPin2_1 = 2011,
+    Tag_GJ_ShiPin2_2,
+    Tag_GJ_ShiPin2_3,
+    Tag_GJ_ShiPin2_4,
+    Tag_GJ_ShiPin2_5,
+    Tag_GJ_ShiPin2_6,
+    Tag_GJ_ShiPin2_7,
+    Tag_GJ_ShiPin2_8,
+    Tag_GJ_ShiPin2_9,
+    Tag_GJ_ShiPin3_1 = 3011,
+    Tag_GJ_ShiPin3_2,
+    Tag_GJ_ShiPin3_3,
+    Tag_GJ_ShiPin3_4,
+    Tag_GJ_ShiPin3_5,
+    Tag_GJ_ShiPin3_6,
+    Tag_GJ_ShiPin3_7,
+    Tag_GJ_ShiPin3_8,
+    Tag_GJ_ShiPin3_9,
 }GJ_Enum;
 
 class ClothesScene
@@ -95,6 +124,7 @@ public:
     
     bool startTask;
     
+    long  changClothesIndex;
     int buttonTag;
     int isClothesType;
     int clothesStatus;
@@ -125,12 +155,10 @@ public:
     CCSprite* _xzSpr1; // 鞋子
     CCSprite* _xzSpr2;
     CCSprite* _xzSpr3;
-    CCSprite* _spSpr1; // 饰品
-    CCSprite* _spSpr2;
-    CCSprite* _spSpr3;
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _bSpr4;
     CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8;
     
     
@@ -143,11 +171,17 @@ public:
     
     void openTouch(float dt);
     void creat_View();
+    void creat_money();
     void creat_Man();
     void initClothes();//穿衣服
     void ChangeClothes(CCObject* pSender);
+    void ChangClothesIndex(CCObject* pSender);
     void buttonStatus();
     void crate_Tishi();
+    
+    void setShipinTag1(int index, CCSprite* spr);
+    void setShipinTag2(int index, CCSprite* spr);
+    void setShipinTag3(int index, CCSprite* spr);
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
@@ -157,13 +191,15 @@ public:
     void texiaoCallBack(CCObject* pSender);
     void zhuangrongCallBack(CCObject* pSender);
     
-    bool haveEnoughCoin();
-    bool haveEnoughGold();
+    int haveEnoughCoin();
+    int haveEnoughGold();
+    
+    
     
 private:
-    void save_dressed_success(CCObject* pObj);
-    void start_mission(CCObject* pObj);
-    void submit_mission(CCObject* pObj);
+    void Http_Finished_401(CCObject* pObj);
+    void Http_Finished_601(CCObject* pObj);
+    void Http_Finished_602(CCObject* pObj);
 };
 
 
