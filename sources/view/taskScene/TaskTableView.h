@@ -17,7 +17,13 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 #define def_TX_Time             0.7
-#define def_Page_Index          6
+#define def_Page_Index          6.3
+
+typedef enum{
+    Tag_Task_Xing1 = 1000,
+    Tag_Task_Xing2,
+    Tag_Task_Xing3
+}Task_Enum;
 
 class TaskTableView
 : public CCLayer
@@ -76,6 +82,7 @@ public:
         
     void buttonStatus(int index, CCSprite* button);
     CCString* getTaskName(int index);
+    int getTaskIcon(int index);
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */

@@ -37,7 +37,7 @@ void MZResourceLoader::purge()
 }
 
 
-#define PATH_PIC        "pic"
+#define PATH_PIC        "res/pic"
 #define PATH_PLIST      "plist"
 void MZResourceLoader::config()
 {

@@ -18,6 +18,10 @@ Loading* Loading::Inst() {
     if (_instance == nullptr) {
         _instance = new Loading();
         _instance->addChild(CCLayerColor::create(ccc4(255, 255, 255, 0)));
+        
+        _instance->_loading = CCSprite::create("res/pic/loading.png");
+        _instance->_loading->setPosition(DISPLAY->center());
+        _instance->addChild(_instance->_loading);
     }
     
     return _instance;
@@ -30,9 +34,7 @@ void Loading::onEnter() {
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
     
-    _loading = CCSprite::create("pic/loading.png");
-    _loading->setPosition(DISPLAY->center());
-    this->addChild(_loading);
+    _loading->setVisible(true);
     this->schedule(SEL_SCHEDULE(&Loading::loading), 0.1f);
 }
 
@@ -61,12 +63,14 @@ void Loading::show_loading(CCNode* node) {
 
 void Loading::stop_loading() {
     this->unschedule(SEL_SCHEDULE(&Loading::loading));
-    _loading->removeFromParentAndCleanup(true);
-    _loading = NULL;
+//    _loading->removeFromParentAndCleanup(true);
+//    _loading = NULL;
+    _loading->setVisible(false);
 }
 
 void Loading::remove() {
-    this->removeFromParent();
+    this->stop_loading();
+    this->removeFromParentAndCleanup(true);
 }
 
 #pragma mark - inner

@@ -25,11 +25,10 @@ public:
     void init_with_json(Value json);
     
 public:
-    
-protected:
+    CCDictionary* cmpleted_story();
     
 private:
-    
+    CCDictionary*           _cmpleted_story;
 };
 
 #endif /* StoryComp_hpp */

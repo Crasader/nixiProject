@@ -9,10 +9,13 @@
 #include "PromptLayer.h"
 #include "DisplayManager.h"
 
+#define PROMPTNAME    "res/pic/prompt.png"
+#define TEXTCOLOR     ccBLACK
 
 PromptLayer::PromptLayer(){
     
 }
+
 PromptLayer::~PromptLayer(){
     
 }
@@ -34,7 +37,7 @@ CCScene* PromptLayer::scene(){
 }
 
 void PromptLayer::promptBox(int idx){
-    CCSprite* box = CCSprite::create("");
+    CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
     box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
@@ -49,9 +52,6 @@ void PromptLayer::promptBox(int idx){
         str = CCString::create("");
     }
 
-//    else if (idx == ){
-//        str = CCString::create();
-//    }
     CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 40.f);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
@@ -63,7 +63,7 @@ void PromptLayer::promptBox(int idx){
 }
 
 void PromptLayer::promptBox(CCString* str){
-    CCSprite* box = CCSprite::create("");
+    CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
     box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
@@ -84,7 +84,7 @@ void PromptLayer::promptBox(CCString* str){
 }
 
 void PromptLayer::promptBoxSprite(){
-    CCSprite* box = CCSprite::create("");
+    CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
     box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
@@ -94,7 +94,7 @@ void PromptLayer::promptBoxSprite(){
     CCSequence* boxSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), NULL);
     box->runAction(boxSeq);
     
-    CCSprite* xiuSpr = CCSprite::create("");
+    CCSprite* xiuSpr = CCSprite::create(PROMPTNAME);
     xiuSpr->setScale(.85f);
     xiuSpr->setPosition(DISPLAY->center());
     this->addChild(xiuSpr, 56);
@@ -104,7 +104,7 @@ void PromptLayer::promptBoxSprite(){
 }
 
 void PromptLayer::show_prompt(CCNode* parent, const char* str){
-    CCSprite* box = CCSprite::create("");
+    CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
     box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
@@ -117,7 +117,7 @@ void PromptLayer::show_prompt(CCNode* parent, const char* str){
     CCLabelTTF* lbl = CCLabelTTF::create(str, DISPLAY->fangzhengFont(), 40.f);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
-    lbl->setColor(ccc3(222, 222, 222));
+    lbl->setColor(TEXTCOLOR);
     this->addChild(lbl, 56);
     
     parent->addChild(this);
@@ -128,6 +128,6 @@ void PromptLayer::show_prompt(CCNode* parent, const char* str){
 }
 
 void PromptLayer::removeself() {
-    CCLog("PromptLayer::removeself() ...");
+    CCLOG("PromptLayer::removeself() ...");
     this->removeFromParentAndCleanup(true);
 }

@@ -20,8 +20,8 @@ bool ShowComp::init() {
 }
 
 void ShowComp::init_with_json(Value json) {
-    if (!json.isObject()) {
-        CCLOG("ShowComp::init_with_json() json object error.");
+    if (json.type() == nullValue) {
+        CCLOG("ShowComp::init_with_json() json is not object.");
         return;
     }
     
@@ -31,7 +31,7 @@ void ShowComp::init_with_json(Value json) {
         CC_SAFE_RELEASE(_ondress);
         _ondress = AppUtil::dictionary_with_json(json["ondress"]);
         _ondress->retain();
-//        this->print_dress();
+        this->print_dress();
     }
 }
 
@@ -47,5 +47,13 @@ void ShowComp::print_dress() {
 
 CCDictionary* ShowComp::ondress(){
     return _ondress;
+}
+
+const char* ShowComp::nickname() {
+    return _nickname.c_str();
+}
+
+int ShowComp::collected() {
+    return _collected;
 }
 

@@ -167,38 +167,42 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     namekuang->addChild(nameLabel);
     
     // 价格
-    CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
-    jgkuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .22f));
-    clothSpr->addChild(jgkuang);
-    int cloth_type = dic->valueForKey("type")->intValue(); // 男宠当前所穿上衣
-    if (cloth_type == 1) {
-        CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
-        costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
-        costSpr->setScale(.75f);
-        jgkuang->addChild(costSpr, 10);
-        const CCString* costStr = dic->valueForKey("cost");
-        CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-        costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
-        costLabel->setColor(ccWHITE);
-        jgkuang->addChild(costLabel);
-        
-    }else if (cloth_type == 2){
-        CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
-        costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
-        costSpr->setScale(.75f);
-        jgkuang->addChild(costSpr, 10);
-        const CCString* costStr = dic->valueForKey("cost");
-        CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-        costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
-        costLabel->setColor(ccWHITE);
-        jgkuang->addChild(costLabel);
-        
-    }else if (cloth_type == 10){
-        int cloth_cost = dic->valueForKey("cost")->intValue();
-        
+    if (DATA->getClothes()->is_owned(clothesType, cloth_id)) {
+        // 购买了
     }else{
-        int cloth_cost = dic->valueForKey("cost")->intValue();
-        
+        CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
+        jgkuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .22f));
+        clothSpr->addChild(jgkuang);
+        int cloth_type = dic->valueForKey("type")->intValue(); // 男宠当前所穿上衣
+        if (cloth_type == 1) {
+            CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
+            costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
+            costSpr->setScale(.75f);
+            jgkuang->addChild(costSpr, 10);
+            const CCString* costStr = dic->valueForKey("cost");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
+            
+        }else if (cloth_type == 2){
+            CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
+            costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
+            costSpr->setScale(.75f);
+            jgkuang->addChild(costSpr, 10);
+            const CCString* costStr = dic->valueForKey("cost");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
+            
+        }else if (cloth_type == 10){
+            int cloth_cost = dic->valueForKey("cost")->intValue();
+            
+        }else{
+            int cloth_cost = dic->valueForKey("cost")->intValue();
+            
+        }
     }
     
     int tagIndex1 = dic->valueForKey("tag1")->intValue();
