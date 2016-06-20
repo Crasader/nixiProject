@@ -11,7 +11,9 @@
 #include "DisplayManager.h"
 #include "MainScene.h"
 #include "ConfigManager.h"
-
+#include "HaoyouRankLayer.h"
+#include "StrangerScene.h"
+#include "TotalRankScene.h"
 
 HaoyouScene::HaoyouScene(){
     
@@ -122,13 +124,19 @@ void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
     
 }
 void HaoyouScene::haoyouCallBack(CCObject* pSender){
-    
+    CCScene* scene = HaoyouRankLayer::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::strangerCallBack(CCObject* pSender){
-    
+    CCScene* scene = StrangerScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::paihangCallBack(CCObject* pSender){
-    
+    CCScene* scene = TotalRankScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouScene::openCallback(){
