@@ -9,6 +9,9 @@
 #include "BaseScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "NetManager.h"
+#include "Loading2.h"
+#include "PurchasePanel.h"
 
 BaseScene::~BaseScene(){
     
@@ -36,7 +39,7 @@ void BaseScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updataMoney), "UpdataMoney", NULL);
-    
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_purchase_panel), "HTTP_FINISHED_100", NULL);
 }
 void BaseScene::onExit(){
     this->unscheduleAllSelectors();
@@ -86,6 +89,7 @@ void BaseScene::init_UI(){
     // 钻石框
     CCSprite* goldSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
     CCSprite* goldSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
+    goldSpr2->setScale(DISPLAY->btn_scale());
     goldItem = CCMenuItemSprite::create(goldSpr1, goldSpr2, this, menu_selector(BaseScene::goldCallBack));
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
         goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .965f));
@@ -159,9 +163,17 @@ void BaseScene::openBaseScene(){
 void BaseScene::tiliCallBack(CCObject* pSender){
     
 }
+
 void BaseScene::goldCallBack(CCObject* pSender){
-    
+    if (DATA->getIAP()->has_init_products()) {
+        this->show_purchase_panel();
+    }
+    else {
+        LOADING->show_loading();
+        NET->all_products_100();
+    }
 }
+
 void BaseScene::coinCallBack(CCObject* pSender){
     
 }
@@ -169,6 +181,7 @@ void BaseScene::coinCallBack(CCObject* pSender){
 void BaseScene::will_number_scroll(){
     
 }
+
 void BaseScene::did_number_stoped(){
     
 }
@@ -176,6 +189,7 @@ void BaseScene::did_number_stoped(){
 void BaseScene::will_number_scroll2(){
     
 }
+
 void BaseScene::did_number_stoped2(){
     
 }
@@ -183,16 +197,15 @@ void BaseScene::did_number_stoped2(){
 void BaseScene::will_number_scroll3(){
     
 }
+
 void BaseScene::did_number_stoped3(){
     
 }
 
-
-
-
-
-
-
-
+void BaseScene::show_purchase_panel() {
+    LOADING->remove();
+    PurchasePanel* panel = PurchasePanel::create();
+    panel->show_from(ccp(DISPLAY->W() * 0.6, DISPLAY->H() * 0.95));
+}
 
 

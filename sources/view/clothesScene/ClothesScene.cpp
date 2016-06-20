@@ -13,7 +13,7 @@
 #include "MZResourceLoader.h"
 #include "ConfigManager.h"
 #include "TaskScene.h"
-#include "Loading.h"
+#include "Loading2.h"
 #include "NetManager.h"
 
 ClothesScene::ClothesScene(){

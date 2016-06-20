@@ -11,7 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
-#include "Loading.h"
+#include "Loading2.h"
 #include "PromptLayer.h"
 #include "LoginView.h"
 #include "RegisterView.h"
@@ -92,6 +92,7 @@ void LoginScene::onEnter() {
     
     if (CONFIG->has_saved_account()) {
         LOADING->show_loading();
+        DATA->setLoginType(2);
         NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
     }
     else {
@@ -154,7 +155,9 @@ void LoginScene::show_registview() {
 }
 
 void LoginScene::show_nicknameview() {
-    _container->removeAllChildrenWithCleanup(true);
+    if (_container) {
+        _container->removeAllChildrenWithCleanup(true);
+    }
     
     CCLayer* layer = (CCLayer* )_views->objectForKey("nickname");
     _container->addChild(layer);
@@ -169,6 +172,7 @@ void LoginScene::start_login(CCObject *pObj) {
     _temp_account_pwd->retain();
     
     LOADING->show_loading();
+    DATA->setLoginType(1);
     NET->account_login_901(account->getCString(), password->getCString());
 }
 
@@ -197,8 +201,7 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
     const char* nickname = DATA->getShow()->nickname();
     if (strcmp(nickname, "") == 0) {
         LOADING->remove();
-        this->create_views();
-        this->show_nicknameview();
+//        this->addChild(CreateName::create());
         this->show_nicknameview();
     }
     else {

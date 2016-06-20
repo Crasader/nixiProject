@@ -8,10 +8,13 @@
 
 #include "DataManager.h"
 #include "NetManager.h"
+#include "ConfigManager.h"
 #include <sys/time.h>
 #include "AppUtil.h"
-#include "Loading.h"
+#include "Loading2.h"
 #include "PromptLayer.h"
+
+#include "LoginScene.h"
 
 static DataManager* _instance = nullptr;
 
@@ -74,8 +77,8 @@ void DataManager::http_response_handle(int resp_code, string response) {
     }
     
     int code = root["code"].asInt();
+    int cid = root["cid"].asInt();
     if (0 == code) {
-        int cid = root["cid"].asInt();
         Value content = root["content"];
         this->handle_protocol(cid, content);
     }
@@ -84,6 +87,12 @@ void DataManager::http_response_handle(int resp_code, string response) {
         const char* msg = root["content"].asCString();
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), msg);
+        //
+        if (cid == 901 && this->getLoginType() == 2){
+            CONFIG->save_account("");
+            CONFIG->save_password("");
+            CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+        }
     }
 }
 

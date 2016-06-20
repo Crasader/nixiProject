@@ -26,8 +26,8 @@ public:
 public:
     void print_self();
     string              id;
-    string              diam;
-    string              money;
+    int                 diam;
+    int                 money;
     
 protected:
 private:
@@ -43,8 +43,9 @@ public:
     void init_with_json(Value json);
     
 public:
-    void print_all_products();
+    bool has_init_products();
     CCArray* products();
+    void print_all_products();
     
 protected:
     

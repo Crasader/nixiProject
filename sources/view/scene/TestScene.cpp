@@ -188,8 +188,8 @@ void TestScene::purchase_view() {
     CCArray* btns = CCArray::create();
     CCARRAY_FOREACH(products, pObj) {
         ProductItem* prod = (ProductItem* )pObj;
-        CCString* format = CCString::createWithFormat("Id:%s money:%s  => diam:%s",
-                    prod->id.c_str(), prod->money.c_str(), prod->diam.c_str());
+        CCString* format = CCString::createWithFormat("Id:%s money:%d  => diam:%d",
+                    prod->id.c_str(), prod->money, prod->diam);
         CCMenuItemFont* btn = CCMenuItemFont::create(format->getCString(), this, SEL_MenuHandler(&TestScene::buy_product));
         btn->setUserObject(ccs(prod->id));
         btns->addObject(btn);

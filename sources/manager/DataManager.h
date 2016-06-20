@@ -61,6 +61,8 @@ public:
     CC_SYNTHESIZE_RETAIN(SocialComp*, _social, Social);
     CC_SYNTHESIZE_RETAIN(StoryComp*, _story, Story);
     
+    //
+    CC_SYNTHESIZE(int, _loginType, LoginType);
     // 剧情选中数
     CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
     // 剧情存储文字
