@@ -22,7 +22,7 @@ public:
     CREATE_FUNC(ClothesComp);
     bool init();
     void init_with_json(Value json);
-    void init_clothestemp(Value json);
+    void init_dressed(Value json);
     void copy_clothesTemp();
     void update_clothes(Value json);
     bool is_owned(int part, int cloth_id);

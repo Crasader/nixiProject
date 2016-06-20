@@ -18,6 +18,8 @@
 #include "NetManager.h"
 #include "ConfigManager.h"
 
+#include "MailPanel.h"
+
 
 MainScene::MainScene(){
     
@@ -65,15 +67,14 @@ void MainScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
 }
 
 void MainScene::onExit(){
-    
-    
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     BaseScene::onExit();
 }
-
 
 void MainScene::keyBackClicked(){
     
@@ -189,12 +190,16 @@ void MainScene::creat_view(){
 void MainScene::huodongCallBack(CCObject* pSender){
     
 }
+
 void MainScene::qiandaoCallBack(CCObject* pSender){
     
 }
+
 void MainScene::youjianCallBack(CCObject* pSender){
-    
+    LOADING->show_loading();
+    NET->all_mails_700();
 }
+
 void MainScene::renwuCallBack(CCObject* pSender){
     
 }
@@ -671,16 +676,11 @@ void MainScene::initClothes(){//穿衣服
     }
 }
 
-
-
-
-
-
-
-
-
-
-
+void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
+    LOADING->remove();
+    MailPanel* panel = MailPanel::create();
+    panel->show_from(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
+}
 
 
 

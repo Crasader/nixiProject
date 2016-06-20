@@ -20,8 +20,8 @@ bool ShowComp::init() {
 }
 
 void ShowComp::init_with_json(Value json) {
-    if (!json.isObject()) {
-        CCLOG("ShowComp::init_with_json() json object error.");
+    if (json.type() == nullValue) {
+        CCLOG("ShowComp::init_with_json() json is not object.");
         return;
     }
     

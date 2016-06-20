@@ -215,6 +215,22 @@ void NetManager::completed_story_500() {
     this->post_data(500, string(""));
 }
 
+void NetManager::start_story_501(int id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    string data = writer.write(root);
+    this->post_data(501, data);
+}
+
+void NetManager::commit_story_503(int id, const char* flag) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["flag"] = flag;
+    string data = writer.write(root);
+    this->post_data(503, data);
+}
 
 void NetManager::owned_clothes_400() {
     this->post_data(400, string(""));

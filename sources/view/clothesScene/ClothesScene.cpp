@@ -1591,10 +1591,11 @@ void ClothesScene::save_dressed_success(cocos2d::CCObject *pObj) {
         LOADING->remove();
     }
 }
+
 void ClothesScene::start_mission(CCObject* pObj){
     int tili = DATA->getPlayer()->energy;
-    tili_AllIndex = 1000;
-    if (tili > tili_AllIndex) {
+    tili_AllIndex = 9;
+    if (tili >= tili_AllIndex) {
         NET->commit_mission_602();
     }else{
         LOADING->remove();
@@ -1603,6 +1604,7 @@ void ClothesScene::start_mission(CCObject* pObj){
         CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
     }
 }
+
 void ClothesScene::submit_mission(CCObject* pObj){
     LOADING->remove();
     
@@ -1669,6 +1671,7 @@ bool ClothesScene::haveEnoughCoin(){
         return false;
     }
 }
+
 bool ClothesScene::haveEnoughGold(){
     int gold = 0;
     

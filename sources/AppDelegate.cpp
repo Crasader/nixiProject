@@ -48,8 +48,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     const char* uuid = DATA->getLogin()->obtain_UUID();
     CCLOG("========UUID=========\n%s\n", uuid);
     // first scene
-    CCScene* pScene = TestScene::create();
-//    CCScene* pScene = LoginScene::scene();
+//    CCScene* pScene = TestScene::create();
+    CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
     //
     return true;
