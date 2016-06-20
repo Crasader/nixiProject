@@ -205,10 +205,7 @@ void MainScene::youjianCallBack(CCObject* pSender){
 }
 
 void MainScene::renwuCallBack(CCObject* pSender){
-    //好友
-    CCScene* scene = HaoyouRankLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    
 }
 void MainScene::huanzhuangCallBack(CCObject* pSender){
     if (DATA->getClothes()->has_init_clothes == true) {
@@ -228,10 +225,7 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::paihangCallBack(CCObject* pSender){
-    //排行
-    CCScene* scene = TotalRankScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    
 }
 void MainScene::juqingCallBack(CCObject* pSender){
     LOADING->show_loading();
