@@ -54,6 +54,8 @@ public:
     void juqingCallBack(CCObject* pSender);
     void richangCallBack(CCObject* pSender);
     void shezhiCallBack(CCObject* pSender);
+    void shouchongCallBack(CCObject* pSender);
+    void haoyouCallBack(CCObject* pSender);
     
     void _500CallBack(CCObject* pSender);
     void all_mail_callback_700(CCObject* pObj);

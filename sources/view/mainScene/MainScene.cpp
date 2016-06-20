@@ -125,42 +125,56 @@ void MainScene::creat_view(){
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
+    // 首冲
+    CCSprite* scSpr1 = CCSprite::create("res/pic/mainScene/main_chong.png");
+    CCSprite* scSpr2 = CCSprite::create("res/pic/mainScene/main_chong.png");
+    scSpr2->setScale(1.02f);
+    CCMenuItem* shouchongItem = CCMenuItemSprite::create(scSpr1, scSpr2, this, menu_selector(MainScene::shouchongCallBack));
+    shouchongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .89f));
+    
     // 活动
     CCSprite* hdSpr1 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     CCSprite* hdSpr2 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     hdSpr2->setScale(1.02f);
     CCMenuItem* huodongItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::huodongCallBack));
-    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
+    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .8f));
     
     // 签到
     CCSprite* qdSpr1 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
     CCSprite* qdSpr2 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
     qdSpr2->setScale(1.02f);
     CCMenuItem* qiandaoItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(MainScene::qiandaoCallBack));
-    qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .75f));
+    qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .71f));
     
     // 邮件
     CCSprite* yjSpr1 = CCSprite::create("res/pic/mainScene/main_youjian.png");
     CCSprite* yjSpr2 = CCSprite::create("res/pic/mainScene/main_youjian.png");
     yjSpr2->setScale(1.02f);
     CCMenuItem* youjianItem = CCMenuItemSprite::create(yjSpr1, yjSpr2, this, menu_selector(MainScene::youjianCallBack));
-    youjianItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
+    youjianItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .89f));
+    
+    // 好友
+    CCSprite* hySpr1 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
+    CCSprite* hySpr2 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
+    hySpr2->setScale(1.02f);
+    CCMenuItem* haoyouItem = CCMenuItemSprite::create(hySpr1, hySpr2, this, menu_selector(MainScene::haoyouCallBack));
+    haoyouItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .8f));
     
     // 换装
     CCSprite* hzSpr1 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
     CCSprite* hzSpr2 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
     hzSpr2->setScale(1.02f);
     CCMenuItem* huanzhuangItem = CCMenuItemSprite::create(hzSpr1, hzSpr2, this, menu_selector(MainScene::huanzhuangCallBack));
-    huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .75f));
+    huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .71f));
     
     // 排行
     CCSprite* phSpr1 = CCSprite::create("res/pic/mainScene/main_paihang.png");
     CCSprite* phSpr2 = CCSprite::create("res/pic/mainScene/main_paihang.png");
     phSpr2->setScale(1.02f);
     CCMenuItem* paihangItem = CCMenuItemSprite::create(phSpr1, phSpr2, this, menu_selector(MainScene::paihangCallBack));
-    paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .65f));
+    paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .62f));
     
-    CCMenu* menu = CCMenu::create(huodongItem, qiandaoItem, youjianItem, huanzhuangItem, paihangItem, NULL);
+    CCMenu* menu = CCMenu::create(shouchongItem, huodongItem, qiandaoItem, haoyouItem, youjianItem, huanzhuangItem, paihangItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
     
@@ -191,6 +205,10 @@ void MainScene::creat_view(){
     
 }
 
+void MainScene::shouchongCallBack(CCObject* pSender){
+    
+}
+
 void MainScene::huodongCallBack(CCObject* pSender){
     OperationPanel* panel = OperationPanel::create();
     panel->show_from(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
@@ -204,7 +222,11 @@ void MainScene::youjianCallBack(CCObject* pSender){
     LOADING->show_loading();
     NET->all_mails_700();
 }
-
+void MainScene::haoyouCallBack(CCObject* pSender){
+    CCScene* scene = HaoyouScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 void MainScene::renwuCallBack(CCObject* pSender){
     
 }
@@ -243,9 +265,7 @@ void MainScene::richangCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::shezhiCallBack(CCObject* pSender){
-    CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    
 }
 
 
