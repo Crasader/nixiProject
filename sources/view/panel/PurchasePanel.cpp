@@ -84,7 +84,7 @@ void PurchasePanel::init_content() {
     _content->addChild(txt_close);
     
     CCSize panelsize = _panel->boundingBox().size;
-    float padding = 10;
+    float padding = 9;
     
 //    CCSprite* prompt = CCSprite::create("res/pic/panel/iap/iap_prompt.png");
 //    prompt->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.84));
@@ -106,8 +106,8 @@ void PurchasePanel::init_content() {
     
     CCMenu* menu = CCMenu::createWithArray(arr);
     menu->alignItemsVerticallyWithPadding(padding);
-    menu->setPosition(menu->getPosition() - ccp(panelsize.width * 0.1, panelsize.height * 0.24));
-    _panel->addChild(menu);
+    menu->setPosition(menu->getPosition() - ccp(8, 18));
+    _content->addChild(menu);
 }
 
 void PurchasePanel::do_enter() {
