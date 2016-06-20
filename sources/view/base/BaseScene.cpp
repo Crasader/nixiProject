@@ -178,6 +178,7 @@ void BaseScene::coinCallBack(CCObject* pSender){
 void BaseScene::will_number_scroll(){
     
 }
+
 void BaseScene::did_number_stoped(){
     
 }
@@ -185,6 +186,7 @@ void BaseScene::did_number_stoped(){
 void BaseScene::will_number_scroll2(){
     
 }
+
 void BaseScene::did_number_stoped2(){
     
 }
@@ -192,19 +194,15 @@ void BaseScene::did_number_stoped2(){
 void BaseScene::will_number_scroll3(){
     
 }
+
 void BaseScene::did_number_stoped3(){
     
 }
 
 void BaseScene::show_purchase_panel() {
+    LOADING->remove();
     PurchasePanel* panel = PurchasePanel::create();
-    panel->show_from(goldItem->getPosition());
+    panel->show_from(ccp(DISPLAY->W() * 0.6, DISPLAY->H() * 0.95));
 }
-
-
-
-
-
-
 
 
