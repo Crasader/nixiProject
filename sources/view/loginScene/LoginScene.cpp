@@ -35,10 +35,10 @@ bool LoginScene::init() {
         this->setTouchSwallowEnabled(true);
         this->setTouchEnabled(true);
         
-        CCSprite* bg = CCSprite::create("pic/loginScene/login_bg.png");
+        CCSprite* bg = CCSprite::create("res/pic/loginScene/login_bg.png");
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);
-        CCSprite* mask = CCSprite::create("pic/mask.png");
+        CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
