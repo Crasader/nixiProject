@@ -15,7 +15,7 @@
 #include "MZResourceLoader.h"
 #include "ConfigManager.h"
 
-#include "Loading.h"
+#include "Loading2.h"
 #include "NetManager.h"
 
 TaskScene::TaskScene(){

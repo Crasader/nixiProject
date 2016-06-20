@@ -11,7 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
-#include "Loading.h"
+#include "Loading2.h"
 #include "PromptLayer.h"
 #include "LoginView.h"
 #include "RegisterView.h"

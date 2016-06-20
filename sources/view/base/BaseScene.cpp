@@ -10,7 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
-#include "Loading.h"
+#include "Loading2.h"
 #include "PurchasePanel.h"
 
 BaseScene::~BaseScene(){

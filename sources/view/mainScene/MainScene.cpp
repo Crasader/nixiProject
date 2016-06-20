@@ -14,7 +14,7 @@
 #include "ClothesScene.h"
 #include "HaoyouScene.h"
 
-#include "Loading.h"
+#include "Loading2.h"
 #include "NetManager.h"
 #include "ConfigManager.h"
 

@@ -12,7 +12,7 @@
 #include "NetManager.h"
 
 #include "Reward.h"
-#include "Loading.h"
+#include "Loading2.h"
 
 #define CELL_WIDTH          542
 #define CELL_HEIGHT         228

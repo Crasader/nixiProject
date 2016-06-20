@@ -11,7 +11,7 @@
 #include "ConfigManager.h"
 #include <sys/time.h>
 #include "AppUtil.h"
-#include "Loading.h"
+#include "Loading2.h"
 #include "PromptLayer.h"
 
 #include "LoginScene.h"

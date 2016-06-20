@@ -13,7 +13,7 @@
 
 USING_NS_CC;
 
-#define LOADING     Loading::Inst()
+//#define LOADING     Loading::Inst()
 
 class Loading : public CCLayer
 {
