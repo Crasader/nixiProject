@@ -74,9 +74,22 @@ public:
     void creat_Man();
     void initClothes();
     
+    void openCallback();
+    void openCallback2();
+    void hiddenCallback();
+    void hiddenCallback2();
+    
+    void backCallBack(CCObject* pSender);
+    void xiaoxiCallBack(CCObject* pSender);
+    void haoyouCallBack(CCObject* pSender);
+    void strangerCallBack(CCObject* pSender);
+    void paihangCallBack(CCObject* pSender);
+    
 public:
     
     CCDictionary* allClothesDic;
+    
+    CCMenu* allMenu;
     
     CCSprite* roomSpr;
     CCSprite* taskKuang;

@@ -64,8 +64,136 @@ void HaoyouScene::creat_view(){
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
+//    hy_hidden.png
+//    hy_show.png
+    
+    CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
+    CCSprite* backSpr2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
+    backSpr2->setScale(1.02f);
+    CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(HaoyouScene::backCallBack));
+    backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
+    
+    CCSprite* xiaoxiSpr1 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
+    CCSprite* xiaoxiSpr2 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
+    xiaoxiSpr2->setScale(1.02f);
+    CCMenuItem* xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
+    xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .35f));
+    
+    CCSprite* haoyouSpr1 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
+    CCSprite* haoyouSpr2 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
+    haoyouSpr2->setScale(1.02f);
+    CCMenuItem* haoyouItem = CCMenuItemSprite::create(haoyouSpr1, haoyouSpr2, this, menu_selector(HaoyouScene::haoyouCallBack));
+    haoyouItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .33f));
+    
+    CCSprite* strangerSpr1 = CCSprite::create("res/pic/haoyouScene/hy_stranger.png");
+    CCSprite* strangerSpr2 = CCSprite::create("res/pic/haoyouScene/hy_stranger.png");
+    strangerSpr2->setScale(1.02f);
+    CCMenuItem* strangerItem = CCMenuItemSprite::create(strangerSpr1, strangerSpr2, this, menu_selector(HaoyouScene::strangerCallBack));
+    strangerItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .2f));
+    
+    CCSprite* paihangSpr1 = CCSprite::create("res/pic/haoyouScene/hy_paihang.png");
+    CCSprite* paihangSpr2 = CCSprite::create("res/pic/haoyouScene/hy_paihang.png");
+    paihangSpr2->setScale(1.02f);
+    CCMenuItem* paihangItem = CCMenuItemSprite::create(paihangSpr1, paihangSpr2, this, menu_selector(HaoyouScene::paihangCallBack));
+    paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .07f));
+    
+    allMenu = CCMenu::create(backItem, xiaoxiItem, haoyouItem, strangerItem, paihangItem, NULL);
+    allMenu->setPosition(CCPointZero);
+    this->addChild(allMenu, 20);
+    
+    CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+    CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+    hidSpr2->setScale(1.02f);
+    CCMenuItem* hidItem = CCMenuItemSprite::create(hidSpr1, hidSpr2, this, menu_selector(HaoyouScene::hiddenCallback2));
+    hidItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .85f));
+    
+    CCMenu* hidMenu = CCMenu::create(hidItem, NULL);
+    hidMenu->setPosition(CCPointZero);
+    hidMenu->setTag(0x46577);
+    this->addChild(hidMenu, 5);
     
 }
+void HaoyouScene::backCallBack(CCObject* pSender){
+    CCScene* scene = MainScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
+    
+}
+void HaoyouScene::haoyouCallBack(CCObject* pSender){
+    
+}
+void HaoyouScene::strangerCallBack(CCObject* pSender){
+    
+}
+void HaoyouScene::paihangCallBack(CCObject* pSender){
+    
+}
+
+void HaoyouScene::openCallback(){
+    // 隐藏0
+    CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+    CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+    hidSpr2->setScale(1.02f);
+    CCMenuItem* hidItem = CCMenuItemSprite::create(hidSpr1, hidSpr2, this, menu_selector(HaoyouScene::hiddenCallback2));
+    hidItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .85f));
+    
+    CCMenu* hidMenu = CCMenu::create(hidItem, NULL);
+    hidMenu->setPosition(CCPointZero);
+    hidMenu->setTag(0x46577);
+    this->addChild(hidMenu, 5);
+    
+    allMenu->setVisible(true);
+    BaseScene::openBaseScene();
+}
+void HaoyouScene::openCallback2(){
+    if (this->getChildByTag(0x46577) != NULL) {
+        this->removeChildByTag(0x46577);
+    }
+    
+    allMenu->setVisible(true);
+    BaseScene::openBaseScene();
+    
+    CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+    CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+    hidSpr2->setScale(1.02f);
+    CCMenuItem* hidItem = CCMenuItemSprite::create(hidSpr1, hidSpr2, this, menu_selector(HaoyouScene::hiddenCallback2));
+    hidItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .85f));
+    
+    CCMenu* hidMenu = CCMenu::create(hidItem, NULL);
+    hidMenu->setPosition(CCPointZero);
+    hidMenu->setTag(0x46577);
+    this->addChild(hidMenu, 5);
+}
+void HaoyouScene::hiddenCallback(){
+    if (this->getChildByTag(0x46577) != NULL) {
+        this->removeChildByTag(0x46577);
+    }
+    
+    allMenu->setVisible(false);
+    BaseScene::hideBaseScene();
+}
+void HaoyouScene::hiddenCallback2(){
+    if (this->getChildByTag(0x46577) != NULL) {
+        this->removeChildByTag(0x46577);
+    }
+    
+    allMenu->setVisible(false);
+    BaseScene::hideBaseScene();
+    
+    CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_show.png");
+    CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_show.png");
+    hidSpr2->setScale(1.02f);
+    CCMenuItem* hidItem = CCMenuItemSprite::create(hidSpr1, hidSpr2, this, menu_selector(HaoyouScene::openCallback2));
+    hidItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .85f));
+    
+    CCMenu* hidMenu = CCMenu::create(hidItem, NULL);
+    hidMenu->setPosition(CCPointZero);
+    hidMenu->setTag(0x46577);
+    this->addChild(hidMenu, 5);
+}
+
 
 void HaoyouScene::creat_Man(){
     float widthFolt = .65f;
