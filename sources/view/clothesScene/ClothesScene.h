@@ -171,6 +171,7 @@ public:
     
     void openTouch(float dt);
     void creat_View();
+    void creat_money();
     void creat_Man();
     void initClothes();//穿衣服
     void ChangeClothes(CCObject* pSender);
@@ -190,15 +191,15 @@ public:
     void texiaoCallBack(CCObject* pSender);
     void zhuangrongCallBack(CCObject* pSender);
     
-    bool haveEnoughCoin();
-    bool haveEnoughGold();
+    int haveEnoughCoin();
+    int haveEnoughGold();
     
     
     
 private:
-    void save_dressed_success(CCObject* pObj);
-    void start_mission(CCObject* pObj);
-    void submit_mission(CCObject* pObj);
+    void Http_Finished_401(CCObject* pObj);
+    void Http_Finished_601(CCObject* pObj);
+    void Http_Finished_602(CCObject* pObj);
 };
 
 

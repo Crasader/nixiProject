@@ -93,10 +93,11 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::ChangeClothes), "ChangeClothes", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::ChangClothesIndex), "ChangClothesIndex", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::buttonStatus), "ButtonStatus", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::creat_money), "Creat_money", NULL);
     
-    nc->addObserver(this, menu_selector(ClothesScene::save_dressed_success), "HTTP_FINISHED_401", NULL);
-    nc->addObserver(this, menu_selector(ClothesScene::start_mission), "HTTP_FINISHED_601", NULL);
-    nc->addObserver(this, menu_selector(ClothesScene::submit_mission), "HTTP_FINISHED_602", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_602), "HTTP_FINISHED_602", NULL);
     
     BaseScene::onEnter();
 }
@@ -133,6 +134,46 @@ cocos2d::CCScene* ClothesScene::scene(){
 
 void ClothesScene::openTouch(float dt){
     
+}
+void ClothesScene::creat_money(){
+    if (clothKuangSpr->getChildByTag(0x11111) != NULL) {
+        clothKuangSpr->removeChildByTag(0x11111);
+    }
+    if (clothKuangSpr->getChildByTag(0x22222) != NULL) {
+        clothKuangSpr->removeChildByTag(0x22222);
+    }
+    if (clothKuangSpr->getChildByTag(0x33333) != NULL) {
+        clothKuangSpr->removeChildByTag(0x33333);
+    }
+    if (clothKuangSpr->getChildByTag(0x44444) != NULL) {
+        clothKuangSpr->removeChildByTag(0x44444);
+    }
+    
+    CCSprite* goldSpr = CCSprite::create("pic/clothesScene/gj_gold.png");
+    goldSpr->setScale(.83f);
+    goldSpr->setPosition(ccp(clothKuangSpr->getContentSize().width* .32f, clothKuangSpr->getContentSize().height* .115f));
+    goldSpr->setTag(0x11111);
+    clothKuangSpr->addChild(goldSpr);
+    CCString* goldStr = CCString::createWithFormat("%d", haveEnoughGold());
+//    CCString* goldStr = CCString::createWithFormat("%d", 9999999);
+    CCLabelTTF* goldLabel = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(clothKuangSpr->getContentSize().width* .6f, 25), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+    goldLabel->setPosition(ccp(clothKuangSpr->getContentSize().width* .67f, clothKuangSpr->getContentSize().height* .113f));
+    goldLabel->setColor(ccWHITE);
+    goldLabel->setTag(0x33333);
+    clothKuangSpr->addChild(goldLabel);
+    
+    CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
+    coinSpr->setScale(.85f);
+    coinSpr->setPosition(ccp(clothKuangSpr->getContentSize().width* .32f, clothKuangSpr->getContentSize().height* .09f));
+    coinSpr->setTag(0x22222);
+    clothKuangSpr->addChild(coinSpr);
+    CCString* coinStr = CCString::createWithFormat("%d", haveEnoughCoin());
+//    CCString* coinStr = CCString::createWithFormat("%d", 9999999);
+    CCLabelTTF* coinLabel = CCLabelTTF::create(coinStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(clothKuangSpr->getContentSize().width* .6f, 25), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+    coinLabel->setPosition(ccp(clothKuangSpr->getContentSize().width* .67f, clothKuangSpr->getContentSize().height* .088f));
+    coinLabel->setColor(ccWHITE);
+    coinLabel->setTag(0x44444);
+    clothKuangSpr->addChild(coinLabel);
 }
 void ClothesScene::creat_View(){
     if (this->getChildByTag(0x2222) != NULL) {
@@ -494,6 +535,7 @@ void ClothesScene::creat_View(){
     }
     
     this->buttonStatus();
+    this->creat_money();
 }
 void ClothesScene::crate_Tishi(){
     if (clothesStatus == 1) {// 任务
@@ -588,11 +630,11 @@ void ClothesScene::startCallBack(CCObject* pSender){
     NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
 void ClothesScene::buyCallBack(CCObject* pSender){
-    if (haveEnoughCoin() && haveEnoughGold()) {
+    if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
         LOADING->show_loading();
         NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-    }else if (!haveEnoughCoin() || !haveEnoughGold()){
-        if (!haveEnoughGold()) {
+    }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+        if (DATA->getPlayer()->diam < haveEnoughGold()) {
             AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
             mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
             CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
@@ -605,11 +647,11 @@ void ClothesScene::buyCallBack(CCObject* pSender){
     }
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
-    if (haveEnoughCoin() && haveEnoughGold()) {
+    if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
         LOADING->show_loading();
         NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-    }else if (!haveEnoughCoin() || !haveEnoughGold()){
-        if (!haveEnoughGold()) {
+    }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+        if (DATA->getPlayer()->diam < haveEnoughGold()) {
             AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
             mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
             CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
@@ -1639,7 +1681,7 @@ void ClothesScene::buttonStatus(){
     }
 }
 
-void ClothesScene::save_dressed_success(cocos2d::CCObject *pObj) {
+void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     
     if (clothesStatus == 1) {// 任务
         if (startTask) {
@@ -1653,7 +1695,7 @@ void ClothesScene::save_dressed_success(cocos2d::CCObject *pObj) {
     }
 }
 
-void ClothesScene::start_mission(CCObject* pObj){
+void ClothesScene::Http_Finished_601(CCObject* pObj){
     int tili = DATA->getPlayer()->energy;
     tili_AllIndex = 9;
     if (tili >= tili_AllIndex) {
@@ -1666,7 +1708,7 @@ void ClothesScene::start_mission(CCObject* pObj){
     }
 }
 
-void ClothesScene::submit_mission(CCObject* pObj){
+void ClothesScene::Http_Finished_602(CCObject* pObj){
     LOADING->remove();
     
     CCScene* scene = TaskScene::scene();
@@ -1696,7 +1738,7 @@ void ClothesScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
     }
 }
 
-bool ClothesScene::haveEnoughCoin(){
+int ClothesScene::haveEnoughCoin(){
     int coin = 0;
     
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -1715,25 +1757,39 @@ bool ClothesScene::haveEnoughCoin(){
         }
         for (int k = 0; k < tempArr->count(); k++) {
             CCDictionary* dic = (CCDictionary* )tempArr->objectAtIndex(k);
-            CCInteger* clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
-            if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
-                int cloth_type = dic->valueForKey("type")->intValue();
-                if (cloth_type == 1) {
-                    if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
-                        coin += dic->valueForKey("cost")->intValue();
+            CCInteger* clothesTemp_id;
+            CCDictionary* shipinDic;
+            if (i != Tag_GJ_ShiPin) {
+                clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                    int cloth_type = dic->valueForKey("type")->intValue();
+                    if (cloth_type == 1) {
+                        if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                            coin += dic->valueForKey("cost")->intValue();
+                        }
+                    }
+                }
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                CCInteger* clothesTemp_id;
+                for (int n = 11; n <= 19; n++) {
+                    clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                        int cloth_type = dic->valueForKey("type")->intValue();
+                        if (cloth_type == 1) {
+                            if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                                coin += dic->valueForKey("cost")->intValue();
+                            }
+                        }
                     }
                 }
             }
         }
     }
-    if (DATA->getPlayer()->coin >= coin) {
-        return true;
-    }else{
-        return false;
-    }
+    return coin;
 }
 
-bool ClothesScene::haveEnoughGold(){
+int ClothesScene::haveEnoughGold(){
     int gold = 0;
     
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -1752,22 +1808,36 @@ bool ClothesScene::haveEnoughGold(){
         }
         for (int k = 0; k < tempArr->count(); k++) {
             CCDictionary* dic = (CCDictionary* )tempArr->objectAtIndex(k);
-            CCInteger* clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
-            if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
-                int cloth_type = dic->valueForKey("type")->intValue();
-                if (cloth_type == 2) {
-                    if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
-                        gold += dic->valueForKey("cost")->intValue();
+            CCInteger* clothesTemp_id;
+            CCDictionary* shipinDic;
+            if (i != Tag_GJ_ShiPin) {
+                clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                    int cloth_type = dic->valueForKey("type")->intValue();
+                    if (cloth_type == 2) {
+                        if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                            gold += dic->valueForKey("cost")->intValue();
+                        }
+                    }
+                }
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                CCInteger* clothesTemp_id;
+                for (int n = 11; n <= 19; n++) {
+                    clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                        int cloth_type = dic->valueForKey("type")->intValue();
+                        if (cloth_type == 2) {
+                            if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                                gold += dic->valueForKey("cost")->intValue();
+                            }
+                        }
                     }
                 }
             }
         }
     }
-    if (DATA->getPlayer()->diam >= gold) {
-        return true;
-    }else{
-        return false;
-    }
+    return gold;
 }
 
 

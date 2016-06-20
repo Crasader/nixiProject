@@ -183,6 +183,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
             CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
         }
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
     }else{
         cloth_integer = CCInteger::create(cloth_id);
         CCString* keyStr;
@@ -304,6 +305,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangClothesIndex", (CCObject* )0);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
     }
     
 }
