@@ -75,11 +75,12 @@ public:
     bool openTouchBool;
     void isOpenTouchBool();
     void setOpenTouchBool();
+    void changeClothesTouch(int cloth_id, CCInteger* clothesTemp_id, CCDictionary* clothesTemp, cocos2d::extension::CCTableViewCell* cell);
         
     int clothesType;
     int clothesPage;
     
-    CCSprite* gouSpr, *kuangSpr, *ycSpr;
+    CCSprite* gouSpr, *kuangSpr, *kuangSpr1, *kuangSpr2, *kuangSpr3, *kuangSpr4, *kuangSpr5, *kuangSpr6, *kuangSpr7, *kuangSpr8, *kuangSpr9, *ycSpr;
     CCSprite* tf_kSpr, *wt_kSpr, *sy_kSpr, *kz_kSpr, *wz_kSpr, *xz_kSpr, *sp_kSpr;
     
 };
