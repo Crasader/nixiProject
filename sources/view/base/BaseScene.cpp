@@ -156,6 +156,9 @@ void BaseScene::updataMoney(){
 void BaseScene::hideBaseScene(){
     barMenu->setVisible(false);
 }
+void BaseScene::openBaseScene(){
+    barMenu->setVisible(true);
+}
 
 void BaseScene::tiliCallBack(CCObject* pSender){
     
