@@ -87,12 +87,12 @@ void DataManager::http_response_handle(int resp_code, string response) {
         const char* msg = root["content"].asCString();
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), msg);
-    }
-    
-    if (cid == 901 && this->getLoginType() == 2){
-        CONFIG->save_account("");
-        CONFIG->save_password("");
-        CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+        //
+        if (cid == 901 && this->getLoginType() == 2){
+            CONFIG->save_account("");
+            CONFIG->save_password("");
+            CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+        }
     }
 }
 

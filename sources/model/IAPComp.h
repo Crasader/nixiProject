@@ -26,8 +26,8 @@ public:
 public:
     void print_self();
     string              id;
-    string              diam;
-    string              money;
+    int                 diam;
+    int                 money;
     
 protected:
 private:

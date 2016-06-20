@@ -19,7 +19,7 @@
 #include "ConfigManager.h"
 
 #include "MailPanel.h"
-
+#include "OperationPanel.h"
 
 MainScene::MainScene(){
     
@@ -188,7 +188,8 @@ void MainScene::creat_view(){
 }
 
 void MainScene::huodongCallBack(CCObject* pSender){
-    
+    OperationPanel* panel = OperationPanel::create();
+    panel->show_from(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){

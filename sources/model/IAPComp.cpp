@@ -29,8 +29,8 @@ void ProductItem::init_with_json(Value json) {
 
 void ProductItem::print_self() {
     CCLOG("====== ProductItem: < %s > ======", id.c_str());
-    CCLOG("    diam = %s", diam.c_str());
-    CCLOG("    money = %s", money.c_str());
+    CCLOG("    diam = %d", diam);
+    CCLOG("    money = %d", money);
 }
 
 // --------------------------------------------------

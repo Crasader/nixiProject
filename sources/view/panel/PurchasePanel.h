@@ -32,6 +32,7 @@ private:
     void do_enter();
     void do_exit();
     void remove();
+    void on_bar_clicked(CCMenuItem* item);
     
 private:
     CCLayer*            _content;

@@ -84,13 +84,30 @@ void PurchasePanel::init_content() {
     _content->addChild(txt_close);
     
     CCSize panelsize = _panel->boundingBox().size;
-    float padding = panelsize.height * 0.18;
+    float padding = 10;
     
-    CCSprite* prompt = CCSprite::create("res/pic/panel/iap/iap_prompt.png");
-    prompt->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.84));
-    _panel->addChild(prompt);
+//    CCSprite* prompt = CCSprite::create("res/pic/panel/iap/iap_prompt.png");
+//    prompt->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.84));
+//    _panel->addChild(prompt);
     
+    CCArray* products = DATA->getIAP()->products();
+    int count = products->count();
+    const char* png_format = "res/pic/panel/iap/iap_bar_%d.png";
+    CCArray* arr = CCArray::createWithCapacity(count);
+    for (int i = 0; i < count; ++i) {
+        CCString* file = CCString::createWithFormat(png_format, i);
+        CCSprite* pic1 = CCSprite::create(file->getCString());
+        CCSprite* pic2 = CCSprite::create(file->getCString());
+        pic2->setScale(DISPLAY->btn_scale());
+        CCMenuItemSprite* btn = CCMenuItemSprite::create(pic1, pic2, this, SEL_MenuHandler(&PurchasePanel::on_bar_clicked));
+        btn->setUserObject(products->objectAtIndex(i));
+        arr->addObject(btn);
+    }
     
+    CCMenu* menu = CCMenu::createWithArray(arr);
+    menu->alignItemsVerticallyWithPadding(padding);
+    menu->setPosition(menu->getPosition() - ccp(panelsize.width * 0.1, panelsize.height * 0.24));
+    _panel->addChild(menu);
 }
 
 void PurchasePanel::do_enter() {
@@ -121,4 +138,10 @@ void PurchasePanel::do_exit() {
 void PurchasePanel::remove() {
     this->removeFromParentAndCleanup(true);
 }
+
+void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
+    ProductItem* pro = (ProductItem* )item->getUserObject();
+    CCLOG("clicked %s", pro->id.c_str());
+}
+
 
