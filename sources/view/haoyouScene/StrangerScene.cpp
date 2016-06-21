@@ -12,6 +12,7 @@
 #include "DataManager.h"
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
+#include "NotePanel.h"
 
 
 StrangerScene:: ~StrangerScene(){}
@@ -149,7 +150,8 @@ void StrangerScene::btn_share_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_note_callback(CCObject* pSender){
-    
+    _panel = NotePanel::create();
+    this->addChild(_panel, 10000);
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){

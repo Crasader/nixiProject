@@ -176,11 +176,13 @@ void TotalRankScene::btn_refresh_callback(CCObject* pSender){
 }
 
 void TotalRankScene::btn_find_callback(CCObject *pSender){
-    
+    _find_panel = FindPanel::create();
+    this->addChild(_find_panel, 20000);
 }
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){
-    
+    _panel = NotePanel::create();
+    this->addChild(_panel, 10000);
 }
 
 void TotalRankScene::btn_back_callback(CCObject* pSender){

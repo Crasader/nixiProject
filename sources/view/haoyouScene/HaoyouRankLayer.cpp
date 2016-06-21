@@ -152,7 +152,8 @@ void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
-    
+    _panel = NotePanel::create();
+    this->addChild(_panel, 10000);
 }
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
