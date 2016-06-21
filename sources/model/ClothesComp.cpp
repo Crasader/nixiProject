@@ -35,18 +35,26 @@ void ClothesComp::init_with_json(Value json) {
 
 void ClothesComp::update_clothes(CSJson::Value json) {
     if (json.type() == nullValue) {
-        CCLOG("ClothesComp::update_clothes() json is not object.");
+        CCLOG("ClothesComp::update_clothes() json is null.");
         return;
     }
     
-    std::vector<std::string> keys = json.getMemberNames();
-    for (std::vector<std::string>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
-        std::string key = (std::string)* iterator;
-        CSJson::Value value = json.get(key, json.jsonNull);
-        if (value != json.jsonNull) {
-            CCArray* arr = (CCArray* )_clothes->objectForKey(key);
-            arr->addObject(CCInteger::create(value.asInt()));
-        }
+//    std::vector<std::string> keys = json.getMemberNames();
+//    for (std::vector<std::string>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+//        std::string key = (std::string)* iterator;
+//        CSJson::Value value = json.get(key, json.jsonNull);
+//        if (value != json.jsonNull) {
+//            CCArray* arr = (CCArray* )_clothes->objectForKey(key);
+//            arr->addObject(CCInteger::create(value.asInt()));
+//        }
+//    }
+    int size = json.size();
+    for (int i = 0; i < size; i++) {
+        int cloth_id = json[i].asInt();
+        int part = cloth_id / 10000;
+        CCArray* arr = (CCArray* )_clothes->objectForKey(CCString::createWithFormat("%d", part)->getCString());
+        arr->addObject(CCInteger::create(cloth_id));
+
     }
 }
 
