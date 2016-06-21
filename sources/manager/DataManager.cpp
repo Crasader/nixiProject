@@ -114,6 +114,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["dressed"]);
             _news->init_with_json(content["news"]);
+            _IAP->init_purchased(content["purchased"]);
             this->start_check_news();
         } break;
             
@@ -122,6 +123,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["dressed"]);
             _news->init_with_json(content["news"]);
+            _IAP->init_purchased(content["purchased"]);
             this->start_check_news();
         } break;
             
@@ -194,7 +196,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 100: {
-            _IAP->init_with_json(content);
+            _IAP->init_products(content);
         } break;
             
         default:
