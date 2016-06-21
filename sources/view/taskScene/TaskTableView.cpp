@@ -277,7 +277,8 @@ void TaskTableView::onExit(){
 
 void TaskTableView::buttonStatus(int index, CCSprite* button){
 #warning 差我个星级
-    int num = 1 + rand()%3;
+    CCString* indexStr = CCString::createWithFormat("%d", index + 1);
+    int num = DATA->getMission()->mission_rating(indexStr->getCString());
     
     CCSprite* xingDiSpr1,* xingDiSpr2,* xingDiSpr3;
     xingDiSpr1 = CCSprite::create("res/pic/taskScene/task_xing1.png");

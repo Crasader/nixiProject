@@ -13,6 +13,8 @@
 #include "QingjingTableView.h"
 #include "StoryScene.h"
 #include "ConfigManager.h"
+#include "Loading2.h"
+#include "NetManager.h"
 
 #include "AppUtil.h"
 
@@ -27,6 +29,9 @@ bool QingjingScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    
+    storyIndex = 0;
+    renwuIndex = 0;
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
@@ -51,6 +56,9 @@ void QingjingScene::onEnter(){
     BaseScene::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::_501CallBack), "HTTP_FINISHED_501", NULL);
+    
+    
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::creat_Tishi), "Qingjing_Creat_Tishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::ExitTishi), "Qingjing_ExitTishi", NULL);
@@ -109,13 +117,21 @@ void QingjingScene::creat_Tishi(){
     }
     
     bool tempBool = false;
-    int index = DATA->getChapterNumber() + 1;
-    std::string renwuStr = "洗碗";
-    int renwuIndex = 64;
+    int index = DATA->getChapterNumber();
+    
+    // 显示的结局
+    CSJson::Value storyConditionsData = AppUtil::read_json_file("res/story/storyConditions");
+    CCDictionary* storyConditionsDic = AppUtil::dictionary_with_json(storyConditionsData);
+    CCString* storyConditionsKeyStr = CCString::createWithFormat("101_80100_%d", index);
+    CCArray* storyConditionsAchievemArr = (CCArray* )storyConditionsDic->objectForKey(storyConditionsKeyStr->getCString());
+    
+    std::string renwuStr = ((CCString* )storyConditionsAchievemArr->objectAtIndex(0))->getCString();
+    std::string renwuIndexStr = ((CCString* )storyConditionsAchievemArr->objectAtIndex(1))->getCString();
+    renwuIndex = atoi(renwuIndexStr.c_str());
+    
     int tiliIndex = 9;
     
     kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_kuang2.png");
-//    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .155f));
     kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .155f));
     kuangSpr->setTag(0x88888);
     this->addChild(kuangSpr, 20);
@@ -147,7 +163,7 @@ void QingjingScene::creat_Tishi(){
     // 解锁条件内容
     CCLabelTTF* label1 = CCLabelTTF::create("日常: ", DISPLAY->fangzhengFont(), 20);
     label1->setAnchorPoint(CCPointZero);
-    label1->setPosition(ccp(kuangSpr->getContentSize().width* .114f, kuangSpr->getContentSize().height* .565f));
+    label1->setPosition(ccp(kuangSpr->getContentSize().width* .117f, kuangSpr->getContentSize().height* .565f));
     label1->setColor(ccc3(80, 63, 68));
 //    label1->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(label1);
@@ -155,7 +171,7 @@ void QingjingScene::creat_Tishi(){
     CCString* labStr2 = CCString::createWithFormat("%s", renwuStr.c_str());
     CCLabelTTF* label2 = CCLabelTTF::create(labStr2->getCString(), DISPLAY->fangzhengFont(), 20);
     label2->setAnchorPoint(CCPointZero);
-    label2->setPosition(ccp(kuangSpr->getContentSize().width* .114f + label1->getContentSize().width, kuangSpr->getContentSize().height* .565f));
+    label2->setPosition(ccp(kuangSpr->getContentSize().width* .117f + label1->getContentSize().width, kuangSpr->getContentSize().height* .565f));
     label2->setColor(ccc3(137, 211, 117));
 //    label2->enableStroke(ccc3(137, 211, 117), .4f);
     kuangSpr->addChild(label2);
@@ -163,7 +179,7 @@ void QingjingScene::creat_Tishi(){
     CCString* labStr3 = CCString::createWithFormat(" (%d)  达成", renwuIndex);
     CCLabelTTF* label3 = CCLabelTTF::create(labStr3->getCString(), DISPLAY->fangzhengFont(), 20);
     label3->setAnchorPoint(CCPointZero);
-    label3->setPosition(ccp(kuangSpr->getContentSize().width* .114f + label1->getContentSize().width + label2->getContentSize().width, kuangSpr->getContentSize().height* .565f));
+    label3->setPosition(ccp(kuangSpr->getContentSize().width* .117f + label1->getContentSize().width + label2->getContentSize().width, kuangSpr->getContentSize().height* .565f));
     label3->setColor(ccc3(80, 63, 68));
 //    label3->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(label3);
@@ -192,7 +208,7 @@ void QingjingScene::creat_Tishi(){
             CCString* str = (CCString* )achievemArr->objectAtIndex(i);
             CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
             CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .535f, kuangSpr->getContentSize().height* .38f - (28 * i)));
+            label->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .38f - (28 * i)));
             label->setColor(ccc3(157, 147, 147));
 //            label->enableStroke(ccc3(157, 147, 147), .4f);
             kuangSpr->addChild(label);
@@ -205,7 +221,7 @@ void QingjingScene::creat_Tishi(){
             
             CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
             CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .535f, kuangSpr->getContentSize().height* .38f - (28 * i)));
+            label->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .38f - (28 * i)));
             if (achiBool) {
                 label->setColor(ccc3(80, 63, 68));
 //                label->enableStroke(ccc3(80, 63, 68), .4f);
@@ -256,10 +272,15 @@ void QingjingScene::creat_Tishi(){
 
 void QingjingScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    int index = item->getTag();
+    storyIndex = item->getTag();
     
+    LOADING->show_loading();
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    NET->start_story_501(indexStr->getCString());
+}
+void QingjingScene::_501CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();
-    StoryScene* layer = StoryScene::create_with_story_id(index);
+    StoryScene* layer = StoryScene::create_with_story_id(storyIndex);
     pScene->addChild(layer);
     CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
     CCDirector::sharedDirector()->replaceScene(trans);

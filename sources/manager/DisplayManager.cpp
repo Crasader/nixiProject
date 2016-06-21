@@ -55,7 +55,9 @@ float DisplayManager::OriginWidth(){
 CCString* DisplayManager::GetOffTheNumber(int index){
     
     CCString* str;
-    if (index == 1){
+    if (index == 0){
+        str = CCString::create("引");
+    }else if (index == 1){
         str = CCString::create("第一章");
     }else if (index == 2){
         str = CCString::create("第二章");

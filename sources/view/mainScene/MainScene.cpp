@@ -72,6 +72,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
 }
 
 void MainScene::onExit(){
@@ -260,10 +261,17 @@ void MainScene::_500CallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::richangCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->completed_mission_600();
+}
+void MainScene::_600CallBack(CCObject* pSender){
+    LOADING->remove();
+    
     CCScene* scene = TaskScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void MainScene::shezhiCallBack(CCObject* pSender){
     
 }
