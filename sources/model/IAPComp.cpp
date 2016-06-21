@@ -37,15 +37,17 @@ void ProductItem::print_self() {
 
 IAPComp::~IAPComp() {
     CC_SAFE_DELETE(_products);
+    CC_SAFE_DELETE(_purchased);
 }
 
 bool IAPComp::init() {
     _products = NULL;
+    _purchased = NULL;
 
     return true;
 }
 
-void IAPComp::init_with_json(Value json) {
+void IAPComp::init_products(Value json) {
     if (!json.isObject()) {
         CCLOG("IAPComp::init_with_json() json object error.");
         return;
@@ -79,12 +81,31 @@ void IAPComp::init_with_json(Value json) {
     this->print_all_products();
 }
 
+void IAPComp::init_purchased(CSJson::Value json) {
+    CC_SAFE_RELEASE(_purchased);
+    _purchased = AppUtil::dictionary_with_json(json);
+    _purchased->retain();
+}
+
 bool IAPComp::has_init_products() {
     return (_products != NULL);
 }
 
 CCArray* IAPComp::products() {
     return _products;
+}
+
+bool IAPComp::has_purchased(const char *product_id) {
+    bool rtn = false;
+    CCObject* pObj = _purchased->objectForKey(product_id);
+    if (pObj != NULL) {
+        CCInteger* value = (CCInteger* )pObj;
+        if (value->getValue() > 0) {
+            rtn = true;
+        }
+    }
+    
+    return rtn;
 }
 
 void IAPComp::print_all_products() {
