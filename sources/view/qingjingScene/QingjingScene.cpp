@@ -119,14 +119,14 @@ void QingjingScene::creat_Tishi(){
     bool tempBool = false;
     int index = DATA->getChapterNumber();
     
-    // 显示的结局
-    CSJson::Value storyConditionsData = AppUtil::read_json_file("res/story/storyConditions");
-    CCDictionary* storyConditionsDic = AppUtil::dictionary_with_json(storyConditionsData);
-    CCString* storyConditionsKeyStr = CCString::createWithFormat("101_80100_%d", index);
-    CCArray* storyConditionsAchievemArr = (CCArray* )storyConditionsDic->objectForKey(storyConditionsKeyStr->getCString());
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", index);
+    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
     
-    std::string renwuStr = ((CCString* )storyConditionsAchievemArr->objectAtIndex(0))->getCString();
-    std::string renwuIndexStr = ((CCString* )storyConditionsAchievemArr->objectAtIndex(1))->getCString();
+    std::string renwuStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
+    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
     renwuIndex = atoi(renwuIndexStr.c_str());
     
     int tiliIndex = 9;
@@ -141,13 +141,13 @@ void QingjingScene::creat_Tishi(){
     kuangSpr->addChild(xianSpr1);
     
     // 标题
-    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), DISPLAY->fangzhengFont(), 25);
+    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheName(index)->getCString(), DISPLAY->fangzhengFont(), 25);
     btLabel1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .9f));
     btLabel1->setColor(ccWHITE);
 //    btLabel1->enableStroke(ccWHITE, .4f);
     kuangSpr->addChild(btLabel1, 2);
     
-    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(index)->getCString(), DISPLAY->fangzhengFont(), 25);
+    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheName(index)->getCString(), DISPLAY->fangzhengFont(), 25);
     btLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .9f - 2));
     btLabel2->setColor(ccGRAY);
 //    btLabel2->enableStroke(ccGRAY, .4f);
@@ -184,9 +184,12 @@ void QingjingScene::creat_Tishi(){
 //    label3->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(label3);
     // 勾
-    CCSprite* rightSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-    rightSpr->setPosition(ccp(label3->getContentSize().width* .9f, label3->getContentSize().height* .15f));
-    label3->addChild(rightSpr);
+    if (renwuIndex < DATA->getPlayer()->next_mission) {
+        CCSprite* rightSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
+        rightSpr->setPosition(ccp(label3->getContentSize().width* .9f, label3->getContentSize().height* .15f));
+        label3->addChild(rightSpr);
+    }
+    
     
     // 结局成就
     CCLabelTTF* titleLabel3 = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
@@ -241,12 +244,24 @@ void QingjingScene::creat_Tishi(){
     }
     
     // 开始故事
-    CCSprite* startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-    CCSprite* startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-    startSpr2->setScale(1.02f);
-    CCMenuItem* startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
-    startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-    startItem->setTag(index);
+    CCSprite* startSpr1;
+    CCSprite* startSpr2;
+    CCMenuItem* startItem;
+    if (renwuIndex < DATA->getPlayer()->next_mission) {
+        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr2->setScale(1.02f);
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
+        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+        startItem->setTag(index);
+    }else{
+        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
+        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+        startItem->setColor(ccGRAY);
+        startItem->setTag(index);
+    }
     CCMenu* menu = CCMenu::create(startItem, NULL);
     menu->setPosition(CCPointZero);
     kuangSpr->addChild(menu);

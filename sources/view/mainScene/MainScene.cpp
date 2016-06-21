@@ -252,8 +252,12 @@ void MainScene::paihangCallBack(CCObject* pSender){
     
 }
 void MainScene::juqingCallBack(CCObject* pSender){
-    LOADING->show_loading();
-    NET->completed_story_500();
+    if (DATA->getStory()->has_init_story()) {
+        this->_500CallBack(NULL);
+    }else{
+        LOADING->show_loading();
+        NET->completed_story_500();
+    }
 }
 void MainScene::_500CallBack(CCObject* pSender){
     CCScene* scene = QingjingScene::scene();

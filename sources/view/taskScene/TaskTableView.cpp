@@ -276,7 +276,6 @@ void TaskTableView::onExit(){
 }
 
 void TaskTableView::buttonStatus(int index, CCSprite* button){
-#warning 差我个星级
     CCString* indexStr = CCString::createWithFormat("%d", index + 1);
     int num = DATA->getMission()->mission_rating(indexStr->getCString());
     

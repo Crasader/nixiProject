@@ -118,14 +118,14 @@ void StoryScene::init_with_story_id(int _index){
     CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_shangkuang.png");
     shangkuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .97f));
     this->addChild(shangkuangSpr, 50);
-    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
+    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheName(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
     shangLabel->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .5f));
     shangLabel->setColor(ccWHITE);
     shangkuangSpr->addChild(shangLabel);
     
     dialog = Dialogs::create();
     dialog->retain();
-    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", m_current_story_index_id);
+    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
 //    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 1);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
