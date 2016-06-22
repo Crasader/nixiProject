@@ -187,7 +187,11 @@ void NetManager::all_friends_806() {
 }
 
 void NetManager::take_energy_807() {
-    this->post_data(807, string(""));
+    FastWriter writer;
+    Value root;
+    root["param"] = 1;
+    string data = writer.write(root);
+    this->post_data(807, data);
 }
 
 
@@ -268,6 +272,11 @@ void NetManager::save_dressed_401(CCDictionary *dressed) {
     }
     string data = writer.write(root);
     this->post_data(401, data);
+}
+
+
+void NetManager::ranking_list_300() {
+    this->post_data(300, string(""));
 }
 
 
