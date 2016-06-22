@@ -35,7 +35,7 @@ public:
     CCDictionary* strangers();
     CCDictionary* friends() const;
     bool has_send_energy(const char* other_sid);
-    int energy_has_token();
+    int energy_could_take();
         
 private:
     int                 _energy_token;

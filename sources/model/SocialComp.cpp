@@ -120,7 +120,7 @@ bool SocialComp::has_send_energy(const char *other_sid) {
     return false;
 }
 
-int SocialComp::energy_has_token() {
-    return _energy_token;
+int SocialComp::energy_could_take() {
+    return _energy_receive->count() - _energy_token;
 }
 

@@ -160,6 +160,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _social->init_friends(content["friends"]);
         } break;
             
+        case 807: {
+            _player->init_with_json(content["player"]);
+            _social->init_with_json(content["social"]);
+        } break;
+            
         case 700: {
             _mail->init_with_json(content["mail"]);
         } break;
