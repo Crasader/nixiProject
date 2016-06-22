@@ -85,6 +85,7 @@ public:
     void strangerCallBack(CCObject* pSender);
     void paihangCallBack(CCObject* pSender);
     
+    void stranger_view_802(CCObject* pSender);
     void _804CallBack(CCObject* pSender);
     
 public:
