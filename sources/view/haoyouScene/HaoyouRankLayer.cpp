@@ -135,7 +135,7 @@ void HaoyouRankLayer::createView(){
     CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     tili_spr2->setScale(1.02f);
     CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::btn_getTili_callback));
-    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
+    menu_tili = CCMenu::create(item_tili, NULL);
     menu_tili->setPosition(ccp(self_spr->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 28));
     self_spr->addChild(menu_tili);
     
@@ -168,6 +168,9 @@ void HaoyouRankLayer::get_tili_807(){
     CCString* tip_str = CCString::createWithFormat("成功领取%d体力", _energy_could_get);
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), tip_str->getCString());
+    if (_energy_could_get <= 0) {
+        menu_tili->setEnabled(false);
+    }
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
