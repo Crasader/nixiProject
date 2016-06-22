@@ -17,7 +17,7 @@ bool SigninComp::init() {
 }
 
 void SigninComp::init_with_json(Value json) {
-    if (!json.isObject()) {
+    if (json.type() == nullValue && !json.isObject()) {
         CCLOG("SigninComp::init_with_json() json object error.");
         return;
     }

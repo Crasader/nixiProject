@@ -73,6 +73,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
 }
 
 void MainScene::onExit(){
@@ -223,14 +224,23 @@ void MainScene::youjianCallBack(CCObject* pSender){
     LOADING->show_loading();
     NET->all_mails_700();
 }
+
 void MainScene::haoyouCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->social_info_800();
+}
+
+void MainScene::social_info_callback_800(CCObject* pObj) {
+    LOADING->remove();
     CCScene* scene = HaoyouScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void MainScene::renwuCallBack(CCObject* pSender){
     
 }
+
 void MainScene::huanzhuangCallBack(CCObject* pSender){
     if (DATA->getClothes()->has_init_clothes == true) {
         this->_huanzhuangCallBack(pSender);

@@ -135,8 +135,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
         } break;
             
+        case 800: {
+            _social->init_with_json(content["social"]);
+        } break;
+            
         case 802: {
-            _social->update_stranger(content["strangers"]);
+            _social->update_strangers(content["strangers"]);
         } break;
             
         case 803: {
@@ -146,6 +150,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 804: {
             _message->init_with_json(content["messages"]);
+        } break;
+            
+        case 806: {
+            _social->init_friends(content["friends"]);
         } break;
             
         case 700: {

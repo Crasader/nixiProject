@@ -85,10 +85,10 @@ public:
     void strangerCallBack(CCObject* pSender);
     void paihangCallBack(CCObject* pSender);
     
-    void stranger_view_802(CCObject* pSender);
-    void _804CallBack(CCObject* pSender);
-    void haoyou_view_805();
-    
+    void strangers_callback_802(CCObject* pObj);
+    void all_message_callback_804(CCObject* pObj);
+    void all_friends_callback_806(CCObject* pObj);
+
 public:
     
     CCDictionary* allClothesDic;
