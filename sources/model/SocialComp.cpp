@@ -13,31 +13,38 @@
 SocialComp::~SocialComp() {
     CC_SAFE_DELETE(_strangers);
     CC_SAFE_DELETE(_friends);
-    CC_SAFE_DELETE(_interaction);
+    CC_SAFE_DELETE(_arr_friends);
+    CC_SAFE_DELETE(_energy_sender);
 }
 
 bool SocialComp::init() {
     _strangers = NULL;
     _friends = NULL;
-    _interaction = NULL;
+    _arr_friends = NULL;
+    _energy_sender = NULL;
     
     return true;
 }
 
 void SocialComp::init_with_json(Value json) {
-    if (json.type() == nullValue && !json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("SocialComp::init_with_json() json object error.");
         return;
     }
     
-    CCDictionary* dic = AppUtil::dictionary_with_json(json["firends"]);
-    CC_SAFE_RELEASE(_interaction);
-    _interaction = dic;
-    _interaction->retain();
+    CCArray* arr_friends = AppUtil::array_with_json(json["firends"]);
+    CC_SAFE_RELEASE(_arr_friends);
+    _arr_friends = arr_friends;
+    _arr_friends->retain();
+    
+    CCArray* arr_energy = AppUtil::array_with_json(json["energy_sender"]);
+    CC_SAFE_RELEASE(_energy_sender);
+    _energy_sender = arr_energy;
+    _energy_sender->retain();
 }
 
 void SocialComp::init_friends(Value json) {
-    if (json.type() == nullValue && !json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("SocialComp::init_friends() json object error.");
         return;
     }
@@ -60,7 +67,7 @@ void SocialComp::init_friends(Value json) {
 }
 
 void SocialComp::update_strangers(CSJson::Value json) {
-    if (json.type() == nullValue && !json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("SocialComp::update_strangers() json object error.");
         return;
     }
@@ -91,3 +98,18 @@ CCDictionary* SocialComp::strangers() const {
 CCDictionary* SocialComp::friends() const {
     return _friends;
 }
+
+bool SocialComp::has_send_energy(const char *other_sid) {
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(_energy_sender, pObj) {
+        CCString* otherId = (CCString*)pObj;
+        if (otherId->compare(other_sid) == 0) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+
+
