@@ -91,7 +91,7 @@ void SocialComp::update_strangers(CSJson::Value json) {
     }
 }
 
-CCDictionary* SocialComp::strangers() const {
+CCDictionary* SocialComp::strangers() {
     return _strangers;
 }
 
