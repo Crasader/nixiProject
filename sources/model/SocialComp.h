@@ -34,14 +34,13 @@ public:
 public:
     CCDictionary* strangers() const;
     CCDictionary* friends() const;
-    CCDictionary* interaction() const;
-    bool has_asked(const char* other_sid);
-    bool has_recieved(const char* other_sid);
+    bool has_send_energy(const char* other_sid);
         
 private:
     CCDictionary*       _strangers;
     CCDictionary*       _friends;
-    CCDictionary*       _interaction;
+    CCArray*            _arr_friends;
+    CCArray*            _energy_sender;
 };
 
 #endif /* SocialComp_hpp */
