@@ -76,6 +76,7 @@ public:
     void smallSprite(int index, CCSprite* spr);
     
     void sendTili(CCMenuItem* btn);
+    void send_message_callback_803(CCObject* pObj);
 };
 
 

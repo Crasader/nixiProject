@@ -144,8 +144,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 803: {
-            // 只返回OK
-//            _social->init_with_json(content["social"]);
+            _social->init_with_json(content["social"]);
         } break;
             
         case 804: {

@@ -14,14 +14,16 @@ SocialComp::~SocialComp() {
     CC_SAFE_DELETE(_strangers);
     CC_SAFE_DELETE(_friends);
     CC_SAFE_DELETE(_arr_friends);
-    CC_SAFE_DELETE(_energy_sender);
+    CC_SAFE_DELETE(_energy_send);
+    CC_SAFE_DELETE(_energy_receive);
 }
 
 bool SocialComp::init() {
     _strangers = NULL;
     _friends = NULL;
     _arr_friends = NULL;
-    _energy_sender = NULL;
+    _energy_send = NULL;
+    _energy_receive = NULL;
     
     return true;
 }
@@ -32,15 +34,22 @@ void SocialComp::init_with_json(Value json) {
         return;
     }
     
+    _energy_token = json["energy_token"].asInt();
+    
     CCArray* arr_friends = AppUtil::array_with_json(json["firends"]);
     CC_SAFE_RELEASE(_arr_friends);
     _arr_friends = arr_friends;
     _arr_friends->retain();
     
-    CCArray* arr_energy = AppUtil::array_with_json(json["energy_sender"]);
-    CC_SAFE_RELEASE(_energy_sender);
-    _energy_sender = arr_energy;
-    _energy_sender->retain();
+    CCArray* arr_send = AppUtil::array_with_json(json["energy_send"]);
+    CC_SAFE_RELEASE(_energy_send);
+    _energy_send = arr_send;
+    _energy_send->retain();
+    
+    CCArray* arr_receive = AppUtil::array_with_json(json["energy_receive"]);
+    CC_SAFE_RELEASE(_energy_receive);
+    _energy_receive = arr_receive;
+    _energy_receive->retain();
 }
 
 void SocialComp::init_friends(Value json) {
@@ -101,7 +110,7 @@ CCDictionary* SocialComp::friends() const {
 
 bool SocialComp::has_send_energy(const char *other_sid) {
     CCObject* pObj = NULL;
-    CCARRAY_FOREACH(_energy_sender, pObj) {
+    CCARRAY_FOREACH(_energy_send, pObj) {
         CCString* otherId = (CCString*)pObj;
         if (otherId->compare(other_sid) == 0) {
             return true;
@@ -111,5 +120,7 @@ bool SocialComp::has_send_energy(const char *other_sid) {
     return false;
 }
 
-
+int SocialComp::energy_has_token() {
+    return _energy_token;
+}
 

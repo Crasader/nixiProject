@@ -186,6 +186,10 @@ void NetManager::all_friends_806() {
     this->post_data(806, string(""));
 }
 
+void NetManager::take_energy_807() {
+    this->post_data(807, string(""));
+}
+
 
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));

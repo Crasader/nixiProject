@@ -35,12 +35,15 @@ public:
     CCDictionary* strangers() const;
     CCDictionary* friends() const;
     bool has_send_energy(const char* other_sid);
+    int energy_has_token();
         
 private:
+    int                 _energy_token;
     CCDictionary*       _strangers;
     CCDictionary*       _friends;
     CCArray*            _arr_friends;
-    CCArray*            _energy_sender;
+    CCArray*            _energy_send;
+    CCArray*            _energy_receive;
 };
 
 #endif /* SocialComp_hpp */

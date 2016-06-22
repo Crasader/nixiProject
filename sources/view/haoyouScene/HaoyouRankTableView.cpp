@@ -9,6 +9,9 @@
 #include "HaoyouRankTableView.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "PromptLayer.h"
+#include "Loading2.h"
+#include "NetManager.h"
 
 HaoyouRankTableView::~HaoyouRankTableView(){}
 
@@ -448,15 +451,27 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
     
-    CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    tili_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
-    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
-    menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 38));
-    menu_tili->setTag(0x10400);
-    bg->addChild(menu_tili);
-    
+    SocialComp* social = DATA->getSocial();
+    if (social->has_send_energy(show_id->getCString())) {
+        CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_already.png");
+        CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_already.png");
+        CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2);
+        item_tili->setEnabled(false);
+        CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
+        menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 38));
+        bg->addChild(menu_tili);
+    }
+    else {
+        CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+        CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+        tili_spr2->setScale(1.02f);
+        CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
+        item_tili->setUserObject(show_id);
+        CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
+        menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 38));
+        menu_tili->setTag(0x10400);
+        bg->addChild(menu_tili);
+    }
 //    CCLabelAtlas
 }
 void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
@@ -526,7 +541,21 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
 }
 
 void HaoyouRankTableView::sendTili(CCMenuItem* btn){
-    
+    CCString* other_sid = (CCString*)btn->getUserObject();
+    SocialComp* social = DATA->getSocial();
+    if (social->has_send_energy(other_sid->getCString())) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "今日已送出体力，请明日再试!~");
+    }
+    else {
+        LOADING->show_loading();
+        NET->send_message_803(other_sid->getCString(), e_Msg_Send_Energy);
+    }
+}
+
+void HaoyouRankTableView::send_message_callback_803(cocos2d::CCObject *pObj) {
+    LOADING->remove();
+    pTableView->reloadData();
 }
 
 unsigned int HaoyouRankTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
@@ -535,8 +564,13 @@ unsigned int HaoyouRankTableView::numberOfCellsInTableView(cocos2d::extension::C
 
 void HaoyouRankTableView::onEnter(){
     CCLayer::onEnter();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankTableView::send_message_callback_803), "HTTP_FINISHED_803", NULL);
 }
 
 void HaoyouRankTableView::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
     CCLayer::onExit();
 }
