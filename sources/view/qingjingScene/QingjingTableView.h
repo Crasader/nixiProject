@@ -74,7 +74,7 @@ public:
     
 public:
         
-    
+    int getStoryIndexStatus();
     
 };
 

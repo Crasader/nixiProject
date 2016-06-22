@@ -14,6 +14,9 @@
 #include "QingjingScene.h"
 #include "DisplayManager.h"
 #include "LabelColorLayer.h"
+#include "Loading2.h"
+#include "NetManager.h"
+#include "StorySettlementOfTheAnimationLayer.h"
 //#include "MMAudioManager.h"
 
 
@@ -34,6 +37,7 @@ bool StoryScene::init(){
     this->setTouchEnabled(true);
     
     m_current_story_index_id = 0;
+    storyIndex = 0;
     openStory = false;
     m_bIsKJSelect = false;
     m_bIsZDSelect = false;
@@ -114,15 +118,14 @@ void StoryScene::init_with_story_id(int _index){
     CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_shangkuang.png");
     shangkuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .97f));
     this->addChild(shangkuangSpr, 50);
-    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
+    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheName(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
     shangLabel->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .5f));
     shangLabel->setColor(ccWHITE);
-//    shangLabel->enableStroke(ccWHITE, .4f);
     shangkuangSpr->addChild(shangLabel);
     
     dialog = Dialogs::create();
     dialog->retain();
-    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", m_current_story_index_id);
+    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
 //    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 1);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
@@ -163,7 +166,6 @@ void StoryScene::init_with_story_id(int _index){
     saidLabel->setPosition(ccp(widSize* .11, 25));
     saidLabel->setTag(0x222);
     saidLabel->setColor(ccc3(80, 63, 68));
-//    saidLabel->enableStroke(ccc3(80, 63, 68), .4f);
     kuangSpr->addChild(saidLabel, 8);
     
     nameLab = CCLabelTTF::create("", DISPLAY->fangzhengFont(), 27);
@@ -691,7 +693,7 @@ void StoryScene::creatManEyesAnimation(){
                 for (int i = 1; i <= 2; i++) {
                     
                     sprintf(strPei, "res/pic/qingjingScene/eyes/%d_%d.png", ccs(dialogItem->getNameId())->intValue(), i);
-                    CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 1079, 1652));
+                    CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 900, 1136));
                     animations->addObject(frame);
                 }
                 CCAnimation* animation = CCAnimation::createWithSpriteFrames(animations, .2f);
@@ -751,7 +753,7 @@ void StoryScene::creatPassersbyEyesAnimation(int nameIndex){
         for (int i = 1; i <= 2; i++) {
             
             sprintf(strPei, "res/pic/qingjingScene/eyes/%d_%d.png", ccs(dialogItem->getNameId())->intValue(), i);
-            CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 1079, 1652));
+            CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 900, 1136));
             animations->addObject(frame);
         }
         CCAnimation* animation = CCAnimation::createWithSpriteFrames(animations, .2f);
@@ -1860,10 +1862,7 @@ void StoryScene::onEnter()
     BaseScene::hideBaseScene();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&StoryScene::notification_http_error), "", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&StoryScene::notification_3003_callback), "", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&StoryScene::notification_3000_callback), "", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&StoryScene::notification_9011_callback), "", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&StoryScene::_503CallBack), "HTTP_FINISHED_503", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&StoryScene::LabelColorFhCallBack), "LabelColorFhCallBack", NULL);
     nc->addObserver(this, SEL_CallFuncO(&StoryScene::goCallBackMethods), "GoCallBackMethods", NULL);
@@ -2013,11 +2012,12 @@ void StoryScene::getIndex(float dt){
             }
             
             this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%s", _achievement->getCString());
-            ending = 3;
             
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
+            storyIndex = 1;
+            LOADING->show_loading();
+            endingStr = CCString::createWithFormat("%s", "-1");
+            CCString* indexStr = CCString::createWithFormat("%d", m_current_story_index_id);
+            NET->commit_story_503(indexStr->getCString(), endingStr->getCString());
             
         }else if (index == -2){
             buttonBool1 = false;
@@ -2036,148 +2036,16 @@ void StoryScene::getIndex(float dt){
             
             this->setTouchEnabled(false);
             endingStr = CCString::createWithFormat("%s", _achievement->getCString());
-            ending = 2;
             
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
-            
-        }else if (index == -10){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%d", 0);
-            ending = 1;
-
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
-            
-        }else if (index == -20){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%d", 0);
-            ending = 1;
-
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
-            
-        }else if (index == -30){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%d", 0);
-            ending = 1;
-            
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
-            
-        }else if (index == -40){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%d", 0);
-            ending = 1;
-            
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
-            
-        }else if (index == -50){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%d", 0);
-            ending = 1;
-
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
-            
-        }else if (index == -60){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%d", 0);
-            ending = 1;
-
-//            AHLoading::showLoading();
-//            MMNetManager::get_instance()->http_3003_commit_story(MMDataManager::get_instance()->get_current_manpet_id(), m_current_story_id, m_current_story_index_id, endingStr);
+            storyIndex = 2;
+            LOADING->show_loading();
+            CCString* indexStr = CCString::createWithFormat("%d", m_current_story_index_id);
+            NET->commit_story_503(indexStr->getCString(), endingStr->getCString());
             
         }else{
             dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
             this->init(dialogItem);
             wordCount = 0;
-            ending = NULL;
             this->dialogueControl(dialogItem);
         }
         
@@ -2220,16 +2088,11 @@ void StoryScene::didAccelerate( CCAcceleration* pAccelerationValue){
 //        }
 //    }
 //}
-void StoryScene::notification_3000_callback(CCObject* pObj){
-    
-    CCScene* scene = QingjingScene::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
-}
 
 void StoryScene::keyBackClicked(){
     CCLog("===== StoryScene::keyBackClicked");
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    //        MZLog("===== children_num: %d", num_child);
+//    MZLog("===== children_num: %d", num_child);
     if(num_child > 1)
     {
         return;
@@ -2253,60 +2116,6 @@ void StoryScene::fhCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(scene);
 }
 
-void StoryScene::notification_3003_callback(cocos2d::CCObject *pObj){
-//    if (AHLoading::isLoading) {
-//        AHLoading::stop();
-//    }
-
-//    CCDictionary * cgDic = (CCDictionary *)(pObj);
-//    MMStorySettlement * settlement = MMStorySettlement::create_with_index(ending, m_current_story_index_id, chengjiuStr, cgDic);
-//    settlement->setPosition(CCPointZero);
-//    this->addChild(settlement, 100);
-}
-
-void StoryScene::notification_http_error(cocos2d::CCObject *pObj){
-//    if (AHLoading::isLoading) {
-//        AHLoading::stop();
-//    }
-//    if (MMAudioManager::get_instance()->is_effect_on()) {
-//        MMAudioManager::get_instance()->play_effect(kAudio_Button_errorCommon, false);
-//    }
-    
-//    long err = (long)pObj;
-//    CCString* error_message = MZAppUtils::http_error_message_with_status_code((HTTP_ERROR)err);
-//    promptLayer->promptBox(error_message);
-}
-
-void StoryScene::notification_912_callback(CCObject* pObj){
-//    if (AHLoading::isLoading) {
-//        AHLoading::stop();
-//    }
-    
-    CCUserDefault::sharedUserDefault()->setBoolForKey("YD_MainScene_QingJing", true);
-    CCUserDefault::sharedUserDefault()->setBoolForKey("YD_MainScne_RenWu1",false);
-    CCUserDefault::sharedUserDefault()->flush();
-    
-//    MMDataManager::get_instance()->setInRenWuBool(true);
-    
-//    CCDictionary* rewards = MZAppUtils::format_levelup_info(1);
-//    CCLayer* layer = MMLevelUp::create(rewards);
-//    layer->setPosition(ccp(ScreenWidth * 0.5f, ScreenHeight * 0.5f));
-//    layer->ignoreAnchorPointForPosition(false);
-//    
-//    CCLayer* mainLayer = MMMainScene::scene();
-//    mainLayer->addChild(layer, 10);
-//    CCScene* scene = CCScene::create();
-//    scene->addChild(mainLayer);
-//    CCDirector::sharedDirector()->replaceScene(scene);
-}
-
-void StoryScene::notification_306_callback(CCObject* pObj){
-//    if (AHLoading::isLoading) {
-//        AHLoading::stop();
-//    }
-    
-}
-
 void StoryScene::LabelColorFhCallBack(CCObject* pSender){
     if (this->getChildByTag(0x999999) != NULL) {
         this->removeChildByTag(0x999999);
@@ -2322,17 +2131,12 @@ void StoryScene::LabelColorFhCallBack(CCObject* pSender){
     this->setTouchEnabled(true);
 }
 
-void StoryScene::notification_9011_callback(CCObject* pObj){
-//    if (AHLoading::isLoading) {
-//        AHLoading::stop();
-//    }
+void StoryScene::_503CallBack(CCObject* pSender){
+    LOADING->remove();
     
-    CCScene* pScene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionFade::create(0.5, pScene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex);
+    this->addChild(layer, 1000);
 }
-
-
 
 
 

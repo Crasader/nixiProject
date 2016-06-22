@@ -16,6 +16,8 @@
 #include "TotalRankScene.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "MessageLayer.h"
+
 
 HaoyouScene::HaoyouScene(){
     
@@ -53,10 +55,12 @@ void HaoyouScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::stranger_view_802), "HTTP_FINISHED_802", NULL);
+    nc->addObserver(this, menu_selector(HaoyouScene::_804CallBack), "HTTP_FINISHED_804", NULL);
+    
 }
 
 void HaoyouScene::onExit(){
-    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, "HTTP_FINISHED_802");
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     BaseScene::onExit();
 }
@@ -70,9 +74,6 @@ void HaoyouScene::creat_view(){
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
-//    hy_hidden.png
-//    hy_show.png
-    
     CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
     backSpr2->setScale(1.02f);
@@ -83,7 +84,7 @@ void HaoyouScene::creat_view(){
     CCSprite* xiaoxiSpr2 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
     xiaoxiSpr2->setScale(1.02f);
     CCMenuItem* xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
-    xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .35f));
+    xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .32f));
     
     CCSprite* haoyouSpr1 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
     CCSprite* haoyouSpr2 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
@@ -125,7 +126,14 @@ void HaoyouScene::backCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
+    LOADING->show_loading();
     
+    NET->all_messages_804();
+}
+void HaoyouScene::_804CallBack(CCObject* pSender){
+    CCScene* scene = MessageLayer::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::haoyouCallBack(CCObject* pSender){
     CCScene* scene = HaoyouRankLayer::scene();

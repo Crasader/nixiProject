@@ -164,12 +164,25 @@ void TaskScene::creat_Tishi(){
     kuangSpr->addChild(descriptionLabel, 2);
     
     // 开始故事
-    CCSprite* startSpr1 = CCSprite::create("res/pic/taskScene/task_start.png");
-    CCSprite* startSpr2 = CCSprite::create("res/pic/taskScene/task_start.png");
-    startSpr2->setScale(1.02f);
-    CCMenuItem* startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(TaskScene::startCallBack));
-    startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
-    startItem->setTag(index);
+    int OpenToWhichOne = DATA->getPlayer()->next_mission;
+    CCSprite* startSpr1;
+    CCSprite* startSpr2;
+    CCMenuItem* startItem;
+    if (index < OpenToWhichOne) {
+        startSpr1 = CCSprite::create("res/pic/taskScene/task_start.png");
+        startSpr2 = CCSprite::create("res/pic/taskScene/task_start.png");
+        startSpr2->setScale(1.02f);
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(TaskScene::startCallBack));
+        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
+        startItem->setTag(index);
+    }else{
+        startSpr1 = CCSprite::create("res/pic/taskScene/task_start.png");
+        startSpr2 = CCSprite::create("res/pic/taskScene/task_start.png");
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
+        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
+        startItem->setColor(ccGRAY);
+        startItem->setTag(index);
+    }
     CCMenu* menu = CCMenu::create(startItem, NULL);
     menu->setPosition(CCPointZero);
     kuangSpr->addChild(menu);

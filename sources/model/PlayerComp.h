@@ -31,8 +31,8 @@ public:
     int             gold;
     int             diam;
     
-    int             next_mission;       // 进行中的任务
-    int             cur_mission;        // 下一个任务(最新解锁)
+    int             next_mission;       // 下一个任务(最新解锁)
+    int             cur_mission;        // 进行中的任务
     int             phase;              // 公司规模
     int             rating;             // 总任务评价(总星数)
     

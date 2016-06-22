@@ -48,7 +48,7 @@ void StrangerScene::onEnter(){
 }
 
 void StrangerScene::onExit(){
-    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, "HTTP_FINISHED_803");
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     BaseScene::onExit();
 }
