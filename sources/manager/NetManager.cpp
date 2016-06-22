@@ -139,11 +139,14 @@ void NetManager::save_nickname_904(const char *nickname) {
     this->post_data(904, data);
 }
 
-
 void NetManager::check_news_910() {
     this->post_data(910, string(""));
 }
 
+
+void NetManager::social_info_800() {
+    this->post_data(800, string(""));
+}
 
 void NetManager::recommend_stranger_802() {
     this->post_data(802, string(""));
