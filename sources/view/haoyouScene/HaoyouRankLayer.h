@@ -74,7 +74,7 @@ public:
     
     void sendTili();
     void getTili();
-    
+        
 public:
     NotePanel* _panel;
     

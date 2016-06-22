@@ -42,11 +42,12 @@ void HaoyouRankLayer::onEnter(){
     BaseScene::onEnter();
     
 //    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
-//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, "HTTP_FINISHED_802");
+//    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::haoyou_view_805), "HTTP_FINISHED_803", NULL);
 }
 
 void HaoyouRankLayer::onExit(){
+//    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
     BaseScene::onExit();
 }
 

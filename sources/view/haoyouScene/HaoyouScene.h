@@ -87,6 +87,7 @@ public:
     
     void stranger_view_802(CCObject* pSender);
     void _804CallBack(CCObject* pSender);
+    void haoyou_view_805();
     
 public:
     

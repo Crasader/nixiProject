@@ -432,6 +432,8 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     bg->setTag(0x10000);
     spr->addChild(bg);
     
+//    CCString* show_id = 
+    
     CCSprite* head;
     if (index == 0) {
         head = CCSprite::create("res/pic/haoyoupaihang/first.png");
@@ -485,7 +487,7 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     }
 }
 
-void HaoyouRankTableView::sendTili(){
+void HaoyouRankTableView::sendTili(CCMenuItem* btn){
     
 }
 
