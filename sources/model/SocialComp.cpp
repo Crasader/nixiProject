@@ -87,3 +87,25 @@ void SocialComp::update_strangers(CSJson::Value json) {
 CCDictionary* SocialComp::strangers() const {
     return _strangers;
 }
+
+bool SocialComp::has_asked(const char *other_sid) {
+    bool rtn = false;
+    CCArray* info = (CCArray*)_interaction->objectForKey(other_sid);
+    CCInteger* data = (CCInteger*)info->objectAtIndex(0);
+    if (data) {
+        rtn = (data->getValue() != 0);
+    }
+    
+    return rtn;
+}
+
+bool SocialComp::has_recieved(const char *other_sid) {
+    bool rtn = false;
+    CCArray* info = (CCArray*)_interaction->objectForKey(other_sid);
+    CCInteger* data = (CCInteger*)info->objectAtIndex(1);
+    if (data) {
+        rtn = (data->getValue() != 0);
+    }
+    
+    return rtn;
+}

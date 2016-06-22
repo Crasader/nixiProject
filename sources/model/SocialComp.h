@@ -27,7 +27,6 @@ public:
     ~SocialComp();
     CREATE_FUNC(SocialComp);
     bool init();
-    
     void init_with_json(Value json);
     void update_strangers(Value json);
     void init_friends(Value json);
@@ -36,9 +35,9 @@ public:
     CCDictionary* strangers() const;
     CCDictionary* friends() const;
     CCDictionary* interaction() const;
-    
-protected:
-    
+    bool has_asked(const char* other_sid);
+    bool has_recieved(const char* other_sid);
+        
 private:
     CCDictionary*       _strangers;
     CCDictionary*       _friends;
