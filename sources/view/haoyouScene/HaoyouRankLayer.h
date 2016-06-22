@@ -77,6 +77,7 @@ public:
         
 public:
     NotePanel* _panel;
+    int _energy_could_get;
     
 public:
     

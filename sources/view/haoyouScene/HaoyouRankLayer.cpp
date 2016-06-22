@@ -139,7 +139,8 @@ void HaoyouRankLayer::createView(){
     menu_tili->setPosition(ccp(self_spr->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 28));
     self_spr->addChild(menu_tili);
     
-    if (DATA->getSocial()->energy_could_take() <= 0) {
+    _energy_could_get = DATA->getSocial()->energy_could_take();
+    if (_energy_could_get <= 0) {
         menu_tili->setEnabled(false);
     }
     
@@ -164,8 +165,7 @@ void HaoyouRankLayer::btn_getTili_callback(){
 
 void HaoyouRankLayer::get_tili_807(){
     LOADING->remove();
-    int energy_count = DATA->getSocial()->energy_could_take();
-    CCString* tip_str = CCString::createWithFormat("成功领取%d体力", energy_count);
+    CCString* tip_str = CCString::createWithFormat("成功领取%d体力", _energy_could_get);
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), tip_str->getCString());
 }
