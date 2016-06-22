@@ -72,6 +72,8 @@ public:
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     
+    void result_tip();
+    
 public:
     NotePanel* _panel;
 

@@ -14,6 +14,8 @@
 #include "HaoyouRankLayer.h"
 #include "StrangerScene.h"
 #include "TotalRankScene.h"
+#include "Loading2.h"
+#include "NetManager.h"
 
 HaoyouScene::HaoyouScene(){
     
@@ -49,10 +51,12 @@ CCScene* HaoyouScene::scene(){
 void HaoyouScene::onEnter(){
     BaseScene::onEnter();
     
-    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::stranger_view_802), "HTTP_FINISHED_802", NULL);
 }
+
 void HaoyouScene::onExit(){
-    
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, "HTTP_FINISHED_802");
     
     BaseScene::onExit();
 }
@@ -129,12 +133,18 @@ void HaoyouScene::haoyouCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::strangerCallBack(CCObject* pSender){
-    CCScene* scene = StrangerScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    LOADING->show_loading();
+    NET->recommend_stranger_802();
 }
 void HaoyouScene::paihangCallBack(CCObject* pSender){
     CCScene* scene = TotalRankScene::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+
+void HaoyouScene::stranger_view_802(cocos2d::CCObject *pSender){
+    LOADING->remove();
+    CCScene* scene = StrangerScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

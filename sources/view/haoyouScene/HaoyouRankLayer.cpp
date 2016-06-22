@@ -40,6 +40,10 @@ CCScene* HaoyouRankLayer::scene(){
 
 void HaoyouRankLayer::onEnter(){
     BaseScene::onEnter();
+    
+//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+//    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
+//    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, "HTTP_FINISHED_802");
 }
 
 void HaoyouRankLayer::onExit(){

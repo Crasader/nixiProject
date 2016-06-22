@@ -13,6 +13,7 @@
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
 #include "NotePanel.h"
+#include "PromptLayer.h"
 
 
 StrangerScene:: ~StrangerScene(){}
@@ -41,9 +42,14 @@ CCScene* StrangerScene::scene(){
 
 void StrangerScene::onEnter(){
     BaseScene::onEnter();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
 }
 
 void StrangerScene::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, "HTTP_FINISHED_803");
+    
     BaseScene::onExit();
 }
 
@@ -160,7 +166,10 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-
+void StrangerScene::result_tip(){
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
+}
 
 void StrangerScene::creat_Man(){
     
