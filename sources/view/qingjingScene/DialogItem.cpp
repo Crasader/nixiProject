@@ -57,7 +57,7 @@ void DialogItem::config_static_with_json(CSJson::Value value)
     
     //<><><>主要显示的人<><><>//
     // 头像
-	_head_1 = value["head"].asString();
+	_head_1 = value["head_1"].asString();
     // 显示的是那个人
     _figure_1 = ccs(value["figure_1"].asString())->intValue();
     // 姿势

@@ -79,10 +79,14 @@ public:
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
+    void _501CallBack(CCObject* pSender);
     
 public:
     
     CCDictionary* allClothesDic;
+    
+    int storyIndex;
+    int renwuIndex;
     
     CCSprite* roomSpr;
     CCSprite* qingjingKuang;

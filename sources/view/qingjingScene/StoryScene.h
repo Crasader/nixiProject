@@ -85,6 +85,7 @@ public:
     int nowIndex;
     int contentLength;
     int wordCount;
+    int storyIndex;
     
     std::string manString1;
     std::string manString2;
@@ -115,9 +116,7 @@ public:
     std::string labStr;
     std::string content;
     CCString* endingStr;
-    std::string chengjiuStr;
-    int ending;
-    
+    std::string chengjiuStr;    
     
     CCSprite* _dkSpr;
     CCSprite* bgSpr;
@@ -210,12 +209,7 @@ public:
     void callBackMethods(CCObject* pSender);
     void LabelColorFhCallBack(CCObject* pSender);
     
-    void notification_3003_callback(cocos2d::CCObject *pObj);
-    void notification_http_error(cocos2d::CCObject *pObj);
-    void notification_912_callback(CCObject* pObj);
-    void notification_306_callback(CCObject* pObj);
-    void notification_3000_callback(CCObject* pObj);
-    void notification_9011_callback(CCObject* pObj);
+    void _503CallBack(CCObject* pSender);
 };
 
 #endif /* defined(__mm3c__StoryScene__) */

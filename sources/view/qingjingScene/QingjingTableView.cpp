@@ -9,6 +9,7 @@
 #include "QingjingTableView.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "AppUtil.h"
 
 
 QingjingTableView::QingjingTableView(){
@@ -22,12 +23,13 @@ bool QingjingTableView::init(){
     if (!CCLayer::init()) {
         return false;
     }
+    allNumber = 0;
+    selectedIndex = -1;
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/qingjingScene/qj_button.plist");
     
-    OpenToWhichOne = 30;
-    allNumber = 50;
-    selectedIndex = -1;
+    OpenToWhichOne = getStoryIndexStatus();
+    
     
     pTableView = CCTableView::create(this, CCSizeMake(156, 84*def_Page_Index + 15));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -60,7 +62,7 @@ void QingjingTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vi
 //点击哪个cell
 void QingjingTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
-    if (cell->getIdx() < OpenToWhichOne) {
+    if (cell->getIdx() <= OpenToWhichOne) {
         if (selectedIndex == -1) {
             selectedIndex = cell->getIdx();
             
@@ -112,20 +114,21 @@ cocos2d::extension::CCTableViewCell* QingjingTableView::tableCellAtIndex(cocos2d
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    if (idx < OpenToWhichOne) {
+    if (idx <= OpenToWhichOne) {
+        
         CCSprite* button = CCSprite::createWithSpriteFrameName("qj_button1.png");
         button->setAnchorPoint(CCPointZero);
         button->setPosition(CCPointZero);
         button->setTag(idx);
         spr->addChild(button);
         
-        CCLabelTTF* label = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), DISPLAY->fangzhengFont(), 25);
+        CCLabelTTF* label = CCLabelTTF::create(DISPLAY->GetOffTheName(idx)->getCString(), DISPLAY->fangzhengFont(), 25);
         label->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .5f));
         label->setColor(ccWHITE);
 //        label->enableStroke(ccWHITE, .4f);
         button->addChild(label, 2);
         
-        CCLabelTTF* label1 = CCLabelTTF::create(DISPLAY->GetOffTheNumber(idx + 1)->getCString(), DISPLAY->fangzhengFont(), 25);
+        CCLabelTTF* label1 = CCLabelTTF::create(DISPLAY->GetOffTheName(idx)->getCString(), DISPLAY->fangzhengFont(), 25);
         label1->setPosition(ccp(button->getContentSize().width* .5f + 2, button->getContentSize().height* .5f - 2));
         label1->setColor(ccGRAY);
 //        label1->enableStroke(ccGRAY, .4f);
@@ -158,7 +161,35 @@ void QingjingTableView::onExit(){
     CCLayer::onExit();
 }
 
-
+int QingjingTableView::getStoryIndexStatus(){
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    allNumber = taskConditionsDic->count();
+    int index = 0;
+    for (int i = 0; i < taskConditionsDic->count(); i++) {
+        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
+        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
+        int renwuIndex = atoi(renwuIndexStr.c_str());
+        if (renwuIndex >= DATA->getPlayer()->next_mission) {
+            index = i;
+            break;
+        }
+    }
+    
+    if (DATA->getStory()->has_passed(CCString::createWithFormat("%d", index)->getCString())) {
+        if (index >= taskConditionsDic->count()) {
+            index = taskConditionsDic->count() - 1;
+            return index;
+        }else{
+            return index + 1;
+        }
+        
+    }else{
+        return index;
+    }
+}
 
 
 

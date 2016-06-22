@@ -218,7 +218,7 @@ void NetManager::completed_story_500() {
     this->post_data(500, string(""));
 }
 
-void NetManager::start_story_501(int id) {
+void NetManager::start_story_501(const char* id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
@@ -226,7 +226,7 @@ void NetManager::start_story_501(int id) {
     this->post_data(501, data);
 }
 
-void NetManager::commit_story_503(int id, const char* flag) {
+void NetManager::commit_story_503(const char* id, const char* flag) {
     FastWriter writer;
     Value root;
     root["id"] = id;
