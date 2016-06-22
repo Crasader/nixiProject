@@ -16,9 +16,9 @@ USING_NS_CC;
 using namespace CSJson;
 
 typedef enum {
-    e_Msg_Friend_Ask = 1,
-    e_Msg_Send_Energy,
-    e_Msg_Friend_Deletem,
+    e_Msg_Friend_Ask = 1,   // 加好友消息的类型
+    e_Msg_Send_Energy,      // 送体力消息的类型
+    e_Msg_Friend_Deletem,   // 当删除好友时消息的类型
 } MesssageType;
 
 class SocialComp : public CCObject
