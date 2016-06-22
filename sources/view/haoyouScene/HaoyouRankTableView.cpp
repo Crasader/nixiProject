@@ -453,8 +453,8 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     
     SocialComp* social = DATA->getSocial();
     if (social->has_send_energy(show_id->getCString())) {
-        CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_already.png");
-        CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_already.png");
+        CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
+        CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
         CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2);
         item_tili->setEnabled(false);
         CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
@@ -472,7 +472,6 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
         menu_tili->setTag(0x10400);
         bg->addChild(menu_tili);
     }
-//    CCLabelAtlas
 }
 void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     CCSprite* bg = CCSprite::createWithSpriteFrameName("panel_normal.png");
@@ -516,14 +515,27 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
     
-    CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    tili_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
-    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
-    menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 -10, 38));
-    menu_tili->setTag(0x10400);
-    bg->addChild(menu_tili);
+    SocialComp* social = DATA->getSocial();
+    if (social->has_send_energy(show_id->getCString())) {
+        CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
+        CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
+        CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2);
+        item_tili->setEnabled(false);
+        CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
+        menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 38));
+        bg->addChild(menu_tili);
+    }
+    else {
+        CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+        CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+        tili_spr2->setScale(1.02f);
+        CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
+        item_tili->setUserObject(show_id);
+        CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
+        menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 38));
+        menu_tili->setTag(0x10400);
+        bg->addChild(menu_tili);
+    }
     
     if (index > 2) {
         CCLabelAtlas* rank_num;

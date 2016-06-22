@@ -67,7 +67,6 @@ public:
     void owned_clothes_400();
     void save_dressed_401(CCDictionary* dressed);
     
-    void 
     
     void all_products_100();
     

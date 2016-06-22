@@ -12,6 +12,9 @@
 #include "DataManager.h"
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
+#include "Loading2.h"
+#include "NetManager.h"
+#include "PromptLayer.h"
 
 
 HaoyouRankLayer:: ~HaoyouRankLayer(){}
@@ -41,12 +44,12 @@ CCScene* HaoyouRankLayer::scene(){
 void HaoyouRankLayer::onEnter(){
     BaseScene::onEnter();
     
-//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::haoyou_view_805), "HTTP_FINISHED_803", NULL);
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
 }
 
 void HaoyouRankLayer::onExit(){
-//    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     BaseScene::onExit();
 }
@@ -131,10 +134,14 @@ void HaoyouRankLayer::createView(){
     CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     tili_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::getTili));
+    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::btn_getTili_callback));
     CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
     menu_tili->setPosition(ccp(self_spr->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 28));
     self_spr->addChild(menu_tili);
+    
+    if (DATA->getSocial()->energy_could_take() <= 0) {
+        menu_tili->setEnabled(false);
+    }
     
     this->initRank();
 }
@@ -150,8 +157,17 @@ void HaoyouRankLayer::initRank(){
     this->addChild(tabLayer, 5);
 }
 
-void HaoyouRankLayer::getTili(){
-    
+void HaoyouRankLayer::btn_getTili_callback(){
+    LOADING->show_loading();
+    NET->take_energy_807();
+}
+
+void HaoyouRankLayer::get_tili_807(){
+    LOADING->remove();
+    int energy_count = DATA->getSocial()->energy_could_take();
+    CCString* tip_str = CCString::createWithFormat("成功领取%d体力", energy_count);
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), tip_str->getCString());
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){

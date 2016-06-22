@@ -72,8 +72,8 @@ public:
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     
-    void sendTili();
-    void getTili();
+    void btn_getTili_callback();
+    void get_tili_807();
         
 public:
     NotePanel* _panel;
