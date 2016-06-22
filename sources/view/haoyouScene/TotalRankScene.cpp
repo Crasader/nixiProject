@@ -133,11 +133,13 @@ void TotalRankScene::createView(){
     name_bg->setPosition(ccp(self_spr->getContentSize().width - name_bg->getContentSize().width/2, 90));
     self_spr->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("我是昵称", DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    const char* nickname = DATA->getShow()->nickname();
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
-    CCLabelTTF* cloth_count = CCLabelTTF::create("1000", DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
     

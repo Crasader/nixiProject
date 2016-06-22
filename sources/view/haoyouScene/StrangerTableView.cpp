@@ -22,6 +22,9 @@ bool StrangerTableView::init(){
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
     _stangers = DATA->getSocial()->strangers()->allKeys();
+    if (_stangers == NULL) {
+        _stangers = CCArray::create();
+    }
     _stangers->retain();
     allNumber =  _stangers->count();
     selectedIndex = 0;
