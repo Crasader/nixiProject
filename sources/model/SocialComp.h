@@ -29,15 +29,20 @@ public:
     bool init();
     
     void init_with_json(Value json);
-    void update_stranger(Value json);
+    void update_strangers(Value json);
+    void init_friends(Value json);
     
 public:
     CCDictionary* strangers() const;
+    CCDictionary* friends() const;
+    CCDictionary* interaction() const;
     
 protected:
     
 private:
     CCDictionary*       _strangers;
+    CCDictionary*       _friends;
+    CCDictionary*       _interaction;
 };
 
 #endif /* SocialComp_hpp */

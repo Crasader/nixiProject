@@ -45,11 +45,12 @@ public:
     void check_news_910();
     
     void social_info_800();
+    void search_other_801(const char* other_sid);
     void recommend_stranger_802();
     void send_message_803(const char* other_sid, int type);
     void all_messages_804();
     void response_message_805(int id, int oper);      // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
-    void search_other_806(const char* other_sid);
+    void all_friends_806();
     
     void all_mails_700();
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；

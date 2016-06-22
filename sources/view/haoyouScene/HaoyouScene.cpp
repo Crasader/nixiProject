@@ -54,9 +54,11 @@ void HaoyouScene::onEnter(){
     BaseScene::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::stranger_view_802), "HTTP_FINISHED_802", NULL);
-    nc->addObserver(this, menu_selector(HaoyouScene::_804CallBack), "HTTP_FINISHED_804", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::strangers_callback_802), "HTTP_FINISHED_802", NULL);
+    nc->addObserver(this, menu_selector(HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
+
 }
 
 void HaoyouScene::onExit(){
@@ -130,27 +132,36 @@ void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
     
     NET->all_messages_804();
 }
-void HaoyouScene::_804CallBack(CCObject* pSender){
+void HaoyouScene::all_message_callback_804(CCObject* pSender){
     CCScene* scene = MessageLayer::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void HaoyouScene::haoyouCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->all_friends_806();
+}
+
+void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
+    LOADING->remove();
     CCScene* scene = HaoyouRankLayer::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void HaoyouScene::strangerCallBack(CCObject* pSender){
     LOADING->show_loading();
     NET->recommend_stranger_802();
 }
+
 void HaoyouScene::paihangCallBack(CCObject* pSender){
     CCScene* scene = TotalRankScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-void HaoyouScene::stranger_view_802(cocos2d::CCObject *pSender){
+void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){
     LOADING->remove();
     CCScene* scene = StrangerScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);

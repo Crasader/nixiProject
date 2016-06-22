@@ -148,6 +148,14 @@ void NetManager::social_info_800() {
     this->post_data(800, string(""));
 }
 
+void NetManager::search_other_801(const char *other_sid) {
+    FastWriter writer;
+    Value root;
+    root["other"] = other_sid;
+    string data = writer.write(root);
+    this->post_data(801, data);
+}
+
 void NetManager::recommend_stranger_802() {
     this->post_data(802, string(""));
 }
@@ -174,12 +182,8 @@ void NetManager::response_message_805(int id, int oper) {
     this->post_data(805, data);
 }
 
-void NetManager::search_other_806(const char *other_sid) {
-    FastWriter writer;
-    Value root;
-    root["other"] = other_sid;
-    string data = writer.write(root);
-    this->post_data(806, data);
+void NetManager::all_friends_806() {
+    this->post_data(806, string(""));
 }
 
 
