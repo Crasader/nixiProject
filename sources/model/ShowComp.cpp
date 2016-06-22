@@ -15,6 +15,7 @@ ShowComp::~ShowComp() {
 
 bool ShowComp::init() {
     _ondress = NULL;
+    isadd = 0;
     
     return true;
 }

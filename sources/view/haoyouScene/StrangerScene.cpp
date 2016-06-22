@@ -164,6 +164,7 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
 void StrangerScene::result_tip(){
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
+    
 }
 
 void StrangerScene::creat_Man(){

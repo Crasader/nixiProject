@@ -32,7 +32,7 @@ public:
     void init_friends(Value json);
     
 public:
-    CCDictionary* strangers() const;
+    CCDictionary* strangers();
     CCDictionary* friends() const;
     bool has_send_energy(const char* other_sid);
     int energy_has_token();
