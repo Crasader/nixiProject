@@ -24,6 +24,9 @@ bool HaoyouRankLayer::init(){
         return false;
     }
     
+    _selected_id = CCString::create(((CCString*)DATA->getSocial()->friends()->allKeys()->objectAtIndex(0))->getCString());
+    _selected_id->retain();
+    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -46,6 +49,7 @@ void HaoyouRankLayer::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::change_id), "WHEN_ID_CHANGED", NULL);
 }
 
 void HaoyouRankLayer::onExit(){
@@ -178,8 +182,10 @@ void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
-    _panel = NotePanel::create();
-    this->addChild(_panel, 10000);
+    if(_selected_id){
+        _panel = NotePanel::create();
+        this->addChild(_panel, 10000);
+    }
 }
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
@@ -588,7 +594,13 @@ void HaoyouRankLayer::initClothes(){//穿衣服
     }
 }
 
-
+void HaoyouRankLayer::change_id(CCObject* pObj) {
+    CCString* str_id = (CCString*)pObj;
+    CCLOG("change_id = %s", str_id->getCString());
+    CC_SAFE_RELEASE(_selected_id);
+    _selected_id = str_id;
+    _selected_id->retain();
+}
 
 
 

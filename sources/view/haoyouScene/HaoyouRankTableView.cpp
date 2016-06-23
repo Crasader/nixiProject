@@ -12,6 +12,7 @@
 #include "PromptLayer.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "HaoyouRankLayer.h"
 
 HaoyouRankTableView::~HaoyouRankTableView(){}
 
@@ -22,7 +23,7 @@ bool HaoyouRankTableView::init(){
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
-    selectedIndex = 0;
+    
     _friends = DATA->getSocial()->friends()->allKeys();
     if (_friends == NULL) {
         _friends = CCArray::create();
@@ -30,6 +31,9 @@ bool HaoyouRankTableView::init(){
     _friends->retain();
     allNumber = _friends->count();
     
+    selectedIndex = 0;
+//    (HaoyouRankLayer*)this->getParent()->_selected_id = (CCString*)_friends->objectAtIndex(selectedIndex);
+
     
     pTableView = CCTableView::create(this, CCSizeMake(248, 6*138));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -200,6 +204,8 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
         
         // 记录需要变大节点
         selectedIndex = cell->getIdx();
+        CCString* str_id = CCString::create(((CCString*)_friends->objectAtIndex(selectedIndex))->getCString());
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("WHEN_ID_CHANGED", str_id);
         
         // 需要变大
         sprNode = (CCSprite*)cell->getChildByTag(selectedIndex);
@@ -579,6 +585,10 @@ void HaoyouRankTableView::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankTableView::send_message_callback_803), "HTTP_FINISHED_803", NULL);
+    
+#warning "12323123"
+    CCString* str_id = CCString::create(((CCString*)_friends->objectAtIndex(0))->getCString());
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("WHEN_ID_CHANGED", str_id);
 }
 
 void HaoyouRankTableView::onExit(){

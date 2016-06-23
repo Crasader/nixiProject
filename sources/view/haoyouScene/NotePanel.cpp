@@ -10,6 +10,10 @@
 #include "DisplayManager.h"
 #include "MMCursorTextField.h"
 #include "CursorTextField.h"
+#include "Loading2.h"
+#include "NetManager.h"
+#include "HaoyouRankLayer.h"
+#include "DataManager.h"
 
 NotePanel::~NotePanel(){
     
@@ -53,19 +57,22 @@ void NotePanel::initView(){
     note_panel->setPosition(DISPLAY->center());
     this->addChild(note_panel);
     
-//    CCString* title_str = CCString::createWithFormat("发给 %s 的纸条", "女总裁");
-    CCLabelTTF* title = CCLabelTTF::create("发给 女总裁 的纸条:", DISPLAY->font(), 33);
+    _other_id = ((HaoyouRankLayer*)this->getParent())->_selected_id;
+    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(_other_id->getCString());
+    const char* nickname = show->nickname();
+    CCString* title_str = CCString::createWithFormat("发给 %s 的纸条:", nickname);
+    CCLabelTTF* title = CCLabelTTF::create(title_str->getCString(), DISPLAY->font(), 33);
     title->setPosition(ccp(note_panel->getContentSize().width/2 - 50, note_panel->getContentSize().height*.9));
     title->setColor(ccc3(110, 92, 118));
     note_panel->addChild(title);
     
-    CursorTextField* m_text = CursorTextField::cursorTextFieldWithPlaceHolder("点击进行输入...", CCSizeMake(350, 350), kCCTextAlignmentLeft, DISPLAY->font(), 23);
+    CursorTextField* m_text = CursorTextField::cursorTextFieldWithPlaceHolder("请在这里输入...", CCSizeMake(350, 350), kCCTextAlignmentLeft, DISPLAY->font(), 23);
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.5));
-    m_text->setMaxTextBytes(200);
+    m_text->setMaxTextBytes(100);
 //    m_text->setDelegate(this);
     note_panel->addChild(m_text);
-    
+        
     CCLabelTTF* word = CCLabelTTF::create("字数: ", DISPLAY->font(), 19);
     word->setPosition(ccp(note_panel->getContentSize().width*.75f - 30, note_panel->getContentSize().height*.2f));
     note_panel->addChild(word);
@@ -105,7 +112,11 @@ void NotePanel::initView(){
 //}
 
 void NotePanel::btn_send_callback(){
-    this->removeFromParentAndCleanup(true);
+//    LOADING->show_loading();
+//    const char id = this->getParent()->getCurSelectedId();
+//    NET->send_papar_809();
+    
+//    this->removeFromParentAndCleanup(true);
 }
 
 void NotePanel::note_callback_809(){

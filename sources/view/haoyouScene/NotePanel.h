@@ -79,13 +79,16 @@ public:
 //    MMPromptLayer* promptLayer;
     
     //    MMJYTextField* m_text;
+    
+    CCString* _other_id;
+    
     CursorTextField*  m_text;
     
     CCLabelTTF* _word_count;
     
 public:
     
-    void update(float dt);
+//    void update(float dt);
     
     void initView();
     void btn_send_callback();

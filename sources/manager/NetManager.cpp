@@ -194,6 +194,27 @@ void NetManager::take_energy_807() {
     this->post_data(807, data);
 }
 
+void NetManager::all_paper_808() {
+    this->post_data(808, string(""));
+}
+
+void NetManager::send_papar_809(const char *other_sid, const char *contents) {
+    FastWriter writer;
+    Value root;
+    root["other"] = other_sid;
+    root["contents"] = contents;
+    string data = writer.write(root);
+    this->post_data(809, data);
+}
+
+void NetManager::delete_paper_811(int id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    string data = writer.write(root);
+    this->post_data(811, data);
+}
+
 
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
