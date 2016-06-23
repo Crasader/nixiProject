@@ -72,7 +72,7 @@ void HaoyouScene::keyBackClicked(){
 }
 
 void HaoyouScene::creat_view(){
-    roomSpr = CCSprite::create("res/pic/qingjingScene/qj_bg.png");
+    roomSpr = CCSprite::create("res/pic/qingjingScene/bgimage/33.png");
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
@@ -233,9 +233,9 @@ void HaoyouScene::hiddenCallback2(){
 
 
 void HaoyouScene::creat_Man(){
-    float widthFolt = .65f;
-    float heightFloat = .5f;
-    float scaleFloat = 1.f;
+    float widthFolt = .8f;
+    float heightFloat = .3f;
+    float scaleFloat = 1.5f;
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
     manSpr->setScale(scaleFloat);
@@ -248,9 +248,9 @@ void HaoyouScene::creat_Man(){
 }
 void HaoyouScene::initClothes(){//穿衣服
     CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
-    float widthFolt = .65f;
-    float heightFloat = .5f;
-    float scaleFloat = 1.f;
+    float widthFolt = .8f;
+    float heightFloat = .3f;
+    float scaleFloat = 1.5f;
     bool flipxBool = false;
     
     for (int i = Tag_Rank_TouFa; i <= Tag_Rank_Bao; i++) {
