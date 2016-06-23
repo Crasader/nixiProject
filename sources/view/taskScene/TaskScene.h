@@ -49,6 +49,8 @@ public:
     
 public:
     
+    CCDictionary* allClothesDic;
+    
     CCSprite* roomSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;

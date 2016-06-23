@@ -176,6 +176,8 @@ public:
     void initClothes();//穿衣服
     void ChangeClothes(CCObject* pSender);
     void ChangClothesIndex(CCObject* pSender);
+    void reductionShangyi();
+    void reductionShipin(int index);
     void buttonStatus();
     void crate_Tishi();
     
