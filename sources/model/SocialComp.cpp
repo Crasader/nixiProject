@@ -124,3 +124,30 @@ int SocialComp::energy_could_take() {
     return _energy_receive->count() - _energy_token;
 }
 
+ShowComp* SocialComp::getSelectedStrangerByIndex(int idx) {
+    CCArray* arrKeys = _strangers->allKeys();
+    int count = arrKeys->count();
+    if (0 <= idx && idx < count) {
+        CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
+        ShowComp* show = (ShowComp*)_strangers->objectForKey(key->getCString());
+        return show;
+    }
+    else {
+        return NULL;
+    }
+}
+
+ShowComp* SocialComp::getSelectedFriendByIndex(int idx) {
+    CCArray* arrKeys = _strangers->allKeys();
+    int count = arrKeys->count();
+    if (0 <= idx && idx < count) {
+        CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
+        ShowComp* show = (ShowComp*)_strangers->objectForKey(key->getCString());
+        return show;
+    }
+    else {
+        return NULL;
+    }
+}
+
+
