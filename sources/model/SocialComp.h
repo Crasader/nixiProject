@@ -15,6 +15,8 @@
 USING_NS_CC;
 using namespace CSJson;
 
+class ShowComp;
+
 typedef enum {
     e_Msg_Friend_Ask = 1,   // 加好友消息的类型
     e_Msg_Send_Energy,      // 送体力消息的类型
@@ -36,7 +38,12 @@ public:
     CCDictionary* friends() const;
     bool has_send_energy(const char* other_sid);
     int energy_could_take();
-        
+    
+    ShowComp* getSelectedStrangerByIndex(int idx);
+    ShowComp* getSelectedFriendByIndex(int idx);
+//    CC_SYNTHESIZE_PASS_BY_REF(ShowComp, _selectedStranger, SelectedStranger);
+//    CC_SYNTHESIZE_PASS_BY_REF(ShowComp, _selectedFriend, SelectedFriend);
+    
 private:
     int                 _energy_token;
     CCDictionary*       _strangers;

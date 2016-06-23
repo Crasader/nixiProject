@@ -59,9 +59,10 @@ void BaseScene::init_UI(){
     }else{
         nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .1f, DISPLAY->ScreenHeight()* .97f));
     }
-    
-    CCLabelTTF* nameLabel = CCLabelTTF::create(DATA->getShow()->nickname(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    nameLabel->setPosition(ccp(nameItem->getContentSize().width* .55f, nameItem->getContentSize().height* .5f));
+    CCString* nameStr = CCString::createWithFormat("游客8A79B648");
+//    CCString* nameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
+    CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+    nameLabel->setPosition(ccp(nameItem->getContentSize().width* .545f, nameItem->getContentSize().height* .5f));
     nameLabel->setColor(ccc3(113, 89, 102));
     nameItem->addChild(nameLabel);
     
@@ -89,7 +90,7 @@ void BaseScene::init_UI(){
     // 钻石框
     CCSprite* goldSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
     CCSprite* goldSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
-    goldSpr2->setScale(DISPLAY->btn_scale());
+//    goldSpr2->setScale(DISPLAY->btn_scale());
     goldItem = CCMenuItemSprite::create(goldSpr1, goldSpr2, this, menu_selector(BaseScene::goldCallBack));
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
         goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .965f));

@@ -50,6 +50,8 @@ bool ClothesTableView::init(){
     kuangSpr8->retain();
     kuangSpr9 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
     kuangSpr9->retain();
+    kuangSpr10 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+    kuangSpr10->retain();
     
     
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -167,6 +169,11 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
                 kuangSpr9->removeFromParentAndCleanup(true);
                 kuangSpr9 = NULL;
             }
+        }else if (sub_part == 20){
+            if (kuangSpr10 != NULL && kuangSpr9->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
         }
         else{
             if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
@@ -188,13 +195,76 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
         cloth_integer = CCInteger::create(cloth_id);
         CCString* keyStr;
         if (clothesType != Tag_GJ_ShiPin) {
-            keyStr = CCString::createWithFormat("%d", clothesType);
-            clothesTemp->setObject(cloth_integer, keyStr->getCString());
+            if (clothesType == Tag_GJ_ShangYi) {
+                if (sub_part == 1) {
+                    CCInteger* kuziInteger = CCInteger::create(40000);
+                    CCString* kuziStr = CCString::createWithFormat("%d", Tag_GJ_KuZi);
+                    clothesTemp->setObject(kuziInteger, kuziStr->getCString());
+                    
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }else{
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }
+            }else if (clothesType == Tag_GJ_KuZi) {
+                CCInteger* shangyiInteger = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", Tag_GJ_ShangYi)->getCString());
+                int shangyi_sub_part = 0;
+                CCDictionary* shangyiDic = CONFIG->clothes();// 所有衣服
+                CCArray* shangyiArr = (CCArray* )shangyiDic->objectForKey(Tag_GJ_ShangYi);// 获得当前类型所有衣服
+                for (int i = 0; i < shangyiArr->count(); i++) {
+                    CCDictionary* syDic = (CCDictionary* )shangyiArr->objectAtIndex(i);
+                    int shangyiId = syDic->valueForKey("id")->intValue();
+                    if (shangyiId == shangyiInteger->getValue()) {
+                        shangyi_sub_part = syDic->valueForKey("sub_part")->intValue();
+                    }
+                }
+                
+                if (shangyi_sub_part == 1) {
+                    CCInteger* shangyiInteger = CCInteger::create(30000);
+                    CCString* shangyiStr = CCString::createWithFormat("%d", Tag_GJ_ShangYi);
+                    clothesTemp->setObject(shangyiInteger, shangyiStr->getCString());
+                    
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }else{
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }
+                
+            }else{
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                clothesTemp->setObject(cloth_integer, keyStr->getCString());
+            }
         }else{
-            keyStr = CCString::createWithFormat("%d", clothesType);
-            CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
-            shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
-            clothesTemp->setObject(shipinDic, keyStr->getCString());
+            if (sub_part == 13 || sub_part == 14) {
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                CCString* _20_keyStr = CCString::createWithFormat("%d", 20);
+                CCInteger* _20Integer = CCInteger::create(70000);
+                shipinDic->setObject(_20Integer, _20_keyStr->getCString());
+                
+                CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+                shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                clothesTemp->setObject(shipinDic, keyStr->getCString());
+            }else if (sub_part == 20){
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                CCString* _13_keyStr = CCString::createWithFormat("%d", 13);
+                CCInteger* _13Integer = CCInteger::create(70000);
+                shipinDic->setObject(_13Integer, _13_keyStr->getCString());
+                
+                CCString* _14_keyStr = CCString::createWithFormat("%d", 14);
+                CCInteger* _14Integer = CCInteger::create(70000);
+                shipinDic->setObject(_14Integer, _14_keyStr->getCString());
+                
+                CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+                shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                clothesTemp->setObject(shipinDic, keyStr->getCString());
+            }else{
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+                shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                clothesTemp->setObject(shipinDic, keyStr->getCString());
+            }
         }
         
         if (sub_part == 11) {
@@ -227,6 +297,11 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
             kuangSpr3->setPosition(ccp(18, 170));
             kuangSpr3->setTag(cell->getIdx());
             node->addChild(kuangSpr3, 5);
+            
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
         }else if (sub_part == 14){
             if (kuangSpr4 != NULL && kuangSpr4->getParent() != NULL) {
                 kuangSpr4->removeFromParentAndCleanup(true);
@@ -237,6 +312,11 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
             kuangSpr4->setPosition(ccp(18, 170));
             kuangSpr4->setTag(cell->getIdx());
             node->addChild(kuangSpr4, 5);
+            
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
         }else if (sub_part == 15){
             if (kuangSpr5 != NULL && kuangSpr5->getParent() != NULL) {
                 kuangSpr5->removeFromParentAndCleanup(true);
@@ -287,6 +367,25 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
             kuangSpr9->setPosition(ccp(18, 170));
             kuangSpr9->setTag(cell->getIdx());
             node->addChild(kuangSpr9, 5);
+        }else if (sub_part == 20){
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
+            CCNode* node = cell->getChildByTag(cell->getIdx());
+            kuangSpr10 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr10->setPosition(ccp(18, 170));
+            kuangSpr10->setTag(cell->getIdx());
+            node->addChild(kuangSpr10, 5);
+            
+            if (kuangSpr3 != NULL && kuangSpr3->getParent() != NULL) {
+                kuangSpr3->removeFromParentAndCleanup(true);
+                kuangSpr3 = NULL;
+            }
+            if (kuangSpr4 != NULL && kuangSpr4->getParent() != NULL) {
+                kuangSpr4->removeFromParentAndCleanup(true);
+                kuangSpr4 = NULL;
+            }
         }
         else{
             if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
@@ -300,14 +399,13 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
             node->addChild(kuangSpr, 5);
         }
         
-        
-        
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangClothesIndex", (CCObject* )0);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
     }
-    
+    sliderV = pTableView->getContentOffset().y;
+    this->updateTableCell();
 }
 
 //每个cell的size
@@ -522,6 +620,15 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             kuangSpr9->setPosition(ccp(18, 170));
             kuangSpr9->setTag(idx);
             spr->addChild(kuangSpr9, 5);
+        }else if (sub_part == 20){
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
+            kuangSpr10 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr10->setPosition(ccp(18, 170));
+            kuangSpr10->setTag(idx);
+            spr->addChild(kuangSpr10, 5);
         }
         else{
             if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
@@ -614,6 +721,10 @@ void ClothesTableView::updateTableView(int type){
         kuangSpr9->removeFromParentAndCleanup(true);
         kuangSpr9 = NULL;
     }
+    if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+        kuangSpr10->removeFromParentAndCleanup(true);
+        kuangSpr10 = NULL;
+    }
     
     pTableView->reloadData();
 }
@@ -624,10 +735,9 @@ int ClothesTableView::updataClothes(int type){
     return index;
 }
 void ClothesTableView::updateTableCell(){
-    
+    pTableView->reloadData();
+    pTableView->setContentOffset(CCSizeMake(0, sliderV));
 }
-
-
 
 
 

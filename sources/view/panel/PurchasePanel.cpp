@@ -158,7 +158,8 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     ProductItem* pro = (ProductItem* )item->getUserObject();
     CCLOG("clicked %s", pro->id.c_str());
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    LOADING->show_loading();
+
+//    LOADING->show_loading();
     IOSIAPManager* d = IOSIAPManager::Inst();
     if (d->canMakePurchases()) {
         CCLOG("can purchases");

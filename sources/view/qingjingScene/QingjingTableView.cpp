@@ -24,7 +24,7 @@ bool QingjingTableView::init(){
         return false;
     }
     allNumber = 0;
-    selectedIndex = -1;
+    selectedIndex = DATA->getChapterNumber();
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/qingjingScene/qj_button.plist");
     
@@ -113,14 +113,21 @@ cocos2d::extension::CCTableViewCell* QingjingTableView::tableCellAtIndex(cocos2d
     CCTableViewCell* pCell = new CCTableViewCell();
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
-    
+
     if (idx <= OpenToWhichOne) {
         
-        CCSprite* button = CCSprite::createWithSpriteFrameName("qj_button1.png");
+        CCSprite* button;
+        if (selectedIndex == idx) {
+            button = CCSprite::createWithSpriteFrameName("qj_button2.png");
+            sprNode = spr;
+        }else{
+            button = CCSprite::createWithSpriteFrameName("qj_button1.png");
+        }
         button->setAnchorPoint(CCPointZero);
         button->setPosition(CCPointZero);
         button->setTag(idx);
         spr->addChild(button);
+        
         
         CCLabelTTF* label = CCLabelTTF::create(DISPLAY->GetOffTheName(idx)->getCString(), DISPLAY->fangzhengFont(), 25);
         label->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .5f));

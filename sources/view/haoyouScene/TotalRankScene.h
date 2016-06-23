@@ -84,6 +84,8 @@ public:
     
 public:
     
+    CCDictionary* allClothesDic;
+    
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
     
