@@ -11,6 +11,8 @@
 #include "DisplayManager.h"
 #include "TotalRankScene.h"
 
+const float NAME_FONT_SIZE = 22;
+
 TotalRankTableView::~TotalRankTableView(){}
 
 bool TotalRankTableView::init(){
@@ -80,7 +82,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg1->setTag(0x10200);
             bg1->addChild(name_bg1);
             
-            CCLabelTTF* name1 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
@@ -108,7 +110,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg1->setTag(0x10200);
             bg1->addChild(name_bg1);
             
-            CCLabelTTF* name1 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
@@ -135,7 +137,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg1->setTag(0x10200);
             bg1->addChild(name_bg1);
             
-            CCLabelTTF* name1 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
@@ -162,7 +164,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg1->setTag(0x10200);
             bg1->addChild(name_bg1);
             
-            CCLabelTTF* name1 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
@@ -210,7 +212,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg2->setTag(0x10200);
             bg2->addChild(name_bg2);
             
-            CCLabelTTF* name2 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -238,7 +240,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg2->setTag(0x10200);
             bg2->addChild(name_bg2);
             
-            CCLabelTTF* name2 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -265,7 +267,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg2->setTag(0x10200);
             bg2->addChild(name_bg2);
             
-            CCLabelTTF* name2 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -292,7 +294,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             name_bg2->setTag(0x10200);
             bg2->addChild(name_bg2);
             
-            CCLabelTTF* name2 = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -405,7 +407,7 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("我是昵称", DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
@@ -452,7 +454,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("我是昵称", DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);

@@ -9,7 +9,7 @@
 #include "CreateName.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
-
+#include "DataManager.h"
 //#include "AHMessageBox.h"
 #include "MMMachining.h"
 #include "FileManager.h"
@@ -76,18 +76,22 @@ void CreateName::create_baes_view()
     //
     CCSize size_bar = CCSizeMake(380, 40);
     _tf_nickname = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
-    _tf_nickname->setMaxLength(16);
+    _tf_nickname->setMaxLength(30);
     _tf_nickname->setFontColor(yanse);
     _tf_nickname->setPlaceHolder("请输入昵称");
     _tf_nickname->setFontName(DISPLAY->fangzhengFont());
     _tf_nickname->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_nickname->setReturnType(kKeyboardReturnTypeDone);
-    _tf_nickname->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.45));
+//    _tf_nickname->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.45));
+    _tf_nickname->setPosition(ccp(boxsize.width * 0.55, boxsize.height * 0.45));
     _tf_nickname->setDelegate(this);
     _tf_nickname->setFontSize(36.f);
+    CCString* rand_name = CCString::createWithFormat("游客%s", DATA->getLogin()->obtain_sid());
+    _tf_nickname->setText(rand_name->getCString());
     spt_inputbox->addChild(_tf_nickname);
     
     // rand
+    /*
     CCSprite* randNormal = CCSprite::create("res/pic/loginScene/btn_random.png");
     CCSprite* randSelected = CCSprite::create("res/pic/loginScene/btn_random.png");
     randSelected->setScale(DISPLAY->btn_scale());
@@ -95,7 +99,7 @@ void CreateName::create_baes_view()
     CCMenu* randMenu = CCMenu::createWithItem(rand);
     randMenu->setPosition(ccp(boxsize.width * 0.86, _tf_nickname->getPositionY() - 6));
     spt_inputbox->addChild(randMenu);
-    
+    */
     //
     CCSprite* spt_confirm_normal = CCSprite::create("res/pic/loginScene/btn_nickname.png");
     CCSprite* spt_confirm_selected = CCSprite::create("res/pic/loginScene/btn_nickname.png");
@@ -116,7 +120,7 @@ void CreateName::create_content_view()
 
 bool CreateName::check_nickname(std::string str)
 {
-    int lenLimit = 7; // 昵称总长限制
+    int lenLimit = 10; // 昵称总长限制
     
     if (str.empty()) {
         PromptLayer* prompt = PromptLayer::create();
@@ -169,7 +173,7 @@ bool CreateName::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过7位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
                 return false;
             }
         }
@@ -184,7 +188,7 @@ bool CreateName::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过7位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
                 return false;
             }
         }else if (zhongBool && yingBool){ // 混合英文、数字和中文
@@ -198,7 +202,7 @@ bool CreateName::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过7位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
                 return false;
             }
         }
