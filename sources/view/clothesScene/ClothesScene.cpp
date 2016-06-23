@@ -1034,7 +1034,7 @@ void ClothesScene::initClothes(){//穿衣服
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
-                        const CCString* layer4 =  clothDic->valueForKey("layer3");
+                        const CCString* layer4 =  clothDic->valueForKey("layer4");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _bSpr1 = CCSprite::create(str1->getCString());
@@ -1153,7 +1153,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _tfSpr2 = CCSprite::create(str2->getCString());
                             _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr2->setTag(Tag_GJ_TouFa2);
-                            _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order2")->intValue());
+                            _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -1161,7 +1161,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _tfSpr3 = CCSprite::create(str3->getCString());
                             _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr3->setTag(Tag_GJ_TouFa3);
-                            _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order3")->intValue());
+                            _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
