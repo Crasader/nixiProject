@@ -24,6 +24,26 @@ bool NotePanel::init(){
     return true;
 }
 
+void NotePanel::onEnter(){
+    CCLayer::onEnter();
+    
+    this->setTouchEnabled(true);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchSwallowEnabled(true);
+    //    this->setKeypadEnabled(true);
+    
+//    this->scheduleUpdate();
+    
+//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+//    nc->addObserver(this, SEL_CallFuncO(&NotePanel::note_callback_809), "HTTP_FINISHED_809", NULL);
+}
+
+void NotePanel::onExit(){
+    //    this->setKeypadEnabled(false);
+//    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    CCLayer::onExit();
+}
+
 void NotePanel::initView(){
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
@@ -42,15 +62,18 @@ void NotePanel::initView(){
     CursorTextField* m_text = CursorTextField::cursorTextFieldWithPlaceHolder("点击进行输入...", CCSizeMake(350, 350), kCCTextAlignmentLeft, DISPLAY->font(), 23);
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.5));
-    m_text->setMaxTextBytes(170);
+    m_text->setMaxTextBytes(200);
 //    m_text->setDelegate(this);
     note_panel->addChild(m_text);
     
+    CCLabelTTF* word = CCLabelTTF::create("字数: ", DISPLAY->font(), 19);
+    word->setPosition(ccp(note_panel->getContentSize().width*.75f - 30, note_panel->getContentSize().height*.2f));
+    note_panel->addChild(word);
     
-    CCLabelTTF* word_count = CCLabelTTF::create("字数: 0/30", DISPLAY->font(), 19);
-    word_count->setPosition(ccp(note_panel->getContentSize().width*.75f, note_panel->getContentSize().height*.2f));
-    word_count->setColor(ccc3(135, 108, 123));
-    note_panel->addChild(word_count);
+//    _word_count = CCLabelTTF::create("字数: 0/50", DISPLAY->font(), 19);
+//    _word_count->setPosition(ccp(note_panel->getContentSize().width*.75f, note_panel->getContentSize().height*.2f));
+//    _word_count->setColor(ccc3(135, 108, 123));
+//    note_panel->addChild(_word_count);
     
     CCSprite* send_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send.png");
     CCSprite* send_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send.png");
@@ -70,28 +93,28 @@ void NotePanel::initView(){
     this->addChild(tips);
 }
 
+//void NotePanel::update(float dt)(){
+//    if(_word_count){
+//        this->removeChild(_word_count);
+//    }
+//    
+//    _word_count = CCLabelTTF::create("字数: 0/50", DISPLAY->font(), 19);
+//    _word_count->setPosition(ccp(note_panel->getContentSize().width*.75f, note_panel->getContentSize().height*.2f));
+//    _word_count->setColor(ccc3(135, 108, 123));
+//    note_panel->addChild(_word_count);
+//}
+
 void NotePanel::btn_send_callback(){
     this->removeFromParentAndCleanup(true);
+}
+
+void NotePanel::note_callback_809(){
+    
 }
 
 bool NotePanel::onCursorTextFieldInsertText(CursorTextField* sender, const char* newText, int newTextByte) {
     
     return false;
-}
-
-
-void NotePanel::onEnter(){
-    CCLayer::onEnter();
-    
-    this->setTouchEnabled(true);
-    this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchSwallowEnabled(true);
-//    this->setKeypadEnabled(true);
-}
-
-void NotePanel::onExit(){
-//    this->setKeypadEnabled(false);
-    CCLayer::onExit();
 }
 
 bool NotePanel::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){

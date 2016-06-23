@@ -81,14 +81,16 @@ public:
     //    MMJYTextField* m_text;
     CursorTextField*  m_text;
     
+    CCLabelTTF* _word_count;
+    
 public:
+    
+    void update(float dt);
     
     void initView();
     void btn_send_callback();
-//    void fhCallBack(CCObject* pSender);
-//    void fsCallBack(CCObject* pSender);
-//    void close_view(float dt);
     
+    void note_callback_809();
 };
 
 #endif /* NotePanel_hpp */
