@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "NotePanel.h"
 
 USING_NS_CC;
 
@@ -70,7 +71,13 @@ public:
     void btn_share_callback(CCObject* pSender);
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
-        
+    
+    void result_tip();
+    
+public:
+    NotePanel* _panel;
+
+    
 public:
     
     CCDictionary* allClothesDic;

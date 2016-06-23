@@ -12,6 +12,8 @@
 #include "DataManager.h"
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
+#include "NotePanel.h"
+#include "PromptLayer.h"
 
 
 StrangerScene:: ~StrangerScene(){}
@@ -42,9 +44,14 @@ CCScene* StrangerScene::scene(){
 
 void StrangerScene::onEnter(){
     BaseScene::onEnter();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
 }
 
 void StrangerScene::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
     BaseScene::onExit();
 }
 
@@ -115,22 +122,17 @@ void StrangerScene::createView(){
     name_bg->setPosition(ccp(self_spr->getContentSize().width - name_bg->getContentSize().width/2, 90));
     self_spr->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("我是昵称", DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    const char* nickname = DATA->getShow()->nickname();
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
-    CCLabelTTF* cloth_count = CCLabelTTF::create("1000", DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
     
-//    CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
-//    CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
-//    tili_spr2->setScale(1.02f);
-//    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(StrangerScene::getTili));
-//    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
-//    menu_tili->setPosition(ccp(self_spr->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 28));
-//    self_spr->addChild(menu_tili);
-//    
+   
     this->initStranger();
 }
 
@@ -151,7 +153,8 @@ void StrangerScene::btn_share_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_note_callback(CCObject* pSender){
-    
+    _panel = NotePanel::create();
+    this->addChild(_panel, 10000);
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){
@@ -160,7 +163,11 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-
+void StrangerScene::result_tip(){
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
+    
+}
 
 void StrangerScene::creat_Man(){
     float widthFolt = .5f;

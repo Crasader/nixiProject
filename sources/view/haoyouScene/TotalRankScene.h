@@ -12,6 +12,8 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "NotePanel.h"
+#include "FindPanel.h"
 
 USING_NS_CC;
 
@@ -75,6 +77,10 @@ public:
     
     void sendTili();
     void getTili();
+    
+public:
+    NotePanel* _panel;
+    FindPanel* _find_panel;
     
 public:
     

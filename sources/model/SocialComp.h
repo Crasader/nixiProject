@@ -27,17 +27,23 @@ public:
     ~SocialComp();
     CREATE_FUNC(SocialComp);
     bool init();
-    
     void init_with_json(Value json);
-    void update_stranger(Value json);
+    void update_strangers(Value json);
+    void init_friends(Value json);
     
 public:
-    CCDictionary* strangers() const;
-    
-protected:
-    
+    CCDictionary* strangers();
+    CCDictionary* friends() const;
+    bool has_send_energy(const char* other_sid);
+    int energy_could_take();
+        
 private:
+    int                 _energy_token;
     CCDictionary*       _strangers;
+    CCDictionary*       _friends;
+    CCArray*            _arr_friends;
+    CCArray*            _energy_send;
+    CCArray*            _energy_receive;
 };
 
 #endif /* SocialComp_hpp */

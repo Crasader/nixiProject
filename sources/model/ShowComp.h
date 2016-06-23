@@ -21,7 +21,6 @@ public:
     ~ShowComp();
     CREATE_FUNC(ShowComp);
     bool init();
-    
     void init_with_json(Value json);
     
 public:
@@ -29,6 +28,8 @@ public:
     const char* nickname();
     int collected();            // 收集
     CCDictionary* ondress();    // 着装
+    
+    int             isadd;
     
 protected:
     

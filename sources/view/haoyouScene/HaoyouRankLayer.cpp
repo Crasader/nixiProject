@@ -12,6 +12,9 @@
 #include "DataManager.h"
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
+#include "Loading2.h"
+#include "NetManager.h"
+#include "PromptLayer.h"
 
 
 HaoyouRankLayer:: ~HaoyouRankLayer(){}
@@ -42,9 +45,14 @@ CCScene* HaoyouRankLayer::scene(){
 
 void HaoyouRankLayer::onEnter(){
     BaseScene::onEnter();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
 }
 
 void HaoyouRankLayer::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
     BaseScene::onExit();
 }
 
@@ -115,21 +123,28 @@ void HaoyouRankLayer::createView(){
     name_bg->setPosition(ccp(self_spr->getContentSize().width - name_bg->getContentSize().width/2, 90));
     self_spr->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("我是昵称", DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    const char* nickname = DATA->getShow()->nickname();
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
-    CCLabelTTF* cloth_count = CCLabelTTF::create("1000", DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
     
     CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     tili_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::getTili));
-    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
+    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::btn_getTili_callback));
+    menu_tili = CCMenu::create(item_tili, NULL);
     menu_tili->setPosition(ccp(self_spr->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 28));
     self_spr->addChild(menu_tili);
+    
+    _energy_could_get = DATA->getSocial()->energy_could_take();
+    if (_energy_could_get <= 0) {
+        menu_tili->setEnabled(false);
+    }
     
     this->initRank();
 }
@@ -145,8 +160,19 @@ void HaoyouRankLayer::initRank(){
     this->addChild(tabLayer, 5);
 }
 
-void HaoyouRankLayer::getTili(){
-    
+void HaoyouRankLayer::btn_getTili_callback(){
+    LOADING->show_loading();
+    NET->take_energy_807();
+}
+
+void HaoyouRankLayer::get_tili_807(){
+    LOADING->remove();
+    CCString* tip_str = CCString::createWithFormat("成功领取%d体力", _energy_could_get);
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), tip_str->getCString());
+    if (_energy_could_get <= 0) {
+        menu_tili->setEnabled(false);
+    }
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
@@ -154,7 +180,8 @@ void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
-    
+    _panel = NotePanel::create();
+    this->addChild(_panel, 10000);
 }
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){

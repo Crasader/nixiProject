@@ -68,13 +68,14 @@ public:
     int allNumber;
     int selectedIndex;
     
+    CCArray* _stangers;
     
 public:
     
     void bigSprite(int index, CCSprite* spr);
     void smallSprite(int index, CCSprite* spr);
     
-    void toBeFriend();
+    void toBeFriend(CCMenuItem* btn);
 };
 
 #endif /* StrangerTableView_hpp */

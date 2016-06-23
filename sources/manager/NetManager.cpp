@@ -139,11 +139,22 @@ void NetManager::save_nickname_904(const char *nickname) {
     this->post_data(904, data);
 }
 
-
 void NetManager::check_news_910() {
     this->post_data(910, string(""));
 }
 
+
+void NetManager::social_info_800() {
+    this->post_data(800, string(""));
+}
+
+void NetManager::search_other_801(const char *other_sid) {
+    FastWriter writer;
+    Value root;
+    root["other"] = other_sid;
+    string data = writer.write(root);
+    this->post_data(801, data);
+}
 
 void NetManager::recommend_stranger_802() {
     this->post_data(802, string(""));
@@ -171,12 +182,16 @@ void NetManager::response_message_805(int id, int oper) {
     this->post_data(805, data);
 }
 
-void NetManager::search_other_806(const char *other_sid) {
+void NetManager::all_friends_806() {
+    this->post_data(806, string(""));
+}
+
+void NetManager::take_energy_807() {
     FastWriter writer;
     Value root;
-    root["other"] = other_sid;
+    root["param"] = 1;
     string data = writer.write(root);
-    this->post_data(806, data);
+    this->post_data(807, data);
 }
 
 
@@ -257,6 +272,11 @@ void NetManager::save_dressed_401(CCDictionary *dressed) {
     }
     string data = writer.write(root);
     this->post_data(401, data);
+}
+
+
+void NetManager::ranking_list_300() {
+    this->post_data(300, string(""));
 }
 
 

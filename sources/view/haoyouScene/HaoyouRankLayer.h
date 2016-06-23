@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "NotePanel.h"
 
 USING_NS_CC;
 
@@ -71,11 +72,13 @@ public:
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     
-    void sendTili();
-    void getTili();
-    
+    void btn_getTili_callback();
+    void get_tili_807();
+        
 public:
-    
+    NotePanel* _panel;
+    int _energy_could_get;
+    CCMenu* menu_tili;
     
 public:
     

@@ -68,13 +68,15 @@ public:
     int allNumber;
     int selectedIndex;
     
+    CCArray* _friends;
     
 public:
     
     void bigSprite(int index, CCSprite* spr);
     void smallSprite(int index, CCSprite* spr);
     
-    void sendTili();
+    void sendTili(CCMenuItem* btn);
+    void send_message_callback_803(CCObject* pObj);
 };
 
 

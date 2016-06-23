@@ -386,7 +386,7 @@ void TestScene::response_message(cocos2d::CCMenuItem *btn) {
 }
 
 void TestScene::search_other() {
-    NET->search_other_806("8A79B644");
+    NET->search_other_801("8A79B644");
 }
 
 void TestScene::all_products() {
