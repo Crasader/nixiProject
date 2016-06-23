@@ -15,8 +15,8 @@
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
-
 #include "AppUtil.h"
+
 
 QingjingScene::QingjingScene(){
     
@@ -33,6 +33,8 @@ bool QingjingScene::init(){
     storyIndex = 0;
     renwuIndex = 0;
     
+    DATA->setChapterNumber(0);
+    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -41,6 +43,9 @@ bool QingjingScene::init(){
     this->creat_view();
     this->creat_Man();
     this->initClothes();
+    
+    this->creat_Tishi();
+    this->EnterTheTishi();
     
     return true;
 }
@@ -77,6 +82,7 @@ void QingjingScene::creat_view(){
     
     roomSpr = CCSprite::create("res/pic/qingjingScene/qj_bg.png");
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    roomSpr->setTag(0x99999);
     this->addChild(roomSpr);
     
     CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
@@ -116,6 +122,10 @@ void QingjingScene::creat_Tishi(){
         kuangSpr = NULL;
     }
     
+    if (this->getChildByTag(0x99999) != NULL) {
+        this->removeChildByTag(0x99999);
+    }
+    
     bool tempBool = false;
     int index = DATA->getChapterNumber();
     
@@ -127,9 +137,15 @@ void QingjingScene::creat_Tishi(){
     
     std::string renwuStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
     std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
+    std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
     renwuIndex = atoi(renwuIndexStr.c_str());
     
     int tiliIndex = 9;
+    CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
+    roomSpr = CCSprite::create(roomStr->getCString());
+    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    roomSpr->setTag(0x99999);
+    this->addChild(roomSpr);
     
     kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_kuang2.png");
     kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .155f));
@@ -314,10 +330,10 @@ void QingjingScene::ExitTishi(){
 }
 
 void QingjingScene::creat_Man(){
-    float widthFolt = .15f;
-    float heightFloat = .57f;
-    float scaleFloat = 1.f;
-    bool flipxBool = true;
+    float widthFolt = .65f;
+    float heightFloat = .3f;
+    float scaleFloat = 1.5f;
+    bool flipxBool = false;
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
     manSpr->setScale(scaleFloat);
@@ -332,10 +348,10 @@ void QingjingScene::creat_Man(){
 }
 void QingjingScene::initClothes(){//穿衣服
     CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
-    float widthFolt = .15f;
-    float heightFloat = .57f;
-    float scaleFloat = 1.f;
-    bool flipxBool = true;
+    float widthFolt = .65f;
+    float heightFloat = .3f;
+    float scaleFloat = 1.5f;
+    bool flipxBool = false;
     
     for (int i = Tag_QJ_TouFa; i <= Tag_QJ_Bao; i++) {
         if (i == Tag_QJ_TouFa) {
