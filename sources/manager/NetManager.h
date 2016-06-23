@@ -52,6 +52,9 @@ public:
     void response_message_805(int id, int oper);      // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void all_friends_806();
     void take_energy_807();
+    void all_paper_808();
+    void send_papar_809(const char* other_sid, const char* contents);;
+    void delete_paper_811(int id);
     
     void all_mails_700();
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
