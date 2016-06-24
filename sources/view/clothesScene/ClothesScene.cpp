@@ -592,6 +592,14 @@ void ClothesScene::crate_Tishi(){
     this->addChild(menu, 10);
 }
 void ClothesScene::texiaoCallBack(CCObject* pSender){
+    float widthFolt = .15f;
+    float heightFloat = .5f;
+    float scaleFloat = 1.5f;
+    
+    _ManSpr->setScale(scaleFloat);
+    _ManSpr->setPosition(ccp(-DISPLAY->ScreenWidth()* widthFolt, -DISPLAY->ScreenHeight()* heightFloat));
+    
+    
     
 }
 void ClothesScene::zhuangrongCallBack(CCObject* pSender){
@@ -630,49 +638,181 @@ void ClothesScene::startCallBack(CCObject* pSender){
     NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
 void ClothesScene::buyCallBack(CCObject* pSender){
-    if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
-        LOADING->show_loading();
-        NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-    }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
-        if (DATA->getPlayer()->diam < haveEnoughGold()) {
-            AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-            return;
-        }else if (!haveEnoughCoin()){
-            AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-        }
-    }
+    this->saveClothesMethods();
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
-    if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
-        LOADING->show_loading();
-        NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-    }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
-        if (DATA->getPlayer()->diam < haveEnoughGold()) {
-            AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-            return;
-        }else if (!haveEnoughCoin()){
-            AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    this->saveClothesMethods();
+}
+void ClothesScene::saveClothesMethods(){
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    bool phaseBool = false;
+    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
+        CCArray* tempArr = CCArray::create();
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int sale = clothDic->valueForKey("sale")->intValue();
+            if (sale != 0) {
+                tempArr->addObject(clothDic);
+            }
+        }
+        for (int k = 0; k < tempArr->count(); k++) {
+            CCDictionary* dic = (CCDictionary* )tempArr->objectAtIndex(k);
+            CCInteger* clothesTemp_id;
+            CCDictionary* shipinDic;
+            if (i != Tag_GJ_ShiPin) {
+                clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                    int phase = dic->valueForKey("phase")->intValue();
+                    if (phase > DATA->getPlayer()->phase) {
+                        phaseBool = true;
+                        
+                        CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                        CCString* keyStr = CCString::createWithFormat("%d", i);
+                        myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
+                        this->ChangeClothes((CCObject* )updataClothes(i));
+                        
+                        continue;
+                    }
+                }
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                CCInteger* clothesTemp_id;
+                for (int n = 11; n <= 20; n++) {
+                    clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                        int phase = dic->valueForKey("phase")->intValue();
+                        if (phase > DATA->getPlayer()->phase) {
+                            phaseBool = true;
+                            
+                            CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                            CCString* keyStr = CCString::createWithFormat("%d", i);
+                            CCString* sub_part_keyStr = CCString::createWithFormat("%d", dic->valueForKey("sub_part")->intValue());
+                            CCDictionary* shipinDic2 = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                            shipinDic2->setObject(cloth_integer, sub_part_keyStr->getCString());
+                            myClothesTempDic->setObject(shipinDic2, keyStr->getCString());
+                            
+                            this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
+                            
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if (phaseBool) {
+        
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
+        
+        _delegate->clothesUpdateTableCell();
+    }else{
+        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
+            LOADING->show_loading();
+            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+            if (DATA->getPlayer()->diam < haveEnoughGold()) {
+                AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+                return;
+            }else if (!haveEnoughCoin()){
+                AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
         }
     }
 }
+void ClothesScene::ChangeShipin(int clothesId, int sub_part){
+    CCDictionary* dic = CONFIG->clothes();// 所有衣服
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_GJ_ShiPin);// 获得当前类型所有衣服
+    
+    this->reductionShipin(sub_part);
+    
+    if (_ManSpr->getChildByTag(sub_part + 1000) != NULL) {
+        _ManSpr->removeChildByTag(sub_part + 1000);
+    }
+    if (_ManSpr->getChildByTag(sub_part + 2000) != NULL) {
+        _ManSpr->removeChildByTag(sub_part + 2000);
+    }
+    if (_ManSpr->getChildByTag(sub_part + 3000) != NULL) {
+        _ManSpr->removeChildByTag(sub_part + 3000);
+    }
+    
+    
+    if (clothesId == 70000) {
+        CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+        CCSprite* _spSpr1 = CCSprite::create(str->getCString());
+        _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        _spSpr1->setTag(sub_part + 1000);
+        _ManSpr->addChild(_spSpr1, def_z_order);
+    }else{
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+            if (now_clothes_Id == clothesId) {
+                const CCString* layer1 =  clothDic->valueForKey("layer1");
+                const CCString* layer2 =  clothDic->valueForKey("layer2");
+                const CCString* layer3 =  clothDic->valueForKey("layer3");
+                if (layer1->compare("") != 0) {
+                    CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
+                    CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
+                    _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr1->setTag(sub_part + 1000);
+                    _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
+                }
+                
+                if (layer2->compare("") != 0) {
+                    CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
+                    CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
+                    _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr2->setTag(sub_part + 2000);
+                    _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
+                }
+                
+                if (layer3->compare("") != 0) {
+                    CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
+                    CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
+                    _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr3->setTag(sub_part + 3000);
+                    _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
 void ClothesScene::creat_Man(){
+//    float widthFolt = .65f;
+//    float heightFloat = .3f;
+//    float scaleFloat = 1.5f;
+    float widthFolt = .5f;
+    float heightFloat = .5f;
+    float scaleFloat = 1.f;
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
-    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    manSpr->setScale(scaleFloat);
     _ManSpr->addChild(manSpr, 200);
     _touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
-    _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    _touSpr->setScale(scaleFloat);
     _ManSpr->addChild(_touSpr, 210);
 }
 void ClothesScene::initClothes(){//穿衣服
+    float widthFolt = .5f;
+    float heightFloat = .5f;
+    float scaleFloat = 1.f;
+    bool flipxBool = false;
+    
     CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
@@ -682,14 +822,18 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 10000) {
                 CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10000);
                 _tfSpr1 = CCSprite::create(str1->getCString());
-                _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _tfSpr1->setTag(Tag_GJ_TouFa1);
+                _tfSpr1->setScale(scaleFloat);
+                _tfSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_tfSpr1, 430);
                 
                 CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10009);
                 _tfSpr2 = CCSprite::create(str2->getCString());
-                _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _tfSpr2->setTag(Tag_GJ_TouFa2);
+                _tfSpr2->setScale(scaleFloat);
+                _tfSpr2->setFlipX(flipxBool);
                 _ManSpr->addChild(_tfSpr2, 50);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -704,24 +848,30 @@ void ClothesScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _tfSpr1 = CCSprite::create(str1->getCString());
-                            _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr1->setTag(Tag_GJ_TouFa1);
+                            _tfSpr1->setScale(scaleFloat);
+                            _tfSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _tfSpr2 = CCSprite::create(str2->getCString());
-                            _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr2->setTag(Tag_GJ_TouFa2);
+                            _tfSpr2->setScale(scaleFloat);
+                            _tfSpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _tfSpr3 = CCSprite::create(str3->getCString());
-                            _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr3->setTag(Tag_GJ_TouFa3);
+                            _tfSpr3->setScale(scaleFloat);
+                            _tfSpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -735,8 +885,10 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 20000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", 20000);
                 _wtSpr1 = CCSprite::create(str->getCString());
-                _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _wtSpr1->setTag(Tag_GJ_WaiTao1);
+                _wtSpr1->setScale(scaleFloat);
+                _wtSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_wtSpr1, def_z_order);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -751,24 +903,30 @@ void ClothesScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _wtSpr1 = CCSprite::create(str1->getCString());
-                            _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr1->setTag(Tag_GJ_WaiTao1);
+                            _wtSpr1->setScale(scaleFloat);
+                            _wtSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _wtSpr2 = CCSprite::create(str2->getCString());
-                            _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr2->setTag(Tag_GJ_WaiTao2);
+                            _wtSpr2->setScale(scaleFloat);
+                            _wtSpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _wtSpr3 = CCSprite::create(str3->getCString());
-                            _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr3->setTag(Tag_GJ_WaiTao3);
+                            _wtSpr3->setScale(scaleFloat);
+                            _wtSpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -782,8 +940,10 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 30000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
                 _sySpr1 = CCSprite::create(str->getCString());
-                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _sySpr1->setTag(Tag_GJ_ShangYi1);
+                _sySpr1->setScale(scaleFloat);
+                _sySpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_sySpr1, 350);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -798,24 +958,30 @@ void ClothesScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _sySpr1 = CCSprite::create(str1->getCString());
-                            _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr1->setTag(Tag_GJ_ShangYi1);
+                            _sySpr1->setScale(scaleFloat);
+                            _sySpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _sySpr2 = CCSprite::create(str2->getCString());
-                            _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr2->setTag(Tag_GJ_ShangYi2);
+                            _sySpr2->setScale(scaleFloat);
+                            _sySpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _sySpr3 = CCSprite::create(str3->getCString());
-                            _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr3->setTag(Tag_GJ_ShangYi3);
+                            _sySpr3->setScale(scaleFloat);
+                            _sySpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -829,8 +995,10 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 40000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
                 _kzSpr1 = CCSprite::create(str->getCString());
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _kzSpr1->setTag(Tag_GJ_KuZi1);
+                _kzSpr1->setScale(scaleFloat);
+                _kzSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_kzSpr1, 305);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -845,24 +1013,30 @@ void ClothesScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _kzSpr1 = CCSprite::create(str1->getCString());
-                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr1->setTag(Tag_GJ_KuZi1);
+                            _kzSpr1->setScale(scaleFloat);
+                            _kzSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _kzSpr2 = CCSprite::create(str2->getCString());
-                            _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr2->setTag(Tag_GJ_KuZi2);
+                            _kzSpr2->setScale(scaleFloat);
+                            _kzSpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _kzSpr3 = CCSprite::create(str3->getCString());
-                            _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr3->setTag(Tag_GJ_KuZi3);
+                            _kzSpr3->setScale(scaleFloat);
+                            _kzSpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -876,8 +1050,10 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 50000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", 50000);
                 _wzSpr1 = CCSprite::create(str->getCString());
-                _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _wzSpr1->setTag(Tag_GJ_WaZi1);
+                _wzSpr1->setScale(scaleFloat);
+                _wzSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_wzSpr1, def_z_order);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -892,24 +1068,30 @@ void ClothesScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _wzSpr1 = CCSprite::create(str1->getCString());
-                            _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wzSpr1->setTag(Tag_GJ_WaZi1);
+                            _wzSpr1->setScale(scaleFloat);
+                            _wzSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _wzSpr2 = CCSprite::create(str2->getCString());
-                            _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wzSpr2->setTag(Tag_GJ_WaZi2);
+                            _wzSpr2->setScale(scaleFloat);
+                            _wzSpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _wzSpr3 = CCSprite::create(str3->getCString());
-                            _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wzSpr3->setTag(Tag_GJ_WaZi3);
+                            _wzSpr3->setScale(scaleFloat);
+                            _wzSpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -923,8 +1105,10 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 60000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", 60000);
                 _xzSpr1 = CCSprite::create(str->getCString());
-                _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _xzSpr1->setTag(Tag_GJ_XieZi1);
+                _xzSpr1->setScale(scaleFloat);
+                _xzSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_xzSpr1, def_z_order);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -939,24 +1123,30 @@ void ClothesScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _xzSpr1 = CCSprite::create(str1->getCString());
-                            _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr1->setTag(Tag_GJ_XieZi1);
+                            _xzSpr1->setScale(scaleFloat);
+                            _xzSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _xzSpr2 = CCSprite::create(str2->getCString());
-                            _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr2->setTag(Tag_GJ_XieZi2);
+                            _xzSpr2->setScale(scaleFloat);
+                            _xzSpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _xzSpr3 = CCSprite::create(str3->getCString());
-                            _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr3->setTag(Tag_GJ_XieZi3);
+                            _xzSpr3->setScale(scaleFloat);
+                            _xzSpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
@@ -973,8 +1163,10 @@ void ClothesScene::initClothes(){//穿衣服
                 if (cloth_id->getValue() == 70000) {
                     CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
                     CCSprite* _spSpr1 = CCSprite::create(str->getCString());
-                    _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                     _spSpr1->setTag(j + 1000);
+                    _spSpr1->setScale(scaleFloat);
+                    _spSpr1->setFlipX(flipxBool);
                     _ManSpr->addChild(_spSpr1, def_z_order);
                 }else{
                     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -989,24 +1181,30 @@ void ClothesScene::initClothes(){//穿衣服
                             if (layer1->compare("") != 0) {
                                 CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
                                 CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
-                                _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                                _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr1->setTag(j + 1000);
+                                _spSpr1->setScale(scaleFloat);
+                                _spSpr1->setFlipX(flipxBool);
                                 _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
                             }
                             
                             if (layer2->compare("") != 0) {
                                 CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
                                 CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
-                                _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                                _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr2->setTag(j + 2000);
+                                _spSpr2->setScale(scaleFloat);
+                                _spSpr2->setFlipX(flipxBool);
                                 _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
                             }
                             
                             if (layer3->compare("") != 0) {
                                 CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
                                 CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
-                                _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                                _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr3->setTag(j + 3000);
+                                _spSpr3->setScale(scaleFloat);
+                                _spSpr3->setFlipX(flipxBool);
                                 _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                             }
                             break;
@@ -1021,8 +1219,10 @@ void ClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 80000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", 80000);
                 _bSpr1 = CCSprite::create(str->getCString());
-                _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _bSpr1->setTag(Tag_GJ_Bao1);
+                _bSpr1->setScale(scaleFloat);
+                _bSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_bSpr1, def_z_order);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -1034,36 +1234,44 @@ void ClothesScene::initClothes(){//穿衣服
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
-                        const CCString* layer4 =  clothDic->valueForKey("layer3");
+                        const CCString* layer4 =  clothDic->valueForKey("layer4");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _bSpr1 = CCSprite::create(str1->getCString());
-                            _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr1->setTag(Tag_GJ_Bao1);
+                            _bSpr1->setScale(scaleFloat);
+                            _bSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _bSpr2 = CCSprite::create(str2->getCString());
-                            _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr2->setTag(Tag_GJ_Bao2);
+                            _bSpr2->setScale(scaleFloat);
+                            _bSpr2->setFlipX(flipxBool);
                             _ManSpr->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _bSpr3 = CCSprite::create(str3->getCString());
-                            _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_GJ_Bao3);
+                            _bSpr3->setScale(scaleFloat);
+                            _bSpr3->setFlipX(flipxBool);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
                         if (layer4->compare("") != 0) {
                             CCString* str4 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer4")->intValue());
                             _bSpr4 = CCSprite::create(str4->getCString());
-                            _bSpr4->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr4->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr4->setTag(Tag_GJ_Bao4);
+                            _bSpr4->setScale(scaleFloat);
+                            _bSpr4->setFlipX(flipxBool);
                             _ManSpr->addChild(_bSpr4, clothDic->valueForKey("z_order4")->intValue());
                         }
                         break;
@@ -1153,7 +1361,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _tfSpr2 = CCSprite::create(str2->getCString());
                             _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr2->setTag(Tag_GJ_TouFa2);
-                            _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order2")->intValue());
+                            _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -1161,7 +1369,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _tfSpr3 = CCSprite::create(str3->getCString());
                             _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr3->setTag(Tag_GJ_TouFa3);
-                            _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order3")->intValue());
+                            _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -1227,21 +1435,6 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
         }
             
         case Tag_GJ_ShangYi:{
-            if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
-                _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
-            }
-            if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
-                _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
-            }
-            if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
-                _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
-            }
-            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
-            _kzSpr1 = CCSprite::create(str->getCString());
-            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            _kzSpr1->setTag(Tag_GJ_KuZi1);
-            _ManSpr->addChild(_kzSpr1, 305);
-            
             if (_ManSpr->getChildByTag(Tag_GJ_ShangYi1) != NULL) {
                 _ManSpr->removeChildByTag(Tag_GJ_ShangYi1);
             }
@@ -1265,6 +1458,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == index) {
+                        int sub_part = clothDic->valueForKey("sub_part")->intValue();
+                        if (sub_part == 1) {
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
+                            }
+                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                            _kzSpr1 = CCSprite::create(str->getCString());
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setTag(Tag_GJ_KuZi1);
+                            _ManSpr->addChild(_kzSpr1, 305);
+                            
+                        }
+                        
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
@@ -1886,7 +2098,7 @@ int ClothesScene::haveEnoughCoin(){
             }else{
                 shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
                 CCInteger* clothesTemp_id;
-                for (int n = 11; n <= 19; n++) {
+                for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int cloth_type = dic->valueForKey("type")->intValue();
@@ -1937,7 +2149,7 @@ int ClothesScene::haveEnoughGold(){
             }else{
                 shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
                 CCInteger* clothesTemp_id;
-                for (int n = 11; n <= 19; n++) {
+                for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int cloth_type = dic->valueForKey("type")->intValue();
@@ -2019,7 +2231,9 @@ void ClothesScene::setShipinTag3(int index, CCSprite* spr){
     }
 }
 
-
+int ClothesScene::updataClothes(int type){
+    return (type) * 10000;
+}
 
 
 

@@ -65,6 +65,7 @@ public:
     void updateTableView(int type);
     int updataClothes(int type);
     void updateTableCell();
+    void clothesUpdateTableCell();
     float sliderV;
 public:
     
@@ -79,9 +80,9 @@ public:
         
     int clothesType;
     int clothesPage;
+    int now_CellIndex;
     
     CCSprite* gouSpr, *kuangSpr, *kuangSpr1, *kuangSpr2, *kuangSpr3, *kuangSpr4, *kuangSpr5, *kuangSpr6, *kuangSpr7, *kuangSpr8, *kuangSpr9, *kuangSpr10, *ycSpr;
-    CCSprite* tf_kSpr, *wt_kSpr, *sy_kSpr, *kz_kSpr, *wz_kSpr, *xz_kSpr, *sp_kSpr;
     
 };
 #endif /* defined(__tiegao__ClothesTableView__) */

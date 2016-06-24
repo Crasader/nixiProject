@@ -117,6 +117,12 @@ public:
     void creat_Man();
     void initClothes();//穿衣服
     
+    bool enterBool;
+    void enterMan();
+    void exitMan();
+    void removeMan();
+    
+    CCDictionary* myClothesTemp;
 };
 
 #endif /* TotalRankScene_hpp */

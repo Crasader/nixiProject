@@ -112,7 +112,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 902: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
-            _clothes->init_dressed(content["dressed"]);
+            _clothes->init_dressed(content["show"]["ondress"]);
             _news->init_with_json(content["news"]);
             _IAP->init_purchased(content["purchased"]);
             this->start_check_news();
@@ -121,7 +121,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 903: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
-            _clothes->init_dressed(content["dressed"]);
+            _clothes->init_dressed(content["show"]["ondress"]);
             _news->init_with_json(content["news"]);
             _IAP->init_purchased(content["purchased"]);
             this->start_check_news();
@@ -214,7 +214,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 401: {
             _player->init_with_json(content["player"]);
             _show->init_with_json(content["show"]);
-            _clothes->init_dressed(content["dressed"]);
+            _clothes->init_dressed(content["show"]["ondress"]);
             _clothes->update_clothes(content["newclothes"]);
         } break;
             
