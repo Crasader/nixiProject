@@ -1,13 +1,13 @@
 //
-//  ClothesTableView.h
+//  SpecialEffectsTableView.h
 //  tiegao
 //
-//  Created by mac on 16-6-15.
+//  Created by mac on 16-6-24.
 //
 //
 
-#ifndef __tiegao__ClothesTableView__
-#define __tiegao__ClothesTableView__
+#ifndef __tiegao__SpecialEffectsTableView__
+#define __tiegao__SpecialEffectsTableView__
 
 #include <iostream>
 #include "cocos2d.h"
@@ -19,19 +19,19 @@ USING_NS_CC_EXT;
 #define def_TX_Time             0.7
 #define def_Page_Index          4.5
 
-class ClothesTableView
+class SpecialEffectsTableView
 : public CCLayer
 , public CCTableViewDataSource
 , public CCTableViewDelegate
 {
 public:
-    ClothesTableView();
-    ~ClothesTableView();
+    SpecialEffectsTableView();
+    ~SpecialEffectsTableView();
     
     virtual bool init();
     
     
-    CREATE_FUNC(ClothesTableView);
+    CREATE_FUNC(SpecialEffectsTableView);
     
 public:
     
@@ -70,19 +70,14 @@ public:
 public:
     
     CCTableView* pTableView;
-        
+    
     float offsetFloat;
     
     bool openTouchBool;
     void isOpenTouchBool();
     void setOpenTouchBool();
-    void changeClothesTouch(int cloth_id, CCInteger* clothesTemp_id, CCDictionary* clothesTemp, cocos2d::extension::CCTableViewCell* cell);
-        
-    int clothesType;
-    int clothesPage;
-    int now_CellIndex;
     
-    CCSprite* gouSpr, *kuangSpr, *kuangSpr1, *kuangSpr2, *kuangSpr3, *kuangSpr4, *kuangSpr5, *kuangSpr6, *kuangSpr7, *kuangSpr8, *kuangSpr9, *kuangSpr10, *ycSpr;
+    CCSprite* gouSpr, *kuangSpr, *ycSpr;
     
 };
-#endif /* defined(__tiegao__ClothesTableView__) */
+#endif /* defined(__tiegao__SpecialEffectsTableView__) */
