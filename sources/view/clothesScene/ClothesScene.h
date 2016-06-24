@@ -176,6 +176,7 @@ public:
     void initClothes();//穿衣服
     void ChangeClothes(CCObject* pSender);
     void ChangClothesIndex(CCObject* pSender);
+    void ChangeShipin(int clothesId, int sub_part);
     void reductionShangyi();
     void reductionShipin(int index);
     void buttonStatus();
@@ -190,12 +191,13 @@ public:
     void buttonCallBack(CCObject* pSender);
     void buyCallBack(CCObject* pSender);
     void saveCallBack(CCObject* pSender);
+    void saveClothesMethods();
     void texiaoCallBack(CCObject* pSender);
     void zhuangrongCallBack(CCObject* pSender);
     
     int haveEnoughCoin();
     int haveEnoughGold();
-    
+    int updataClothes(int type);
     
     
 private:

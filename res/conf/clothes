@@ -5905,8 +5905,8 @@
     "z_order1" : "400",
     "layer2" : "81559",
     "z_order2" : "70",
-    "layer3" : "81558",
-    "z_order3" : "335",
+    "layer3" : "",
+    "z_order3" : "",
     "layer4" : "",
     "z_order4" : "0"
   },

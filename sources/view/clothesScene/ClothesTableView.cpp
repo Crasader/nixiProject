@@ -27,6 +27,7 @@ bool ClothesTableView::init(){
     
     clothesPage = 0;
     clothesType = 0;
+    now_CellIndex = 0;
     
     this->clothesType = Tag_GJ_TouFa;
     
@@ -91,6 +92,8 @@ void ClothesTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vie
 
 //点击哪个cell
 void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
+    
+    now_CellIndex = cell->getIdx();
     
     CCArray* arr = DATA->getDataSource();
     CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
@@ -642,6 +645,15 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
         }
     }
     
+    int phase = dic->valueForKey("phase")->intValue();
+    if (phase > DATA->getPlayer()->phase) {
+        CCSprite* phaseSpr = CCSprite::create("res/pic/clothesScene/gj_suo.png");
+        phaseSpr->setAnchorPoint(CCPointZero);
+        phaseSpr->setPosition(CCPointZero);
+        spr->addChild(phaseSpr, 100);
+    }
+    
+    
     spr->setTag(idx);
     pCell->addChild(spr);
     
@@ -739,7 +751,16 @@ void ClothesTableView::updateTableCell(){
     pTableView->setContentOffset(CCSizeMake(0, sliderV));
 }
 
-
+void ClothesTableView::clothesUpdateTableCell(){
+    if (now_CellIndex > 0) {
+        pTableView->updateCellAtIndex(now_CellIndex-1);
+        pTableView->updateCellAtIndex(now_CellIndex);
+        pTableView->updateCellAtIndex(now_CellIndex+1);
+    }else{
+        pTableView->updateCellAtIndex(now_CellIndex);
+        pTableView->updateCellAtIndex(now_CellIndex+1);
+    }
+}
 
 
 

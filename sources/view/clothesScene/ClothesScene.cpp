@@ -630,39 +630,158 @@ void ClothesScene::startCallBack(CCObject* pSender){
     NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
 }
 void ClothesScene::buyCallBack(CCObject* pSender){
-    if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
-        LOADING->show_loading();
-        NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-    }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
-        if (DATA->getPlayer()->diam < haveEnoughGold()) {
-            AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-            return;
-        }else if (!haveEnoughCoin()){
-            AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-        }
-    }
+    this->saveClothesMethods();
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
-    if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
-        LOADING->show_loading();
-        NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-    }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
-        if (DATA->getPlayer()->diam < haveEnoughGold()) {
-            AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-            return;
-        }else if (!haveEnoughCoin()){
-            AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    this->saveClothesMethods();
+}
+void ClothesScene::saveClothesMethods(){
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    bool phaseBool = false;
+    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
+        CCArray* tempArr = CCArray::create();
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int sale = clothDic->valueForKey("sale")->intValue();
+            if (sale != 0) {
+                tempArr->addObject(clothDic);
+            }
+        }
+        for (int k = 0; k < tempArr->count(); k++) {
+            CCDictionary* dic = (CCDictionary* )tempArr->objectAtIndex(k);
+            CCInteger* clothesTemp_id;
+            CCDictionary* shipinDic;
+            if (i != Tag_GJ_ShiPin) {
+                clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                    int phase = dic->valueForKey("phase")->intValue();
+                    if (phase > DATA->getPlayer()->phase) {
+                        phaseBool = true;
+                        
+                        CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                        CCString* keyStr = CCString::createWithFormat("%d", i);
+                        myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
+                        this->ChangeClothes((CCObject* )updataClothes(i));
+                        
+                        continue;
+                    }
+                }
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                CCInteger* clothesTemp_id;
+                for (int n = 11; n <= 20; n++) {
+                    clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                        int phase = dic->valueForKey("phase")->intValue();
+                        if (phase > DATA->getPlayer()->phase) {
+                            phaseBool = true;
+                            
+                            CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                            CCString* keyStr = CCString::createWithFormat("%d", i);
+                            CCString* sub_part_keyStr = CCString::createWithFormat("%d", dic->valueForKey("sub_part")->intValue());
+                            CCDictionary* shipinDic2 = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                            shipinDic2->setObject(cloth_integer, sub_part_keyStr->getCString());
+                            myClothesTempDic->setObject(shipinDic2, keyStr->getCString());
+                            
+                            this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
+                            
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if (phaseBool) {
+        
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
+        
+        _delegate->clothesUpdateTableCell();
+    }else{
+        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
+            LOADING->show_loading();
+            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+            if (DATA->getPlayer()->diam < haveEnoughGold()) {
+                AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+                return;
+            }else if (!haveEnoughCoin()){
+                AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
         }
     }
 }
+void ClothesScene::ChangeShipin(int clothesId, int sub_part){
+    CCDictionary* dic = CONFIG->clothes();// 所有衣服
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_GJ_ShiPin);// 获得当前类型所有衣服
+    
+    this->reductionShipin(sub_part);
+    
+    if (_ManSpr->getChildByTag(sub_part + 1000) != NULL) {
+        _ManSpr->removeChildByTag(sub_part + 1000);
+    }
+    if (_ManSpr->getChildByTag(sub_part + 2000) != NULL) {
+        _ManSpr->removeChildByTag(sub_part + 2000);
+    }
+    if (_ManSpr->getChildByTag(sub_part + 3000) != NULL) {
+        _ManSpr->removeChildByTag(sub_part + 3000);
+    }
+    
+    
+    if (clothesId == 70000) {
+        CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+        CCSprite* _spSpr1 = CCSprite::create(str->getCString());
+        _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        _spSpr1->setTag(sub_part + 1000);
+        _ManSpr->addChild(_spSpr1, def_z_order);
+    }else{
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+            if (now_clothes_Id == clothesId) {
+                const CCString* layer1 =  clothDic->valueForKey("layer1");
+                const CCString* layer2 =  clothDic->valueForKey("layer2");
+                const CCString* layer3 =  clothDic->valueForKey("layer3");
+                if (layer1->compare("") != 0) {
+                    CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
+                    CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
+                    _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr1->setTag(sub_part + 1000);
+                    _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
+                }
+                
+                if (layer2->compare("") != 0) {
+                    CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
+                    CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
+                    _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr2->setTag(sub_part + 2000);
+                    _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
+                }
+                
+                if (layer3->compare("") != 0) {
+                    CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
+                    CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
+                    _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr3->setTag(sub_part + 3000);
+                    _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
 void ClothesScene::creat_Man(){
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
@@ -1227,21 +1346,6 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
         }
             
         case Tag_GJ_ShangYi:{
-            if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
-                _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
-            }
-            if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
-                _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
-            }
-            if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
-                _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
-            }
-            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
-            _kzSpr1 = CCSprite::create(str->getCString());
-            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            _kzSpr1->setTag(Tag_GJ_KuZi1);
-            _ManSpr->addChild(_kzSpr1, 305);
-            
             if (_ManSpr->getChildByTag(Tag_GJ_ShangYi1) != NULL) {
                 _ManSpr->removeChildByTag(Tag_GJ_ShangYi1);
             }
@@ -1265,6 +1369,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == index) {
+                        int sub_part = clothDic->valueForKey("sub_part")->intValue();
+                        if (sub_part == 1) {
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
+                            }
+                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                            _kzSpr1 = CCSprite::create(str->getCString());
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setTag(Tag_GJ_KuZi1);
+                            _ManSpr->addChild(_kzSpr1, 305);
+                            
+                        }
+                        
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
@@ -1886,7 +2009,7 @@ int ClothesScene::haveEnoughCoin(){
             }else{
                 shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
                 CCInteger* clothesTemp_id;
-                for (int n = 11; n <= 19; n++) {
+                for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int cloth_type = dic->valueForKey("type")->intValue();
@@ -1937,7 +2060,7 @@ int ClothesScene::haveEnoughGold(){
             }else{
                 shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
                 CCInteger* clothesTemp_id;
-                for (int n = 11; n <= 19; n++) {
+                for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int cloth_type = dic->valueForKey("type")->intValue();
@@ -2019,7 +2142,9 @@ void ClothesScene::setShipinTag3(int index, CCSprite* spr){
     }
 }
 
-
+int ClothesScene::updataClothes(int type){
+    return (type) * 10000;
+}
 
 
 
