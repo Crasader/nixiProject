@@ -21,6 +21,11 @@ bool TotalRankScene::init(){
         return false;
     }
     
+    enterBool = false;
+    
+    // 这里读取排行当前第一个人的衣服字典
+    myClothesTemp = DATA->getClothes()->MyClothesTemp();
+    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -42,13 +47,23 @@ CCScene* TotalRankScene::scene(){
 
 void TotalRankScene::onEnter(){
     BaseScene::onEnter();
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    
+    nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::exitMan), "ExitMan", NULL);
+    
+    
 }
 
 void TotalRankScene::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
     BaseScene::onExit();
 }
 
 void TotalRankScene::createView(){
+    float totalRank_z_oder = 20.f;// 人在按钮下
+//    float totalRank_z_oder = 9.f;// 人在按钮上
+    
     CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
@@ -61,7 +76,7 @@ void TotalRankScene::createView(){
     item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);
-    this->addChild(menu_share);
+    this->addChild(menu_share, totalRank_z_oder);
     
     //刷新
     CCSprite* refresh_spr = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
@@ -71,7 +86,7 @@ void TotalRankScene::createView(){
     item_refresh->setPosition(ccp(DISPLAY->ScreenWidth()*.08f, DISPLAY->ScreenHeight()*.2f + 200));
     CCMenu* menu_refresh = CCMenu::create(item_refresh, NULL);
     menu_refresh->setPosition(CCPointZero);
-    this->addChild(menu_refresh);
+    this->addChild(menu_refresh, totalRank_z_oder);
     
     //查找
     CCSprite* find_spr = CCSprite::create("res/pic/haoyoupaihang/find.png");
@@ -81,7 +96,7 @@ void TotalRankScene::createView(){
     item_find->setPosition(ccp(DISPLAY->ScreenWidth()*.08f, DISPLAY->ScreenHeight()*.2f + 100));
     CCMenu* menu_find = CCMenu::create(item_find, NULL);
     menu_find->setPosition(CCPointZero);
-    this->addChild(menu_find);
+    this->addChild(menu_find, totalRank_z_oder);
     
     //纸条
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
@@ -91,7 +106,7 @@ void TotalRankScene::createView(){
     item_note->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
     CCMenu* menu_note = CCMenu::create(item_note, NULL);
     menu_note->setPosition(CCPointZero);
-    this->addChild(menu_note);
+    this->addChild(menu_note, totalRank_z_oder);
     
     //返回
     CCSprite* back_spr = CCSprite::create("res/pic/taskScene/task_back.png");
@@ -101,11 +116,11 @@ void TotalRankScene::createView(){
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
-    this->addChild(menu_back);
+    this->addChild(menu_back, totalRank_z_oder);
     
     CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
     self_spr->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-    this->addChild(self_spr);
+    this->addChild(self_spr, totalRank_z_oder);
     
     int my_rank = 8;
     CCSprite* head;
@@ -195,7 +210,27 @@ void TotalRankScene::btn_back_callback(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-
+void TotalRankScene::enterMan(){
+//    myClothesTemp =
+    
+    this->creat_Man();
+    this->initClothes();
+    
+    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
+    _ManSpr->runAction(moveTo);
+}
+void TotalRankScene::exitMan(){
+    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+    CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::removeMan));
+    CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::enterMan));
+    CCSequence* seq = CCSequence::create(moveTo, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
+    _ManSpr->runAction(seq);
+}
+void TotalRankScene::removeMan(){
+    _ManSpr->removeAllChildren();
+    
+//    myClothesTemp = 
+}
 
 void TotalRankScene::creat_Man(){
     float widthFolt = .5f;
@@ -210,9 +245,16 @@ void TotalRankScene::creat_Man(){
     _touSpr->setScale(scaleFloat);
     _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
     _ManSpr->addChild(_touSpr, 210);
+    
+    if (!enterBool) {
+        enterBool = true;
+        _ManSpr->setPosition(ccp(_ManSpr->getPosition().x, _ManSpr->getPosition().y));
+    }else{
+        _ManSpr->setPosition(ccp(_ManSpr->getPosition().x, _ManSpr->getPosition().y));
+    }
 }
 void TotalRankScene::initClothes(){//穿衣服
-    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    
     float widthFolt = .5f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;

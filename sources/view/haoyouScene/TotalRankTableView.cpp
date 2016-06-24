@@ -312,7 +312,8 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             head2->addChild(rank_num);
         }
         
-        //        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )selectedIndex);
+//        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )selectedIndex);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
     }
 }
 
