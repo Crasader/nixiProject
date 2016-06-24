@@ -48,9 +48,6 @@ void StrangerScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
     
-#warning "for test"
-    ShowComp* show_test = DATA->getSocial()->getSelectedStrangerByIndex(2);
-    CCLOG("%s", show_test->nickname());
 }
 
 void StrangerScene::onExit(){
@@ -127,8 +124,8 @@ void StrangerScene::createView(){
     self_spr->addChild(name_bg);
     
     const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
     CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
@@ -157,8 +154,13 @@ void StrangerScene::btn_share_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_note_callback(CCObject* pSender){
-    _panel = NotePanel::create();
-    this->addChild(_panel, 10000);
+    if(DATA->getSocial()->getSelectedStranger() == -1){
+        
+    }else{
+        _panel = NotePanel::create();
+        _panel->setEntranceType("stranger");
+        this->addChild(_panel, 10000);
+    }
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){

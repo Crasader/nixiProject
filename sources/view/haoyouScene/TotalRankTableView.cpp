@@ -11,7 +11,7 @@
 #include "DisplayManager.h"
 #include "TotalRankScene.h"
 
-const float NAME_FONT_SIZE = 22;
+const float NAME_FONT_SIZE = 20;
 
 TotalRankTableView::~TotalRankTableView(){}
 
@@ -83,7 +83,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->addChild(name_bg1);
             
             CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -111,7 +111,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->addChild(name_bg1);
             
             CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -138,7 +138,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->addChild(name_bg1);
             
             CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -165,7 +165,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->addChild(name_bg1);
             
             CCLabelTTF* name1 = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -454,8 +454,8 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
+    CCLabelTTF* name = CCLabelTTF::create("游客8A79B648", DISPLAY->font(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
     

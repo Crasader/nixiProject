@@ -10,6 +10,10 @@
 #include "DisplayManager.h"
 #include "MMCursorTextField.h"
 #include "CursorTextField.h"
+#include "Loading2.h"
+#include "NetManager.h"
+#include "PromptLayer.h"
+#include "ShowComp.h"
 
 FindPanel::~FindPanel(){
     
@@ -34,16 +38,12 @@ void FindPanel::initView(){
     this->addChild(find_panel);
     
     
-    CursorTextField* m_text = CursorTextField::cursorTextFieldWithPlaceHolder("点击进行输入...", CCSizeMake(250, 40), kCCTextAlignmentLeft, DISPLAY->font(), 23);
+    m_text = CursorTextField::cursorTextFieldWithPlaceHolder("点击进行输入...", CCSizeMake(250, 40), kCCTextAlignmentLeft, DISPLAY->font(), 23);
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(find_panel->getContentSize().width/2, find_panel->getContentSize().height*.5));
     m_text->setMaxTextBytes(170);
     //    m_text->setDelegate(this);
     find_panel->addChild(m_text);
-    
-//    CCTextFieldTTF* name = CCTextFieldTTF::textFieldWithPlaceHolder("请输入", CCSizeMake(250, 40), kCCTextAlignmentLeft, DISPLAY->font(), 23);
-//    name->setPosition(ccp(find_panel->getContentSize().width/2, find_panel->getContentSize().height*.5));
-//    find_panel->addChild(name);
     
     CCSprite* find_spr = CCSprite::create("res/pic/haoyoupaihang/find_btn_find.png");
     CCSprite* find_spr2 = CCSprite::create("res/pic/haoyoupaihang/find_btn_find.png");
@@ -65,6 +65,14 @@ void FindPanel::initView(){
 }
 
 void FindPanel::btn_find_callback(){
+    LOADING->show_loading();
+    NET->search_other_801(m_text->getText().c_str());
+}
+
+void FindPanel::find_callback_801(CCObject* obj){
+    ShowComp* show = (ShowComp*)obj;
+    CCLOG("%s", show->nickname());
+    LOADING->remove();
     this->removeFromParentAndCleanup(true);
 }
 
@@ -85,6 +93,9 @@ void FindPanel::onEnter(){
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
     this->setKeypadEnabled(true);
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&FindPanel::find_callback_801), "HTTP_FINISHED_801", NULL);
 }
 
 void FindPanel::onExit(){

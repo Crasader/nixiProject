@@ -24,8 +24,6 @@ bool HaoyouRankLayer::init(){
         return false;
     }
     
-    _selected_id = CCString::create(((CCString*)DATA->getSocial()->friends()->allKeys()->objectAtIndex(0))->getCString());
-    _selected_id->retain();
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
@@ -51,7 +49,6 @@ void HaoyouRankLayer::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::change_id), "WHEN_ID_CHANGED", NULL);
 }
 
 void HaoyouRankLayer::onExit(){
@@ -128,8 +125,8 @@ void HaoyouRankLayer::createView(){
     self_spr->addChild(name_bg);
     
     const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
     CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
@@ -184,8 +181,11 @@ void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
-    if(_selected_id){
+    if (DATA->getSocial()->getSelectedFriend() == -1) {
+        
+    }else{
         _panel = NotePanel::create();
+        _panel->setEntranceType("friend");
         this->addChild(_panel, 10000);
     }
 }
@@ -668,13 +668,6 @@ void HaoyouRankLayer::initClothes(){//穿衣服
     }
 }
 
-void HaoyouRankLayer::change_id(CCObject* pObj) {
-    CCString* str_id = (CCString*)pObj;
-    CCLOG("change_id = %s", str_id->getCString());
-    CC_SAFE_RELEASE(_selected_id);
-    _selected_id = str_id;
-    _selected_id->retain();
-}
 
 
 

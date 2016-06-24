@@ -63,6 +63,8 @@ public:
     
 public:
     
+    CC_SYNTHESIZE_PASS_BY_REF(std::string, _entranceType, EntranceType);
+    
     bool otherBool;
     bool rankBool;
     bool paperBool;
@@ -80,7 +82,7 @@ public:
     
     //    MMJYTextField* m_text;
     
-    CCString* _other_id;
+    int _index;
     
     CursorTextField*  m_text;
     
@@ -88,10 +90,11 @@ public:
     
 public:
     
-//    void update(float dt);
+    void update(float dt);
     
     void initView();
     void btn_send_callback();
+    void closeNotePanel();
     
     void note_callback_809();
 };

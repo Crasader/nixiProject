@@ -12,6 +12,8 @@
 #include "StrangerScene.h"
 #include "NetManager.h"
 
+const float NAME_FONT_SIZE = 20;
+
 StrangerTableView::~StrangerTableView(){}
 
 bool StrangerTableView::init(){
@@ -28,6 +30,11 @@ bool StrangerTableView::init(){
     _stangers->retain();
     allNumber =  _stangers->count();
     selectedIndex = 0;
+    if(allNumber == 0){
+        DATA->getSocial()->setSelectedStranger(-1);
+    }else{
+        DATA->getSocial()->setSelectedStranger(selectedIndex);
+    }
     
     
     pTableView = CCTableView::create(this, CCSizeMake(248, 6*138));
@@ -89,8 +96,8 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         ShowComp* show = (ShowComp* )DATA->getSocial()->strangers()->objectForKey(show_id->getCString());
         const char* nickname = show->nickname();
         
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
         
@@ -102,6 +109,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         
         // 记录需要变大节点
         selectedIndex = cell->getIdx();
+        DATA->getSocial()->setSelectedStranger(selectedIndex);
         
         // 需要变大
         sprNode = (CCSprite*)cell->getChildByTag(selectedIndex);
@@ -132,7 +140,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         ShowComp* show2 = (ShowComp* )DATA->getSocial()->strangers()->objectForKey(show_id2->getCString());
         const char* nickname2 = show2->nickname();
         
-            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -141,9 +149,6 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         n_spr2->setPosition(ccp(head2->getContentSize().width/2, head2->getContentSize().height/2));
         head2->addChild(n_spr2);
         
-
-        
-        //        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )selectedIndex);
     }
 }
 
@@ -248,7 +253,7 @@ void StrangerTableView::bigSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
@@ -335,8 +340,8 @@ void StrangerTableView::smallSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
     
@@ -398,6 +403,7 @@ unsigned int StrangerTableView::numberOfCellsInTableView(cocos2d::extension::CCT
 
 void StrangerTableView::onEnter(){
     CCLayer::onEnter();
+    
 }
 
 void StrangerTableView::onExit(){

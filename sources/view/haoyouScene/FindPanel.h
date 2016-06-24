@@ -86,6 +86,7 @@ public:
     void initView();
     void btn_find_callback();
     void btn_back_callback();
+    void find_callback_801(CCObject* obj);
     //    void fhCallBack(CCObject* pSender);
     //    void fsCallBack(CCObject* pSender);
     //    void close_view(float dt);

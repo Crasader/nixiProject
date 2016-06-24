@@ -75,9 +75,6 @@ public:
     void btn_getTili_callback();
     void get_tili_807();
     
-    CCString* _selected_id;
-    
-    void change_id(CCObject* pObj);
     
 public:
     NotePanel* _panel;

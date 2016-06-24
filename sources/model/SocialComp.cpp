@@ -137,6 +137,18 @@ ShowComp* SocialComp::getSelectedStrangerByIndex(int idx) {
     }
 }
 
+const char* SocialComp::getSelectedStrangerIDbyIndex(int idx){
+    CCArray* arrKeys = _strangers->allKeys();
+    int count = arrKeys->count();
+    if (0 <= idx && idx < count) {
+        CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
+        return key->getCString();
+    }
+    else {
+        return NULL;
+    }
+}
+
 ShowComp* SocialComp::getSelectedFriendByIndex(int idx) {
     CCArray* arrKeys = _strangers->allKeys();
     int count = arrKeys->count();
@@ -144,6 +156,18 @@ ShowComp* SocialComp::getSelectedFriendByIndex(int idx) {
         CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
         ShowComp* show = (ShowComp*)_strangers->objectForKey(key->getCString());
         return show;
+    }
+    else {
+        return NULL;
+    }
+}
+
+const char* SocialComp::getSelectedFriendIDbyIndex(int idx){
+    CCArray* arrKeys = _strangers->allKeys();
+    int count = arrKeys->count();
+    if (0 <= idx && idx < count) {
+        CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
+        return key->getCString();
     }
     else {
         return NULL;

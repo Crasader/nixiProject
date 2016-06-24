@@ -14,6 +14,8 @@
 #include "NetManager.h"
 #include "HaoyouRankLayer.h"
 
+const int NAME_FONT_SIZE = 20;
+
 HaoyouRankTableView::~HaoyouRankTableView(){}
 
 bool HaoyouRankTableView::init(){
@@ -30,10 +32,12 @@ bool HaoyouRankTableView::init(){
     }
     _friends->retain();
     allNumber = _friends->count();
-    
     selectedIndex = 0;
-//    (HaoyouRankLayer*)this->getParent()->_selected_id = (CCString*)_friends->objectAtIndex(selectedIndex);
-
+    if (allNumber == 0) {
+        DATA->getSocial()->setSelectedFriend(-1);
+    }else{
+        DATA->getSocial()->setSelectedFriend(selectedIndex);
+    }
     
     pTableView = CCTableView::create(this, CCSizeMake(248, 6*138));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -93,8 +97,8 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
             const char* nickname = show->nickname();
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -124,8 +128,8 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
             const char* nickname = show->nickname();
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -154,8 +158,8 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
             const char* nickname = show->nickname();
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -184,8 +188,8 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
             const char* nickname = show->nickname();
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 15, name_bg1->getContentSize().height/2));
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
             
@@ -204,8 +208,7 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
         
         // 记录需要变大节点
         selectedIndex = cell->getIdx();
-        CCString* str_id = CCString::create(((CCString*)_friends->objectAtIndex(selectedIndex))->getCString());
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("WHEN_ID_CHANGED", str_id);
+        DATA->getSocial()->setSelectedFriend(selectedIndex);
         
         // 需要变大
         sprNode = (CCSprite*)cell->getChildByTag(selectedIndex);
@@ -237,7 +240,7 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
             const char* nickname2 = show2->nickname();
-            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -268,7 +271,7 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
             const char* nickname2 = show2->nickname();
-            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -298,7 +301,7 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
             const char* nickname2 = show2->nickname();
-            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -328,7 +331,7 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
             ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
             const char* nickname2 = show2->nickname();
-            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -345,8 +348,6 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             rank_num->setTag(0x20100);
             head2->addChild(rank_num);
         }
-        
-//        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )selectedIndex);
     }
 }
 
@@ -446,7 +447,7 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 25, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
@@ -510,8 +511,8 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 24, CCSizeMake(160, 30),  kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 15, name_bg->getContentSize().height/2));
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30),  kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
     
@@ -582,13 +583,6 @@ unsigned int HaoyouRankTableView::numberOfCellsInTableView(cocos2d::extension::C
 
 void HaoyouRankTableView::onEnter(){
     CCLayer::onEnter();
-    
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankTableView::send_message_callback_803), "HTTP_FINISHED_803", NULL);
-    
-#warning "12323123"
-    CCString* str_id = CCString::create(((CCString*)_friends->objectAtIndex(0))->getCString());
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("WHEN_ID_CHANGED", str_id);
 }
 
 void HaoyouRankTableView::onExit(){

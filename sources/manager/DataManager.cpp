@@ -139,6 +139,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _social->init_with_json(content["social"]);
         } break;
             
+        case 801: {
+            ShowComp* other = ShowComp::create();
+            other->init_with_json(content["other"]);
+            pData = other;
+        } break;
+            
         case 802: {
             _social->update_strangers(content["strangers"]);
         } break;
