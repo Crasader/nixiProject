@@ -37,6 +37,7 @@ private:
     string          _nickname;
     int             _collected;
     CCDictionary*   _ondress;
+    CCDictionary*   _ornaments;
 };
 
 #endif /* ShowComp_hpp */
