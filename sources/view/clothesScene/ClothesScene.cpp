@@ -89,6 +89,8 @@ bool ClothesScene::init(){
 }
 
 void ClothesScene::onEnter(){
+    BaseScene::onEnter();
+    
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(ClothesScene::ChangeClothes), "ChangeClothes", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::ChangClothesIndex), "ChangClothesIndex", NULL);
@@ -98,12 +100,11 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_602), "HTTP_FINISHED_602", NULL);
-    
-    BaseScene::onEnter();
 }
 
 void ClothesScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    this->unscheduleAllSelectors();
     
     BaseScene::onExit();
 }
@@ -611,7 +612,7 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
 //    }
-    
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     buttonTag = item->getTag();
     if (clothKuangSpr->getChildren() != NULL) {
         clothKuangSpr->removeAllChildren();
@@ -621,7 +622,7 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
 }
 void ClothesScene::backCallBack(CCObject* pSender){
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
-    
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     if (clothesStatus == 1) {// 任务
         CCScene* scene = TaskScene::scene();
         CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
