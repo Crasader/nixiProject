@@ -60,7 +60,8 @@ public:
     ~TotalRankScene();
     
     virtual bool init();
-    static CCScene* scene();
+    static TotalRankScene* create_with_type(int type);
+    void init_with_type(int type);
     CREATE_FUNC(TotalRankScene);
     
     virtual void onEnter();
@@ -77,6 +78,8 @@ public:
     
     void sendTili();
     void getTili();
+    
+    int _type;
     
 public:
     NotePanel* _panel;
@@ -121,6 +124,7 @@ public:
     void enterMan();
     void exitMan();
     void removeMan();
+    void removeMask();
     
     CCDictionary* myClothesTemp;
 };

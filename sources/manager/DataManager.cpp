@@ -140,9 +140,11 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 801: {
-            ShowComp* other = ShowComp::create();
-            other->init_with_json(content["other"]);
-            pData = other;
+//            ShowComp* other = ShowComp::create();
+//            other->init_with_json(content["other"]);
+//            pData = other;
+            CCString* id = ccs(content["other"].asString());
+            pData = id;
         } break;
             
         case 802: {

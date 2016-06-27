@@ -24,6 +24,17 @@ bool HaoyouRankLayer::init(){
         return false;
     }
     
+    this->initRank();
+    
+    if (DATA->getSocial()->getSelectedFriend() == -1) {
+        myClothesTemp = DATA->getClothes()->MyClothesTemp();
+    }else{
+        const char* curSelected_id = DATA->getSocial()->getSelectedFriendIDbyIndex(DATA->getSocial()->getSelectedFriend());
+        ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
+        myClothesTemp = show->ondress();
+    }
+    
+    myClothesTemp = DATA->getClothes()->MyClothesTemp();
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
@@ -49,6 +60,8 @@ void HaoyouRankLayer::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::exitMan), "ExitMan", NULL);
+    
 }
 
 void HaoyouRankLayer::onExit(){
@@ -126,7 +139,7 @@ void HaoyouRankLayer::createView(){
     
     const char* nickname = DATA->getShow()->nickname();
     CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
+    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
     CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
@@ -147,7 +160,6 @@ void HaoyouRankLayer::createView(){
         menu_tili->setEnabled(false);
     }
     
-    this->initRank();
 }
 
 void HaoyouRankLayer::initRank(){
@@ -196,7 +208,33 @@ void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
+void HaoyouRankLayer::exitMan(){
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+    CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&HaoyouRankLayer::removeMan));
+    CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&HaoyouRankLayer::enterMan));
+    CCSequence* seq = CCSequence::create(moveTo, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
+    _ManSpr->runAction(seq);
+}
 
+void HaoyouRankLayer::removeMan(){
+    _ManSpr->removeAllChildren();
+}
+
+void HaoyouRankLayer::enterMan(){
+    this->creat_Man();
+    this->initClothes();
+    
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
+    CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&HaoyouRankLayer::removeMask));
+    CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
+    _ManSpr->runAction(seq);
+}
+
+void HaoyouRankLayer::removeMask(){
+    if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(10000)) {
+        CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(10000, true);
+    }
+}
 
 void HaoyouRankLayer::creat_Man(){
     float widthFolt = .5f;
@@ -213,7 +251,7 @@ void HaoyouRankLayer::creat_Man(){
     _ManSpr->addChild(_touSpr, 210);
 }
 void HaoyouRankLayer::initClothes(){//穿衣服
-    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+//    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     float widthFolt = .5f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;

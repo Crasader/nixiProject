@@ -149,6 +149,13 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         n_spr2->setPosition(ccp(head2->getContentSize().width/2, head2->getContentSize().height/2));
         head2->addChild(n_spr2);
         
+        
+        CCLayer* layer = CCLayer::create();
+        layer->setTouchEnabled(true);
+        layer->setTouchSwallowEnabled(true);
+        layer->setTag(10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
     }
 }
 

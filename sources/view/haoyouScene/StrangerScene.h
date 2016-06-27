@@ -113,6 +113,12 @@ public:
     void creat_Man();
     void initClothes();//穿衣服
     
+    void enterMan();
+    void exitMan();
+    void removeMan();
+    void removeMask();
+    
+    CCDictionary* myClothesTemp;
 };
 
 #endif /* StrangerScene_hpp */

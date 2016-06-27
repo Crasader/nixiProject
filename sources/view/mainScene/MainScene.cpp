@@ -259,7 +259,12 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::paihangCallBack(CCObject* pSender){
-    
+    CCLayer* layer = TotalRankScene::create_with_type(1);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+//    CCScene* scene = TotalRankScene::scene(1);
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::juqingCallBack(CCObject* pSender){
     if (DATA->getStory()->has_init_story()) {

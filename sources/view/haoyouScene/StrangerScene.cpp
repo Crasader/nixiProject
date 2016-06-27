@@ -23,6 +23,17 @@ bool StrangerScene::init(){
         return false;
     }
     
+    this->initStranger();
+    
+    if (DATA->getSocial()->getSelectedStranger() == -1) {
+        myClothesTemp = DATA->getClothes()->MyClothesTemp();
+    }else{
+        const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
+        ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+        myClothesTemp = show->ondress();
+    }
+    
+    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -47,6 +58,7 @@ void StrangerScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::exitMan), "ExitMan",  NULL);
     
 }
 
@@ -125,16 +137,14 @@ void StrangerScene::createView(){
     
     const char* nickname = DATA->getShow()->nickname();
     CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
+    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
     CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
     CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
-    
-   
-    this->initStranger();
+       
 }
 
 void StrangerScene::initStranger(){
@@ -175,6 +185,36 @@ void StrangerScene::result_tip(){
     
 }
 
+void StrangerScene::exitMan(){
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+    CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMan));
+    CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::enterMan));
+    CCSequence* seq = CCSequence::create(moveTo, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
+    _ManSpr->runAction(seq);
+}
+
+void StrangerScene::enterMan(){
+    //    myClothesTemp =
+    
+    this->creat_Man();
+    this->initClothes();
+    
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
+    CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
+    CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
+    _ManSpr->runAction(seq);
+}
+
+void StrangerScene::removeMask(){
+    if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(10000)) {
+        CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(10000, true);
+    }
+}
+
+void StrangerScene::removeMan(){
+    _ManSpr->removeAllChildren();
+}
+
 void StrangerScene::creat_Man(){
     float widthFolt = .5f;
     float heightFloat = .5f;
@@ -190,7 +230,7 @@ void StrangerScene::creat_Man(){
     _ManSpr->addChild(_touSpr, 210);
 }
 void StrangerScene::initClothes(){//穿衣服
-    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+//    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     float widthFolt = .5f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;

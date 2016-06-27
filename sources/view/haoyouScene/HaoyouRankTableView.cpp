@@ -348,6 +348,13 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             rank_num->setTag(0x20100);
             head2->addChild(rank_num);
         }
+        
+        CCLayer* layer = CCLayer::create();
+        layer->setTouchEnabled(true);
+        layer->setTouchSwallowEnabled(true);
+        layer->setTag(10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
     }
 }
 

@@ -313,6 +313,11 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         }
         
 //        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )selectedIndex);
+        CCLayer* layer = CCLayer::create();
+        layer->setTouchEnabled(true);
+        layer->setTouchSwallowEnabled(true);
+        layer->setTag(10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
     }
 }

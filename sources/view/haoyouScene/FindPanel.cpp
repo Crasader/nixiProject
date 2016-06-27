@@ -38,12 +38,16 @@ void FindPanel::initView(){
     this->addChild(find_panel);
     
     
-    m_text = CursorTextField::cursorTextFieldWithPlaceHolder("点击进行输入...", CCSizeMake(250, 40), kCCTextAlignmentLeft, DISPLAY->font(), 23);
+    m_text = CursorTextField::cursorTextFieldWithPlaceHolder("请输入玩家昵称", CCSizeMake(250, 40), kCCTextAlignmentLeft, DISPLAY->font(), 23);
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(find_panel->getContentSize().width/2, find_panel->getContentSize().height*.5));
     m_text->setMaxTextBytes(170);
     //    m_text->setDelegate(this);
     find_panel->addChild(m_text);
+    
+//    CCEditBox* box = CCEditBox::create(CCSizeMake(200, 50), CCScale9Sprite::create(""));
+    
+    
     
     CCSprite* find_spr = CCSprite::create("res/pic/haoyoupaihang/find_btn_find.png");
     CCSprite* find_spr2 = CCSprite::create("res/pic/haoyoupaihang/find_btn_find.png");
@@ -70,10 +74,12 @@ void FindPanel::btn_find_callback(){
 }
 
 void FindPanel::find_callback_801(CCObject* obj){
-    ShowComp* show = (ShowComp*)obj;
-    CCLOG("%s", show->nickname());
+    CCString* id = (CCString*)obj;
+    NET->send_message_803(id->getCString(), 1);
     LOADING->remove();
-    this->removeFromParentAndCleanup(true);
+//    this->removeFromParentAndCleanup(true);
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
 }
 
 void FindPanel::btn_back_callback(){
