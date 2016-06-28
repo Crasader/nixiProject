@@ -136,12 +136,12 @@ void StrangerScene::createView(){
     self_spr->addChild(name_bg);
     
     const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
     CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
        

@@ -225,7 +225,6 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         oneBool = false;
         twoBool = false;
-        nameKuang->setVisible(false);
         
         if (dialItem->getBg() != "keep") {
 //            if (this->getChildByTag(Tag_GJ_kuang) != NULL) {
@@ -266,7 +265,6 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         oneBool = true;
         twoBool = false;
-        nameKuang->setVisible(true);
         
         if (dialItem->getBg() != "keep") {
             
@@ -311,7 +309,6 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         oneBool = false;
         twoBool = true;
-        nameKuang->setVisible(true);
         
         if (dialItem->getBg() != "keep") {
             
@@ -443,17 +440,17 @@ void StoryScene::creatMan(float dt){
         //缩小状态坐标
         CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_1().c_str());
         manSpr1 = CCSprite::create(zsStr1->getCString());
-        manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 50, DISPLAY->ScreenHeight()* .45f));
+        manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         manSpr1->setTag(Tag_GJ_man1);
-        manSpr1->setScale(.75f);
+//        manSpr1->setScale(.75f);
         manSpr1->setVisible(false);
         this->addChild(manSpr1, 5);
         
         CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
         headSpr1 = CCSprite::create(tStr1->getCString());
-        headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 50, DISPLAY->ScreenHeight()* .45f));
+        headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         headSpr1->setTag(Tag_GJ_head1);
-        headSpr1->setScale(.75f);
+//        headSpr1->setScale(.75f);
         headSpr1->setVisible(false);
         this->addChild(headSpr1, 6);
         
@@ -513,16 +510,16 @@ void StoryScene::creatPassersbyMan(float dt){
             //1号 一般大的
             CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_1().c_str());
             manSpr1 = CCSprite::create(zsStr1->getCString());
-            manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 100, DISPLAY->ScreenHeight()* .4f));
-            manSpr1->setScale(.7f);
+            manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
+//            manSpr1->setScale(.7f);
             manSpr1->setTag(Tag_GJ_man1);
             manSpr1->setVisible(false);
             this->addChild(manSpr1, 6);
             
             CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
             headSpr1 = CCSprite::create(tStr1->getCString());
-            headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 100, DISPLAY->ScreenHeight()* .4f));
-            headSpr1->setScale(.7f);
+            headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
+//            headSpr1->setScale(.7f);
             headSpr1->setTag(Tag_GJ_head1);
             headSpr1->setVisible(false);
             this->addChild(headSpr1, 7);
@@ -530,16 +527,16 @@ void StoryScene::creatPassersbyMan(float dt){
             //2号 一般大的
             CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_2().c_str());
             manSpr2 = CCSprite::create(zsStr2->getCString());
-            manSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 230, DISPLAY->ScreenHeight()* .4f));
-            manSpr2->setScale(.7f);
+            manSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
+//            manSpr2->setScale(.7f);
             manSpr2->setTag(Tag_GJ_man2);
             manSpr2->setVisible(false);
             this->addChild(manSpr2, 6);
             
             CCString* tStr2 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_2().c_str());
             headSpr2 = CCSprite::create(tStr2->getCString());
-            headSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 230, DISPLAY->ScreenHeight()* .4f));
-            headSpr2->setScale(.7f);
+            headSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
+//            headSpr2->setScale(.7f);
             headSpr2->setTag(Tag_GJ_head2);
             headSpr2->setVisible(false);
             this->addChild(headSpr2, 7);
@@ -603,16 +600,16 @@ void StoryScene::creatPassersbyMan(float dt){
             if (!str1.empty() && !str2.empty()) {
                 CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_1().c_str());
                 manSpr1 = CCSprite::create(zsStr1->getCString());
-                manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 100, DISPLAY->ScreenHeight()* .4f));
-                manSpr1->setScale(.7f);
+                manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
+//                manSpr1->setScale(.7f);
                 manSpr1->setTag(Tag_GJ_man1);
                 manSpr1->setVisible(false);
                 this->addChild(manSpr1, 5);
                 
                 CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
                 headSpr1 = CCSprite::create(tStr1->getCString());
-                headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 100, DISPLAY->ScreenHeight()* .4f));
-                headSpr1->setScale(.7f);
+                headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
+//                headSpr1->setScale(.7f);
                 headSpr1->setTag(Tag_GJ_head1);
                 headSpr1->setVisible(false);
                 this->addChild(headSpr1, 6);
@@ -643,16 +640,16 @@ void StoryScene::creatPassersbyMan(float dt){
             if (!str3.empty() && !str4.empty()) {
                 CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_2().c_str());
                 manSpr2 = CCSprite::create(zsStr2->getCString());
-                manSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 230, DISPLAY->ScreenHeight()* .4f));
-                manSpr2->setScale(.7f);
+                manSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
+//                manSpr2->setScale(.7f);
                 manSpr2->setTag(Tag_GJ_man2);
                 manSpr2->setVisible(false);
                 this->addChild(manSpr2, 5);
                 
                 CCString* tStr2 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_2().c_str());
                 headSpr2 = CCSprite::create(tStr2->getCString());
-                headSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 230, DISPLAY->ScreenHeight()* .4f));
-                headSpr2->setScale(.7f);
+                headSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
+//                headSpr2->setScale(.7f);
                 headSpr2->setTag(Tag_GJ_head2);
                 headSpr2->setVisible(false);
                 this->addChild(headSpr2, 6);
@@ -887,6 +884,11 @@ void StoryScene::logic(float dt){
         this->openTouch(0);
     }
     
+    if (dialogItem->getName().length() <= 0) {
+        nameKuang->setVisible(false);
+    }else{
+        nameKuang->setVisible(true);
+    }
     nameLab->setString(dialogItem->getName().c_str());
     
     if (wordCount > contentLength) {
@@ -1889,7 +1891,7 @@ void StoryScene::keyBackStatus(float dt){
 void StoryScene::onExit(){
     this->setTouchEnabled(false);
     this->setAccelerometerEnabled(false);
-    
+    this->unscheduleAllSelectors();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->removeAllObservers(this);
     

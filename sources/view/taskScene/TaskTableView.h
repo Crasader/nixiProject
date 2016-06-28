@@ -83,6 +83,7 @@ public:
     void buttonStatus(int index, CCSprite* button);
     CCString* getTaskName(int index);
     int getTaskIcon(int index);
+    int getUnlockCondition(int index);
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */

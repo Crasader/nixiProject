@@ -78,7 +78,8 @@ void MainScene::onEnter(){
 
 void MainScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    
+    this->unscheduleAllSelectors();
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     BaseScene::onExit();
 }
 
@@ -766,6 +767,7 @@ void MainScene::initClothes(){//穿衣服
     }
 }
 
+        
 void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
     LOADING->remove();
     MailPanel* panel = MailPanel::create();

@@ -78,7 +78,7 @@ void NotePanel::initView(){
     
 //    const char* nickname = show->nickname();
     CCString* title_str = CCString::createWithFormat("发给 %s 的纸条:", nickname);
-    CCLabelTTF* title = CCLabelTTF::create(title_str->getCString(), DISPLAY->font(), 30, CCSizeMake(380, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* title = CCLabelTTF::create(title_str->getCString(), DISPLAY->fangzhengFont(), 30, CCSizeMake(380, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     title->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.9 + 15));
     title->setColor(ccc3(110, 92, 118));
     note_panel->addChild(title);

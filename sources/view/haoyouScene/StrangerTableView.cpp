@@ -96,7 +96,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         ShowComp* show = (ShowComp* )DATA->getSocial()->strangers()->objectForKey(show_id->getCString());
         const char* nickname = show->nickname();
         
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(name_bg1->getContentSize().width/2 - 10, name_bg1->getContentSize().height/2));
             name1->setTag(0x10500);
             name_bg1->addChild(name1);
@@ -104,8 +104,10 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         CCSprite* n_spr1 = CCSprite::create("res/pic/haoyoupaihang/head_n_normal.png");
         n_spr1->setPosition(ccp(head1->getContentSize().width/2, head1->getContentSize().height/2));
         head1->addChild(n_spr1);
-            
-
+        
+        CCMenu* menu_add = (CCMenu*)bg1->getChildByTag(0x10400);
+        menu_add->setVisible(false);
+        
         
         // 记录需要变大节点
         selectedIndex = cell->getIdx();
@@ -140,7 +142,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         ShowComp* show2 = (ShowComp* )DATA->getSocial()->strangers()->objectForKey(show_id2->getCString());
         const char* nickname2 = show2->nickname();
         
-            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
             name2->setPosition(ccp(name_bg2->getContentSize().width/2, name_bg2->getContentSize().height/2));
             name2->setTag(0x10500);
             name_bg2->addChild(name2);
@@ -148,6 +150,9 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         CCSprite* n_spr2 = CCSprite::create("res/pic/haoyoupaihang/head_n_selected.png");
         n_spr2->setPosition(ccp(head2->getContentSize().width/2, head2->getContentSize().height/2));
         head2->addChild(n_spr2);
+        
+        CCMenu* menu_add2 = (CCMenu*)bg2->getChildByTag(0x10400);
+        menu_add2->setVisible(true);
         
         
         CCLayer* layer = CCLayer::create();
@@ -260,32 +265,18 @@ void StrangerTableView::bigSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
     
     CCString* collected_str = CCString::createWithFormat("%d", collected);
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collected_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collected_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(bg->getContentSize().width * .8, bg->getContentSize().height/2));
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
     
-//    CCSprite* add_spr = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-//    CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-//    add_spr2->setScale(1.02f);
-//    CCMenuItemSprite* item_add = CCMenuItemSprite::create(add_spr, add_spr2, this, menu_selector(StrangerTableView::toBeFriend));
-//    item_add->setUserData(show_id);
-//    CCMenu* menu_add = CCMenu::create(item_add, NULL);
-//    menu_add->setPosition(ccp(bg->getContentSize().width - add_spr->getContentSize().width/2 - 10, 38));
-//    menu_add->setTag(0x10400);
-//    bg->addChild(menu_add);
-//    
-//    CCSprite* finish_spr = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-//    finish_spr->setPosition(ccp(bg->getContentSize().width - add_spr->getContentSize().width/2 -10, 38));
-//    finish_spr->setTag(0x3000);
-//    bg->addChild(finish_spr);
-//    finish_spr->setVisible(false);
+
     CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
@@ -347,13 +338,13 @@ void StrangerTableView::smallSprite(int index, CCSprite* spr){
     name_bg->setTag(0x10200);
     bg->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->font(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name->setTag(0x10500);
     name_bg->addChild(name);
     
     CCString* collected_str = CCString::createWithFormat("%d", collected);
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collected_str->getCString(), DISPLAY->font(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collected_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(bg->getContentSize().width * .8, bg->getContentSize().height/2));
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
@@ -371,6 +362,7 @@ void StrangerTableView::smallSprite(int index, CCSprite* spr){
         CCMenu* menu_add = CCMenu::create(item_add, NULL);
         menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 38));
         menu_add->setTag(0x10400);
+        menu_add->setVisible(false);
         bg->addChild(menu_add);
     }else{
         item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
@@ -379,6 +371,7 @@ void StrangerTableView::smallSprite(int index, CCSprite* spr){
         CCMenu* menu_add = CCMenu::create(item_add, NULL);
         menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 38));
         menu_add->setTag(0x10400);
+        menu_add->setVisible(false);
         bg->addChild(menu_add);
     }
 }
@@ -399,6 +392,7 @@ void StrangerTableView::toBeFriend(CCMenuItem* btn){
     item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
     CCMenu* menu_add = CCMenu::create(item_add, NULL);
     menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 38));
+    menu_add->setTag(0X10400);
     bg->addChild(menu_add);
     
     NET->send_message_803(other_id->getCString(), 1);

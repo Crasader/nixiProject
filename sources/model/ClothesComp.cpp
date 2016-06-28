@@ -13,6 +13,7 @@ ClothesComp::~ClothesComp() {
     CC_SAFE_DELETE(_clothes);
     CC_SAFE_DELETE(_myClothesTemp);
     CC_SAFE_DELETE(_dress);
+    CC_SAFE_DELETE(_ornaments);
 }
 
 bool ClothesComp::init() {
@@ -65,8 +66,14 @@ void ClothesComp::init_dressed(CSJson::Value json) {
     }
     
     CC_SAFE_DELETE(_dress);
-    _dress = AppUtil::dictionary_with_json(json);
+    _dress = AppUtil::dictionary_with_json(json["ondress"]);
     _dress->retain();
+    
+    CC_SAFE_RELEASE(_ornaments);
+    _ornaments = AppUtil::dictionary_with_json(json["ornaments"]);
+    _ornaments->retain();
+    
+    _dress->setObject(_ornaments, "7");
     
     this->copy_clothesTemp();
 }

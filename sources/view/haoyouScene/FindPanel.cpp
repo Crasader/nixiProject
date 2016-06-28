@@ -8,10 +8,9 @@
 
 #include "FindPanel.h"
 #include "DisplayManager.h"
-#include "MMCursorTextField.h"
-#include "CursorTextField.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "MMMachining.h"
 #include "PromptLayer.h"
 #include "ShowComp.h"
 
@@ -36,16 +35,18 @@ void FindPanel::initView(){
     find_panel = CCSprite::create("res/pic/haoyoupaihang/find_kuang.png");
     find_panel->setPosition(DISPLAY->center());
     this->addChild(find_panel);
-    
-    
-    m_text = CursorTextField::cursorTextFieldWithPlaceHolder("请输入玩家昵称", CCSizeMake(250, 40), kCCTextAlignmentLeft, DISPLAY->font(), 23);
-    m_text->setTextColor(ccc3(154, 138, 147));
-    m_text->setPosition(ccp(find_panel->getContentSize().width/2, find_panel->getContentSize().height*.5));
-    m_text->setMaxTextBytes(170);
-    //    m_text->setDelegate(this);
-    find_panel->addChild(m_text);
-    
-//    CCEditBox* box = CCEditBox::create(CCSizeMake(200, 50), CCScale9Sprite::create(""));
+
+    _input_name = CCEditBox::create(CCSizeMake(300, 40), CCScale9Sprite::create("res/pic/loginScene/99.png"));
+    _input_name->setMaxLength(30);
+    _input_name->setFontColor(ccWHITE);
+    _input_name->setPlaceHolder("请输入玩家昵称");
+    _input_name->setFontName(DISPLAY->fangzhengFont());
+    _input_name->setInputMode(kEditBoxInputModeEmailAddr);
+    _input_name->setReturnType(kKeyboardReturnTypeDone);
+    _input_name->setPosition(ccp(find_panel->getContentSize().width/2, find_panel->getContentSize().height * .54));
+    _input_name->setDelegate(this);
+//    _input_name->setFontSize(36.f);
+    find_panel->addChild(_input_name);
     
     
     
@@ -70,7 +71,12 @@ void FindPanel::initView(){
 
 void FindPanel::btn_find_callback(){
     LOADING->show_loading();
-    NET->search_other_801(m_text->getText().c_str());
+    
+    _input_name->detachWithIME();
+    if (this->check_nickname(_input_name->getText())) {
+        LOADING->show_loading();
+        NET->search_other_801(_input_name->getText());
+    }
 }
 
 void FindPanel::find_callback_801(CCObject* obj){
@@ -86,47 +92,129 @@ void FindPanel::btn_back_callback(){
     this->removeFromParentAndCleanup(true);
 }
 
-bool FindPanel::onCursorTextFieldInsertText(CursorTextField* sender, const char* newText, int newTextByte) {
-    
-    return false;
-}
-
-
 void FindPanel::onEnter(){
     CCLayer::onEnter();
     
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
-    this->setKeypadEnabled(true);
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&FindPanel::find_callback_801), "HTTP_FINISHED_801", NULL);
 }
 
 void FindPanel::onExit(){
-    this->setKeypadEnabled(false);
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     CCLayer::onExit();
 }
 
-//bool FindPanel::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){
-//    CCPoint location = pTouch->getLocation();
-//    if (! find_panel->boundingBox().containsPoint(location)) {
-//        this->btn_find_callback();
-//    }
-//    
-//    return true;
-//}
-
-void FindPanel::onCursorTextFieldAttachWithIME(CursorTextField * sender) {
+bool FindPanel::check_nickname(std::string str)
+{
+    int lenLimit = 10; // 昵称总长限制
     
-    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(find_panel->getPosition().x, find_panel->getPosition().y + 100));
-    find_panel->runAction(CCSequence::create(_actionMove, NULL));
+    if (str.empty()) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称不能为空");
+        return false;
+    }else {
+        char nameChar[128];
+        strcpy(nameChar, str.c_str());
+        CCLOG("nameChar == %s", nameChar);
+        
+        int zhongwen = 0;
+        int yingwen = 0;
+        bool zhongBool = false;
+        bool yingBool = false;
+        
+        size_t i = 0, nlen = strlen(nameChar);
+        for (; i<nlen; i++) {
+            if (nameChar[i] >= 0 && nameChar[i] <= 127) {
+                yingwen++;
+                yingBool = true;
+            }else{
+                zhongwen++;
+                zhongBool = true;
+            }
+        }
+        
+        int zhongWenCount = zhongwen / 3;
+        CCLOG("中文== %d个 英文== %d个", zhongWenCount, yingwen);
+        
+        if (zhongWenCount + yingwen == 0) { // 输入为空
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称错误,请重新输入");
+            return false;
+        }
+        
+        if (zhongwen % 3 != 0) {
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称中含有非法字符,请重新输入");
+            return false;
+        }
+        
+        if (zhongBool && (yingBool == false)) { // 只有中文
+            if (zhongWenCount + yingwen <= lenLimit) {
+                if (MMMachining::getInstance()->IsForbid(nameChar) == true) {
+                    return true;
+                }else{
+                    PromptLayer* prompt = PromptLayer::create();
+                    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称中含有非法字符,请重新输入");
+                    return false;
+                }
+            }else{
+                PromptLayer* prompt = PromptLayer::create();
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                return false;
+            }
+        }
+        else if (yingBool && (zhongBool == false)){ // 只有英文和数字
+            if (zhongWenCount + yingwen <= lenLimit) {
+                if (MMMachining::getInstance()->IsForbid(nameChar) == true) {
+                    return true;
+                }else{
+                    PromptLayer* prompt = PromptLayer::create();
+                    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称中含有非法字符,请重新输入");
+                    return false;
+                }
+            }else{
+                PromptLayer* prompt = PromptLayer::create();
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                return false;
+            }
+        }else if (zhongBool && yingBool){ // 混合英文、数字和中文
+            if (zhongWenCount + yingwen <= lenLimit) {
+                if (MMMachining::getInstance()->IsForbid(nameChar) == true) {
+                    return true;
+                }else{
+                    PromptLayer* prompt = PromptLayer::create();
+                    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称中含有非法字符,请重新输入");
+                    return false;
+                }
+            }else{
+                PromptLayer* prompt = PromptLayer::create();
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                return false;
+            }
+        }
+    }
+    
+    return false;
 }
 
-void FindPanel::onCursorTextFieldDetachWithIME(CursorTextField * sender) {
-    
-    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(find_panel->getPosition().x, find_panel->getPosition().y - 100));
-    find_panel->stopAllActions();
-    find_panel->runAction(CCSequence::create(_actionMove, NULL));
+#pragma mark - CCEditBoxDelegate
+
+void FindPanel::editBoxEditingDidBegin(CCEditBox* editBox) {
+    //    _oldStr = string(editBox->getText());
 }
+
+void FindPanel::editBoxEditingDidEnd(CCEditBox* editBox) {
+    
+}
+
+void FindPanel::editBoxTextChanged(CCEditBox* editBox, const std::string& text) {
+}
+
+void FindPanel::editBoxReturn(CCEditBox* editBox) {
+    
+}
+
