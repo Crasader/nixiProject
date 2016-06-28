@@ -47,10 +47,6 @@ void StrangerScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
-    
-#warning "for test"
-    ShowComp* show_test = DATA->getSocial()->getSelectedStrangerByIndex(2);
-    CCLOG("%s", show_test->nickname());
 }
 
 void StrangerScene::onExit(){
