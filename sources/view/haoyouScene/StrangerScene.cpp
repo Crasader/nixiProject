@@ -33,7 +33,6 @@ bool StrangerScene::init(){
         myClothesTemp = show->ondress();
     }
     
-    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -59,7 +58,6 @@ void StrangerScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::exitMan), "ExitMan",  NULL);
-    
 }
 
 void StrangerScene::onExit(){
@@ -146,7 +144,6 @@ void StrangerScene::createView(){
     CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
-       
 }
 
 void StrangerScene::initStranger(){
@@ -159,7 +156,6 @@ void StrangerScene::initStranger(){
     tabLayer->setTag(0x77777);
     this->addChild(tabLayer, 5);
 }
-
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
     

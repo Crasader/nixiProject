@@ -74,6 +74,10 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
+    
+    this->update_news_status();
 }
 
 void MainScene::onExit(){
@@ -153,15 +157,15 @@ void MainScene::creat_view(){
     CCSprite* yjSpr1 = CCSprite::create("res/pic/mainScene/main_youjian.png");
     CCSprite* yjSpr2 = CCSprite::create("res/pic/mainScene/main_youjian.png");
     yjSpr2->setScale(1.02f);
-    CCMenuItem* youjianItem = CCMenuItemSprite::create(yjSpr1, yjSpr2, this, menu_selector(MainScene::youjianCallBack));
-    youjianItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .89f));
+    _youjianItem = CCMenuItemSprite::create(yjSpr1, yjSpr2, this, menu_selector(MainScene::youjianCallBack));
+    _youjianItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .89f));
     
     // 好友
     CCSprite* hySpr1 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
     CCSprite* hySpr2 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
     hySpr2->setScale(1.02f);
-    CCMenuItem* haoyouItem = CCMenuItemSprite::create(hySpr1, hySpr2, this, menu_selector(MainScene::haoyouCallBack));
-    haoyouItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .8f));
+    _haoyouItem = CCMenuItemSprite::create(hySpr1, hySpr2, this, menu_selector(MainScene::haoyouCallBack));
+    _haoyouItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .8f));
     
     // 换装
     CCSprite* hzSpr1 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
@@ -177,7 +181,7 @@ void MainScene::creat_view(){
     CCMenuItem* paihangItem = CCMenuItemSprite::create(phSpr1, phSpr2, this, menu_selector(MainScene::paihangCallBack));
     paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .62f));
     
-    CCMenu* menu = CCMenu::create(shouchongItem, huodongItem, qiandaoItem, haoyouItem, youjianItem, huanzhuangItem, paihangItem, NULL);
+    CCMenu* menu = CCMenu::create(shouchongItem, huodongItem, qiandaoItem, _haoyouItem, _youjianItem, huanzhuangItem, paihangItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
     
@@ -766,7 +770,6 @@ void MainScene::initClothes(){//穿衣服
         }
     }
 }
-
         
 void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
     LOADING->remove();
@@ -774,6 +777,20 @@ void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
     panel->show_from(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
 }
 
-
+void MainScene::update_news_status() {
+#warning "需要更改"
+    NewsComp* news = DATA->getNews();
+    if (news->mail > 0) {
+        CCSprite* spt = CCSprite::create("pic/new.png");
+        spt->setPosition(ccp(80, 80));
+        _youjianItem->addChild(spt);
+    }
+    
+    if (news->paper + news->message > 0) {
+        CCSprite* spt = CCSprite::create("pic/new.png");
+        spt->setPosition(ccp(80, 80));
+        _haoyouItem->addChild(spt);
+    }
+}
 
 

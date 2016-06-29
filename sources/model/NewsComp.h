@@ -25,11 +25,11 @@ public:
     
 public:
     void print_news();
-    bool is_other_day();
-    int energy();
-    int mail();
-    int message();
-    int paper();
+    bool otherday;
+    int energy;
+    int mail;
+    int message;
+    int paper;
     
 protected:
     
