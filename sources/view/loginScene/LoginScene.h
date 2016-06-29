@@ -31,6 +31,7 @@ private:
     void show_nicknameview();
     void slide_in_logo();
     
+    void fast_login(CCMenuItem* pObj);
     void start_login(CCObject* pObj);
     void start_regist(CCObject* pObj);
     

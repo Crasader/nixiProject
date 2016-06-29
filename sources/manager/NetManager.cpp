@@ -320,3 +320,11 @@ void NetManager::ranking_list_300() {
 void NetManager::all_products_100() {
     this->post_data(100, string(""));
 }
+
+void NetManager::buy_energy_101() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    string data = writer.write(root);
+    this->post_data(101, data);
+}
