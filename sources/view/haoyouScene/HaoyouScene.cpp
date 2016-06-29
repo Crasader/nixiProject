@@ -162,9 +162,7 @@ void HaoyouScene::all_message_callback_804(CCObject* pSender){
 
 void HaoyouScene::haoyouCallBack(CCObject* pSender){
     LOADING->show_loading();
-    CCScene* scene = NoteLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    NET->all_friends_806();
 }
 
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {

@@ -33,9 +33,7 @@ bool HaoyouRankLayer::init(){
         ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
         myClothesTemp = show->ondress();
     }
-    
-    myClothesTemp = DATA->getClothes()->MyClothesTemp();
-    
+        
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -222,6 +220,10 @@ void HaoyouRankLayer::removeMan(){
 }
 
 void HaoyouRankLayer::enterMan(){
+    const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
+    ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+    myClothesTemp = show->ondress();
+    
     this->creat_Man();
     this->initClothes();
     
