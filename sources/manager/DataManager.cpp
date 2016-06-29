@@ -48,6 +48,7 @@ void DataManager::init_data() {
     this->setSignin(SigninComp::create());
     this->setSocial(SocialComp::create());
     this->setStory(StoryComp::create());
+    this->setPaper(PaperComp::create());
 }
 
 time_t DataManager::cur_timestamp() {
@@ -133,10 +134,19 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 910: {
             _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 800: {
             _social->init_with_json(content["social"]);
+        } break;
+            
+        case 801: {
+//            ShowComp* other = ShowComp::create();
+//            other->init_with_json(content["other"]);
+//            pData = other;
+            CCString* id = ccs(content["other"].asString());
+            pData = id;
         } break;
             
         case 802: {
@@ -149,6 +159,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 804: {
             _message->init_with_json(content["messages"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 805: {
@@ -165,8 +177,16 @@ void DataManager::handle_protocol(int cid, Value content) {
             _social->init_with_json(content["social"]);
         } break;
             
+        case 808: {
+            _paper->init_with_json(content["paper"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
         case 700: {
             _mail->init_with_json(content["mail"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 701: {

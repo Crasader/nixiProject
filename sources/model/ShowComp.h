@@ -30,6 +30,7 @@ public:
     CCDictionary* ondress();    // 着装
     
     int             isadd;
+    int             issend;
     
 protected:
     

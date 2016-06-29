@@ -95,6 +95,12 @@ public:
     
     CCPoint playerVelocity;
     
+private:
+    void update_news_status();
+    
+private:
+    CCMenuItem*         _youjianItem;
+    CCMenuItem*         _haoyouItem;
 };
 
 #endif /* defined(__tiegao__MainScene__) */

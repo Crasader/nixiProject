@@ -58,6 +58,9 @@ public:
     
     void onExit();
     
+//    std::string _selected_id;
+    CCString* _selected_id;
+    
 public:
     
     CCTableView* pTableView;

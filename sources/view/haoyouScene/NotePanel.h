@@ -63,6 +63,8 @@ public:
     
 public:
     
+    CC_SYNTHESIZE_PASS_BY_REF(std::string, _entranceType, EntranceType);
+    
     bool otherBool;
     bool rankBool;
     bool paperBool;
@@ -79,16 +81,22 @@ public:
 //    MMPromptLayer* promptLayer;
     
     //    MMJYTextField* m_text;
+    
+    int _index;
+    
     CursorTextField*  m_text;
+    
+    CCLabelTTF* _word_count;
     
 public:
     
+    void update(float dt);
+    
     void initView();
     void btn_send_callback();
-//    void fhCallBack(CCObject* pSender);
-//    void fsCallBack(CCObject* pSender);
-//    void close_view(float dt);
+    void closeNotePanel();
     
+    void note_callback_809();
 };
 
 #endif /* NotePanel_hpp */
