@@ -83,7 +83,7 @@ public:
     CCTableView *pTableView;
     CCTableViewCell *pCell;
     
-    CCArray* messageArr;
+    CCArray* paperArr;
     
     float offsetFloat;
     bool sliderBool;
@@ -93,8 +93,9 @@ public:
     void creat_View();
     void updateTableView();
     
-    void agreedCallBack(CCObject* pSender);
+    void replyCallBack(CCObject* pSender);
     void deleteCallBack(CCObject* pSender);
+    void addCallBack(CCObject* pSender);
     void _805CallBack(CCObject* pSender);
 };
 

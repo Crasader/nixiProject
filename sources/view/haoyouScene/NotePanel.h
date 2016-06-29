@@ -65,10 +65,10 @@ public:
     
     CC_SYNTHESIZE_PASS_BY_REF(std::string, _entranceType, EntranceType);
     
-    bool otherBool;
-    bool rankBool;
-    bool paperBool;
-    bool isOpen;
+//    bool otherBool;
+//    bool rankBool;
+//    bool paperBool;
+//    bool isOpen;
     
     CCSprite* note_panel;
     
@@ -83,7 +83,7 @@ public:
     //    MMJYTextField* m_text;
     
     int _index;
-    
+        
     CursorTextField*  m_text;
     
     CCLabelTTF* _word_count;

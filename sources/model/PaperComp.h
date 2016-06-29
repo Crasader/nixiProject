@@ -27,6 +27,7 @@ public:
     void print_self();
     int             id;
     string          sender;
+    string          sender_name;
     string          content;
     
 protected:
@@ -44,6 +45,9 @@ public:
 public:
     void print_papers();
     CCArray* papers() const;
+    
+    CC_SYNTHESIZE(const char*, _replyID, ReplyID);
+    CC_SYNTHESIZE(const char*, _nickname, NickName);
     
 protected:
     

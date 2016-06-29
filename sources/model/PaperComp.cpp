@@ -23,6 +23,7 @@ void PaperItem::init_with_json(Value json) {
     
     id = json["id"].asInt();
     sender = json["sender"].asString();
+    sender_name = json["sender_name"].asString();
     content = json["content"].asString();
 }
 

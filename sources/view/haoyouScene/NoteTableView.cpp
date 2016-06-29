@@ -12,6 +12,7 @@
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "NotePanel.h"
 
 
 NoteTableView::NoteTableView()
@@ -67,9 +68,9 @@ bool NoteTableView::init()
     tableFloat = 0;
     clickIndex = -1;
     
-    messageArr = DATA->getMessage()->messages();
+    paperArr = DATA->getPaper()->papers();
     
-    _number = messageArr->count();
+    _number = paperArr->count();
     if (_number > NEI_MAXNUM) {
         _number = NEI_MAXNUM;
     }
@@ -158,7 +159,7 @@ cocos2d::extension::CCTableViewCell* NoteTableView::tableCellAtIndex(cocos2d::ex
     CCTableViewCell* pCell = new CCTableViewCell();
     pCell->autorelease();
     
-    MessageItem* item = (MessageItem* )messageArr->objectAtIndex(idx);
+    PaperItem* item = (PaperItem* )paperArr->objectAtIndex(idx);
     
     CCSprite* kuangSpr = CCSprite::create("res/pic/haoyouScene/message_dikuang.png");
     kuangSpr->setAnchorPoint(CCPointZero);
@@ -172,20 +173,15 @@ cocos2d::extension::CCTableViewCell* NoteTableView::tableCellAtIndex(cocos2d::ex
     indexLabel->setColor(ccc3(116, 106, 153));
     kuangSpr->addChild(indexLabel);
     
-    CCString* titleStr = CCString::createWithFormat("%s发给您的消息", item->sender.c_str());
+    CCString* titleStr = CCString::createWithFormat("%s发给您的纸条", item->sender_name.c_str());
     CCLabelTTF* titleLabel = CCLabelTTF::create(titleStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .8f, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .92f));
     titleLabel->setColor(ccc3(116, 106, 153));
     kuangSpr->addChild(titleLabel);
     
     CCString* contentStr;
-    if (item->type == e_Msg_Friend_Ask) {
-        contentStr = CCString::createWithFormat("%s希望加您为好友,希望您能同意.", item->sender.c_str());
-    }else if (item->type == e_Msg_Send_Energy){
-        contentStr = CCString::createWithFormat("您的好友%s赠送了您体力,请前往领取呦~!", item->sender.c_str());
-    }else if (item->type == e_Msg_Friend_Deletem){
-        contentStr = CCString::createWithFormat("%s删除您的好友.", item->sender.c_str());
-    }
+    contentStr = CCString::createWithFormat(item->content.c_str(), item->sender.c_str());
+    
     CCLabelTTF* contentLabel = CCLabelTTF::create(contentStr->getCString(), DISPLAY->fangzhengFont(), 23, CCSizeMake(kuangSpr->getContentSize().width* .9f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     contentLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
     contentLabel->setColor(ccc3(142, 131, 157));
@@ -196,48 +192,54 @@ cocos2d::extension::CCTableViewCell* NoteTableView::tableCellAtIndex(cocos2d::ex
     CCSprite* deleteSpr2 = CCSprite::create("res/pic/haoyouScene/message_delete.png");
     deleteSpr2->setScale(1.02f);
     CCMenuItem* deleteItem = CCMenuItemSprite::create(deleteSpr1, deleteSpr2, this, menu_selector(NoteTableView::deleteCallBack));
-    if (item->type == e_Msg_Friend_Ask) {
-        deleteItem->setPosition(ccp(kuangSpr->getContentSize().width* .3f, kuangSpr->getContentSize().height* .31f));
-    }else if (item->type == e_Msg_Send_Energy){
-        deleteItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .31f));
-    }else if (item->type == e_Msg_Friend_Deletem){
-        deleteItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .31f));
-    }
+    deleteItem->setPosition(ccp(kuangSpr->getContentSize().width* .25f, kuangSpr->getContentSize().height* .31f));
     deleteItem->setTag(idx);
     
-    CCSprite* agreedSpr1 = CCSprite::create("res/pic/haoyouScene/message_agreed.png");
-    CCSprite* agreedSpr2 = CCSprite::create("res/pic/haoyouScene/message_agreed.png");
-    agreedSpr2->setScale(1.02f);
-    CCMenuItem* agreedItem = CCMenuItemSprite::create(agreedSpr1, agreedSpr2, this, menu_selector(NoteTableView::agreedCallBack));
-    agreedItem->setPosition(ccp(kuangSpr->getContentSize().width* .7f, kuangSpr->getContentSize().height* .31f));
-    agreedItem->setTag(idx);
+    CCSprite* replySpr1 = CCSprite::create("res/pic/haoyouScene/reply.png");
+    CCSprite* replySpr2 = CCSprite::create("res/pic/haoyouScene/reply.png");
+    replySpr2->setScale(1.02f);
+    CCMenuItem* replyItem = CCMenuItemSprite::create(replySpr1, replySpr2, this, menu_selector(NoteTableView::replyCallBack));
+    replyItem->setPosition(ccp(kuangSpr->getContentSize().width* .75f, kuangSpr->getContentSize().height* .31f));
+    replyItem->setTag(idx);
+    
+    CCSprite* addSpr1 = CCSprite::create("res/pic/haoyouScene/friend.png");
+    CCSprite* addSpr2 = CCSprite::create("res/pic/haoyouScene/friend.png");
+    addSpr2->setScale(1.02f);
+    CCMenuItem* addItem = CCMenuItemSprite::create(addSpr1, addSpr2, this, menu_selector(NoteTableView::addCallBack));
+    addItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .31f));
+    
     
     CCMenu* menu;
-    if (item->type == e_Msg_Friend_Ask) {
-        menu = CCMenu::create(deleteItem, agreedItem, NULL);
-    }else if (item->type == e_Msg_Send_Energy){
-        menu = CCMenu::create(deleteItem, NULL);
-    }else if (item->type == e_Msg_Friend_Deletem){
-        menu = CCMenu::create(deleteItem, NULL);
-    }
+    menu = CCMenu::create(deleteItem, replyItem, addItem, NULL);
     menu->setPosition(CCPointZero);
     menu->setTag(idx);
     kuangSpr->addChild(menu);
     
     return pCell;
 }
-void NoteTableView::agreedCallBack(CCObject* pSender){
+void NoteTableView::replyCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    MessageItem* messageItem = (MessageItem* )messageArr->objectAtIndex(item->getTag());
-    LOADING->show_loading();
-    NET->response_message_805(messageItem->id, 1);
+    PaperItem* paperItem = (PaperItem* )paperArr->objectAtIndex(item->getTag());
+    DATA->getPaper()->setReplyID(paperItem->sender.c_str());
+    DATA->getPaper()->setNickName(paperItem->sender_name.c_str());
+//    LOADING->show_loading();
+//    NET->send_papar_809(paperItem->sender.c_str(), 1);
+    
+    NotePanel* panel = NotePanel::create();
+    panel->setEntranceType("zhitiao");
+    this->addChild(panel, 10000);
 }
 void NoteTableView::deleteCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    MessageItem* messageItem = (MessageItem* )messageArr->objectAtIndex(item->getTag());
+    PaperItem* paperItem = (PaperItem* )paperArr->objectAtIndex(item->getTag());
     LOADING->show_loading();
-    NET->response_message_805(messageItem->id, 2);
+    NET->delete_paper_811(paperItem->id);
 }
+
+void NoteTableView::addCallBack(CCObject* pSender){
+    
+}
+
 //void NoteTableView::_805CallBack(CCObject* pSender){
 //    LOADING->remove();
 //    
@@ -254,8 +256,8 @@ void NoteTableView::updateTableView(){
         this->removeChildByTag(1);
     }
     
-    messageArr = DATA->getMessage()->messages();
-    _number = messageArr->count();
+    paperArr = DATA->getPaper()->papers();
+    _number = paperArr->count();
     
     slider = SliderBar::createSliderBar("res/pic/haoyouScene/message_bar2.png", "res/pic/haoyouScene/message_bar1.png", CCSizeMake(911, 11), CCSizeMake(99, 25));
     slider->setPosition(ccp(DISPLAY->ScreenWidth()*.95f, DISPLAY->ScreenHeight()* .5f));

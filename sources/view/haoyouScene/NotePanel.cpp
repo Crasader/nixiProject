@@ -72,11 +72,13 @@ void NotePanel::initView(){
         show = DATA->getSocial()->getSelectedStrangerByIndex(_index);
         nickname = show->nickname();
     }
+    else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
+        nickname = DATA->getPaper()->getNickName();
+    }
     else {
         nickname = "女总裁";
     }
-    
-//    const char* nickname = show->nickname();
+    CCLOG("NickName: %s", nickname);
     CCString* title_str = CCString::createWithFormat("发给 %s 的纸条:", nickname);
     CCLabelTTF* title = CCLabelTTF::create(title_str->getCString(), DISPLAY->fangzhengFont(), 30, CCSizeMake(380, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     title->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.9 + 15));
@@ -159,10 +161,13 @@ void NotePanel::btn_send_callback(){
     else if (!_entranceType.empty() && _entranceType.compare("stranger") == 0) {
         id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
     }
+    else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
+        id = DATA->getPaper()->getReplyID();
+    }
     else {
 //        id = "女总裁";
     }
-    
+    CCLOG("ID: %s", id);
     NET->send_papar_809(id, m_text->getText().c_str());
 }
 
