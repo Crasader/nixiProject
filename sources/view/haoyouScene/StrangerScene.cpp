@@ -69,6 +69,8 @@ void StrangerScene::onExit(){
 }
 
 void StrangerScene::createView(){
+    float z_order = 20.f;
+    
     CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
@@ -81,7 +83,7 @@ void StrangerScene::createView(){
     item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);
-    this->addChild(menu_share);
+    this->addChild(menu_share, z_order);
     
     //纸条
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
@@ -91,7 +93,7 @@ void StrangerScene::createView(){
     item_note->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
     CCMenu* menu_note = CCMenu::create(item_note, NULL);
     menu_note->setPosition(CCPointZero);
-    this->addChild(menu_note);
+    this->addChild(menu_note, z_order);
     
     //返回
     CCSprite* back_spr = CCSprite::create("res/pic/taskScene/task_back.png");
@@ -101,11 +103,11 @@ void StrangerScene::createView(){
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
-    this->addChild(menu_back);
+    this->addChild(menu_back, z_order);
     
     CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
     self_spr->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-    this->addChild(self_spr);
+    this->addChild(self_spr, z_order);
     
     int my_num = 8;
     CCSprite* head;

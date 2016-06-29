@@ -212,10 +212,6 @@ void TotalRankScene::btn_back_callback(CCObject* pSender){
         CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
-    
-//    CCScene* scene = HaoyouScene::scene();
-//    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void TotalRankScene::enterMan(){

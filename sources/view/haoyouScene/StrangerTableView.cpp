@@ -316,15 +316,8 @@ void StrangerTableView::smallSprite(int index, CCSprite* spr){
     
     CCSprite* head;
     
-//    if (index == 0) {
-//        head = CCSprite::create("res/pic/haoyoupaihang/first.png");
-//    }else if (index == 1){
-//        head = CCSprite::create("res/pic/haoyoupaihang/second.png");
-//    }else if (index == 2){
-//        head = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-//    }else{
-        head = CCSprite::create("res/pic/haoyoupaihang/cell_head_normal.png");
-//    }
+
+    head = CCSprite::create("res/pic/haoyoupaihang/cell_head_normal.png");
     head->setPosition(ccp(head->getContentSize().width + 4, bg->getContentSize().height/2 + 5));
     head->setTag(0x10100);
     bg->addChild(head);
