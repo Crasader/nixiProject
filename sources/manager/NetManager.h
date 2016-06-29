@@ -53,7 +53,7 @@ public:
     void all_friends_806();
     void take_energy_807();
     void all_paper_808();
-    void send_papar_809(const char* other_sid, const char* contents);;
+    void send_papar_809(const char* other_sid, const char* contents);
     void delete_paper_811(int id);
     
     void all_mails_700();

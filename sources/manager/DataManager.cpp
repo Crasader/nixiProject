@@ -184,6 +184,15 @@ void DataManager::handle_protocol(int cid, Value content) {
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
+        case 809: {
+            
+        } break;
+            
+        case 811: {
+            CCInteger* id = CCInteger::create(content["other"].asInt());
+            pData = id;
+        } break;
+            
         case 700: {
             _mail->init_with_json(content["mail"]);
             _news->init_with_json(content["news"]);
