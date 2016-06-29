@@ -108,6 +108,15 @@ CCDictionary* SocialComp::friends() const {
     return _friends;
 }
 
+bool SocialComp::is_friend(const char *other_sid) {
+    CCObject* pObj = _friends->objectForKey(other_sid);
+    if (pObj) {
+        return true;
+    }
+    
+    return false;
+}
+
 bool SocialComp::has_send_energy(const char *other_sid) {
     CCObject* pObj = NULL;
     CCARRAY_FOREACH(_energy_send, pObj) {

@@ -73,6 +73,7 @@ public:
     void ranking_list_300();
     
     void all_products_100();
+    void buy_energy_101();
     
 private:
     string generate_sign(int cid, const char* data);
