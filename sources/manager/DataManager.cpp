@@ -178,6 +178,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 808: {
+            _social->init_friends(content["friends"]);
             _paper->init_with_json(content["paper"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
