@@ -75,4 +75,14 @@ void PaperComp::print_papers() {
     }
 }
 
+void PaperComp::delete_paper(int id) {
+    int count = _papers->count();
+    for (int i = 0; i < count; i++) {
+        PaperItem* item = (PaperItem* )_papers->objectAtIndex(i);
+        if (item->id == id) {
+            _papers->removeObjectAtIndex(i);
+            break;
+        }
+    }
+}
 

@@ -25,6 +25,7 @@ public:
     
 public:
     void print_self();
+    
     int             id;
     string          sender;
     string          content;
@@ -44,7 +45,8 @@ public:
 public:
     void print_papers();
     CCArray* papers() const;
-    
+    void delete_paper(int id);
+
 protected:
     
 private:
