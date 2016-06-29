@@ -11,6 +11,7 @@
 
 #define UD_ACCOUNT      "UDA"
 #define UD_PASSWORD     "UDP"
+#define UD_UUID         "UUID"
 
 static ConfigManager* _instance = nullptr;
 
@@ -52,6 +53,18 @@ CCArray* ConfigManager::mission() {
 
 CCDictionary* ConfigManager::clothes() {
     return _clothes;
+}
+
+bool ConfigManager::has_saved_uuid() {
+    return !(this->saved_uuid().compare("") == 0);
+}
+
+string ConfigManager::saved_uuid() {
+    return CCUserDefault::sharedUserDefault()->getStringForKey(UD_UUID);
+}
+
+void ConfigManager::save_uuid(const char *str) {
+    CCUserDefault::sharedUserDefault()->setStringForKey(UD_UUID, str);
 }
 
 bool ConfigManager::has_saved_account() {

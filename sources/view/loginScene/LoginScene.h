@@ -35,6 +35,7 @@ private:
     void start_login(CCObject* pObj);
     void start_regist(CCObject* pObj);
     
+    void fast_login_callback_900(CCObject* pObj);
     void account_login_callback_901(CCObject* pObj);
     void game_login_callback_902(CCObject* pObj);
     void account_regist_callback_903(CCObject* pObj);

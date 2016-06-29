@@ -29,7 +29,12 @@ public:
 public:
     CCArray* mission();
     CCDictionary* clothes();
+    
+    bool has_saved_uuid();
+    void save_uuid(const char* str);
+    string saved_uuid();
     bool has_saved_account();
+    
     string saved_account();
     string saved_password();
     void save_account(const char* str);
