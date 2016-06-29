@@ -189,8 +189,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 811: {
-            CCInteger* id = CCInteger::create(content["id"].asInt());
-            pData = id;
+            _paper->delete_paper(content["id"].asInt());
         } break;
             
         case 700: {
