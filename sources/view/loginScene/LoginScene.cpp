@@ -63,6 +63,7 @@ void LoginScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::start_login), "start_login", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::start_regist), "start_regist", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&LoginScene::fast_login_callback_900), "HTTP_FINISHED_900", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::account_login_callback_901), "HTTP_FINISHED_901", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::game_login_callback_902), "HTTP_FINISHED_902", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::account_regist_callback_903), "HTTP_FINISHED_903", NULL);
@@ -91,7 +92,12 @@ void LoginScene::onEnter() {
     
     this->slide_in_logo();
     
-    if (CONFIG->has_saved_account()) {
+    if (CONFIG->has_saved_uuid()) {
+        LOADING->show_loading();
+        DATA->setLoginType(2);
+        NET->fast_login_900(CONFIG->saved_uuid().c_str());
+    }
+    else if (CONFIG->has_saved_account()) {
         LOADING->show_loading();
         DATA->setLoginType(2);
         NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
@@ -146,7 +152,7 @@ void LoginScene::create_views() {
     CCMenuItem* btn_fast = CCMenuItemSprite::create(fast1, fast2, this, SEL_MenuHandler(&LoginScene::fast_login));
     CCMenu* menu_fast = CCMenu::createWithItem(btn_fast);
     menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.16));
-    _container->addChild(menu_fast);
+    this->addChild(menu_fast);
 }
 
 void LoginScene::show_loginview() {
@@ -201,6 +207,15 @@ void LoginScene::start_regist(CCObject *pObj) {
     
     LOADING->show_loading();
     NET->account_regist_903(account->getCString(), password->getCString());
+}
+
+void LoginScene::fast_login_callback_900(CCObject *pObj) {
+    LOADING->remove();
+    if (! CONFIG->has_saved_uuid()) {
+        CONFIG->save_uuid(DATA->getLogin()->obtain_UUID());
+    }
+    
+    NET->login_game_server_902();
 }
 
 void LoginScene::account_login_callback_901(CCObject *pObj) {
