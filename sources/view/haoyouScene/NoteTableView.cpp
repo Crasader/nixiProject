@@ -233,6 +233,7 @@ void NoteTableView::replyCallBack(CCObject* pSender){
     this->addChild(panel, 10000);
 }
 void NoteTableView::deleteCallBack(CCObject* pSender){
+    LOADING->show_loading();
     CCMenuItem* item = (CCMenuItem* )pSender;
     PaperItem* paperItem = (PaperItem* )paperArr->objectAtIndex(item->getTag());
     LOADING->show_loading();
@@ -250,11 +251,11 @@ void NoteTableView::addfriend_callback_803(CCObject* pSender){
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
 }
 
-//void NoteTableView::_805CallBack(CCObject* pSender){
-//    LOADING->remove();
-//    
-//    this->updateTableView();
-//}
+void NoteTableView::delete_callback_811(CCObject* pSender){
+    LOADING->remove();
+    
+    this->updateTableView();
+}
 
 //cell的数量
 unsigned int NoteTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){

@@ -97,6 +97,7 @@ public:
     void deleteCallBack(CCObject* pSender);
     void addCallBack(CCObject* pSender);
     void addfriend_callback_803(CCObject* pSender);
+    void delete_callback_811(CCObject* pSender);
 };
 
 
