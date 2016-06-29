@@ -30,6 +30,7 @@ public:
     CCDictionary* ondress();    // 着装
     
     int             isadd;
+    int             issend;
     
 protected:
     
@@ -37,6 +38,7 @@ private:
     string          _nickname;
     int             _collected;
     CCDictionary*   _ondress;
+    CCDictionary*   _ornaments;
 };
 
 #endif /* ShowComp_hpp */

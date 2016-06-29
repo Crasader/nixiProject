@@ -156,7 +156,9 @@ void HaoyouScene::strangerCallBack(CCObject* pSender){
 }
 
 void HaoyouScene::paihangCallBack(CCObject* pSender){
-    CCScene* scene = TotalRankScene::scene();
+    CCLayer* layer = TotalRankScene::create_with_type(2);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

@@ -94,7 +94,6 @@ void TaskScene::creat_view(){
     menu->setPosition(CCPointZero);
     this->addChild(menu, 20);
     
-    
     taskKuang = CCSprite::create("res/pic/taskScene/task_dikuang1.png");
     taskKuang->setAnchorPoint(ccp(1, .5f));
     taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .585f));
@@ -105,6 +104,14 @@ void TaskScene::creat_view(){
         label->setColor(ccWHITE);
         taskKuang->addChild(label);
     }
+    
+#warning "需要替换该处"
+    CCString* ratingInfo = CCString::createWithFormat("总星级：%d", DATA->getPlayer()->rating);
+    CCLabelTTF* lblTotalRating = CCLabelTTF::create(ratingInfo->getCString(), DISPLAY->fangzhengFont(), 30.f);
+    lblTotalRating->setColor(ccRED);
+    CCSize size = taskKuang->boundingBox().size;
+    lblTotalRating->setPosition(ccp(size.width * 0.5, size.height * 0.96));
+    taskKuang->addChild(lblTotalRating);
     
     TaskTableView* tabLayer = TaskTableView::create();
     tabLayer->setPosition(ccp(7, 20));

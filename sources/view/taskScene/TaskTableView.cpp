@@ -208,7 +208,10 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    if (idx < OpenToWhichOne) {
+    int rating = DATA->getPlayer()->rating;
+    int unlockCondition = this->getUnlockCondition(idx);
+//    if (idx < OpenToWhichOne) {
+    if (unlockCondition <= rating) {
         CCSprite* button;
         if (getTaskIcon(idx) == 1) {
             button = CCSprite::createWithSpriteFrameName("task_button_1_1.png");
@@ -254,6 +257,13 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         button2->setAnchorPoint(CCPointZero);
         button2->setPosition(ccp(5.5f, 0));
         button1->addChild(button2);
+        
+#warning "测试用，需替换"
+        CCString* condition = CCString::createWithFormat("开启要求：%d", unlockCondition);
+        CCLabelTTF* lblCondition = CCLabelTTF::create(condition->getCString(), DISPLAY->fangzhengFont(), 22.f);
+        lblCondition->setColor(ccBLUE);
+        lblCondition->setPosition(ccp(177 * 0.5, 110 * 0.16));
+        pCell->addChild(lblCondition);
     }
     
     spr->setTag(idx);
@@ -338,12 +348,14 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
         xingDiSpr5->addChild(xingSpr5);
     }
 }
+
 CCString* TaskTableView::getTaskName(int index){
     CCArray* arr = CONFIG->mission();
     CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
     
     return (CCString*)dic->valueForKey("name");
 }
+
 int TaskTableView::getTaskIcon(int index){
     CCArray* arr = CONFIG->mission();
     CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
@@ -351,5 +363,10 @@ int TaskTableView::getTaskIcon(int index){
     return dic->valueForKey("icon")->intValue();
 }
 
-
+int TaskTableView::getUnlockCondition(int index){
+    CCArray* arr = CONFIG->mission();
+    CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
+    
+    return dic->valueForKey("require")->intValue();
+}
 

@@ -720,7 +720,7 @@ void ClothesScene::saveClothesMethods(){
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
                 return;
-            }else if (!haveEnoughCoin()){
+            }else if (DATA->getPlayer()->coin < haveEnoughCoin()){
                 AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);

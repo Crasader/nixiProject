@@ -11,10 +11,12 @@
 
 ShowComp::~ShowComp() {
     CC_SAFE_DELETE(_ondress);
+    CC_SAFE_DELETE(_ornaments);
 }
 
 bool ShowComp::init() {
     _ondress = NULL;
+    _ornaments = NULL;
     isadd = 0;
     
     return true;
@@ -32,6 +34,12 @@ void ShowComp::init_with_json(Value json) {
         CC_SAFE_RELEASE(_ondress);
         _ondress = AppUtil::dictionary_with_json(json["ondress"]);
         _ondress->retain();
+        
+        CC_SAFE_RELEASE(_ornaments);
+        _ornaments = AppUtil::dictionary_with_json(json["ornaments"]);
+        _ornaments->retain();
+        
+        _ondress->setObject(_ornaments, "7");
         this->print_dress();
     }
 }

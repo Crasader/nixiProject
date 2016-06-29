@@ -40,6 +40,7 @@ public:
 private:
     CCDictionary*       _clothes;
     CCDictionary*       _dress;
+    CCDictionary*       _ornaments;
     CCDictionary*       _myClothesTemp;
 };
 

@@ -74,7 +74,8 @@ public:
     
     void btn_getTili_callback();
     void get_tili_807();
-        
+    
+    
 public:
     NotePanel* _panel;
     int _energy_could_get;
@@ -114,6 +115,13 @@ public:
     
     void creat_Man();
     void initClothes();//穿衣服
+    
+    void enterMan();
+    void exitMan();
+    void removeMan();
+    void removeMask();
+    
+    CCDictionary* myClothesTemp;
     
 };
 #endif /* HaoyouRankLayer_h */
