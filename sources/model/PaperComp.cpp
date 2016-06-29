@@ -22,14 +22,14 @@ void PaperItem::init_with_json(Value json) {
     }
     
     id = json["id"].asInt();
-    type = json["type"].asInt();
     sender = json["sender"].asString();
+    content = json["content"].asString();
 }
 
 void PaperItem::print_self() {
     CCLOG("====== Paper: < %d > ======", id);
-    CCLOG("    type = %d", type);
     CCLOG("    sender = %s", sender.c_str());
+    CCLOG("    content = %s", content.c_str());
 }
 
 // --------------------------------------------------

@@ -26,8 +26,8 @@ public:
 public:
     void print_self();
     int             id;
-    int             type;
     string          sender;
+    string          content;
     
 protected:
 private:
