@@ -145,9 +145,6 @@ void HaoyouScene::zhitiaoCallBack(CCObject* pSender){
     LOADING->show_loading();
     
     NET->all_paper_808();
-//    CCScene* scene = NoteLayer::scene();
-//    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouScene::all_paper_callback_808(CCObject* pSender){
@@ -165,7 +162,9 @@ void HaoyouScene::all_message_callback_804(CCObject* pSender){
 
 void HaoyouScene::haoyouCallBack(CCObject* pSender){
     LOADING->show_loading();
-    NET->all_friends_806();
+    CCScene* scene = NoteLayer::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {

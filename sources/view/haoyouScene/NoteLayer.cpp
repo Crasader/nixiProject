@@ -32,7 +32,6 @@ bool NoteLayer::init(){
 void NoteLayer::onEnter(){
     BaseScene::onEnter();
     
-    
 }
 
 void NoteLayer::onExit(){

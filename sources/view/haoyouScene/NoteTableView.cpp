@@ -13,6 +13,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "NotePanel.h"
+#include "PromptLayer.h"
 
 
 NoteTableView::NoteTableView()
@@ -39,8 +40,8 @@ CCScene* NoteTableView::scene()
 void NoteTableView::onEnter(){
     CCLayer::onEnter();
     
-//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, menu_selector(NoteTableView::_805CallBack), "HTTP_FINISHED_805", NULL);
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, menu_selector(NoteTableView::addfriend_callback_803), "HTTP_FINISHED_805", NULL);
     
 }
 void NoteTableView::onExit(){
@@ -207,7 +208,11 @@ cocos2d::extension::CCTableViewCell* NoteTableView::tableCellAtIndex(cocos2d::ex
     addSpr2->setScale(1.02f);
     CCMenuItem* addItem = CCMenuItemSprite::create(addSpr1, addSpr2, this, menu_selector(NoteTableView::addCallBack));
     addItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .31f));
+    addItem->setTag(idx);
     
+    if (DATA->getSocial()->is_friend(item->sender.c_str())) {
+        addItem->setVisible(false);
+    }
     
     CCMenu* menu;
     menu = CCMenu::create(deleteItem, replyItem, addItem, NULL);
@@ -222,8 +227,6 @@ void NoteTableView::replyCallBack(CCObject* pSender){
     PaperItem* paperItem = (PaperItem* )paperArr->objectAtIndex(item->getTag());
     DATA->getPaper()->setReplyID(paperItem->sender.c_str());
     DATA->getPaper()->setNickName(paperItem->sender_name.c_str());
-//    LOADING->show_loading();
-//    NET->send_papar_809(paperItem->sender.c_str(), 1);
     
     NotePanel* panel = NotePanel::create();
     panel->setEntranceType("zhitiao");
@@ -237,7 +240,14 @@ void NoteTableView::deleteCallBack(CCObject* pSender){
 }
 
 void NoteTableView::addCallBack(CCObject* pSender){
-    
+    CCMenuItem* item = (CCMenuItem*)pSender;
+    PaperItem* paperItem = (PaperItem*)paperArr->objectAtIndex(item->getTag());
+    NET->send_message_803(paperItem->sender.c_str(), 1);
+}
+
+void NoteTableView::addfriend_callback_803(CCObject* pSender){
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
 }
 
 //void NoteTableView::_805CallBack(CCObject* pSender){
