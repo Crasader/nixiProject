@@ -42,6 +42,7 @@ void NoteTableView::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(NoteTableView::addfriend_callback_803), "HTTP_FINISHED_805", NULL);
+    nc->addObserver(this, menu_selector(NoteTableView::delete_callback_811), "HTTP_FINISHED_811", NULL);
     
 }
 void NoteTableView::onExit(){
