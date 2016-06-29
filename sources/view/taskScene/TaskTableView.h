@@ -22,7 +22,9 @@ USING_NS_CC_EXT;
 typedef enum{
     Tag_Task_Xing1 = 1000,
     Tag_Task_Xing2,
-    Tag_Task_Xing3
+    Tag_Task_Xing3,
+    Tag_Task_Xing4,
+    Tag_Task_Xing5
 }Task_Enum;
 
 class TaskTableView

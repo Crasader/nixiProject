@@ -81,6 +81,8 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index){
 
 bool StorySettlementOfTheAnimationLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    
     this->removeFromParentAndCleanup(true);
     CCScene* scene = QingjingScene::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);

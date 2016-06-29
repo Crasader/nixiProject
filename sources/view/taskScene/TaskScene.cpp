@@ -423,13 +423,23 @@ void TaskScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 30000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
-                _sySpr1 = CCSprite::create(str->getCString());
-                _sySpr1->setScale(scaleFloat);
-                _sySpr1->setFlipX(flipxBool);
-                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _sySpr1->setTag(Tag_GJ_ShangYi1);
-                _ManSpr->addChild(_sySpr1, 350);
+//                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
+//                _sySpr1 = CCSprite::create(str->getCString());
+//                _sySpr1->setScale(scaleFloat);
+//                _sySpr1->setFlipX(flipxBool);
+//                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+//                _sySpr1->setTag(Tag_GJ_ShangYi1);
+//                _ManSpr->addChild(_sySpr1, 350);
+                
+                CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+                xingSpr1->setFlipX(true);
+                xingSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .22f, DISPLAY->ScreenHeight()* .488f));
+                _ManSpr->addChild(xingSpr1, 1000);
+                
+                CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+                xingSpr2->setFlipX(true);
+                xingSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .385f, DISPLAY->ScreenHeight()* .473f));
+                _ManSpr->addChild(xingSpr2, 1000);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {

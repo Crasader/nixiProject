@@ -279,7 +279,7 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
     CCString* indexStr = CCString::createWithFormat("%d", index + 1);
     int num = DATA->getMission()->mission_rating(indexStr->getCString());
     
-    CCSprite* xingDiSpr1,* xingDiSpr2,* xingDiSpr3;
+    CCSprite* xingDiSpr1,* xingDiSpr2,* xingDiSpr3,* xingDiSpr4,* xingDiSpr5;
     xingDiSpr1 = CCSprite::create("res/pic/taskScene/task_xing1.png");
     xingDiSpr1->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .38f));
     xingDiSpr1->setTag(Tag_Task_Xing1);
@@ -295,8 +295,18 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
     xingDiSpr3->setTag(Tag_Task_Xing3);
     button->addChild(xingDiSpr3);
     
+    xingDiSpr4 = CCSprite::create("res/pic/taskScene/task_xing1.png");
+    xingDiSpr4->setPosition(ccp(button->getContentSize().width* .91f, button->getContentSize().height* .54f));
+    xingDiSpr4->setTag(Tag_Task_Xing4);
+    button->addChild(xingDiSpr4);
+    
+    xingDiSpr5 = CCSprite::create("res/pic/taskScene/task_xing1.png");
+    xingDiSpr5->setPosition(ccp(button->getContentSize().width* .92f, button->getContentSize().height* .77f));
+    xingDiSpr5->setTag(Tag_Task_Xing5);
+    button->addChild(xingDiSpr5);
+    
     //
-    CCSprite* xingSpr1,* xingSpr2,* xingSpr3;
+    CCSprite* xingSpr1,* xingSpr2,* xingSpr3,* xingSpr4,* xingSpr5;
     if (num >= 1) {
         xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing2.png");
         xingSpr1->setAnchorPoint(CCPointZero);
@@ -314,6 +324,18 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
         xingSpr3->setAnchorPoint(CCPointZero);
         xingSpr3->setPosition(CCPointZero);
         xingDiSpr3->addChild(xingSpr3);
+    }
+    if (num >= 4) {
+        xingSpr4 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+        xingSpr4->setAnchorPoint(CCPointZero);
+        xingSpr4->setPosition(CCPointZero);
+        xingDiSpr4->addChild(xingSpr4);
+    }
+    if (num >= 5) {
+        xingSpr5 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+        xingSpr5->setAnchorPoint(CCPointZero);
+        xingSpr5->setPosition(CCPointZero);
+        xingDiSpr5->addChild(xingSpr5);
     }
 }
 CCString* TaskTableView::getTaskName(int index){
