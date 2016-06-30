@@ -124,9 +124,12 @@ public:
     
     ClothesTableView* _delegate;
     
+    CCLabelTTF* shaixuanLabel;
+    
     bool startTask;
     bool animationBool;
     bool zhuangrongBool;
+    bool renwukuangMethodsBool;
     
     long  changClothesIndex;
     int buttonTag;
@@ -136,6 +139,9 @@ public:
     int task_phase;
     int tili_AllIndex;
     int _buttonStatus;
+    int tag1;
+    int tag2;
+    int tag3;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
@@ -177,6 +183,7 @@ public:
     
     void openTouch(float dt);
     void creat_View();
+    void creat_ViewMethods(int index);
     void creat_money();
     void creat_Man();
     void initClothes();//穿衣服
@@ -199,6 +206,8 @@ public:
     void buttonCallBack(CCObject* pSender);
     void buyCallBack(CCObject* pSender);
     void saveCallBack(CCObject* pSender);
+    void renwukuangCallBack(CCObject* pSender);
+    void renwukuangMethods(int index);
     void saveClothesMethods();
     
     int haveEnoughCoin();

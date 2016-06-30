@@ -507,11 +507,17 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             jgkuang->addChild(costLabel);
             
         }else if (cloth_type == 10){
-            int cloth_cost = dic->valueForKey("cost")->intValue();
-            
+            CCString* costStr = CCString::create("非卖品");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
         }else{
-            int cloth_cost = dic->valueForKey("cost")->intValue();
-            
+            CCString* costStr = CCString::create("非卖品");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
         }
     }
     

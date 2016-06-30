@@ -88,6 +88,10 @@ void BaseScene::init_UI(){
     m_tili_num->setColor(ccc3(113, 89, 102));
     tiliItem->addChild(m_tili_num);
     // 倒计时
+    CCSprite* timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
+    timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -5));
+    tiliItem->addChild(timeKuangSpr);
+    
     _minute = DATA->getTiliMinute();
     _second = DATA->getTiliSecond();
     CCString* timeStr;
@@ -101,9 +105,9 @@ void BaseScene::init_UI(){
         }
     }
     m_time_num = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 20);
-    m_time_num->setPosition(ccp(tiliItem->getContentSize().width* .7f, -8));
-    m_time_num->setColor(ccRED);
-    tiliItem->addChild(m_time_num);
+    m_time_num->setPosition(ccp(timeKuangSpr->getContentSize().width* .5f, timeKuangSpr->getContentSize().height* .5f));
+    m_time_num->setColor(ccWHITE);
+    timeKuangSpr->addChild(m_time_num);
     
     if (tili_num < def_TiliMax) {
         m_time_num->setVisible(true);
