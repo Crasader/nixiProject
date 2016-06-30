@@ -141,8 +141,8 @@ void CursorTextField::hideCursor() {
 void CursorTextField::insertCursor() {
     CCString* str = CCString::createWithFormat("%s|", _oldText.c_str());
     _tf->setString(str->getCString());
-    CCLOG("insertCursor:");
-    CCLOG("%s", _tf->getString());
+//    CCLOG("insertCursor:");
+//    CCLOG("%s", _tf->getString());
 }
 
 void CursorTextField::deleteCursor() {
@@ -151,8 +151,8 @@ void CursorTextField::deleteCursor() {
     }
     else {
         CCString* str = CCString::createWithFormat("%s", _oldText.c_str());
-        CCLOG("delete:");
-        CCLOG("%s", str->getCString());
+//        CCLOG("delete:");
+//        CCLOG("%s", str->getCString());
         _tf->setString(str->getCString());
     }
 //    CCLOG("insertCursor len = %ld", strlen(_tf->getString()));

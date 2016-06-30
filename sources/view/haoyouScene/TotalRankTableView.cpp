@@ -312,7 +312,6 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             head2->addChild(rank_num);
         }
         
-//        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )selectedIndex);
         CCLayer* layer = CCLayer::create();
         layer->setTouchEnabled(true);
         layer->setTouchSwallowEnabled(true);
@@ -423,16 +422,6 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
     
-    //    CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    //    CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    //    tili_spr2->setScale(1.02f);
-    //    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::sendTili));
-    //    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
-    //    menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 38));
-    //    menu_tili->setTag(0x10400);
-    //    bg->addChild(menu_tili);
-    
-    //    CCLabelAtlas
 }
 void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     CCSprite* bg = CCSprite::createWithSpriteFrameName("panel_normal.png");
@@ -469,15 +458,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     cloth_count->setPosition(ccp(bg->getContentSize().width * .8, bg->getContentSize().height/2));
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
-    
-    //    CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    //    CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-    //    tili_spr2->setScale(1.02f);
-    //    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::sendTili));
-    //    CCMenu* menu_tili = CCMenu::create(item_tili, NULL);
-    //    menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 -10, 38));
-    //    menu_tili->setTag(0x10400);
-    //    bg->addChild(menu_tili);
+
     
     if (index > 2) {
         CCLabelAtlas* rank_num;

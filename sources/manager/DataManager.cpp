@@ -48,6 +48,7 @@ void DataManager::init_data() {
     this->setSignin(SigninComp::create());
     this->setSocial(SocialComp::create());
     this->setStory(StoryComp::create());
+    this->setPaper(PaperComp::create());
 }
 
 time_t DataManager::cur_timestamp() {
@@ -135,6 +136,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 910: {
             _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 800: {
@@ -159,6 +161,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 804: {
             _message->init_with_json(content["messages"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 805: {
@@ -176,8 +180,25 @@ void DataManager::handle_protocol(int cid, Value content) {
             _social->init_with_json(content["social"]);
         } break;
             
+        case 808: {
+            _social->init_friends(content["friends"]);
+            _paper->init_with_json(content["paper"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
+        case 809: {
+            
+        } break;
+            
+        case 811: {
+            _paper->delete_paper(content["id"].asInt());
+        } break;
+            
         case 700: {
             _mail->init_with_json(content["mail"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 701: {
@@ -231,6 +252,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 100: {
             _IAP->init_products(content);
+        } break;
+            
+        case 101: {
+            _player->init_with_json(content["player"]);
         } break;
             
         default:

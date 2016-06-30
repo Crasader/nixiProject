@@ -108,6 +108,15 @@ CCDictionary* SocialComp::friends() const {
     return _friends;
 }
 
+bool SocialComp::is_friend(const char *other_sid) {
+    CCObject* pObj = _friends->objectForKey(other_sid);
+    if (pObj) {
+        return true;
+    }
+    
+    return false;
+}
+
 bool SocialComp::has_send_energy(const char *other_sid) {
     CCObject* pObj = NULL;
     CCARRAY_FOREACH(_energy_send, pObj) {
@@ -150,11 +159,11 @@ const char* SocialComp::getSelectedStrangerIDbyIndex(int idx){
 }
 
 ShowComp* SocialComp::getSelectedFriendByIndex(int idx) {
-    CCArray* arrKeys = _strangers->allKeys();
+    CCArray* arrKeys = _friends->allKeys();
     int count = arrKeys->count();
     if (0 <= idx && idx < count) {
         CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
-        ShowComp* show = (ShowComp*)_strangers->objectForKey(key->getCString());
+        ShowComp* show = (ShowComp*)_friends->objectForKey(key->getCString());
         return show;
     }
     else {
@@ -163,7 +172,7 @@ ShowComp* SocialComp::getSelectedFriendByIndex(int idx) {
 }
 
 const char* SocialComp::getSelectedFriendIDbyIndex(int idx){
-    CCArray* arrKeys = _strangers->allKeys();
+    CCArray* arrKeys = _friends->allKeys();
     int count = arrKeys->count();
     if (0 <= idx && idx < count) {
         CCString* key = (CCString*)arrKeys->objectAtIndex(idx);

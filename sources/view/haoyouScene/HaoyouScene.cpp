@@ -17,6 +17,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "MessageLayer.h"
+#include "NoteLayer.h"
 
 
 HaoyouScene::HaoyouScene(){
@@ -56,7 +57,8 @@ void HaoyouScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::strangers_callback_802), "HTTP_FINISHED_802", NULL);
-    nc->addObserver(this, menu_selector(HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
 
 }
@@ -88,6 +90,12 @@ void HaoyouScene::creat_view(){
     CCMenuItem* xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
     xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .32f));
     
+    CCSprite* zhitiaoSpr1 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
+    CCSprite* zhitiaoSpr2 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
+    zhitiaoSpr2->setScale(1.02f);
+    CCMenuItem* zhitiaoItem = CCMenuItemSprite::create(zhitiaoSpr1, zhitiaoSpr2, this, menu_selector(HaoyouScene::zhitiaoCallBack));
+    zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
+    
     CCSprite* haoyouSpr1 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
     CCSprite* haoyouSpr2 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
     haoyouSpr2->setScale(1.02f);
@@ -106,7 +114,7 @@ void HaoyouScene::creat_view(){
     CCMenuItem* paihangItem = CCMenuItemSprite::create(paihangSpr1, paihangSpr2, this, menu_selector(HaoyouScene::paihangCallBack));
     paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .07f));
     
-    allMenu = CCMenu::create(backItem, xiaoxiItem, haoyouItem, strangerItem, paihangItem, NULL);
+    allMenu = CCMenu::create(backItem, xiaoxiItem, zhitiaoItem, haoyouItem, strangerItem, paihangItem, NULL);
     allMenu->setPosition(CCPointZero);
     this->addChild(allMenu, 20);
     
@@ -132,6 +140,20 @@ void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
     
     NET->all_messages_804();
 }
+
+void HaoyouScene::zhitiaoCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    
+    NET->all_paper_808();
+}
+
+void HaoyouScene::all_paper_callback_808(CCObject* pSender){
+    LOADING->remove();
+    CCScene* scene = NoteLayer::scene();
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+
 void HaoyouScene::all_message_callback_804(CCObject* pSender){
     CCScene* scene = MessageLayer::scene();
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);

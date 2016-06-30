@@ -458,6 +458,10 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     }
 //    str = CCString::createWithFormat("res/pic/clothesScene/111.png");
     CCSprite* clothSpr = CCSprite::create(str->getCString());
+    if (!clothSpr) {
+        clothSpr = CCSprite::create("pic/unknown.png");
+    }
+    
     clothSpr->setAnchorPoint(CCPointZero);
     clothSpr->setPosition(ccp(0, 0));
     clothSpr->setTag(idx);

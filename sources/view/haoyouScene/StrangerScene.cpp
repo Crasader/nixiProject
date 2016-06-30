@@ -33,7 +33,6 @@ bool StrangerScene::init(){
         myClothesTemp = show->ondress();
     }
     
-    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -59,7 +58,6 @@ void StrangerScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::exitMan), "ExitMan",  NULL);
-    
 }
 
 void StrangerScene::onExit(){
@@ -69,6 +67,8 @@ void StrangerScene::onExit(){
 }
 
 void StrangerScene::createView(){
+    float z_order = 20.f;
+    
     CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
@@ -81,7 +81,7 @@ void StrangerScene::createView(){
     item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);
-    this->addChild(menu_share);
+    this->addChild(menu_share, z_order);
     
     //纸条
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
@@ -91,7 +91,7 @@ void StrangerScene::createView(){
     item_note->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
     CCMenu* menu_note = CCMenu::create(item_note, NULL);
     menu_note->setPosition(CCPointZero);
-    this->addChild(menu_note);
+    this->addChild(menu_note, z_order);
     
     //返回
     CCSprite* back_spr = CCSprite::create("res/pic/taskScene/task_back.png");
@@ -101,11 +101,11 @@ void StrangerScene::createView(){
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
-    this->addChild(menu_back);
+    this->addChild(menu_back, z_order);
     
     CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
     self_spr->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-    this->addChild(self_spr);
+    this->addChild(self_spr, z_order);
     
     int my_num = 8;
     CCSprite* head;
@@ -144,7 +144,6 @@ void StrangerScene::createView(){
     CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
     self_spr->addChild(cloth_count);
-       
 }
 
 void StrangerScene::initStranger(){
@@ -157,7 +156,6 @@ void StrangerScene::initStranger(){
     tabLayer->setTag(0x77777);
     this->addChild(tabLayer, 5);
 }
-
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
     
@@ -194,7 +192,9 @@ void StrangerScene::exitMan(){
 }
 
 void StrangerScene::enterMan(){
-    //    myClothesTemp =
+    const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
+    ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+    myClothesTemp = show->ondress();
     
     this->creat_Man();
     this->initClothes();

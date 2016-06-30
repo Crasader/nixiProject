@@ -27,6 +27,7 @@
 #include "SigninComp.h"
 #include "SocialComp.h"
 #include "StoryComp.h"
+#include "PaperComp.h"
 
 USING_NS_CC;
 //USING_NS_CC_EXT;
@@ -61,6 +62,7 @@ public:
     CC_SYNTHESIZE_RETAIN(SigninComp*, _signin, Signin);
     CC_SYNTHESIZE_RETAIN(SocialComp*, _social, Social);
     CC_SYNTHESIZE_RETAIN(StoryComp*, _story, Story);
+    CC_SYNTHESIZE_RETAIN(PaperComp*, _paper, Paper);
     
     //
     CC_SYNTHESIZE(int, _loginType, LoginType);

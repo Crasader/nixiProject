@@ -81,6 +81,7 @@ public:
     
     void backCallBack(CCObject* pSender);
     void xiaoxiCallBack(CCObject* pSender);
+    void zhitiaoCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
     void strangerCallBack(CCObject* pSender);
     void paihangCallBack(CCObject* pSender);
@@ -88,6 +89,7 @@ public:
     void strangers_callback_802(CCObject* pObj);
     void all_message_callback_804(CCObject* pObj);
     void all_friends_callback_806(CCObject* pObj);
+    void all_paper_callback_808(CCObject* pObj);
 
 public:
     

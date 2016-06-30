@@ -53,7 +53,7 @@ public:
     void all_friends_806();
     void take_energy_807();
     void all_paper_808();
-    void send_papar_809(const char* other_sid, const char* contents);;
+    void send_papar_809(const char* other_sid, const char* contents);
     void delete_paper_811(int id);
     
     void all_mails_700();
@@ -73,6 +73,7 @@ public:
     void ranking_list_300();
     
     void all_products_100();
+    void buy_energy_101();
     
 private:
     string generate_sign(int cid, const char* data);

@@ -66,6 +66,7 @@ public:
     
 private:
     void show_purchase_panel();
+    void show_energybuy_panel();
 };
 
 #endif /* defined(__tiegao__BaseScene__) */
