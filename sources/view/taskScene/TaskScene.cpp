@@ -34,7 +34,10 @@ bool TaskScene::init(){
     taskPhase = 0;
     taskIndex = 0;
     
-    OpenToWhichOne = DATA->getPlayer()->next_mission;
+    CCDictionary* ratingDic =  DATA->getPlayer()->rating;
+    CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
+    
     taskArr = CONFIG->mission();
     
     allClothesDic = CONFIG->clothes();// 所有衣服
@@ -77,8 +80,17 @@ void TaskScene::keyBackClicked(){
 
 void TaskScene::creat_view(){
     
-    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(OpenToWhichOne-1);
-    taskPhase = dic->valueForKey("phase")->intValue();
+    taskPhase = DATA->getPlayer()->phase;
+    CCArray* tempArr = CCArray::create();
+    for (int i = 0; i < taskArr->count(); i++) {
+        CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(i);
+        int phase = dic->valueForKey("phase")->intValue();
+        if (phase == taskPhase) {
+            tempArr->addObject(dic);
+        }
+    }
+    DATA->setTaskSource(tempArr);
+    
     CCString* bgStr = CCString::createWithFormat("res/pic/taskScene/task_bg%d.png", taskPhase);
     roomSpr = CCSprite::create(bgStr->getCString());
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
@@ -90,7 +102,19 @@ void TaskScene::creat_view(){
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(TaskScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     
-    CCMenu* menu = CCMenu::create(backItem, NULL);
+    CCSprite* historySpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
+    CCSprite* historySpr2 = CCSprite::create("res/pic/taskScene/task_back.png");
+    historySpr2->setScale(1.02f);
+    historyItem = CCMenuItemSprite::create(historySpr1, historySpr2, this, menu_selector(TaskScene::historyCallBack));
+    historyItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .04f));
+    if (taskPhase > 1) {
+        historyItem->setVisible(true);
+    }else{
+        historyItem->setVisible(false);
+    }
+    
+    
+    CCMenu* menu = CCMenu::create(backItem, historyItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu, 20);
     
@@ -98,20 +122,31 @@ void TaskScene::creat_view(){
     taskKuang->setAnchorPoint(ccp(1, .5f));
     taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .585f));
     this->addChild(taskKuang, 20);
-    if (taskPhase >= 1) {
-        CCLabelTTF* label = CCLabelTTF::create("弘鼎集团", DISPLAY->fangzhengFont(), 30, CCSizeMake(195, 30), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
-        label->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height* .96f));
-        label->setColor(ccWHITE);
-        taskKuang->addChild(label);
+    CCString* labelStr;
+    if (taskPhase == 1) {
+        labelStr = CCString::createWithFormat("弘鼎公司1");
+    }else if (taskPhase == 2){
+        labelStr = CCString::createWithFormat("弘鼎国际2");
+    }else if (taskPhase == 3){
+        labelStr = CCString::createWithFormat("弘鼎国际3");
+    }else if (taskPhase == 4){
+        labelStr = CCString::createWithFormat("弘鼎国际4");
     }
+    CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 30, CCSizeMake(195, 30), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+    label->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height* .96f));
+    label->setColor(ccWHITE);
+    taskKuang->addChild(label);
     
-#warning "需要替换该处"
-    CCString* ratingInfo = CCString::createWithFormat("总星级：%d", DATA->getPlayer()->rating);
-    CCLabelTTF* lblTotalRating = CCLabelTTF::create(ratingInfo->getCString(), DISPLAY->fangzhengFont(), 30.f);
-    lblTotalRating->setColor(ccRED);
-    CCSize size = taskKuang->boundingBox().size;
-    lblTotalRating->setPosition(ccp(size.width * 0.5, size.height * 0.96));
-    taskKuang->addChild(lblTotalRating);
+    
+    
+    
+//#warning "需要替换该处"
+//    CCString* ratingInfo = CCString::createWithFormat("总星级：%d", DATA->getPlayer()->rating);
+//    CCLabelTTF* lblTotalRating = CCLabelTTF::create(ratingInfo->getCString(), DISPLAY->fangzhengFont(), 30.f);
+//    lblTotalRating->setColor(ccRED);
+//    CCSize size = taskKuang->boundingBox().size;
+//    lblTotalRating->setPosition(ccp(size.width * 0.5, size.height * 0.96));
+//    taskKuang->addChild(lblTotalRating);
     
     TaskTableView* tabLayer = TaskTableView::create();
     tabLayer->setPosition(ccp(7, 20));
@@ -124,6 +159,9 @@ void TaskScene::backCallBack(CCObject* pSender){
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+void TaskScene::historyCallBack(CCObject* pSender){
+    
+}
 
 
 void TaskScene::creat_Tishi(){
@@ -133,7 +171,22 @@ void TaskScene::creat_Tishi(){
         kuangSpr = NULL;
     }
     
+    historyItem->setVisible(false);
+    
     int index = DATA->getTaskNumber();
+    CCArray* arr = DATA->getTaskSource();
+    CCDictionary* taskDic = (CCDictionary* )arr->objectAtIndex(index);
+    int taskId = taskDic->valueForKey("id")->intValue();
+    CCDictionary* dic;
+    int id;
+    for (int i = 0; i < taskArr->count(); i++) {
+        dic = (CCDictionary* )taskArr->objectAtIndex(i);
+        id = dic->valueForKey("id")->intValue();
+        if (taskId == id) {
+            break;
+        }
+    }
+    int unlockCondition = dic->valueForKey("require")->intValue();
     int tiliIndex = 12;
     
     kuangSpr = CCSprite::create("res/pic/taskScene/task_dikuang2.png");
@@ -142,13 +195,13 @@ void TaskScene::creat_Tishi(){
     this->addChild(kuangSpr, 20);
     
     // 标题
-    CCLabelTTF* nameLabel = CCLabelTTF::create(getTaskName(index)->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(370, 25), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* nameLabel = CCLabelTTF::create(getTaskName(id)->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(370, 25), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .92f));
     nameLabel->setColor(ccWHITE);
 //    nameLabel->setColor(ccc3(80, 63, 68));
     kuangSpr->addChild(nameLabel, 2);
     
-    CCLabelTTF* nameLabel2 = CCLabelTTF::create(getTaskName(index)->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(370, 25), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* nameLabel2 = CCLabelTTF::create(getTaskName(id)->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(370, 25), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .92f - 2));
     nameLabel2->setColor(ccGRAY);
     kuangSpr->addChild(nameLabel2);
@@ -166,18 +219,17 @@ void TaskScene::creat_Tishi(){
     kuangSpr->addChild(xianSpr);
     
     // 提示内容
-    CCLabelTTF* descriptionLabel = CCLabelTTF::create(getTaskDescription(index)->getCString(), DISPLAY->fangzhengFont(), 21, CCSizeMake(kuangSpr->getContentSize().width* .92f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
+    CCLabelTTF* descriptionLabel = CCLabelTTF::create(getTaskDescription(id)->getCString(), DISPLAY->fangzhengFont(), 21, CCSizeMake(kuangSpr->getContentSize().width* .92f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
     descriptionLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .41f));
     descriptionLabel->setColor(ccc3(103, 81, 95));
 //    descriptionLabel->enableStroke(ccc3(103, 81, 95), .4f);
     kuangSpr->addChild(descriptionLabel, 2);
     
     // 开始故事
-    int OpenToWhichOne = DATA->getPlayer()->next_mission;
     CCSprite* startSpr1;
     CCSprite* startSpr2;
     CCMenuItem* startItem;
-    if (index < OpenToWhichOne) {
+    if (unlockCondition <= OpenToWhichOne) {
         startSpr1 = CCSprite::create("res/pic/taskScene/task_start.png");
         startSpr2 = CCSprite::create("res/pic/taskScene/task_start.png");
         startSpr2->setScale(1.02f);
@@ -186,7 +238,9 @@ void TaskScene::creat_Tishi(){
         startItem->setTag(index);
     }else{
         startSpr1 = CCSprite::create("res/pic/taskScene/task_start.png");
+        startSpr1->setColor(ccGRAY);
         startSpr2 = CCSprite::create("res/pic/taskScene/task_start.png");
+        startSpr2->setColor(ccGRAY);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
         startItem->setColor(ccGRAY);
@@ -215,10 +269,9 @@ void TaskScene::creat_Tishi(){
     // 心
     CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
     xinSpr->setScale(.9f);
-    xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .85f, tiliSpr->getContentSize().height* .49f));
+    xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .86f, tiliSpr->getContentSize().height* .49f));
     tiliSpr->addChild(xinSpr);
     
-    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index);
     int tag1 = dic->valueForKey("tag1")->intValue();
     int tag2 = dic->valueForKey("tag2")->intValue();
     int tag3 = dic->valueForKey("tag3")->intValue();
@@ -274,15 +327,21 @@ void TaskScene::ExitTishi(){
         this->removeChildByTag(0x88888);
         kuangSpr = NULL;
     }
+    
+    if (taskPhase > 1) {
+        historyItem->setVisible(true);
+    }else{
+        historyItem->setVisible(false);
+    }
 }
 
 CCString* TaskScene::getTaskName(int index){
-    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index);
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index - 1);
     
     return (CCString*)dic->valueForKey("name");
 }
 CCString* TaskScene::getTaskDescription(int index){
-    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index);
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(index - 1);
     
     return (CCString*)dic->valueForKey("desc");
 }

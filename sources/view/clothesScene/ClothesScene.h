@@ -205,6 +205,8 @@ public:
     int haveEnoughGold();
     int updataClothes(int type);
     
+    int getTaskId(int index);
+    
     
 private:
     void Http_Finished_401(CCObject* pObj);

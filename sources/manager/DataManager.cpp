@@ -22,6 +22,7 @@ const float UpdateInterval = 60.0f;
 
 DataManager::~DataManager() {
     CC_SAFE_RELEASE_NULL(_dataSource);
+    CC_SAFE_RELEASE_NULL(_taskSource);
 }
 
 DataManager* DataManager::Inst() {

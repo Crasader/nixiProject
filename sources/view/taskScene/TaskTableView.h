@@ -74,9 +74,13 @@ public:
     
     CCTableView* pTableView;
     
+    CCArray* taskMission;
+    
+    CCDictionary* ratingDic;
+    int OpenToWhichOne;
+    
     CCNode* sprNode;
     
-    int OpenToWhichOne;
     int allNumber;
     int selectedIndex;
     
@@ -86,6 +90,7 @@ public:
     CCString* getTaskName(int index);
     int getTaskIcon(int index);
     int getUnlockCondition(int index);
+    int getTaskPhase(int index);
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */

@@ -242,8 +242,12 @@ void NetManager::start_mission_601(int id) {
     this->post_data(601, data);
 }
 
-void NetManager::commit_mission_602() {
-    this->post_data(602, string(""));
+void NetManager::commit_mission_602(int id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    string data = writer.write(root);
+    this->post_data(602, data);
 }
 
 

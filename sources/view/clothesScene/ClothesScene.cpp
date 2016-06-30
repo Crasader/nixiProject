@@ -637,7 +637,7 @@ void ClothesScene::crate_Tishi(){
         renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
         this->addChild(renwukuangSpr, 10);
         
-        CCArray* taskArr = CONFIG->mission();
+        CCArray* taskArr = DATA->getTaskSource();
         CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index);
         int tag1 = dic->valueForKey("tag1")->intValue();
         int tag2 = dic->valueForKey("tag2")->intValue();
@@ -2141,7 +2141,7 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     
     if (clothesStatus == 1) {// 任务
         if (startTask) {
-            NET->start_mission_601(task_index + 1);
+            NET->start_mission_601(getTaskId(task_index));
         }else{
             startTask = false;
             LOADING->remove();
@@ -2202,11 +2202,28 @@ void ClothesScene::removeAllSpr(){
     }
 }
 
+int ClothesScene::getTaskId(int index){
+    CCArray* taskArr = DATA->getTaskSource();
+    CCDictionary* taskDic = (CCDictionary* )taskArr->objectAtIndex(index);
+    int taskId = taskDic->valueForKey("id")->intValue();
+    
+    CCArray* allTaskArr = CONFIG->mission();
+    for (int i = 0; i < allTaskArr->count(); i++) {
+        int tempId = 0;
+        CCDictionary* dic = (CCDictionary* )allTaskArr->objectAtIndex(i);
+        tempId = dic->valueForKey("id")->intValue();
+        if (taskId == tempId) {
+            return tempId;
+        }
+    }
+    return 0;
+}
+
 void ClothesScene::Http_Finished_601(CCObject* pObj){
     int tili = DATA->getPlayer()->energy;
     tili_AllIndex = 9;
     if (tili >= tili_AllIndex) {
-        NET->commit_mission_602();
+        NET->commit_mission_602(getTaskId(task_index));
     }else{
         LOADING->remove();
         AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
