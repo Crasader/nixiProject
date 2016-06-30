@@ -89,7 +89,7 @@ void EnergyBuyPanel::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&EnergyBuyPanel::buy_energy_callback_101), "HTTP_FINISHED_701", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&EnergyBuyPanel::buy_energy_callback_101), "HTTP_FINISHED_101", NULL);
     
 //    this->do_enter();
 }
