@@ -145,14 +145,6 @@ void LoginScene::create_views() {
     
     _container = CCLayer::create();
     this->addChild(_container);
-    
-    CCSprite* fast1 = CCSprite::create("res/pic/loginScene/login_btn_fast.png");
-    CCSprite* fast2 = CCSprite::create("res/pic/loginScene/login_btn_fast.png");
-    fast2->setScale(DISPLAY->btn_scale());
-    CCMenuItem* btn_fast = CCMenuItemSprite::create(fast1, fast2, this, SEL_MenuHandler(&LoginScene::fast_login));
-    CCMenu* menu_fast = CCMenu::createWithItem(btn_fast);
-    menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.16));
-    this->addChild(menu_fast);
 }
 
 void LoginScene::show_loginview() {
@@ -160,6 +152,14 @@ void LoginScene::show_loginview() {
     
     CCLayer* layer = (CCLayer* )_views->objectForKey("login");
     _container->addChild(layer);
+    
+    CCSprite* fast1 = CCSprite::create("res/pic/loginScene/login_btn_fast.png");
+    CCSprite* fast2 = CCSprite::create("res/pic/loginScene/login_btn_fast.png");
+    fast2->setScale(DISPLAY->btn_scale());
+    CCMenuItem* btn_fast = CCMenuItemSprite::create(fast1, fast2, this, SEL_MenuHandler(&LoginScene::fast_login));
+    CCMenu* menu_fast = CCMenu::createWithItem(btn_fast);
+    menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.16));
+    _container->addChild(menu_fast);
 }
 
 void LoginScene::show_registview() {

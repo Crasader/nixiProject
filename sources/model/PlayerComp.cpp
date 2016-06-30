@@ -31,5 +31,6 @@ void PlayerComp::init_with_json(Value json) {
     next_mission = json["next_mission"].asInt();
     phase = json["phase"].asInt();
     rating = json["rating"].asInt();
+    energyBuyTimes = json["eb_times"].asInt();
 }
 

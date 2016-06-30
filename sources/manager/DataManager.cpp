@@ -245,6 +245,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _IAP->init_products(content);
         } break;
             
+        case 101: {
+            _player->init_with_json(content["player"]);
+        } break;
+            
         default:
             break;
     }

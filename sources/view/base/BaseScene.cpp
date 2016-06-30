@@ -12,6 +12,7 @@
 #include "NetManager.h"
 #include "Loading2.h"
 #include "PurchasePanel.h"
+#include "EnergyBuyPanel.h"
 
 BaseScene::~BaseScene(){
     
@@ -161,7 +162,7 @@ void BaseScene::openBaseScene(){
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){
-    
+    this->show_energybuy_panel();
 }
 
 void BaseScene::goldCallBack(CCObject* pSender){
@@ -208,4 +209,9 @@ void BaseScene::show_purchase_panel() {
     panel->show_from(ccp(DISPLAY->W() * 0.6, DISPLAY->H() * 0.95));
 }
 
+void BaseScene::show_energybuy_panel() {
+    LOADING->remove();
+    EnergyBuyPanel* panel = EnergyBuyPanel::create();
+    panel->show();
+}
 
