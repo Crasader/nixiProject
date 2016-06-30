@@ -207,8 +207,8 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     CCTableViewCell* pCell = new CCTableViewCell();
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
-    
-    int rating = DATA->getPlayer()->rating;
+#warning "需要修改"
+    int rating = 0;//DATA->getPlayer()->rating;
     int unlockCondition = this->getUnlockCondition(idx);
 //    if (idx < OpenToWhichOne) {
     if (unlockCondition <= rating) {

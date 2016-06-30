@@ -7,11 +7,14 @@
 //
 
 #include "PlayerComp.h"
+#include "AppUtil.h"
 
 PlayerComp::~PlayerComp() {
+    CC_SAFE_DELETE(rating);
 }
 
 bool PlayerComp::init() {
+    rating = NULL;
     
     return true;
 }
@@ -27,11 +30,14 @@ void PlayerComp::init_with_json(Value json) {
     coin = json["coin"].asInt();
     gold = json["gold"].asInt();
     diam = json["diam"].asInt();
-    cur_mission = json["cur_mission"].asInt();
-    next_mission = json["next_mission"].asInt();
+    cur_mission = 0;//json["cur_mission"].asInt();
+    next_mission = 0;//json["next_mission"].asInt();
     phase = json["phase"].asInt();
-    rating = json["rating"].asInt();
     left = json["left"].asInt();
     energyBuyTimes = json["eb_times"].asInt();
+    
+    CC_SAFE_RELEASE(rating);
+    rating = AppUtil::dictionary_with_json(json["rating"]);
+    rating->retain();
 }
 
