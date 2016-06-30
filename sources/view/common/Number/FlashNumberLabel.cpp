@@ -1,21 +1,22 @@
 //
-//  FlashNumberLabel1.cpp
+//  FlashNumberLabel.cpp
 //  manman_client
 //
 //  Created by lakkey on 14-4-6.
 //
 //
 
-#include "FlashNumberLabel1.h"
+#include "FlashNumberLabel.h"
 
-FlashNumberLabel1* FlashNumberLabel1::create_with_atlas(const char *atlas, const char *origin, int step, float frame_duration)
+FlashNumberLabel* FlashNumberLabel::create_with_atlas(const char *atlas, const char *origin, int step, float frame_duration)
 {
     CCSprite* spt_temp = CCSprite::create(atlas);
     if (spt_temp) {
-        FlashNumberLabel1 *pRet = new FlashNumberLabel1();
-
+        FlashNumberLabel *pRet = new FlashNumberLabel();
+        
         CCSize size = spt_temp->boundingBox().size;
         pRet->m_sigle_num_size = CCSizeMake(size.width / 10.f, size.height);
+        CCLog("width = %f, height = %f", pRet->m_sigle_num_size.width, pRet->m_sigle_num_size.height);
         if(pRet && pRet->init_with_atlas(origin, atlas, pRet->m_sigle_num_size.width, pRet->m_sigle_num_size.height, '0', step, frame_duration))
         {
             pRet->autorelease();
@@ -31,7 +32,7 @@ FlashNumberLabel1* FlashNumberLabel1::create_with_atlas(const char *atlas, const
 }
 
 
-bool FlashNumberLabel1::init_with_atlas(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap, int step, float frame_duration)
+bool FlashNumberLabel::init_with_atlas(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap, int step, float frame_duration)
 {
     if(!CCLabelAtlas::initWithString(string, charMapFile, itemWidth, itemHeight, '0')) {
         return false;
@@ -52,16 +53,16 @@ bool FlashNumberLabel1::init_with_atlas(const char *string, const char *charMapF
 }
 
 
-void FlashNumberLabel1::set_delegate(FlashNumberLabel1Delegate *delegate)
+void FlashNumberLabel::set_delegate(FlashNumberLabelDelegate *delegate)
 {
     m_delegate = delegate;
 }
 
 
-void FlashNumberLabel1::set_new_number(const char *label)
+void FlashNumberLabel::set_new_number(const char *label)
 {
     if (m_is_scrolling) {
-        this->unschedule(SEL_SCHEDULE(&FlashNumberLabel1::update_number));
+        this->unschedule(SEL_SCHEDULE(&FlashNumberLabel::update_number));
         m_old_num = m_new_num;
         m_is_scrolling = false;
         
@@ -83,13 +84,11 @@ void FlashNumberLabel1::set_new_number(const char *label)
     }
     else if (abs(m_new_num - m_old_num) >= 200) {
         m_step = 13;
-    }else if (abs(m_new_num - m_old_num) >= 100 && abs(m_new_num - m_old_num) < 200){
-        m_step = 11;
-    }else if (abs(m_new_num - m_old_num) >= 50 && abs(m_new_num - m_old_num) < 100){
+    }else if (abs(m_new_num - m_old_num) >= 50 && abs(m_new_num - m_old_num) < 200){
         m_step = 9;
-    }else if (abs(m_new_num - m_old_num) >= 20 && abs(m_new_num - m_old_num) < 50){
+    }else if (abs(m_new_num - m_old_num) >= 20 && abs(m_new_num - m_old_num) < 100){
         m_step = 3;
-    }else if (abs(m_new_num - m_old_num) >= 10 && abs(m_new_num - m_old_num) < 20){
+    }else if (abs(m_new_num - m_old_num) >= 10 && abs(m_new_num - m_old_num) < 50){
         m_step = 2;
     }else if (abs(m_new_num - m_old_num) < 10){
         m_step = 1;
@@ -101,33 +100,33 @@ void FlashNumberLabel1::set_new_number(const char *label)
     }
     
     m_is_scrolling = true;
-    this->schedule(SEL_SCHEDULE(&FlashNumberLabel1::update_number), m_fram_duration);
+    this->schedule(SEL_SCHEDULE(&FlashNumberLabel::update_number), m_fram_duration);
     if (m_delegate) {
         m_delegate->will_number_scroll();
     }
 }
 
 
-void FlashNumberLabel1::set_step(int new_step)
+void FlashNumberLabel::set_step(int new_step)
 {
     m_step = new_step;
 }
 
 
-void FlashNumberLabel1::update_number(float delta)
+void FlashNumberLabel::update_number(float delta)
 {
     if ( (m_step > 0 && ((m_old_num += m_step) >= m_new_num))
         || (m_step < 0 && ((m_old_num += m_step) <= m_new_num)) ) {
         
         m_old_num = m_new_num;
         m_is_scrolling = false;
-        this->unschedule(SEL_SCHEDULE(&FlashNumberLabel1::update_number));
+        this->unschedule(SEL_SCHEDULE(&FlashNumberLabel::update_number));
         
         if (m_delegate) {
             m_delegate->did_number_stoped();
         }
     }
-
+    
     CCLabelAtlas::setString(CCString::createWithFormat("%d", m_old_num)->getCString());
 }
 

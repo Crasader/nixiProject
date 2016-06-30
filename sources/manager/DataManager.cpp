@@ -111,6 +111,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 902: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
             _news->init_with_json(content["news"]);
@@ -120,6 +121,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 903: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
             _news->init_with_json(content["news"]);
@@ -170,6 +172,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 807: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
             _social->init_with_json(content["social"]);
         } break;
             
@@ -179,6 +182,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 701: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
 //            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
@@ -189,10 +193,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 601: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
         } break;
             
         case 602: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
         } break;
             
@@ -202,10 +208,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 501: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
         } break;
             
         case 503: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
             _story->init_with_json(content["story"]);
         } break;
             
@@ -215,6 +223,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 401: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
             _clothes->update_clothes(content["newclothes"]);
@@ -238,5 +247,56 @@ void DataManager::start_check_news() {
 
 void DataManager::update(float dt) {
     NET->check_news_910();
+}
+
+
+
+
+void DataManager::creat_Energy_Time(){
+    
+    int tim = DATA->getPlayer()->left;
+    int minute = tim/60;
+    int second = tim%60;
+    DATA->setTiliMinute(minute);
+    DATA->setTiliSecond(second);
+    
+    int tili = DATA->getPlayer()->energy;
+    if (tili >= def_TiliMax) {
+        
+        CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this);
+    }else{
+        
+        CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this, 1, false);
+    }
+}
+void DataManager::updataTiliTime(float dt){
+    
+    _tili_second--;
+    if (_tili_second < 0) {
+        _tili_second = 59;
+        _tili_Minute--;
+        if (_tili_Minute <= 0) {
+            _tili_Minute = 0;
+        }
+    }
+    
+    if (_tili_Minute == 0 && _tili_second == 0) {
+        int tim = 6;
+        _tili_Minute = tim;
+        _tili_second = 0;
+        
+        int energy = DATA->getPlayer()->energy;
+        energy++;
+        
+        if (energy >= def_TiliMax) {
+            energy = def_TiliMax;
+            CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this);
+        }
+        
+        DATA->getPlayer()->energy = energy;
+    }
+}
+void DataManager::closeTiliTime(){
+    CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this);
 }
 

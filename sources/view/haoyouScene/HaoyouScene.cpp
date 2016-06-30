@@ -436,7 +436,7 @@ void HaoyouScene::initClothes(){//穿衣服
                 _kzSpr1->setFlipX(flipxBool);
                 _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _kzSpr1->setTag(Tag_Rank_KuZi1);
-                _ManSpr->addChild(_kzSpr1, 305);
+                _ManSpr->addChild(_kzSpr1, 290);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {

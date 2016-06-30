@@ -134,7 +134,7 @@ void TaskScene::creat_Tishi(){
     }
     
     int index = DATA->getTaskNumber();
-    int tiliIndex = 9;
+    int tiliIndex = 12;
     
     kuangSpr = CCSprite::create("res/pic/taskScene/task_dikuang2.png");
     kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .12f));
@@ -441,12 +441,12 @@ void TaskScene::initClothes(){//穿衣服
                 CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing2.png");
                 xingSpr1->setFlipX(true);
                 xingSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .22f, DISPLAY->ScreenHeight()* .488f));
-                _ManSpr->addChild(xingSpr1, 1000);
+                _ManSpr->addChild(xingSpr1, 420);
                 
                 CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing2.png");
                 xingSpr2->setFlipX(true);
                 xingSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .385f, DISPLAY->ScreenHeight()* .473f));
-                _ManSpr->addChild(xingSpr2, 1000);
+                _ManSpr->addChild(xingSpr2, 420);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -500,7 +500,7 @@ void TaskScene::initClothes(){//穿衣服
                 _kzSpr1->setFlipX(flipxBool);
                 _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _kzSpr1->setTag(Tag_GJ_KuZi1);
-                _ManSpr->addChild(_kzSpr1, 305);
+                _ManSpr->addChild(_kzSpr1, 290);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {

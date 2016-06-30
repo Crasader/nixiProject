@@ -29,6 +29,8 @@ typedef enum{
     Tag_GJ_XieZi,
     Tag_GJ_ShiPin,
     Tag_GJ_Bao,
+    Tag_GJ_ZhuangRong,
+    Tag_GJ_TeXiao,
     Tag_GJ_TouFa1 = 30,
     Tag_GJ_WaiTao1,
     Tag_GJ_ShangYi1,
@@ -123,6 +125,8 @@ public:
     ClothesTableView* _delegate;
     
     bool startTask;
+    bool animationBool;
+    bool zhuangrongBool;
     
     long  changClothesIndex;
     int buttonTag;
@@ -131,11 +135,13 @@ public:
     int task_index;
     int task_phase;
     int tili_AllIndex;
+    int _buttonStatus;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
     CCSprite* bgSpr;
     CCSprite* clothKuangSpr;
+    CCSprite* box;
     
     CCSprite* _tfSpr1; // 头发
     CCSprite* _tfSpr2;
@@ -159,7 +165,7 @@ public:
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
     CCSprite* _bSpr4;
-    CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8;
+    CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8,* ycSpr9,* ycSpr10;
     
     
     
@@ -181,6 +187,8 @@ public:
     void reductionShipin(int index);
     void buttonStatus();
     void crate_Tishi();
+    void create_buySuccess();
+    void removeAllSpr();
     
     void setShipinTag1(int index, CCSprite* spr);
     void setShipinTag2(int index, CCSprite* spr);
@@ -192,8 +200,6 @@ public:
     void buyCallBack(CCObject* pSender);
     void saveCallBack(CCObject* pSender);
     void saveClothesMethods();
-    void texiaoCallBack(CCObject* pSender);
-    void zhuangrongCallBack(CCObject* pSender);
     
     int haveEnoughCoin();
     int haveEnoughGold();

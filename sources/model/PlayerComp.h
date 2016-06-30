@@ -26,6 +26,7 @@ public:
 public:
     long long int   update;
     int             energy;
+    int             left;               // 倒计时时间
     
     int             coin;
     int             gold;

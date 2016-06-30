@@ -8,7 +8,6 @@
 
 #include "FlashNumberLabel2.h"
 
-
 FlashNumberLabel2* FlashNumberLabel2::create_with_atlas2(const char *atlas, const char *origin, int step, float frame_duration)
 {
     CCSprite* spt_temp = CCSprite::create(atlas);
@@ -17,6 +16,7 @@ FlashNumberLabel2* FlashNumberLabel2::create_with_atlas2(const char *atlas, cons
         
         CCSize size = spt_temp->boundingBox().size;
         pRet->m_sigle_num_size2 = CCSizeMake(size.width / 10.f, size.height);
+        CCLog("width = %f, height = %f", pRet->m_sigle_num_size2.width, pRet->m_sigle_num_size2.height);
         if(pRet && pRet->init_with_atlas2(origin, atlas, pRet->m_sigle_num_size2.width, pRet->m_sigle_num_size2.height, '0', step, frame_duration))
         {
             pRet->autorelease();

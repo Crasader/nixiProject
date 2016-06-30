@@ -88,6 +88,16 @@ bool ClothesTableView::init(){
 //CCTableViewDelegate继承自CCScrollViewDelegate
 void ClothesTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
     
+    CCArray* arr = DATA->getDataSource();
+
+    CCPoint contOffsetPos = pTableView->getContentOffset();
+    if (arr->count() > 5) {
+        if (contOffsetPos.y < pTableView->minContainerOffset().y) {
+            pTableView->setContentOffset(CCPoint(contOffsetPos.x, pTableView->minContainerOffset().y));
+        }else if (contOffsetPos.y > pTableView->maxContainerOffset().y){
+            pTableView->setContentOffset(CCPoint(contOffsetPos.x, pTableView->maxContainerOffset().y));
+        }
+    }
 }
 
 //点击哪个cell
@@ -664,7 +674,7 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
 unsigned int ClothesTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
     CCArray* arr = DATA->getDataSource();
     clothesPage = arr->count();
-//    MZLog("_dataArr->count ======= %d", arr->count());
+//    CCLog("_dataArr->count ======= %d", arr->count());
     return clothesPage;
 }
 
