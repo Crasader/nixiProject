@@ -34,6 +34,7 @@ USING_NS_CC;
 using namespace CSJson;
 
 #define DATA         DataManager::Inst()
+#define def_TiliMax 100
 
 class DataManager : CCObject
 {
@@ -75,7 +76,16 @@ public:
     CC_SYNTHESIZE(bool, _fastForward, FastForward);
     // 日常选中数
     CC_SYNTHESIZE(int, taskNumber, TaskNumber);
+    CC_SYNTHESIZE_RETAIN(CCArray*, _taskSource, TaskSource);
     CC_SYNTHESIZE_RETAIN(CCArray*, _dataSource, DataSource);
+    
+    
+    //体力时间
+    CC_SYNTHESIZE(int, _tili_Minute, TiliMinute);
+    CC_SYNTHESIZE(int, _tili_second, TiliSecond);
+    void creat_Energy_Time();
+    void updataTiliTime(float dt);
+    void closeTiliTime();
     
 private:
 

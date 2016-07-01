@@ -12,6 +12,7 @@
 #include "NetManager.h"
 #include "Loading2.h"
 #include "PurchasePanel.h"
+#include "EnergyBuyPanel.h"
 
 BaseScene::~BaseScene(){
     
@@ -79,12 +80,45 @@ void BaseScene::init_UI(){
     tiliIconSpr->setScale(1.1f);
     tiliIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
     tiliItem->addChild(tiliIconSpr);
-
-    CCString* energyStr = CCString::createWithFormat("%d/100", DATA->getPlayer()->energy);
-    CCLabelTTF* energyLabel = CCLabelTTF::create(energyStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(110, 22), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
-    energyLabel->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .5f));
-    energyLabel->setColor(ccc3(113, 89, 102));
-    tiliItem->addChild(energyLabel);
+    
+    tili_num = DATA->getPlayer()->energy;
+    CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
+    m_tili_num = CCLabelTTF::create(tiliStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(110, 22), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+    m_tili_num->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .5f));
+    m_tili_num->setColor(ccc3(113, 89, 102));
+    tiliItem->addChild(m_tili_num);
+    // 倒计时
+    CCSprite* timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
+    timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -5));
+    tiliItem->addChild(timeKuangSpr);
+    
+    _minute = DATA->getTiliMinute();
+    _second = DATA->getTiliSecond();
+    CCString* timeStr;
+    if (_second == 0) {
+        timeStr = CCString::createWithFormat("%d:00", _minute);
+    }else{
+        if (_second < 10) {
+            timeStr = CCString::createWithFormat("%d:0%d", _minute, _second);
+        }else{
+            timeStr = CCString::createWithFormat("%d:%d", _minute, _second);
+        }
+    }
+    m_time_num = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 20);
+    m_time_num->setPosition(ccp(timeKuangSpr->getContentSize().width* .5f, timeKuangSpr->getContentSize().height* .5f));
+    m_time_num->setColor(ccWHITE);
+    timeKuangSpr->addChild(m_time_num);
+    
+    if (tili_num < def_TiliMax) {
+        m_time_num->setVisible(true);
+        
+        this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
+    }else{
+        m_time_num->setVisible(false);
+        
+        this->unschedule(schedule_selector(BaseScene::updataTileTime));
+    }
+    
     
     // 钻石框
     CCSprite* goldSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
@@ -129,7 +163,7 @@ void BaseScene::init_UI(){
 //    DATA->getPlayer()->coin;//金币
 //    DATA->getPlayer()->coin = 98765432;
     CCString* coinStr = CCString::createWithFormat("%d", DATA->getPlayer()->coin);
-    m_lbl_coin = FlashNumberLabel1::create_with_atlas("res/pic/baseScene/base_number.png", coinStr->getCString(), 0, .01f);
+    m_lbl_coin = FlashNumberLabel::create_with_atlas("res/pic/baseScene/base_number.png", coinStr->getCString(), 0, .01f);
     if (DATA->getPlayer()->coin > 9999999) {
         m_lbl_coin->setAnchorPoint(ccp(0, .5f));
         m_lbl_coin->set_delegate(this); // 设置代理
@@ -146,7 +180,54 @@ void BaseScene::init_UI(){
     barMenu->setPosition(CCPointZero);
     this->addChild(barMenu, 10);
 }
+void BaseScene::updataTileTime(float dt){
+    if (tili_num >= def_TiliMax) {
+        tili_num = def_TiliMax;
+        this->unschedule(schedule_selector(BaseScene::updataTileTime));
+        
+        DATA->closeTiliTime();
+        
+        m_time_num->setVisible(false);
+    }else{
+        tili_num = DATA->getPlayer()->energy;
+        CCString* str = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
+        m_tili_num->setString(str->getCString());
+        
+        CCString* str1;
+        _minute = DATA->getTiliMinute();
+        _second = DATA->getTiliSecond();
+        if (_second == 0) {
+            str1 = CCString::createWithFormat("%d:00", _minute);
+        }else{
+            if (_second < 10) {
+                str1 = CCString::createWithFormat("%d:0%d", _minute, _second);
+            }else{
+                str1 = CCString::createWithFormat("%d:%d", _minute, _second);
+            }
+        }
+        m_time_num->setString(str1->getCString());
+    }
+}
 void BaseScene::updataMoney(){
+    uint energy = DATA->getPlayer()->energy;
+    CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
+    m_tili_num->setString(tiliStr->getCString());
+    tili_num = energy;
+    if (energy >= def_TiliMax) {
+        this->unschedule(schedule_selector(BaseScene::updataTileTime));
+        
+        DATA->closeTiliTime();
+        
+        m_time_num->setVisible(false);
+    }else{
+        _minute = DATA->getTiliMinute();
+        _second = DATA->getTiliSecond();
+        
+        this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
+        
+        m_time_num->setVisible(true);
+    }
+    
     CCString* coinStr = CCString::createWithFormat("%d", DATA->getPlayer()->coin);
     m_lbl_coin->set_new_number(coinStr->getCString());
     
@@ -161,7 +242,7 @@ void BaseScene::openBaseScene(){
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){
-    
+    this->show_energybuy_panel();
 }
 
 void BaseScene::goldCallBack(CCObject* pSender){
@@ -208,4 +289,9 @@ void BaseScene::show_purchase_panel() {
     panel->show_from(ccp(DISPLAY->W() * 0.6, DISPLAY->H() * 0.95));
 }
 
+void BaseScene::show_energybuy_panel() {
+    LOADING->remove();
+    EnergyBuyPanel* panel = EnergyBuyPanel::create();
+    panel->show();
+}
 

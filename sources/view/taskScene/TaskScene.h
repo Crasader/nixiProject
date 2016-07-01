@@ -44,12 +44,15 @@ public:
     CCString* getTaskDescription(int index);
     
     void backCallBack(CCObject* pSender);
+    void historyCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
     void _startCallBack(CCObject* pSender);
     
 public:
     
     CCDictionary* allClothesDic;
+    
+    CCMenuItem* historyItem;
     
     CCSprite* roomSpr;
     CCSprite* taskKuang;

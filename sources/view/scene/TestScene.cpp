@@ -426,7 +426,8 @@ void TestScene::start_mission() {
 }
 
 void TestScene::commit_mission() {
-    NET->commit_mission_602();
+    int id = DATA->getPlayer()->next_mission;
+    NET->commit_mission_602(id);
 }
 
 

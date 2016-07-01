@@ -24,10 +24,12 @@ bool TaskTableView::init(){
         return false;
     }
     
+    taskMission = DATA->getTaskSource();
+    ratingDic =  DATA->getPlayer()->rating;
+    
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/taskScene/task_button.plist");
     
-    OpenToWhichOne = DATA->getPlayer()->next_mission;
-    allNumber = CONFIG->mission()->count();
+    allNumber = taskMission->count();
     selectedIndex = -1;
     
     pTableView = CCTableView::create(this, CCSizeMake(177, 110*def_Page_Index));
@@ -61,7 +63,10 @@ void TaskTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 //点击哪个cell
 void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
-    if (cell->getIdx() < OpenToWhichOne) {
+    CCString* str = CCString::createWithFormat("%d", getTaskPhase(cell->getIdx()));
+    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
+    int unlockCondition = this->getUnlockCondition(cell->getIdx());
+    if (unlockCondition <= OpenToWhichOne) {
         if (selectedIndex == -1) {
             selectedIndex = cell->getIdx();
             
@@ -208,10 +213,11 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    int rating = DATA->getPlayer()->rating;
+    CCString* str = CCString::createWithFormat("%d", getTaskPhase(idx));
+    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
+    
     int unlockCondition = this->getUnlockCondition(idx);
-//    if (idx < OpenToWhichOne) {
-    if (unlockCondition <= rating) {
+    if (unlockCondition <= OpenToWhichOne) {
         CCSprite* button;
         if (getTaskIcon(idx) == 1) {
             button = CCSprite::createWithSpriteFrameName("task_button_1_1.png");
@@ -228,7 +234,11 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         button->setPosition(CCPointZero);
         button->setTag(idx);
         spr->addChild(button);
-        this->buttonStatus(idx, button);
+        
+        CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
+        int taskId = dic->valueForKey("id")->intValue();
+        
+        this->buttonStatus(taskId, button);
         
     }else{
         CCSprite* button1;
@@ -286,10 +296,10 @@ void TaskTableView::onExit(){
 }
 
 void TaskTableView::buttonStatus(int index, CCSprite* button){
-    CCString* indexStr = CCString::createWithFormat("%d", index + 1);
+    CCString* indexStr = CCString::createWithFormat("%d", index);
     int num = DATA->getMission()->mission_rating(indexStr->getCString());
     
-    CCSprite* xingDiSpr1,* xingDiSpr2,* xingDiSpr3;
+    CCSprite* xingDiSpr1,* xingDiSpr2,* xingDiSpr3,* xingDiSpr4,* xingDiSpr5;
     xingDiSpr1 = CCSprite::create("res/pic/taskScene/task_xing1.png");
     xingDiSpr1->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .38f));
     xingDiSpr1->setTag(Tag_Task_Xing1);
@@ -305,8 +315,18 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
     xingDiSpr3->setTag(Tag_Task_Xing3);
     button->addChild(xingDiSpr3);
     
+    xingDiSpr4 = CCSprite::create("res/pic/taskScene/task_xing1.png");
+    xingDiSpr4->setPosition(ccp(button->getContentSize().width* .91f, button->getContentSize().height* .54f));
+    xingDiSpr4->setTag(Tag_Task_Xing4);
+    button->addChild(xingDiSpr4);
+    
+    xingDiSpr5 = CCSprite::create("res/pic/taskScene/task_xing1.png");
+    xingDiSpr5->setPosition(ccp(button->getContentSize().width* .92f, button->getContentSize().height* .77f));
+    xingDiSpr5->setTag(Tag_Task_Xing5);
+    button->addChild(xingDiSpr5);
+    
     //
-    CCSprite* xingSpr1,* xingSpr2,* xingSpr3;
+    CCSprite* xingSpr1,* xingSpr2,* xingSpr3,* xingSpr4,* xingSpr5;
     if (num >= 1) {
         xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing2.png");
         xingSpr1->setAnchorPoint(CCPointZero);
@@ -325,25 +345,40 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
         xingSpr3->setPosition(CCPointZero);
         xingDiSpr3->addChild(xingSpr3);
     }
+    if (num >= 4) {
+        xingSpr4 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+        xingSpr4->setAnchorPoint(CCPointZero);
+        xingSpr4->setPosition(CCPointZero);
+        xingDiSpr4->addChild(xingSpr4);
+    }
+    if (num >= 5) {
+        xingSpr5 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+        xingSpr5->setAnchorPoint(CCPointZero);
+        xingSpr5->setPosition(CCPointZero);
+        xingDiSpr5->addChild(xingSpr5);
+    }
 }
 
 CCString* TaskTableView::getTaskName(int index){
-    CCArray* arr = CONFIG->mission();
-    CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(index);
     
     return (CCString*)dic->valueForKey("name");
 }
 
 int TaskTableView::getTaskIcon(int index){
-    CCArray* arr = CONFIG->mission();
-    CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(index);
     
     return dic->valueForKey("icon")->intValue();
 }
 
+int TaskTableView::getTaskPhase(int index){
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(index);
+    
+    return dic->valueForKey("phase")->intValue();
+}
+
 int TaskTableView::getUnlockCondition(int index){
-    CCArray* arr = CONFIG->mission();
-    CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(index);
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(index);
     
     return dic->valueForKey("require")->intValue();
 }

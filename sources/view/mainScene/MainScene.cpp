@@ -25,6 +25,9 @@
 #include "MailPanel.h"
 #include "OperationPanel.h"
 
+#include <time.h>
+
+
 MainScene::MainScene(){
     
 }
@@ -51,6 +54,15 @@ bool MainScene::init(){
     this->initClothes();
     
     this->schedule(schedule_selector(MainScene::gengxin), .1f);
+    
+    
+    time_t t;
+    struct tm *p;
+    t = 1467241111;
+    p = gmtime(&t);
+    char s[80];
+    strftime(s, 80, "%Y-%m-%d %H:%M:%S", p);
+    CCLog("<><><><>time == %d: %s\n", (int)t, s);
     
     return true;
 }
@@ -222,6 +234,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
+    
     
 }
 
@@ -503,7 +516,7 @@ void MainScene::initClothes(){//穿衣服
                 _kzSpr1->setFlipX(flipxBool);
                 _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _kzSpr1->setTag(Tag_Rank_KuZi1);
-                _ManSpr->addChild(_kzSpr1, 305);
+                _ManSpr->addChild(_kzSpr1, 290);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {

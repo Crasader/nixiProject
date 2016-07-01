@@ -26,6 +26,7 @@ public:
 public:
     long long int   update;
     int             energy;
+    int             left;               // 倒计时时间
     
     int             coin;
     int             gold;
@@ -34,7 +35,8 @@ public:
     int             next_mission;       // 下一个任务(最新解锁)
     int             cur_mission;        // 进行中的任务
     int             phase;              // 公司规模
-    int             rating;             // 总任务评价(总星数)
+    CCDictionary*   rating;             // 总任务评价(总星数)
+    int             energyBuyTimes;     // 体力每日已购次数
     
 protected:
     

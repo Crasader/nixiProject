@@ -88,6 +88,16 @@ bool ClothesTableView::init(){
 //CCTableViewDelegate继承自CCScrollViewDelegate
 void ClothesTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
     
+    CCArray* arr = DATA->getDataSource();
+
+    CCPoint contOffsetPos = pTableView->getContentOffset();
+    if (arr->count() > 5) {
+        if (contOffsetPos.y < pTableView->minContainerOffset().y) {
+            pTableView->setContentOffset(CCPoint(contOffsetPos.x, pTableView->minContainerOffset().y));
+        }else if (contOffsetPos.y > pTableView->maxContainerOffset().y){
+            pTableView->setContentOffset(CCPoint(contOffsetPos.x, pTableView->maxContainerOffset().y));
+        }
+    }
 }
 
 //点击哪个cell
@@ -448,6 +458,10 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     }
 //    str = CCString::createWithFormat("res/pic/clothesScene/111.png");
     CCSprite* clothSpr = CCSprite::create(str->getCString());
+    if (!clothSpr) {
+        clothSpr = CCSprite::create("pic/unknown.png");
+    }
+    
     clothSpr->setAnchorPoint(CCPointZero);
     clothSpr->setPosition(ccp(0, 0));
     clothSpr->setTag(idx);
@@ -493,11 +507,17 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             jgkuang->addChild(costLabel);
             
         }else if (cloth_type == 10){
-            int cloth_cost = dic->valueForKey("cost")->intValue();
-            
+            CCString* costStr = CCString::create("非卖品");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
         }else{
-            int cloth_cost = dic->valueForKey("cost")->intValue();
-            
+            CCString* costStr = CCString::create("非卖品");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
         }
     }
     
@@ -664,7 +684,7 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
 unsigned int ClothesTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
     CCArray* arr = DATA->getDataSource();
     clothesPage = arr->count();
-//    MZLog("_dataArr->count ======= %d", arr->count());
+//    CCLog("_dataArr->count ======= %d", arr->count());
     return clothesPage;
 }
 
