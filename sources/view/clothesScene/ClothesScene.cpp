@@ -9,6 +9,7 @@
 #include "ClothesScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "SpecialManager.h"
 #include "MainScene.h"
 #include "MZResourceLoader.h"
 #include "ConfigManager.h"
@@ -16,6 +17,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "TaskSettlementLayer.h"
+#include "AppUtil.h"
 
 ClothesScene::ClothesScene(){
     
@@ -37,6 +39,8 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     startTask = false;
     tili_AllIndex = 10;
     
+    _animLayer = CCLayer::create();
+    this->addChild(_animLayer, 9);
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
@@ -1417,7 +1421,6 @@ void ClothesScene::ChangClothesIndex(CCObject* pSender){
     changClothesIndex = (long)pSender;
 }
 void ClothesScene::ChangeClothes(CCObject* pSender){
-    
     long index = (long)pSender;
     
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
@@ -1501,6 +1504,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _tfSpr3->setTag(Tag_GJ_TouFa3);
                             _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1557,6 +1562,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _wtSpr3->setTag(Tag_GJ_WaiTao3);
                             _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1633,6 +1640,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _sySpr3->setTag(Tag_GJ_ShangYi3);
                             _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1692,6 +1701,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _kzSpr3->setTag(Tag_GJ_KuZi3);
                             _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1749,6 +1760,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _wzSpr3->setTag(Tag_GJ_WaZi3);
                             _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1806,6 +1819,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _xzSpr3->setTag(Tag_GJ_XieZi3);
                             _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1846,7 +1861,6 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                 _ManSpr->removeChildByTag(sub_part + 3000);
             }
             
-            
             if (index == 70000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
                 CCSprite* _spSpr1 = CCSprite::create(str->getCString());
@@ -1884,6 +1898,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _spSpr3->setTag(sub_part + 3000);
                             _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1953,6 +1969,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _bSpr4->setTag(Tag_GJ_Bao4);
                             _ManSpr->addChild(_bSpr4, clothDic->valueForKey("z_order4")->intValue());
                         }
+                        
+                        this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
                         break;
                     }
                 }
@@ -1964,6 +1982,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
             break;
     }
 }
+
 void ClothesScene::reductionShangyi(){
     if (_ManSpr->getChildByTag(Tag_GJ_ShangYi1) != NULL) {
         _ManSpr->removeChildByTag(Tag_GJ_ShangYi1);
@@ -2433,11 +2452,16 @@ int ClothesScene::updataClothes(int type){
     return (type) * 10000;
 }
 
-
-
-
-
-
+void ClothesScene::showAnimationWithType(int type) {
+    _animLayer->removeAllChildrenWithCleanup(true);
+    
+    if (type == 1) {
+        SPECIAL->showStarAt(_animLayer, ccp(DISPLAY->W() * 0.4, DISPLAY->H() * 0.55), 1);
+    }
+    else if (type == 2) {
+        SPECIAL->showPetalAt(_animLayer, ccp(DISPLAY->W() * 0.36, DISPLAY->H() * 0.55), 1);
+    }
+}
 
 
 
