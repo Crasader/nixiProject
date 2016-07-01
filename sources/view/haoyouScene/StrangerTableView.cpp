@@ -51,6 +51,14 @@ bool StrangerTableView::init(){
     return true;
 }
 
+void StrangerTableView::onEnter(){
+    CCLayer::onEnter();
+}
+
+void StrangerTableView::onExit(){
+    CCLayer::onExit();
+}
+
 //CCTableViewDelegate继承自CCScrollViewDelegate
 void StrangerTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
     
@@ -393,13 +401,4 @@ void StrangerTableView::toBeFriend(CCMenuItem* btn){
 
 unsigned int StrangerTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
     return allNumber;
-}
-
-void StrangerTableView::onEnter(){
-    CCLayer::onEnter();
-    
-}
-
-void StrangerTableView::onExit(){
-    CCLayer::onExit();
 }

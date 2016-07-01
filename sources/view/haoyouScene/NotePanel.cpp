@@ -89,7 +89,7 @@ void NotePanel::initView(){
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.5));
     m_text->setMaxTextBytes(170);
-//    m_text->setDelegate(this);
+    m_text->setDelegate(this);
     note_panel->addChild(m_text);
         
     CCLabelTTF* word = CCLabelTTF::create("字数: ", DISPLAY->font(), 19);

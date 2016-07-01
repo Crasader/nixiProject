@@ -27,7 +27,7 @@ bool TotalRankTableView::init(){
     
     allNumber = 20;
     
-    pTableView = CCTableView::create(this, CCSizeMake(248, 6*138));
+    pTableView = CCTableView::create(this, CCSizeMake(248, 3*138));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
@@ -334,7 +334,8 @@ cocos2d::extension::CCTableViewCell* TotalRankTableView::tableCellAtIndex(cocos2
     
     if(idx == 0){
         if (selectedIndex == idx) {// 大的
-            bigSprite(idx, spr);
+//            bigSprite(idx, spr);
+            smallSprite(idx, spr);
         }else{// 小的
             smallSprite(idx, spr);
         }
