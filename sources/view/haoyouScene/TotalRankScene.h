@@ -74,11 +74,14 @@ public:
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     
-    void btn_first_callback(CCObject* pSender);
-    void btn_second_callback(CCMenuItem* item);
-    void btn_third_callback(CCObject* pSender);
-    
     void btn_toBig_callback(CCMenuItem* item);
+    void btn_toSmall_callback(int index);
+    
+    int _curBtn_index;
+    
+    CCMenuItem* item_first;
+    CCMenuItem* item_second;
+    CCMenuItem* item_third;
     
     int _type;
     
