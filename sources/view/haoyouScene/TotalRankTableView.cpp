@@ -41,6 +41,16 @@ bool TotalRankTableView::init(){
     return true;
 }
 
+void TotalRankTableView::onEnter(){
+    CCLayer::onEnter();
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TotalRankTableView::updateTabelView), "UpdateRank", NULL);
+}
+
+void TotalRankTableView::onExit(){
+    CCLayer::onExit();
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+}
+
 //CCTableViewDelegate继承自CCScrollViewDelegate
 void TotalRankTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
     
@@ -56,6 +66,8 @@ void TotalRankTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* v
 
 //点击哪个cell
 void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("Small");
     
     if (selectedIndex == NULL) {
         selectedIndex = cell->getIdx() + 3;
@@ -368,6 +380,10 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
     }
 }
 
+void TotalRankTableView::updateTabelView(){
+    pTableView->reloadData();
+}
+
 //每个cell的size
 cocos2d::CCSize TotalRankTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){
     return CCSizeMake(248, 138);
@@ -527,12 +543,4 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
 
 unsigned int TotalRankTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
     return allNumber;
-}
-
-void TotalRankTableView::onEnter(){
-    CCLayer::onEnter();
-}
-
-void TotalRankTableView::onExit(){
-    CCLayer::onExit();
 }

@@ -57,6 +57,8 @@ void TotalRankScene::onEnter(){
     BaseScene::onEnter();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     
+    nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::small_callback), "Small", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::exitMan), "ExitMan", NULL);
     
 }
@@ -324,7 +326,14 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     count->setTag(0x2003);
     item->addChild(count);
     
-    this->btn_toSmall_callback(index);
+    if (_curBtn_index != -1) {
+        this->btn_toSmall_callback(index);
+        _curBtn_index = index;
+    }else{
+        _curBtn_index = index;
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdateRank");
+    }
+    
 }
 
 void TotalRankScene::btn_toSmall_callback(int index){
@@ -437,8 +446,14 @@ void TotalRankScene::btn_toSmall_callback(int index){
         
         item_third->setEnabled(true);
     }
+}
+
+void TotalRankScene::small_callback(){
+    if (_curBtn_index == 0 || _curBtn_index != NULL) {
+        this->btn_toSmall_callback(_curBtn_index);
+        _curBtn_index = -1;
+    }
     
-    _curBtn_index = index;
 }
 
 void TotalRankScene::enterMan(){
@@ -447,7 +462,8 @@ void TotalRankScene::enterMan(){
     this->creat_Man();
     this->initClothes();
     
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
+    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::removeMask));
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
     _ManSpr->runAction(seq);

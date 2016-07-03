@@ -79,6 +79,8 @@ public:
     
     int _curBtn_index;
     
+    void small_callback();
+    
     CCMenuItem* item_first;
     CCMenuItem* item_second;
     CCMenuItem* item_third;

@@ -176,7 +176,7 @@ void StrangerScene::initStranger(){
     tabLayer = StrangerTableView::create();
     tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .18f));
     tabLayer->setTag(0x77777);
-    this->addChild(tabLayer, 5);
+    this->addChild(tabLayer, 20);
 }
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
@@ -249,7 +249,8 @@ void StrangerScene::enterMan(){
     this->creat_Man();
     this->initClothes();
     
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
+    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
     _ManSpr->runAction(seq);
