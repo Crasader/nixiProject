@@ -173,7 +173,7 @@ public:
     CCSprite* _bSpr4;
     CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8,* ycSpr9,* ycSpr10;
     
-    
+    CCLayer* _animLayer;
     
     CCMenu* allMenu;
     
@@ -216,6 +216,7 @@ public:
     
     int getTaskId(int index);
     
+    void showAnimationWithType(int type);
     
 private:
     void Http_Finished_401(CCObject* pObj);

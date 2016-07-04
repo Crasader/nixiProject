@@ -8,6 +8,7 @@
 
 #include "ConfigManager.h"
 #include "DataManager.h"
+#include "SpecialManager.h"
 #include "LoginScene.h"
 #include "TestScene.h"
 
@@ -47,6 +48,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     CONFIG->config();
     //
     DATA->getLogin()->config_UUID();
+    SPECIAL->init();
     const char* uuid = DATA->getLogin()->obtain_UUID();
     CCLOG("========UUID=========\n%s\n", uuid);
     // first scene
