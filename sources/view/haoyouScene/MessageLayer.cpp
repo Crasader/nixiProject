@@ -86,9 +86,3 @@ void MessageLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
 }
 
 
-
-
-
-
-
-

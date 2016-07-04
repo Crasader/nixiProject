@@ -13,7 +13,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "NotePanel.h"
-#include "FindPanel.h"
+#include "TotalRankTableView.h"
 
 USING_NS_CC;
 
@@ -73,17 +73,23 @@ public:
     void btn_share_callback(CCObject* pSender);
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
-    void btn_find_callback(CCObject* pSender);
-    void btn_refresh_callback(CCObject* pSender);
     
-    void sendTili();
-    void getTili();
+    void btn_toBig_callback(CCMenuItem* item);
+    void btn_toSmall_callback(int index);
+    
+    int _curBtn_index;
+    
+    void small_callback();
+    
+    CCMenuItem* item_first;
+    CCMenuItem* item_second;
+    CCMenuItem* item_third;
     
     int _type;
     
 public:
     NotePanel* _panel;
-    FindPanel* _find_panel;
+    TotalRankTableView* tabLayer;
     
 public:
     

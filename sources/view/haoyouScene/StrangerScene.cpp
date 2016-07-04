@@ -7,13 +7,15 @@
 //
 
 #include "StrangerScene.h"
-#include "StrangerTableView.h"
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
 #include "NotePanel.h"
 #include "PromptLayer.h"
+#include "FindPanel.h"
+#include "Loading2.h"
+#include "NetManager.h"
 
 
 StrangerScene:: ~StrangerScene(){}
@@ -56,8 +58,10 @@ void StrangerScene::onEnter(){
     BaseScene::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::refresh_callback_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::exitMan), "ExitMan",  NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::update_man), "UpdateMan", NULL);
 }
 
 void StrangerScene::onExit(){
@@ -82,6 +86,26 @@ void StrangerScene::createView(){
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);
     this->addChild(menu_share, z_order);
+    
+    //刷新
+    CCSprite* refresh_spr = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
+    CCSprite* refresh_spr2 = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
+    refresh_spr2->setScale(1.02f);
+    CCMenuItemSprite* item_refresh = CCMenuItemSprite::create(refresh_spr, refresh_spr2, this, menu_selector(StrangerScene::btn_refresh_callback));
+    item_refresh->setPosition(ccp(DISPLAY->ScreenWidth()*.08f, DISPLAY->ScreenHeight()*.2f + 200));
+    CCMenu* menu_refresh = CCMenu::create(item_refresh, NULL);
+    menu_refresh->setPosition(CCPointZero);
+    this->addChild(menu_refresh, z_order);
+    
+    //查找
+    CCSprite* find_spr = CCSprite::create("res/pic/haoyoupaihang/find.png");
+    CCSprite* find_spr2 = CCSprite::create("res/pic/haoyoupaihang/find.png");
+    find_spr2->setScale(1.02f);
+    CCMenuItemSprite* item_find = CCMenuItemSprite::create(find_spr, find_spr2, this, menu_selector(StrangerScene::btn_find_callback));
+    item_find->setPosition(ccp(DISPLAY->ScreenWidth()*.08f, DISPLAY->ScreenHeight()*.2f + 100));
+    CCMenu* menu_find = CCMenu::create(item_find, NULL);
+    menu_find->setPosition(CCPointZero);
+    this->addChild(menu_find, z_order);
     
     //纸条
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
@@ -149,16 +173,42 @@ void StrangerScene::createView(){
 void StrangerScene::initStranger(){
     CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/panel_normal.png");
     
-    StrangerTableView* tabLayer = StrangerTableView::create();
-    
-    //    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth()* .61f, DISPLAY->ScreenHeight()* .2f));
+    tabLayer = StrangerTableView::create();
     tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .18f));
     tabLayer->setTag(0x77777);
-    this->addChild(tabLayer, 5);
+    this->addChild(tabLayer, 20);
 }
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
     
+}
+
+void StrangerScene::btn_refresh_callback(CCObject* pSender){
+    LOADING->show_loading();
+    NET->recommend_stranger_802();
+}
+
+void StrangerScene::refresh_callback_802(){
+    LOADING->remove();
+    this->removeChild(tabLayer);
+    this->initStranger();
+    
+    if (DATA->getSocial()->getSelectedStranger() == -1) {
+        myClothesTemp = DATA->getClothes()->MyClothesTemp();
+    }else{
+        const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
+        ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+        myClothesTemp = show->ondress();
+    }
+    _ManSpr->removeAllChildrenWithCleanup(true);
+    this->creat_Man();
+    this->initClothes();
+}
+
+
+void StrangerScene::btn_find_callback(CCObject* pSender){
+    FindPanel* find_panel = FindPanel::create();
+    this->addChild(find_panel, 20000);
 }
 
 void StrangerScene::btn_note_callback(CCObject* pSender){
@@ -199,7 +249,8 @@ void StrangerScene::enterMan(){
     this->creat_Man();
     this->initClothes();
     
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
+    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
     _ManSpr->runAction(seq);
@@ -212,7 +263,7 @@ void StrangerScene::removeMask(){
 }
 
 void StrangerScene::removeMan(){
-    _ManSpr->removeAllChildren();
+    _ManSpr->cocos2d::CCNode::removeAllChildrenWithCleanup(true);
 }
 
 void StrangerScene::creat_Man(){

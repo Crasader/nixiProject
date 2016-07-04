@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "NotePanel.h"
+#include "StrangerTableView.h"
 
 USING_NS_CC;
 
@@ -71,11 +72,18 @@ public:
     void btn_share_callback(CCObject* pSender);
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
+    void btn_find_callback(CCObject* pSender);
+    void btn_refresh_callback(CCObject* pSender);
+    void refresh_callback_802();
     
     void result_tip();
     
+    void update_man();
+    
 public:
     NotePanel* _panel;
+    
+    StrangerTableView* tabLayer;
 
     
 public:

@@ -50,6 +50,15 @@ bool HaoyouRankTableView::init(){
     
     pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
     pTableView->reloadData();
+    
+    if (allNumber <= 0) {
+        CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/panel_normal.png");
+        CCLabelTTF* lab = CCLabelTTF::create("还没有好友呢，赶快去陌生人里寻找小伙伴吧~", DISPLAY->fangzhengFont(), 20, CCSizeMake(150, 300), kCCTextAlignmentLeft);
+        lab->setColor(ccc3(135, 108, 123));
+        lab->setPosition(ccp(pTableView->getContentSize().width + spr->getContentSize().width * .5f + 30, DISPLAY->ScreenHeight()* .5f));
+        this->addChild(lab);
+    }
+    
     return true;
 }
 

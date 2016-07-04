@@ -76,6 +76,8 @@ public:
     void smallSprite(int index, CCSprite* spr);
     
     void toBeFriend(CCMenuItem* btn);
+    
+    void updateTableView();
 };
 
 #endif /* StrangerTableView_hpp */
