@@ -135,6 +135,8 @@ bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
         this->removeAllSpr();
     }
     
+    SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
+    
     return true;
 }
 void ClothesScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
@@ -2457,6 +2459,9 @@ void ClothesScene::showAnimationWithType(int type) {
     
     if (type == 1) {
         SPECIAL->showStarAt(_animLayer, ccp(DISPLAY->W() * 0.4, DISPLAY->H() * 0.55), 1);
+//        CCParticleSystem* particleSystem = CCParticleFlower::create();
+//        particleSystem->setTexture(CCTextureCache::sharedTextureCache()->addImage("pic/stars.png"));
+//        addChild(particleSystem);
     }
     else if (type == 2) {
         SPECIAL->showPetalAt(_animLayer, ccp(DISPLAY->W() * 0.36, DISPLAY->H() * 0.55), 1);
