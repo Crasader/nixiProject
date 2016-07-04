@@ -102,6 +102,8 @@ bool ClothesScene::init(){
     animationBool = false;
     zhuangrongBool = false;
     
+    shaixuanLabel = NULL;
+    
     return true;
 }
 
@@ -587,7 +589,9 @@ void ClothesScene::creat_ViewMethods(int index){
     DATA->setDataSource(tempArr);
     _delegate->updateTableView(index);
     
-    shaixuanLabel->setVisible(false);
+    if (shaixuanLabel) {
+        shaixuanLabel->setVisible(false);
+    }
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
