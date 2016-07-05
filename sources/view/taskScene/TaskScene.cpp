@@ -9,14 +9,17 @@
 #include "TaskScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "ConfigManager.h"
+#include "NetManager.h"
 #include "MainScene.h"
+#include "Loading2.h"
+
 #include "ClothesScene.h"
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
-#include "ConfigManager.h"
 
-#include "Loading2.h"
-#include "NetManager.h"
+#include "BuildingLayer.h"
+
 
 TaskScene::TaskScene(){
     
@@ -91,10 +94,8 @@ void TaskScene::creat_view(){
     }
     DATA->setTaskSource(tempArr);
     
-    CCString* bgStr = CCString::createWithFormat("res/pic/taskScene/task_bg%d.png", taskPhase);
-    roomSpr = CCSprite::create(bgStr->getCString());
-    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(roomSpr);
+    BuildingLayer* layer = BuildingLayer::create(DATA->getPlayer()->phase);
+    this->addChild(layer);
     
     CCSprite* backSpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/taskScene/task_back.png");
@@ -137,17 +138,6 @@ void TaskScene::creat_view(){
     label->setColor(ccWHITE);
     taskKuang->addChild(label);
     
-    
-    
-    
-//#warning "需要替换该处"
-//    CCString* ratingInfo = CCString::createWithFormat("总星级：%d", DATA->getPlayer()->rating);
-//    CCLabelTTF* lblTotalRating = CCLabelTTF::create(ratingInfo->getCString(), DISPLAY->fangzhengFont(), 30.f);
-//    lblTotalRating->setColor(ccRED);
-//    CCSize size = taskKuang->boundingBox().size;
-//    lblTotalRating->setPosition(ccp(size.width * 0.5, size.height * 0.96));
-//    taskKuang->addChild(lblTotalRating);
-    
     TaskTableView* tabLayer = TaskTableView::create();
     tabLayer->setPosition(ccp(7, 20));
     tabLayer->setTag(0x77777);
@@ -159,10 +149,10 @@ void TaskScene::backCallBack(CCObject* pSender){
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void TaskScene::historyCallBack(CCObject* pSender){
     
 }
-
 
 void TaskScene::creat_Tishi(){
     
@@ -826,6 +816,3 @@ void TaskScene::initClothes(){//穿衣服
         }
     }
 }
-
-
-

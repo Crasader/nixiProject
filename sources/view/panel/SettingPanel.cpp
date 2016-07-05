@@ -19,18 +19,19 @@ bool SettingPanel::init() {
 //        this->addChild(mask);
         
         _content = CCLayer::create();
-        _content->setScale(0.1);
+//        _content->setScale(0.1);
         this->addChild(_content);
-        _content->setVisible(false);
+//        _content->setVisible(false);
         
         _panel = CCSprite::create("res/pic/panel/setting/set_panel.png");
         _panel->setPosition(ccp(DISPLAY->W() * 0.33, DISPLAY->H() * 0.155));
+        _panel->setAnchorPoint(CCPointZero);
         _content->addChild(_panel);
         
         CCSize panelSize = _panel->boundingBox().size;
         
         CCMenuItemImage* btn_music_on = CCMenuItemImage::create("res/pic/panel/setting/set_music_on.png", "res/pic/panel/setting/set_music_on.png");
-        CCMenuItemImage* btn_music_off = CCMenuItemImage::create("res/pic/panel/setting/set_music_off.png", "res/pic/panel/setting/");
+        CCMenuItemImage* btn_music_off = CCMenuItemImage::create("res/pic/panel/setting/set_music_off.png", "res/pic/panel/setting/set_music_off.png");
         CCMenuItemToggle* toggle_music = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_purchase), btn_music_on, btn_music_off, NULL);
         
         CCMenuItemImage* btn_effect_on = CCMenuItemImage::create("res/pic/panel/setting/set_effect_on.png", "res/pic/panel/setting/set_effect_on.png");
@@ -52,7 +53,11 @@ bool SettingPanel::init() {
 void SettingPanel::onEnter() {
     CCLayer::onEnter();
     
-    this->do_enter();
+    this->setTouchEnabled(true);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchSwallowEnabled(true);
+    
+//    this->do_enter();
 }
 
 void SettingPanel::onExit() {
@@ -64,7 +69,7 @@ void SettingPanel::onExit() {
 bool SettingPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _panel->boundingBox().containsPoint(location)) {
-        this->do_exit();
+        this->removeFromParentAndCleanup(true);
     }
     
     return true;
@@ -74,6 +79,7 @@ bool SettingPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEve
 
 void SettingPanel::show_from(CCPoint from) {
     _enter_pos = CCPointMake(from.x, from.y);
+    _panel->setPosition(_enter_pos + ccp(20, 25));
     CCDirector::sharedDirector()->getRunningScene()->addChild(this);
 }
 
@@ -88,10 +94,6 @@ void SettingPanel::do_enter() {
     CCScaleTo* scaleto = CCScaleTo::create(duration, 1.0);
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
     _content->runAction(spawn);
-    
-    this->setTouchEnabled(true);
-    this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchSwallowEnabled(true);
 }
 
 void SettingPanel::do_exit() {

@@ -131,6 +131,7 @@ void ClothesScene::onExit(){
 void ClothesScene::keyBackStatus(float dt){
     
 }
+
 void ClothesScene::keyBackClicked(){
     
 }
@@ -146,6 +147,7 @@ bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     
     return true;
 }
+
 void ClothesScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
     
 }

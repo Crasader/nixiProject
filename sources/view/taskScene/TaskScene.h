@@ -54,7 +54,7 @@ public:
     
     CCMenuItem* historyItem;
     
-    CCSprite* roomSpr;
+//    CCSprite* roomSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;
     CCSprite* _ManSpr;
@@ -88,6 +88,6 @@ public:
     
     int OpenToWhichOne;
     int taskPhase;
-    int taskIndex;
+    int taskIndex;    
 };
 #endif /* defined(__tiegao__TaskScene__) */

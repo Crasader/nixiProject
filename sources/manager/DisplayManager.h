@@ -25,6 +25,9 @@ public:
 public:
     const char*         font();
     const char*         fangzhengFont();
+    
+    ccColor3B           defalutColor();
+    
     CCPoint             center();
     float               ScreenWidth();
     float               ScreenHeight();
