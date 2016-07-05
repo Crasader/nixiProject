@@ -93,7 +93,7 @@ void MailPanel::do_enter() {
     _content->setPosition(_enter_pos - DISPLAY->center());
     _content->setVisible(true);
     
-    float duration = 0.8f;
+    float duration = 0.5f;
     CCMoveTo* moveto = CCMoveTo::create(duration, CCPointZero);
     CCScaleTo* scaleto = CCScaleTo::create(duration, 1.0);
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
@@ -112,7 +112,7 @@ void MailPanel::do_enter() {
 }
 
 void MailPanel::do_exit() {
-    float duration = 0.6f;
+    float duration = 0.4f;
     CCMoveTo* moveto = CCMoveTo::create(duration, _enter_pos - DISPLAY->center());
     CCSequence* seq = CCSequence::create(moveto, CCCallFunc::create(this, SEL_CallFunc(&MailPanel::remove)), NULL);
     CCScaleTo* scaleto = CCScaleTo::create(duration, 0.1);

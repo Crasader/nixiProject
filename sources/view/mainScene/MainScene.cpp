@@ -24,8 +24,11 @@
 
 #include "MailPanel.h"
 #include "OperationPanel.h"
+#include "SettingPanel.h"
 
 #include <time.h>
+
+#include "SpecialManager.h"
 
 
 MainScene::MainScene(){
@@ -134,7 +137,6 @@ void MainScene::gengxin(float dt){
 
 bool MainScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     
-    
     return true;
 }
 
@@ -215,10 +217,10 @@ void MainScene::creat_view(){
     CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
     CCSprite* szSpr2 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
     szSpr2->setScale(1.02f);
-    CCMenuItem* shezhiItem = CCMenuItemSprite::create(szSpr1, szSpr2, this, menu_selector(MainScene::shezhiCallBack));
-    shezhiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .05f));
+    _shezhiItem = CCMenuItemSprite::create(szSpr1, szSpr2, this, menu_selector(MainScene::shezhiCallBack));
+    _shezhiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .05f));
     
-    CCMenu* downMenu = CCMenu::create(juqingItem, richangItem, shezhiItem, NULL);
+    CCMenu* downMenu = CCMenu::create(juqingItem, richangItem, _shezhiItem, NULL);
     downMenu->setPosition(CCPointZero);
     this->addChild(downMenu);
     
@@ -234,8 +236,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
-    
-    
+    SPECIAL->showPetal2At(this->getScene(), DISPLAY->center(), 1);
 }
 
 void MainScene::youjianCallBack(CCObject* pSender){
@@ -310,9 +311,9 @@ void MainScene::_600CallBack(CCObject* pSender){
 }
 
 void MainScene::shezhiCallBack(CCObject* pSender){
-    
+    SettingPanel* panel = SettingPanel::create();
+    panel->show_from(_shezhiItem->getPosition());
 }
-
 
 void MainScene::creat_Man(){
     float widthFolt = .65f;

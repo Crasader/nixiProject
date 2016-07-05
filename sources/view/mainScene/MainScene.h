@@ -101,6 +101,7 @@ private:
 private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;
+    CCMenuItem*         _shezhiItem;
 };
 
 #endif /* defined(__tiegao__MainScene__) */
