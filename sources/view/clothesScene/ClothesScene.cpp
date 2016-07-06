@@ -2583,10 +2583,10 @@ void ClothesScene::showAnimationWithType(int type) {
     
     if (type == 1) {
 //        SPECIAL->showStarAt(_animLayer, ccp(DISPLAY->W() * 0.4, DISPLAY->H() * 0.55), 1);
-        SPECIAL->showStar2At(getParent(), ccp(DISPLAY->W() * 0.36, DISPLAY->H() * 0.55), 1);
+        SPECIAL->showStar2At(getParent(), ccp(DISPLAY->halfW() - 150, DISPLAY->H() * 0.55), 1);
     }
     else if (type == 2) {
-        SPECIAL->showPetalAt(_animLayer, ccp(DISPLAY->W() * 0.36, DISPLAY->H() * 0.55), 1);
+        SPECIAL->showPetalAt(_animLayer, ccp(DISPLAY->halfW() - 130, DISPLAY->H() * 0.55), 1);
     }
 }
 
