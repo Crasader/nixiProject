@@ -84,6 +84,9 @@ void DataManager::http_response_handle(int resp_code, string response) {
         Value content = root["content"];
         this->handle_protocol(cid, content);
     }
+    else if (11000 == code) {
+        relogin();
+    }
     else {
         LOADING->remove();
         const char* msg = root["content"].asCString();
@@ -275,8 +278,9 @@ void DataManager::update(float dt) {
     NET->check_news_910();
 }
 
-
-
+void DataManager::relogin() {
+    CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+}
 
 void DataManager::creat_Energy_Time(){
     

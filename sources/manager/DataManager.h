@@ -95,6 +95,7 @@ private:
     void handle_protocol(int cid, Value content);
     void start_check_news();
     void update(float dt);
+    void relogin();
 };
 
 #endif /* DataManager_hpp */
