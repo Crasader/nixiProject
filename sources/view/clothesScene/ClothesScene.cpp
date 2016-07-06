@@ -2582,10 +2582,8 @@ void ClothesScene::showAnimationWithType(int type) {
     _animLayer->removeAllChildrenWithCleanup(true);
     
     if (type == 1) {
-        SPECIAL->showStarAt(_animLayer, ccp(DISPLAY->W() * 0.4, DISPLAY->H() * 0.55), 1);
-//        CCParticleSystem* particleSystem = CCParticleFlower::create();
-//        particleSystem->setTexture(CCTextureCache::sharedTextureCache()->addImage("pic/stars.png"));
-//        addChild(particleSystem);
+//        SPECIAL->showStarAt(_animLayer, ccp(DISPLAY->W() * 0.4, DISPLAY->H() * 0.55), 1);
+        SPECIAL->showStar2At(getParent(), ccp(DISPLAY->W() * 0.36, DISPLAY->H() * 0.55), 1);
     }
     else if (type == 2) {
         SPECIAL->showPetalAt(_animLayer, ccp(DISPLAY->W() * 0.36, DISPLAY->H() * 0.55), 1);

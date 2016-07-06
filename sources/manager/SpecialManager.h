@@ -25,6 +25,7 @@ public:
 public:
     void stopExistAnimation();
     void showStarAt(CCNode* parent, CCPoint pos, int zOrder);
+    void showStar2At(CCNode* parent, CCPoint pos, int zOrder);
     void showPetalAt(CCNode* parent, CCPoint pos, int zOrder);
     void showPetal2At(CCNode* parent, CCPoint pos, int zOrder);
     void showSpotAt(CCNode* parent, CCPoint pos, int zOrder);

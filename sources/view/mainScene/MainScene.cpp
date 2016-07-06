@@ -227,7 +227,7 @@ void MainScene::creat_view(){
 }
 
 void MainScene::shouchongCallBack(CCObject* pSender){
-    
+    SPECIAL->showStar2At(getParent(), DISPLAY->center(), 1);
 }
 
 void MainScene::huodongCallBack(CCObject* pSender){

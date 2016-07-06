@@ -25,6 +25,7 @@ SpecialManager* SpecialManager::Inst() {
 
 void SpecialManager::init() {
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/star.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/star2.plist");
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/petal.plist");
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/petal2.plist");
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/spot.plist");
@@ -34,6 +35,9 @@ void SpecialManager::init() {
     
     CCAnimation* star = AppUtil::animationWithFrame("star_%d.png", 30, 1, 0.1f);
     _specials->setObject(star, "star");
+    
+    CCAnimation* star2 = AppUtil::animationWithFrame("star2_%d.png", 15, 1, 0.1f);
+    _specials->setObject(star2, "star2");
     
     CCAnimation* petal = AppUtil::animationWithFrame("petal_%d.png", 24, 1, 0.1f);
     _specials->setObject(petal, "petal");
@@ -54,6 +58,18 @@ void SpecialManager::showStarAt(CCNode* parent, CCPoint pos, int zOrder) {
     CCCallFuncN* purge = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode));
     CCSequence* act = CCSequence::create(anim, purge, NULL);
     star->runAction(act);
+}
+
+void SpecialManager::showStar2At(CCNode* parent, CCPoint pos, int zOrder) {
+    CCSprite* star2 = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("star2_1.png"));
+    star2->setPosition(pos);
+    star2->setScale(1.1f);
+    parent->addChild(star2, zOrder);
+    
+    CCActionInterval* anim = CCAnimate::create(animationByName("star2"));
+    CCCallFuncN* purge = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode));
+    CCSequence* act = CCSequence::create(anim, purge, NULL);
+    star2->runAction(act);
 }
 
 void SpecialManager::showPetalAt(CCNode* parent, CCPoint pos, int zOrder) {
