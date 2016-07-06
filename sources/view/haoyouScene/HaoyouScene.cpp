@@ -187,7 +187,10 @@ void HaoyouScene::paihangCallBack(CCObject* pSender){
 
 void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){
     LOADING->remove();
-    CCScene* scene = StrangerScene::scene();
+    CCScene* scene = CCScene::create();
+    StrangerScene* layer = StrangerScene::create();
+    layer->setEnterType("main_friend");
+    scene->addChild(layer);
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

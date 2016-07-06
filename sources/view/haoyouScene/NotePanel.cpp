@@ -88,7 +88,7 @@ void NotePanel::initView(){
     m_text = CursorTextField::cursorTextFieldWithPlaceHolder("请在这里输入...", CCSizeMake(350, 350), kCCTextAlignmentLeft, DISPLAY->font(), 23);
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.5));
-    m_text->setMaxTextBytes(170);
+    m_text->setMaxTextBytes(150);
     m_text->setDelegate(this);
     note_panel->addChild(m_text);
         
@@ -131,6 +131,7 @@ void NotePanel::update(float dt){
     int chs_count = 0;
     int eng_count = 0;
     int cur_count = 0;
+//    const char* cur_str = "";
     for(int i = 0; i < length; i++){
         if (('0' <= str[i] && str[i] <= '9') || ('A' <= str[i] && str[i] <= 'Z') || ('a' <= str[i] && str[i] <= 'z')  || (32 <= str[i] && str[i] <= 47) || (58 <= str[i] && str[i] <= 64) || (91 <= str[i] && str[i] <= 96) || (123 <= str[i] && str[i] <= 126)) {
             eng_count++;
@@ -142,7 +143,12 @@ void NotePanel::update(float dt){
             m_text->setMaxTextBytes(i);
             break;
         }
+//        if(cur_count <= 50){
+//            cur_str += str[i];
+//        }
     }
+    
+//    m_text->setText(cur_str);
     
     CCString* count_str = CCString::createWithFormat("%d", cur_count);
     _word_count = CCLabelTTF::create(count_str->getCString(), DISPLAY->font(), 19);
@@ -167,7 +173,7 @@ void NotePanel::btn_send_callback(){
     else {
 //        id = "女总裁";
     }
-    CCLOG("ID: %s", id);
+    
     NET->send_papar_809(id, m_text->getText().c_str());
 }
 

@@ -15,6 +15,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "PromptLayer.h"
+#include "StrangerScene.h"
 
 
 HaoyouRankLayer:: ~HaoyouRankLayer(){}
@@ -58,6 +59,7 @@ void HaoyouRankLayer::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::gotoStranger_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::exitMan), "ExitMan", NULL);
     
 }
@@ -104,6 +106,7 @@ void HaoyouRankLayer::createView(){
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, z_order);
+    
     
     CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
     self_spr->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
@@ -160,6 +163,39 @@ void HaoyouRankLayer::createView(){
         menu_tili->setEnabled(false);
     }
     
+    if (DATA->getSocial()->friends()->allKeys() == NULL) {
+        self_spr->setVisible(false);
+        
+        CCLabelTTF* lab = CCLabelTTF::create("暂时还没好友\n请去陌生人添加", DISPLAY->fangzhengFont(), 20, CCSizeMake(150, 250), kCCTextAlignmentCenter);
+        lab->setColor(ccc3(135, 108, 123));
+        lab->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .5f + 100));
+        this->addChild(lab);
+        
+        CCSprite* spr = CCSprite::create("res/pic/haoyouScene/hy_stranger.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/haoyouScene/hy_stranger.png");
+        spr2->setScale(1.02f);
+        CCMenuItemSprite* item_spr = CCMenuItemSprite::create(spr, spr2, this, menu_selector(HaoyouRankLayer::gotoStranger));
+        CCMenu* menu_spr = CCMenu::create(item_spr, NULL);
+        menu_spr->setPosition(ccp(DISPLAY->ScreenWidth()* .88f, DISPLAY->ScreenHeight()* .58f));
+        this->addChild(menu_spr);
+    }
+    
+}
+
+void HaoyouRankLayer::gotoStranger(){
+    LOADING->show_loading();
+    NET->recommend_stranger_802();
+}
+
+void HaoyouRankLayer::gotoStranger_802(){
+    LOADING->remove();
+    CCScene* scene = CCScene::create();
+    StrangerScene* layer = StrangerScene::create();
+    layer->setEnterType("my_friend");
+    scene->addChild(layer);
+    
+    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouRankLayer::initRank(){

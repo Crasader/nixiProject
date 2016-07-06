@@ -81,6 +81,9 @@ public:
     void update_man();
     
 public:
+    
+    CC_SYNTHESIZE_PASS_BY_REF(std::string, _enterType, EnterType);
+    
     NotePanel* _panel;
     
     StrangerTableView* tabLayer;
