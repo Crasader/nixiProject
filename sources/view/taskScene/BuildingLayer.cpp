@@ -10,6 +10,8 @@
 #include "DisplayManager.h"
 #include "Building.h"
 
+#include "BuildingView.h"
+
 BuildingLayer::~BuildingLayer() {
 }
 
@@ -98,6 +100,9 @@ void BuildingLayer::building_touch_callback() {
 
 void BuildingLayer::show_building() {
     this->setTouchEnabled(true);
-    Building* building = Building::create(_phase + 2);
+//    Building* building = Building::create(_phase + 2);
+    static int o = 1;
+    BuildingView* building = BuildingView::create(o);
     this->getScene()->addChild(building);
+    o++;
 }

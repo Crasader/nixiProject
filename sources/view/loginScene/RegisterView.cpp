@@ -44,7 +44,7 @@ bool RegisterView::init()
 void RegisterView::create_view()
 {
     CCSprite* spt_inputbox = CCSprite::create("res/pic/loginScene/regist_box.png");
-    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f));
+    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.62f));
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;

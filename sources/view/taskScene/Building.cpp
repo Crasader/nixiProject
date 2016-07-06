@@ -151,6 +151,15 @@ void Building::init_floors() {
 //    CCMenuItem* btnGoBack = CCMenuItemSprite::create(goback1, goback2, this, SEL_MenuHandler(&Building::go_back));
 //    btnGoBack->setPosition(ccp(50, 50));
 //    layer->addChild(btnGoBack);
+    
+    CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+    CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+    take2->setScale(DISPLAY->btn_scale());
+    CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&Building::on_take_rewards));
+    CCMenu* menuTake = CCMenu::createWithItem(btn_take);
+    menuTake->setPosition(ccp(FLOOR_WIDTH * 0.9, 50));
+    _scroll->addChild(menuTake);
+    
     CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
     txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.06));
     this->addChild(txt_close);
@@ -170,6 +179,10 @@ void Building::go_back() {
 
 CCPoint Building::posWithFloor(int floor) {
     return ccp(0, FLOOR_HEIGHT * (floor - 1));
+}
+
+void Building::on_take_rewards(CCMenuItem *btn) {
+    CCLOG("Building::on_take_rewards()");
 }
 
 

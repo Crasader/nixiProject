@@ -37,6 +37,7 @@ private:
     CCPoint posWithFloor(int floor);
     void start();
     void go_back();
+    void on_take_rewards(CCMenuItem* btn);
     
 private:
     CCScrollView*   _scroll;

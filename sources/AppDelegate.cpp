@@ -28,6 +28,15 @@ AppDelegate::~AppDelegate()
     SimpleAudioEngine::sharedEngine()->end();
 }
 
+void AppDelegate::rand_seed() {
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    int n = t.tv_usec % 9;
+    for (int i = 0; i < n; i++) {
+        rand();
+    }
+}
+
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
@@ -38,12 +47,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
     //
-    struct timeval t;
-    gettimeofday(&t, NULL);
-    int n = t.tv_usec % 9;
-    for (int i = 0; i < n; i++) {
-        rand();
-    }
+    rand_seed();
     //
     float fixed_height = 1136.0f;
     float fixed_width = 852.0f;
