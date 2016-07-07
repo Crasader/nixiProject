@@ -13,6 +13,7 @@
 #include "HaoyouScene.h"
 #include "MainScene.h"
 
+const float totalRank_z_oder = 20.f;
 
 TotalRankScene:: ~TotalRankScene(){}
 
@@ -70,8 +71,6 @@ void TotalRankScene::onExit(){
 }
 
 void TotalRankScene::createView(){
-    float totalRank_z_oder = 20.f;// 人在按钮下
-//    float totalRank_z_oder = 9.f;// 人在按钮上
     
     CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
@@ -241,7 +240,7 @@ void TotalRankScene::createView(){
     
     CCMenu* menu_rank = CCMenu::create(item_first, item_second, item_third, NULL);
     menu_rank->setPosition(CCPointZero);
-    this->addChild(menu_rank);
+    this->addChild(menu_rank, totalRank_z_oder);
     
     this->initTotalRank();
 }
@@ -334,6 +333,12 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
         CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdateRank");
     }
     
+    CCLayer* layer = CCLayer::create();
+    layer->setTouchEnabled(true);
+    layer->setTouchSwallowEnabled(true);
+    layer->setTag(10000);
+    CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+    this->exitMan();
 }
 
 void TotalRankScene::btn_toSmall_callback(int index){

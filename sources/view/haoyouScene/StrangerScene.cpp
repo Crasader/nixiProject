@@ -16,6 +16,7 @@
 #include "FindPanel.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "HaoyouRankLayer.h"
 
 
 StrangerScene:: ~StrangerScene(){}
@@ -222,9 +223,15 @@ void StrangerScene::btn_note_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){
-    CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
+        CCScene* scene = HaoyouScene::scene();
+        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (!_enterType.empty() && _enterType.compare("my_friend") == 0){
+        CCScene* scene = HaoyouRankLayer::scene();
+        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void StrangerScene::result_tip(){

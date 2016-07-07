@@ -69,6 +69,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Small");
     
+    CCLOG("selectedIndex: %d", selectedIndex);
     if (selectedIndex == NULL) {
         selectedIndex = cell->getIdx() + 3;
         

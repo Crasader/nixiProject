@@ -75,6 +75,8 @@ public:
     void btn_getTili_callback();
     void get_tili_807();
     
+    void gotoStranger();
+    void gotoStranger_802();
     
 public:
     NotePanel* _panel;
