@@ -30,6 +30,9 @@ void SpecialManager::init() {
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/petal2.plist");
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/spot.plist");
     
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/image.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/battle.plist");
+    
     _specials = CCDictionary::create();
     _specials->retain();
     
@@ -47,6 +50,12 @@ void SpecialManager::init() {
     
     CCAnimation* spot = AppUtil::animationWithFrame("spot_%d.png", 40, 1, 0.03f);
     _specials->setObject(spot, "spot");
+    
+    CCAnimation* image = AppUtil::animationWithFrame("image%d.png", 14, 1, 0.03f);
+    _specials->setObject(image, "image");
+    
+    CCAnimation* battle = AppUtil::animationWithFrame("battle%d.png", 15, 1, 0.03f);
+    _specials->setObject(battle, "battle");
 }
 
 void SpecialManager::showStarAt(CCNode* parent, CCPoint pos, int zOrder) {
@@ -103,6 +112,28 @@ void SpecialManager::showSpotAt(CCNode *parent, CCPoint pos, int zOrder) {
     CCCallFuncN* purge = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode));
     CCSequence* act = CCSequence::create(anim, purge, NULL);
     star->runAction(act);
+}
+
+void SpecialManager::showImageAt(CCNode *parent, CCPoint pos, int zOrder) {
+    CCSprite* image = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("image1.png"));
+    image->setPosition(pos);
+    parent->addChild(image, zOrder);
+    
+    CCActionInterval* anim = CCAnimate::create(animationByName("image"));
+    CCCallFuncN* purge = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode));
+    CCSequence* act = CCSequence::create(anim, purge, NULL);
+    image->runAction(act);
+}
+
+void SpecialManager::showBattleAt(CCNode *parent, CCPoint pos, int zOrder) {
+    CCSprite* battle = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("battle1.png"));
+    battle->setPosition(pos);
+    parent->addChild(battle, zOrder);
+    
+    CCActionInterval* anim = CCAnimate::create(animationByName("battle"));
+    CCCallFuncN* purge = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode));
+    CCSequence* act = CCSequence::create(anim, purge, NULL);
+    battle->runAction(act);
 }
 
 CCAnimation* SpecialManager::animationByName(const char* name) {

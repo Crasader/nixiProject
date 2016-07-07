@@ -144,6 +144,7 @@ bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     }
     
     SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
+//    SPECIAL->showImageAt(getParent(), pTouch->getLocation(), 1);
     
     return true;
 }
@@ -2587,6 +2588,7 @@ void ClothesScene::showAnimationWithType(int type) {
     }
     else if (type == 2) {
         SPECIAL->showPetalAt(_animLayer, ccp(DISPLAY->halfW() - 130, DISPLAY->H() * 0.55), 1);
+//        SPECIAL->showBattleAt(getParent(), ccp(DISPLAY->halfW() - 130, DISPLAY->H() * 0.55), 1);
     }
 }
 

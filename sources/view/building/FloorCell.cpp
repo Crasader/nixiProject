@@ -317,6 +317,10 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
     _roles->retain();
     
     start();
+    
+    this->setTouchEnabled(true);
+    this->setTouchSwallowEnabled(false);
+    this->setTouchMode(kCCTouchesOneByOne);
 
     return true;
 }
@@ -377,8 +381,49 @@ CCPoint FloorCell::randomEdge() {
     return CCPointMake(FLOOR_CELL_WIDTH * 0.5 + CCRANDOM_MINUS1_1() * widthDelta, 0);
 }
 
-
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
     CCLOG("BuildingView::on_take_rewards()");
 }
+
+void FloorCell::show_coin() {
+    CCNode* role = (CCNode*)_roles->randomObject();
+    if (role && role->getParent()) {
+        show_coin_at(role->getPosition() + ccp(0, 84));
+    }
+}
+
+void FloorCell::show_coin_at(CCPoint pos) {
+    float statDuration = 0.3f;
+    
+    CCSprite* star1 = CCSprite::create("pic/loading/loading_star.png");
+    star1->setPosition(pos + ccp(0, 20));
+    star1->setScale(0.6);
+    this->addChild(star1);
+    star1->runAction(CCSequence::create(CCMoveBy::create(statDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* star2 = CCSprite::create("pic/loading/loading_star.png");
+    star2->setPosition(pos + ccp(0, 20));
+    star2->setScale(0.4);
+    this->addChild(star2);
+    star2->runAction(CCSequence::create(CCMoveBy::create(statDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
+    coinSpr->setPosition(pos);
+    coinSpr->setScale(0.88);
+    this->addChild(coinSpr);
+    if (pos.x < FLOOR_CELL_WIDTH * 0.5) {
+        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, -180, 0, 0), NULL);
+        coinSpr->runAction(seqCoin);
+        
+    }
+    else {
+        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(-50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, 360, 0, 0), NULL);
+        coinSpr->runAction(seqCoin);
+    }
+}
+
+void FloorCell::self_remove(CCNode *node) {
+    node->removeFromParentAndCleanup(true);
+}
+
 

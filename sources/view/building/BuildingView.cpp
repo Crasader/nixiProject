@@ -16,7 +16,6 @@ BuildingView::~BuildingView() {
     CC_SAFE_RELEASE_NULL(_floors);
 }
 
-
 BuildingView* BuildingView::create(int phase) {
     BuildingView* rtn = new BuildingView();
     if (rtn && rtn->init(phase)) {
@@ -52,6 +51,8 @@ bool BuildingView::init(int phase) {
     _tbView->setDirection(kCCScrollViewDirectionVertical);
     _tbView->setVerticalFillOrder(kCCTableViewFillBottomUp);
     _tbView->setPosition(ccp((DISPLAY->W() - FLOOR_CELL_WIDTH) * 0.5, DISPLAY->H() * (1 - 0.85) * 0.5));
+    _tbView->setEageBounched(false);
+    _tbView->setDelegate(this);
     this->addChild(_tbView);
     
     CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
@@ -83,13 +84,13 @@ bool BuildingView::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
     return false;
 }
 
-//void BuildingView::scrollViewDidScroll(CCScrollView *view) {
-//
-//}
-//
-//void BuildingView::scrollViewDidZoom(CCScrollView *view) {
-//
-//}
+void BuildingView::scrollViewDidScroll(CCScrollView *view) {
+
+}
+
+void BuildingView::scrollViewDidZoom(CCScrollView *view) {
+
+}
 
 #pragma mark - Inner
 
@@ -143,3 +144,9 @@ unsigned int BuildingView::numberOfCellsInTableView(CCTableView *table) {
     return _phase + 3;
 }
 
+#pragma mark - CCTableViewDelegate
+
+void BuildingView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
+    FloorCell* floorCell = (FloorCell*)cell;
+    floorCell->show_coin();
+}

@@ -29,6 +29,8 @@ public:
     void showPetalAt(CCNode* parent, CCPoint pos, int zOrder);
     void showPetal2At(CCNode* parent, CCPoint pos, int zOrder);
     void showSpotAt(CCNode* parent, CCPoint pos, int zOrder);
+    void showImageAt(CCNode* parent, CCPoint pos, int zOrder);
+    void showBattleAt(CCNode* parent, CCPoint pos, int zOrder);
     
 private:
     CCAnimation* animationByName(const char* name);
