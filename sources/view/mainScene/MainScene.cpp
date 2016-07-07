@@ -236,7 +236,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
-    SPECIAL->showPetal2At(this->getScene(), DISPLAY->center(), 1);
+    CONFIG->getMissionDialog(1, 2);
 }
 
 void MainScene::youjianCallBack(CCObject* pSender){

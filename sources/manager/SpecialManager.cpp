@@ -63,7 +63,7 @@ void SpecialManager::showStarAt(CCNode* parent, CCPoint pos, int zOrder) {
 void SpecialManager::showStar2At(CCNode* parent, CCPoint pos, int zOrder) {
     CCSprite* star2 = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("star2_1.png"));
     star2->setPosition(pos);
-    star2->setScale(1.1f);
+    star2->setScale(1.3f);
     parent->addChild(star2, zOrder);
     
     CCActionInterval* anim = CCAnimate::create(animationByName("star2"));
