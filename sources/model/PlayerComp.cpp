@@ -30,8 +30,7 @@ void PlayerComp::init_with_json(Value json) {
     coin = json["coin"].asInt();
     gold = json["gold"].asInt();
     diam = json["diam"].asInt();
-    cur_mission = 0;//json["cur_mission"].asInt();
-    next_mission = 0;//json["next_mission"].asInt();
+    mission = json["mission"].asInt();
     phase = json["phase"].asInt();
     left = json["left"].asInt();
     energyBuyTimes = json["eb_times"].asInt();

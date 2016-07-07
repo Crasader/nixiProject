@@ -179,7 +179,7 @@ int QingjingTableView::getStoryIndexStatus(){
         CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
         std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
         int renwuIndex = atoi(renwuIndexStr.c_str());
-        if (renwuIndex >= DATA->getPlayer()->next_mission) {
+        if (renwuIndex >= DATA->getPlayer()->mission) {
             index = i;
             break;
         }
