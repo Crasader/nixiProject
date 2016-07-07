@@ -263,21 +263,21 @@ void QingjingScene::creat_Tishi(){
     CCSprite* startSpr1;
     CCSprite* startSpr2;
     CCMenuItem* startItem;
-    if (renwuIndex < DATA->getPlayer()->next_mission) {
+//    if (renwuIndex < DATA->getPlayer()->next_mission) {
         startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
         startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
         startItem->setTag(index);
-    }else{
-        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-        startItem->setColor(ccGRAY);
-        startItem->setTag(index);
-    }
+//    }else{
+//        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+//        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+//        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
+//        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+//        startItem->setColor(ccGRAY);
+//        startItem->setTag(index);
+//    }
     CCMenu* menu = CCMenu::create(startItem, NULL);
     menu->setPosition(CCPointZero);
     kuangSpr->addChild(menu);

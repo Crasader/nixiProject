@@ -455,6 +455,8 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
         str = CCString::createWithFormat("res/pic/clothesScene/icon/7shipin/icon%d.png", cloth_id);
     }else if (clothesType == Tag_GJ_Bao){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/8bao/icon%d.png", cloth_id);
+    }else if (clothesType == Tag_GJ_ZhuangRong){
+        str = CCString::createWithFormat("res/pic/clothesScene/icon/9zhuangrong/icon%d.png", cloth_id);
     }
 //    str = CCString::createWithFormat("res/pic/clothesScene/111.png");
     CCSprite* clothSpr = CCSprite::create(str->getCString());

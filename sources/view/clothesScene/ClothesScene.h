@@ -39,6 +39,8 @@ typedef enum{
     Tag_GJ_XieZi1,
     Tag_GJ_ShiPin1,
     Tag_GJ_Bao1,
+    Tag_GJ_ZhuangRong1,
+    Tag_GJ_TeXiao1,
     Tag_GJ_TouFa2 = 40,
     Tag_GJ_WaiTao2,
     Tag_GJ_ShangYi2,
@@ -171,6 +173,7 @@ public:
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
     CCSprite* _bSpr4;
+    CCSprite* _zrSpr1; // 妆容
     CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8,* ycSpr9,* ycSpr10;
     
     CCLayer* _animLayer;

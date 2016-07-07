@@ -139,6 +139,7 @@ void ConfigManager::conf_clothes() {
     clothes->setObject(CCArray::create(), 6);
     clothes->setObject(CCArray::create(), 7);
     clothes->setObject(CCArray::create(), 8);
+    clothes->setObject(CCArray::create(), 9);
     
     for (CSJson::ValueIterator iterator = root.begin(); iterator != root.end(); iterator++) {
         CSJson::Value value = (CSJson::Value)* iterator;

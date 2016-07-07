@@ -219,11 +219,11 @@ void TaskScene::creat_Tishi(){
     kuangSpr->addChild(xianSpr);
     
     // 提示内容
-    CCLabelTTF* descriptionLabel = CCLabelTTF::create(getTaskDescription(id)->getCString(), DISPLAY->fangzhengFont(), 21, CCSizeMake(kuangSpr->getContentSize().width* .92f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
-    descriptionLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .41f));
-    descriptionLabel->setColor(ccc3(103, 81, 95));
-//    descriptionLabel->enableStroke(ccc3(103, 81, 95), .4f);
-    kuangSpr->addChild(descriptionLabel, 2);
+//    CCLabelTTF* descriptionLabel = CCLabelTTF::create(getTaskDescription(id)->getCString(), DISPLAY->fangzhengFont(), 21, CCSizeMake(kuangSpr->getContentSize().width* .92f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
+//    descriptionLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .41f));
+//    descriptionLabel->setColor(ccc3(103, 81, 95));
+////    descriptionLabel->enableStroke(ccc3(103, 81, 95), .4f);
+//    kuangSpr->addChild(descriptionLabel, 2);
     
     // 开始故事
     CCSprite* startSpr1;

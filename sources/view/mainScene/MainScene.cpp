@@ -30,6 +30,7 @@
 
 #include "SpecialManager.h"
 
+#include "StorySettlementOfTheAnimationLayer.h"
 
 MainScene::MainScene(){
     
@@ -236,7 +237,10 @@ void MainScene::huodongCallBack(CCObject* pSender){
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
-    SPECIAL->showPetal2At(this->getScene(), DISPLAY->center(), 1);
+//    SPECIAL->showPetal2At(this->getScene(), DISPLAY->center(), 1);
+    
+    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(1);
+    this->addChild(layer, 1000);
 }
 
 void MainScene::youjianCallBack(CCObject* pSender){

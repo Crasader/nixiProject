@@ -538,20 +538,11 @@ void ClothesScene::creat_View(){
     }else if (buttonTag == Tag_GJ_ZhuangRong){
         
         isClothesType = Tag_GJ_ZhuangRong;
-        
-//        CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_GJ_ZhuangRong);// 获得当前类型所有衣服
-        CCArray* tempArr = CCArray::create();
-        
-//        for (int i = 0; i < clothesArr->count(); i++) {
-//            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
-//            int sale = clothDic->valueForKey("sale")->intValue();
-//            if (sale != 0) {
-//                tempArr->addObject(clothDic);
-//            }
-//        }
-        DATA->setDataSource(tempArr);
-        _delegate->updateTableView(Tag_GJ_ZhuangRong);
-        
+        if (renwukuangMethodsBool) {
+            renwukuangMethods(isClothesType);
+        }else{
+            creat_ViewMethods(isClothesType);
+        }
     }else if (buttonTag == Tag_GJ_TeXiao){
         
         isClothesType = Tag_GJ_TeXiao;
@@ -723,20 +714,13 @@ void ClothesScene::renwukuangCallBack(CCObject* pSender){
     }else if (buttonTag == Tag_GJ_ZhuangRong){
         
         isClothesType = Tag_GJ_ZhuangRong;
-        
-//        CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_GJ_ZhuangRong);// 获得当前类型所有衣服
-        CCArray* tempArr = CCArray::create();
-        
-//        for (int i = 0; i < clothesArr->count(); i++) {
-//            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
-//            int sale = clothDic->valueForKey("sale")->intValue();
-//            if (sale != 0) {
-//                tempArr->addObject(clothDic);
-//            }
-//        }
-        DATA->setDataSource(tempArr);
-        _delegate->updateTableView(Tag_GJ_ZhuangRong);
-        
+        if (renwukuangMethodsBool) {
+            renwukuangMethodsBool = false;
+            creat_ViewMethods(isClothesType);
+        }else{
+            renwukuangMethodsBool = true;
+            renwukuangMethods(isClothesType);
+        }
     }else if (buttonTag == Tag_GJ_TeXiao){
         
         isClothesType = Tag_GJ_TeXiao;
@@ -1073,7 +1057,7 @@ void ClothesScene::initClothes(){//穿衣服
     
     CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     
-    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_ZhuangRong; i++) {
         if (i == Tag_GJ_TouFa) {
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
@@ -1536,6 +1520,38 @@ void ClothesScene::initClothes(){//穿衣服
                     }
                 }
             }
+        }else if (i == Tag_GJ_ZhuangRong){
+            CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
+            
+            if (cloth_id->getValue() == 90000) {
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
+                _zrSpr1 = CCSprite::create(str->getCString());
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                _zrSpr1->setScale(scaleFloat);
+                _zrSpr1->setFlipX(flipxBool);
+                _ManSpr->addChild(_zrSpr1, 220);
+            }else{
+                CCDictionary* dic = CONFIG->clothes();// 所有衣服
+                CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+                    if (now_clothes_Id == cloth_id->getValue()) {
+                        const CCString* layer1 =  clothDic->valueForKey("layer1");
+                        if (layer1->compare("") != 0) {
+                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _zrSpr1 = CCSprite::create(str1->getCString());
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                            _zrSpr1->setScale(scaleFloat);
+                            _zrSpr1->setFlipX(flipxBool);
+                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -1567,6 +1583,8 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
         isClothesType = Tag_GJ_ShiPin;
     }else if (index >= 80000 && index < 90000){
         isClothesType = Tag_GJ_Bao;
+    }else if (index >= 90000 && index < 100000){
+        isClothesType = Tag_GJ_ZhuangRong;
     }
     
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -2102,6 +2120,39 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
             break;
         }
             
+        case Tag_GJ_ZhuangRong:{
+            if (_ManSpr->getChildByTag(Tag_GJ_ZhuangRong1) != NULL) {
+                _ManSpr->removeChildByTag(Tag_GJ_ZhuangRong1);
+            }
+            CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+            CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_GJ_ZhuangRong);// 获得当前类型所有衣服
+            
+            if (index == 90000) {
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", 90000);
+                _zrSpr1 = CCSprite::create(str->getCString());
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                _ManSpr->addChild(_zrSpr1, def_z_order);
+            }else{
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+                    if (now_clothes_Id == index) {
+                        const CCString* layer1 =  clothDic->valueForKey("layer1");
+                        if (layer1->compare("") != 0) {
+                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _zrSpr1 = CCSprite::create(str1->getCString());
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+            
         default:
             break;
     }
@@ -2275,6 +2326,14 @@ void ClothesScene::buttonStatus(){
                 ycSpr8->setVisible(false);
             }else{
                 ycSpr8->setVisible(true);
+            }
+        }
+        if (i == Tag_GJ_ZhuangRong) {
+            CCInteger* clothesTemp_id = ((CCInteger*)clothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()));
+            if (clothesTemp_id->getValue() == 90000) {
+                ycSpr9->setVisible(false);
+            }else{
+                ycSpr9->setVisible(true);
             }
         }
     }
