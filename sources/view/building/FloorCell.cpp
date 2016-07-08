@@ -8,6 +8,7 @@
 
 #include "FloorCell.h"
 #include "DisplayManager.h"
+#include "SpecialManager.h"
 
 const float ROLE_SCALE = 0.25;
 const float STAND_HEIGHT = 3;
