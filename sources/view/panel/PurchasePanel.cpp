@@ -114,6 +114,42 @@ void PurchasePanel::init_content() {
             pic2 = CCSprite::create(file->getCString());
         }
         pic2->setScale(DISPLAY->btn_scale());
+        
+        CCPoint dimaPos = ccp(492 * 0.13, 109 * 0.5);
+        if (0 < i && i < 3) {
+            CCSprite* diam1 = CCSprite::create("res/pic/panel/iap/diam_bit.png");
+            diam1->setPosition(dimaPos);
+            diam1->setRotation(-22);
+            pic1 ->addChild(diam1);
+            
+            CCSprite* diam2 = CCSprite::create("res/pic/panel/iap/diam_bit.png");
+            diam2->setPosition(dimaPos);
+            diam2->setRotation(-22);
+            pic2 ->addChild(diam2);
+        }
+        else if (3 <= i && i < 5) {
+            CCSprite* diam1 = CCSprite::create("res/pic/panel/iap/diam_large.png");
+            diam1->setPosition(dimaPos);
+            diam1->setRotation(-14);
+            
+            pic1 ->addChild(diam1);
+            CCSprite* diam2 = CCSprite::create("res/pic/panel/iap/diam_large.png");
+            diam2->setPosition(dimaPos);
+            diam2->setRotation(-14);
+            pic2 ->addChild(diam2);
+        }
+        else if (5 <= i) {
+            CCSprite* diam1 = CCSprite::create("res/pic/panel/iap/diam_huge.png");
+            diam1->setPosition(dimaPos);
+            diam1->setRotation(-10);
+            pic1 ->addChild(diam1);
+            
+            CCSprite* diam2 = CCSprite::create("res/pic/panel/iap/diam_huge.png");
+            diam2->setPosition(dimaPos);
+            diam2->setRotation(-10);
+            pic2 ->addChild(diam2);
+        }
+        
         CCMenuItemSprite* btn = CCMenuItemSprite::create(pic1, pic2, this, SEL_MenuHandler(&PurchasePanel::on_bar_clicked));
         btn->setUserObject(pObj);
         arr->addObject(btn);

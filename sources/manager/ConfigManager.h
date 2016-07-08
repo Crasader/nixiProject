@@ -28,7 +28,10 @@ public:
 
 public:
     CCArray* mission();
+    CCDictionary* missionDialog();
     CCDictionary* clothes();
+    
+    CCArray* getMissionDialog(int phase, int taskID);
     
     bool has_saved_uuid();
     void save_uuid(const char* str);
@@ -43,11 +46,13 @@ public:
 private:
     void conf_login_addr(int net);
     void conf_mission();
+    void conf_mission_dialog(int phase);
     void conf_clothes();
 
 private:
     bool            _hasconfig;
     CCArray*        _mission;
+    CCDictionary*   _missionDialog;
     CCDictionary*   _clothes;
 };
 

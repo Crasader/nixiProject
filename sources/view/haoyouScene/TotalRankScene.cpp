@@ -13,6 +13,7 @@
 #include "HaoyouScene.h"
 #include "MainScene.h"
 
+const float totalRank_z_oder = 20.f;
 
 TotalRankScene:: ~TotalRankScene(){}
 
@@ -70,8 +71,6 @@ void TotalRankScene::onExit(){
 }
 
 void TotalRankScene::createView(){
-    float totalRank_z_oder = 20.f;// 人在按钮下
-//    float totalRank_z_oder = 9.f;// 人在按钮上
     
     CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
@@ -241,7 +240,7 @@ void TotalRankScene::createView(){
     
     CCMenu* menu_rank = CCMenu::create(item_first, item_second, item_third, NULL);
     menu_rank->setPosition(CCPointZero);
-    this->addChild(menu_rank);
+    this->addChild(menu_rank, totalRank_z_oder);
     
     this->initTotalRank();
 }
@@ -334,6 +333,12 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
         CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdateRank");
     }
     
+    CCLayer* layer = CCLayer::create();
+    layer->setTouchEnabled(true);
+    layer->setTouchSwallowEnabled(true);
+    layer->setTag(10000);
+    CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+    this->exitMan();
 }
 
 void TotalRankScene::btn_toSmall_callback(int index){
@@ -514,7 +519,7 @@ void TotalRankScene::initClothes(){
     float scaleFloat = 1.f;
     bool flipxBool = false;
     
-    for (int i = Tag_Total_TouFa; i <= Tag_Total_Bao; i++) {
+    for (int i = Tag_Total_TouFa; i <= Tag_Total_ZhuangRong; i++) {
         if (i == Tag_Total_TouFa) {
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
@@ -954,6 +959,38 @@ void TotalRankScene::initClothes(){
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_Total_Bao3);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
+                        }
+                        break;
+                    }
+                }
+            }
+        }else if (i == Tag_Total_ZhuangRong){
+            CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
+            
+            if (cloth_id->getValue() == 90000) {
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
+                _zrSpr1 = CCSprite::create(str->getCString());
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _zrSpr1->setTag(Tag_Total_ZhuangRong1);
+                _zrSpr1->setScale(scaleFloat);
+                _zrSpr1->setFlipX(flipxBool);
+                _ManSpr->addChild(_zrSpr1, 220);
+            }else{
+                CCDictionary* dic = CONFIG->clothes();// 所有衣服
+                CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+                    if (now_clothes_Id == cloth_id->getValue()) {
+                        const CCString* layer1 =  clothDic->valueForKey("layer1");
+                        if (layer1->compare("") != 0) {
+                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _zrSpr1 = CCSprite::create(str1->getCString());
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _zrSpr1->setTag(Tag_Total_ZhuangRong1);
+                            _zrSpr1->setScale(scaleFloat);
+                            _zrSpr1->setFlipX(flipxBool);
+                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         break;
                     }

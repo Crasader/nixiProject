@@ -26,6 +26,7 @@ typedef enum{
     Tag_Total_XieZi,
     Tag_Total_ShiPin,
     Tag_Total_Bao,
+    Tag_Total_ZhuangRong,
     Tag_Total_TouFa1 = 30,
     Tag_Total_WaiTao1,
     Tag_Total_ShangYi1,
@@ -34,6 +35,7 @@ typedef enum{
     Tag_Total_XieZi1,
     Tag_Total_ShiPin1,
     Tag_Total_Bao1,
+    Tag_Total_ZhuangRong1,
     Tag_Total_TouFa2 = 40,
     Tag_Total_WaiTao2,
     Tag_Total_ShangYi2,
@@ -122,6 +124,7 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
     
     void creat_Man();
     void initClothes();//穿衣服

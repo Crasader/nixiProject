@@ -9,14 +9,17 @@
 #include "TaskScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "ConfigManager.h"
+#include "NetManager.h"
 #include "MainScene.h"
+#include "Loading2.h"
+
 #include "ClothesScene.h"
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
-#include "ConfigManager.h"
 
-#include "Loading2.h"
-#include "NetManager.h"
+#include "BuildingLayer.h"
+
 
 TaskScene::TaskScene(){
     
@@ -91,10 +94,8 @@ void TaskScene::creat_view(){
     }
     DATA->setTaskSource(tempArr);
     
-    CCString* bgStr = CCString::createWithFormat("res/pic/taskScene/task_bg%d.png", taskPhase);
-    roomSpr = CCSprite::create(bgStr->getCString());
-    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(roomSpr);
+    BuildingLayer* layer = BuildingLayer::create(DATA->getPlayer()->phase);
+    this->addChild(layer);
     
     CCSprite* backSpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/taskScene/task_back.png");
@@ -120,38 +121,23 @@ void TaskScene::creat_view(){
     
     taskKuang = CCSprite::create("res/pic/taskScene/task_dikuang1.png");
     taskKuang->setAnchorPoint(ccp(1, .5f));
-    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .585f));
+//    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .475f));
+    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .475f));
     this->addChild(taskKuang, 20);
-    CCString* labelStr;
-    if (taskPhase == 1) {
-        labelStr = CCString::createWithFormat("弘鼎公司1");
-    }else if (taskPhase == 2){
-        labelStr = CCString::createWithFormat("弘鼎国际2");
-    }else if (taskPhase == 3){
-        labelStr = CCString::createWithFormat("弘鼎国际3");
-    }else if (taskPhase == 4){
-        labelStr = CCString::createWithFormat("弘鼎国际4");
-    }
-    CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 30, CCSizeMake(195, 30), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
-    label->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height* .96f));
-    label->setColor(ccWHITE);
-    taskKuang->addChild(label);
-    
-    
-    
-    
-//#warning "需要替换该处"
-//    CCString* ratingInfo = CCString::createWithFormat("总星级：%d", DATA->getPlayer()->rating);
-//    CCLabelTTF* lblTotalRating = CCLabelTTF::create(ratingInfo->getCString(), DISPLAY->fangzhengFont(), 30.f);
-//    lblTotalRating->setColor(ccRED);
-//    CCSize size = taskKuang->boundingBox().size;
-//    lblTotalRating->setPosition(ccp(size.width * 0.5, size.height * 0.96));
-//    taskKuang->addChild(lblTotalRating);
     
     TaskTableView* tabLayer = TaskTableView::create();
     tabLayer->setPosition(ccp(7, 20));
     tabLayer->setTag(0x77777);
     taskKuang->addChild(tabLayer, 5);
+    taskKuang->setScale(.3f);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskScene::enterTheKuang), .6f);
+}
+void TaskScene::enterTheKuang(float dt){
+    CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() + 7, DISPLAY->ScreenHeight()* .475f));
+    CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.f);
+    CCSpawn* spawn1 = CCSpawn::create(moveTo1, scaleTo1, NULL);
+    taskKuang->runAction(CCSequence::create(spawn1, NULL));
 }
 
 void TaskScene::backCallBack(CCObject* pSender){
@@ -159,10 +145,10 @@ void TaskScene::backCallBack(CCObject* pSender){
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void TaskScene::historyCallBack(CCObject* pSender){
     
 }
-
 
 void TaskScene::creat_Tishi(){
     
@@ -217,13 +203,6 @@ void TaskScene::creat_Tishi(){
     xianSpr->setAnchorPoint(ccp(0, .5f));
     xianSpr->setPosition(ccp(2, kuangSpr->getContentSize().height* .74f));
     kuangSpr->addChild(xianSpr);
-    
-    // 提示内容
-//    CCLabelTTF* descriptionLabel = CCLabelTTF::create(getTaskDescription(id)->getCString(), DISPLAY->fangzhengFont(), 21, CCSizeMake(kuangSpr->getContentSize().width* .92f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
-//    descriptionLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .41f));
-//    descriptionLabel->setColor(ccc3(103, 81, 95));
-////    descriptionLabel->enableStroke(ccc3(103, 81, 95), .4f);
-//    kuangSpr->addChild(descriptionLabel, 2);
     
     // 开始故事
     CCSprite* startSpr1;
@@ -368,7 +347,7 @@ void TaskScene::initClothes(){//穿衣服
     float scaleFloat = 1.5f;
     bool flipxBool = false;
     
-    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_ZhuangRong; i++) {
         if (i == Tag_GJ_TouFa) {
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
@@ -823,9 +802,38 @@ void TaskScene::initClothes(){//穿衣服
                     }
                 }
             }
+        }else if (i == Tag_GJ_ZhuangRong){
+            CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
+            
+            if (cloth_id->getValue() == 90000) {
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
+                _zrSpr1 = CCSprite::create(str->getCString());
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                _zrSpr1->setScale(scaleFloat);
+                _zrSpr1->setFlipX(flipxBool);
+                _ManSpr->addChild(_zrSpr1, 220);
+            }else{
+                CCDictionary* dic = CONFIG->clothes();// 所有衣服
+                CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+                    if (now_clothes_Id == cloth_id->getValue()) {
+                        const CCString* layer1 =  clothDic->valueForKey("layer1");
+                        if (layer1->compare("") != 0) {
+                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _zrSpr1 = CCSprite::create(str1->getCString());
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                            _zrSpr1->setScale(scaleFloat);
+                            _zrSpr1->setFlipX(flipxBool);
+                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 }
-
-
-

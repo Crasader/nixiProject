@@ -92,6 +92,7 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
     
     CCPoint playerVelocity;
     

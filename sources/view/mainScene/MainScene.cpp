@@ -228,7 +228,7 @@ void MainScene::creat_view(){
 }
 
 void MainScene::shouchongCallBack(CCObject* pSender){
-    
+    SPECIAL->showStar2At(getParent(), DISPLAY->center(), 1);
 }
 
 void MainScene::huodongCallBack(CCObject* pSender){
@@ -239,8 +239,9 @@ void MainScene::huodongCallBack(CCObject* pSender){
 void MainScene::qiandaoCallBack(CCObject* pSender){
 //    SPECIAL->showPetal2At(this->getScene(), DISPLAY->center(), 1);
     
-    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(1);
-    this->addChild(layer, 1000);
+//    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(1);
+//    this->addChild(layer, 1000);
+    CONFIG->getMissionDialog(1, 2);
 }
 
 void MainScene::youjianCallBack(CCObject* pSender){
@@ -340,7 +341,7 @@ void MainScene::initClothes(){//穿衣服
     float scaleFloat = 1.f;
     bool flipxBool = false;
     
-    for (int i = Tag_Rank_TouFa; i <= Tag_Rank_Bao; i++) {
+    for (int i = Tag_Rank_TouFa; i <= Tag_Rank_ZhuangRong; i++) {
         if (i == Tag_Rank_TouFa) {
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
@@ -780,6 +781,38 @@ void MainScene::initClothes(){//穿衣服
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_Rank_Bao3);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
+                        }
+                        break;
+                    }
+                }
+            }
+        }else if (i == Tag_GJ_ZhuangRong){
+            CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
+            
+            if (cloth_id->getValue() == 90000) {
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
+                _zrSpr1 = CCSprite::create(str->getCString());
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                _zrSpr1->setScale(scaleFloat);
+                _zrSpr1->setFlipX(flipxBool);
+                _ManSpr->addChild(_zrSpr1, 220);
+            }else{
+                CCDictionary* dic = CONFIG->clothes();// 所有衣服
+                CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+                    if (now_clothes_Id == cloth_id->getValue()) {
+                        const CCString* layer1 =  clothDic->valueForKey("layer1");
+                        if (layer1->compare("") != 0) {
+                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _zrSpr1 = CCSprite::create(str1->getCString());
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                            _zrSpr1->setScale(scaleFloat);
+                            _zrSpr1->setFlipX(flipxBool);
+                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         break;
                     }

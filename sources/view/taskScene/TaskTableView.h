@@ -17,7 +17,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 #define def_TX_Time             0.7
-#define def_Page_Index          6.3
+#define def_Page_Index          9.3
 
 typedef enum{
     Tag_Task_Xing1 = 1000,

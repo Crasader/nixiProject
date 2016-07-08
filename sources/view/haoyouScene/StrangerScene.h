@@ -26,6 +26,7 @@ typedef enum{
     Tag_STRANGER_XieZi,
     Tag_STRANGER_ShiPin,
     Tag_STRANGER_Bao,
+    Tag_STRANGER_ZhuangRong,
     Tag_STRANGER_TouFa1 = 30,
     Tag_STRANGER_WaiTao1,
     Tag_STRANGER_ShangYi1,
@@ -34,6 +35,7 @@ typedef enum{
     Tag_STRANGER_XieZi1,
     Tag_STRANGER_ShiPin1,
     Tag_STRANGER_Bao1,
+    Tag_STRANGER_ZhuangRong1,
     Tag_STRANGER_TouFa2 = 40,
     Tag_STRANGER_WaiTao2,
     Tag_STRANGER_ShangYi2,
@@ -81,6 +83,9 @@ public:
     void update_man();
     
 public:
+    
+    CC_SYNTHESIZE_PASS_BY_REF(std::string, _enterType, EnterType);
+    
     NotePanel* _panel;
     
     StrangerTableView* tabLayer;
@@ -117,6 +122,7 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
     
     void creat_Man();
     void initClothes();//穿衣服

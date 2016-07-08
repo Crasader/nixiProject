@@ -77,7 +77,8 @@ bool MessageTableView::init()
     diSpr = CCSprite::create();
     this->addChild(diSpr);
     
-    this->scheduleOnce(SEL_SCHEDULE(&MessageTableView::creat_View), 1.f);
+//    this->scheduleOnce(SEL_SCHEDULE(&MessageTableView::creat_View), 1.f);
+    this->creat_View();
     
     return true;
 }

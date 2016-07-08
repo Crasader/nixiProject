@@ -158,7 +158,7 @@ void LoginScene::show_loginview() {
     fast2->setScale(DISPLAY->btn_scale());
     CCMenuItem* btn_fast = CCMenuItemSprite::create(fast1, fast2, this, SEL_MenuHandler(&LoginScene::fast_login));
     CCMenu* menu_fast = CCMenu::createWithItem(btn_fast);
-    menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.16));
+    menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.14));
     _container->addChild(menu_fast);
 }
 

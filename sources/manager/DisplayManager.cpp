@@ -37,6 +37,10 @@ const char* DisplayManager::fangzhengFont(){
     return "FZY4JW--GB1-0.ttf";
 }
 
+ccColor3B DisplayManager::defalutColor() {
+    return ccc3(113, 89, 102);
+}
+
 CCPoint DisplayManager::center() {
     return CCPointMake(_width * 0.5, _height * 0.5);
 }

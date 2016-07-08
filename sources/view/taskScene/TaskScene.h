@@ -33,6 +33,7 @@ public:
 public:
     
     void creat_view();
+    void enterTheKuang(float dt);
     void creat_Tishi();
     void EnterTheTishi();
     void ExitTishi();
@@ -54,7 +55,7 @@ public:
     
     CCMenuItem* historyItem;
     
-    CCSprite* roomSpr;
+//    CCSprite* roomSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;
     CCSprite* _ManSpr;
@@ -83,11 +84,12 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
     
     CCArray* taskArr;
     
     int OpenToWhichOne;
     int taskPhase;
-    int taskIndex;
+    int taskIndex;    
 };
 #endif /* defined(__tiegao__TaskScene__) */

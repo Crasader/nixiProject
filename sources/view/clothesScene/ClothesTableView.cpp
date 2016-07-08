@@ -784,13 +784,3 @@ void ClothesTableView::clothesUpdateTableCell(){
     }
 }
 
-
-
-
-
-
-
-
-
-
-

@@ -41,6 +41,7 @@ private:
     ProjectConfig m_projectConfig;
 
     void init_lua_env();
+    void rand_seed();
 };
 
 #endif // _APP_DELEGATE_H_

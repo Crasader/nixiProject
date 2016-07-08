@@ -18,6 +18,7 @@ static ConfigManager* _instance = nullptr;
 ConfigManager::~ConfigManager() {
     CC_SAFE_DELETE(_mission);
     CC_SAFE_DELETE(_clothes);
+    CC_SAFE_DELETE(_missionDialog);
 }
 
 ConfigManager* ConfigManager::Inst() {
@@ -42,6 +43,8 @@ void ConfigManager::config() {
     this->conf_login_addr(net);
     
     this->conf_mission();
+    _missionDialog = CCDictionary::create();
+    _missionDialog->retain();
     this->conf_clothes();
     
     _hasconfig = true;
@@ -51,8 +54,37 @@ CCArray* ConfigManager::mission() {
     return _mission;
 }
 
+CCDictionary* ConfigManager::missionDialog() {
+    return _missionDialog;
+}
+
 CCDictionary* ConfigManager::clothes() {
     return _clothes;
+}
+
+// phase 当前阶段  taskID 任务的ID
+CCArray* ConfigManager::getMissionDialog(int phase, int taskID) {
+    CCObject* pObj = _missionDialog->objectForKey(phase);
+    if (! pObj) {
+        conf_mission_dialog(phase);
+        pObj = _missionDialog->objectForKey(phase);
+    }
+    if (pObj) {
+        CCArray* phaseMission = (CCArray*)pObj;
+        CCArray* rtn = CCArray::create();
+        CCObject* obj = NULL;
+        CCARRAY_FOREACH(phaseMission, obj) {
+            CCDictionary* dialog = (CCDictionary*)obj;
+            if (dialog->valueForKey("taskID")->intValue() == taskID) {
+                CCLOG("%s", dialog->valueForKey("said")->getCString());
+                rtn->addObject(dialog);
+            }
+        }
+        
+        return rtn;
+    }
+    
+    return NULL;
 }
 
 bool ConfigManager::has_saved_uuid() {
@@ -157,4 +189,12 @@ void ConfigManager::conf_clothes() {
     _clothes = clothes;
     _clothes->retain();
 }
+
+void ConfigManager::conf_mission_dialog(int phase) {
+    CCString* fileName = CCString::createWithFormat("mission/mission_%d", phase);
+    CSJson::Value root = AppUtil::read_json_file(fileName->getCString());
+    CCArray* allPahseMission = AppUtil::array_with_json(root);
+    _missionDialog->setObject(allPahseMission, phase);
+}
+
 

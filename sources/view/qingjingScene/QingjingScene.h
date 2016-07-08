@@ -24,6 +24,7 @@ typedef enum{
     Tag_QJ_XieZi,
     Tag_QJ_ShiPin,
     Tag_QJ_Bao,
+    Tag_QJ_ZhuangRong,
     Tag_QJ_TouFa1 = 30,
     Tag_QJ_WaiTao1,
     Tag_QJ_ShangYi1,
@@ -32,6 +33,7 @@ typedef enum{
     Tag_QJ_XieZi1,
     Tag_QJ_ShiPin1,
     Tag_QJ_Bao1,
+    Tag_QJ_ZhuangRong1,
     Tag_QJ_TouFa2 = 40,
     Tag_QJ_WaiTao2,
     Tag_QJ_ShangYi2,
@@ -118,6 +120,7 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
     
 };
 #endif /* defined(__tiegao__QingjingScene__) */

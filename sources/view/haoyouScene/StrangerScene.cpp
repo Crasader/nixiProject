@@ -16,6 +16,7 @@
 #include "FindPanel.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "HaoyouRankLayer.h"
 
 
 StrangerScene:: ~StrangerScene(){}
@@ -222,9 +223,15 @@ void StrangerScene::btn_note_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){
-    CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
+        CCScene* scene = HaoyouScene::scene();
+        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (!_enterType.empty() && _enterType.compare("my_friend") == 0){
+        CCScene* scene = HaoyouRankLayer::scene();
+        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void StrangerScene::result_tip(){
@@ -287,7 +294,7 @@ void StrangerScene::initClothes(){//穿衣服
     float scaleFloat = 1.f;
     bool flipxBool = false;
     
-    for (int i = Tag_STRANGER_TouFa; i <= Tag_STRANGER_Bao; i++) {
+    for (int i = Tag_STRANGER_TouFa; i <= Tag_STRANGER_ZhuangRong; i++) {
         if (i == Tag_STRANGER_TouFa) {
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
@@ -727,6 +734,38 @@ void StrangerScene::initClothes(){//穿衣服
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_STRANGER_Bao3);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
+                        }
+                        break;
+                    }
+                }
+            }
+        }else if (i == Tag_STRANGER_ZhuangRong){
+            CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
+            
+            if (cloth_id->getValue() == 90000) {
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
+                _zrSpr1 = CCSprite::create(str->getCString());
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _zrSpr1->setTag(Tag_STRANGER_ZhuangRong1);
+                _zrSpr1->setScale(scaleFloat);
+                _zrSpr1->setFlipX(flipxBool);
+                _ManSpr->addChild(_zrSpr1, 220);
+            }else{
+                CCDictionary* dic = CONFIG->clothes();// 所有衣服
+                CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+                    if (now_clothes_Id == cloth_id->getValue()) {
+                        const CCString* layer1 =  clothDic->valueForKey("layer1");
+                        if (layer1->compare("") != 0) {
+                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _zrSpr1 = CCSprite::create(str1->getCString());
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _zrSpr1->setTag(Tag_STRANGER_ZhuangRong1);
+                            _zrSpr1->setScale(scaleFloat);
+                            _zrSpr1->setFlipX(flipxBool);
+                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         break;
                     }
