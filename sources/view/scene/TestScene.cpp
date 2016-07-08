@@ -421,12 +421,12 @@ void TestScene::owned_clothes() {
 }
 
 void TestScene::start_mission() {
-    int id = DATA->getPlayer()->next_mission;
+    int id = DATA->getPlayer()->mission;
     NET->start_mission_601(id);
 }
 
 void TestScene::commit_mission() {
-    int id = DATA->getPlayer()->next_mission;
+    int id = DATA->getPlayer()->mission;
     NET->commit_mission_602(id);
 }
 

@@ -200,7 +200,7 @@ void QingjingScene::creat_Tishi(){
 //    label3->enableStroke(ccc3(102, 103, 125), .4f);
     kuangSpr->addChild(label3);
     // 勾
-    if (renwuIndex < DATA->getPlayer()->next_mission) {
+    if (renwuIndex < DATA->getPlayer()->mission) {
         CCSprite* rightSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
         rightSpr->setPosition(ccp(label3->getContentSize().width* .9f, label3->getContentSize().height* .15f));
         label3->addChild(rightSpr);
@@ -263,21 +263,21 @@ void QingjingScene::creat_Tishi(){
     CCSprite* startSpr1;
     CCSprite* startSpr2;
     CCMenuItem* startItem;
-//    if (renwuIndex < DATA->getPlayer()->next_mission) {
+    if (renwuIndex < DATA->getPlayer()->mission) {
         startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
         startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
         startItem->setTag(index);
-//    }else{
-//        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-//        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-//        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-//        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-//        startItem->setColor(ccGRAY);
-//        startItem->setTag(index);
-//    }
+    }else{
+        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
+        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+        startItem->setColor(ccGRAY);
+        startItem->setTag(index);
+    }
     CCMenu* menu = CCMenu::create(startItem, NULL);
     menu->setPosition(CCPointZero);
     kuangSpr->addChild(menu);
