@@ -244,9 +244,27 @@ void MainScene::creat_view(){
     far_spr->addChild(_cloud_2);
     
     //-----鸟------
-    CCSprite* bird = CCSprite::create("res/pic/mainScene/bird.png");
-    bird->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(bird);
+//    CCSprite* bird = CCSprite::create("res/pic/mainScene/bird.png");
+//    bird->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+//    this->addChild(bird);
+    
+//    _bird_1 = CCSprite::create("res/pic/mainScene/bird_1.png");
+//    _bird_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .88f));
+//    this->addChild(_bird_1);
+//    CCAnimation* animation = CCAnimation::create();
+//    for (int i = 0; i < 5; i++) {
+//        CCString* str = CCString::createWithFormat("res/pic/mainScene/bird_%d.png", i + 1);
+//        animation->addSpriteFrameWithFileName(str->getCString());
+//    }
+//    animation->setDelayPerUnit(2.8f/14.0f);
+//    animation->setRestoreOriginalFrame(true);
+//    CCAnimate* ac1 = CCAnimate::create(animation);
+//    CCMoveTo* ac2 = CCMoveTo::create(6, CCPointMake(-100, _bird_1->getPositionY()));
+//    CCSpawn* spa = CCSpawn::create(ac1, ac2);
+//    CCCallFunc* ac3 = CCCallFunc::create(this, SEL_CallFunc(&MainScene::resetBirdPosition));
+//    CCSequence* seq = CCSequence::create(spa, ac3, NULL);
+//    CCRepeatForever* rep = CCRepeatForever::create(seq);
+//    _bird_1->runAction(rep);
     
     
     //-----4层背景-----
@@ -260,7 +278,7 @@ void MainScene::creat_view(){
     this->addChild(_river_1);
     
     _river_2 = CCSprite::create("res/pic/mainScene/river.png");
-    _river_2->setPosition(ccp(_river_1->getPositionX() + _river_2->getContentSize().width, DISPLAY->ScreenHeight()* .5f));
+    _river_2->setPosition(ccp(_river_1->getPositionX() + _river_2->getContentSize().width - 2, DISPLAY->ScreenHeight()* .5f));
     this->addChild(_river_2);
     
     //-----3层背景------
@@ -295,13 +313,13 @@ void MainScene::creat_view(){
     
     //---日常btn(公司)---
     CCSprite* rc_Spr1 = CCSprite::create("res/pic/taskScene/task_building_3.png");
-    rc_Spr1->setScale(0.4f);
-    rc_Spr1->setContentSize(rc_Spr1->getContentSize()* .4f);
+    rc_Spr1->setScale(0.45f);
+    rc_Spr1->setContentSize(rc_Spr1->getContentSize()* .45f);
     CCSprite* rc_Spr2 = CCSprite::create("res/pic/taskScene/task_building_3.png");
     rc_Spr2->setScale(0.41);
-    rc_Spr2->setContentSize(rc_Spr1->getContentSize()* .4f);
+    rc_Spr2->setContentSize(rc_Spr1->getContentSize()* .45f);
     CCMenuItem* richang_Item = CCMenuItemSprite::create(rc_Spr1, rc_Spr2, this, menu_selector(MainScene::richangCallBack));
-    richang_Item->setPosition(ccp(richang_Item->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .60f));
+    richang_Item->setPosition(ccp(richang_Item->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .62f));
     
     //---社交btn(咖啡厅)---
     CCSprite* hy_Spr1 = CCSprite::create("res/pic/mainScene/coffee_nor.png");
@@ -400,16 +418,20 @@ void MainScene::update(float dt){
     
     //河流
     if (_river_1->getPositionX() <= -_river_1->getContentSize().width* .5f) {
-        _river_1->setPositionX(_river_2->getPositionX() + _river_1->getContentSize().width);
+        _river_1->setPositionX(_river_2->getPositionX() + _river_1->getContentSize().width* .5f + _river_2->getContentSize().width* .5f - 2);
     }else{
-        _river_1->setPositionX(_river_1->getPositionX() - 1);
+        _river_1->setPositionX(_river_1->getPositionX() - 1.5);
     }
     
     if (_river_2->getPositionX() <= -_river_2->getContentSize().width* .5f) {
-        _river_2->setPositionX(_river_1->getPositionX() + _river_1->getContentSize().width);
+        _river_2->setPositionX(_river_1->getPositionX() + _river_1->getContentSize().width* .5f + _river_2->getContentSize().width* .5f - 2);
     }else{
-        _river_2->setPositionX(_river_2->getPositionX() - 1);
+        _river_2->setPositionX(_river_2->getPositionX() - 1.5);
     }
+}
+
+void resetBirdPosition(){
+//    ->setPositionX(DISPLAY->ScreenWidth() + 100);
 }
 
 void MainScene::juqing_vipCallBack(CCObject* pSender){

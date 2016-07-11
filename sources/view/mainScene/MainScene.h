@@ -54,6 +54,7 @@ public:
     CCSprite* _bird_3;
     CCSprite* _bird_4;
     CCSprite* _bird_5;
+    void resetBirdPosition();
     
     void huodongCallBack(CCObject* pSender);
     void qiandaoCallBack(CCObject* pSender);
