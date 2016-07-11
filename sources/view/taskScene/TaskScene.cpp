@@ -150,7 +150,8 @@ void TaskScene::creat_view(){
     
     int menuIndex = 0;
     CCMenu* historyMenu;
-    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
+//    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
+    if (DATA->getPlayer()->phase <= 2) {
         menuIndex = 1;
         historyMenu = CCMenu::create(historyItem1, NULL);
     }else if (DATA->getPlayer()->phase > 2 && DATA->getPlayer()->phase <= 3){
