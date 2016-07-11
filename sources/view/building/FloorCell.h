@@ -35,6 +35,8 @@ public:
 public:
     void start();
     void show_coin();
+    void collected_coin();
+    void update_coffers();
 
 private:
     CCPoint randomStartPos(bool left);
@@ -47,7 +49,9 @@ private:
 private:
     FloorCellType       _type;
     CCSprite*           _sptFloor;
+    CCNode*             _coffers;
     CCArray*            _roles;
+    CCArray*            _coins;
 };
 
 #endif /* FloorCell_hpp */

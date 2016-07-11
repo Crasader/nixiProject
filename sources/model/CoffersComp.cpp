@@ -14,6 +14,7 @@ CoffersComp::~CoffersComp() {
 bool CoffersComp::init() {
     profit = 0;
     top = 0;
+    collected = 0;
     return true;
 }
 
@@ -25,4 +26,12 @@ void CoffersComp::init_with_json(Value json) {
     
     profit = json["profit"].asInt();
     top = json["top"].asInt();
+}
+
+void CoffersComp::produce() {
+    collected += 1;
+}
+
+void CoffersComp::reset_collected() {
+    collected = 0;
 }

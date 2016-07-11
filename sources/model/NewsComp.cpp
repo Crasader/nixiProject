@@ -35,7 +35,7 @@ void NewsComp::init_with_json(Value json) {
 void NewsComp::print_news() {
     CCLOG("====== News ======");
     CCLOG("Is other day: %d", otherday);
-    CCLOG("C: %d", energy);
+    CCLOG("C: %d", coin);
     CCLOG("Energy: %d", energy);
     CCLOG("Mail: %d", mail);
     CCLOG("Message: %d", message);

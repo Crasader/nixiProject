@@ -24,8 +24,14 @@ public:
     void init_with_json(Value json);
     
 public:
+    bool could_prduce();
+    void produce();
+    void reset_collected();
+    
+public:
     int         profit;
     int         top;
+    int         collected;
     
 private:
 };

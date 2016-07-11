@@ -8,9 +8,10 @@
 
 #include "BuildingView.h"
 #include "FloorCell.h"
-#include "TaskScene.h"
 #include "UnreusedTableView.h"
 #include "DisplayManager.h"
+#include "DataManager.h"
+#include "NetManager.h"
 
 BuildingView::~BuildingView() {
     CC_SAFE_RELEASE_NULL(_floors);
@@ -65,12 +66,30 @@ bool BuildingView::init(int phase) {
 void BuildingView::onEnter() {
     CCLayer::onEnter();
     
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&BuildingView::nc_collect_coin), "COLLECT_COIN", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BuildingView::nc_collect_coin_201), "HTTP_FINISHED_201", NULL);
+    
     _tbView->setContentOffset(CCPointZero);
+    schedule(SEL_SCHEDULE(&BuildingView::update_produce), CCRANDOM_0_1() * 10);
 }
 
 void BuildingView::onExit() {
+    unscheduleAllSelectors();
     
     CCLayer::onExit();
+}
+
+void BuildingView::update_produce(float dt) {
+    if (DATA->could_prduce()) {
+        int count = numberOfCellsInTableView(_tbView) - 1;
+        if (count > 0) {
+            DATA->getCoffers()->produce();
+            int randFloor = floor(CCRANDOM_0_1() * count);
+            FloorCell* floorCell = (FloorCell*)_tbView->cellAtIndex(randFloor);
+            floorCell->show_coin();
+        }
+    }
 }
 
 bool BuildingView::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
@@ -100,6 +119,17 @@ void BuildingView::start() {
 
 void BuildingView::go_back() {
     this->removeFromParentAndCleanup(true);
+}
+
+void BuildingView::nc_collect_coin(CCObject *pObj) {
+    NET->collect_coin_201();
+}
+
+void BuildingView::nc_collect_coin_201(CCObject *pObj) {
+    if (_tbView && numberOfCellsInTableView(_tbView) > 0) {
+        FloorCell* floor = (FloorCell*)_tbView->cellAtIndex(0);
+        floor->update_coffers();
+    }
 }
 
 #pragma mark - CCTableViewDataSource
@@ -147,6 +177,6 @@ unsigned int BuildingView::numberOfCellsInTableView(CCTableView *table) {
 #pragma mark - CCTableViewDelegate
 
 void BuildingView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
-    FloorCell* floorCell = (FloorCell*)cell;
-    floorCell->show_coin();
+    FloorCell* floor = (FloorCell*)cell;
+    floor->collected_coin();
 }

@@ -325,6 +325,22 @@ void NetManager::coffers_info_200() {
     this->post_data(200, string(""));
 }
 
+void NetManager::collect_coin_201() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    string data = writer.write(root);
+    this->post_data(201, data);
+}
+
+void NetManager::take_income_203() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    string data = writer.write(root);
+    this->post_data(203, data);
+}
+
 
 void NetManager::all_products_100() {
     this->post_data(100, string(""));

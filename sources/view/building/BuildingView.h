@@ -30,6 +30,8 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    virtual void update_produce(float dt);
+    
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
     virtual CCSize tableCellSizeForIndex(CCTableView *table, unsigned int idx);
@@ -48,6 +50,9 @@ public:
 private:
     void start();
     void go_back();
+    
+    void nc_collect_coin(CCObject* pObj);
+    void nc_collect_coin_201(CCObject* pObj);
     
 private:
     UnreusedTableView* _tbView;

@@ -140,6 +140,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 910: {
+            _coffers->reset_collected();
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
@@ -259,6 +260,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _coffers->init_with_json(content["coffers"]);
         } break;
             
+        case 201: {
+            _coffers->init_with_json(content["coffers"]);
+        } break;
+            
         case 100: {
             _IAP->init_products(content);
         } break;
@@ -331,7 +336,15 @@ void DataManager::updataTiliTime(float dt){
         DATA->getPlayer()->energy = energy;
     }
 }
+
 void DataManager::closeTiliTime(){
     CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this);
 }
+
+bool DataManager::could_prduce() {
+//    CCLOG("1 = %d", getNews()->coin);
+//    CCLOG("2 = %d", getCoffers()->collected);
+    return (getNews()->coin - getCoffers()->collected) > 0;
+}
+
 

@@ -16,6 +16,7 @@ const float STAND_HEIGHT = 3;
 
 FloorCell::~FloorCell() {
     CC_SAFE_DELETE(_roles);
+    CC_SAFE_DELETE(_coins);
 }
 
 FloorCell* FloorCell::create(FloorCellType type, int phase, int idx) {
@@ -33,6 +34,11 @@ FloorCell* FloorCell::create(FloorCellType type, int phase, int idx) {
 bool FloorCell::init(FloorCellType type, int phase, int idx) {
     _type = type;
     
+    _coffers = NULL;
+    
+    _coins = CCArray::create();
+    _coins->retain();
+    
     CCArray* arrRoles = CCArray::create();
     
     if (type == FloorCellType_Reception) {
@@ -46,33 +52,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         role->setScale(ROLE_SCALE);
         arrRoles->addObject(role);
         
-        // 金库信息
-        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
-        sptPromptBar->setContentSize(CCSizeMake(120, 30));
-        sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
-        _sptFloor->addChild(sptPromptBar, 100);
-        
-        CoffersComp* coffers = DATA->getCoffers();
-        CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
-        CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
-        lbl->setColor(DISPLAY->defalutColor());
-        lbl->setAnchorPoint(ccp(0.5, 0.5));
-        lbl->setPosition(ccp(60, 15));
-        sptPromptBar->addChild(lbl);
-        
-        // 领取按钮
-        CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
-        sptTakeBar->setContentSize(CCSizeMake(90, 30));
-        sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 48));
-        _sptFloor->addChild(sptTakeBar, 100);
-        
-        CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
-        CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
-        take2->setScale(DISPLAY->btn_scale());
-        CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&FloorCell::on_take_rewards));
-        CCMenu* menuTake = CCMenu::createWithItem(btn_take);
-        menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 49));
-        _sptFloor->addChild(menuTake, 101);
+        this->update_coffers();
     }
     else if (type == FloorCellType_Office) {
         _sptFloor = CCSprite::create("pic/building/floor_office_1.png");
@@ -347,6 +327,44 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
     return true;
 }
 
+void FloorCell::update_coffers() {
+    if (! _coffers) {
+        _coffers = CCNode::create();
+        _sptFloor->addChild(_coffers);
+    }
+    else {
+        _coffers->removeAllChildrenWithCleanup(true);
+    }
+    
+    // 金库信息
+    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+    sptPromptBar->setContentSize(CCSizeMake(120, 30));
+    sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
+    _sptFloor->addChild(sptPromptBar, 100);
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
+    CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
+    lbl->setColor(DISPLAY->defalutColor());
+    lbl->setAnchorPoint(ccp(0.5, 0.5));
+    lbl->setPosition(ccp(60, 15));
+    sptPromptBar->addChild(lbl);
+    
+    // 领取按钮
+    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+    sptTakeBar->setContentSize(CCSizeMake(90, 30));
+    sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 48));
+    _sptFloor->addChild(sptTakeBar, 100);
+    
+    CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+    CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+    take2->setScale(DISPLAY->btn_scale());
+    CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&FloorCell::on_take_rewards));
+    CCMenu* menuTake = CCMenu::createWithItem(btn_take);
+    menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 49));
+    _sptFloor->addChild(menuTake, 101);
+}
+
 #pragma mark - Inner
 
 void FloorCell::start() {
@@ -390,7 +408,7 @@ CCPoint FloorCell::randomStartPos(bool left) {
     else {
         float ran = CCRANDOM_MINUS1_1() * widthDelta;
         CCLOG("ran = %f", ran);
-        return CCPointMake(FLOOR_CELL_WIDTH * 0.8 + ran, STAND_HEIGHT);
+        return CCPointMake(FLOOR_CELL_WIDTH * 0.7 + ran, STAND_HEIGHT);
     }
 }
 
@@ -400,7 +418,7 @@ float FloorCell::randomDuration() {
 
 CCPoint FloorCell::randomEdge() {
     float widthDelta = 50;
-    return CCPointMake(FLOOR_CELL_WIDTH * 0.5 + CCRANDOM_MINUS1_1() * widthDelta, 0);
+    return CCPointMake(FLOOR_CELL_WIDTH * 0.6 + CCRANDOM_MINUS1_1() * widthDelta, 0);
 }
 
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
@@ -415,19 +433,19 @@ void FloorCell::show_coin() {
 }
 
 void FloorCell::show_coin_at(CCPoint pos) {
-    float statDuration = 0.3f;
+    float starDuration = 0.3f;
     
     CCSprite* star1 = CCSprite::create("pic/loading/loading_star.png");
     star1->setPosition(pos + ccp(0, 20));
     star1->setScale(0.6);
     this->addChild(star1);
-    star1->runAction(CCSequence::create(CCMoveBy::create(statDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     
     CCSprite* star2 = CCSprite::create("pic/loading/loading_star.png");
     star2->setPosition(pos + ccp(0, 20));
     star2->setScale(0.4);
     this->addChild(star2);
-    star2->runAction(CCSequence::create(CCMoveBy::create(statDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     
     CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
     coinSpr->setPosition(pos);
@@ -442,10 +460,38 @@ void FloorCell::show_coin_at(CCPoint pos) {
         CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(-50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, 360, 0, 0), NULL);
         coinSpr->runAction(seqCoin);
     }
+    
+    _coins->addObject(coinSpr);
+}
+
+void FloorCell::collected_coin() {
+    if (_coins && _coins->count() > 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("COLLECT_COIN");
+        CCLOG("FloorCell::collected_coin() left = %d", _coins->count());
+        CCObject* pObj = _coins->randomObject();
+        CCNode* node = (CCNode*)pObj;
+        
+        CCPoint startPos = node->getPosition();
+        float starDuration = 0.3f;
+        
+        CCSprite* star1 = CCSprite::create("pic/loading/loading_star.png");
+        star1->setPosition(startPos + ccp(0, 20));
+        star1->setScale(0.6);
+        this->addChild(star1);
+        star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+        
+        CCSprite* star2 = CCSprite::create("pic/loading/loading_star.png");
+        star2->setPosition(startPos + ccp(0, 20));
+        star2->setScale(0.4);
+        this->addChild(star2);
+        star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+        
+        node->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(0, FLOOR_CELL_HEIGHT - 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    }
 }
 
 void FloorCell::self_remove(CCNode *node) {
     node->removeFromParentAndCleanup(true);
+    _coins->removeObject(node);
 }
-
 

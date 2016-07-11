@@ -42,10 +42,8 @@ class DataManager : CCObject
 public:
     ~DataManager();
     static DataManager* Inst();
-    
     void http_response_error(int code, string msg);
     void http_response_handle(int resp_code, string response);
-    
     time_t cur_timestamp();
 
 public:
@@ -88,6 +86,9 @@ public:
     void creat_Energy_Time();
     void updataTiliTime(float dt);
     void closeTiliTime();
+    
+    //
+    bool could_prduce();
     
 private:
 
