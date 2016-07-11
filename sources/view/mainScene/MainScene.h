@@ -34,9 +34,17 @@ public:
     void gengxin(float dt);
     
     virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){}
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){}
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    
+public:
+    CCPoint start_pos;
+    CCPoint cur_pos;
+    CCPoint end_pos;
+    float offset_x;
+    
+    void startAnimation();
     
 public:
     
@@ -44,10 +52,16 @@ public:
     void creat_Man();
     void initClothes();
     
+    CCSprite* _layer_6;
     CCSprite* _river_1;
     CCSprite* _river_2;
     CCSprite* _cloud_1;
     CCSprite* _cloud_2;
+    CCSprite* _layer_4;
+    CCSprite* _layer_3;
+    CCSprite* _layer_2;
+    CCSprite* _layer_1;
+    CCSprite* _layer_0;
     
     CCSprite* _bird_1;
     CCSprite* _bird_2;
@@ -55,6 +69,7 @@ public:
     CCSprite* _bird_4;
     CCSprite* _bird_5;
     void resetBirdPosition();
+    
     
     void huodongCallBack(CCObject* pSender);
     void qiandaoCallBack(CCObject* pSender);
