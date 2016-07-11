@@ -39,8 +39,8 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
-    CCPoint start_pos;
     CCPoint cur_pos;
+    CCPoint last_pos;
     CCPoint end_pos;
     float offset_x;
     
