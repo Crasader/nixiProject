@@ -111,8 +111,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             renSpr->setPosition(ccp(button->getContentSize().width* .19f, button->getContentSize().height* .62f));
             button->addChild(renSpr, 5);
             
-            CCArray* taskArr = CONFIG->mission();
-            CCDictionary* dic2 = (CCDictionary* )taskArr->objectAtIndex(cell->getIdx());
+            CCDictionary* dic2 = (CCDictionary* )taskMission->objectAtIndex(cell->getIdx());
             CCLabelTTF* titleLabel = CCLabelTTF::create(((CCString*)dic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button->getContentSize().width* .9f, button->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
             titleLabel->setPosition(ccp(button->getContentSize().width* .64f, button->getContentSize().height* .63f));
             titleLabel->setScale(1.1f);
@@ -222,6 +221,8 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
 //            
 //            DATA->setTaskNumber(selectedIndex);
 //            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitTishi");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitView");
+            pTableView->setTouchEnabled(false);
         }else{
             CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
             CCString* buttonStr1;
@@ -261,8 +262,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             renSpr1->setPosition(ccp(button1->getContentSize().width* .22f, button1->getContentSize().height* .62f));
             button1->addChild(renSpr1, 5);
             
-            CCArray* taskArr1 = CONFIG->mission();
-            CCDictionary* titleDic1 = (CCDictionary* )taskArr1->objectAtIndex(selectedIndex);
+            CCDictionary* titleDic1 = (CCDictionary* )taskMission->objectAtIndex(selectedIndex);
             CCLabelTTF* titleLabel1 = CCLabelTTF::create(((CCString*)titleDic1->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button1->getContentSize().width* .9f, button1->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
             titleLabel1->setPosition(ccp(button1->getContentSize().width* .63f, button1->getContentSize().height* .63f));
             titleLabel1->setScale(1.f);
@@ -335,8 +335,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             renSpr2->setPosition(ccp(button1->getContentSize().width* .19f, button1->getContentSize().height* .62f));
             button2->addChild(renSpr2, 5);
             
-            CCArray* taskArr2 = CONFIG->mission();
-            CCDictionary* titleDic2 = (CCDictionary* )taskArr2->objectAtIndex(selectedIndex);
+            CCDictionary* titleDic2 = (CCDictionary* )taskMission->objectAtIndex(selectedIndex);
             CCLabelTTF* titleLabel2 = CCLabelTTF::create(((CCString*)titleDic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button1->getContentSize().width* .9f, button1->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
             titleLabel2->setPosition(ccp(button1->getContentSize().width* .64f, button1->getContentSize().height* .63f));
             titleLabel2->setScale(1.1f);
@@ -416,8 +415,7 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         
         this->buttonStatus(taskId, button);
         
-        CCArray* taskArr = CONFIG->mission();
-        CCDictionary* dic2 = (CCDictionary* )taskArr->objectAtIndex(idx);
+        CCDictionary* dic2 = (CCDictionary* )taskMission->objectAtIndex(idx);
         CCLabelTTF* titleLabel = CCLabelTTF::create(((CCString*)dic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button->getContentSize().width* .9f, button->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         if (selectedIndex == idx) {
             titleLabel->setPosition(ccp(button->getContentSize().width* .63f, button->getContentSize().height* .63f));
@@ -477,8 +475,7 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         button1->addChild(renSpr, 5);
         
         
-        CCArray* taskArr = CONFIG->mission();
-        CCDictionary* dic2 = (CCDictionary* )taskArr->objectAtIndex(idx);
+        CCDictionary* dic2 = (CCDictionary* )taskMission->objectAtIndex(idx);
         CCLabelTTF* titleLabel = CCLabelTTF::create(((CCString*)dic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button1->getContentSize().width* .9f, button1->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         titleLabel->setPosition(ccp(button1->getContentSize().width* .63f, button1->getContentSize().height* .71f));
         titleLabel->setScale(1.f);
