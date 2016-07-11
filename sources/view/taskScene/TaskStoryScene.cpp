@@ -51,6 +51,7 @@ bool TaskStoryScene::init(){
     taskIndex = DATA->getTaskNumber() + 1;
     DATA->setStoryLabelArr(CCArray::create());
     
+#warning 这里 老周 你来看看 这里是假的 没有3阶段的表
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
     CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
