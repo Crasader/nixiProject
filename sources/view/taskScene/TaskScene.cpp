@@ -117,31 +117,54 @@ void TaskScene::creat_view(){
     CCSprite* historySpr1_2 = CCSprite::create("res/pic/taskScene/task_paopao1.png");
     historySpr1_2->setScale(1.02f);
     historyItem1 = CCMenuItemSprite::create(historySpr1_1, historySpr1_2, this, menu_selector(TaskScene::historyCallBack));
+    historyItem1->setTag(1);
     historyItem1->setVisible(false);
     
     CCSprite* historySpr2_1 = CCSprite::create("res/pic/taskScene/task_paopao2.png");
     CCSprite* historySpr2_2 = CCSprite::create("res/pic/taskScene/task_paopao2.png");
     historySpr2_2->setScale(1.02f);
     historyItem2 = CCMenuItemSprite::create(historySpr2_1, historySpr2_2, this, menu_selector(TaskScene::historyCallBack));
+    historyItem2->setTag(2);
     historyItem2->setVisible(false);
     
     CCSprite* historySpr3_1 = CCSprite::create("res/pic/taskScene/task_paopao3.png");
     CCSprite* historySpr3_2 = CCSprite::create("res/pic/taskScene/task_paopao3.png");
     historySpr3_2->setScale(1.02f);
     historyItem3 = CCMenuItemSprite::create(historySpr3_1, historySpr3_2, this, menu_selector(TaskScene::historyCallBack));
+    historyItem3->setTag(3);
     historyItem3->setVisible(false);
+    
+    CCSprite* historySpr4_1 = CCSprite::create("res/pic/taskScene/task_paopao4.png");
+    CCSprite* historySpr4_2 = CCSprite::create("res/pic/taskScene/task_paopao4.png");
+    historySpr4_2->setScale(1.02f);
+    historyItem4 = CCMenuItemSprite::create(historySpr4_1, historySpr4_2, this, menu_selector(TaskScene::historyCallBack));
+    historyItem4->setTag(4);
+    historyItem4->setVisible(false);
+    
+    CCSprite* historySpr5_1 = CCSprite::create("res/pic/taskScene/task_paopao5.png");
+    CCSprite* historySpr5_2 = CCSprite::create("res/pic/taskScene/task_paopao5.png");
+    historySpr5_2->setScale(1.02f);
+    historyItem5 = CCMenuItemSprite::create(historySpr5_1, historySpr5_2, this, menu_selector(TaskScene::historyCallBack));
+    historyItem5->setTag(5);
+    historyItem5->setVisible(false);
     
     int menuIndex = 0;
     CCMenu* historyMenu;
-    if (DATA->getPlayer()->phase == 1) {
+    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
         menuIndex = 1;
         historyMenu = CCMenu::create(historyItem1, NULL);
-    }else if (DATA->getPlayer()->phase == 2){
+    }else if (DATA->getPlayer()->phase > 2 && DATA->getPlayer()->phase <= 3){
         menuIndex = 2;
         historyMenu = CCMenu::create(historyItem1, historyItem2, NULL);
-    }else if (DATA->getPlayer()->phase == 3){
+    }else if (DATA->getPlayer()->phase > 3 && DATA->getPlayer()->phase <= 4){
         menuIndex = 3;
         historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, NULL);
+    }else if (DATA->getPlayer()->phase > 4 && DATA->getPlayer()->phase <= 5){
+        menuIndex = 4;
+        historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, historyItem4, NULL);
+    }else if (DATA->getPlayer()->phase > 5){
+        menuIndex = 5;
+        historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, historyItem4, historyItem5, NULL);
     }
     historyMenu->alignItemsHorizontallyWithPadding(5);
     historyMenu->setAnchorPoint(ccp(1, 0));
@@ -170,13 +193,32 @@ void TaskScene::enterTheKuang(float dt){
     taskKuang->runAction(CCSequence::create(spawn1, NULL));
     
     CCFadeIn* fadeIn1 = CCFadeIn::create(.3f);
-    historyItem3->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeIn1, NULL));
-    
     CCFadeIn* fadeIn2 = CCFadeIn::create(.3f);
-    historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeIn2, NULL));
-    
     CCFadeIn* fadeIn3 = CCFadeIn::create(.3f);
-    historyItem1->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeIn3, NULL));
+    CCFadeIn* fadeIn4 = CCFadeIn::create(.3f);
+    CCFadeIn* fadeIn5 = CCFadeIn::create(.3f);
+    
+    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeIn1, NULL));
+    }else if (DATA->getPlayer()->phase > 2 && DATA->getPlayer()->phase <= 3){
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeIn1, NULL));
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeIn2, NULL));
+    }else if (DATA->getPlayer()->phase > 3 && DATA->getPlayer()->phase <= 4){
+        historyItem3->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeIn1, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeIn2, NULL));
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeIn3, NULL));
+    }else if (DATA->getPlayer()->phase > 4 && DATA->getPlayer()->phase <= 5){
+        historyItem4->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeIn1, NULL));
+        historyItem3->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeIn2, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeIn3, NULL));
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), fadeIn4, NULL));
+    }else if (DATA->getPlayer()->phase > 5){
+        historyItem5->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeIn1, NULL));
+        historyItem4->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeIn2, NULL));
+        historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeIn3, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), fadeIn4, NULL));
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(1.3f), CCShow::create(), fadeIn5, NULL));
+    }
 }
 
 void TaskScene::backCallBack(CCObject* pSender){
@@ -186,7 +228,8 @@ void TaskScene::backCallBack(CCObject* pSender){
 }
 
 void TaskScene::historyCallBack(CCObject* pSender){
-    
+    CCMenuItem* item = (CCMenuItem* )pSender;
+    CCLog("房子是%d", item->getTag());
 }
 
 void TaskScene::creat_Tishi(){
@@ -361,15 +404,33 @@ void TaskScene::exitView(){
     BaseScene::hideBaseScene();
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::openTaskStoryScene));
     
-    
     CCFadeOut* fadeOut1 = CCFadeOut::create(.3f);
-    historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
-    
     CCFadeOut* fadeOut2 = CCFadeOut::create(.3f);
-    historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
-    
     CCFadeOut* fadeOut3 = CCFadeOut::create(.3f);
-    historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3,callFunc, NULL));
+    CCFadeOut* fadeOut4 = CCFadeOut::create(.3f);
+    CCFadeOut* fadeOut5 = CCFadeOut::create(.3f);
+    
+    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, callFunc, NULL));
+    }else if (DATA->getPlayer()->phase > 2 && DATA->getPlayer()->phase <= 3){
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, callFunc, NULL));
+    }else if (DATA->getPlayer()->phase > 3 && DATA->getPlayer()->phase <= 4){
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
+        historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3, callFunc, NULL));
+    }else if (DATA->getPlayer()->phase > 4 && DATA->getPlayer()->phase <= 5){
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
+        historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3, NULL));
+        historyItem4->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), fadeOut4, callFunc, NULL));
+    }else if (DATA->getPlayer()->phase > 5){
+        historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
+        historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
+        historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3, NULL));
+        historyItem4->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), fadeOut4, NULL));
+        historyItem5->runAction(CCSequence::create(CCDelayTime::create(1.3f), CCShow::create(), fadeOut5, callFunc, NULL));
+    }
     
     CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
     CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);

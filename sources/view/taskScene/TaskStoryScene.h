@@ -15,6 +15,17 @@
 USING_NS_CC;
 
 typedef enum{
+    Tag_Task_kuang = 0,
+    Tag_Task_bg,
+    Tag_Task_man1,
+    Tag_Task_head1,
+    Tag_Task_man2,
+    Tag_Task_head2,
+    Tag_Task_mingzi,
+    Tag_Task_label,
+}Task_Enum;
+
+typedef enum{
     Tag_TS_TouFa = 1,
     Tag_TS_WaiTao,
     Tag_TS_ShangYi,
@@ -97,27 +108,72 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {}
+    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {}
+    
     virtual void keyBackClicked();
     
 public:
     
     void creat_view();
     
-    void creat_Man();
+    void creat_Man(float _widthFolt, float _heightFloat, float _scaleFloat);
+    void creat_Man2(float _widthFolt, float _heightFloat, float _scaleFloat);
     void initClothes();
     
     void backCallBack(CCObject* pSender);
     
+    void init_Man();
+    
+    void dialogueControl(float dt);
+    
+    const char* getContent(){return content.c_str();}
+    void init(CCDictionary* dic);
+    std::string getContentByLength(int length);
+    int getContentLength();
+    
+    void recordLabel(std::string nameStr, std::string saidStr);
+    void logic(float dt);
+    void openTouch(float dt);
+    void getIndex(float dt);
+    void emptyLabel();
+    void removeMan();
+    void addButton();
+    void huikanCallBack(CCObject* pSender);
+    void kuaijinCallBack(CCObject* pSender);
+    void startCallBack(CCObject* pSender);
+    void _400CallBack(CCObject* pSender);
+    void goTaskScene();
+    
 public:
+    bool openStory;
+    bool quanBool;
+    bool m_bIsKJSelect;
+    bool buttonBool;
+    
+    int index;
+    int tagIndex;
+    int logIndex;
+    int nowIndex;
+    int contentLength;
+    int wordCount;
     
     CCDictionary* allClothesDic;
+    CCDictionary* missionDic;
     
     CCMenuItem* backItem;
+    CCMenuItem* startItem;
+    CCMenuItemToggle* kuaijinToggleItem;
+    CCSprite* labelSpr1,* labelSpr2,* labelSpr3;
     
-    //    CCSprite* roomSpr;
+    CCSprite* _dkSpr;
+//    CCSprite* roomSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;
-    CCSprite* _ManSpr;
+    CCSprite* _ManSpr1;
+    CCSprite* _ManSpr2;
     CCSprite* _touSpr;
     CCSprite* _tfSpr1; // 头发
     CCSprite* _tfSpr2;
@@ -145,13 +201,19 @@ public:
     CCSprite* _bSpr3;
     CCSprite* _zrSpr1; // 妆容
     
+    CCSprite* quanSpr;
+    CCSprite* nameKuang;
+    CCLabelTTF* nameLab;
+    CCLabelTTF* saidLabel;
+    
     CCArray* taskArr;
     
     int OpenToWhichOne;
     int taskPhase;
     int taskIndex;
     
-    
+    std::string content;
+    std::string labStr;
     
 };
 #endif /* defined(__tiegao__TaskStoryScene__) */

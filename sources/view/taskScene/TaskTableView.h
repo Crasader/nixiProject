@@ -25,7 +25,7 @@ typedef enum{
     Tag_Task_Xing3,
     Tag_Task_Xing4,
     Tag_Task_Xing5
-}Task_Enum;
+}TaskTable_Enum;
 
 class TaskTableView
 : public CCLayer
@@ -89,7 +89,6 @@ public:
     void buttonStatus(int index, CCSprite* button);
     CCString* getTaskName(int index);
     int getTaskIcon(int index);
-    int getUnlockCondition(int index);
     int getTaskPhase(int index);
 };
 

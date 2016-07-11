@@ -56,7 +56,7 @@ public:
     
     CCDictionary* allClothesDic;
     
-    CCMenuItem* historyItem1, * historyItem2, * historyItem3, * backItem;
+    CCMenuItem* historyItem1, * historyItem2, * historyItem3, * historyItem4, * historyItem5, * backItem;
     
 //    CCSprite* roomSpr;
     CCSprite* taskKuang;

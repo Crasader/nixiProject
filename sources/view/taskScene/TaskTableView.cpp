@@ -64,10 +64,9 @@ void TaskTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 //点击哪个cell
 void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
-    CCString* str = CCString::createWithFormat("%d", getTaskPhase(cell->getIdx()));
-    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
-    int unlockCondition = this->getUnlockCondition(cell->getIdx());
-    if (unlockCondition <= OpenToWhichOne) {
+    OpenToWhichOne = cell->getIdx();
+    int unlockCondition = DATA->getPlayer()->mission;
+    if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             selectedIndex = cell->getIdx();
             
@@ -380,11 +379,10 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    CCString* str = CCString::createWithFormat("%d", getTaskPhase(idx));
-    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
+    OpenToWhichOne = idx;
     
-    int unlockCondition = this->getUnlockCondition(idx);
-    if (unlockCondition <= OpenToWhichOne) {
+    int unlockCondition = DATA->getPlayer()->mission;
+    if (OpenToWhichOne <= unlockCondition) {
         
         CCString* buttonStr;
         if (selectedIndex == idx) {
@@ -507,10 +505,10 @@ unsigned int TaskTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
 
 //按下去的时候，就是高亮显示，这里可以设置高亮状态
 void TaskTableView::tableCellHighlight(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
-    CCString* str = CCString::createWithFormat("%d", getTaskPhase(cell->getIdx()));
-    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
-    int unlockCondition = this->getUnlockCondition(cell->getIdx());
-    if (unlockCondition <= OpenToWhichOne) {
+
+    OpenToWhichOne = cell->getIdx();
+    int unlockCondition = DATA->getPlayer()->mission;
+    if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             sprNode = cell->getChildByTag(cell->getIdx());
             CCSprite* kuang = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
@@ -565,10 +563,10 @@ void TaskTableView::tableCellHighlight(cocos2d::extension::CCTableView* table, c
 
 //松开的时候，取消高亮状态
 void TaskTableView::tableCellUnhighlight(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
-    CCString* str = CCString::createWithFormat("%d", getTaskPhase(cell->getIdx()));
-    OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
-    int unlockCondition = this->getUnlockCondition(cell->getIdx());
-    if (unlockCondition <= OpenToWhichOne) {
+
+    OpenToWhichOne = cell->getIdx();
+    int unlockCondition = DATA->getPlayer()->mission;
+    if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             sprNode = cell->getChildByTag(cell->getIdx());
             CCSprite* kuang = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
@@ -719,11 +717,5 @@ int TaskTableView::getTaskPhase(int index){
     CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(index);
     
     return dic->valueForKey("phase")->intValue();
-}
-
-int TaskTableView::getUnlockCondition(int index){
-    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(index);
-    
-    return dic->valueForKey("require")->intValue();
 }
 
