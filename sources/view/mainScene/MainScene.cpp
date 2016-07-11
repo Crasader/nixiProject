@@ -378,14 +378,15 @@ void MainScene::creat_view(){
 }
 
 bool MainScene::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){
-    start_pos = pTouch->getLocation();
+    last_pos = pTouch->getLocation();
     
     return true;
 }
 
 void MainScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
     cur_pos= pTouch->getLocation();
-    offset_x = cur_pos.x - start_pos.x;
+    offset_x = cur_pos.x - last_pos.x;
+    last_pos = cur_pos;
     
     if ((_layer_0->getPositionX() + offset_x >= _layer_0->getContentSize().width* .5f - 10 && offset_x > 0) ||
         (_layer_0->getPositionX() + offset_x <= DISPLAY->ScreenWidth() - _layer_0->getContentSize().width* .5f + 10 && offset_x < 0)) {
