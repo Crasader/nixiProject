@@ -8,8 +8,9 @@
 
 #include "BuildingLayer.h"
 #include "DisplayManager.h"
-#include "Building.h"
-
+//#include "Building.h"
+#include "Loading2.h"
+#include "NetManager.h"
 #include "BuildingView.h"
 
 BuildingLayer::~BuildingLayer() {
@@ -63,7 +64,9 @@ bool BuildingLayer::init(int phase) {
 
 void BuildingLayer::onEnter() {
     CCLayer::onEnter();
-
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::coffers_info_callback_200), "HTTP_FINISHED_200", NULL);
 }
 
 void BuildingLayer::onExit() {
@@ -99,8 +102,14 @@ void BuildingLayer::building_touch_callback() {
 }
 
 void BuildingLayer::show_building() {
+    LOADING->show_loading();
+    NET->coffers_info_200();
+}
+
+void BuildingLayer::coffers_info_callback_200(CCObject *pObj) {
+    LOADING->remove();
     this->setTouchEnabled(true);
-//    Building* building = Building::create(_phase + 2);
+    //    Building* building = Building::create(_phase + 2);
     BuildingView* building = BuildingView::create(_phase);
     this->getScene()->addChild(building);
 }

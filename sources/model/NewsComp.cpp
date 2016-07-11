@@ -23,6 +23,7 @@ void NewsComp::init_with_json(Value json) {
     }
     
     otherday = json["O"].asBool();
+    coin = json["C"].asInt();
     energy = json["E"].asInt();
     mail = json["I"].asInt();
     message = json["M"].asInt();
@@ -34,6 +35,7 @@ void NewsComp::init_with_json(Value json) {
 void NewsComp::print_news() {
     CCLOG("====== News ======");
     CCLOG("Is other day: %d", otherday);
+    CCLOG("C: %d", energy);
     CCLOG("Energy: %d", energy);
     CCLOG("Mail: %d", mail);
     CCLOG("Message: %d", message);

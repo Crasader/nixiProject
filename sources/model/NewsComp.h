@@ -26,6 +26,7 @@ public:
 public:
     void print_news();
     bool otherday;
+    int coin;
     int energy;
     int mail;
     int message;
@@ -34,11 +35,6 @@ public:
 protected:
     
 private:
-    bool _otherday;
-    int _energy;
-    int _mail;
-    int _message;
-    int _paper;
 };
 
 #endif /* NewsComp_hpp */

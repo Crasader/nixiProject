@@ -95,10 +95,10 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             button->setDisplayFrame(frame);
             
             
-//            CCSprite* tiliSpr = (CCSprite* )button->getChildByTag(cell->getIdx() + 30000);
-//            tiliSpr->setVisible(true);
-//            CCSprite* startSpr = (CCSprite* )button->getChildByTag(cell->getIdx() + 40000);
-//            startSpr->setVisible(true);
+            CCSprite* tiliSpr = (CCSprite* )button->getChildByTag(cell->getIdx() + 30000);
+            tiliSpr->setVisible(true);
+            CCSprite* startSpr = (CCSprite* )button->getChildByTag(cell->getIdx() + 40000);
+            startSpr->setVisible(true);
             
             if (button->getChildByTag(cell->getIdx() + 10000) != NULL) {
                 button->removeChildByTag(cell->getIdx() + 10000);
@@ -120,108 +120,108 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             titleLabel->setTag(cell->getIdx() + 20000);
             button->addChild(titleLabel, 10);
             
-//            CCNode* xingNode1 = button->getChildByTag(Tag_Task_Xing1);
-//            xingNode1->setVisible(false);
-//            CCNode* xingNode2 = button->getChildByTag(Tag_Task_Xing2);
-//            xingNode2->setVisible(false);
-//            CCNode* xingNode3 = button->getChildByTag(Tag_Task_Xing3);
-//            xingNode3->setVisible(false);
-//            CCNode* xingNode4 = button->getChildByTag(Tag_Task_Xing4);
-//            xingNode4->setVisible(false);
-//            CCNode* xingNode5 = button->getChildByTag(Tag_Task_Xing5);
-//            xingNode5->setVisible(false);
             CCNode* xingNode1 = button->getChildByTag(Tag_Task_Xing1);
-            xingNode1->setScale(.8f);
+            xingNode1->setVisible(false);
             CCNode* xingNode2 = button->getChildByTag(Tag_Task_Xing2);
-            xingNode2->setScale(.8f);
+            xingNode2->setVisible(false);
             CCNode* xingNode3 = button->getChildByTag(Tag_Task_Xing3);
-            xingNode3->setScale(.8f);
+            xingNode3->setVisible(false);
             CCNode* xingNode4 = button->getChildByTag(Tag_Task_Xing4);
-            xingNode4->setScale(.8f);
+            xingNode4->setVisible(false);
             CCNode* xingNode5 = button->getChildByTag(Tag_Task_Xing5);
-            xingNode5->setScale(.8f);
-            
-            xingNode1->setPosition(ccp(button->getContentSize().width* .28f, button->getContentSize().height* .29f));
-            xingNode2->setPosition(ccp(button->getContentSize().width* .41f, button->getContentSize().height* .29f));
-            xingNode3->setPosition(ccp(button->getContentSize().width* .54f, button->getContentSize().height* .29f));
-            xingNode4->setPosition(ccp(button->getContentSize().width* .67f, button->getContentSize().height* .29f));
-            xingNode5->setPosition(ccp(button->getContentSize().width* .8f, button->getContentSize().height* .29f));
+            xingNode5->setVisible(false);
+//            CCNode* xingNode1 = button->getChildByTag(Tag_Task_Xing1);
+//            xingNode1->setScale(.8f);
+//            CCNode* xingNode2 = button->getChildByTag(Tag_Task_Xing2);
+//            xingNode2->setScale(.8f);
+//            CCNode* xingNode3 = button->getChildByTag(Tag_Task_Xing3);
+//            xingNode3->setScale(.8f);
+//            CCNode* xingNode4 = button->getChildByTag(Tag_Task_Xing4);
+//            xingNode4->setScale(.8f);
+//            CCNode* xingNode5 = button->getChildByTag(Tag_Task_Xing5);
+//            xingNode5->setScale(.8f);
+//            
+//            xingNode1->setPosition(ccp(button->getContentSize().width* .28f, button->getContentSize().height* .29f));
+//            xingNode2->setPosition(ccp(button->getContentSize().width* .41f, button->getContentSize().height* .29f));
+//            xingNode3->setPosition(ccp(button->getContentSize().width* .54f, button->getContentSize().height* .29f));
+//            xingNode4->setPosition(ccp(button->getContentSize().width* .67f, button->getContentSize().height* .29f));
+//            xingNode5->setPosition(ccp(button->getContentSize().width* .8f, button->getContentSize().height* .29f));
             
             
             DATA->setTaskNumber(selectedIndex);
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_Creat_Tishi");
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_EnterTheTishi");
+//            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_Creat_Tishi");
+//            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_EnterTheTishi");
         }else if (selectedIndex == cell->getIdx()){
-            selectedIndex = -1;
-            
-            sprNode = cell->getChildByTag(cell->getIdx());
-            CCString* buttonStr;
-            CCSprite* renSpr;
-            if (getTaskIcon(cell->getIdx()) == 1) {
-                buttonStr = CCString::createWithFormat("task_button_1_1.png");
-                renSpr = CCSprite::create("res/pic/taskScene/task_ren1.png");
-            }else if (getTaskIcon(cell->getIdx()) == 2){
-                buttonStr = CCString::createWithFormat("task_button_2_1.png");
-                renSpr = CCSprite::create("res/pic/taskScene/task_ren2.png");
-            }else if (getTaskIcon(cell->getIdx()) == 3){
-                buttonStr = CCString::createWithFormat("task_button_3_1.png");
-                renSpr = CCSprite::create("res/pic/taskScene/task_ren3.png");
-            }else if (getTaskIcon(cell->getIdx()) == 4){
-                buttonStr = CCString::createWithFormat("task_button_4_1.png");
-                renSpr = CCSprite::create("res/pic/taskScene/task_ren4.png");
-            }else if (getTaskIcon(cell->getIdx()) == 5){
-                buttonStr = CCString::createWithFormat("task_button_5_1.png");
-                renSpr = CCSprite::create("res/pic/taskScene/task_ren5.png");
-            }
-            CCSprite* button = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
-            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr->getCString());
-            button->setDisplayFrame(frame);
-            
-            
+//            selectedIndex = -1;
+//            
+//            sprNode = cell->getChildByTag(cell->getIdx());
+//            CCString* buttonStr;
+//            CCSprite* renSpr;
+//            if (getTaskIcon(cell->getIdx()) == 1) {
+//                buttonStr = CCString::createWithFormat("task_button_1_1.png");
+//                renSpr = CCSprite::create("res/pic/taskScene/task_ren1.png");
+//            }else if (getTaskIcon(cell->getIdx()) == 2){
+//                buttonStr = CCString::createWithFormat("task_button_2_1.png");
+//                renSpr = CCSprite::create("res/pic/taskScene/task_ren2.png");
+//            }else if (getTaskIcon(cell->getIdx()) == 3){
+//                buttonStr = CCString::createWithFormat("task_button_3_1.png");
+//                renSpr = CCSprite::create("res/pic/taskScene/task_ren3.png");
+//            }else if (getTaskIcon(cell->getIdx()) == 4){
+//                buttonStr = CCString::createWithFormat("task_button_4_1.png");
+//                renSpr = CCSprite::create("res/pic/taskScene/task_ren4.png");
+//            }else if (getTaskIcon(cell->getIdx()) == 5){
+//                buttonStr = CCString::createWithFormat("task_button_5_1.png");
+//                renSpr = CCSprite::create("res/pic/taskScene/task_ren5.png");
+//            }
+//            CCSprite* button = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
+//            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr->getCString());
+//            button->setDisplayFrame(frame);
+//            
+//            
 //            CCSprite* tiliSpr = (CCSprite* )button->getChildByTag(cell->getIdx() + 30000);
 //            tiliSpr->setVisible(false);
 //            CCSprite* startSpr = (CCSprite* )button->getChildByTag(cell->getIdx() + 40000);
 //            startSpr->setVisible(false);
-            
-            if (button->getChildByTag(cell->getIdx() + 10000) != NULL) {
-                button->removeChildByTag(cell->getIdx() + 10000);
-            }
-            if (button->getChildByTag(cell->getIdx() + 20000) != NULL) {
-                button->removeChildByTag(cell->getIdx() + 20000);
-            }
-            renSpr->setTag(cell->getIdx() + 10000);
-            renSpr->setScale(1.f);
-            renSpr->setPosition(ccp(button->getContentSize().width* .22f, button->getContentSize().height* .62f));
-            button->addChild(renSpr, 5);
-            
-            CCArray* taskArr = CONFIG->mission();
-            CCDictionary* dic2 = (CCDictionary* )taskArr->objectAtIndex(cell->getIdx());
-            CCLabelTTF* titleLabel = CCLabelTTF::create(((CCString*)dic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button->getContentSize().width* .9f, button->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-            titleLabel->setPosition(ccp(button->getContentSize().width* .63f, button->getContentSize().height* .63f));
-            titleLabel->setScale(1.f);
-            titleLabel->setColor(ccWHITE);
-            titleLabel->setTag(cell->getIdx() + 20000);
-            button->addChild(titleLabel, 10);
-            
-            CCNode* xingNode1 = button->getChildByTag(Tag_Task_Xing1);
-            xingNode1->setScale(.8f);
-            CCNode* xingNode2 = button->getChildByTag(Tag_Task_Xing2);
-            xingNode2->setScale(.8f);
-            CCNode* xingNode3 = button->getChildByTag(Tag_Task_Xing3);
-            xingNode3->setScale(.8f);
-            CCNode* xingNode4 = button->getChildByTag(Tag_Task_Xing4);
-            xingNode4->setScale(.8f);
-            CCNode* xingNode5 = button->getChildByTag(Tag_Task_Xing5);
-            xingNode5->setScale(.8f);
-            
-            xingNode1->setPosition(ccp(button->getContentSize().width* .28f, button->getContentSize().height* .34f));
-            xingNode2->setPosition(ccp(button->getContentSize().width* .41f, button->getContentSize().height* .34f));
-            xingNode3->setPosition(ccp(button->getContentSize().width* .54f, button->getContentSize().height* .34f));
-            xingNode4->setPosition(ccp(button->getContentSize().width* .67f, button->getContentSize().height* .34f));
-            xingNode5->setPosition(ccp(button->getContentSize().width* .8f, button->getContentSize().height* .34f));
-            
-            DATA->setTaskNumber(selectedIndex);
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitTishi");
+//            
+//            if (button->getChildByTag(cell->getIdx() + 10000) != NULL) {
+//                button->removeChildByTag(cell->getIdx() + 10000);
+//            }
+//            if (button->getChildByTag(cell->getIdx() + 20000) != NULL) {
+//                button->removeChildByTag(cell->getIdx() + 20000);
+//            }
+//            renSpr->setTag(cell->getIdx() + 10000);
+//            renSpr->setScale(1.f);
+//            renSpr->setPosition(ccp(button->getContentSize().width* .22f, button->getContentSize().height* .62f));
+//            button->addChild(renSpr, 5);
+//            
+//            CCArray* taskArr = CONFIG->mission();
+//            CCDictionary* dic2 = (CCDictionary* )taskArr->objectAtIndex(cell->getIdx());
+//            CCLabelTTF* titleLabel = CCLabelTTF::create(((CCString*)dic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button->getContentSize().width* .9f, button->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//            titleLabel->setPosition(ccp(button->getContentSize().width* .63f, button->getContentSize().height* .63f));
+//            titleLabel->setScale(1.f);
+//            titleLabel->setColor(ccWHITE);
+//            titleLabel->setTag(cell->getIdx() + 20000);
+//            button->addChild(titleLabel, 10);
+//            
+//            CCNode* xingNode1 = button->getChildByTag(Tag_Task_Xing1);
+//            xingNode1->setScale(.8f);
+//            CCNode* xingNode2 = button->getChildByTag(Tag_Task_Xing2);
+//            xingNode2->setScale(.8f);
+//            CCNode* xingNode3 = button->getChildByTag(Tag_Task_Xing3);
+//            xingNode3->setScale(.8f);
+//            CCNode* xingNode4 = button->getChildByTag(Tag_Task_Xing4);
+//            xingNode4->setScale(.8f);
+//            CCNode* xingNode5 = button->getChildByTag(Tag_Task_Xing5);
+//            xingNode5->setScale(.8f);
+//            
+//            xingNode1->setPosition(ccp(button->getContentSize().width* .28f, button->getContentSize().height* .34f));
+//            xingNode2->setPosition(ccp(button->getContentSize().width* .41f, button->getContentSize().height* .34f));
+//            xingNode3->setPosition(ccp(button->getContentSize().width* .54f, button->getContentSize().height* .34f));
+//            xingNode4->setPosition(ccp(button->getContentSize().width* .67f, button->getContentSize().height* .34f));
+//            xingNode5->setPosition(ccp(button->getContentSize().width* .8f, button->getContentSize().height* .34f));
+//            
+//            DATA->setTaskNumber(selectedIndex);
+//            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitTishi");
         }else{
             CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
             CCString* buttonStr1;
@@ -245,10 +245,10 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr1->getCString());
             button1->setDisplayFrame(frame);
             
-//            CCSprite* tiliSpr1 = (CCSprite* )button1->getChildByTag(selectedIndex + 30000);
-//            tiliSpr1->setVisible(false);
-//            CCSprite* startSpr1 = (CCSprite* )button1->getChildByTag(selectedIndex + 40000);
-//            startSpr1->setVisible(false);
+            CCSprite* tiliSpr1 = (CCSprite* )button1->getChildByTag(selectedIndex + 30000);
+            tiliSpr1->setVisible(false);
+            CCSprite* startSpr1 = (CCSprite* )button1->getChildByTag(selectedIndex + 40000);
+            startSpr1->setVisible(false);
             
             if (button1->getChildByTag(selectedIndex + 10000) != NULL) {
                 button1->removeChildByTag(selectedIndex + 10000);
@@ -319,10 +319,10 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             CCSpriteFrame* frame2 = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr2->getCString());
             button2->setDisplayFrame(frame2);
             
-//            CCSprite* tiliSpr2 = (CCSprite* )button2->getChildByTag(selectedIndex + 30000);
-//            tiliSpr2->setVisible(true);
-//            CCSprite* startSpr2 = (CCSprite* )button2->getChildByTag(selectedIndex + 40000);
-//            startSpr2->setVisible(true);
+            CCSprite* tiliSpr2 = (CCSprite* )button2->getChildByTag(selectedIndex + 30000);
+            tiliSpr2->setVisible(true);
+            CCSprite* startSpr2 = (CCSprite* )button2->getChildByTag(selectedIndex + 40000);
+            startSpr2->setVisible(true);
             
             if (button2->getChildByTag(selectedIndex + 10000) != NULL) {
                 button2->removeChildByTag(selectedIndex + 10000);
@@ -345,37 +345,27 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             button2->addChild(titleLabel2, 10);
             
             
-//            CCNode* xingNode11 = button2->getChildByTag(Tag_Task_Xing1);
-//            xingNode11->setVisible(false);
-//            CCNode* xingNode22 = button2->getChildByTag(Tag_Task_Xing2);
-//            xingNode22->setVisible(false);
-//            CCNode* xingNode33 = button2->getChildByTag(Tag_Task_Xing3);
-//            xingNode33->setVisible(false);
-//            CCNode* xingNode44 = button2->getChildByTag(Tag_Task_Xing4);
-//            xingNode44->setVisible(false);
-//            CCNode* xingNode55 = button2->getChildByTag(Tag_Task_Xing5);
-//            xingNode55->setVisible(false);
-
             CCNode* xingNode11 = button2->getChildByTag(Tag_Task_Xing1);
-            xingNode11->setScale(.8f);
+            xingNode11->setVisible(false);
             CCNode* xingNode22 = button2->getChildByTag(Tag_Task_Xing2);
-            xingNode22->setScale(.8f);
+            xingNode22->setVisible(false);
             CCNode* xingNode33 = button2->getChildByTag(Tag_Task_Xing3);
-            xingNode33->setScale(.8f);
+            xingNode33->setVisible(false);
             CCNode* xingNode44 = button2->getChildByTag(Tag_Task_Xing4);
-            xingNode44->setScale(.8f);
+            xingNode44->setVisible(false);
             CCNode* xingNode55 = button2->getChildByTag(Tag_Task_Xing5);
-            xingNode55->setScale(.8f);
-            xingNode11->setPosition(ccp(button2->getContentSize().width* .28f, button2->getContentSize().height* .29f));
-            xingNode22->setPosition(ccp(button2->getContentSize().width* .41f, button2->getContentSize().height* .29f));
-            xingNode33->setPosition(ccp(button2->getContentSize().width* .54f, button2->getContentSize().height* .29f));
-            xingNode44->setPosition(ccp(button2->getContentSize().width* .67f, button2->getContentSize().height* .29f));
-            xingNode55->setPosition(ccp(button2->getContentSize().width* .8f, button2->getContentSize().height* .29f));
+            xingNode55->setVisible(false);
+//
+//            xingNode11->setPosition(ccp(button2->getContentSize().width* .28f, button2->getContentSize().height* .29f));
+//            xingNode22->setPosition(ccp(button2->getContentSize().width* .41f, button2->getContentSize().height* .29f));
+//            xingNode33->setPosition(ccp(button2->getContentSize().width* .54f, button2->getContentSize().height* .29f));
+//            xingNode44->setPosition(ccp(button2->getContentSize().width* .67f, button2->getContentSize().height* .29f));
+//            xingNode55->setPosition(ccp(button2->getContentSize().width* .8f, button2->getContentSize().height* .29f));
             
             
             DATA->setTaskNumber(selectedIndex);
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_Creat_Tishi");
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_EnterTheTishi");
+//            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_Creat_Tishi");
+//            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_EnterTheTishi");
         }
     }
 }
@@ -442,30 +432,30 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         
         
         // 消耗体力
-//        CCSprite* tiliSpr = CCSprite::create("res/pic/taskScene/task_tili_bar.png");
-//        tiliSpr->setPosition(ccp(button->getContentSize().width* .33f, button->getContentSize().height* .32f));
-//        tiliSpr->setTag(idx + 30000);
-//        button->addChild(tiliSpr);
-//        // 体力数
-//        int tiliIndex = 12;
-//        CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
-//        CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
-//        tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
-//        tiliLabel->setColor(ccWHITE);
-//        tiliSpr->addChild(tiliLabel);
+        CCSprite* tiliSpr = CCSprite::create("res/pic/taskScene/task_tili_bar.png");
+        tiliSpr->setPosition(ccp(button->getContentSize().width* .33f, button->getContentSize().height* .32f));
+        tiliSpr->setTag(idx + 30000);
+        button->addChild(tiliSpr);
+        // 体力数
+        int tiliIndex = 12;
+        CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
+        CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
+        tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
+        tiliLabel->setColor(ccWHITE);
+        tiliSpr->addChild(tiliLabel);
         // 心
-//        CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
-//        xinSpr->setScale(.9f);
-//        xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .86f, tiliSpr->getContentSize().height* .49f));
-//        tiliSpr->addChild(xinSpr);
-//        
-//        CCSprite* startSpr = CCSprite::create("res/pic/taskScene/task_start2.png");
-//        startSpr->setPosition(ccp(button->getContentSize().width* .77f, button->getContentSize().height* .39f));
-//        startSpr->setTag(idx + 40000);
-//        button->addChild(startSpr);
-//        
-//        tiliSpr->setVisible(false);
-//        startSpr->setVisible(false);
+        CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
+        xinSpr->setScale(.9f);
+        xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .86f, tiliSpr->getContentSize().height* .49f));
+        tiliSpr->addChild(xinSpr);
+        
+        CCSprite* startSpr = CCSprite::create("res/pic/taskScene/task_start2.png");
+        startSpr->setPosition(ccp(button->getContentSize().width* .77f, button->getContentSize().height* .39f));
+        startSpr->setTag(idx + 40000);
+        button->addChild(startSpr);
+        
+        tiliSpr->setVisible(false);
+        startSpr->setVisible(false);
     }else{
         CCString* buttonStr = CCString::createWithFormat("task_button_%d_1.png", getTaskIcon(idx));
         CCString* renStr = CCString::createWithFormat("res/pic/taskScene/task_ren%d.png", getTaskIcon(idx));

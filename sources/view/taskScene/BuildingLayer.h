@@ -28,6 +28,7 @@ public:
 private:
     void building_touch_callback();
     void show_building();
+    void coffers_info_callback_200(CCObject* pObj);
     
 private:
     int                 _phase;

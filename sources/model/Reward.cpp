@@ -19,7 +19,7 @@ bool Reward::init() {
 }
 
 void Reward::init_with_json(Value json) {
-    if (!json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("Reward::init_with_json() json object error.");
         return;
     }
