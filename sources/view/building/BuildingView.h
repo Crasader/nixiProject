@@ -20,6 +20,7 @@ class UnreusedTableView;
 class BuildingView
     : public CCLayer
     , CCTableViewDataSource
+    , CCTableViewDelegate
 {
 public:
     ~BuildingView();
@@ -36,8 +37,13 @@ public:
     virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
     virtual unsigned int numberOfCellsInTableView(CCTableView *table);
     
-    //    virtual void scrollViewDidScroll(CCScrollView* view);
-    //    virtual void scrollViewDidZoom(CCScrollView* view);
+    virtual void tableCellTouched(CCTableView* table, CCTableViewCell* cell);
+    virtual void tableCellHighlight(CCTableView* table, CCTableViewCell* cell) {};
+    virtual void tableCellUnhighlight(CCTableView* table, CCTableViewCell* cell) {};
+    virtual void tableCellWillRecycle(CCTableView* table, CCTableViewCell* cell) {};
+    
+    virtual void scrollViewDidScroll(CCScrollView* view);
+    virtual void scrollViewDidZoom(CCScrollView* view);
     
 private:
     void start();

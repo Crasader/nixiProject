@@ -30,6 +30,8 @@ public:
     void showPetal2At(CCNode* parent, CCPoint pos, int zOrder);
     void showSpotAt(CCNode* parent, CCPoint pos, int zOrder);
     
+    void showFlowerAt(CCNode* parent, CCPoint pos, int zOrder);
+    
 private:
     CCAnimation* animationByName(const char* name);
     void purgeActionNode(CCNode* node);

@@ -34,12 +34,15 @@ public:
     
 public:
     void start();
-    
+    void show_coin();
+
 private:
     CCPoint randomStartPos(bool left);
     float randomDuration();
     CCPoint randomEdge();
     void on_take_rewards(CCMenuItem *btn);
+    void show_coin_at(CCPoint pos);
+    void self_remove(CCNode* node);
     
 private:
     FloorCellType       _type;

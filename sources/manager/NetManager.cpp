@@ -321,6 +321,11 @@ void NetManager::ranking_list_300() {
 }
 
 
+void NetManager::coffers_info_200() {
+    this->post_data(200, string(""));
+}
+
+
 void NetManager::all_products_100() {
     this->post_data(100, string(""));
 }
