@@ -101,8 +101,6 @@ void BuildingLayer::building_touch_callback() {
 void BuildingLayer::show_building() {
     this->setTouchEnabled(true);
 //    Building* building = Building::create(_phase + 2);
-    static int o = 1;
-    BuildingView* building = BuildingView::create(o);
+    BuildingView* building = BuildingView::create(_phase);
     this->getScene()->addChild(building);
-    o++;
 }
