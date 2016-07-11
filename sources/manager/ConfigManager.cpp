@@ -62,6 +62,7 @@ CCDictionary* ConfigManager::clothes() {
     return _clothes;
 }
 
+// phase 当前阶段  taskID 任务的ID
 CCArray* ConfigManager::getMissionDialog(int phase, int taskID) {
     CCObject* pObj = _missionDialog->objectForKey(phase);
     if (! pObj) {
@@ -170,6 +171,7 @@ void ConfigManager::conf_clothes() {
     clothes->setObject(CCArray::create(), 6);
     clothes->setObject(CCArray::create(), 7);
     clothes->setObject(CCArray::create(), 8);
+    clothes->setObject(CCArray::create(), 9);
     
     for (CSJson::ValueIterator iterator = root.begin(); iterator != root.end(); iterator++) {
         CSJson::Value value = (CSJson::Value)* iterator;

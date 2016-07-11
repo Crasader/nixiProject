@@ -39,6 +39,14 @@ public:
 public:
     
     void openTouch(float dt);
+    void closeCallBack(CCObject* pSender);
+    
+    void creatStar1(float dt);
+    void creatStar2(float dt);
+    void creatStar3(float dt);
+    void creatStar4(float dt);
+    void creatStar5(float dt);
+    void creatStar6(float dt);
 };
 
 

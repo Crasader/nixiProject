@@ -56,9 +56,9 @@ void BaseScene::init_UI(){
     CCSprite* nameSpr2 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
     nameItem = CCMenuItemSprite::create(nameSpr1, nameSpr2);
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .115f, DISPLAY->ScreenHeight()* .97f));
+        nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .115f, DISPLAY->ScreenHeight()* .972f));  //0.97f
     }else{
-        nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .1f, DISPLAY->ScreenHeight()* .97f));
+        nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .1f, DISPLAY->ScreenHeight()* .972f));
     }
     CCString* nameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
     CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
@@ -72,9 +72,9 @@ void BaseScene::init_UI(){
     CCSprite* tiliSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
     tiliItem = CCMenuItemSprite::create(tiliSpr1, tiliSpr2, this, menu_selector(BaseScene::tiliCallBack));
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .38f, DISPLAY->ScreenHeight()* .965f));
+        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .38f, DISPLAY->ScreenHeight()* .972f));   //0.965
     }else{
-        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .48f, DISPLAY->ScreenHeight()* .965f));
+        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .48f, DISPLAY->ScreenHeight()* .972f));
     }
     CCSprite* tiliIconSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
     tiliIconSpr->setScale(1.1f);
@@ -126,9 +126,9 @@ void BaseScene::init_UI(){
 //    goldSpr2->setScale(DISPLAY->btn_scale());
     goldItem = CCMenuItemSprite::create(goldSpr1, goldSpr2, this, menu_selector(BaseScene::goldCallBack));
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .965f));
+        goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .972f));
     }else{
-        goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .69f, DISPLAY->ScreenHeight()* .965f));
+        goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .69f, DISPLAY->ScreenHeight()* .972f));
     }
     CCSprite* goldIconSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
     goldIconSpr->setPosition(ccp(goldItem->getContentSize().width* .04f, goldItem->getContentSize().height* .52f));
@@ -153,9 +153,9 @@ void BaseScene::init_UI(){
     CCSprite* coinSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
     coinItem = CCMenuItemSprite::create(coinSpr1, coinSpr2, this, menu_selector(BaseScene::coinCallBack));
     if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f, DISPLAY->ScreenHeight()* .965f));
+        coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f, DISPLAY->ScreenHeight()* .972f));
     }else{
-        coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .9f, DISPLAY->ScreenHeight()* .965f));
+        coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .9f, DISPLAY->ScreenHeight()* .972f));
     }
     CCSprite* coinIconSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     coinIconSpr->setPosition(ccp(coinItem->getContentSize().width* .04f, coinItem->getContentSize().height* .54f));

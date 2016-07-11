@@ -163,7 +163,7 @@ void TaskSettlementLayer::initClothes(){//穿衣服
     float scaleFloat = .8f;
     bool flipxBool = false;
     
-    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_ZhuangRong; i++) {
         if (i == Tag_GJ_TouFa) {
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             

@@ -24,6 +24,7 @@ typedef enum{
     Tag_Hy_XieZi,
     Tag_Hy_ShiPin,
     Tag_Hy_Bao,
+    Tag_Hy_ZhuangRong,
     Tag_Hy_TouFa1 = 30,
     Tag_Hy_WaiTao1,
     Tag_Hy_ShangYi1,
@@ -32,6 +33,7 @@ typedef enum{
     Tag_Hy_XieZi1,
     Tag_Hy_ShiPin1,
     Tag_Hy_Bao1,
+    Tag_Hy_ZhuangRong1,
     Tag_Hy_TouFa2 = 40,
     Tag_Hy_WaiTao2,
     Tag_Hy_ShangYi2,
@@ -126,5 +128,6 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
 };
 #endif /* defined(__tiegao__HaoyouScene__) */

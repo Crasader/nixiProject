@@ -44,6 +44,17 @@ public:
     void creat_Man();
     void initClothes();
     
+    CCSprite* _river_1;
+    CCSprite* _river_2;
+    CCSprite* _cloud_1;
+    CCSprite* _cloud_2;
+    
+    CCSprite* _bird_1;
+    CCSprite* _bird_2;
+    CCSprite* _bird_3;
+    CCSprite* _bird_4;
+    CCSprite* _bird_5;
+    
     void huodongCallBack(CCObject* pSender);
     void qiandaoCallBack(CCObject* pSender);
     void youjianCallBack(CCObject* pSender);
@@ -56,6 +67,10 @@ public:
     void shezhiCallBack(CCObject* pSender);
     void shouchongCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
+    
+    void juqing_vipCallBack(CCObject* pSender);
+    void homeCallBack(CCObject* pSender);
+    void update(float dt);
     
     void _500CallBack(CCObject* pSender);
     void _600CallBack(CCObject* pSender);
@@ -92,6 +107,7 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
     
     CCPoint playerVelocity;
     
