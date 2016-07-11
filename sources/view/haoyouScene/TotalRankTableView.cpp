@@ -114,9 +114,15 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         rank_num2->setPosition(ccp(head2->getContentSize().width/2, head2->getContentSize().height/2));
         rank_num2->setTag(0x20100);
         head2->addChild(rank_num2);
-    }else {
-    
-    if (selectedIndex != cell->getIdx()) {
+        
+        CCLayer* layer = CCLayer::create();
+        layer->setTouchEnabled(true);
+        layer->setTouchSwallowEnabled(true);
+        layer->setTag(10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
+        
+    }else if (selectedIndex != cell->getIdx() + 3) {
         // 需要变小
         CCSprite* bg1 = (CCSprite*)sprNode->getChildByTag(0x10000);
         CCString* bg_str1 = CCString::createWithFormat("panel_normal.png");
@@ -370,7 +376,6 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             rank_num2->setTag(0x20100);
             head2->addChild(rank_num2);
 //        }
-    }
         
         CCLayer* layer = CCLayer::create();
         layer->setTouchEnabled(true);
@@ -379,9 +384,11 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
     }
+    CCLOG("curSelected:: %d", selectedIndex);
 }
 
 void TotalRankTableView::updateTabelView(){
+    selectedIndex = NULL;
     pTableView->reloadData();
 }
 
@@ -426,7 +433,12 @@ cocos2d::extension::CCTableViewCell* TotalRankTableView::tableCellAtIndex(cocos2
 //        
 //        
 //    }
-    smallSprite(idx, spr);
+    
+    if (selectedIndex == idx) {
+        bigSprite(idx, spr);
+    }else{
+        smallSprite(idx, spr);
+    }
     
     spr->setTag(idx);
     pCell->addChild(spr);
@@ -450,6 +462,10 @@ cocos2d::extension::CCTableViewCell* TotalRankTableView::tableCellAtIndex(cocos2
 //        }
 //    }
     
+    if (selectedIndex == idx) {
+        sprNode = pCell->getChildByTag(selectedIndex);
+    }
+    
     return pCell;
 }
 
@@ -461,15 +477,15 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     spr->addChild(bg);
     
     CCSprite* head;
-    if (index == 0) {
-        head = CCSprite::create("res/pic/haoyoupaihang/first_selected.png");
-    }else if (index == 1){
-        head = CCSprite::create("res/pic/haoyoupaihang/second_selected.png");
-    }else if (index == 2){
-        head = CCSprite::create("res/pic/haoyoupaihang/thrid_selected.png");
-    }else{
+//    if (index == 0) {
+//        head = CCSprite::create("res/pic/haoyoupaihang/first_selected.png");
+//    }else if (index == 1){
+//        head = CCSprite::create("res/pic/haoyoupaihang/second_selected.png");
+//    }else if (index == 2){
+//        head = CCSprite::create("res/pic/haoyoupaihang/thrid_selected.png");
+//    }else{
         head = CCSprite::create("res/pic/haoyoupaihang/cell_head_selected.png");
-    }
+//    }
     head->setPosition(ccp(head->getContentSize().width - 8, bg->getContentSize().height/2 + 3));
     head->setTag(0x10100);
     bg->addChild(head);
@@ -488,6 +504,20 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     cloth_count->setPosition(ccp(bg->getContentSize().width * .8, bg->getContentSize().height/2));
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
+    
+    if (index > 2) {
+        CCLabelAtlas* rank_num;
+        CCString* str_num = CCString::createWithFormat("%d", index + 1);
+        if (index < 9) {
+            rank_num =CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_single_normal.png", 25, 34, '4');
+        }else{
+            rank_num = CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
+        }
+        rank_num->setAnchorPoint(ccp(0.5, 0.5));
+        rank_num->setPosition(ccp(head->getContentSize().width/2, head->getContentSize().height/2));
+        rank_num->setTag(0x20100);
+        head->addChild(rank_num);
+    }
     
 }
 void TotalRankTableView::smallSprite(int index, CCSprite* spr){
