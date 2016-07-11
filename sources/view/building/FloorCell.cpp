@@ -8,6 +8,8 @@
 
 #include "FloorCell.h"
 #include "DisplayManager.h"
+#include "SpecialManager.h"
+#include "DataManager.h"
 
 const float ROLE_SCALE = 0.25;
 const float STAND_HEIGHT = 3;
@@ -44,13 +46,33 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         role->setScale(ROLE_SCALE);
         arrRoles->addObject(role);
         
+        // 金库信息
+        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+        sptPromptBar->setContentSize(CCSizeMake(120, 30));
+        sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
+        _sptFloor->addChild(sptPromptBar, 100);
+        
+        CoffersComp* coffers = DATA->getCoffers();
+        CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
+        CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
+        lbl->setColor(DISPLAY->defalutColor());
+        lbl->setAnchorPoint(ccp(0.5, 0.5));
+        lbl->setPosition(ccp(60, 15));
+        sptPromptBar->addChild(lbl);
+        
+        // 领取按钮
+        CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+        sptTakeBar->setContentSize(CCSizeMake(90, 30));
+        sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 48));
+        _sptFloor->addChild(sptTakeBar, 100);
+        
         CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
         CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
         take2->setScale(DISPLAY->btn_scale());
         CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&FloorCell::on_take_rewards));
         CCMenu* menuTake = CCMenu::createWithItem(btn_take);
-        menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.9, 50));
-        _sptFloor->addChild(menuTake);
+        menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 49));
+        _sptFloor->addChild(menuTake, 101);
     }
     else if (type == FloorCellType_Office) {
         _sptFloor = CCSprite::create("pic/building/floor_office_1.png");
@@ -301,22 +323,26 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
             this->addChild(_sptFloor);
         }
         
-        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
-        sptPromptBar->setContentSize(CCSizeMake(300, 40));
-        sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, 10));
-        _sptFloor->addChild(sptPromptBar);
-        
-        CCLabelTTF* label = CCLabelTTF::create("公司还差8颗星升级", DISPLAY->fangzhengFont(), 24.f);
-        label->setColor(DISPLAY->defalutColor());
-        label->setAnchorPoint(ccp(0.5, 0.5));
-        label->setPosition(sptPromptBar->getPosition());
-        _sptFloor->addChild(label);
+//        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+//        sptPromptBar->setContentSize(CCSizeMake(300, 40));
+//        sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, 10));
+//        _sptFloor->addChild(sptPromptBar);
+//        
+//        CCLabelTTF* label = CCLabelTTF::create("公司还差8颗星升级", DISPLAY->fangzhengFont(), 24.f);
+//        label->setColor(DISPLAY->defalutColor());
+//        label->setAnchorPoint(ccp(0.5, 0.5));
+//        label->setPosition(sptPromptBar->getPosition());
+//        _sptFloor->addChild(label);
     }
     
     _roles = arrRoles;
     _roles->retain();
     
     start();
+    
+    this->setTouchEnabled(true);
+    this->setTouchSwallowEnabled(false);
+    this->setTouchMode(kCCTouchesOneByOne);
 
     return true;
 }
@@ -377,8 +403,49 @@ CCPoint FloorCell::randomEdge() {
     return CCPointMake(FLOOR_CELL_WIDTH * 0.5 + CCRANDOM_MINUS1_1() * widthDelta, 0);
 }
 
-
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
     CCLOG("BuildingView::on_take_rewards()");
 }
+
+void FloorCell::show_coin() {
+    CCNode* role = (CCNode*)_roles->randomObject();
+    if (role && role->getParent()) {
+        show_coin_at(role->getPosition() + ccp(0, 84));
+    }
+}
+
+void FloorCell::show_coin_at(CCPoint pos) {
+    float statDuration = 0.3f;
+    
+    CCSprite* star1 = CCSprite::create("pic/loading/loading_star.png");
+    star1->setPosition(pos + ccp(0, 20));
+    star1->setScale(0.6);
+    this->addChild(star1);
+    star1->runAction(CCSequence::create(CCMoveBy::create(statDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* star2 = CCSprite::create("pic/loading/loading_star.png");
+    star2->setPosition(pos + ccp(0, 20));
+    star2->setScale(0.4);
+    this->addChild(star2);
+    star2->runAction(CCSequence::create(CCMoveBy::create(statDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
+    coinSpr->setPosition(pos);
+    coinSpr->setScale(0.88);
+    this->addChild(coinSpr);
+    if (pos.x < FLOOR_CELL_WIDTH * 0.5) {
+        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, -180, 0, 0), NULL);
+        coinSpr->runAction(seqCoin);
+        
+    }
+    else {
+        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(-50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, 360, 0, 0), NULL);
+        coinSpr->runAction(seqCoin);
+    }
+}
+
+void FloorCell::self_remove(CCNode *node) {
+    node->removeFromParentAndCleanup(true);
+}
+
 

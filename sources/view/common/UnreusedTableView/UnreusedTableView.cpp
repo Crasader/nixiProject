@@ -32,6 +32,8 @@ bool UnreusedTableView::initWithViewSize(CCSize size, CCNode* container/* = NULL
 {
     if (CCTableView::initWithViewSize(size,container))
     {
+        _eageBounched = true;
+        
         m_pCellsUsed      = new CCArrayForObjectSorting();
         m_pCellsFreed     = new CCArrayForObjectSorting();
         m_pIndices        = new std::set<unsigned int>();
@@ -46,6 +48,24 @@ bool UnreusedTableView::initWithViewSize(CCSize size, CCNode* container/* = NULL
 
 void UnreusedTableView::scrollViewDidScroll(CCScrollView* view)
 {
+    if (! _eageBounched) {
+        CCPoint offset = view->getContentOffset();
+        if (m_eDirection == kCCScrollViewDirectionVertical) {
+            if (offset.y < view->minContainerOffset().y) {
+                view->setContentOffset(CCPoint(offset.x, view->minContainerOffset().y));
+            }else if (offset.y > view->maxContainerOffset().y){
+                view->setContentOffset(CCPoint(offset.x, view->maxContainerOffset().y));
+            }
+        }
+        else {
+            if (offset.x < view->minContainerOffset().x) {
+                view->setContentOffset(CCPoint(view->minContainerOffset().x, offset.y));
+            }else if (offset.y > view->maxContainerOffset().y){
+                view->setContentOffset(CCPoint(view->maxContainerOffset().x, offset.y));
+            }
+        }
+    }
+    
     unsigned int uCountOfItems = m_pDataSource->numberOfCellsInTableView(this);
     if (0 == uCountOfItems)
     {
@@ -153,3 +173,4 @@ void UnreusedTableView::_moveCellOutOfSight(CCTableViewCell *cell) {
 //        this->getContainer()->removeChild(cell, true);;
 //    }
 }
+

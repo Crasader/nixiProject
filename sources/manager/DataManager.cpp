@@ -50,6 +50,7 @@ void DataManager::init_data() {
     this->setSocial(SocialComp::create());
     this->setStory(StoryComp::create());
     this->setPaper(PaperComp::create());
+    this->setCoffers(CoffersComp::create());
 }
 
 time_t DataManager::cur_timestamp() {
@@ -252,6 +253,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
             _clothes->update_clothes(content["newclothes"]);
+        } break;
+            
+        case 200: {
+            _coffers->init_with_json(content["coffers"]);
         } break;
             
         case 100: {

@@ -30,6 +30,8 @@ void SpecialManager::init() {
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/petal2.plist");
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/spot.plist");
     
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pic/special/flower.plist");
+    
     _specials = CCDictionary::create();
     _specials->retain();
     
@@ -45,8 +47,11 @@ void SpecialManager::init() {
     CCAnimation* petal2 = AppUtil::animationWithFrame("petal2_%d.png", 52, 1, 0.1f);
     _specials->setObject(petal2, "petal2");
     
-    CCAnimation* spot = AppUtil::animationWithFrame("spot_%d.png", 40, 1, 0.03f);
+    CCAnimation* spot = AppUtil::animationWithFrame("spot_%d.png", 40, 1, 0.02f);
     _specials->setObject(spot, "spot");
+    
+    CCAnimation* flower = AppUtil::animationWithFrame("flower_%d.png", 10, 1, 0.07f);
+    _specials->setObject(flower, "flower");
 }
 
 void SpecialManager::showStarAt(CCNode* parent, CCPoint pos, int zOrder) {
@@ -96,6 +101,7 @@ void SpecialManager::showPetal2At(CCNode* parent, CCPoint pos, int zOrder) {
 
 void SpecialManager::showSpotAt(CCNode *parent, CCPoint pos, int zOrder) {
     CCSprite* star = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("spot_1.png"));
+    star->setScale(1.8f);
     star->setPosition(pos);
     parent->addChild(star, zOrder);
     
@@ -103,6 +109,38 @@ void SpecialManager::showSpotAt(CCNode *parent, CCPoint pos, int zOrder) {
     CCCallFuncN* purge = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode));
     CCSequence* act = CCSequence::create(anim, purge, NULL);
     star->runAction(act);
+}
+
+void SpecialManager::showFlowerAt(CCNode *parent, CCPoint pos, int zOrder) {
+    {
+    CCSprite* flower1 = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("flower_1.png"));
+    flower1->setPosition(pos + ccp(-50, 20));
+    parent->addChild(flower1, zOrder);
+    CCSequence* act1 = CCSequence::create(CCAnimate::create(animationByName("flower")), CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode)), NULL);
+    flower1->runAction(act1);
+    }{
+    CCSprite* flower2 = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("flower_1.png"));
+    flower2->setPosition(pos + ccp(50, 20));
+    flower2->setFlipX(true);
+    parent->addChild(flower2, zOrder);
+    CCSequence* act2 = CCSequence::create(CCAnimate::create(animationByName("flower")), CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode)), NULL);
+    flower2->runAction(act2);
+    }{
+    CCSprite* flower3 = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("flower_1.png"));
+    flower3->setPosition(pos + ccp(-50, -20));
+    flower3->setFlipY(true);
+    parent->addChild(flower3, zOrder);
+    CCSequence* act3 = CCSequence::create(CCAnimate::create(animationByName("flower")), CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode)), NULL);
+    flower3->runAction(act3);
+    }{
+    CCSprite* flower4 = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("flower_1.png"));
+    flower4->setPosition(pos + ccp(50, -20));
+    flower4->setFlipX(true);
+    flower4->setFlipY(true);
+    parent->addChild(flower4, zOrder);
+    CCSequence* act4 = CCSequence::create(CCAnimate::create(animationByName("flower")), CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::purgeActionNode)), NULL);
+    flower4->runAction(act4);
+    }
 }
 
 CCAnimation* SpecialManager::animationByName(const char* name) {

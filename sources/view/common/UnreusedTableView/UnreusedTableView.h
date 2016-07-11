@@ -22,7 +22,9 @@ public:
     static UnreusedTableView* create(CCTableViewDataSource* dataSource, CCSize size, CCNode *container);
     bool initWithViewSize(CCSize size, CCNode* container = NULL);
     
-    void scrollViewDidScroll(CCScrollView* view);
+    virtual void scrollViewDidScroll(CCScrollView* view);
+//    virtual void scrollViewDidZoom(CCScrollView* view);
+    CC_SYNTHESIZE(bool, _eageBounched, EageBounched);
     
 protected:
     void _moveCellOutOfSight(CCTableViewCell *cell);
