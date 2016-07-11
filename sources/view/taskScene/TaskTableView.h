@@ -17,7 +17,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 #define def_TX_Time             0.7
-#define def_Page_Index          9.3
+#define def_Page_Index          8
 
 typedef enum{
     Tag_Task_Xing1 = 1000,
@@ -25,7 +25,7 @@ typedef enum{
     Tag_Task_Xing3,
     Tag_Task_Xing4,
     Tag_Task_Xing5
-}Task_Enum;
+}TaskTable_Enum;
 
 class TaskTableView
 : public CCLayer
@@ -89,7 +89,6 @@ public:
     void buttonStatus(int index, CCSprite* button);
     CCString* getTaskName(int index);
     int getTaskIcon(int index);
-    int getUnlockCondition(int index);
     int getTaskPhase(int index);
 };
 

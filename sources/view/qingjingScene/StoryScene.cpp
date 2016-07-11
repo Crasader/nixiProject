@@ -920,8 +920,9 @@ void StoryScene::logic(float dt){
         
         if (buttonBool1) {
             wordCount = getContentLength();
+            saidLabel->setString(getContentByLength(wordCount).c_str());
             
-            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .2f);
+            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .1f);
         }
         
         this->schedule(schedule_selector(StoryScene::logic), .1f);
