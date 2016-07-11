@@ -38,6 +38,9 @@ public:
     void EnterTheTishi();
     void ExitTishi();
     
+    void exitView();
+    void openTaskStoryScene();
+    
     void creat_Man();
     void initClothes();
     
@@ -53,7 +56,7 @@ public:
     
     CCDictionary* allClothesDic;
     
-    CCMenuItem* historyItem;
+    CCMenuItem* historyItem1, * historyItem2, * historyItem3, * historyItem4, * historyItem5, * backItem;
     
 //    CCSprite* roomSpr;
     CCSprite* taskKuang;

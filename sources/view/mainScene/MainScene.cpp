@@ -261,12 +261,15 @@ void MainScene::creat_view(){
     _layer_4->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f - 1));
     this->addChild(_layer_4);
     
-    //---塔---
+    //---塔(排行榜)---
     CCSprite* tower_spr1 = CCSprite::create("res/pic/mainScene/paihang.png");
     CCSprite* tower_spr2 = CCSprite::create("res/pic/mainScene/paihang.png");
     tower_spr2->setScale(1.02f);
     CCMenuItem* paihang_Item = CCMenuItemSprite::create(tower_spr1, tower_spr2, this, menu_selector(MainScene::paihangCallBack));
-    paihang_Item->setPosition(ccp(_layer_4->getContentSize().width* .55f, _layer_4->getContentSize().height* .75f));
+    paihang_Item->setPosition(ccp(_layer_4->getContentSize().width* .6f, _layer_4->getContentSize().height* .78f));
+    CCSprite* paihang_bar = CCSprite::create("res/pic/mainScene/paihang_bar.png");
+    paihang_bar->setPosition(ccp(paihang_Item->getContentSize().width* .5f, paihang_Item->getContentSize().height* .5f));
+    paihang_Item->addChild(paihang_bar);
     CCMenu* menu_paihang = CCMenu::create(paihang_Item, NULL);
     menu_paihang->setPosition(CCPointZero);
     _layer_4->addChild(menu_paihang);
@@ -276,7 +279,10 @@ void MainScene::creat_view(){
     CCSprite* hd_Spr2 = CCSprite::create("res/pic/mainScene/huodong.png");
     hd_Spr2->setScale(1.02f);
     CCMenuItem* huodong_Item = CCMenuItemSprite::create(hd_Spr1, hd_Spr2, this, menu_selector(MainScene::huodongCallBack));
-    huodong_Item->setPosition(ccp(_layer_4->getContentSize().width* .25f, _layer_4->getContentSize().height* .85f));
+    huodong_Item->setPosition(ccp(_layer_4->getContentSize().width* .35f, _layer_4->getContentSize().height* .89f));
+    CCSprite* huodong_bar = CCSprite::create("res/pic/mainScene/huodong_bar.png");
+    huodong_bar->setPosition(ccp(huodong_Item->getContentSize().width* .5f, huodong_bar->getContentSize().height* .4f));
+    huodong_Item->addChild(huodong_bar);
     CCMenu* menu_huodong = CCMenu::create(huodong_Item, NULL);
     menu_huodong->setPosition(CCPointZero);
     _layer_4->addChild(menu_huodong);
@@ -294,21 +300,29 @@ void MainScene::creat_view(){
     rc_Spr2->setScale(0.56);
     rc_Spr2->setContentSize(rc_Spr1->getContentSize()* .550f);
     CCMenuItem* richang_Item = CCMenuItemSprite::create(rc_Spr1, rc_Spr2, this, menu_selector(MainScene::richangCallBack));
-    richang_Item->setPosition(ccp(richang_Item->getContentSize().width* .5f, _layer_3->getContentSize().height* .65f));
+    richang_Item->setPosition(ccp(richang_Item->getContentSize().width* .55f, _layer_3->getContentSize().height* .65f));
+    CCSprite* company_bar = CCSprite::create("res/pic/mainScene/company_bar.png");
+    company_bar->setPosition(ccp(richang_Item->getContentSize().width* .585f, richang_Item->getContentSize().height* .28f));
+    richang_Item->addChild(company_bar);
+    
     
     //---社交btn(咖啡厅)---
     CCSprite* hy_Spr1 = CCSprite::create("res/pic/mainScene/coffee_nor.png");
     CCSprite* hy_Spr2 = CCSprite::create("res/pic/mainScene/coffee_sel.png");
     CCMenuItemSprite* haoyou_Item = CCMenuItemSprite::create(hy_Spr1, hy_Spr2, this, menu_selector(MainScene::haoyouCallBack));
-    haoyou_Item->setPosition(ccp(_layer_3->getContentSize().width* .63f, _layer_3->getContentSize().height* .56f));
+    haoyou_Item->setPosition(ccp(_layer_3->getContentSize().width* .66f, _layer_3->getContentSize().height* .556f));
+    CCSprite* coffee_bar = CCSprite::create("res/pic/mainScene/coffee_bar.png");
+    coffee_bar->setPosition(ccp(haoyou_Item->getContentSize().width* .38f, haoyou_Item->getContentSize().height* .67));
+    haoyou_Item->addChild(coffee_bar);
     CCMenu* menu_three = CCMenu::create(richang_Item, haoyou_Item, NULL);
     menu_three->setPosition(CCPointZero);
     _layer_3->addChild(menu_three);
     
-    //---椅子---
-    CCSprite* chair_spr = CCSprite::create("res/pic/mainScene/coffee_chair.png");
-    chair_spr->setPosition(ccp(_layer_3->getContentSize().width* .81f, _layer_3->getContentSize().height* .50f));
-    _layer_3->addChild(chair_spr);
+    //---路灯---
+//    CCSprite* ludeng_spr = CCSprite::create("res/pic/mainScene/coffee_nor.png");
+//    ludeng_spr->setPosition(ccp(_layer_3->getContentSize().width* .45f, _layer_3->getContentSize().height* .25f));
+//    _layer_3->addChild(ludeng_spr);
+    
     
     //-----2层花园背景-----
     _layer_2 = CCSprite::create("res/pic/mainScene/home_bg.png");
@@ -321,21 +335,29 @@ void MainScene::creat_view(){
     mail_box2->setScale(1.02f);
     CCMenuItemSprite* youjian_Item = CCMenuItemSprite::create(mail_box1, mail_box2, this, menu_selector(MainScene::youjianCallBack));
     youjian_Item->setPosition(ccp(_layer_2->getContentSize().width* .36f, _layer_2->getContentSize().height* .458f));
+    CCSprite* xinfeng_spr = CCSprite::create("res/pic/mainScene/xinfeng.png");
+    xinfeng_spr->setPosition(ccp(youjian_Item->getContentSize().width* .6f, youjian_Item->getContentSize().height + 20));
+    youjian_Item->addChild(xinfeng_spr);
     
     //---家btn---
     CCSprite* home_spr1 = CCSprite::create("res/pic/mainScene/home_nor.png");
     CCSprite* home_spr2 = CCSprite::create("res/pic/mainScene/home_sel.png");
     home_spr2->setScale(1.02f);
     CCMenuItem* home_item = CCMenuItemSprite::create(home_spr1, home_spr2, this, menu_selector(MainScene::homeCallBack));
-    home_item->setPosition(ccp(_layer_2->getContentSize().width* .29f, _layer_2->getContentSize().height* .310f));
+    home_item->setPosition(ccp(_layer_2->getContentSize().width* .298f, _layer_2->getContentSize().height* .310f));
+    CCSprite* home_bar = CCSprite::create("res/pic/mainScene/home_bar.png");
+    home_bar->setPosition(ccp(home_item->getContentSize().width* .44f, home_item->getContentSize().height* .395f));
+    home_item->addChild(home_bar);
     
     //---换装btn---
     CCSprite* hz_Spr1 = CCSprite::create("res/pic/mainScene/shop_nor.png");
     CCSprite* hz_Spr2 = CCSprite::create("res/pic/mainScene/shop_sel.png");
     hz_Spr2->setScale(1.02f);
     CCMenuItem* huanzhuang_Item = CCMenuItemSprite::create(hz_Spr1, hz_Spr2, this, menu_selector(MainScene::huanzhuangCallBack));
-    huanzhuang_Item->setPosition(ccp(_layer_2->getContentSize().width* .65f, _layer_2->getContentSize().height* .335f));
-    
+    huanzhuang_Item->setPosition(ccp(_layer_2->getContentSize().width* .68f, _layer_2->getContentSize().height* .335f));
+    CCSprite* shop_bar = CCSprite::create("res/pic/mainScene/shop_bar.png");
+    shop_bar->setPosition(ccp(huanzhuang_Item->getContentSize().width* .29f, huanzhuang_Item->getContentSize().height* .35f));
+    huanzhuang_Item->addChild(shop_bar);
     CCMenu* menu_3 = CCMenu::create(home_item, huanzhuang_Item, youjian_Item, NULL);
     menu_3->setPosition(CCPointZero);
     _layer_2->addChild(menu_3);
@@ -350,6 +372,9 @@ void MainScene::creat_view(){
     CCSprite* jq_Car2 = CCSprite::create("res/pic/mainScene/car_juqing_1_sel.png");
     jq_Car2->setScale(1.02f);
     CCMenuItem* juqing_Item = CCMenuItemSprite::create(jq_Car1, jq_Car2, this, menu_selector(MainScene::juqingCallBack));
+    CCSprite* juqing_bar = CCSprite::create("res/pic/mainScene/juqing_bar.png");
+    juqing_bar->setPosition(ccp(juqing_Item->getContentSize().width* .76f, juqing_Item->getContentSize().height* .27f));
+    juqing_Item->addChild(juqing_bar);
     //    juqing_Item->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .12f));
     CCMenu* menu_car1 = CCMenu::create(juqing_Item, NULL);
     menu_car1->setPosition(ccp(_layer_1->getContentSize().width* .65f, _layer_1->getContentSize().height* .13f));
@@ -360,6 +385,9 @@ void MainScene::creat_view(){
     CCSprite* jq2_Car2 = CCSprite::create("res/pic/mainScene/car_juqing_2_sel.png");
     jq2_Car2->setScale(1.02f);
     CCMenuItem* juqing2_Item = CCMenuItemSprite::create(jq2_Car1, jq2_Car2, this, menu_selector(MainScene::juqing_vipCallBack));
+    CCSprite* unknow_bar = CCSprite::create("res/pic/mainScene/unknow_bar.png");
+    unknow_bar->setPosition(ccp(juqing2_Item->getContentSize().width* .75f, juqing2_Item->getContentSize().height* .23f));
+    juqing2_Item->addChild(unknow_bar);
     //    juqing_Item->setPosition(ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .24f));
     CCMenu* menu_car2 = CCMenu::create(juqing2_Item, NULL);
     menu_car2->setPosition(ccp(_layer_1->getContentSize().width* .35f, _layer_1->getContentSize().height* .15f));
@@ -473,7 +501,7 @@ void MainScene::update(float dt){
     if (_bird_1->getPositionX() <= -100) {
         _bird_1->setPositionX(_layer_1->getContentSize().width + 100);
     }else{
-        _bird_1->setPositionX(_bird_1->getPositionX() - 10);
+        _bird_1->setPositionX(_bird_1->getPositionX() - 4);
     }
 }
 
