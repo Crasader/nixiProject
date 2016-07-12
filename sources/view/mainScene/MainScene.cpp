@@ -234,18 +234,75 @@ void MainScene::creat_view(){
     
     //-----鸟------
     _bird_1 = CCSprite::create("res/pic/mainScene/bird_1.png");
-    _bird_1->setPosition(ccp(_layer_6->getContentSize().width* .8f, _layer_6->getContentSize().height* .85));
+    _bird_1->setPosition(ccp(_layer_6->getContentSize().width* .25f, _layer_6->getContentSize().height* .77));
+    _bird_1->setScale(0.2f);
     _layer_6->addChild(_bird_1);
+    
     CCAnimation* animation = CCAnimation::create();
     for (int i = 0; i < 5; i++) {
         CCString* str = CCString::createWithFormat("res/pic/mainScene/bird_%d.png", i + 1);
         animation->addSpriteFrameWithFileName(str->getCString());
     }
-    animation->setDelayPerUnit(2.8f/14.0f);
+    animation->setDelayPerUnit(0.22f);
     animation->setRestoreOriginalFrame(true);
+    
     CCAnimate* ac1 = CCAnimate::create(animation);
     CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(ac1, ac1->reverse(), NULL));
     _bird_1->runAction(rep);
+    
+    _bird_2 = CCSprite::create("res/pic/mainScene/bird_1.png");
+    _bird_2->setPosition(ccp(_layer_6->getContentSize().width* .4f, _layer_6->getContentSize().height* .71));
+    _bird_2->setScale(0.2f);
+    _layer_6->addChild(_bird_2);
+    animation->setDelayPerUnit(0.18f);
+    CCAnimate* ac2 = CCAnimate::create(animation);
+    CCRepeatForever* rep2 = CCRepeatForever::create(CCSequence::create(ac2, ac2->reverse(), NULL));
+    _bird_2->runAction(rep2);
+    
+    _bird_3 = CCSprite::create("res/pic/mainScene/bird_1.png");
+    _bird_3->setPosition(ccp(_layer_6->getContentSize().width* .75, _layer_6->getContentSize().height* .75));
+    _bird_3->setScale(0.4f);
+    _layer_6->addChild(_bird_3);
+    animation->setDelayPerUnit(0.23f);
+    CCAnimate* ac3 = CCAnimate::create(animation);
+    CCRepeatForever* rep3 = CCRepeatForever::create(CCSequence::create(ac3, ac3->reverse(), NULL));
+    _bird_3->runAction(rep3);
+    
+    _bird_4 = CCSprite::create("res/pic/mainScene/bird_1.png");
+    _bird_4->setPosition(ccp(_layer_6->getContentSize().width* .85, _layer_6->getContentSize().height* .8));
+    _bird_4->setScale(0.3f);
+    _layer_6->addChild(_bird_4);
+    animation->setDelayPerUnit(0.25f);
+    CCAnimate* ac4 = CCAnimate::create(animation);
+    CCRepeatForever* rep4 = CCRepeatForever::create(CCSequence::create(ac4, ac4->reverse(), NULL));
+    _bird_4->runAction(rep4);
+    
+    _bird_5 = CCSprite::create("res/pic/mainScene/bird_1.png");
+    _bird_5->setPosition(ccp(_layer_6->getContentSize().width* .45f, _layer_6->getContentSize().height* .77));
+    _bird_5->setScale(0.4f);
+    _layer_6->addChild(_bird_5);
+    animation->setDelayPerUnit(0.1f);
+    CCAnimate* ac5 = CCAnimate::create(animation);
+    CCRepeatForever* rep5 = CCRepeatForever::create(CCSequence::create(ac5, ac5->reverse(), NULL));
+    _bird_5->runAction(rep5);
+    
+    _bird_6 = CCSprite::create("res/pic/mainScene/bird_1.png");
+    _bird_6->setPosition(ccp(_layer_6->getContentSize().width + 100, _layer_6->getContentSize().height* .73));
+    _bird_6->setScale(0.2f);
+    _layer_6->addChild(_bird_6);
+    animation->setDelayPerUnit(0.1f);
+    CCAnimate* ac6 = CCAnimate::create(animation);
+    CCRepeatForever* rep6 = CCRepeatForever::create(CCSequence::create(ac6, ac6->reverse(), NULL));
+    _bird_3->runAction(rep6);
+    
+    _bird_7 = CCSprite::create("res/pic/mainScene/bird_1.png");
+    _bird_7->setPosition(ccp(_layer_6->getContentSize().width* .3f, _layer_6->getContentSize().height* .76));
+    _bird_7->setScale(0.3f);
+    _layer_6->addChild(_bird_7);
+    animation->setDelayPerUnit(0.1f);
+    CCAnimate* ac7 = CCAnimate::create(animation);
+    CCRepeatForever* rep7 = CCRepeatForever::create(CCSequence::create(ac7, ac7->reverse(), NULL));
+    _bird_7->runAction(rep7);
     
     //-----5层河流------
     _river_1 = CCSprite::create("res/pic/mainScene/river.png");
@@ -286,6 +343,12 @@ void MainScene::creat_view(){
     CCMenu* menu_huodong = CCMenu::create(huodong_Item, NULL);
     menu_huodong->setPosition(CCPointZero);
     _layer_4->addChild(menu_huodong);
+    
+    CCMoveBy* mb = CCMoveBy::create(2.5f, CCPoint(0, 8));
+    CCMoveBy* mb2 = CCMoveBy::create(0.5f, CCPoint(0, -1.6));
+    CCSequence* seq = CCSequence::create(mb, CCDelayTime::create(0.2f), mb->reverse(), mb2, CCDelayTime::create(0.2f), mb2->reverse(), NULL);
+    CCRepeatForever* ac_huodong = CCRepeatForever::create(seq);
+    menu_huodong->runAction(ac_huodong);
         
     //-----3层背景------
     _layer_3 = CCSprite::create("res/pic/mainScene/three_bg.png");
@@ -354,7 +417,7 @@ void MainScene::creat_view(){
     CCSprite* hz_Spr2 = CCSprite::create("res/pic/mainScene/shop_sel.png");
     hz_Spr2->setScale(1.02f);
     CCMenuItem* huanzhuang_Item = CCMenuItemSprite::create(hz_Spr1, hz_Spr2, this, menu_selector(MainScene::huanzhuangCallBack));
-    huanzhuang_Item->setPosition(ccp(_layer_2->getContentSize().width* .68f, _layer_2->getContentSize().height* .335f));
+    huanzhuang_Item->setPosition(ccp(_layer_2->getContentSize().width* .65f, _layer_2->getContentSize().height* .330f));
     CCSprite* shop_bar = CCSprite::create("res/pic/mainScene/shop_bar.png");
     shop_bar->setPosition(ccp(huanzhuang_Item->getContentSize().width* .29f, huanzhuang_Item->getContentSize().height* .35f));
     huanzhuang_Item->addChild(shop_bar);
@@ -429,45 +492,9 @@ void MainScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
         _river_2->setPositionX(_river_2->getPositionX() + offset_x* .3f);
         _layer_6->setPositionX(_layer_6->getPositionX() + offset_x* .2f);
     }
-//    this->startAnimation();
 }
 
 void MainScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
-    
-}
-
-void MainScene::startAnimation(){
-    if ((_layer_0->getPositionX() + offset_x >= _layer_0->getContentSize().width* .5f - 10 && offset_x > 0) ||
-        (_layer_0->getPositionX() + offset_x <= DISPLAY->ScreenWidth() - _layer_0->getContentSize().width* .5f + 10 && offset_x < 0)) {
-        
-    }else{
-        CCMoveBy* ac0 = CCMoveBy::create(0.01, CCPoint(offset_x, 0));
-        CCMoveBy* ac1 = CCMoveBy::create(0.01, CCPoint(offset_x* .98f, 0));
-        CCMoveBy* ac2 = CCMoveBy::create(0.01, CCPoint(offset_x* .88f, 0));
-        CCMoveBy* ac3 = CCMoveBy::create(0.01, CCPoint(offset_x* .68f, 0));
-        CCMoveBy* ac4 = CCMoveBy::create(0.01, CCPoint(offset_x* .48f, 0));
-        CCMoveBy* ac5_1 = CCMoveBy::create(0.01, CCPoint(offset_x* .38f, 0));
-        CCMoveBy* ac5_2 = CCMoveBy::create(0.01, CCPoint(offset_x* .38f, 0));
-        CCMoveBy* ac6 = CCMoveBy::create(0.01, CCPoint(offset_x* .2f, 0));
-        
-        _layer_0->stopAllActions();
-        _layer_1->stopAllActions();
-        _layer_2->stopAllActions();
-        _layer_3->stopAllActions();
-        _layer_4->stopAllActions();
-        _river_1->stopAllActions();
-        _river_2->stopAllActions();
-        _layer_6->stopAllActions();
-        
-        _layer_0->runAction(ac0);
-        _layer_1->runAction(ac1);
-        _layer_2->runAction(ac2);
-        _layer_3->runAction(ac3);
-        _layer_4->runAction(ac4);
-        _river_1->runAction(ac5_1);
-        _river_2->runAction(ac5_2);
-        _layer_6->runAction(ac6);
-    }
     
 }
 
@@ -499,9 +526,45 @@ void MainScene::update(float dt){
     }
     
     if (_bird_1->getPositionX() <= -100) {
-        _bird_1->setPositionX(_layer_1->getContentSize().width + 100);
+        _bird_1->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_1->setPositionX(_bird_1->getPositionX() - 4);
+        _bird_1->setPositionX(_bird_1->getPositionX() - 2);
+    }
+    
+    if (_bird_2->getPositionX() <= -100) {
+        _bird_2->setPositionX(_layer_6->getContentSize().width + 100);
+    }else{
+        _bird_2->setPositionX(_bird_2->getPositionX() - 2);
+    }
+    
+    if (_bird_3->getPositionX() <= -100) {
+        _bird_3->setPositionX(_layer_6->getContentSize().width + 100);
+    }else{
+        _bird_3->setPositionX(_bird_3->getPositionX() - 2);
+    }
+    
+    if (_bird_4->getPositionX() <= -100) {
+        _bird_4->setPositionX(_layer_6->getContentSize().width + 100);
+    }else{
+        _bird_4->setPositionX(_bird_4->getPositionX() - 2);
+    }
+    
+    if (_bird_5->getPositionX() <= -100) {
+        _bird_5->setPositionX(_layer_6->getContentSize().width + 100);
+    }else{
+        _bird_5->setPositionX(_bird_5->getPositionX() - 2.5);
+    }
+    
+    if (_bird_6->getPositionX() <= -100) {
+        _bird_6->setPositionX(_layer_6->getContentSize().width + 100);
+    }else{
+        _bird_6->setPositionX(_bird_6->getPositionX() - 3);
+    }
+    
+    if (_bird_7->getPositionX() <= -100) {
+        _bird_7->setPositionX(_layer_6->getContentSize().width + 100);
+    }else{
+        _bird_7->setPositionX(_bird_7->getPositionX() - 3.5);
     }
 }
 

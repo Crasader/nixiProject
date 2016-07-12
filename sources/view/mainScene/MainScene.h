@@ -44,7 +44,6 @@ public:
     CCPoint end_pos;
     float offset_x;
     
-    void startAnimation();
     
 public:
     
@@ -68,6 +67,8 @@ public:
     CCSprite* _bird_3;
     CCSprite* _bird_4;
     CCSprite* _bird_5;
+    CCSprite* _bird_6;
+    CCSprite* _bird_7;
     void resetBirdPosition();
     
     
