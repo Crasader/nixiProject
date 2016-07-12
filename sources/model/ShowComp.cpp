@@ -68,3 +68,8 @@ int ShowComp::collected() {
     return _collected;
 }
 
+int ShowComp::ranking() {
+    return _ranking;
+}
+
+
