@@ -293,7 +293,7 @@ void MainScene::creat_view(){
     animation->setDelayPerUnit(0.1f);
     CCAnimate* ac6 = CCAnimate::create(animation);
     CCRepeatForever* rep6 = CCRepeatForever::create(CCSequence::create(ac6, ac6->reverse(), NULL));
-    _bird_3->runAction(rep6);
+    _bird_6->runAction(rep6);
     
     _bird_7 = CCSprite::create("res/pic/mainScene/bird_1.png");
     _bird_7->setPosition(ccp(_layer_6->getContentSize().width* .3f, _layer_6->getContentSize().height* .76));
