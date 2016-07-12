@@ -150,27 +150,43 @@ void TaskScene::creat_view(){
     
     int menuIndex = 0;
     CCMenu* historyMenu;
-//    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
-    if (DATA->getPlayer()->phase <= 2) {
+    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
         menuIndex = 1;
         historyMenu = CCMenu::create(historyItem1, NULL);
+        historyMenu->alignItemsHorizontallyWithPadding(5);
+        historyMenu->setAnchorPoint(ccp(1, 0));
+        historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+        this->addChild(historyMenu, 20);
     }else if (DATA->getPlayer()->phase > 2 && DATA->getPlayer()->phase <= 3){
         menuIndex = 2;
         historyMenu = CCMenu::create(historyItem1, historyItem2, NULL);
+        historyMenu->alignItemsHorizontallyWithPadding(5);
+        historyMenu->setAnchorPoint(ccp(1, 0));
+        historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+        this->addChild(historyMenu, 20);
     }else if (DATA->getPlayer()->phase > 3 && DATA->getPlayer()->phase <= 4){
         menuIndex = 3;
         historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, NULL);
+        historyMenu->alignItemsHorizontallyWithPadding(5);
+        historyMenu->setAnchorPoint(ccp(1, 0));
+        historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+        this->addChild(historyMenu, 20);
     }else if (DATA->getPlayer()->phase > 4 && DATA->getPlayer()->phase <= 5){
         menuIndex = 4;
         historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, historyItem4, NULL);
+        historyMenu->alignItemsHorizontallyWithPadding(5);
+        historyMenu->setAnchorPoint(ccp(1, 0));
+        historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+        this->addChild(historyMenu, 20);
     }else if (DATA->getPlayer()->phase > 5){
         menuIndex = 5;
         historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, historyItem4, historyItem5, NULL);
+        historyMenu->alignItemsHorizontallyWithPadding(5);
+        historyMenu->setAnchorPoint(ccp(1, 0));
+        historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+        this->addChild(historyMenu, 20);
     }
-    historyMenu->alignItemsHorizontallyWithPadding(5);
-    historyMenu->setAnchorPoint(ccp(1, 0));
-    historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
-    this->addChild(historyMenu, 20);
+    
     
     
     taskKuang = CCSprite::create("res/pic/taskScene/task_dikuang1.png");
@@ -410,33 +426,52 @@ void TaskScene::exitView(){
     CCFadeOut* fadeOut3 = CCFadeOut::create(.3f);
     CCFadeOut* fadeOut4 = CCFadeOut::create(.3f);
     CCFadeOut* fadeOut5 = CCFadeOut::create(.3f);
-    
-    if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
+    if (DATA->getPlayer()->phase == 1){
+        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, CCDelayTime::create(.1f), callFunc, NULL));
+    }else if (DATA->getPlayer()->phase > 1 && DATA->getPlayer()->phase <= 2) {
         historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, callFunc, NULL));
+        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, NULL));
     }else if (DATA->getPlayer()->phase > 2 && DATA->getPlayer()->phase <= 3){
         historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
         historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, callFunc, NULL));
+        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, NULL));
     }else if (DATA->getPlayer()->phase > 3 && DATA->getPlayer()->phase <= 4){
         historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
         historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
         historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3, callFunc, NULL));
+        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, NULL));
     }else if (DATA->getPlayer()->phase > 4 && DATA->getPlayer()->phase <= 5){
         historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
         historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
         historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3, NULL));
         historyItem4->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), fadeOut4, callFunc, NULL));
+        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, NULL));
     }else if (DATA->getPlayer()->phase > 5){
         historyItem1->runAction(CCSequence::create(CCDelayTime::create(.5f), CCShow::create(), fadeOut1, NULL));
         historyItem2->runAction(CCSequence::create(CCDelayTime::create(.7f), CCShow::create(), fadeOut2, NULL));
         historyItem3->runAction(CCSequence::create(CCDelayTime::create(.9f), CCShow::create(), fadeOut3, NULL));
         historyItem4->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), fadeOut4, NULL));
         historyItem5->runAction(CCSequence::create(CCDelayTime::create(1.3f), CCShow::create(), fadeOut5, callFunc, NULL));
+        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, NULL));
     }
-    
-    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
-    CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
-    CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
-    taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, NULL));
 }
 void TaskScene::openTaskStoryScene(){
     CCScene* scene = TaskStoryScene::scene();

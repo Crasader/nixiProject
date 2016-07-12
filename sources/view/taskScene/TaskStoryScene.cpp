@@ -819,15 +819,15 @@ std::string TaskStoryScene::getContentByLength(int length){
     }
     
     int i = 0;
-    int index = 0;
-    while (index < length) {
+    int _index = 0;
+    while (_index < length) {
         char ch = getContent()[i];
         if (ch > -127 && ch < 0) {
             i += 3;
         }else{
             i++;
         }
-        index++;
+        _index++;
     }
     std::string str = content.substr(0, i);
     return str;
@@ -1054,7 +1054,7 @@ void TaskStoryScene::logic(float dt){
         
         if (buttonBool) {
             wordCount = getContentLength();
-            
+            saidLabel->setString(getContentByLength(wordCount).c_str());
             this->scheduleOnce(SEL_SCHEDULE(&TaskStoryScene::getIndex), .1f);
         }
         
