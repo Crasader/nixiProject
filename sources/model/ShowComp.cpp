@@ -30,6 +30,8 @@ void ShowComp::init_with_json(Value json) {
     
     _nickname = json["nickname"].asString();
     _collected = json["collected"].asInt();
+    _ranking = json["ranking"].asInt();
+    
     {
         CC_SAFE_RELEASE(_ondress);
         _ondress = AppUtil::dictionary_with_json(json["ondress"]);
