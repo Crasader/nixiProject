@@ -33,16 +33,18 @@ public:
     void didAccelerate( CCAcceleration* pAccelerationValue);
     void gengxin(float dt);
     
-    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+//    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
+//    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+//    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
+//    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
     CCPoint cur_pos;
     CCPoint last_pos;
     CCPoint end_pos;
     float offset_x;
+    bool isEffective;
+    bool isOk;
     
     
 public:
@@ -69,7 +71,8 @@ public:
     CCSprite* _bird_5;
     CCSprite* _bird_6;
     CCSprite* _bird_7;
-    void resetBirdPosition();
+    void change_position(CCObject* pObj);
+    void setIsEffective();
     
     
     void huodongCallBack(CCObject* pSender);
