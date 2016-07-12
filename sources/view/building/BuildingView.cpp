@@ -12,6 +12,7 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "NetManager.h"
+#include "Loading2.h"
 
 BuildingView::~BuildingView() {
     CC_SAFE_RELEASE_NULL(_floors);
@@ -68,7 +69,10 @@ void BuildingView::onEnter() {
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&BuildingView::nc_collect_coin), "COLLECT_COIN", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BuildingView::nc_take_income), "TAKE_INCOME", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&BuildingView::nc_collect_coin_201), "HTTP_FINISHED_201", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BuildingView::nc_take_income_203), "HTTP_FINISHED_203", NULL);
     
     _tbView->setContentOffset(CCPointZero);
     schedule(SEL_SCHEDULE(&BuildingView::update_produce), CCRANDOM_0_1() * 10);
@@ -125,11 +129,25 @@ void BuildingView::nc_collect_coin(CCObject *pObj) {
     NET->collect_coin_201();
 }
 
+void BuildingView::nc_take_income(CCObject *pObj) {
+    LOADING->show_loading();
+    NET->take_income_203();
+}
+
 void BuildingView::nc_collect_coin_201(CCObject *pObj) {
     if (_tbView && numberOfCellsInTableView(_tbView) > 0) {
         FloorCell* floor = (FloorCell*)_tbView->cellAtIndex(0);
         floor->update_coffers();
     }
+}
+
+void BuildingView::nc_take_income_203(CCObject *pObj) {
+    LOADING->remove();
+    if (_tbView && numberOfCellsInTableView(NULL) > 0) {
+        FloorCell* floor = (FloorCell*)_tbView->cellAtIndex(0);
+        floor->update_coffers();
+    }
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 #pragma mark - CCTableViewDataSource
