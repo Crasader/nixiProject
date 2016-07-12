@@ -264,6 +264,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _coffers->init_with_json(content["coffers"]);
         } break;
             
+        case 203: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _coffers->init_with_json(content["coffers"]);
+        } break;
+            
         case 100: {
             _IAP->init_products(content);
         } break;

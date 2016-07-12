@@ -423,6 +423,7 @@ CCPoint FloorCell::randomEdge() {
 
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
     CCLOG("BuildingView::on_take_rewards()");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("TAKE_INCOME");
 }
 
 void FloorCell::show_coin() {

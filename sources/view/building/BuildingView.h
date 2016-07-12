@@ -52,7 +52,9 @@ private:
     void go_back();
     
     void nc_collect_coin(CCObject* pObj);
+    void nc_take_income(CCObject* pObj);
     void nc_collect_coin_201(CCObject* pObj);
+    void nc_take_income_203(CCObject* pObj);
     
 private:
     UnreusedTableView* _tbView;

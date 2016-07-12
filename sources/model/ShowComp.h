@@ -27,6 +27,7 @@ public:
     void print_dress();
     const char* nickname();
     int collected();            // 收集
+    int ranking();              // 名次
     CCDictionary* ondress();    // 着装
     
     int             isadd;
@@ -37,6 +38,7 @@ protected:
 private:
     string          _nickname;
     int             _collected;
+    int             _ranking;
     CCDictionary*   _ondress;
     CCDictionary*   _ornaments;
 };
