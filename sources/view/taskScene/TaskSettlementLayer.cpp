@@ -15,29 +15,33 @@
 #include "DisplayManager.h"
 
 
-TaskSettlementLayer::TaskSettlementLayer(){
-    
-}
 TaskSettlementLayer::~TaskSettlementLayer(){
-    
 }
 
-cocos2d::CCScene* TaskSettlementLayer::scene(){
-    CCScene* scene = CCScene::create();
-    TaskSettlementLayer* layer = TaskSettlementLayer::create();
-    scene->addChild(layer);
+TaskSettlementLayer* TaskSettlementLayer::create(int rating, int coin, bool isPhaseUP) {
+    TaskSettlementLayer* rtn = new TaskSettlementLayer();
+    if (rtn && rtn->init(rating, coin, isPhaseUP)) {
+        rtn->autorelease();
+    }
+    else {
+        CC_SAFE_RELEASE_NULL(rtn);
+    }
     
-    return scene;
+    return rtn;
 }
 
-
-bool TaskSettlementLayer::init(){
+bool TaskSettlementLayer::init(int rating, int coin, bool isPhaseUP){
     if (!CCLayer::init()) {
         return false;
     }
+    
     this->setTouchSwallowEnabled(false);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
+    
+    _rating = rating;
+    _coin = coin;
+    _isPhaseUP = isPhaseUP;
     
     lingquBool = false;
     
@@ -98,6 +102,22 @@ void TaskSettlementLayer::creat_view(){
     kuangSpr1->setPosition(ccp(renSpr->getContentSize().width + kuangSpr1->getContentSize().width* .33f, renSpr->getContentSize().height* .3f));
     renSpr->addChild(kuangSpr1);
     
+    if (_rating >= 5) {
+        
+    }
+    else if (_rating == 4) {
+        
+    }
+    else if (_rating == 3) {
+        
+    }
+    else if (_rating == 2) {
+        
+    }
+    else {
+        
+    }
+    
     CCString* tishiStr = CCString::createWithFormat("不错不错.很是大方得体.");
     CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(kuangSpr1->getContentSize().width* .88f, kuangSpr1->getContentSize().height* .5f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
     tishiLabel->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
@@ -107,7 +127,7 @@ void TaskSettlementLayer::creat_view(){
     CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     coinSpr->setPosition(ccp(kuangSpr1->getContentSize().width* .09f, kuangSpr1->getContentSize().height* .35f));
     kuangSpr1->addChild(coinSpr);
-    CCString* coinStr = CCString::createWithFormat("x%d", 500);
+    CCString* coinStr = CCString::createWithFormat("x%d", _coin);
     CCLabelTTF* coinLabel = CCLabelTTF::create(coinStr->getCString(), DISPLAY->fangzhengFont(), 25);
     coinLabel->setAnchorPoint(ccp(0, .5f));
     coinLabel->setPosition(ccp(coinSpr->getContentSize().width + 5, coinSpr->getContentSize().height* .4f));
@@ -137,6 +157,7 @@ void TaskSettlementLayer::creat_view(){
     bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr2, 20);
 }
+
 void TaskSettlementLayer::lingquCallBack(CCObject* pSender){
     lingquBool = true;
     
@@ -156,6 +177,7 @@ void TaskSettlementLayer::creat_Man(){
     _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
     _ManSpr->addChild(_touSpr, 210);
 }
+
 void TaskSettlementLayer::initClothes(){//穿衣服
     CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     float widthFolt = .62f;
@@ -509,7 +531,7 @@ void TaskSettlementLayer::initClothes(){//穿衣服
             }
         }
         else if (i == Tag_GJ_ShiPin){
-            CCDictionary* shipinDic = (CCDictionary* )myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+            CCDictionary* shipinDic = (CCDictionary* )myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿饰品的字典
             
             CCInteger* cloth_id;
             for (int j = 11; j <= 20; j++) {

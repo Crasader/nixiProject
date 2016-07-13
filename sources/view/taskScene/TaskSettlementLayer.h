@@ -18,26 +18,16 @@ class TaskSettlementLayer
 : public CCLayer
 {
 public:
-    
-    TaskSettlementLayer();
     ~TaskSettlementLayer();
-    
-    virtual bool init();
-    
+    static TaskSettlementLayer* create(int rating, int coin, bool isPhaseUP);
+    virtual bool init(int rating, int coin, bool isPhaseUP);
     virtual void onEnter();
-    
     virtual void onExit();
-    
     virtual void keyBackClicked();
-    
     virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){}
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){}
-    
-    static cocos2d::CCScene* scene();
-    
-    CREATE_FUNC(TaskSettlementLayer);
     
 public:
     
@@ -82,6 +72,11 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    
+private:
+    int             _rating;
+    int             _coin;
+    bool            _isPhaseUP;
 };
 
 #endif /* defined(__tiegao__TaskSettlementLayer__) */

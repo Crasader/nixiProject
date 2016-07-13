@@ -2346,7 +2346,7 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     
     if (clothesStatus == 1) {// 任务
         if (startTask) {
-            NET->start_mission_601(getTaskId(task_index));
+            NET->start_mission_601(getTaskId(task_index - 1));
         }else{
             startTask = false;
             LOADING->remove();
@@ -2439,8 +2439,15 @@ void ClothesScene::Http_Finished_601(CCObject* pObj){
 
 void ClothesScene::Http_Finished_602(CCObject* pObj){
     LOADING->remove();
+    // {"rating":5,"levelup":0,"coin":50}
+    CCDictionary* result = (CCDictionary*)pObj;
+    int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
+    int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
+    bool levelup = ((CCInteger*)result->objectForKey("levelup"))->getValue() != 0;
     
-    CCScene* scene = TaskSettlementLayer::scene();
+    CCScene* scene = CCScene::create();
+    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
+    scene->addChild(layer);
     CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
