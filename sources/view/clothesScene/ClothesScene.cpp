@@ -2428,7 +2428,7 @@ void ClothesScene::Http_Finished_601(CCObject* pObj){
     int tili = DATA->getPlayer()->energy;
     tili_AllIndex = 9;
     if (tili >= tili_AllIndex) {
-        NET->commit_mission_602(getTaskId(task_index));
+        NET->commit_mission_602(getTaskId(task_index - 1));
     }else{
         LOADING->remove();
         AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);

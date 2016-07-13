@@ -59,9 +59,7 @@ void TotalRankScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::small_callback), "Small", NULL);
-    
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::exitMan), "ExitMan", NULL);
-    
 }
 
 void TotalRankScene::onExit(){

@@ -28,6 +28,8 @@
 
 #include <time.h>
 
+// --------------- test ----------------
+
 #include "SpecialManager.h"
 
 #include "StorySettlementOfTheAnimationLayer.h"
@@ -594,7 +596,7 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
     
 //    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(1);
 //    this->addChild(layer, 1000);
-    CONFIG->getMissionDialog(1, 2);
+//    CONFIG->getMissionDialog(1, 2);
 }
 
 void MainScene::youjianCallBack(CCObject* pSender){
