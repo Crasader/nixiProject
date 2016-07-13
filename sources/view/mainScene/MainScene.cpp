@@ -284,7 +284,7 @@ void MainScene::creat_view(){
     _bird_4->setPosition(ccp(_layer_6->getContentSize().width* .85, _layer_6->getContentSize().height* .8));
     _bird_4->setScale(0.3f);
     _layer_6->addChild(_bird_4);
-    animation->setDelayPerUnit(0.22f);
+    animation->setDelayPerUnit(0.21f);
     CCAnimate* ac4 = CCAnimate::create(animation);
     CCRepeatForever* rep4 = CCRepeatForever::create(CCSequence::create(ac4, ac4->reverse(), NULL));
     _bird_4->runAction(rep4);
@@ -399,7 +399,7 @@ void MainScene::creat_view(){
     rc_Spr2->setScale(0.55f* 1.02f);
     rc_Spr2->setContentSize(rc_Spr1->getContentSize()* .550f);
     CCMenuItem* richang_Item = CCMenuItemSprite::create(rc_Spr1, rc_Spr2, this, menu_selector(MainScene::richangCallBack));
-    richang_Item->setPosition(ccp(richang_Item->getContentSize().width* .55f, _layer_3->getContentSize().height* .65f));
+    richang_Item->setPosition(ccp(richang_Item->getContentSize().width* .53f, _layer_3->getContentSize().height* .65f));
 //    MMMenu* menu_richang = MMMenu::create(richang_Item, NULL);
 //    menu_richang->setPosition(CCPointZero);
 //    _layer_3->addChild(menu_richang);
@@ -594,55 +594,55 @@ void MainScene::update(float dt){
     if (_river_1->getPositionX() <= -_river_1->getContentSize().width* .5f) {
         _river_1->setPositionX(_river_2->getPositionX() + _river_1->getContentSize().width* .5f + _river_2->getContentSize().width* .5f - 5);
     }else{
-        _river_1->setPositionX(_river_1->getPositionX() - 2);
+        _river_1->setPositionX(_river_1->getPositionX() - 0.4);
     }
     
     if (_river_2->getPositionX() <= -_river_2->getContentSize().width* .5f) {
         _river_2->setPositionX(_river_1->getPositionX() + _river_1->getContentSize().width* .5f + _river_2->getContentSize().width* .5f - 5);
     }else{
-        _river_2->setPositionX(_river_2->getPositionX() - 2);
+        _river_2->setPositionX(_river_2->getPositionX() - 0.4);
     }
     
     if (_bird_1->getPositionX() <= -100) {
         _bird_1->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_1->setPositionX(_bird_1->getPositionX() - 2);
+        _bird_1->setPositionX(_bird_1->getPositionX() - 0.6);
     }
     
     if (_bird_2->getPositionX() <= -100) {
         _bird_2->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_2->setPositionX(_bird_2->getPositionX() - 2);
+        _bird_2->setPositionX(_bird_2->getPositionX() - 0.6);
     }
     
     if (_bird_3->getPositionX() <= -100) {
         _bird_3->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_3->setPositionX(_bird_3->getPositionX() - 2);
+        _bird_3->setPositionX(_bird_3->getPositionX() - 0.6);
     }
     
     if (_bird_4->getPositionX() <= -100) {
         _bird_4->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_4->setPositionX(_bird_4->getPositionX() - 2);
+        _bird_4->setPositionX(_bird_4->getPositionX() - 0.6);
     }
     
     if (_bird_5->getPositionX() <= -100) {
         _bird_5->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_5->setPositionX(_bird_5->getPositionX() - 2.5);
+        _bird_5->setPositionX(_bird_5->getPositionX() - 0.75);
     }
     
     if (_bird_6->getPositionX() <= -100) {
         _bird_6->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_6->setPositionX(_bird_6->getPositionX() - 3);
+        _bird_6->setPositionX(_bird_6->getPositionX() - 0.9);
     }
     
     if (_bird_7->getPositionX() <= -100) {
         _bird_7->setPositionX(_layer_6->getContentSize().width + 100);
     }else{
-        _bird_7->setPositionX(_bird_7->getPositionX() - 3.5);
+        _bird_7->setPositionX(_bird_7->getPositionX() - 1.05);
     }
     
     if (isEffective) {
