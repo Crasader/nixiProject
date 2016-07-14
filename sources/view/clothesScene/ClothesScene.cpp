@@ -844,11 +844,11 @@ void ClothesScene::backCallBack(CCObject* pSender){
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     if (clothesStatus == 1) {// 任务
         CCScene* scene = TaskScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (clothesStatus == 2){// 换装
         CCScene* scene = MainScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
@@ -2346,7 +2346,7 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     
     if (clothesStatus == 1) {// 任务
         if (startTask) {
-            NET->start_mission_601(getTaskId(task_index));
+            NET->start_mission_601(getTaskId(task_index - 1));
         }else{
             startTask = false;
             LOADING->remove();
@@ -2428,7 +2428,7 @@ void ClothesScene::Http_Finished_601(CCObject* pObj){
     int tili = DATA->getPlayer()->energy;
     tili_AllIndex = 9;
     if (tili >= tili_AllIndex) {
-        NET->commit_mission_602(getTaskId(task_index));
+        NET->commit_mission_602(getTaskId(task_index - 1));
     }else{
         LOADING->remove();
         AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
@@ -2439,9 +2439,16 @@ void ClothesScene::Http_Finished_601(CCObject* pObj){
 
 void ClothesScene::Http_Finished_602(CCObject* pObj){
     LOADING->remove();
+    // {"rating":5,"levelup":0,"coin":50}
+    CCDictionary* result = (CCDictionary*)pObj;
+    int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
+    int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
+    bool levelup = ((CCInteger*)result->objectForKey("levelup"))->getValue() != 0;
     
-    CCScene* scene = TaskSettlementLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCScene* scene = CCScene::create();
+    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

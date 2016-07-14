@@ -225,11 +225,11 @@ void StrangerScene::btn_note_callback(CCObject* pSender){
 void StrangerScene::btn_back_callback(CCObject* pSender){
     if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
         CCScene* scene = HaoyouScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (!_enterType.empty() && _enterType.compare("my_friend") == 0){
         CCScene* scene = HaoyouRankLayer::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }

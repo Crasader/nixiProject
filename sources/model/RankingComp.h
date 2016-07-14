@@ -21,15 +21,15 @@ public:
     ~RankingComp();
     CREATE_FUNC(RankingComp);
     bool init();
-    
     void init_with_json(Value json);
     
 public:
+    CCDictionary* ranking();
     
 protected:
     
 private:
-    
+    CCDictionary*            _ranking;
 };
 
 #endif /* RankingComp_hpp */
