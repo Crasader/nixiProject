@@ -194,39 +194,51 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             titleLabel1->setTag(selectedIndex + 20000);
             button1->addChild(titleLabel1, 10);
             
-            CCNode* xingNode1 = button1->getChildByTag(Tag_Task_Xing1);
-            if (xingNode1 != NULL) {
-                xingNode1->setScale(.8f);
-                xingNode1->setPosition(ccp(button1->getContentSize().width* .28f, button1->getContentSize().height* .34f));
-                xingNode1->setVisible(true);
-            }
-            
-            CCNode* xingNode2 = button1->getChildByTag(Tag_Task_Xing2);
-            if (xingNode2 != NULL) {
-                xingNode2->setScale(.8f);
-                xingNode2->setPosition(ccp(button1->getContentSize().width* .41f, button1->getContentSize().height* .34f));
-                xingNode2->setVisible(true);
-            }
-            
-            CCNode* xingNode3 = button1->getChildByTag(Tag_Task_Xing3);
-            if (xingNode3 != NULL) {
-                xingNode3->setScale(.8f);
-                xingNode3->setPosition(ccp(button1->getContentSize().width* .54f, button1->getContentSize().height* .34f));
-                xingNode3->setVisible(true);
-            }
-            
-            CCNode* xingNode4 = button1->getChildByTag(Tag_Task_Xing4);
-            if (xingNode4 != NULL) {
-                xingNode4->setScale(.8f);
-                xingNode4->setPosition(ccp(button1->getContentSize().width* .67f, button1->getContentSize().height* .34f));
-                xingNode4->setVisible(true);
-            }
-            
-            CCNode* xingNode5 = button1->getChildByTag(Tag_Task_Xing5);
-            if (xingNode5 != NULL) {
-                xingNode5->setScale(.8f);
-                xingNode5->setPosition(ccp(button1->getContentSize().width* .8f, button1->getContentSize().height* .34f));
-                xingNode5->setVisible(true);
+            CCString* selectedIndexStr = CCString::createWithFormat("%d", selectedIndex);
+            int num = DATA->getMission()->mission_rating(selectedIndexStr->getCString());
+//            num = 5;
+            if (num == 5) {
+                CCNode* xingNode1 = button1->getChildByTag(Tag_Task_Xing1);
+                if (xingNode1 != NULL) {
+                    xingNode1->setScale(.8f);
+                    xingNode1->setPosition(ccp(button1->getContentSize().width* .5f, button1->getContentSize().height* .4f));
+                    xingNode1->setVisible(true);
+                }
+            }else{
+                CCNode* xingNode1 = button1->getChildByTag(Tag_Task_Xing1);
+                if (xingNode1 != NULL) {
+                    xingNode1->setScale(.8f);
+                    xingNode1->setPosition(ccp(button1->getContentSize().width* .28f, button1->getContentSize().height* .34f));
+                    xingNode1->setVisible(true);
+                }
+                
+                CCNode* xingNode2 = button1->getChildByTag(Tag_Task_Xing2);
+                if (xingNode2 != NULL) {
+                    xingNode2->setScale(.8f);
+                    xingNode2->setPosition(ccp(button1->getContentSize().width* .41f, button1->getContentSize().height* .34f));
+                    xingNode2->setVisible(true);
+                }
+                
+                CCNode* xingNode3 = button1->getChildByTag(Tag_Task_Xing3);
+                if (xingNode3 != NULL) {
+                    xingNode3->setScale(.8f);
+                    xingNode3->setPosition(ccp(button1->getContentSize().width* .54f, button1->getContentSize().height* .34f));
+                    xingNode3->setVisible(true);
+                }
+                
+                CCNode* xingNode4 = button1->getChildByTag(Tag_Task_Xing4);
+                if (xingNode4 != NULL) {
+                    xingNode4->setScale(.8f);
+                    xingNode4->setPosition(ccp(button1->getContentSize().width* .67f, button1->getContentSize().height* .34f));
+                    xingNode4->setVisible(true);
+                }
+                
+                CCNode* xingNode5 = button1->getChildByTag(Tag_Task_Xing5);
+                if (xingNode5 != NULL) {
+                    xingNode5->setScale(.8f);
+                    xingNode5->setPosition(ccp(button1->getContentSize().width* .8f, button1->getContentSize().height* .34f));
+                    xingNode5->setVisible(true);
+                }
             }
             
             selectedIndex = cell->getIdx();

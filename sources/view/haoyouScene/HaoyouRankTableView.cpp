@@ -653,8 +653,8 @@ void HaoyouRankTableView::sendTili(CCMenuItem* btn){
     
     CCNode* bg = (CCNode* )item->getParent()->getParent();
     bg->removeChildByTag(0x10400);
-    CCDictionary* strangers = DATA->getSocial()->strangers();
-    ShowComp* other = (ShowComp*)strangers->objectForKey(other_id->getCString());
+    CCDictionary* friends = DATA->getSocial()->friends();
+    ShowComp* other = (ShowComp*)friends->objectForKey(other_id->getCString());
     other->issend = 1;
     
     CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");

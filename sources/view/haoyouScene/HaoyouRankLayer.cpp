@@ -244,10 +244,11 @@ void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::exitMan(){
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+    CCPlace* pl = CCPlace::create(ccp(_ManSpr->getPositionX() - 500, _ManSpr->getPositionY()));
+//    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&HaoyouRankLayer::removeMan));
     CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&HaoyouRankLayer::enterMan));
-    CCSequence* seq = CCSequence::create(moveTo, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
+    CCSequence* seq = CCSequence::create(pl, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
     _ManSpr->runAction(seq);
 }
 
@@ -256,15 +257,15 @@ void HaoyouRankLayer::removeMan(){
 }
 
 void HaoyouRankLayer::enterMan(){
-    const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
-    ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+    const char* curSelected_id = DATA->getSocial()->getSelectedFriendIDbyIndex(DATA->getSocial()->getSelectedFriend());
+    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
     myClothesTemp = show->ondress();
     
     this->creat_Man();
     this->initClothes();
     
-    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+//    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&HaoyouRankLayer::removeMask));
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
     _ManSpr->runAction(seq);
