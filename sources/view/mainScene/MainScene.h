@@ -33,18 +33,19 @@ public:
     void didAccelerate( CCAcceleration* pAccelerationValue);
     void gengxin(float dt);
     
-//    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
-//    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 //    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
 //    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
     CCPoint cur_pos;
     CCPoint last_pos;
-    CCPoint end_pos;
     float offset_x;
+    bool isMenu;
     bool isEffective;
     bool isOk;
+    bool isCanMove;
     
     
 public:
@@ -71,7 +72,19 @@ public:
     CCSprite* _bird_5;
     CCSprite* _bird_6;
     CCSprite* _bird_7;
+    
+    CCMenu* menu_paihang;
+    CCMenu* menu_huodong;
+    CCMenu* menu_richang;
+    CCMenu* menu_haoyou;
+    CCMenu* menu_mail;
+    CCMenu* menu_home;
+    CCMenu* menu_hz;
+    CCMenu* menu_car1;
+    CCMenu* menu_car2;
+        
     void change_position(CCObject* pObj);
+    void updateLayerPosition(float offset_x);
     void setIsEffective();
     
     
@@ -96,6 +109,7 @@ public:
     void _600CallBack(CCObject* pSender);
     void all_mail_callback_700(CCObject* pObj);
     void social_info_callback_800(CCObject* pObj);
+    void rankList_callback_300(CCObject* pObj);
     
 public:
     CCDictionary* allClothesDic;
