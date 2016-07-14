@@ -330,7 +330,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
 void FloorCell::update_coffers() {
     if (! _coffers) {
         _coffers = CCNode::create();
-        _sptFloor->addChild(_coffers);
+        _sptFloor->addChild(_coffers, 10);
     }
     else {
         _coffers->removeAllChildrenWithCleanup(true);
@@ -340,7 +340,7 @@ void FloorCell::update_coffers() {
     CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
     sptPromptBar->setContentSize(CCSizeMake(120, 30));
     sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
-    _sptFloor->addChild(sptPromptBar, 100);
+    _coffers->addChild(sptPromptBar, 100);
     
     CoffersComp* coffers = DATA->getCoffers();
     CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
@@ -354,7 +354,7 @@ void FloorCell::update_coffers() {
     CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
     sptTakeBar->setContentSize(CCSizeMake(90, 30));
     sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 48));
-    _sptFloor->addChild(sptTakeBar, 100);
+    _coffers->addChild(sptTakeBar, 100);
     
     CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
     CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
@@ -362,7 +362,7 @@ void FloorCell::update_coffers() {
     CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&FloorCell::on_take_rewards));
     CCMenu* menuTake = CCMenu::createWithItem(btn_take);
     menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 49));
-    _sptFloor->addChild(menuTake, 101);
+    _coffers->addChild(menuTake, 101);
 }
 
 #pragma mark - Inner
