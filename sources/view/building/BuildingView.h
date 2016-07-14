@@ -50,6 +50,7 @@ public:
 private:
     void start();
     void go_back();
+    void update_coffers();
     
     void nc_collect_coin(CCObject* pObj);
     void nc_take_income(CCObject* pObj);

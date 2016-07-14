@@ -56,13 +56,17 @@ void RankingComp::createArray_with_dic(){
     CCDictElement* pElem = NULL;
     CCDICT_FOREACH(_ranking, pElem){
         const char* user_id = pElem->getStrKey();
-        ShowComp* obj = (ShowComp*)pElem->getObject();
-        int ranking = obj->ranking();
+        ShowComp* show = (ShowComp*)pElem->getObject();
+        int ranking = show->ranking();
         if (_rankArray->count() == 0) {
             _rankArray->addObject(CCString::createWithFormat("%s", user_id));
         }else{
-            for (unsigned int i = 0; i < _rankArray->count(); i++) {
-                CCObject* obj_id = _rankArray->objectAtIndex(i);
+            CCObject* pObj = NULL;
+            CCARRAY_FOREACH(_rankArray, pObj){
+                const char* id = ((CCString* )pObj)->getCString();
+                ShowComp* show_2 = (ShowComp* )_ranking->objectForKey(id);
+                int ranking_2 = show_2->ranking();
+                
             }
         }
     }

@@ -19,6 +19,7 @@
 #include "HaoyouScene.h"
 
 #include "DragLayer.h"
+#include "PromptLayer.h"
 
 #include "Loading2.h"
 #include "NetManager.h"
@@ -689,13 +690,15 @@ void MainScene::setIsEffective(){
 
 void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
-        
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this, "敬请期待");
     }
 }
 
 void MainScene::homeCallBack(CCObject *pSender){
     if (isOk) {
-        
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this, "暂未开放");
     }
 }
 
