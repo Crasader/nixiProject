@@ -29,8 +29,7 @@ void DragLayer::onEnter(){
 }
 
 void DragLayer::onExit(){
-    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    
+        
     CCLayer::onExit();
 }
 
