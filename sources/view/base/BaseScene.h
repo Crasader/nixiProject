@@ -68,6 +68,10 @@ public:
 private:
     void show_purchase_panel();
     void show_energybuy_panel();
+    void updatePhaseProgress();
+    
+private:
+    CCProgressTimer*            _progress;
 };
 
 #endif /* defined(__tiegao__BaseScene__) */

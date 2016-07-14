@@ -103,24 +103,93 @@ void TaskSettlementLayer::creat_view(){
     renSpr->addChild(kuangSpr1);
     
     CCString* tishiStr;
+    int randIndex1 = 0;
+    int randIndex2 = 0;
+    int randIndex3 = 0;
+    int randIndex4 = 0;
     if (_rating == 5) {
+        randIndex1 = 80 + rand()%20;
+        randIndex2 = 80 + rand()%20;
+        randIndex3 = 80 + rand()%20;
+        randIndex4 = 80 + rand()%20;
         tishiStr = CCString::createWithFormat("不错不错.很是大方得体.");
     }else if (_rating == 4) {
+        randIndex1 = 60 + rand()%20;
+        randIndex2 = 60 + rand()%20;
+        randIndex3 = 60 + rand()%20;
+        randIndex4 = 60 + rand()%20;
         tishiStr = CCString::createWithFormat("还可以吧.吐槽君还是可以接受的.");
     }else if (_rating == 3) {
+        randIndex1 = 40 + rand()%20;
+        randIndex2 = 40 + rand()%20;
+        randIndex3 = 40 + rand()%20;
+        randIndex4 = 40 + rand()%20;
         tishiStr = CCString::createWithFormat("你的审美是那个星系的~!不敢恭维.");
     }else if (_rating == 2) {
+        randIndex1 = 20 + rand()%20;
+        randIndex2 = 20 + rand()%20;
+        randIndex3 = 20 + rand()%20;
+        randIndex4 = 20 + rand()%20;
         tishiStr = CCString::createWithFormat("你这样,还处的去门嘛.");
     }else if (_rating == 1) {
+        randIndex1 = 2 + rand()%20;
+        randIndex2 = 2 + rand()%20;
+        randIndex3 = 2 + rand()%20;
+        randIndex4 = 2 + rand()%20;
         tishiStr = CCString::createWithFormat("你光着屁股出门都比这一身强.");
     }
-    CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(kuangSpr1->getContentSize().width* .88f, kuangSpr1->getContentSize().height* .5f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
-    tishiLabel->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
+    CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 23, CCSizeMake(kuangSpr1->getContentSize().width* .88f, kuangSpr1->getContentSize().height* .5f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
+    tishiLabel->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .55f));
     tishiLabel->setColor(ccc3(80, 63, 68));
     kuangSpr1->addChild(tishiLabel);
     
+    // 魅力
+    CCSprite* taskSpr1 = CCSprite::create("res/pic/taskScene/task_1.png");
+    taskSpr1->setPosition(ccp(kuangSpr1->getContentSize().width* .15f, kuangSpr1->getContentSize().height* .45f));
+    kuangSpr1->addChild(taskSpr1, 10);
+    CCString* taskStr1 = CCString::createWithFormat("%d", randIndex1);
+    CCLabelTTF* taskLabel1 = CCLabelTTF::create(taskStr1->getCString(), DISPLAY->fangzhengFont(), 20);
+    taskLabel1->setAnchorPoint(ccp(0, .5f));
+    taskLabel1->setPosition(ccp(taskSpr1->getContentSize().width + 5, taskSpr1->getContentSize().height* .45f));
+    taskLabel1->setColor(ccc3(80, 63, 68));
+    taskSpr1->addChild(taskLabel1);
+    
+    // 沟通
+    CCSprite* taskSpr2 = CCSprite::create("res/pic/taskScene/task_2.png");
+    taskSpr2->setPosition(ccp(kuangSpr1->getContentSize().width* .45f, kuangSpr1->getContentSize().height* .45f));
+    kuangSpr1->addChild(taskSpr2, 10);
+    CCString* taskStr2 = CCString::createWithFormat("%d", randIndex2);
+    CCLabelTTF* taskLabel2 = CCLabelTTF::create(taskStr2->getCString(), DISPLAY->fangzhengFont(), 20);
+    taskLabel2->setAnchorPoint(ccp(0, .5f));
+    taskLabel2->setPosition(ccp(taskSpr2->getContentSize().width + 5, taskSpr2->getContentSize().height* .45f));
+    taskLabel2->setColor(ccc3(80, 63, 68));
+    taskSpr2->addChild(taskLabel2);
+    
+    // 业务
+    CCSprite* taskSpr3 = CCSprite::create("res/pic/taskScene/task_3.png");
+    taskSpr3->setPosition(ccp(kuangSpr1->getContentSize().width* .15f, kuangSpr1->getContentSize().height* .25f));
+    kuangSpr1->addChild(taskSpr3, 10);
+    CCString* taskStr3 = CCString::createWithFormat("%d", randIndex3);
+    CCLabelTTF* taskLabel3 = CCLabelTTF::create(taskStr3->getCString(), DISPLAY->fangzhengFont(), 20);
+    taskLabel3->setAnchorPoint(ccp(0, .5f));
+    taskLabel3->setPosition(ccp(taskSpr3->getContentSize().width + 5, taskSpr3->getContentSize().height* .45f));
+    taskLabel3->setColor(ccc3(80, 63, 68));
+    taskSpr3->addChild(taskLabel3);
+    
+    // 运气
+    CCSprite* taskSpr4 = CCSprite::create("res/pic/taskScene/task_4.png");
+    taskSpr4->setPosition(ccp(kuangSpr1->getContentSize().width* .45f, kuangSpr1->getContentSize().height* .25f));
+    kuangSpr1->addChild(taskSpr4, 10);
+    CCString* taskStr4 = CCString::createWithFormat("%d", randIndex4);
+    CCLabelTTF* taskLabel4 = CCLabelTTF::create(taskStr4->getCString(), DISPLAY->fangzhengFont(), 20);
+    taskLabel4->setAnchorPoint(ccp(0, .5f));
+    taskLabel4->setPosition(ccp(taskSpr4->getContentSize().width + 5, taskSpr4->getContentSize().height* .45f));
+    taskLabel4->setColor(ccc3(80, 63, 68));
+    taskSpr4->addChild(taskLabel4);
+    
+    //
     CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
-    coinSpr->setPosition(ccp(kuangSpr1->getContentSize().width* .09f, kuangSpr1->getContentSize().height* .35f));
+    coinSpr->setPosition(ccp(kuangSpr1->getContentSize().width* .79f, kuangSpr1->getContentSize().height* .55f));
     kuangSpr1->addChild(coinSpr);
     CCString* coinStr = CCString::createWithFormat("x%d", _coin);
     CCLabelTTF* coinLabel = CCLabelTTF::create(coinStr->getCString(), DISPLAY->fangzhengFont(), 25);
@@ -130,10 +199,11 @@ void TaskSettlementLayer::creat_view(){
     coinSpr->addChild(coinLabel);
     
     CCSprite* lingquSpr1 = CCSprite::create("res/pic/taskSettlement/ts_lingqu.png");
+    lingquSpr1->setScale(.9f);
     CCSprite* lingquSpr2 = CCSprite::create("res/pic/taskSettlement/ts_lingqu.png");
-    lingquSpr2->setScale(1.02f);
+    lingquSpr2->setScale(.92f);
     CCMenuItem* lingquItem = CCMenuItemSprite::create(lingquSpr1, lingquSpr2, this, menu_selector(TaskSettlementLayer::lingquCallBack));
-    lingquItem->setPosition(ccp(kuangSpr1->getContentSize().width* .84f, kuangSpr1->getContentSize().height* .3f));
+    lingquItem->setPosition(ccp(kuangSpr1->getContentSize().width* .86f, kuangSpr1->getContentSize().height* .28f));
     CCMenu* menu = CCMenu::create(lingquItem, NULL);
     menu->setPosition(CCPointZero);
     kuangSpr1->addChild(menu);

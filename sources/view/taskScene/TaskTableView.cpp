@@ -66,7 +66,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
     
     OpenToWhichOne = cell->getIdx();
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne <= unlockCondition) {
+    if (OpenToWhichOne < unlockCondition) {
         if (selectedIndex == -1) {
             selectedIndex = cell->getIdx();
             
@@ -335,7 +335,7 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     OpenToWhichOne = idx;
     
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne <= unlockCondition) {
+    if (OpenToWhichOne < unlockCondition) {
         
         CCString* buttonStr;
         if (selectedIndex == idx) {
@@ -456,7 +456,7 @@ void TaskTableView::tableCellHighlight(cocos2d::extension::CCTableView* table, c
 
     OpenToWhichOne = cell->getIdx();
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne <= unlockCondition) {
+    if (OpenToWhichOne < unlockCondition) {
         if (selectedIndex == -1) {
             sprNode = cell->getChildByTag(cell->getIdx());
             CCSprite* kuang = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
@@ -514,7 +514,7 @@ void TaskTableView::tableCellUnhighlight(cocos2d::extension::CCTableView* table,
 
     OpenToWhichOne = cell->getIdx();
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne <= unlockCondition) {
+    if (OpenToWhichOne < unlockCondition) {
         if (selectedIndex == -1) {
             sprNode = cell->getChildByTag(cell->getIdx());
             CCSprite* kuang = (CCSprite* )sprNode->getChildByTag(cell->getIdx());

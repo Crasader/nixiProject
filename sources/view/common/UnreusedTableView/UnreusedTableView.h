@@ -26,6 +26,8 @@ public:
 //    virtual void scrollViewDidZoom(CCScrollView* view);
     CC_SYNTHESIZE(bool, _eageBounched, EageBounched);
     
+//    CCTableViewCell* cellAtIndex(unsigned int idx);
+    
 protected:
     void _moveCellOutOfSight(CCTableViewCell *cell);
     

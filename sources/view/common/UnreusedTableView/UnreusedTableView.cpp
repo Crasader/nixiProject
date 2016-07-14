@@ -34,11 +34,11 @@ bool UnreusedTableView::initWithViewSize(CCSize size, CCNode* container/* = NULL
     {
         _eageBounched = true;
         
-        m_pCellsUsed      = new CCArrayForObjectSorting();
-        m_pCellsFreed     = new CCArrayForObjectSorting();
-        m_pIndices        = new std::set<unsigned int>();
-        m_eVordering      = kCCTableViewFillBottomUp;
-        this->setDirection(kCCScrollViewDirectionVertical);
+//        m_pCellsUsed      = new CCArrayForObjectSorting();
+//        m_pCellsFreed     = new CCArrayForObjectSorting();
+//        m_pIndices        = new std::set<unsigned int>();
+//        m_eVordering      = kCCTableViewFillBottomUp;
+//        this->setDirection(kCCScrollViewDirectionVertical);
         
         CCScrollView::setDelegate(this);
         return true;
@@ -174,3 +174,12 @@ void UnreusedTableView::_moveCellOutOfSight(CCTableViewCell *cell) {
 //    }
 }
 
+//CCTableViewCell *UnreusedTableView::cellAtIndex(unsigned int idx)
+//{
+//    CCTableViewCell *found = NULL;
+//    if (m_pCellsUsed) {
+//        found = (CCTableViewCell *)m_pCellsUsed->objectWithObjectID(idx);
+//    }
+//    
+//    return found;
+//}

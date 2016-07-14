@@ -143,7 +143,7 @@ void BuildingView::nc_collect_coin_201(CCObject *pObj) {
 
 void BuildingView::nc_take_income_203(CCObject *pObj) {
     LOADING->remove();
-    if (_tbView && numberOfCellsInTableView(NULL) > 0) {
+    if (_tbView) {
         FloorCell* floor = (FloorCell*)_tbView->cellAtIndex(0);
         floor->update_coffers();
     }

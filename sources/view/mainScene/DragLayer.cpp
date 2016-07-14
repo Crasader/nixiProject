@@ -7,6 +7,7 @@
 //
 
 #include "DragLayer.h"
+#include "SpecialManager.h"
 
 DragLayer::~DragLayer(){
     
@@ -35,7 +36,7 @@ void DragLayer::onExit(){
 
 bool DragLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){
     last_pos = pTouch->getLocation();
-    
+    SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
     return true;
 }
 
