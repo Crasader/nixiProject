@@ -714,7 +714,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
-        NET->ranking_list_300();
+//        NET->ranking_list_300();
     }
 }
 
@@ -765,16 +765,19 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
 }
 void MainScene::paihangCallBack(CCObject* pSender){
     if (isOk) {
-        CCLayer* layer = TotalRankScene::create_with_type(1);
-        CCScene* scene = CCScene::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        LOADING->show_loading();
+        NET->ranking_list_300();
     }
 }
 
 void MainScene::rankList_callback_300(CCObject *pObj){
+    LOADING->remove();
     
+    CCLayer* layer = TotalRankScene::create_with_type(1);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void MainScene::juqingCallBack(CCObject* pSender){
