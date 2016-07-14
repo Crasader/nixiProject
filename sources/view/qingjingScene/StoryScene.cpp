@@ -2041,6 +2041,7 @@ void StoryScene::getIndex(float dt){
             
             this->setTouchEnabled(false);
             endingStr = CCString::createWithFormat("%s", _achievement->getCString());
+            endingStr->retain();
             
             storyIndex = 2;
             LOADING->show_loading();
@@ -2138,8 +2139,8 @@ void StoryScene::LabelColorFhCallBack(CCObject* pSender){
 
 void StoryScene::_503CallBack(CCObject* pSender){
     LOADING->remove();
-    
-    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex);
+    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
+    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
     this->addChild(layer, 1000);
 }
 
