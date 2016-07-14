@@ -256,8 +256,8 @@ void HaoyouRankLayer::removeMan(){
 }
 
 void HaoyouRankLayer::enterMan(){
-    const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
-    ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+    const char* curSelected_id = DATA->getSocial()->getSelectedFriendIDbyIndex(DATA->getSocial()->getSelectedFriend());
+    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
     myClothesTemp = show->ondress();
     
     this->creat_Man();
