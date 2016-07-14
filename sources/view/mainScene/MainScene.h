@@ -109,6 +109,7 @@ public:
     void _600CallBack(CCObject* pSender);
     void all_mail_callback_700(CCObject* pObj);
     void social_info_callback_800(CCObject* pObj);
+    void rankList_callback_300(CCObject* pObj);
     
 public:
     CCDictionary* allClothesDic;

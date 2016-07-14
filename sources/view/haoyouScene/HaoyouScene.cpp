@@ -60,6 +60,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::rank_list_callback_300), "HTTP_FINISHED_300", NULL);
 
 }
 
@@ -132,7 +133,7 @@ void HaoyouScene::creat_view(){
 }
 void HaoyouScene::backCallBack(CCObject* pSender){
     CCScene* scene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
@@ -150,13 +151,13 @@ void HaoyouScene::zhitiaoCallBack(CCObject* pSender){
 void HaoyouScene::all_paper_callback_808(CCObject* pSender){
     LOADING->remove();
     CCScene* scene = NoteLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouScene::all_message_callback_804(CCObject* pSender){
     CCScene* scene = MessageLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -168,7 +169,7 @@ void HaoyouScene::haoyouCallBack(CCObject* pSender){
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
     LOADING->remove();
     CCScene* scene = HaoyouRankLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -178,10 +179,17 @@ void HaoyouScene::strangerCallBack(CCObject* pSender){
 }
 
 void HaoyouScene::paihangCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->ranking_list_300();
+}
+
+void HaoyouScene::rank_list_callback_300(CCObject *pObj){
+    LOADING->remove();
+    
     CCLayer* layer = TotalRankScene::create_with_type(2);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -191,7 +199,7 @@ void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){
     StrangerScene* layer = StrangerScene::create();
     layer->setEnterType("main_friend");
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

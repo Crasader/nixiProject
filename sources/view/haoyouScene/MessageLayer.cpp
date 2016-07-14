@@ -73,7 +73,7 @@ void MessageLayer::creat_View(){
 }
 void MessageLayer::backCallBack(CCObject* pSender){
     CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

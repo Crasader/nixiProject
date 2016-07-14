@@ -35,7 +35,7 @@ public:
     
 public:
     CCDictionary* strangers();
-    CCDictionary* friends() const;
+    CCDictionary* friends() const;       // 包括自己的Show在内
     bool is_friend(const char* other_sid);
     bool has_send_energy(const char* other_sid);
     int energy_could_take();
@@ -46,6 +46,9 @@ public:
     const char* getSelectedFriendIDbyIndex(int idx);
     CC_SYNTHESIZE(int, _selectedStranger, SelectedStranger);
     CC_SYNTHESIZE(int, _selectedFriend, SelectedFriend);
+    
+private:
+    void sort_friends_by_collected(CCDictionary* dic);
     
 private:
     int                 _energy_token;

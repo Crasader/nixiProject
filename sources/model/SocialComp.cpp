@@ -183,4 +183,17 @@ const char* SocialComp::getSelectedFriendIDbyIndex(int idx){
     }
 }
 
-
+void SocialComp::sort_friends_by_collected(CCDictionary* dic) {
+    CCArray* arr = dic->allKeys();
+    int size = arr->count();
+    for (int i = 0; i < size - 1; ++i) {
+        CCString* pA = (CCString* )arr->objectAtIndex(i);
+        for (int j = i + 1; j < size; ++j) {
+            CCString* pB = (CCString* )arr->objectAtIndex(j);
+            if (pA->compare(pB->getCString()) > 0) {
+                arr->exchangeObjectAtIndex(i, j);
+                
+            }
+        }
+    }
+}

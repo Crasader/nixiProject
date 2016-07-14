@@ -19,7 +19,6 @@
 #include "HaoyouScene.h"
 
 #include "DragLayer.h"
-#include "MMMenu.h"
 
 #include "Loading2.h"
 #include "NetManager.h"
@@ -31,9 +30,8 @@
 
 #include <time.h>
 
-#include "SpecialManager.h"
+// --------------- test ----------------
 
-#include "StorySettlementOfTheAnimationLayer.h"
 
 MainScene::MainScene(){
     
@@ -100,6 +98,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
     
@@ -702,9 +701,8 @@ void MainScene::homeCallBack(CCObject *pSender){
 
 void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
-        SPECIAL->showStar2At(getParent(), DISPLAY->center(), 1);
-    }
     
+    }
 }
 
 void MainScene::huodongCallBack(CCObject* pSender){
@@ -716,11 +714,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
-        //    SPECIAL->showPetal2At(this->getScene(), DISPLAY->center(), 1);
-        
-        //    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(1);
-        //    this->addChild(layer, 1000);
-        CONFIG->getMissionDialog(1, 2);
+        NET->ranking_list_300();
     }
 }
 
@@ -741,7 +735,7 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 void MainScene::social_info_callback_800(CCObject* pObj) {
     LOADING->remove();
     CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -766,7 +760,7 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::paihangCallBack(CCObject* pSender){
@@ -774,11 +768,15 @@ void MainScene::paihangCallBack(CCObject* pSender){
         CCLayer* layer = TotalRankScene::create_with_type(1);
         CCScene* scene = CCScene::create();
         scene->addChild(layer);
-        //    CCScene* scene = TotalRankScene::scene(1);
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
+
+void MainScene::rankList_callback_300(CCObject *pObj){
+    
+}
+
 void MainScene::juqingCallBack(CCObject* pSender){
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
@@ -792,7 +790,7 @@ void MainScene::juqingCallBack(CCObject* pSender){
 }
 void MainScene::_500CallBack(CCObject* pSender){
     CCScene* scene = QingjingScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::richangCallBack(CCObject* pSender){
@@ -806,7 +804,7 @@ void MainScene::_600CallBack(CCObject* pSender){
     LOADING->remove();
     
     CCScene* scene = TaskScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

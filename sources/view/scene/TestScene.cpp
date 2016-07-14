@@ -102,7 +102,7 @@ void TestScene::login_view() {
 
 void TestScene::master_view() {
     CCScene* scene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
     
     _content->removeAllChildren();
