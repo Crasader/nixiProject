@@ -187,10 +187,8 @@ void BaseScene::init_UI(){
     /*
     // 公司等级进度
     CCSprite* phaseStar = CCSprite::create("pic/baseScene/base_phase.png");
-//    phaseStar->setPosition(ccp(DISPLAY->halfW() - 166, DISPLAY->H()* 0.957f));
-//    this->addChild(phaseStar, 10);
-    phaseStar->setPosition(ccp(146, 8));
-    nameItem->addChild(phaseStar);
+    phaseStar->setPosition(ccp(DISPLAY->halfW() - 166, DISPLAY->H()* 0.957f));
+    this->addChild(phaseStar, 10);
     
     CCLabelAtlas* phaseNum = CCLabelAtlas::create(CCString::createWithFormat("%d", DATA->getPlayer()->phase)->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
     phaseNum->setPosition(ccp(10, 3));
@@ -198,14 +196,15 @@ void BaseScene::init_UI(){
     
     CCSprite* bottom = CCSprite::create("pic/baseScene/base_exp_bar_bottom.png");
     bottom->setAnchorPoint(ccp(0, 0.5));
-//    bottom->setPosition(ccp(250, 13));
+    bottom->setPosition(ccp(22, 10));
     phaseStar->addChild(bottom);
     
     CCSprite* top = CCSprite::create("pic/baseScene/base_exp_bar_top.png");
     _progress = CCProgressTimer::create(top);
-    _progress->setAnchorPoint(ccp(0, 0.5));
     _progress->setType(kCCProgressTimerTypeBar);
     _progress->setPercentage(50);
+    _progress->setMidpoint(ccp(0, 1));          // 设置进度方向
+    _progress->setBarChangeRate(ccp(0, 1));     // 设置进度为水平还是垂直方向
     phaseStar->addChild(_progress);
     */
     this->updatePhaseProgress();
