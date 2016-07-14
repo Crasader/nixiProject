@@ -54,7 +54,7 @@ bool TaskSettlementLayer::init(int rating, int coin, bool isPhaseUP){
     
     this->creat_view();
     this->creat_Man();
-//    this->initClothes();
+    this->initClothes();
     
     return true;
 }

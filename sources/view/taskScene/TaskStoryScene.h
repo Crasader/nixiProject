@@ -159,6 +159,7 @@ public:
     int nowIndex;
     int contentLength;
     int wordCount;
+    int subscriptIndex;
     
     CCDictionary* allClothesDic;
     CCDictionary* missionDic;

@@ -55,6 +55,8 @@ bool TaskStoryScene::init(){
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
     CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
+    subscriptIndex = missionDic->valueForKey("id")->intValue();
+    
     
     CCDictionary* ratingDic =  DATA->getPlayer()->rating;
     CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
@@ -125,21 +127,34 @@ bool TaskStoryScene::init(){
     startItem->setVisible(false);
     
     // 标签123
+    int tag1 = missionDic->valueForKey("tag1")->intValue();
+    int tag2 = missionDic->valueForKey("tag2")->intValue();
+    int tag3 = missionDic->valueForKey("tag3")->intValue();
+    
     CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
     renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .96f));
     this->addChild(renwukuangSpr, 100);
-    CCString* tagStr1 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian101.png");
-    CCSprite* tagSpr1 = CCSprite::create(tagStr1->getCString());
-    tagSpr1->setPosition(ccp(renwukuangSpr->getContentSize().width* .25f, renwukuangSpr->getContentSize().height* .4f));
-    renwukuangSpr->addChild(tagSpr1);
-    CCString* tagStr2 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian102.png");
-    CCSprite* tagSpr2 = CCSprite::create(tagStr2->getCString());
-    tagSpr2->setPosition(ccp(renwukuangSpr->getContentSize().width* .5f, renwukuangSpr->getContentSize().height* .4f));
-    renwukuangSpr->addChild(tagSpr2);
-    CCString* tagStr3 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian103.png");
-    CCSprite* tagSpr3 = CCSprite::create(tagStr3->getCString());
-    tagSpr3->setPosition(ccp(renwukuangSpr->getContentSize().width* .75f, renwukuangSpr->getContentSize().height* .4f));
-    renwukuangSpr->addChild(tagSpr3);
+    
+    if (tag1 > 0) {
+        CCString* tagStr1 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag1);
+        CCSprite* tagSpr1 = CCSprite::create(tagStr1->getCString());
+        tagSpr1->setPosition(ccp(renwukuangSpr->getContentSize().width* .25f, renwukuangSpr->getContentSize().height* .4f));
+        renwukuangSpr->addChild(tagSpr1);
+    }
+    
+    if (tag2 > 0) {
+        CCString* tagStr2 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag2);
+        CCSprite* tagSpr2 = CCSprite::create(tagStr2->getCString());
+        tagSpr2->setPosition(ccp(renwukuangSpr->getContentSize().width* .5f, renwukuangSpr->getContentSize().height* .4f));
+        renwukuangSpr->addChild(tagSpr2);
+    }
+    
+    if (tag3 > 0) {
+        CCString* tagStr3 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag3);
+        CCSprite* tagSpr3 = CCSprite::create(tagStr3->getCString());
+        tagSpr3->setPosition(ccp(renwukuangSpr->getContentSize().width* .75f, renwukuangSpr->getContentSize().height* .4f));
+        renwukuangSpr->addChild(tagSpr3);
+    }
     
     
     float widSize = kuangSpr->getContentSize().width;
@@ -269,17 +284,17 @@ void TaskStoryScene::goTaskScene(){
 }
 
 void TaskStoryScene::creat_Man(float _widthFolt, float _heightFloat, float _scaleFloat){
-    float widthFolt = .65f;
+    float widthFolt = DISPLAY->ScreenWidth()* .5f + 95;
     float heightFloat = DISPLAY->ScreenHeight()* .3f;
     float scaleFloat = 1.5f;
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
     manSpr->setScale(scaleFloat);
-    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+    manSpr->setPosition(ccp(widthFolt, heightFloat));
     _ManSpr1->addChild(manSpr, 200);
     _touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
     _touSpr->setScale(scaleFloat);
-    _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+    _touSpr->setPosition(ccp(widthFolt, heightFloat));
     _ManSpr1->addChild(_touSpr, 210);
     
     _ManSpr1->setPosition(ccp(_widthFolt, _heightFloat));
@@ -297,7 +312,7 @@ void TaskStoryScene::creat_Man2(float _widthFolt, float _heightFloat, float _sca
     }
 }
 void TaskStoryScene::initClothes(){//穿衣服
-    float widthFolt = .65f;
+    float widthFolt = DISPLAY->ScreenWidth()* .5f + 95;
     float heightFloat = DISPLAY->ScreenHeight()* .3f;
     float scaleFloat = 1.5f;
     
@@ -313,7 +328,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _tfSpr1 = CCSprite::create(str1->getCString());
                 _tfSpr1->setScale(scaleFloat);
                 _tfSpr1->setFlipX(flipxBool);
-                _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _tfSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _tfSpr1->setTag(Tag_TS_TouFa1);
                 _ManSpr1->addChild(_tfSpr1, 430);
                 
@@ -321,7 +336,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _tfSpr2 = CCSprite::create(str2->getCString());
                 _tfSpr2->setScale(scaleFloat);
                 _tfSpr2->setFlipX(flipxBool);
-                _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _tfSpr2->setPosition(ccp(widthFolt, heightFloat));
                 _tfSpr2->setTag(Tag_TS_TouFa2);
                 _ManSpr1->addChild(_tfSpr2, 50);
             }else{
@@ -338,7 +353,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _tfSpr1 = CCSprite::create(str1->getCString());
                             _tfSpr1->setScale(scaleFloat);
                             _tfSpr1->setFlipX(flipxBool);
-                            _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _tfSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _tfSpr1->setTag(Tag_TS_TouFa1);
                             _ManSpr1->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -348,7 +363,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _tfSpr2 = CCSprite::create(str2->getCString());
                             _tfSpr2->setScale(scaleFloat);
                             _tfSpr2->setFlipX(flipxBool);
-                            _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _tfSpr2->setPosition(ccp(widthFolt, heightFloat));
                             _tfSpr2->setTag(Tag_TS_TouFa2);
                             _ManSpr1->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -358,7 +373,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _tfSpr3 = CCSprite::create(str3->getCString());
                             _tfSpr3->setScale(scaleFloat);
                             _tfSpr3->setFlipX(flipxBool);
-                            _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _tfSpr3->setPosition(ccp(widthFolt, heightFloat));
                             _tfSpr3->setTag(Tag_TS_TouFa3);
                             _ManSpr1->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -375,7 +390,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _wtSpr1 = CCSprite::create(str->getCString());
                 _wtSpr1->setScale(scaleFloat);
                 _wtSpr1->setFlipX(flipxBool);
-                _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _wtSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _wtSpr1->setTag(Tag_TS_WaiTao1);
                 _ManSpr1->addChild(_wtSpr1, 50);
             }else{
@@ -392,7 +407,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _wtSpr1 = CCSprite::create(str1->getCString());
                             _wtSpr1->setScale(scaleFloat);
                             _wtSpr1->setFlipX(flipxBool);
-                            _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _wtSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _wtSpr1->setTag(Tag_TS_WaiTao1);
                             _ManSpr1->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -402,7 +417,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _wtSpr2 = CCSprite::create(str2->getCString());
                             _wtSpr2->setScale(scaleFloat);
                             _wtSpr2->setFlipX(flipxBool);
-                            _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _wtSpr2->setPosition(ccp(widthFolt, heightFloat));
                             _wtSpr2->setTag(Tag_TS_WaiTao2);
                             _ManSpr1->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -412,7 +427,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _wtSpr3 = CCSprite::create(str3->getCString());
                             _wtSpr3->setScale(scaleFloat);
                             _wtSpr3->setFlipX(flipxBool);
-                            _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _wtSpr3->setPosition(ccp(widthFolt, heightFloat));
                             _wtSpr3->setTag(Tag_TS_WaiTao3);
                             _ManSpr1->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -425,23 +440,23 @@ void TaskStoryScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 30000) {
-                //                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
-                //                _sySpr1 = CCSprite::create(str->getCString());
-                //                _sySpr1->setScale(scaleFloat);
-                //                _sySpr1->setFlipX(flipxBool);
-                //                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
-                //                _sySpr1->setTag(Tag_TS_ShangYi1);
-                //                _ManSpr1->addChild(_sySpr1, 350);
+                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
+                _sySpr1 = CCSprite::create(str->getCString());
+                _sySpr1->setScale(scaleFloat);
+                _sySpr1->setFlipX(flipxBool);
+                _sySpr1->setPosition(ccp(widthFolt, heightFloat));
+                _sySpr1->setTag(Tag_TS_ShangYi1);
+                _ManSpr1->addChild(_sySpr1, 350);
                 
-                CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing2.png");
-                xingSpr1->setFlipX(true);
-                xingSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .22f, DISPLAY->ScreenHeight()* .488f));
-                _ManSpr1->addChild(xingSpr1, 420);
-                
-                CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing2.png");
-                xingSpr2->setFlipX(true);
-                xingSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .385f, DISPLAY->ScreenHeight()* .473f));
-                _ManSpr1->addChild(xingSpr2, 420);
+//                CCSprite* xingSpr1 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+//                xingSpr1->setFlipX(true);
+//                xingSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .22f, DISPLAY->ScreenHeight()* .488f));
+//                _ManSpr1->addChild(xingSpr1, 420);
+//                
+//                CCSprite* xingSpr2 = CCSprite::create("res/pic/taskScene/task_xing2.png");
+//                xingSpr2->setFlipX(true);
+//                xingSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .385f, DISPLAY->ScreenHeight()* .473f));
+//                _ManSpr1->addChild(xingSpr2, 420);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -456,7 +471,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _sySpr1 = CCSprite::create(str1->getCString());
                             _sySpr1->setScale(scaleFloat);
                             _sySpr1->setFlipX(flipxBool);
-                            _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _sySpr1->setPosition(ccp(widthFolt, heightFloat));
                             _sySpr1->setTag(Tag_TS_ShangYi1);
                             _ManSpr1->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -466,7 +481,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _sySpr2 = CCSprite::create(str2->getCString());
                             _sySpr2->setScale(scaleFloat);
                             _sySpr2->setFlipX(flipxBool);
-                            _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _sySpr2->setPosition(ccp(widthFolt, heightFloat));
                             _sySpr2->setTag(Tag_TS_ShangYi2);
                             _ManSpr1->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -476,7 +491,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _sySpr3 = CCSprite::create(str3->getCString());
                             _sySpr3->setScale(scaleFloat);
                             _sySpr3->setFlipX(flipxBool);
-                            _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _sySpr3->setPosition(ccp(widthFolt, heightFloat));
                             _sySpr3->setTag(Tag_TS_ShangYi3);
                             _ManSpr1->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -493,7 +508,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _kzSpr1 = CCSprite::create(str->getCString());
                 _kzSpr1->setScale(scaleFloat);
                 _kzSpr1->setFlipX(flipxBool);
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _kzSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _kzSpr1->setTag(Tag_TS_KuZi1);
                 _ManSpr1->addChild(_kzSpr1, 290);
             }else{
@@ -510,7 +525,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _kzSpr1 = CCSprite::create(str1->getCString());
                             _kzSpr1->setScale(scaleFloat);
                             _kzSpr1->setFlipX(flipxBool);
-                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _kzSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _kzSpr1->setTag(Tag_TS_KuZi1);
                             _ManSpr1->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -520,7 +535,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _kzSpr2 = CCSprite::create(str2->getCString());
                             _kzSpr2->setScale(scaleFloat);
                             _kzSpr2->setFlipX(flipxBool);
-                            _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _kzSpr2->setPosition(ccp(widthFolt, heightFloat));
                             _kzSpr2->setTag(Tag_TS_KuZi2);
                             _ManSpr1->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -530,7 +545,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _kzSpr3 = CCSprite::create(str3->getCString());
                             _kzSpr3->setScale(scaleFloat);
                             _kzSpr3->setFlipX(flipxBool);
-                            _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _kzSpr3->setPosition(ccp(widthFolt, heightFloat));
                             _kzSpr3->setTag(Tag_TS_KuZi3);
                             _ManSpr1->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -547,7 +562,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _wzSpr1 = CCSprite::create(str->getCString());
                 _wzSpr1->setScale(scaleFloat);
                 _wzSpr1->setFlipX(flipxBool);
-                _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _wzSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _wzSpr1->setTag(Tag_TS_WaZi1);
                 _ManSpr1->addChild(_wzSpr1, 50);
             }else{
@@ -564,7 +579,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _wzSpr1 = CCSprite::create(str1->getCString());
                             _wzSpr1->setScale(scaleFloat);
                             _wzSpr1->setFlipX(flipxBool);
-                            _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _wzSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _wzSpr1->setTag(Tag_TS_WaZi1);
                             _ManSpr1->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -574,7 +589,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _wzSpr2 = CCSprite::create(str2->getCString());
                             _wzSpr2->setScale(scaleFloat);
                             _wzSpr2->setFlipX(flipxBool);
-                            _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _wzSpr2->setPosition(ccp(widthFolt, heightFloat));
                             _wzSpr2->setTag(Tag_TS_WaZi2);
                             _ManSpr1->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -584,7 +599,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _wzSpr3 = CCSprite::create(str3->getCString());
                             _wzSpr3->setScale(scaleFloat);
                             _wzSpr3->setFlipX(flipxBool);
-                            _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _wzSpr3->setPosition(ccp(widthFolt, heightFloat));
                             _wzSpr3->setTag(Tag_TS_WaZi3);
                             _ManSpr1->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -601,7 +616,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _xzSpr1 = CCSprite::create(str->getCString());
                 _xzSpr1->setScale(scaleFloat);
                 _xzSpr1->setFlipX(flipxBool);
-                _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _xzSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _xzSpr1->setTag(Tag_TS_XieZi1);
                 _ManSpr1->addChild(_xzSpr1, 50);
             }else{
@@ -618,7 +633,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _xzSpr1 = CCSprite::create(str1->getCString());
                             _xzSpr1->setScale(scaleFloat);
                             _xzSpr1->setFlipX(flipxBool);
-                            _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _xzSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _xzSpr1->setTag(Tag_TS_XieZi1);
                             _ManSpr1->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -628,7 +643,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _xzSpr2 = CCSprite::create(str2->getCString());
                             _xzSpr2->setScale(scaleFloat);
                             _xzSpr2->setFlipX(flipxBool);
-                            _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _xzSpr2->setPosition(ccp(widthFolt, heightFloat));
                             _xzSpr2->setTag(Tag_TS_XieZi2);
                             _ManSpr1->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -638,7 +653,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _xzSpr3 = CCSprite::create(str3->getCString());
                             _xzSpr3->setScale(scaleFloat);
                             _xzSpr3->setFlipX(flipxBool);
-                            _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _xzSpr3->setPosition(ccp(widthFolt, heightFloat));
                             _xzSpr3->setTag(Tag_TS_XieZi3);
                             _ManSpr1->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -658,7 +673,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                     CCSprite* _spSpr1 = CCSprite::create(str->getCString());
                     _spSpr1->setScale(scaleFloat);
                     _spSpr1->setFlipX(flipxBool);
-                    _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* .5f));
+                    _spSpr1->setPosition(ccp(widthFolt, DISPLAY->ScreenHeight()* .5f));
                     _spSpr1->setTag(j + 1000);
                     _ManSpr1->addChild(_spSpr1, 50);
                 }else{
@@ -676,7 +691,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                                 CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
                                 _spSpr1->setScale(scaleFloat);
                                 _spSpr1->setFlipX(flipxBool);
-                                _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                                _spSpr1->setPosition(ccp(widthFolt, heightFloat));
                                 _spSpr1->setTag(j + 1000);
                                 _ManSpr1->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
                             }
@@ -686,7 +701,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                                 CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
                                 _spSpr2->setScale(scaleFloat);
                                 _spSpr2->setFlipX(flipxBool);
-                                _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                                _spSpr2->setPosition(ccp(widthFolt, heightFloat));
                                 _spSpr2->setTag(j + 2000);
                                 _ManSpr1->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
                             }
@@ -696,7 +711,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                                 CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
                                 _spSpr3->setScale(scaleFloat);
                                 _spSpr3->setFlipX(flipxBool);
-                                _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                                _spSpr3->setPosition(ccp(widthFolt, heightFloat));
                                 _spSpr3->setTag(j + 3000);
                                 _ManSpr1->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                             }
@@ -714,7 +729,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _bSpr1 = CCSprite::create(str->getCString());
                 _bSpr1->setScale(scaleFloat);
                 _bSpr1->setFlipX(flipxBool);
-                _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _bSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _bSpr1->setTag(Tag_TS_Bao1);
                 _ManSpr1->addChild(_bSpr1, 50);
             }else{
@@ -731,7 +746,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _bSpr1 = CCSprite::create(str1->getCString());
                             _bSpr1->setScale(scaleFloat);
                             _bSpr1->setFlipX(flipxBool);
-                            _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _bSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _bSpr1->setTag(Tag_TS_Bao1);
                             _ManSpr1->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -741,7 +756,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _bSpr2 = CCSprite::create(str2->getCString());
                             _bSpr2->setScale(scaleFloat);
                             _bSpr2->setFlipX(flipxBool);
-                            _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _bSpr2->setPosition(ccp(widthFolt, heightFloat));
                             _bSpr2->setTag(Tag_TS_Bao2);
                             _ManSpr1->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -751,7 +766,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _bSpr3 = CCSprite::create(str3->getCString());
                             _bSpr3->setScale(scaleFloat);
                             _bSpr3->setFlipX(flipxBool);
-                            _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _bSpr3->setPosition(ccp(widthFolt, heightFloat));
                             _bSpr3->setTag(Tag_TS_Bao3);
                             _ManSpr1->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -765,7 +780,7 @@ void TaskStoryScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 90000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
                 _zrSpr1 = CCSprite::create(str->getCString());
-                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                _zrSpr1->setPosition(ccp(widthFolt, heightFloat));
                 _zrSpr1->setTag(Tag_TS_ZhuangRong1);
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
@@ -781,7 +796,7 @@ void TaskStoryScene::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _zrSpr1 = CCSprite::create(str1->getCString());
-                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, heightFloat));
+                            _zrSpr1->setPosition(ccp(widthFolt, heightFloat));
                             _zrSpr1->setTag(Tag_TS_ZhuangRong1);
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
@@ -852,7 +867,9 @@ void TaskStoryScene::init_Man(){
         this->scheduleOnce(SEL_SCHEDULE(&TaskStoryScene::dialogueControl), .8f);
     }else if (missionDic->valueForKey("states")->intValue() == 2){// ==2 两个人
         
-        CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(DISPLAY->ScreenWidth()* .4f, -DISPLAY->ScreenHeight()* .1f));
+//        DISPLAY->ScreenWidth()* .5f + 95
+//        CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(DISPLAY->ScreenWidth()* .4f, -DISPLAY->ScreenHeight()* .1f));
+        CCFiniteTimeAction* moveTo = CCMoveBy::create(.4f, ccp(+250, -100));
         CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
         _ManSpr1->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
         
@@ -865,7 +882,7 @@ void TaskStoryScene::init_Man(){
             spr->setTag(0x77777);
             _ManSpr2->addChild(spr);
             
-            CCMoveTo* moveTo2 = CCMoveTo::create(.4f, ccp(DISPLAY->ScreenWidth()* .5f - 150, DISPLAY->ScreenHeight()* .45f));
+            CCMoveTo* moveTo2 = CCMoveTo::create(.4f, ccp(DISPLAY->ScreenWidth()* .5f - 160, DISPLAY->ScreenHeight()* .45f));
             CCScaleTo* scaleTo2 = CCScaleTo::create(.4f, .9f);
             spr->runAction(CCSequence::create(CCDelayTime::create(.5f), CCSpawn::create(moveTo2, scaleTo2, NULL), NULL));
         }
@@ -923,9 +940,9 @@ void TaskStoryScene::dialogueControl(float dt){
         openStory = true;
         
         this->emptyLabel();
-        this->creat_Man(DISPLAY->ScreenWidth()* .4f, -DISPLAY->ScreenHeight()* .1f, 1.f);
+        this->creat_Man(+250, -100, 1.f);
         this->initClothes();
-        this->creat_Man2(DISPLAY->ScreenWidth()* .5f - 150, DISPLAY->ScreenHeight()* .45f, .9f);
+        this->creat_Man2(DISPLAY->ScreenWidth()* .5f - 160, DISPLAY->ScreenHeight()* .45f, .9f);
         this->schedule(schedule_selector(TaskStoryScene::logic), .1f);
     }
 }
@@ -1127,6 +1144,7 @@ void TaskStoryScene::getIndex(float dt){
 //            NET->owned_clothes_400();
 //        }
     }else{
+        index = missionDic->valueForKey("next")->intValue() - subscriptIndex;
         CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
         missionDic = (CCDictionary* )missionArr->objectAtIndex(index);        
         this->init(missionDic);
