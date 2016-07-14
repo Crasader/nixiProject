@@ -76,6 +76,8 @@ public:
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     
+//    void btn_self_callback(CCObject* pSender);
+    
     void btn_toBig_callback(CCMenuItem* item);
     void btn_toSmall_callback(int index);
     

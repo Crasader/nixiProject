@@ -241,10 +241,11 @@ void StrangerScene::result_tip(){
 }
 
 void StrangerScene::exitMan(){
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+    CCPlace* pl = CCPlace::create(ccp(_ManSpr->getPositionX() - 500, _ManSpr->getPositionY()));
+//    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMan));
     CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::enterMan));
-    CCSequence* seq = CCSequence::create(moveTo, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
+    CCSequence* seq = CCSequence::create(pl, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
     _ManSpr->runAction(seq);
 }
 
@@ -256,8 +257,8 @@ void StrangerScene::enterMan(){
     this->creat_Man();
     this->initClothes();
     
-    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
+//    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
+    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
     _ManSpr->runAction(seq);
