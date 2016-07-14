@@ -54,6 +54,7 @@ public:
     
     CCMenuItem* nameItem, *tiliItem, *coinItem, *goldItem;
     CCMenu* barMenu;
+    CCSprite* timeKuangSpr;
     
     int _minute, _second;
     CCLabelTTF* m_time_num, *m_tili_num;

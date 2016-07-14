@@ -12,6 +12,8 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "QingjingCoverView.h"
+
 
 USING_NS_CC;
 
@@ -79,18 +81,33 @@ public:
     void creat_Man();
     void initClothes();
     
+    int getStoryIndexStatus();
+    
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
     void _501CallBack(CCObject* pSender);
+    void jiantou1CallBack(CCObject* pSender);
+    void jiantou2CallBack(CCObject* pSender);
+    void closeButton();
+    void updataButton();
+    void updataMan();
     
 public:
     
     CCDictionary* allClothesDic;
     
+    QingjingCoverView* qingjingCoverView;
+    CCMenuItem* jiantouItem1,* jiantouItem2;
+    
     int storyIndex;
     int renwuIndex;
+    int OpenToWhichOne;
+    int allNumber;
+    int selectedIndex;
     
     CCSprite* roomSpr;
+    CCSprite* manSpr;
+    CCSprite* lianSpr;
     CCSprite* qingjingKuang;
     CCSprite* kuangSpr;
     
