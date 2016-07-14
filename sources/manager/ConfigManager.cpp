@@ -50,6 +50,10 @@ void ConfigManager::config() {
     _hasconfig = true;
 }
 
+int ConfigManager::missionCount(int phase) {
+    
+}
+
 CCArray* ConfigManager::mission() {
     return _mission;
 }

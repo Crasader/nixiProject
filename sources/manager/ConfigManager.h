@@ -27,12 +27,14 @@ public:
     string                  login_addr;
 
 public:
+    int missionCount(int phase);
     CCArray* mission();
-    CCDictionary* missionDialog();
-    CCDictionary* clothes();
     
+    CCDictionary* missionDialog();
     CCArray* getMissionDialog(int phase, int taskID);
     
+    CCDictionary* clothes();
+
     bool has_saved_uuid();
     void save_uuid(const char* str);
     string saved_uuid();
