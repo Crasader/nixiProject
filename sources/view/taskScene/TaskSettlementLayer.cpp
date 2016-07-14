@@ -39,6 +39,8 @@ bool TaskSettlementLayer::init(int rating, int coin, bool isPhaseUP){
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
     
+    this->initAniamtion();
+    
     _rating = rating;
     _coin = coin;
     _isPhaseUP = isPhaseUP;
@@ -52,7 +54,7 @@ bool TaskSettlementLayer::init(int rating, int coin, bool isPhaseUP){
     
     this->creat_view();
     this->creat_Man();
-    this->initClothes();
+//    this->initClothes();
     
     return true;
 }
@@ -100,23 +102,18 @@ void TaskSettlementLayer::creat_view(){
     kuangSpr1->setPosition(ccp(renSpr->getContentSize().width + kuangSpr1->getContentSize().width* .33f, renSpr->getContentSize().height* .3f));
     renSpr->addChild(kuangSpr1);
     
-    if (_rating >= 5) {
-        
+    CCString* tishiStr;
+    if (_rating == 5) {
+        tishiStr = CCString::createWithFormat("不错不错.很是大方得体.");
+    }else if (_rating == 4) {
+        tishiStr = CCString::createWithFormat("还可以吧.吐槽君还是可以接受的.");
+    }else if (_rating == 3) {
+        tishiStr = CCString::createWithFormat("你的审美是那个星系的~!不敢恭维.");
+    }else if (_rating == 2) {
+        tishiStr = CCString::createWithFormat("你这样,还处的去门嘛.");
+    }else if (_rating == 1) {
+        tishiStr = CCString::createWithFormat("你光着屁股出门都比这一身强.");
     }
-    else if (_rating == 4) {
-        
-    }
-    else if (_rating == 3) {
-        
-    }
-    else if (_rating == 2) {
-        
-    }
-    else {
-        
-    }
-    
-    CCString* tishiStr = CCString::createWithFormat("不错不错.很是大方得体.");
     CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(kuangSpr1->getContentSize().width* .88f, kuangSpr1->getContentSize().height* .5f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
     tishiLabel->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
     tishiLabel->setColor(ccc3(80, 63, 68));
@@ -142,18 +139,69 @@ void TaskSettlementLayer::creat_view(){
     kuangSpr1->addChild(menu);
     
     // 上条
-    CCSprite* tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao.png");
-    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .88f));
+    tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao.png");
+    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .86f));
     this->addChild(tiaoSpr, 15);
     
-    CCSprite* xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
-    xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .95f));
-    tiaoSpr->addChild(xingSpr1);
+//    CCSprite* xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
+//    xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .95f));
+//    tiaoSpr->addChild(xingSpr1);
     
     
     CCSprite* bgSpr2 = CCSprite::create("res/pic/taskSettlement/ts_bg2.png");
     bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr2, 20);
+    
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskSettlementLayer::startAnimation), .5f);
+}
+void TaskSettlementLayer::startAnimation(float dt){
+    if (_rating >= 5) {
+        CCSprite* xingSpr = CCSprite::create("res/pic/taskScene/animation/5/xing_0.png");
+        xingSpr->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .95f));
+        xingSpr->setTag(0x88999);
+        tiaoSpr->addChild(xingSpr, 100);
+        CCAnimation* manAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("xingStr5");
+        CCAnimate* animate = CCAnimate::create(manAnimation);
+        CCDirector::sharedDirector()->getActionManager()->addAction(animate, xingSpr, false);
+        
+    }
+    else if (_rating == 4) {
+        CCSprite* xingSpr = CCSprite::create("res/pic/taskScene/animation/4/xing_0.png");
+        xingSpr->setPosition(ccp(tiaoSpr->getContentSize().width* .44f, tiaoSpr->getContentSize().height* .95f));
+        xingSpr->setTag(0x88999);
+        tiaoSpr->addChild(xingSpr, 100);
+        CCAnimation* manAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("xingStr4");
+        CCAnimate* animate = CCAnimate::create(manAnimation);
+        CCDirector::sharedDirector()->getActionManager()->addAction(animate, xingSpr, false);
+    }
+    else if (_rating == 3) {
+        CCSprite* xingSpr = CCSprite::create("res/pic/taskScene/animation/3/xing_0.png");
+        xingSpr->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .95f));
+        xingSpr->setTag(0x88999);
+        tiaoSpr->addChild(xingSpr, 100);
+        CCAnimation* manAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("xingStr3");
+        CCAnimate* animate = CCAnimate::create(manAnimation);
+        CCDirector::sharedDirector()->getActionManager()->addAction(animate, xingSpr, false);
+    }
+    else if (_rating == 2) {
+        CCSprite* xingSpr = CCSprite::create("res/pic/taskScene/animation/2/xing_0.png");
+        xingSpr->setPosition(ccp(tiaoSpr->getContentSize().width* .42f, tiaoSpr->getContentSize().height* .95f));
+        xingSpr->setTag(0x88999);
+        tiaoSpr->addChild(xingSpr, 100);
+        CCAnimation* manAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("xingStr2");
+        CCAnimate* animate = CCAnimate::create(manAnimation);
+        CCDirector::sharedDirector()->getActionManager()->addAction(animate, xingSpr, false);
+    }
+    else {
+        CCSprite* xingSpr = CCSprite::create("res/pic/taskScene/animation/1/xing_0.png");
+        xingSpr->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .95f));
+        xingSpr->setTag(0x88999);
+        tiaoSpr->addChild(xingSpr, 100);
+        CCAnimation* manAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("xingStr1");
+        CCAnimate* animate = CCAnimate::create(manAnimation);
+        CCDirector::sharedDirector()->getActionManager()->addAction(animate, xingSpr, false);
+    }
 }
 
 void TaskSettlementLayer::lingquCallBack(CCObject* pSender){
@@ -648,5 +696,66 @@ void TaskSettlementLayer::exit() {
     CCScene* scene = TaskScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
+}
+
+void TaskSettlementLayer::initAniamtion(){
+    CCArray* animations1 = CCArray::createWithCapacity(40);
+    char strPei1[100] = {};
+    for (int i = 0; i <= 34; i++) {
+        
+        sprintf(strPei1, "res/pic/taskScene/animation/1/xing_%d.png", i);
+        CCSpriteFrame *frame1 = CCSpriteFrame::create(strPei1,CCRectMake(0, 0, 200, 432));
+        animations1->addObject(frame1);
+    }
+    CCAnimation* animation1 = CCAnimation::createWithSpriteFrames(animations1, 0.04f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(animation1, "xingStr1");
+    
+    
+    CCArray* animations2 = CCArray::createWithCapacity(50);
+    char strPei2[100] = {};
+    for (int i = 0; i <= 47; i++) {
+        
+        sprintf(strPei2, "res/pic/taskScene/animation/2/xing_%d.png", i);
+        CCSpriteFrame *frame2 = CCSpriteFrame::create(strPei2,CCRectMake(0, 0, 330, 432));
+        animations2->addObject(frame2);
+    }
+    CCAnimation* animation2 = CCAnimation::createWithSpriteFrames(animations2, 0.04f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(animation2, "xingStr2");
+    
+    
+    CCArray* animations3 = CCArray::createWithCapacity(50);
+    char strPei3[100] = {};
+    for (int i = 0; i <= 48; i++) {
+        
+        sprintf(strPei3, "res/pic/taskScene/animation/3/xing_%d.png", i);
+        CCSpriteFrame *frame3 = CCSpriteFrame::create(strPei3,CCRectMake(0, 0, 499, 432));
+        animations3->addObject(frame3);
+    }
+    CCAnimation* animation3 = CCAnimation::createWithSpriteFrames(animations3, 0.04f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(animation3, "xingStr3");
+    
+    
+    CCArray* animations4 = CCArray::createWithCapacity(65);
+    char strPei4[100] = {};
+    for (int i = 0; i <= 59; i++) {
+        
+        sprintf(strPei4, "res/pic/taskScene/animation/4/xing_%d.png", i);
+        CCSpriteFrame *frame4 = CCSpriteFrame::create(strPei4,CCRectMake(0, 0, 499, 432));
+        animations4->addObject(frame4);
+    }
+    CCAnimation* animation4 = CCAnimation::createWithSpriteFrames(animations4, 0.04f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(animation4, "xingStr4");
+    
+    
+    CCArray* animations5 = CCArray::createWithCapacity(65);
+    char strPei5[100] = {};
+    for (int i = 0; i <= 60; i++) {
+        
+        sprintf(strPei5, "res/pic/taskScene/animation/5/xing_%d.png", i);
+        CCSpriteFrame *frame5 = CCSpriteFrame::create(strPei5,CCRectMake(0, 0, 499, 432));
+        animations5->addObject(frame5);
+    }
+    CCAnimation* animation5 = CCAnimation::createWithSpriteFrames(animations5, 0.04f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(animation5, "xingStr5");
 }
 

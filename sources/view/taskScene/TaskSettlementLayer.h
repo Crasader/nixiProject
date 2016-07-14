@@ -36,11 +36,15 @@ public:
     void creat_Man();
     void initClothes();
     
+    void initAniamtion();
+    void startAnimation(float dt);
 public:
     
     bool lingquBool;
     
     CCDictionary* allClothesDic;
+    
+    CCSprite* tiaoSpr;
     
     CCSprite* roomSpr;
     CCSprite* taskKuang;

@@ -258,6 +258,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->update_clothes(content["newclothes"]);
         } break;
             
+        case 300: {
+            _ranking->init_with_json(content["coffers"]);
+        } break;
+            
         case 200: {
             _coffers->init_with_json(content["coffers"]);
         } break;

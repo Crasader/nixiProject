@@ -60,6 +60,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::rank_list_callback_300), "HTTP_FINISHED_300", NULL);
 
 }
 
@@ -178,6 +179,13 @@ void HaoyouScene::strangerCallBack(CCObject* pSender){
 }
 
 void HaoyouScene::paihangCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->ranking_list_300();
+}
+
+void HaoyouScene::rank_list_callback_300(CCObject *pObj){
+    LOADING->remove();
+    
     CCLayer* layer = TotalRankScene::create_with_type(2);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

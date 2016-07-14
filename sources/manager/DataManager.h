@@ -68,6 +68,7 @@ public:
     CC_SYNTHESIZE(int, _loginType, LoginType);
     // 剧情选中数
     CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
+    CC_SYNTHESIZE(bool, chapterNumberBool, ChapterNumberBool);
     // 剧情存储文字
     CC_SYNTHESIZE_RETAIN(CCArray* , _storyLabelArr, StoryLabelArr);
     // 下框的大小

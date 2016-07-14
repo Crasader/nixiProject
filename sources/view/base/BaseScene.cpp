@@ -91,7 +91,7 @@ void BaseScene::init_UI(){
     m_tili_num->setColor(ccc3(113, 89, 102));
     tiliItem->addChild(m_tili_num);
     // 倒计时
-    CCSprite* timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
+    timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
     timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -5));
     tiliItem->addChild(timeKuangSpr);
     
@@ -114,10 +114,12 @@ void BaseScene::init_UI(){
     
     if (tili_num < def_TiliMax) {
         m_time_num->setVisible(true);
+        timeKuangSpr->setVisible(true);
         
         this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
     }else{
         m_time_num->setVisible(false);
+        timeKuangSpr->setVisible(false);
         
         this->unschedule(schedule_selector(BaseScene::updataTileTime));
     }
@@ -217,6 +219,7 @@ void BaseScene::updataTileTime(float dt){
         DATA->closeTiliTime();
         
         m_time_num->setVisible(false);
+        timeKuangSpr->setVisible(false);
     }else{
         tili_num = DATA->getPlayer()->energy;
         CCString* str = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
@@ -248,6 +251,7 @@ void BaseScene::updataMoney(){
         DATA->closeTiliTime();
         
         m_time_num->setVisible(false);
+        timeKuangSpr->setVisible(false);
     }else{
         _minute = DATA->getTiliMinute();
         _second = DATA->getTiliSecond();
@@ -255,6 +259,7 @@ void BaseScene::updataMoney(){
         this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
         
         m_time_num->setVisible(true);
+        timeKuangSpr->setVisible(true);
     }
     
     CCString* coinStr = CCString::createWithFormat("%d", DATA->getPlayer()->coin);

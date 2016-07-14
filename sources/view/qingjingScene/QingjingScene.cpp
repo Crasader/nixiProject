@@ -32,6 +32,9 @@ bool QingjingScene::init(){
     
     storyIndex = 0;
     renwuIndex = 0;
+    allNumber = 0;
+    selectedIndex = DATA->getChapterNumber();
+    OpenToWhichOne = getStoryIndexStatus();
     
     DATA->setChapterNumber(0);
     
@@ -41,11 +44,11 @@ bool QingjingScene::init(){
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     this->creat_view();
-    this->creat_Man();
-    this->initClothes();
-    
-    this->creat_Tishi();
-    this->EnterTheTishi();
+//    this->creat_Man();
+//    this->initClothes();
+//    
+//    this->creat_Tishi();
+//    this->EnterTheTishi();
     
     return true;
 }
@@ -63,6 +66,8 @@ void QingjingScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::_501CallBack), "HTTP_FINISHED_501", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::updataButton), "Qingjing_UpdataButton", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::updataMan), "Qingjing_UpdataMan", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::creat_Tishi), "Qingjing_Creat_Tishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
@@ -80,11 +85,6 @@ void QingjingScene::keyBackClicked(){
 
 void QingjingScene::creat_view(){
     
-    roomSpr = CCSprite::create("res/pic/qingjingScene/qj_bg.png");
-    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    roomSpr->setTag(0x99999);
-    this->addChild(roomSpr);
-    
     CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
     backSpr2->setScale(1.02f);
@@ -96,16 +96,212 @@ void QingjingScene::creat_view(){
     this->addChild(menu, 20);
     
     
-    qingjingKuang = CCSprite::create("res/pic/qingjingScene/qj_kuang1.png");
-    qingjingKuang->setAnchorPoint(ccp(1, .5f));
-    qingjingKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .61f));
-    this->addChild(qingjingKuang, 20);
+//    qingjingKuang = CCSprite::create("res/pic/qingjingScene/qj_kuang1.png");
+//    qingjingKuang->setAnchorPoint(ccp(1, .5f));
+//    qingjingKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .61f));
+//    this->addChild(qingjingKuang, 20);
+//    
+//    QingjingTableView* tabLayer = QingjingTableView::create();
+//    tabLayer->setPosition(ccp(20, 35));
+//    tabLayer->setTag(0x77777);
+//    qingjingKuang->addChild(tabLayer, 5);
     
-    QingjingTableView* tabLayer = QingjingTableView::create();
-    tabLayer->setPosition(ccp(20, 35));
-    tabLayer->setTag(0x77777);
-    qingjingKuang->addChild(tabLayer, 5);
+    CCSprite* tempKuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
+    CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_1->setFlipX(true);
+    CCSprite* jiantouSpr1_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_2->setFlipX(true);
+    jiantouSpr1_2->setScale(1.02f);
+    jiantouItem1 = CCMenuItemSprite::create(jiantouSpr1_1, jiantouSpr1_2, this, menu_selector(QingjingScene::jiantou1CallBack));
+    jiantouItem1->setPosition(ccp(DISPLAY->ScreenWidth()* .5 - tempKuangSpr->getContentSize().width* .52f, DISPLAY->ScreenHeight()* .2f));
+    CCMoveTo* moveTo1_1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .5 - tempKuangSpr->getContentSize().width* .52f - 15, DISPLAY->ScreenHeight()* .2f));
+    CCMoveTo* moveTo1_2 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .5 - tempKuangSpr->getContentSize().width* .52f, DISPLAY->ScreenHeight()* .2f));
+    CCSequence* seq1 = CCSequence::create(moveTo1_1, moveTo1_2, NULL);
+    jiantouItem1->runAction(CCRepeatForever::create(seq1));
     
+    CCSprite* jiantouSpr2_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    CCSprite* jiantouSpr2_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr2_2->setScale(1.02f);
+    jiantouItem2 = CCMenuItemSprite::create(jiantouSpr2_1, jiantouSpr2_2, this, menu_selector(QingjingScene::jiantou2CallBack));
+    jiantouItem2->setPosition(ccp(DISPLAY->ScreenWidth()* .5 + tempKuangSpr->getContentSize().width* .52f, DISPLAY->ScreenHeight()* .2f));
+    CCMoveTo* moveTo2_1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .5 + tempKuangSpr->getContentSize().width* .52f + 15, DISPLAY->ScreenHeight()* .2f));
+    CCMoveTo* moveTo2_2 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .5 + tempKuangSpr->getContentSize().width* .52f, DISPLAY->ScreenHeight()* .2f));
+    CCSequence* seq2 = CCSequence::create(moveTo2_1, moveTo2_2, NULL);
+    jiantouItem2->runAction(CCRepeatForever::create(seq2));
+    
+    CCMenu* jiantouMenu = CCMenu::create(jiantouItem1, jiantouItem2, NULL);
+    jiantouMenu->setPosition(CCPointZero);
+    this->addChild(jiantouMenu, 20);
+    jiantouItem1->setColor(ccGRAY);
+    jiantouItem1->setEnabled(false);
+    
+    
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", 0);
+    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+    std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(3))->getCString();
+    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
+    renwuIndex = atoi(renwuIndexStr.c_str());
+    
+    
+    CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
+    roomSpr = CCSprite::create(roomStr->getCString());
+    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    roomSpr->setTag(0x99999);
+    this->addChild(roomSpr);
+    
+    // 人
+    std::string manStd = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
+    std::string lianStd = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
+    CCString* manStr = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", manStd.c_str());
+    manSpr = CCSprite::create(manStr->getCString());
+    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    manSpr->setTag(0x11111);
+    this->addChild(manSpr, 10);
+    CCString* lianStr = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", lianStd.c_str());
+    lianSpr = CCSprite::create(lianStr->getCString());
+    lianSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    lianSpr->setTag(0x22222);
+    this->addChild(lianSpr, 11);
+    
+    
+    CCRect swRect = CCRectMake(DISPLAY->ScreenWidth()* .5f - 517/2, DISPLAY->ScreenHeight()* .1f, 517, 210);
+    CCSize slSize = CCSizeMake(517, 210);
+    float disDistance = 517;
+    float disScale = .25f;
+    qingjingCoverView = QingjingCoverView::create(swRect, slSize, disDistance, disScale);
+    
+    for (int i = 0; i < allNumber; i++) {        
+        //
+        taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
+        taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
+        renwuIndex = atoi(renwuIndexStr.c_str());
+        
+        CCSprite* kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
+        kuangSpr->setPosition(CCPointZero);
+        qingjingCoverView->addCard(kuangSpr, i, i);
+        
+        CCSprite* kuangSpr1 = CCSprite::create("res/pic/qingjingScene/qj_dikuang1.png");
+        kuangSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height - 30));
+        kuangSpr->addChild(kuangSpr1);
+        
+        CCString* labelStr = CCString::createWithFormat("序章. %s", DISPLAY->GetOffTheName(i)->getCString());
+        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25);
+        label->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
+        label->setColor(ccWHITE);
+        kuangSpr1->addChild(label, 2);
+        
+        // 结局成就
+        CCLabelTTF* titleLabel = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+        titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
+        titleLabel->setColor(ccc3(80, 63, 68));
+//        titleLabel->enableStroke(ccc3(80, 63, 68), .4f);
+        kuangSpr->addChild(titleLabel);
+        // 显示的结局
+        CSJson::Value data = AppUtil::read_json_file("res/story/storyAchievementArr");
+        CCDictionary* dic = AppUtil::dictionary_with_json(data);
+        CCString* keyStr = CCString::createWithFormat("101_80100_%d", i);
+        CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
+        
+        
+        CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
+        CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
+        
+        CCString* story_index = CCString::createWithFormat("%d", i);
+        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+        for (int i = 0; i < achievemArr->count(); i++) {
+            bool achiBool = false;
+            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
+            if (storyArr != NULL) {
+                for (int k = 0; k < storyArr->count(); k++) {
+                    CCString* storyStr = (CCString* )storyArr->objectAtIndex(k);
+                    if (strcmp(str->getCString(), storyStr->getCString()) == 0) {
+                        achiBool = true;
+                        CCLog("11111");
+                    }else{
+                        CCLog("22222");
+                    }
+                }
+            }
+            
+            
+            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
+            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(200, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+            if (i == 0){
+                label->setPosition(ccp(166, kuangSpr->getContentSize().height* .36f));
+            }else if (i == 1){
+                label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .36f));
+            }else if (i == 2){
+                label->setPosition(ccp(166, kuangSpr->getContentSize().height* .23f));
+            }else if (i == 3){
+                label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .23f));
+            }
+            if (achiBool) {
+                label->setColor(ccc3(80, 63, 68));
+            }else{
+                label->setColor(ccc3(139, 140, 164));
+            }
+            kuangSpr->addChild(label);
+            
+            
+            if (achiBool) {
+                CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
+                gouSpr1->setScale(1.f);
+                if (i == 0){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .36f));
+                }else if (i == 1){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .36f));
+                }else if (i == 2){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .23f));
+                }else if (i == 3){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .23f));
+                }
+                kuangSpr->addChild(gouSpr1, 1);
+            }
+        }
+        
+        
+        // 开始故事
+        CCSprite* startSpr1;
+        CCSprite* startSpr2;
+        CCMenuItem* startItem;
+        if (renwuIndex <= DATA->getPlayer()->mission) {
+            CCLabelTTF* tishiLabel = CCLabelTTF::create("已解锁", DISPLAY->fangzhengFont(), 25);
+            tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .66f));
+            tishiLabel->setColor(ccc3(80, 63, 68));
+            kuangSpr->addChild(tishiLabel);
+            
+            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startSpr2->setScale(1.02f);
+            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
+            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+            startItem->setTag(i);
+        }else{
+            std::string tishiStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(4))->getCString();
+            CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr.c_str(), DISPLAY->fangzhengFont(), 25);
+            tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .66f));
+            tishiLabel->setColor(ccc3(80, 63, 68));
+            kuangSpr->addChild(tishiLabel);
+            
+            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
+            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+            startItem->setColor(ccGRAY);
+            startItem->setTag(i);
+        }
+        CCMenu* startMenu = CCMenu::create(startItem, NULL);
+        startMenu->setPosition(CCPointZero);
+        kuangSpr->addChild(startMenu);
+    }
+    
+    qingjingCoverView->setPosition(swRect.origin);
+    qingjingCoverView->setTag(0x77777);
+    this->addChild(qingjingCoverView, 50);
 }
 
 void QingjingScene::backCallBack(CCObject* pSender){
@@ -330,7 +526,7 @@ void QingjingScene::ExitTishi(){
 }
 
 void QingjingScene::creat_Man(){
-    float widthFolt = .65f;
+    float widthFolt = .75f;
     float heightFloat = .3f;
     float scaleFloat = 1.5f;
     bool flipxBool = false;
@@ -348,7 +544,7 @@ void QingjingScene::creat_Man(){
 }
 void QingjingScene::initClothes(){//穿衣服
     CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
-    float widthFolt = .65f;
+    float widthFolt = .75f;
     float heightFloat = .3f;
     float scaleFloat = 1.5f;
     bool flipxBool = false;
@@ -834,6 +1030,127 @@ void QingjingScene::initClothes(){//穿衣服
     }
 }
 
-
-
+int QingjingScene::getStoryIndexStatus(){
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    allNumber = taskConditionsDic->count();
+    int index = 0;
+    for (int i = 1; i < taskConditionsDic->count(); i++) {
+        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
+        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
+        int renwuIndex = atoi(renwuIndexStr.c_str());
+        if (renwuIndex >= DATA->getPlayer()->mission) {
+            index = i;
+            break;
+        }
+    }
+    
+    if (DATA->getStory()->has_passed(CCString::createWithFormat("%d", index)->getCString())) {
+        if (index >= taskConditionsDic->count()) {
+            index = taskConditionsDic->count() - 1;
+            return index;
+        }else{
+            return index + 1;
+        }
+        
+    }else{
+        return index;
+    }
+}
+void QingjingScene::jiantou1CallBack(CCObject* pSender){
+    closeButton();
+    selectedIndex--;
+    DATA->setChapterNumberBool(true);
+    if (selectedIndex >= 0) {
+        if (selectedIndex == 0) {
+            jiantouItem1->setColor(ccGRAY);
+            jiantouItem1->setEnabled(false);
+        }
+        DATA->setChapterNumber(selectedIndex);
+        qingjingCoverView->linshi2();
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }
+    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .5f);
+}
+void QingjingScene::jiantou2CallBack(CCObject* pSender){
+    closeButton();
+    selectedIndex++;
+    DATA->setChapterNumberBool(true);
+    if (selectedIndex < allNumber) {
+        if (selectedIndex == allNumber-1) {
+            selectedIndex = allNumber-1;
+            jiantouItem2->setColor(ccGRAY);
+            jiantouItem2->setEnabled(false);
+        }
+        DATA->setChapterNumber(selectedIndex);
+        qingjingCoverView->linshi();
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+    }
+    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .5f);
+}
+void QingjingScene::closeButton(){
+    jiantouItem1->setEnabled(false);
+    jiantouItem2->setEnabled(false);
+}
+void QingjingScene::updataButton(){
+    selectedIndex = DATA->getChapterNumber();
+    if (selectedIndex == allNumber-1) {
+        jiantouItem2->setColor(ccGRAY);
+        jiantouItem2->setEnabled(false);
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+    }else if (selectedIndex == 0){
+        jiantouItem1->setColor(ccGRAY);
+        jiantouItem1->setEnabled(false);
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }else{
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }
+}
+void QingjingScene::updataMan(){
+    if (this->getChildByTag(0x99999) != NULL) {
+        this->removeChildByTag(0x99999);
+    }
+    if (this->getChildByTag(0x11111) != NULL) {
+        this->removeChildByTag(0x11111);
+    }
+    if (this->getChildByTag(0x22222) != NULL) {
+        this->removeChildByTag(0x22222);
+    }
+    
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", DATA->getChapterNumber());
+    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+    
+    std::string manStd = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
+    std::string lianStd = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
+    std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(3))->getCString();
+    
+    CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
+    roomSpr = CCSprite::create(roomStr->getCString());
+    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    roomSpr->setTag(0x99999);
+    this->addChild(roomSpr);
+    
+    CCString* manStr = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", manStd.c_str());
+    manSpr = CCSprite::create(manStr->getCString());
+    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    manSpr->setTag(0x11111);
+    this->addChild(manSpr, 10);
+    CCString* lianStr = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", lianStd.c_str());
+    lianSpr = CCSprite::create(lianStr->getCString());
+    lianSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    lianSpr->setTag(0x22222);
+    this->addChild(lianSpr, 11);
+}
 
