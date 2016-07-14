@@ -81,6 +81,7 @@ void BuildingView::onEnter() {
 }
 
 void BuildingView::onExit() {
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     unscheduleAllSelectors();
     
     CCLayer::onExit();
@@ -145,6 +146,7 @@ void BuildingView::nc_collect_coin_201(CCObject *pObj) {
 
 void BuildingView::nc_take_income_203(CCObject *pObj) {
     LOADING->remove();
+    update_coffers();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
