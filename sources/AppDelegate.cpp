@@ -11,6 +11,7 @@
 #include "SpecialManager.h"
 #include "LoginScene.h"
 #include "TestScene.h"
+#include "TaskSettlementLayer.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -64,6 +65,12 @@ bool AppDelegate::applicationDidFinishLaunching()
 //    CCScene* pScene = TestScene::create();
     CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
+    
+//    CCScene* scene = CCScene::create();
+//    TaskSettlementLayer* layer = TaskSettlementLayer::create(2, 100, false);
+//    scene->addChild(layer);
+//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//    CCDirector::sharedDirector()->runWithScene(trans);
     //
     return true;
 }

@@ -10,6 +10,7 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "QingjingScene.h"
+#include "AppUtil.h"
 
 
 StorySettlementOfTheAnimationLayer::StorySettlementOfTheAnimationLayer(){
@@ -33,7 +34,7 @@ bool StorySettlementOfTheAnimationLayer::init(){
     bool bRet = false;
     
     do {
-        CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(250, 250, 250, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
+        CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(0, 0, 0, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
         
         this->setTouchSwallowEnabled(true);
         this->setTouchMode(kCCTouchesOneByOne);
@@ -47,13 +48,13 @@ bool StorySettlementOfTheAnimationLayer::init(){
     return bRet;
 }
 
-StorySettlementOfTheAnimationLayer* StorySettlementOfTheAnimationLayer::create_with_index(int index){
+StorySettlementOfTheAnimationLayer* StorySettlementOfTheAnimationLayer::create_with_index(int index, std::string ending){
     StorySettlementOfTheAnimationLayer* rtn = StorySettlementOfTheAnimationLayer::create();
-    rtn->init_with_index(index);
+    rtn->init_with_index(index, ending);
     
     return rtn;
 }
-void StorySettlementOfTheAnimationLayer::init_with_index(int index){
+void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string ending){
     
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
@@ -132,15 +133,27 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index){
         
         
     }else if (index == 2){
-        CCLabelTTF* wanchengLabel1 = CCLabelTTF::create("结局动画", DISPLAY->fangzhengFont(), 50.f);
-        wanchengLabel1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .7f));
-        wanchengLabel1->setColor(ccRED);
-        this->addChild(wanchengLabel1, 5);
         
-        CCLabelTTF* wanchengLabel2 = CCLabelTTF::create("结局动画", DISPLAY->fangzhengFont(), 50.f);
-        wanchengLabel2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 1, DISPLAY->ScreenHeight()* .7f - 1));
-        wanchengLabel2->setColor(ccRED);
-        this->addChild(wanchengLabel2, 4);
+        CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
+        CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
+        CCString* endingStr = (CCString* )storyDic->objectForKey(ending.c_str());
+        
+        CCSprite* jjKuangSpr = CCSprite::create("res/pic/qingjingScene/animation/qj_jiejukuang.png");
+        jjKuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .65f));
+        this->addChild(jjKuangSpr, 100);
+        
+        
+        CCLabelTTF* wanchengLabel = CCLabelTTF::create(endingStr->getCString(), DISPLAY->fangzhengFont(), 40);
+        wanchengLabel->setPosition(ccp(jjKuangSpr->getContentSize().width* .64f, jjKuangSpr->getContentSize().height* .36f));
+        wanchengLabel->setColor(ccc3(80, 63, 68));
+        jjKuangSpr->addChild(wanchengLabel, 5);
+        
+        this->schedule(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::creatStar1), .5f + CCRANDOM_MINUS1_1()*.2f);
+        this->schedule(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::creatStar2), .5f + CCRANDOM_MINUS1_1()*.2f);
+        this->schedule(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::creatStar3), .5f + CCRANDOM_MINUS1_1()*.2f);
+        this->schedule(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::creatStar4), .5f + CCRANDOM_MINUS1_1()*.2f);
+        this->schedule(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::creatStar5), .5f + CCRANDOM_MINUS1_1()*.2f);
+        this->schedule(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::creatStar6), .5f + CCRANDOM_MINUS1_1()*.2f);
     }
 }
 void StorySettlementOfTheAnimationLayer::closeCallBack(CCObject* pSender){

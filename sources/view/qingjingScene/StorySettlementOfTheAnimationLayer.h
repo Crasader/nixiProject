@@ -26,8 +26,8 @@ public:
     
     bool init();
     
-    static StorySettlementOfTheAnimationLayer* create_with_index(int index);
-    void init_with_index(int index);
+    static StorySettlementOfTheAnimationLayer* create_with_index(int index, std::string ending);
+    void init_with_index(int index, std::string ending);
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
