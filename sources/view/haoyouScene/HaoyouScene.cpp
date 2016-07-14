@@ -132,7 +132,7 @@ void HaoyouScene::creat_view(){
 }
 void HaoyouScene::backCallBack(CCObject* pSender){
     CCScene* scene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
@@ -150,13 +150,13 @@ void HaoyouScene::zhitiaoCallBack(CCObject* pSender){
 void HaoyouScene::all_paper_callback_808(CCObject* pSender){
     LOADING->remove();
     CCScene* scene = NoteLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouScene::all_message_callback_804(CCObject* pSender){
     CCScene* scene = MessageLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -168,7 +168,7 @@ void HaoyouScene::haoyouCallBack(CCObject* pSender){
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
     LOADING->remove();
     CCScene* scene = HaoyouRankLayer::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -181,7 +181,7 @@ void HaoyouScene::paihangCallBack(CCObject* pSender){
     CCLayer* layer = TotalRankScene::create_with_type(2);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -191,7 +191,7 @@ void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){
     StrangerScene* layer = StrangerScene::create();
     layer->setEnterType("main_friend");
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

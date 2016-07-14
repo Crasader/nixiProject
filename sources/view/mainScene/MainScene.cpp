@@ -728,7 +728,7 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 void MainScene::social_info_callback_800(CCObject* pObj) {
     LOADING->remove();
     CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -753,7 +753,7 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::paihangCallBack(CCObject* pSender){
@@ -761,8 +761,8 @@ void MainScene::paihangCallBack(CCObject* pSender){
         CCLayer* layer = TotalRankScene::create_with_type(1);
         CCScene* scene = CCScene::create();
         scene->addChild(layer);
-        //    CCScene* scene = TotalRankScene::scene(1);
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
@@ -779,7 +779,7 @@ void MainScene::juqingCallBack(CCObject* pSender){
 }
 void MainScene::_500CallBack(CCObject* pSender){
     CCScene* scene = QingjingScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void MainScene::richangCallBack(CCObject* pSender){
@@ -793,7 +793,7 @@ void MainScene::_600CallBack(CCObject* pSender){
     LOADING->remove();
     
     CCScene* scene = TaskScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

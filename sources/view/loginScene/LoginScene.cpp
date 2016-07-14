@@ -240,7 +240,7 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
     }
     else {
         CCScene* scene = MainScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
@@ -258,6 +258,6 @@ void LoginScene::account_regist_callback_903(CCObject *pObj) {
 
 void LoginScene::save_nickname_callback_904(CCObject *pObj) {
     CCScene* scene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

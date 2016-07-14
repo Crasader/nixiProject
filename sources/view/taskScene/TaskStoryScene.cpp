@@ -1149,7 +1149,7 @@ void TaskStoryScene::_400CallBack(CCObject* pSender){
     CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

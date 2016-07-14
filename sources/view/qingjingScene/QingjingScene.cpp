@@ -110,7 +110,7 @@ void QingjingScene::creat_view(){
 
 void QingjingScene::backCallBack(CCObject* pSender){
     CCScene* scene = MainScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 

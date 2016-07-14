@@ -78,9 +78,7 @@ bool TaskSettlementLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     if (!lingquBool) {
         // 给个提示
     }else{
-        CCScene* scene = TaskScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        exit();
     }
     
     return true;
@@ -644,5 +642,11 @@ void TaskSettlementLayer::initClothes(){//穿衣服
             }
         }
     }
+}
+
+void TaskSettlementLayer::exit() {
+    CCScene* scene = TaskScene::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 

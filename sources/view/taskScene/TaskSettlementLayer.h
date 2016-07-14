@@ -30,7 +30,6 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){}
     
 public:
-    
     void creat_view();
     void lingquCallBack(CCObject* pSender);
     
@@ -72,6 +71,9 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    
+private:
+    void exit();
     
 private:
     int             _rating;

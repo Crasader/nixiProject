@@ -265,11 +265,11 @@ void TotalRankScene::btn_note_callback(CCObject* pSender){
 void TotalRankScene::btn_back_callback(CCObject* pSender){
     if (_type == 1) {
         CCScene* scene = MainScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (_type == 2) {
         CCScene* scene = HaoyouScene::scene();
-        CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }

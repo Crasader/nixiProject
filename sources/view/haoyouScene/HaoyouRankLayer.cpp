@@ -194,7 +194,7 @@ void HaoyouRankLayer::gotoStranger_802(){
     layer->setEnterType("my_friend");
     scene->addChild(layer);
     
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
@@ -239,7 +239,7 @@ void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
     CCScene* scene = HaoyouScene::scene();
-    CCTransitionScene* trans = CCTransitionSplitRows::create(0.3f, scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
