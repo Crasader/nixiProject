@@ -920,7 +920,8 @@ void MainScene::homeCallBack(CCObject *pSender){
 
 void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
-    
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this, "敬请期待");
     }
 }
 
@@ -933,7 +934,8 @@ void MainScene::huodongCallBack(CCObject* pSender){
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
-        SPECIAL->show_energy_reward(this->getParent(), 99, DISPLAY->center(), ccp(DISPLAY->W() * 0.3, DISPLAY->H() * 0.96));
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this, "敬请期待");
     }
 }
 
