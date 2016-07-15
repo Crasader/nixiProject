@@ -18,6 +18,7 @@ const float STAND_HEIGHT = 3;
 FloorCell::~FloorCell() {
     CC_SAFE_DELETE(_roles);
     CC_SAFE_DELETE(_coins);
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
 }
 
 FloorCell* FloorCell::create(FloorCellType type, int phase, int idx) {
@@ -54,6 +55,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         arrRoles->addObject(role);
         
         this->update_coffers();
+        CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&FloorCell::show_coin_collected), "COLLECT_COIN", NULL);
     }
     else if (type == FloorCellType_Office) {
         _sptFloor = CCSprite::create("res/pic/building/floor_office_1.png");
@@ -400,7 +402,7 @@ void FloorCell::start() {
 }
 
 CCPoint FloorCell::randomStartPos(bool left) {
-    float widthDelta = 40;
+    float widthDelta = 30;
     if (left) {
         float ran = CCRANDOM_MINUS1_1() * widthDelta;
         CCLOG("ran = %f", ran);
@@ -418,8 +420,8 @@ float FloorCell::randomDuration() {
 }
 
 CCPoint FloorCell::randomEdge() {
-    float widthDelta = 40;
-    return CCPointMake(FLOOR_CELL_WIDTH * 0.6 + CCRANDOM_MINUS1_1() * widthDelta, 0);
+    float widthDelta = 30;
+    return CCPointMake(FLOOR_CELL_WIDTH * 0.7 + CCRANDOM_MINUS1_1() * widthDelta, 0);
 }
 
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
@@ -488,7 +490,7 @@ void FloorCell::collected_coin() {
         this->addChild(star2);
         star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
         
-        node->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(0, FLOOR_CELL_HEIGHT - 20)), CCCallFunc::create(this, SEL_CallFunc(&FloorCell::show_coin_collected)) ,CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+        node->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(0, FLOOR_CELL_HEIGHT - 20)),CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     }
 }
 
@@ -503,7 +505,7 @@ void FloorCell::show_coin_collected() {
     }
     
     CCPoint pos = ccp(FLOOR_CELL_WIDTH * 0.7, 48);
-    float starDuration = 0.3f;
+    float starDuration = 0.8f;
     
     CCSprite* star1 = CCSprite::create("res/pic/loading/loading_star.png");
     star1->setPosition(pos + ccp(0, 20));
