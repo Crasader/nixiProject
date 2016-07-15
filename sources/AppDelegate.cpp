@@ -10,7 +10,6 @@
 #include "DataManager.h"
 #include "SpecialManager.h"
 #include "LoginScene.h"
-#include "TestScene.h"
 #include "TaskSettlementLayer.h"
 
 using namespace std;
@@ -60,9 +59,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     DATA->getLogin()->config_UUID();
     SPECIAL->init();
     const char* uuid = DATA->getLogin()->obtain_UUID();
-    CCLOG("========UUID=========\n%s\n", uuid);
+    CCLog("========UUID=========\n%s\n", uuid);
     // first scene
-//    CCScene* pScene = TestScene::create();
+    CCLog("========LoginScene::scene=========");
     CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
     

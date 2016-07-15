@@ -104,7 +104,11 @@ void MessageTableView::creat_View(){
     
     slider = SliderBar::createSliderBar("res/pic/haoyouScene/message_bar2.png", "res/pic/haoyouScene/message_bar1.png", CCSizeMake(911, 11), CCSizeMake(99, 25));
     slider->setPosition(ccp(DISPLAY->ScreenWidth()*.95f, DISPLAY->ScreenHeight()* .5f));
-    slider->setRotation(-90);
+    if (_number <= 0) {
+        slider->setRotation(90);
+    }else{
+        slider->setRotation(-90);
+    }
     slider->setTag(1);
     this->addChild(slider, 2);
     
@@ -260,7 +264,11 @@ void MessageTableView::updateTableView(){
     
     slider = SliderBar::createSliderBar("res/pic/haoyouScene/message_bar2.png", "res/pic/haoyouScene/message_bar1.png", CCSizeMake(911, 11), CCSizeMake(99, 25));
     slider->setPosition(ccp(DISPLAY->ScreenWidth()*.95f, DISPLAY->ScreenHeight()* .5f));
-    slider->setRotation(-90);
+    if (_number <= 0) {
+        slider->setRotation(90);
+    }else{
+        slider->setRotation(-90);
+    }
     slider->setTag(1);
     this->addChild(slider, 2);
     

@@ -1334,13 +1334,13 @@ void MainScene::update_news_status() {
 #warning "需要更改"
     NewsComp* news = DATA->getNews();
     if (news->mail > 0) {
-        CCSprite* spt = CCSprite::create("pic/new.png");
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(80, 80));
         _youjianItem->addChild(spt);
     }
     
     if (news->paper + news->message > 0) {
-        CCSprite* spt = CCSprite::create("pic/new.png");
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(80, 80));
         _haoyouItem->addChild(spt);
     }

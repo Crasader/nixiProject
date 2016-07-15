@@ -186,7 +186,7 @@ void BaseScene::init_UI(){
     this->addChild(barMenu, 10);
     /*
     // 公司等级进度
-    CCSprite* phaseStar = CCSprite::create("pic/baseScene/base_phase.png");
+    CCSprite* phaseStar = CCSprite::create("res/pic/baseScene/base_phase.png");
     phaseStar->setPosition(ccp(DISPLAY->halfW() - 166, DISPLAY->H()* 0.957f));
     this->addChild(phaseStar, 10);
     
@@ -194,12 +194,12 @@ void BaseScene::init_UI(){
     phaseNum->setPosition(ccp(10, 3));
     phaseStar->addChild(phaseNum);
     
-    CCSprite* bottom = CCSprite::create("pic/baseScene/base_exp_bar_bottom.png");
+    CCSprite* bottom = CCSprite::create("res/pic/baseScene/base_exp_bar_bottom.png");
     bottom->setAnchorPoint(ccp(0, 0.5));
     bottom->setPosition(ccp(22, 10));
     phaseStar->addChild(bottom);
     
-    CCSprite* top = CCSprite::create("pic/baseScene/base_exp_bar_top.png");
+    CCSprite* top = CCSprite::create("res/pic/baseScene/base_exp_bar_top.png");
     _progress = CCProgressTimer::create(top);
     _progress->setType(kCCProgressTimerTypeBar);
     _progress->setPercentage(50);

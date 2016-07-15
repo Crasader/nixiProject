@@ -30,6 +30,7 @@ CCScene* LoginScene::scene() {
 }
 
 bool LoginScene::init() {
+    CCLog("<><><><><>LoginScene::init");
     if (CCLayer::init()) {
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);

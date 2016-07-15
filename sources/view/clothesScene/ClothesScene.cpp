@@ -178,7 +178,7 @@ void ClothesScene::creat_money(){
         clothKuangSpr->removeChildByTag(0x44444);
     }
     
-    CCSprite* goldSpr = CCSprite::create("pic/clothesScene/gj_gold.png");
+    CCSprite* goldSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
     goldSpr->setScale(.83f);
     goldSpr->setPosition(ccp(clothKuangSpr->getContentSize().width* .32f, clothKuangSpr->getContentSize().height* .115f));
     goldSpr->setTag(0x11111);
@@ -191,7 +191,7 @@ void ClothesScene::creat_money(){
     goldLabel->setTag(0x33333);
     clothKuangSpr->addChild(goldLabel);
     
-    CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
+    CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     coinSpr->setScale(.85f);
     coinSpr->setPosition(ccp(clothKuangSpr->getContentSize().width* .32f, clothKuangSpr->getContentSize().height* .09f));
     coinSpr->setTag(0x22222);

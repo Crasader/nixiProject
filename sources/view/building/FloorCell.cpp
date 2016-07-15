@@ -42,11 +42,11 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
     CCArray* arrRoles = CCArray::create();
     
     if (type == FloorCellType_Reception) {
-        _sptFloor = CCSprite::create("pic/building/floor_reception.png");
+        _sptFloor = CCSprite::create("res/pic/building/floor_reception.png");
         _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
         this->addChild(_sptFloor);
         
-        CCSprite* role = CCSprite::create("pic/building/role_receptionist.png");
+        CCSprite* role = CCSprite::create("res/pic/building/role_receptionist.png");
         role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
         role->setAnchorPoint(ccp(0.5, 0));
         role->setScale(ROLE_SCALE);
@@ -55,13 +55,13 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         this->update_coffers();
     }
     else if (type == FloorCellType_Office) {
-        _sptFloor = CCSprite::create("pic/building/floor_office_1.png");
+        _sptFloor = CCSprite::create("res/pic/building/floor_office_1.png");
         _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
         this->addChild(_sptFloor);
         
         if (idx == 1) {
             if (phase < 4) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -69,14 +69,14 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
                 arrRoles->addObject(role);
             }
             else if (phase == 4) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
                 role->setScale(ROLE_SCALE);
                 arrRoles->addObject(role);
                 
-                CCString* strRole2 = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole2 = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role2 = CCSprite::create(strRole2->getCString());
                 role2->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role2->setAnchorPoint(ccp(0.5, 0));
@@ -85,7 +85,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
             }
             else {
                 for (int i = 1; i <= 3; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -96,7 +96,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         }
         else if (idx == 2) {
             if (phase < 5) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -104,14 +104,14 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
                 arrRoles->addObject(role);
             }
             else if (phase == 5) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
                 role->setScale(ROLE_SCALE);
                 arrRoles->addObject(role);
                 
-                CCString* strRole2 = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole2 = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role2 = CCSprite::create(strRole2->getCString());
                 role2->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role2->setAnchorPoint(ccp(0.5, 0));
@@ -120,7 +120,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
             }
             else {
                 for (int i = 1; i <= 3; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -131,7 +131,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         }
         else if (idx == 3) {
             if (phase < 6) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 3);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 3);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -139,14 +139,14 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
                 arrRoles->addObject(role);
             }
             else if (phase == 6) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 3);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 3);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
                 role->setScale(ROLE_SCALE);
                 arrRoles->addObject(role);
                 
-                CCString* strRole2 = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole2 = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role2 = CCSprite::create(strRole2->getCString());
                 role2->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role2->setAnchorPoint(ccp(0.5, 0));
@@ -155,7 +155,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
             }
             else {
                 for (int i = 1; i <= 3; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -166,7 +166,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         }
         else if (idx == 4) {
             if (phase < 7) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -174,14 +174,14 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
                 arrRoles->addObject(role);
             }
             else if (phase == 7) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
                 role->setScale(ROLE_SCALE);
                 arrRoles->addObject(role);
                 
-                CCString* strRole2 = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole2 = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role2 = CCSprite::create(strRole2->getCString());
                 role2->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role2->setAnchorPoint(ccp(0.5, 0));
@@ -190,7 +190,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
             }
             else {
                 for (int i = 1; i <= 3; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -201,7 +201,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         }
         else if (idx == 5) {
             if (phase < 8) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -209,14 +209,14 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
                 arrRoles->addObject(role);
             }
             else if (phase == 8) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
                 role->setScale(ROLE_SCALE);
                 arrRoles->addObject(role);
                 
-                CCString* strRole2 = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole2 = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role2 = CCSprite::create(strRole2->getCString());
                 role2->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role2->setAnchorPoint(ccp(0.5, 0));
@@ -225,7 +225,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
             }
             else {
                 for (int i = 1; i <= 3; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -236,7 +236,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         }
         else {
             for (int i = 1; i <= 3; i++) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -247,7 +247,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
     }
     else  if (type == FloorCellType_Leisure) {
         if (phase < 5) { // == 4
-            CCString* strRole = CCString::createWithFormat("pic/building/role_leisure_%d.png", 1);
+            CCString* strRole = CCString::createWithFormat("res/pic/building/role_leisure_%d.png", 1);
             CCSprite* role = CCSprite::create(strRole->getCString());
             role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
             role->setAnchorPoint(ccp(0.5, 0));
@@ -256,7 +256,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         }
         else {
             for (int i = 1; i <= 2; i++) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_leisure_%d.png", i);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_leisure_%d.png", i);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -264,23 +264,23 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
                 arrRoles->addObject(role);
             }
         }
-        _sptFloor = CCSprite::create("pic/building/floor_bar.png");
+        _sptFloor = CCSprite::create("res/pic/building/floor_bar.png");
         _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
         this->addChild(_sptFloor);
     }
     else  if (type == FloorCellType_Manager_Office) {
         if (phase < 5) {
-            _sptFloor = CCSprite::create("pic/building/floor_manager_1.png");
+            _sptFloor = CCSprite::create("res/pic/building/floor_manager_1.png");
             _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
             this->addChild(_sptFloor);
         }
         else {
-            _sptFloor = CCSprite::create("pic/building/floor_manager_2.png");
+            _sptFloor = CCSprite::create("res/pic/building/floor_manager_2.png");
             _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
             this->addChild(_sptFloor);
         }
         
-        CCSprite* role = CCSprite::create("pic/building/role_manager.png");
+        CCSprite* role = CCSprite::create("res/pic/building/role_manager.png");
         role->setPosition(ccp(FLOOR_CELL_WIDTH * 0.3, STAND_HEIGHT));
         role->setAnchorPoint(ccp(0.5, 0));
         role->setScale(ROLE_SCALE);
@@ -288,22 +288,22 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
     }
     else  if (type == FloorCellType_Roof) {
         if (phase == 1) {
-            _sptFloor = CCSprite::create("pic/building/roof_1.png");
+            _sptFloor = CCSprite::create("res/pic/building/roof_1.png");
             _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
             this->addChild(_sptFloor);
         }
         else if (phase == 2) {
-            _sptFloor = CCSprite::create("pic/building/roof_2.png");
+            _sptFloor = CCSprite::create("res/pic/building/roof_2.png");
             _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
             this->addChild(_sptFloor);
         }
         else {
-            _sptFloor = CCSprite::create("pic/building/roof_3.png");
+            _sptFloor = CCSprite::create("res/pic/building/roof_3.png");
             _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
             this->addChild(_sptFloor);
         }
         
-//        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+//        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
 //        sptPromptBar->setContentSize(CCSizeMake(300, 40));
 //        sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, 10));
 //        _sptFloor->addChild(sptPromptBar);
@@ -337,7 +337,7 @@ void FloorCell::update_coffers() {
     }
     
     // 金库信息
-    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
     sptPromptBar->setContentSize(CCSizeMake(120, 30));
     sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
     _coffers->addChild(sptPromptBar, 100);
@@ -351,7 +351,7 @@ void FloorCell::update_coffers() {
     sptPromptBar->addChild(lbl);
     
     // 领取按钮
-    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
     sptTakeBar->setContentSize(CCSizeMake(90, 30));
     sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 48));
     _coffers->addChild(sptTakeBar, 100);
@@ -436,19 +436,19 @@ void FloorCell::show_coin() {
 void FloorCell::show_coin_at(CCPoint pos) {
     float starDuration = 0.3f;
     
-    CCSprite* star1 = CCSprite::create("pic/loading/loading_star.png");
+    CCSprite* star1 = CCSprite::create("res/pic/loading/loading_star.png");
     star1->setPosition(pos + ccp(0, 20));
     star1->setScale(0.6);
     this->addChild(star1);
     star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     
-    CCSprite* star2 = CCSprite::create("pic/loading/loading_star.png");
+    CCSprite* star2 = CCSprite::create("res/pic/loading/loading_star.png");
     star2->setPosition(pos + ccp(0, 20));
     star2->setScale(0.4);
     this->addChild(star2);
     star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     
-    CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
+    CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     coinSpr->setPosition(pos);
     coinSpr->setScale(0.88);
     this->addChild(coinSpr);
@@ -475,13 +475,13 @@ void FloorCell::collected_coin() {
         CCPoint startPos = node->getPosition();
         float starDuration = 0.3f;
         
-        CCSprite* star1 = CCSprite::create("pic/loading/loading_star.png");
+        CCSprite* star1 = CCSprite::create("res/pic/loading/loading_star.png");
         star1->setPosition(startPos + ccp(0, 20));
         star1->setScale(0.6);
         this->addChild(star1);
         star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
         
-        CCSprite* star2 = CCSprite::create("pic/loading/loading_star.png");
+        CCSprite* star2 = CCSprite::create("res/pic/loading/loading_star.png");
         star2->setPosition(startPos + ccp(0, 20));
         star2->setScale(0.4);
         this->addChild(star2);

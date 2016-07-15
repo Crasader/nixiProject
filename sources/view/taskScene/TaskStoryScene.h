@@ -146,6 +146,7 @@ public:
     void startCallBack(CCObject* pSender);
     void _400CallBack(CCObject* pSender);
     void goTaskScene();
+    void LabelColorFhCallBack(CCObject* pSender);
     
 public:
     bool openStory;

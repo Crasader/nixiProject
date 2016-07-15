@@ -120,19 +120,19 @@ void Building::init_floors() {
     // roof
     CCString* strRoof = NULL;
     if (_floorCount == 3) {
-        strRoof = CCString::createWithFormat("pic/building/roof_%d.png", 1);
+        strRoof = CCString::createWithFormat("res/pic/building/roof_%d.png", 1);
     }
     else if (_floorCount == 4) {
-        strRoof = CCString::createWithFormat("pic/building/roof_%d.png", 2);
+        strRoof = CCString::createWithFormat("res/pic/building/roof_%d.png", 2);
     }
     else {
-        strRoof = CCString::createWithFormat("pic/building/roof_%d.png", 3);
+        strRoof = CCString::createWithFormat("res/pic/building/roof_%d.png", 3);
     }
     CCSprite* sptRoof = CCSprite::create(strRoof->getCString());
     sptRoof->setPosition(this->posWithFloor(_floorCount) + ccp(0, ROOF_HEIGHT));
     _scroll->addChild(sptRoof);
     
-    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("pic/clothesScene/gj_dikuang1.png");
+    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
     sptPromptBar->setContentSize(CCSizeMake(300, 40));
     sptPromptBar->setPosition(ccp(ROOF_WIDTH * 0.5, 10));
     sptRoof->addChild(sptPromptBar);
@@ -145,8 +145,8 @@ void Building::init_floors() {
 //    CCLayer* layer = CCLayer::create();
 //    this->addChild(layer);
 //    
-//    CCSprite* goback1 = CCSprite::create("pic/qingjingScene/qj_fanhui.png");
-//    CCSprite* goback2 = CCSprite::create("pic/qingjingScene/qj_fanhui.png");
+//    CCSprite* goback1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
+//    CCSprite* goback2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
 //    goback2->setScale(1.01f);
 //    CCMenuItem* btnGoBack = CCMenuItemSprite::create(goback1, goback2, this, SEL_MenuHandler(&Building::go_back));
 //    btnGoBack->setPosition(ccp(50, 50));

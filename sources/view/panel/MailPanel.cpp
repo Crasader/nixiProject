@@ -105,7 +105,7 @@ void MailPanel::do_enter() {
     this->setTouchSwallowEnabled(true);
     
     if (this->numberOfCellsInTableView(NULL) == 0) {
-        CCSprite* empty = CCSprite::create("pic/haoyouScene/message_ren.png");
+        CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
         empty->setPosition(DISPLAY->center());
         _content->addChild(empty);
     }
@@ -212,7 +212,7 @@ void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
     int* id = (int*)btn->getUserData();
     NET->response_mail_701(*id, 2);
     if (this->numberOfCellsInTableView(NULL) == 0) {
-        CCSprite* empty = CCSprite::create("pic/haoyouScene/message_ren.png");
+        CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
         empty->setPosition(DISPLAY->center());
         _content->addChild(empty);
     }
