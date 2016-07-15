@@ -34,6 +34,10 @@ bool BaseScene::init(){
     
     this->init_UI();
     
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchSwallowEnabled(false);
+    this->setTouchEnabled(true);
+    
     return true;
 }
 
@@ -46,12 +50,20 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_purchase_panel), "HTTP_FINISHED_100", NULL);
     //
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
 }
+
 void BaseScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     CCLayer::onExit();
+}
+
+bool BaseScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent) {
+    CCLOG("BaseScene::ccTouchBegan() ...");
+    SPECIAL->showSpotAt(this->getParent(), pTouch->getLocation(), 1);
+    return false;
 }
 
 void BaseScene::init_UI(){
@@ -353,9 +365,11 @@ void BaseScene::updatePhaseProgress() {
 
 void BaseScene::nc_need_coin_fly(CCObject *pObj) {
     CCDictionary* dic = (CCDictionary*)pObj;
-    CCInteger* num = (CCInteger*)dic->objectForKey("num");
-    CCString* from = (CCString*)dic->objectForKey("from");
-    SPECIAL->show_energy_reward(this->getParent(), num->getValue(), CCPointFromString(from->getCString()), coinItem->getPosition());
+    if (dic) {
+        CCInteger* num = (CCInteger*)dic->objectForKey("num");
+        CCString* from = (CCString*)dic->objectForKey("from");
+        SPECIAL->show_coin_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), coinItem->getPosition());
+    }
 }
 
 void BaseScene::nc_need_gold_fly(CCObject *pObj) {
@@ -364,5 +378,17 @@ void BaseScene::nc_need_gold_fly(CCObject *pObj) {
 
 void BaseScene::nc_need_energy_fly(CCObject *pObj) {
 
+}
+
+void BaseScene::nc_coin_fly_completed(CCObject *pObj) {
+    updataMoney();
+}
+
+void BaseScene::nc_gold_fly_completed(CCObject *pObj) {
+    updataMoney();
+}
+
+void BaseScene::nc_energy_fly_completed(CCObject *pObj) {
+    updataMoney();
 }
 

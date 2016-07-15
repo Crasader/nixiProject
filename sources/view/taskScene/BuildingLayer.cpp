@@ -8,7 +8,7 @@
 
 #include "BuildingLayer.h"
 #include "DisplayManager.h"
-//#include "Building.h"
+#include "SpecialManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
 #include "BuildingView.h"
@@ -89,6 +89,7 @@ void BuildingLayer::onExit() {
 
 bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
+    SPECIAL->showSpotAt(this->getScene(), location, 100);
     CCRect rect = _building->boundingBox();
     CCRect check = CCRectMake(rect.origin.x, rect.origin.y, (DISPLAY->W() - 200), rect.size.height);
     if (check.containsPoint(location)) {

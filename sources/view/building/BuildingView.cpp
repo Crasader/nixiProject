@@ -10,6 +10,7 @@
 #include "FloorCell.h"
 #include "UnreusedTableView.h"
 #include "DisplayManager.h"
+#include "SpecialManager.h"
 #include "DataManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
@@ -102,6 +103,7 @@ void BuildingView::update_produce(float dt) {
 
 bool BuildingView::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
     CCPoint pos = pTouch->getLocation();
+    SPECIAL->showSpotAt(this->getScene(), pos, 100);
     CCRect rect = _tbView->boundingBox();
     if (! rect.containsPoint(pos)) {
         this->go_back();
@@ -134,7 +136,7 @@ void BuildingView::nc_collect_coin(CCObject *pObj) {
 }
 
 void BuildingView::nc_take_income(CCObject *pObj) {
-    LOADING->show_loading();
+//    LOADING->show_loading();
     NET->take_income_203();
 }
 
@@ -146,9 +148,16 @@ void BuildingView::nc_collect_coin_201(CCObject *pObj) {
 }
 
 void BuildingView::nc_take_income_203(CCObject *pObj) {
-    LOADING->remove();
+//    LOADING->remove();
     update_coffers();
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    
+    CCPoint posFrom = ccp(DISPLAY->W() * 0.75, DISPLAY->H() * 0.15);
+    CCDictionary* postData = CCDictionary::create();
+    postData->setObject(CCInteger::create(0), "num");
+    CCString* from = CCString::createWithFormat("{%f,%f}", posFrom.x, posFrom.y);
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
 }
 
 void BuildingView::update_coffers() {

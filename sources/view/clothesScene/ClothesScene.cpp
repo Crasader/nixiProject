@@ -144,7 +144,6 @@ bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     }
     
     SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
-//    SPECIAL->showImageAt(getParent(), pTouch->getLocation(), 1);
     
     return true;
 }

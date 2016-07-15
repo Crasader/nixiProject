@@ -151,10 +151,14 @@ void SpecialManager::show_coin_reward(CCNode *parent, int num, CCPoint start, CC
     CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("pic/common/fly_coin_%d.png", 2, 1, 0.3f));
     icon->runAction(CCRepeatForever::create(flap));
     parent->addChild(icon, zOrder);
-    // num
-    CCString* str_num = CCString::createWithFormat("%d", num);
-    CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
-    parent->addChild(lbl, zOrder);
+    
+    CCLabelAtlas* lbl = NULL;
+    if (num > 0) {
+        // num
+        CCString* str_num = CCString::createWithFormat("%d", num);
+        lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
+        parent->addChild(lbl, zOrder);
+    }
     
     CCCallFuncN* complete = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::coin_animation_completed));
     this->reward_display(icon, lbl, end, complete, duration);
@@ -168,10 +172,14 @@ void SpecialManager::show_gold_reward(CCNode *parent, int num, CCPoint start, CC
     CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("pic/common/fly_gold_%d.png", 2, 1, 0.3f));
     icon->runAction(CCRepeatForever::create(flap));
     parent->addChild(icon, zOrder);
-    // num
-    CCString* str_num = CCString::createWithFormat("%d", num);
-    CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
-    parent->addChild(lbl, zOrder);
+    
+    CCLabelAtlas* lbl = NULL;
+    if (num > 0) {
+        // num
+        CCString* str_num = CCString::createWithFormat("%d", num);
+        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
+        parent->addChild(lbl, zOrder);
+    }
     
     CCCallFuncN* complete = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::gold_animation_completed));
     this->reward_display(icon, lbl, end, complete, duration);
@@ -185,10 +193,14 @@ void SpecialManager::show_energy_reward(CCNode *parent, int num, CCPoint start, 
     CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("pic/common/fly_energy_%d.png", 2, 1, 0.3f));
     energy->runAction(CCRepeatForever::create(flap));
     parent->addChild(energy, zOrder);
-    // num
-    CCString* str_num = CCString::createWithFormat("%d", num);
-    CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
-    parent->addChild(lbl, zOrder);
+    
+    CCLabelAtlas* lbl = NULL;
+    if (num > 0) {
+        // num
+        CCString* str_num = CCString::createWithFormat("%d", num);
+        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
+        parent->addChild(lbl, zOrder);
+    }
     
     CCCallFuncN* complete = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::energy_animation_completed));
     this->reward_display(energy, lbl, end, complete, duration);
@@ -213,11 +225,13 @@ void SpecialManager::reward_display(CCNode* icon, CCNode* num, CCPoint end, CCCa
     CCCallFuncN* flower = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::show_flower));
     icon->runAction(CCSequence::create(icon_fly, flower, CCDelayTime::create(0.4f), complete, NULL));
     
-    num->setPosition(icon->getPosition() - ccp(50, 0));
-    CCActionInterval* num_fly = this->fly_action(start, end * 0.8, duration);
-    CCFadeOut* num_fadeout = CCFadeOut::create(duration);
-    CCScaleTo* num_scale = CCScaleTo::create(duration, 1.6);
-    num->runAction(CCSpawn::create(num_fly, num_fadeout, num_scale, NULL));
+    if (num != NULL) {
+        num->setPosition(icon->getPosition() - ccp(50, 0));
+        CCActionInterval* num_fly = this->fly_action(start, end * 0.8, duration);
+        CCFadeOut* num_fadeout = CCFadeOut::create(duration);
+        CCScaleTo* num_scale = CCScaleTo::create(duration, 1.6);
+        num->runAction(CCSpawn::create(num_fly, num_fadeout, num_scale, NULL));
+    }
 }
 
 CCActionInterval* SpecialManager::fly_action(CCPoint start, CCPoint end, float duration) {
