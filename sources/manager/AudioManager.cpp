@@ -7,13 +7,10 @@
 //
 
 #include "AudioManager.h"
-#include "SimpleAudioEngine.h"
 
-using namespace CocosDenshion;
 
 static AudioManager* _instance = nullptr;
 
-static SimpleAudioEngine* engine = SimpleAudioEngine::sharedEngine();
 
 #define kUDK_Music_Bool                 "is_music_on"
 #define kUDK_Effect_Bool                "is_effect_on"
@@ -29,9 +26,9 @@ AudioManager::~AudioManager()
 void AudioManager::init(bool music, bool effect)
 {
     // 背景音量
-    engine->setBackgroundMusicVolume(1.f);
+    this->setBackgroundMusicVolume(1.f);
     // 音效音量
-    engine->setEffectsVolume(1.f);
+    this->setEffectsVolume(1.f);
     
     CCUserDefault* user_default = CCUserDefault::sharedUserDefault();
     this->set_music_on(user_default->getBoolForKey(kUDK_Music_Bool, true));
@@ -146,9 +143,9 @@ void AudioManager::set_music_on(bool is_on)
     CCUserDefault::sharedUserDefault()->setBoolForKey(kUDK_Music_Bool, m_is_music_on);
     CCUserDefault::sharedUserDefault()->flush();
     if (m_is_music_on && !m_is_music_paused)
-        engine->resumeBackgroundMusic();
+        this->resumeBackgroundMusic();
     else
-        engine->pauseBackgroundMusic();
+        this->pauseBackgroundMusic();
 }
 
 
@@ -158,9 +155,9 @@ void AudioManager::set_effect_on(bool is_on)
     CCUserDefault::sharedUserDefault()->setBoolForKey(kUDK_Effect_Bool, m_is_effect_on);
     CCUserDefault::sharedUserDefault()->flush();
     if (m_is_effect_on && !m_is_effect_paused)
-        engine->resumeAllEffects();
+        this->resumeAllEffects();
     else
-        engine->stopAllEffects();
+        this->stopAllEffects();
 }
 
 
@@ -172,10 +169,10 @@ void AudioManager::purge()
 
 void AudioManager::play_music(const char *pszFilePath, bool bLoop)
 {
-    engine->playBackgroundMusic(pszFilePath, bLoop);
+    this->playBackgroundMusic(pszFilePath, bLoop);
     
     if (!m_is_music_on) {
-        engine->pauseBackgroundMusic();
+        this->pauseBackgroundMusic();
     }
 }
 
@@ -183,7 +180,7 @@ void AudioManager::play_music(const char *pszFilePath, bool bLoop)
 unsigned int AudioManager::play_effect(const char *pszFilePath, bool bLoop)
 {
     if (m_is_effect_on) {
-        return engine->playEffect(pszFilePath, bLoop);
+        return this->playEffect(pszFilePath, bLoop);
     }
     
     return 0;
@@ -194,7 +191,7 @@ void AudioManager::pause_music()
 {
     m_is_music_paused = true;
     if (m_is_music_on) {
-        engine->pauseBackgroundMusic();
+        this->pauseBackgroundMusic();
     }
 }
 
@@ -202,7 +199,7 @@ void AudioManager::resume_music()
 {
     m_is_music_paused = false;
     if (m_is_music_on) {
-        engine->resumeBackgroundMusic();
+        this->resumeBackgroundMusic();
     }
 }
 
@@ -210,14 +207,14 @@ void AudioManager::resume_music()
 void AudioManager::pause_effects()
 {
     m_is_effect_paused = true;
-    engine->pauseAllEffects();
+    this->pauseAllEffects();
 }
 
 void AudioManager::resume_all_effects()
 {
     m_is_effect_paused = false;
     if (m_is_effect_on) {
-        engine->resumeAllEffects();
+        this->resumeAllEffects();
     }
 }
 

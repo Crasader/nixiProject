@@ -15,7 +15,7 @@
 #include "NetManager.h"
 #include "ClothesScene.h"
 #include "Loading2.h"
-
+#include "TaskLabelColorLayer.h"
 
 
 TaskStoryScene::TaskStoryScene(){
@@ -204,6 +204,7 @@ void TaskStoryScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_400CallBack), "HTTP_FINISHED_400", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
 }
 void TaskStoryScene::onExit(){
     this->unscheduleAllSelectors();
@@ -250,6 +251,10 @@ void TaskStoryScene::creat_view(){
 }
 void TaskStoryScene::backCallBack(CCObject* pSender){
     if (missionDic->valueForKey("states")->intValue() == 1){// ==1 一个人
+        if (_touSpr->getChildByTag(0x44444) != NULL) {
+            _touSpr->removeChildByTag(0x44444);
+        }
+        
         CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
         CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
         CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
@@ -260,6 +265,10 @@ void TaskStoryScene::backCallBack(CCObject* pSender){
         CCFiniteTimeAction* _actMove2 = CCMoveBy::create(.3f, ccp(0, -535));
         _dkSpr->runAction(CCSequence::create(_actMove1, _actMove2, CCDelayTime::create(.2f), goTaskScene, NULL));
     }else if (missionDic->valueForKey("states")->intValue() == 2){
+        if (_touSpr->getChildByTag(0x44444) != NULL) {
+            _touSpr->removeChildByTag(0x44444);
+        }
+        
         CCFiniteTimeAction* _actMove1 = CCMoveBy::create(.1f, ccp(0, 35));
         CCFiniteTimeAction* _actMove2 = CCMoveBy::create(.3f, ccp(0, -535));
         _dkSpr->runAction(CCSequence::create(_actMove1, _actMove2, NULL));
@@ -267,6 +276,11 @@ void TaskStoryScene::backCallBack(CCObject* pSender){
         std::string zishiStr = missionDic->valueForKey("zishi_1")->getCString();
         if (zishiStr.size() > 1) {
             CCSprite* spr = (CCSprite* )_ManSpr2->getChildByTag(0x77777);
+            if (spr != NULL) {
+                if (spr->getChildByTag(0x55555) != NULL) {
+                    spr->removeChildByTag(0x55555);
+                }
+            }
             
             CCMoveTo* moveTo2 = CCMoveTo::create(.4f, ccp(DISPLAY->ScreenWidth()* .5f - 1150, DISPLAY->ScreenHeight()* .45f));
             spr->runAction(CCSequence::create(CCDelayTime::create(.4f), CCSpawn::create(moveTo2, NULL), NULL));
@@ -284,10 +298,7 @@ void TaskStoryScene::goTaskScene(){
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-//    CCScene* scene = TaskScene::scene();
-//    CCDirector::sharedDirector()->replaceScene(scene);
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void TaskStoryScene::creat_Man(float _widthFolt, float _heightFloat, float _scaleFloat){
@@ -306,16 +317,63 @@ void TaskStoryScene::creat_Man(float _widthFolt, float _heightFloat, float _scal
     
     _ManSpr1->setPosition(ccp(_widthFolt, _heightFloat));
     _ManSpr1->setScale(_scaleFloat);
+    
+    int expression_1 = missionDic->valueForKey("Expression_1")->intValue();
+    
+    if (expression_1 != 0) {
+        CCString* expressionStr = CCString::createWithFormat("res/pic/taskScene/biaoqing/%d.png", expression_1);
+        CCSprite* expressionSpr = CCSprite::create(expressionStr->getCString());
+        expressionSpr->setPosition(ccp(_touSpr->getContentSize().width* .26f, _touSpr->getContentSize().height* .82f));
+        expressionSpr->setScale(.6f);
+        expressionSpr->setFlipX(true);
+        expressionSpr->setTag(0x44444);
+        _touSpr->addChild(expressionSpr);
+    }
+    
 }
 void TaskStoryScene::creat_Man2(float _widthFolt, float _heightFloat, float _scaleFloat){
     std::string zishiStr = missionDic->valueForKey("zishi_1")->getCString();
+    int zishi = missionDic->valueForKey("zishi_1")->intValue();
     if (zishiStr.size() > 1) {
         CCString* str = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", zishiStr.c_str());
+//        CCString* str = CCString::createWithFormat("res/pic/qingjingScene/zishi/%d_1.png", zishi);
         CCSprite* spr = CCSprite::create(str->getCString());
         spr->setPosition(ccp(_widthFolt, _heightFloat));
         spr->setScale(_scaleFloat);
         spr->setTag(0x77777);
         _ManSpr2->addChild(spr);
+        
+        int expression_2 = missionDic->valueForKey("Expression_2")->intValue();
+        if (expression_2 != 0) {
+            CCString* expressionStr = CCString::createWithFormat("res/pic/taskScene/biaoqing/%d.png", expression_2);
+            CCSprite* expressionSpr = CCSprite::create(expressionStr->getCString());
+            
+            if (zishi == 1002) {
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .85f));
+            }else if (zishi == 1003){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .7f));
+            }else if (zishi == 1004){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .75f));
+            }else if (zishi == 1005){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .8f));
+            }else if (zishi == 1006){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .75f));
+            }else if (zishi == 1007){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .87f));
+            }else if (zishi == 1008){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .68f));
+            }else if (zishi == 1009){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .8f));
+            }else if (zishi == 1010){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .68f));
+            }else if (zishi == 1015){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .64f, spr->getContentSize().height* .8f));
+            }else if (zishi == 1102){
+                expressionSpr->setPosition(ccp(spr->getContentSize().width* .7f, spr->getContentSize().height* .87f));
+            }
+            expressionSpr->setTag(0x55555);
+            spr->addChild(expressionSpr);
+        }
     }
 }
 void TaskStoryScene::initClothes(){//穿衣服
@@ -859,6 +917,15 @@ int TaskStoryScene::getContentLength(){
 }
 
 void TaskStoryScene::init_Man(){
+    if (_touSpr->getChildByTag(0x44444) != NULL) {
+        _touSpr->removeChildByTag(0x44444);
+    }
+    CCSprite* spr = (CCSprite* )_ManSpr2->getChildByTag(0x77777);
+    if (spr != NULL) {
+        if (spr->getChildByTag(0x55555) != NULL) {
+            spr->removeChildByTag(0x55555);
+        }
+    }
     
     if (missionDic->valueForKey("states")->intValue() == 1){// ==1 一个人
         
@@ -920,6 +987,16 @@ void TaskStoryScene::dialogueControl(float dt){
 //    CCLog("tag2 ==== %d", missionDic->valueForKey("tag2")->intValue());
 //    CCLog("tag3 ==== %d", missionDic->valueForKey("tag3")->intValue());
     
+    if (_touSpr->getChildByTag(0x44444) != NULL) {
+        _touSpr->removeChildByTag(0x44444);
+    }
+    CCSprite* spr = (CCSprite* )_ManSpr2->getChildByTag(0x77777);
+    if (spr != NULL) {
+        if (spr->getChildByTag(0x55555) != NULL) {
+            spr->removeChildByTag(0x55555);
+        }
+    }
+    
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     this->setTouchEnabled(false);
     logIndex = 0;
@@ -969,7 +1046,7 @@ void TaskStoryScene::addButton(){
     CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_huikan.png");
     hgSpr2->setColor(ccGRAY);
     CCMenuItem* hkButton = CCMenuItemSprite::create(hgSpr1, hgSpr2, this, menu_selector(TaskStoryScene::huikanCallBack));
-    hkButton->setPosition(ccp(kuangSpr->boundingBox().size.width* .73, kuangSpr->boundingBox().size.height + 80 - 500));
+    hkButton->setPosition(ccp(kuangSpr->getContentSize().width* .73, kuangSpr->getContentSize().height + 10));
     
     // 快进
     CCSprite* kjSpr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_kuaijin1.png");
@@ -981,9 +1058,7 @@ void TaskStoryScene::addButton(){
     CCMenuItem* kuaijinItemOn = CCMenuItemSprite::create(kjSpr1, kjSpr2);
     CCMenuItem* kuaijinItemOff = CCMenuItemSprite::create(ztSpr3, ztSpr4);
     kuaijinToggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(TaskStoryScene::kuaijinCallBack), kuaijinItemOn,kuaijinItemOff,NULL);
-    kuaijinToggleItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .88, kuangSpr->boundingBox().size.height + 80 - 500));
-    CCPoint pos = ccp(kuaijinToggleItem->getPosition().x, kuaijinToggleItem->getPosition().y);
-    
+    kuaijinToggleItem->setPosition(ccp(kuangSpr->getContentSize().width* .88, kuangSpr->getContentSize().height + 10));
     if (m_bIsKJSelect) {
         kuaijinToggleItem->setSelectedIndex(1);
     }else{
@@ -993,11 +1068,13 @@ void TaskStoryScene::addButton(){
     CCMenu* menu = CCMenu::create(hkButton, kuaijinToggleItem, NULL);
     menu->setPosition(CCPointZero);
     menu->setTag(0x88888);
-    _dkSpr->addChild(menu, 30);
+    kuangSpr->addChild(menu, 30);
 }
 
 void TaskStoryScene::huikanCallBack(CCObject* pSender){
-    
+    TaskLabelColorLayer* layer = TaskLabelColorLayer::create_with_index(labStr.c_str());
+    layer->setTag(0x999999);
+    this->addChild(layer, 100);
 }
 void TaskStoryScene::kuaijinCallBack(CCObject* pSender){
     if (!buttonBool) {
@@ -1027,11 +1104,11 @@ void TaskStoryScene::recordLabel(std::string nameStr, std::string saidStr){
     }
     if (saidStr.length() != 0) {
         labStr.append(saidStr.c_str());
-        labStr.append("\n");
+        labStr.append("\n\n");
     }
     
     nowIndex++;
-    if (nowIndex == 4) {
+    if (nowIndex == 5) {
         nowIndex = 0;
 //        char* labChar = strdup(labStr.c_str());
         
@@ -1179,7 +1256,13 @@ void TaskStoryScene::_400CallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-
+void TaskStoryScene::LabelColorFhCallBack(CCObject* pSender){
+    if (this->getChildByTag(0x999999) != NULL) {
+        this->removeChildByTag(0x999999);
+    }
+    
+    this->setTouchEnabled(true);
+}
 
 
 

@@ -99,7 +99,9 @@ void TaskScene::creat_view(){
     }
     DATA->setTaskSource(tempArr);
     
+    // _isPhaseUP 要不要显示升级动画 false不显示
     _buildingLayer = BuildingLayer::create(DATA->getPlayer()->phase, _isPhaseUP);
+    _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);
     
     CCSprite* backSpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
