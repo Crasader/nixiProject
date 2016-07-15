@@ -10,6 +10,7 @@
 #include "DisplayManager.h"
 #include "SpecialManager.h"
 #include "DataManager.h"
+#include "AppUtil.h"
 
 const float ROLE_SCALE = 0.25;
 const float STAND_HEIGHT = 3;
@@ -494,5 +495,11 @@ void FloorCell::collected_coin() {
 void FloorCell::self_remove(CCNode *node) {
     node->removeFromParentAndCleanup(true);
     _coins->removeObject(node);
+    if (_type == FloorCellType_Reception) {
+        update_coffers();
+    }
 }
 
+void FloorCell::show_coin_collected() {
+    
+}

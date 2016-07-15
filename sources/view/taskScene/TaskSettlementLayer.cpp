@@ -80,7 +80,7 @@ void TaskSettlementLayer::keyBackClicked(){
     
 }
 
-bool TaskSettlementLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){    
+bool TaskSettlementLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
 //    if (!lingquBool) {
 //        // 给个提示
 //    }else{
