@@ -1545,6 +1545,7 @@ void MainScene::initClothes(){//穿衣服
 }
         
 void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
+    xinfeng_spr1->removeAllChildrenWithCleanup(true);
     LOADING->remove();
     MailPanel* panel = MailPanel::create();
     panel->show_from(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
