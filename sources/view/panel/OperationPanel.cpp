@@ -20,9 +20,9 @@ bool OperationPanel::init() {
         this->addChild(mask);
         
         _content = CCLayer::create();
-        _content->setScale(0.1);
+//        _content->setScale(0.1);
+//        _content->setVisible(false);
         this->addChild(_content);
-        _content->setVisible(false);
         
         _bg = CCSprite::create("res/pic/panel/operation/operation_bg.png");
         _bg->setPosition(DISPLAY->center());
@@ -47,6 +47,10 @@ bool OperationPanel::init() {
         CCMenu* menu = CCMenu::create(btn_purchase, btn_monthlycard, NULL);
         _content->addChild(menu);
         
+        this->setTouchEnabled(true);
+        this->setTouchMode(kCCTouchesOneByOne);
+        this->setTouchSwallowEnabled(true);
+        
         return true;
     }
     else {
@@ -60,7 +64,7 @@ void OperationPanel::onEnter() {
 //    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 //    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
     
-    this->do_enter();
+//    this->do_enter();
 }
 
 void OperationPanel::onExit() {
@@ -72,7 +76,8 @@ void OperationPanel::onExit() {
 bool OperationPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _bg->boundingBox().containsPoint(location)) {
-        this->do_exit();
+//        this->do_exit();
+        remove();
     }
     
     return true;
@@ -97,10 +102,6 @@ void OperationPanel::do_enter() {
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
     //    _content->runAction(CCEaseBounceOut::create(spawn));
     _content->runAction(CCEaseElasticOut::create(spawn));
-    
-    this->setTouchEnabled(true);
-    this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchSwallowEnabled(true);
 }
 
 void OperationPanel::do_exit() {
