@@ -242,6 +242,16 @@ void StrangerScene::result_tip(){
 }
 
 void StrangerScene::exitMan(){
+    if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(10000)) {
+        
+    }else{
+        CCLayer* layer = CCLayer::create();
+        layer->setTouchEnabled(true);
+        layer->setTouchSwallowEnabled(true);
+        layer->setTag(10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+    }
+    
     CCPlace* pl = CCPlace::create(ccp(_ManSpr->getPositionX() - 500, _ManSpr->getPositionY()));
 //    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMan));
