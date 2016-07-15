@@ -73,7 +73,7 @@ void HaoyouRankLayer::onExit(){
 void HaoyouRankLayer::createView(){
     float z_order = 20.f;
     
-    CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
+    CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/main_bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
     
