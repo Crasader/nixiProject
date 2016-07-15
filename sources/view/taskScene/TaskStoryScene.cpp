@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "ConfigManager.h"
+#include "SpecialManager.h"
 #include "TaskScene.h"
 #include "NetManager.h"
 #include "ClothesScene.h"
@@ -293,6 +294,7 @@ void TaskStoryScene::backCallBack(CCObject* pSender){
         }
     }
 }
+
 void TaskStoryScene::goTaskScene(){
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
@@ -1163,7 +1165,8 @@ void TaskStoryScene::logic(float dt){
 }
 
 bool TaskStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-    if (!openStory) {
+    SPECIAL->showSpotAt(this->getParent(), pTouch->getLocation(), 1);
+    if (! openStory) {
         logIndex++;
         
         if (logIndex == 1) {

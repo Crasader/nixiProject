@@ -37,6 +37,9 @@ void DragLayer::onExit(){
 bool DragLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){
     last_pos = pTouch->getLocation();
     SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("TOUCH_BEGIN", CCString::createWithFormat("{%f, %f}", last_pos.x, last_pos.y));
+    
     return true;
 }
 

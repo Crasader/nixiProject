@@ -45,6 +45,7 @@ private:
     void on_take_rewards(CCMenuItem *btn);
     void show_coin_at(CCPoint pos);
     void self_remove(CCNode* node);
+    void show_coin_collected();
     
 private:
     FloorCellType       _type;
