@@ -119,7 +119,7 @@ void MainScene::onEnter(){
     
     
     this->setArrPlay(this->rand_array(_arrGroup1));
-    this->schedule(SEL_SCHEDULE(&MainScene::delayPlay), 10);
+    this->schedule(SEL_SCHEDULE(&MainScene::delayPlay), 7, kCCRepeatForever, 3);
     
 //    int count = arr->count();
 //    for (int i = 0; i < count; i++) {
@@ -458,11 +458,11 @@ void MainScene::creat_view(){
     //---邮箱btn---
     CCSprite* mail_box1 = CCSprite::create("res/pic/mainScene/mail_nor.png");
     xinfeng_spr1 = CCSprite::create("res/pic/mainScene/xinfeng.png");
-    xinfeng_spr1->setPosition(ccp(mail_box1->getContentSize().width* .6f, mail_box1->getContentSize().height + 20));
+    xinfeng_spr1->setPosition(ccp(mail_box1->getContentSize().width* .6f, mail_box1->getContentSize().height + 15));
     mail_box1->addChild(xinfeng_spr1);
     CCSprite* mail_box2 = CCSprite::create("res/pic/mainScene/mail_sel.png");
     CCSprite* xinfeng_spr2 = CCSprite::create("res/pic/mainScene/xinfeng.png");
-    xinfeng_spr2->setPosition(ccp(mail_box2->getContentSize().width* .6f, mail_box2->getContentSize().height + 20));
+    xinfeng_spr2->setPosition(ccp(mail_box2->getContentSize().width* .6f, mail_box2->getContentSize().height + 15));
     mail_box2->addChild(xinfeng_spr2);
     mail_box2->setScale(1.02f);
     CCMenuItemSprite* youjian_Item = CCMenuItemSprite::create(mail_box1, mail_box2, this, menu_selector(MainScene::youjianCallBack));
@@ -1555,7 +1555,7 @@ void MainScene::update_news_status() {
     NewsComp* news = DATA->getNews();
     if (news->mail > 0) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(80, 80));
+        spt->setPosition(ccp(80, 60));
         xinfeng_spr1->addChild(spt);
     }
     
