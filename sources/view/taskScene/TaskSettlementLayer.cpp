@@ -80,13 +80,12 @@ void TaskSettlementLayer::keyBackClicked(){
     
 }
 
-bool TaskSettlementLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
-    
-    if (!lingquBool) {
-        // 给个提示
-    }else{
-        exit();
-    }
+bool TaskSettlementLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){    
+//    if (!lingquBool) {
+//        // 给个提示
+//    }else{
+//        exit();
+//    }
     
     return true;
 }
@@ -279,8 +278,11 @@ void TaskSettlementLayer::startAnimation(float dt){
     }
 }
 
-void TaskSettlementLayer::lingquCallBack(CCObject* pSender){
+void TaskSettlementLayer::lingquCallBack(CCNode* pSender){
     lingquBool = true;
+    if (pSender) {
+        pSender->setVisible(false);
+    }
 //    CCDictionary* postData = CCDictionary::create();
 //    postData->setObject(CCInteger::create(_coin), "num");
 //    CCPoint pos = ccp(DISPLAY->halfW() - 350, DISPLAY->H() * 0.15);

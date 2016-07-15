@@ -31,7 +31,7 @@ public:
     
 public:
     void creat_view();
-    void lingquCallBack(CCObject* pSender);
+    void lingquCallBack(CCNode* pSender);
     
     void creat_Man();
     void initClothes();
