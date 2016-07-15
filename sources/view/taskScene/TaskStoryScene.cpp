@@ -293,7 +293,9 @@ void TaskStoryScene::backCallBack(CCObject* pSender){
     }
 }
 void TaskStoryScene::goTaskScene(){
-    CCScene* scene = TaskScene::scene();
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCDirector::sharedDirector()->replaceScene(scene);
 }
 

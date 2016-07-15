@@ -33,6 +33,7 @@
 
 // --------------- test ----------------
 
+#include "SpecialManager.h"
 
 MainScene::MainScene(){
     
@@ -717,7 +718,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
-//        NET->ranking_list_300();
+        SPECIAL->show_energy_reward(this->getParent(), 99, DISPLAY->center(), ccp(DISPLAY->W() * 0.3, DISPLAY->H() * 0.96));
     }
 }
 
@@ -809,7 +810,9 @@ void MainScene::richangCallBack(CCObject* pSender){
 void MainScene::_600CallBack(CCObject* pSender){
     LOADING->remove();
     
-    CCScene* scene = TaskScene::scene();
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

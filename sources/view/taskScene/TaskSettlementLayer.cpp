@@ -13,6 +13,7 @@
 #include "TaskScene.h"
 #include "ClothesScene.h"
 #include "DisplayManager.h"
+#include "SpecialManager.h"
 
 
 TaskSettlementLayer::~TaskSettlementLayer(){
@@ -62,11 +63,15 @@ bool TaskSettlementLayer::init(int rating, int coin, bool isPhaseUP){
 void TaskSettlementLayer::onEnter(){
     CCLayer::onEnter();
     
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&TaskSettlementLayer::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
     
+    SPECIAL->showPetal2At(this, DISPLAY->center(), 1);
 }
 
 void TaskSettlementLayer::onExit(){
-    
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    unscheduleAllSelectors();
     
     CCLayer::onExit();
 }
@@ -213,9 +218,9 @@ void TaskSettlementLayer::creat_view(){
     tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .86f));
     this->addChild(tiaoSpr, 15);
     
-//    CCSprite* xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
-//    xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .95f));
-//    tiaoSpr->addChild(xingSpr1);
+    CCSprite* done_text = CCSprite::create("res/pic/taskSettlement/ts_done_text.png");
+    done_text->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .63f));
+    tiaoSpr->addChild(done_text);
     
     
     CCSprite* bgSpr2 = CCSprite::create("res/pic/taskSettlement/ts_bg2.png");
@@ -276,7 +281,12 @@ void TaskSettlementLayer::startAnimation(float dt){
 
 void TaskSettlementLayer::lingquCallBack(CCObject* pSender){
     lingquBool = true;
-    
+//    CCDictionary* postData = CCDictionary::create();
+//    postData->setObject(CCInteger::create(_coin), "num");
+//    CCPoint pos = ccp(DISPLAY->halfW() - 350, DISPLAY->H() * 0.15);
+//    postData->setObject(CCString::createWithFormat("{%f,%f}", pos.x, pos.y), "from");
+//    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+    SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW(), DISPLAY->H() * 0.82));
 }
 
 void TaskSettlementLayer::creat_Man(){
@@ -763,7 +773,9 @@ void TaskSettlementLayer::initClothes(){//穿衣服
 }
 
 void TaskSettlementLayer::exit() {
-    CCScene* scene = TaskScene::scene();
+    CCLayer* layer = TaskScene::create(1);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
@@ -827,5 +839,9 @@ void TaskSettlementLayer::initAniamtion(){
     }
     CCAnimation* animation5 = CCAnimation::createWithSpriteFrames(animations5, 0.04f);
     CCAnimationCache::sharedAnimationCache()->addAnimation(animation5, "xingStr5");
+}
+
+void TaskSettlementLayer::nc_coin_fly_completed(CCObject *pObj) {
+    exit();
 }
 

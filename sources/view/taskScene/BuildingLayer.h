@@ -17,8 +17,8 @@ class BuildingLayer : public CCLayer
 {
 public:
     ~BuildingLayer();
-    static BuildingLayer* create(int phase);
-    bool init(int phase);
+    static BuildingLayer* create(int phase, bool isPhaseUp);
+    bool init(int phase, bool isPhaseUp);
     virtual void onEnter();
     virtual void onExit();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
@@ -26,12 +26,17 @@ public:
 public:
     
 private:
+    void building_shaking();
     void building_touch_callback();
     void show_building();
-    void coffers_info_callback_200(CCObject* pObj);
+    void show_phase_up();
+    
+    void nc_building_disappear(CCObject* pObj);
+    void nc_coffers_info_200(CCObject* pObj);
     
 private:
     int                 _phase;
+    bool                _isPhaseUp;
     CCSprite*           _building;
 };
 

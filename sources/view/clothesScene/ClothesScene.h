@@ -132,6 +132,7 @@ public:
     bool animationBool;
     bool zhuangrongBool;
     bool renwukuangMethodsBool;
+    bool kuziBool;
     
     long  changClothesIndex;
     int buttonTag;

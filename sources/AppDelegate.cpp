@@ -55,6 +55,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     CONFIG->config();
+    CONFIG->test_mission_count();
     //
     DATA->getLogin()->config_UUID();
     SPECIAL->init();

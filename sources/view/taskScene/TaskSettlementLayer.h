@@ -78,6 +78,7 @@ public:
     
 private:
     void exit();
+    void nc_coin_fly_completed(CCObject* pObj);
     
 private:
     int             _rating;

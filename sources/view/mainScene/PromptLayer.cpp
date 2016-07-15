@@ -39,7 +39,7 @@ CCScene* PromptLayer::scene(){
 void PromptLayer::promptBox(int idx){
     CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
-    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
+//    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
     box->setTag(0x33333);
     this->addChild(box, 55);
@@ -65,7 +65,7 @@ void PromptLayer::promptBox(int idx){
 void PromptLayer::promptBox(CCString* str){
     CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
-    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
+//    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
     box->setTag(0x33333);
     this->addChild(box, 55);
@@ -86,7 +86,7 @@ void PromptLayer::promptBox(CCString* str){
 void PromptLayer::promptBoxSprite(){
     CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
-    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
+//    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
     box->setTag(0x33333);
     this->addChild(box, 55);
@@ -106,7 +106,7 @@ void PromptLayer::promptBoxSprite(){
 void PromptLayer::show_prompt(CCNode* parent, const char* str){
     CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
-    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
+//    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
     box->setPosition(DISPLAY->center());
     box->setTag(0x33333);
     this->addChild(box, 55);
