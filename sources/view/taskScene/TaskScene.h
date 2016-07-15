@@ -15,15 +15,15 @@
 
 USING_NS_CC;
 
+class BuildingLayer;
+
 class TaskScene : public BaseScene
 {
 public:
-    TaskScene();
     ~TaskScene();
-    
-    virtual bool init();
+    static TaskScene* create(bool isPhaseUP);
+    virtual bool init(bool isPhaseUP);
     static CCScene* scene();
-    CREATE_FUNC(TaskScene);
     
     virtual void onEnter();
     virtual void onExit();
@@ -93,6 +93,12 @@ public:
     
     int OpenToWhichOne;
     int taskPhase;
-    int taskIndex;    
+    int taskIndex;
+    
+private:
+    
+private:
+    BuildingLayer*      _buildingLayer;
+    bool                _isPhaseUP;
 };
 #endif /* defined(__tiegao__TaskScene__) */

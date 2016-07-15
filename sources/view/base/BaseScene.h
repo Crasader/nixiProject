@@ -36,6 +36,8 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
+    
     virtual void will_number_scroll();
     virtual void did_number_stoped();
     
@@ -70,7 +72,15 @@ private:
     void show_energybuy_panel();
     void updatePhaseProgress();
     
+    void nc_need_coin_fly(CCObject* pObj);
+    void nc_need_gold_fly(CCObject* pObj);
+    void nc_need_energy_fly(CCObject* pObj);
+    void nc_coin_fly_completed(CCObject* pObj);
+    void nc_gold_fly_completed(CCObject* pObj);
+    void nc_energy_fly_completed(CCObject* pObj);
+    
 private:
+    CCSprite*                   _phaseStar;
     CCProgressTimer*            _progress;
 };
 

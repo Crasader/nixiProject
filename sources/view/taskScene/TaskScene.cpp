@@ -21,19 +21,28 @@
 
 #include "BuildingLayer.h"
 
-
-TaskScene::TaskScene(){
-    
-}
 TaskScene::~TaskScene(){
     
 }
 
-bool TaskScene::init(){
+TaskScene* TaskScene::create(bool isPhaseUP) {
+    TaskScene* rtn = new TaskScene();
+    if (rtn && rtn->init(isPhaseUP)) {
+        rtn->autorelease();
+    }
+    else {
+        CC_SAFE_RELEASE_NULL(rtn);
+    }
+    
+    return rtn;
+}
+
+bool TaskScene::init(bool isPhaseUP){
     if (!BaseScene::init()) {
         return false;
     }
     
+    _isPhaseUP = isPhaseUP;
     OpenToWhichOne = 0;
     taskPhase = 0;
     taskIndex = 0;
@@ -55,13 +64,6 @@ bool TaskScene::init(){
     
     return true;
 }
-CCScene* TaskScene::scene(){
-    CCScene* scene = CCScene::create();
-    TaskScene* layer = TaskScene::create();
-    scene->addChild(layer);
-    
-    return scene;
-}
 
 void TaskScene::onEnter(){
     BaseScene::onEnter();
@@ -70,12 +72,10 @@ void TaskScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::creat_Tishi), "Task_Creat_Tishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::EnterTheTishi), "Task_EnterTheTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::ExitTishi), "Task_ExitTishi", NULL);
-    
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::exitView), "Task_ExitView", NULL);
-    
-    
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::_startCallBack), "HTTP_FINISHED_400", NULL);
 }
+
 void TaskScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
@@ -99,8 +99,10 @@ void TaskScene::creat_view(){
     }
     DATA->setTaskSource(tempArr);
     
-    BuildingLayer* layer = BuildingLayer::create(DATA->getPlayer()->phase);
-    this->addChild(layer);
+    // _isPhaseUP 要不要显示升级动画 false不显示
+    _buildingLayer = BuildingLayer::create(DATA->getPlayer()->phase, _isPhaseUP);
+    _buildingLayer->setTag(0x55555);
+    this->addChild(_buildingLayer);
     
     CCSprite* backSpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/taskScene/task_back.png");
@@ -990,3 +992,4 @@ void TaskScene::initClothes(){//穿衣服
         }
     }
 }
+

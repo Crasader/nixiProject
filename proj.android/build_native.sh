@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "DIR=$DIR"
 APP_ROOT="$DIR/.."
 APP_ANDROID_ROOT="$DIR"
 COCOS2DX_ROOT=$QUICK_COCOS2DX_ROOT/lib/cocos2d-x
@@ -12,7 +13,10 @@ echo "  COCOS2DX_ROOT       = $COCOS2DX_ROOT"
 echo "  APP_ROOT            = $APP_ROOT"
 echo "  APP_ANDROID_ROOT    = $APP_ANDROID_ROOT"
 
-# if dont use DEBUG, comments out codes below
+# if use quick-cocos2d-x mini, uncomments line below
+# NDK_BUILD_FLAGS="CPPFLAGS=\"-DQUICK_MINI_TARGET=1\" QUICK_MINI_TARGET=1"
+
+# if use DEBUG, set NDK_DEBUG=1, otherwise set NDK_DEBUG=0
 NDK_DEBUG=1
 
 echo "- cleanup"

@@ -10,12 +10,15 @@
 #define AudioManager_hpp
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
+
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 #define AUDIO       AudioManager::Inst()
 
-class AudioManager : public CCObject
+class AudioManager : public SimpleAudioEngine
 {
 public:
     ~AudioManager();

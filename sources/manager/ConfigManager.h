@@ -27,7 +27,8 @@ public:
     string                  login_addr;
 
 public:
-    int missionCount(int phase);
+    int mission_count(int phase);
+    int mission_index_in_phase(int mission, int phase);
     CCArray* mission();
     
     CCDictionary* missionDialog();
@@ -44,6 +45,9 @@ public:
     string saved_password();
     void save_account(const char* str);
     void save_password(const char* str);
+    
+public: //test
+    void test_mission_count();
     
 private:
     void conf_login_addr(int net);

@@ -144,7 +144,6 @@ bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     }
     
     SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
-//    SPECIAL->showImageAt(getParent(), pTouch->getLocation(), 1);
     
     return true;
 }
@@ -178,7 +177,7 @@ void ClothesScene::creat_money(){
         clothKuangSpr->removeChildByTag(0x44444);
     }
     
-    CCSprite* goldSpr = CCSprite::create("pic/clothesScene/gj_gold.png");
+    CCSprite* goldSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
     goldSpr->setScale(.83f);
     goldSpr->setPosition(ccp(clothKuangSpr->getContentSize().width* .32f, clothKuangSpr->getContentSize().height* .115f));
     goldSpr->setTag(0x11111);
@@ -191,7 +190,7 @@ void ClothesScene::creat_money(){
     goldLabel->setTag(0x33333);
     clothKuangSpr->addChild(goldLabel);
     
-    CCSprite* coinSpr = CCSprite::create("pic/clothesScene/gj_coin.png");
+    CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     coinSpr->setScale(.85f);
     coinSpr->setPosition(ccp(clothKuangSpr->getContentSize().width* .32f, clothKuangSpr->getContentSize().height* .09f));
     coinSpr->setTag(0x22222);
@@ -843,7 +842,12 @@ void ClothesScene::backCallBack(CCObject* pSender){
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     if (clothesStatus == 1) {// 任务
-        CCScene* scene = TaskScene::scene();
+//        CCScene* scene = TaskScene::scene();
+//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//        CCDirector::sharedDirector()->replaceScene(trans);
+        CCLayer* layer = TaskScene::create(false);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (clothesStatus == 2){// 换装
@@ -1735,6 +1739,24 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                 _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 _sySpr1->setTag(Tag_GJ_ShangYi1);
                 _ManSpr->addChild(_sySpr1, 350);
+                if (kuziBool) {
+                    kuziBool = false;
+                    
+                    if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
+                        _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
+                    }
+                    if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
+                        _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
+                    }
+                    if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
+                        _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
+                    }
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _kzSpr1->setTag(Tag_GJ_KuZi1);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
@@ -1742,6 +1764,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                     if (now_clothes_Id == index) {
                         int sub_part = clothDic->valueForKey("sub_part")->intValue();
                         if (sub_part == 1) {
+                            kuziBool = true;
                             if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
                                 _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
                             }
@@ -1751,7 +1774,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
                                 _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
                             }
-                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
                             _kzSpr1 = CCSprite::create(str->getCString());
                             _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _kzSpr1->setTag(Tag_GJ_KuZi1);

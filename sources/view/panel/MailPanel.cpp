@@ -28,9 +28,9 @@ bool MailPanel::init() {
         this->addChild(mask);
         
         _content = CCLayer::create();
-        _content->setScale(0.1);
+//        _content->setScale(0.1);
+//        _content->setVisible(false);
         this->addChild(_content);
-        _content->setVisible(false);
         
         _bg = CCSprite::create("res/pic/panel/mail/mail_bg.png");
         _bg->setPosition(DISPLAY->center());
@@ -49,6 +49,10 @@ bool MailPanel::init() {
         txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
         _content->addChild(txt_close);
         
+        this->setTouchEnabled(true);
+        this->setTouchMode(kCCTouchesOneByOne);
+        this->setTouchSwallowEnabled(true);
+        
         return true;
     }
     else {
@@ -62,7 +66,7 @@ void MailPanel::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&MailPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
     
-    this->do_enter();
+//    this->do_enter();
 }
 
 void MailPanel::onExit() {
@@ -74,10 +78,11 @@ void MailPanel::onExit() {
 bool MailPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _bg->boundingBox().containsPoint(location)) {
-        this->do_exit();
+//        this->do_exit();
+        remove();
     }
     
-    return true;
+    return false;
 }
 
 #pragma mark - export
@@ -100,12 +105,8 @@ void MailPanel::do_enter() {
 //    _content->runAction(CCEaseBounceOut::create(spawn));
     _content->runAction(CCEaseElasticOut::create(spawn));
     
-    this->setTouchEnabled(true);
-    this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchSwallowEnabled(true);
-    
     if (this->numberOfCellsInTableView(NULL) == 0) {
-        CCSprite* empty = CCSprite::create("pic/haoyouScene/message_ren.png");
+        CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
         empty->setPosition(DISPLAY->center());
         _content->addChild(empty);
     }
@@ -212,7 +213,7 @@ void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
     int* id = (int*)btn->getUserData();
     NET->response_mail_701(*id, 2);
     if (this->numberOfCellsInTableView(NULL) == 0) {
-        CCSprite* empty = CCSprite::create("pic/haoyouScene/message_ren.png");
+        CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
         empty->setPosition(DISPLAY->center());
         _content->addChild(empty);
     }

@@ -33,18 +33,18 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
     CCArray* arrRoles = CCArray::create();
     
     if (type == FloorType_Reception) {
-        _sptFloor = CCSprite::create("pic/building/floor_reception.png");
+        _sptFloor = CCSprite::create("res/pic/building/floor_reception.png");
         _sptFloor->setPosition(pos);
         building->addChild(_sptFloor);
         
-        CCSprite* role = CCSprite::create("pic/building/role_receptionist.png");
+        CCSprite* role = CCSprite::create("res/pic/building/role_receptionist.png");
         role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
         role->setAnchorPoint(ccp(0.5, 0));
         role->setScale(ROLE_SCALE);
         arrRoles->addObject(role);
     }
     else if (type == FloorType_Office) {
-        _sptFloor = CCSprite::create("pic/building/floor_office_1.png");
+        _sptFloor = CCSprite::create("res/pic/building/floor_office_1.png");
         _sptFloor->setPosition(pos);
         building->addChild(_sptFloor);
         
@@ -54,7 +54,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
                 count = MIN(floorCount - 5, 3);
             }
             if (count == 1) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 1);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 1);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -63,7 +63,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
             }
             else {
                 for (int i = 1; i <= count; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -78,7 +78,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
                 count = MIN(floorCount - 6, 3);
             }
             if (count == 1) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 2);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 2);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -87,7 +87,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
             }
             else {
                 for (int i = 1; i <= count; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -102,7 +102,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
                 count = MIN(floorCount - 7, 3);
             }
             if (count == 1) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", 3);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", 3);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -111,7 +111,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
             }
             else {
                 for (int i = 1; i <= count; i++) {
-                    CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                    CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                     CCSprite* role = CCSprite::create(strRole->getCString());
                     role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                     role->setAnchorPoint(ccp(0.5, 0));
@@ -123,7 +123,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
 //        else if (curFloor == 5) {
 //            int count = MIN(floorCount - 6, 3);
 //            for (int i = 1; i <= count; i++) {
-//                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+//                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
 //                CCSprite* role = CCSprite::create(strRole->getCString());
 //                role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
 //                role->setAnchorPoint(ccp(0.5, 0));
@@ -134,7 +134,7 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
         else {
             int count = MIN(floorCount - curFloor - 1, 3);
             for (int i = 1; i <= count; i++) {
-                CCString* strRole = CCString::createWithFormat("pic/building/role_staff_%d.png", i);
+                CCString* strRole = CCString::createWithFormat("res/pic/building/role_staff_%d.png", i);
                 CCSprite* role = CCSprite::create(strRole->getCString());
                 role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
                 role->setAnchorPoint(ccp(0.5, 0));
@@ -145,22 +145,22 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
     }
     else if (type == FloorType_Manager_Office) {
         if (floorCount < 5) {
-            _sptFloor = CCSprite::create("pic/building/floor_manager_1.png");
+            _sptFloor = CCSprite::create("res/pic/building/floor_manager_1.png");
             _sptFloor->setPosition(pos);
             building->addChild(_sptFloor);
             
-            CCSprite* role = CCSprite::create("pic/building/role_manager.png");
+            CCSprite* role = CCSprite::create("res/pic/building/role_manager.png");
             role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
             role->setAnchorPoint(ccp(0.5, 0));
             role->setScale(ROLE_SCALE);
             arrRoles->addObject(role);
         }
         else {
-            _sptFloor = CCSprite::create("pic/building/floor_manager_2.png");
+            _sptFloor = CCSprite::create("res/pic/building/floor_manager_2.png");
             _sptFloor->setPosition(pos);
             building->addChild(_sptFloor);
             
-            CCSprite* role = CCSprite::create("pic/building/role_manager.png");
+            CCSprite* role = CCSprite::create("res/pic/building/role_manager.png");
             role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));
             role->setAnchorPoint(ccp(0.5, 0));
             role->setScale(ROLE_SCALE);
@@ -168,13 +168,13 @@ bool Floor::init(CCLayer* building, int floorCount, int curFloor, FloorType type
         }
     }
     else if (type == FloorType_Leisure) {
-        _sptFloor = CCSprite::create("pic/building/floor_bar.png");
+        _sptFloor = CCSprite::create("res/pic/building/floor_bar.png");
         _sptFloor->setPosition(pos);
         building->addChild(_sptFloor);
         
         int count = MIN(floorCount - 5, 2);
         for (int i = 1; i <= count; i++) {
-            CCString* strRole = CCString::createWithFormat("pic/building/role_leisure_%d.png", i);
+            CCString* strRole = CCString::createWithFormat("res/pic/building/role_leisure_%d.png", i);
             CCSprite* role = CCSprite::create(strRole->getCString());
             role->setAnchorPoint(ccp(0.5, 0));
             role->setPosition(ccp(FLOOR_WIDTH * 0.3, STAND_HEIGHT));

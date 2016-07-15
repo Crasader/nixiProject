@@ -31,7 +31,7 @@ public:
     
 public:
     void creat_view();
-    void lingquCallBack(CCObject* pSender);
+    void lingquCallBack(CCNode* pSender);
     
     void creat_Man();
     void initClothes();
@@ -78,6 +78,7 @@ public:
     
 private:
     void exit();
+    void nc_coin_fly_completed(CCObject* pObj);
     
 private:
     int             _rating;
