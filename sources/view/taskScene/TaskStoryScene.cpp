@@ -216,7 +216,8 @@ void TaskStoryScene::keyBackClicked(){
 }
 
 void TaskStoryScene::creat_view(){
-    taskPhase = DATA->getPlayer()->phase;
+//    taskPhase = DATA->getPlayer()->phase;
+    taskPhase = DATA->getTaskPhase();
     CCArray* tempArr = CCArray::create();
     for (int i = 0; i < taskArr->count(); i++) {
         CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(i);

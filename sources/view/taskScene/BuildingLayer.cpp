@@ -109,7 +109,7 @@ void BuildingLayer::building_shaking() {
     unschedule(SEL_SCHEDULE(&BuildingLayer::building_shaking));
     if (_building) {
         float during = 0.1f;
-        CCSequence* seq = CCSequence::create(CCScaleTo::create(during, 1.1, 0.9), CCDelayTime::create(0.04), CCScaleTo::create(during, 1), NULL);
+        CCSequence* seq = CCSequence::create(CCScaleTo::create(during, 1.1, 0.97), CCDelayTime::create(0.04), CCScaleTo::create(during, 1), NULL);
         _building->runAction(seq);
         schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 5.f);
     }

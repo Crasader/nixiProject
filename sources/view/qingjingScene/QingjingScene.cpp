@@ -268,11 +268,19 @@ void QingjingScene::creat_view(){
         CCSprite* startSpr1;
         CCSprite* startSpr2;
         CCMenuItem* startItem;
+        
+        std::string tishiStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(4))->getCString();
+        CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr.c_str(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .6f, 25), kCCTextAlignmentRight, kCCVerticalTextAlignmentTop);
+        tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .35f, kuangSpr->getContentSize().height* .66f));
+        tishiLabel->setColor(ccc3(80, 63, 68));
+        kuangSpr->addChild(tishiLabel);
+        
         if (renwuIndex <= DATA->getPlayer()->mission) {
-            CCLabelTTF* tishiLabel = CCLabelTTF::create("已解锁", DISPLAY->fangzhengFont(), 25);
-            tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .66f));
-            tishiLabel->setColor(ccc3(80, 63, 68));
-            kuangSpr->addChild(tishiLabel);
+            CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
+            jiesuoSpr->setScale(.7f);
+            jiesuoSpr->setAnchorPoint(ccp(0, .5f));
+            jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+            tishiLabel->addChild(jiesuoSpr);
             
             startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
             startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
@@ -281,11 +289,11 @@ void QingjingScene::creat_view(){
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
             startItem->setTag(i);
         }else{
-            std::string tishiStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(4))->getCString();
-            CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr.c_str(), DISPLAY->fangzhengFont(), 25);
-            tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .66f));
-            tishiLabel->setColor(ccc3(80, 63, 68));
-            kuangSpr->addChild(tishiLabel);
+            CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_weijiesuo.png");
+            jiesuoSpr->setScale(.7f);
+            jiesuoSpr->setAnchorPoint(ccp(0, .5f));
+            jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+            tishiLabel->addChild(jiesuoSpr);
             
             startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
             startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");

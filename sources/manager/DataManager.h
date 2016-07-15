@@ -79,6 +79,8 @@ public:
     CC_SYNTHESIZE(int, taskNumber, TaskNumber);
     CC_SYNTHESIZE_RETAIN(CCArray*, _taskSource, TaskSource);
     CC_SYNTHESIZE_RETAIN(CCArray*, _dataSource, DataSource);
+    // 任务记录阶段
+    CC_SYNTHESIZE(int, taskPhase, TaskPhase);
     
     
     //体力时间
