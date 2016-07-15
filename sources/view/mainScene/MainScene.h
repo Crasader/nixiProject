@@ -33,16 +33,20 @@ public:
     void didAccelerate( CCAcceleration* pAccelerationValue);
     void gengxin(float dt);
     
-    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+    void update_lighting_target(float dt);
+    
+//    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
+//    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 //    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
 //    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
     CCPoint cur_pos;
-    CCPoint last_pos;
+//    CCPoint last_pos;
+    float move_x;
     float offset_x;
     bool isMenu;
+    bool isMoving;
     bool isEffective;
     bool isOk;
     bool isCanMove;
@@ -73,6 +77,12 @@ public:
     CCSprite* _bird_6;
     CCSprite* _bird_7;
     
+    
+    
+    CCSprite* car_1;
+    CCSprite* car_2;
+    CCSprite* car_3;
+    
     CCMenu* menu_paihang;
     CCMenu* menu_huodong;
     CCMenu* menu_richang;
@@ -82,7 +92,20 @@ public:
     CCMenu* menu_hz;
     CCMenu* menu_car1;
     CCMenu* menu_car2;
-        
+    
+    CCSprite* xinfeng_spr1;
+    
+    CCSprite* shop_bar1;
+    CCSprite* juqing_bar1;
+    CCSprite* company_bar1;
+
+    CCSprite* coffee_bar1;
+    CCSprite* huodong_bar1;
+    CCSprite* paihang_bar1;
+    
+    CCArray* target_arr;
+    
+    void check_begin_position(CCObject* pos);
     void change_position(CCObject* pObj);
     void updateLayerPosition(float offset_x);
     void setIsEffective();
@@ -147,11 +170,18 @@ public:
     
 private:
     void update_news_status();
+    CCArray* rand_array(CCArray* arr);
+    void play(CCSprite* spt);
+    void delayPlay(float dt);
     
 private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;
     CCMenuItem*         _shezhiItem;
+    
+    CCArray*            _arrGroup1;
+    CCArray*            _arrGroup2;
+    CC_SYNTHESIZE_RETAIN(CCArray*, _arrPlay, ArrPlay);
 };
 
 #endif /* defined(__tiegao__MainScene__) */

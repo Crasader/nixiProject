@@ -74,7 +74,7 @@ void StrangerScene::onExit(){
 void StrangerScene::createView(){
     float z_order = 20.f;
     
-    CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/bg.png");
+    CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/main_bg.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
     
@@ -201,9 +201,10 @@ void StrangerScene::refresh_callback_802(){
         ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
         myClothesTemp = show->ondress();
     }
-    _ManSpr->removeAllChildrenWithCleanup(true);
-    this->creat_Man();
-    this->initClothes();
+//    _ManSpr->removeAllChildrenWithCleanup(true);
+//    this->creat_Man();
+//    this->initClothes();
+    this->exitMan();
 }
 
 
