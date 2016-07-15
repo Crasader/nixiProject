@@ -18,6 +18,7 @@ const float STAND_HEIGHT = 3;
 FloorCell::~FloorCell() {
     CC_SAFE_DELETE(_roles);
     CC_SAFE_DELETE(_coins);
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
 }
 
 FloorCell* FloorCell::create(FloorCellType type, int phase, int idx) {
@@ -54,6 +55,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         arrRoles->addObject(role);
         
         this->update_coffers();
+        CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&FloorCell::show_coin_collected), "COLLECT_COIN", NULL);
     }
     else if (type == FloorCellType_Office) {
         _sptFloor = CCSprite::create("res/pic/building/floor_office_1.png");
@@ -400,7 +402,7 @@ void FloorCell::start() {
 }
 
 CCPoint FloorCell::randomStartPos(bool left) {
-    float widthDelta = 50;
+    float widthDelta = 30;
     if (left) {
         float ran = CCRANDOM_MINUS1_1() * widthDelta;
         CCLOG("ran = %f", ran);
@@ -418,8 +420,8 @@ float FloorCell::randomDuration() {
 }
 
 CCPoint FloorCell::randomEdge() {
-    float widthDelta = 50;
-    return CCPointMake(FLOOR_CELL_WIDTH * 0.6 + CCRANDOM_MINUS1_1() * widthDelta, 0);
+    float widthDelta = 30;
+    return CCPointMake(FLOOR_CELL_WIDTH * 0.7 + CCRANDOM_MINUS1_1() * widthDelta, 0);
 }
 
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
@@ -488,18 +490,44 @@ void FloorCell::collected_coin() {
         this->addChild(star2);
         star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
         
-        node->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(0, FLOOR_CELL_HEIGHT - 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+        node->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(0, FLOOR_CELL_HEIGHT - 20)),CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     }
 }
 
 void FloorCell::self_remove(CCNode *node) {
     node->removeFromParentAndCleanup(true);
     _coins->removeObject(node);
-    if (_type == FloorCellType_Reception) {
-        update_coffers();
-    }
 }
 
 void FloorCell::show_coin_collected() {
+    if (! _coffers) {
+        return;
+    }
     
+    CCPoint pos = ccp(FLOOR_CELL_WIDTH * 0.7, 48);
+    float starDuration = 0.8f;
+    
+    CCSprite* star1 = CCSprite::create("res/pic/loading/loading_star.png");
+    star1->setPosition(pos + ccp(0, 20));
+    star1->setScale(0.6);
+    _coffers->addChild(star1, 200);
+    star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* star2 = CCSprite::create("res/pic/loading/loading_star.png");
+    star2->setPosition(pos + ccp(0, 20));
+    star2->setScale(0.4);
+    _coffers->addChild(star2, 200);
+    star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* star3 = CCSprite::create("res/pic/loading/loading_star.png");
+    star3->setPosition(pos + ccp(0, -20));
+    star3->setScale(0.5);
+    _coffers->addChild(star3, 200);
+    star3->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-52, -25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+    CCSprite* star4 = CCSprite::create("res/pic/loading/loading_star.png");
+    star4->setPosition(pos + ccp(0, -20));
+    star4->setScale(0.6);
+    _coffers->addChild(star4, 200);
+    star4->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(50, -22)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
 }
