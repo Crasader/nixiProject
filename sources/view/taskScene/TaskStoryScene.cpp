@@ -279,8 +279,13 @@ void TaskStoryScene::backCallBack(CCObject* pSender){
     }
 }
 void TaskStoryScene::goTaskScene(){
-    CCScene* scene = TaskScene::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+//    CCScene* scene = TaskScene::scene();
+//    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void TaskStoryScene::creat_Man(float _widthFolt, float _heightFloat, float _scaleFloat){

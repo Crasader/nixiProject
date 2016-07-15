@@ -14,7 +14,7 @@
 #include "PurchasePanel.h"
 #include "EnergyBuyPanel.h"
 #include "ConfigManager.h"
-
+#include "SpecialManager.h"
 
 BaseScene::~BaseScene(){
     
@@ -44,6 +44,8 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updataMoney), "UpdataMoney", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updatePhaseProgress), "UpdatePhaseProgress", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_purchase_panel), "HTTP_FINISHED_100", NULL);
+    //
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
 }
 void BaseScene::onExit(){
     this->unscheduleAllSelectors();
@@ -92,7 +94,7 @@ void BaseScene::init_UI(){
     tiliItem->addChild(m_tili_num);
     // 倒计时
     timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
-    timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -5));
+    timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -13));
     tiliItem->addChild(timeKuangSpr);
     
     _minute = DATA->getTiliMinute();
@@ -184,29 +186,13 @@ void BaseScene::init_UI(){
     barMenu = CCMenu::create(nameItem, tiliItem, goldItem, coinItem, NULL);
     barMenu->setPosition(CCPointZero);
     this->addChild(barMenu, 10);
-    /*
+    
     // 公司等级进度
-    CCSprite* phaseStar = CCSprite::create("pic/baseScene/base_phase.png");
-    phaseStar->setPosition(ccp(DISPLAY->halfW() - 166, DISPLAY->H()* 0.957f));
-    this->addChild(phaseStar, 10);
-    
-    CCLabelAtlas* phaseNum = CCLabelAtlas::create(CCString::createWithFormat("%d", DATA->getPlayer()->phase)->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
-    phaseNum->setPosition(ccp(10, 3));
-    phaseStar->addChild(phaseNum);
-    
-    CCSprite* bottom = CCSprite::create("pic/baseScene/base_exp_bar_bottom.png");
-    bottom->setAnchorPoint(ccp(0, 0.5));
-    bottom->setPosition(ccp(22, 10));
-    phaseStar->addChild(bottom);
-    
-    CCSprite* top = CCSprite::create("pic/baseScene/base_exp_bar_top.png");
-    _progress = CCProgressTimer::create(top);
-    _progress->setType(kCCProgressTimerTypeBar);
-    _progress->setPercentage(50);
-    _progress->setMidpoint(ccp(0, 1));          // 设置进度方向
-    _progress->setBarChangeRate(ccp(0, 1));     // 设置进度为水平还是垂直方向
-    phaseStar->addChild(_progress);
-    */
+    _phaseStar = CCSprite::create("pic/baseScene/base_phase.png");
+//    _phaseStar->setPosition(nameItem->getPosition() + ccp(72, -16));
+    _phaseStar->setPosition(tiliItem->getPosition() - ccp(90, 16));
+    this->addChild(_phaseStar, 10);
+    //
     this->updatePhaseProgress();
 }
 
@@ -239,6 +225,7 @@ void BaseScene::updataTileTime(float dt){
         m_time_num->setString(str1->getCString());
     }
 }
+
 void BaseScene::updataMoney(){
     uint energy = DATA->getPlayer()->energy;
     CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
@@ -267,11 +254,15 @@ void BaseScene::updataMoney(){
     CCString* goldStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
     m_lbl_gold->set_new_number2(goldStr->getCString());
 }
+
 void BaseScene::hideBaseScene(){
     barMenu->setVisible(false);
+    _phaseStar->setVisible(false);
 }
+
 void BaseScene::openBaseScene(){
     barMenu->setVisible(true);
+    _phaseStar->setVisible(true);
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){
@@ -329,5 +320,49 @@ void BaseScene::show_energybuy_panel() {
 }
 
 void BaseScene::updatePhaseProgress() {
+    if (! _phaseStar) {
+        return;
+    }
     
+    _phaseStar->removeAllChildrenWithCleanup(true);
+    int phase = DATA->getPlayer()->phase;
+
+    CCLabelAtlas* phaseNum = CCLabelAtlas::create(CCString::createWithFormat("%d", phase)->getCString(), "pic/baseScene/base_number2.png", 13.9, 17, '0');
+    phaseNum->setPosition(ccp(10, 3));
+    _phaseStar->addChild(phaseNum);
+    
+    CCSprite* bottom = CCSprite::create("pic/baseScene/base_exp_bar_bottom.png");
+    bottom->setAnchorPoint(ccp(0, 0.5));
+    bottom->setPosition(ccp(22, 10));
+    _phaseStar->addChild(bottom);
+    
+    CCSprite* top = CCSprite::create("pic/baseScene/base_exp_bar_top.png");
+    _progress = CCProgressTimer::create(top);
+    _progress->setAnchorPoint(ccp(0, 0.5));
+    _progress->setPosition(ccp(22, 10));
+    _progress->setType(kCCProgressTimerTypeBar);
+    _progress->setMidpoint(ccp(0, 0.5));
+    _progress->setBarChangeRate(ccp(1, 0));
+    _phaseStar->addChild(_progress);
+    
+    int curMissionIndex = CONFIG->mission_index_in_phase(DATA->getPlayer()->mission, phase);
+    int phaseTotalMissionCount = CONFIG->mission_count(phase);
+    int percent = floor(100 * curMissionIndex / phaseTotalMissionCount);
+    _progress->setPercentage(percent);
 }
+
+void BaseScene::nc_need_coin_fly(CCObject *pObj) {
+    CCDictionary* dic = (CCDictionary*)pObj;
+    CCInteger* num = (CCInteger*)dic->objectForKey("num");
+    CCString* from = (CCString*)dic->objectForKey("from");
+    SPECIAL->show_energy_reward(this->getParent(), num->getValue(), CCPointFromString(from->getCString()), coinItem->getPosition());
+}
+
+void BaseScene::nc_need_gold_fly(CCObject *pObj) {
+
+}
+
+void BaseScene::nc_need_energy_fly(CCObject *pObj) {
+
+}
+

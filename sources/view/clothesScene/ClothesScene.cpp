@@ -843,7 +843,12 @@ void ClothesScene::backCallBack(CCObject* pSender){
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     if (clothesStatus == 1) {// 任务
-        CCScene* scene = TaskScene::scene();
+//        CCScene* scene = TaskScene::scene();
+//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//        CCDirector::sharedDirector()->replaceScene(trans);
+        CCLayer* layer = TaskScene::create(false);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (clothesStatus == 2){// 换装

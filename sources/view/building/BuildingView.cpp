@@ -81,6 +81,7 @@ void BuildingView::onEnter() {
 }
 
 void BuildingView::onExit() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("BUILDING_DISAPPEAR");
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     unscheduleAllSelectors();
     
@@ -111,7 +112,7 @@ bool BuildingView::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 }
 
 void BuildingView::scrollViewDidScroll(CCScrollView *view) {
-
+    
 }
 
 void BuildingView::scrollViewDidZoom(CCScrollView *view) {

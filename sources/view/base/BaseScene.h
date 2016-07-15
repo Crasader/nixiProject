@@ -70,7 +70,12 @@ private:
     void show_energybuy_panel();
     void updatePhaseProgress();
     
+    void nc_need_coin_fly(CCObject* pObj);
+    void nc_need_gold_fly(CCObject* pObj);
+    void nc_need_energy_fly(CCObject* pObj);
+    
 private:
+    CCSprite*                   _phaseStar;
     CCProgressTimer*            _progress;
 };
 

@@ -50,8 +50,36 @@ void ConfigManager::config() {
     _hasconfig = true;
 }
 
-int ConfigManager::missionCount(int phase) {
+int ConfigManager::mission_index_in_phase(int mission, int phase) {
+    int countAllOldPhase = 0;
+    if (_mission) {
+        CCObject* pObj = NULL;
+        CCARRAY_FOREACH(_mission, pObj) {
+            CCDictionary* mission = (CCDictionary*)pObj;
+            CCString* phaseInMission = (CCString*)mission->objectForKey("phase");
+            if (phaseInMission->intValue() < phase) {
+                countAllOldPhase += 1;
+            }
+        }
+    }
     
+    return MAX(mission - countAllOldPhase, 0);
+}
+
+int ConfigManager::mission_count(int phase) {
+    int rtn = 0;
+    if (_mission) {
+        CCObject* pObj = NULL;
+        CCARRAY_FOREACH(_mission, pObj) {
+            CCDictionary* mission = (CCDictionary*)pObj;
+            CCString* phaseInMission = (CCString*)mission->objectForKey("phase");
+            if (phaseInMission->intValue() == phase) {
+                rtn += 1;
+            }
+        }
+    }
+    
+    return rtn;
 }
 
 CCArray* ConfigManager::mission() {
@@ -142,7 +170,7 @@ void ConfigManager::conf_login_addr(int net) {
 
 void ConfigManager::conf_mission() {
     /*  "id" : 任务ID
-     *  "company_phase" : 公司等级或者公司阶段
+     *  "phase" : 公司等级或者公司阶段
      *  "tag1" : 任务标签1
      *  "match1" : 标签1匹配度 我不管
      *  "tag2" : 任务标签2
@@ -201,4 +229,9 @@ void ConfigManager::conf_mission_dialog(int phase) {
     _missionDialog->setObject(allPahseMission, phase);
 }
 
-
+void ConfigManager::test_mission_count() {
+    for (int i = 0; i < 6; i ++) {
+        int count = CONFIG->mission_count(i);
+        CCLOG("Phase %d mission_count=%d", i, count);
+    }
+}
