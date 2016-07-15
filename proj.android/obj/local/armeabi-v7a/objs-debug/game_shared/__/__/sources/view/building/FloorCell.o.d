@@ -257,7 +257,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/building/FloorCe
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h
+ jni/../../sources/model/CoffersComp.h jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/view/building/FloorCell.h:
 
@@ -784,3 +784,5 @@ jni/../../sources/model/StoryComp.h:
 jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
+
+jni/../../sources/utils/AppUtil.h:

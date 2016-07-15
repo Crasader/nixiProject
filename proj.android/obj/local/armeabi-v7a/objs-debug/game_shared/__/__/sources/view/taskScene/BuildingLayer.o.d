@@ -209,6 +209,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/Buildi
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
  jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
@@ -665,6 +666,8 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/manager/SpecialManager.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
 

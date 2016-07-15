@@ -1,6 +1,6 @@
-obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSettlementLayer.o: \
- jni/../../sources/view/taskScene/TaskSettlementLayer.cpp \
- jni/../../sources/view/taskScene/TaskSettlementLayer.h \
+obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskLabelColorLayer.o: \
+ jni/../../sources/view/taskScene/TaskLabelColorLayer.cpp \
+ jni/../../sources/view/taskScene/TaskLabelColorLayer.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
@@ -229,46 +229,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h \
- jni/../../sources/view/support/Loading.h \
- jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/view/taskScene/TaskScene.h \
- jni/../../sources/view/base/BaseScene.h \
- jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
- jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
- jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
- jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h \
- jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
- jni/../../sources/view/common/Number/FlashNumberLabel.h \
- jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/clothesScene/ClothesScene.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
- jni/../../sources/view/clothesScene/ClothesTableView.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
- jni/../../sources/manager/DisplayManager.h \
- jni/../../sources/manager/SpecialManager.h
+ jni/../../sources/manager/DisplayManager.h
 
-jni/../../sources/view/taskScene/TaskSettlementLayer.h:
+jni/../../sources/view/taskScene/TaskLabelColorLayer.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
 
@@ -736,78 +699,4 @@ jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
 
-jni/../../sources/view/support/Loading.h:
-
-jni/../../sources/manager/ConfigManager.h:
-
-jni/../../sources/view/taskScene/TaskScene.h:
-
-jni/../../sources/view/base/BaseScene.h:
-
-jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
-
-jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
-
-jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h:
-
-jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h:
-
-jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel2.h:
-
-jni/../../sources/view/clothesScene/ClothesScene.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
-
-jni/../../sources/view/clothesScene/ClothesTableView.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
-
 jni/../../sources/manager/DisplayManager.h:
-
-jni/../../sources/manager/SpecialManager.h:

@@ -231,6 +231,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskStoryS
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/base/BaseScene.h \
  jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
@@ -275,7 +276,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskStoryS
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
- jni/../../sources/view/common/Loading2/Loading2.h
+ jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/view/taskScene/TaskLabelColorLayer.h
 
 jni/../../sources/view/taskScene/TaskStoryScene.h:
 
@@ -749,6 +751,8 @@ jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/ConfigManager.h:
 
+jni/../../sources/manager/SpecialManager.h:
+
 jni/../../sources/view/taskScene/TaskScene.h:
 
 jni/../../sources/view/base/BaseScene.h:
@@ -838,3 +842,5 @@ jni/../../sources/view/clothesScene/ClothesTableView.h:
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
+
+jni/../../sources/view/taskScene/TaskLabelColorLayer.h:

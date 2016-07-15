@@ -1,6 +1,6 @@
-obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSettlementLayer.o: \
- jni/../../sources/view/taskScene/TaskSettlementLayer.cpp \
- jni/../../sources/view/taskScene/TaskSettlementLayer.h \
+obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSettlementLayer2.o: \
+ jni/../../sources/view/taskScene/TaskSettlementLayer2.cpp \
+ jni/../../sources/view/taskScene/TaskSettlementLayer2.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
@@ -207,6 +207,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../../../lib/cocos2d-x/cocos2dx/support/data_support/uthash.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel4.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -259,8 +263,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
- jni/../../sources/view/common/Number/FlashNumberLabel.h \
- jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
@@ -268,7 +270,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h
 
-jni/../../sources/view/taskScene/TaskSettlementLayer.h:
+jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
 
@@ -682,6 +684,14 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
+jni/../../sources/view/common/Number/FlashNumberLabel.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel4.h:
+
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -795,10 +805,6 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
