@@ -611,7 +611,7 @@ void ClothesScene::crate_Tishi(){
         
         
         CCArray* taskArr = DATA->getTaskSource();
-        CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index);
+        CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index-1);
         tag1 = dic->valueForKey("tag1")->intValue();
         tag2 = dic->valueForKey("tag2")->intValue();
         tag3 = dic->valueForKey("tag3")->intValue();
