@@ -77,6 +77,15 @@ void HaoyouRankLayer::createView(){
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
     
+    //name_bar
+    CCSprite* name_bar = CCSprite::create("res/pic/qingjingScene/qj_dikuang1.png");
+    name_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .93f));
+    this->addChild(name_bar);
+    
+    CCLabelTTF* room_name = CCLabelTTF::create("好友", DISPLAY->fangzhengFont(), 22);
+    room_name->setPosition(ccp(name_bar->getContentSize().width* .5f, name_bar->getContentSize().height* .5f - 4));
+    name_bar->addChild(room_name);
+    
     //分享
     CCSprite* share_spr = CCSprite::create("res/pic/haoyoupaihang/share.png");
     CCSprite* share_spr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");

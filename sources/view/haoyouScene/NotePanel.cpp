@@ -75,8 +75,10 @@ void NotePanel::initView(){
     else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
         nickname = DATA->getPaper()->getNickName();
     }
-    else {
-        nickname = "女总裁";
+    else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
+        CCArray* arr = DATA->getRanking()->ranking();
+        show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+        nickname = show->nickname();
     }
     CCLOG("NickName: %s", nickname);
     CCString* title_str = CCString::createWithFormat("发给 %s 的纸条:", nickname);
@@ -170,8 +172,10 @@ void NotePanel::btn_send_callback(){
     else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
         id = DATA->getPaper()->getReplyID();
     }
-    else {
-//        id = "女总裁";
+    else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
+        CCArray* arr = DATA->getRanking()->ranking();
+        ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+        id = show->getShowID().c_str();
     }
     
     NET->send_papar_809(id, m_text->getText().c_str());

@@ -73,4 +73,8 @@ int ShowComp::ranking() {
     return _ranking;
 }
 
+string ShowComp::getShowID(){
+    return _id;
+}
+
 

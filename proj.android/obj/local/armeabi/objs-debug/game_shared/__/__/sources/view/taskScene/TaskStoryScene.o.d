@@ -218,7 +218,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskStoryS
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/model/ClothesComp.h jni/../../sources/model/IAPComp.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
  jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
  jni/../../sources/model/MessageComp.h \
  jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
@@ -262,6 +263,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskStoryS
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -273,7 +275,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskStoryS
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
@@ -717,7 +718,9 @@ jni/../../sources/third/Json/lib_json/writer.h:
 
 jni/../../sources/model/ClothesComp.h:
 
-jni/../../sources/model/IAPComp.h:
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
 
 jni/../../sources/model/LoginComp.h:
 
@@ -813,6 +816,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
+jni/../../sources/view/mainScene/PromptLayer.h:
+
 jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h:
@@ -834,8 +839,6 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 

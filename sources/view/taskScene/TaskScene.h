@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "PromptLayer.h"
 
 USING_NS_CC;
 
@@ -58,6 +59,8 @@ public:
     void phoneCallBack(CCObject* pSender);
     
 public:
+    
+    PromptLayer* promptLayer;
     
     CCDictionary* allClothesDic;
     

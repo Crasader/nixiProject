@@ -218,7 +218,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/Dialog
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
  jni/../../sources/manager/DataManager.h \
- jni/../../sources/model/ClothesComp.h jni/../../sources/model/IAPComp.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
  jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
  jni/../../sources/model/MessageComp.h \
  jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
@@ -668,7 +669,9 @@ jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/model/ClothesComp.h:
 
-jni/../../sources/model/IAPComp.h:
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
 
 jni/../../sources/model/LoginComp.h:
 

@@ -1225,6 +1225,8 @@ void TaskScene::creat_phone(){
 }
 void TaskScene::phoneCallBack(CCObject* pSender){
     CCLog("phoneCallBack");
+    CCString* str = CCString::createWithFormat("小手机界面没做完啊!");
+    promptLayer->promptBoxString(str);
 }
 
 

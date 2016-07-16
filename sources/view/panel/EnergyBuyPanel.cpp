@@ -22,11 +22,12 @@ bool EnergyBuyPanel::init() {
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);
         
-        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-        mask->setPosition(DISPLAY->center());
-        this->addChild(mask);
+//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//        mask->setPosition(DISPLAY->center());
+//        this->addChild(mask);
         
         _content = CCLayer::create();
+        _content->setPosition(ccp(_content->getPosition().x, _content->getPosition().y - DISPLAY->H() * 0.1));
         this->addChild(_content);
         
         _panel = CCSprite::create("res/pic/panel/energybuy/eb_panel.png");
@@ -108,9 +109,10 @@ void EnergyBuyPanel::onExit() {
 }
 
 bool EnergyBuyPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    CCPoint location = pTouch->getLocation();
+    CCPoint location = _content->convertToNodeSpace(pTouch->getLocation());
     if (! _panel->boundingBox().containsPoint(location)) {
 //        this->do_exit();
+        remove();
     }
     
     return true;

@@ -247,7 +247,18 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/Buildi
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/utils/AppUtil.h \
+ jni/../../sources/third/Json/lib_json/json_lib.h \
+ jni/../../sources/third/Json/lib_json/autolink.h \
+ jni/../../sources/third/Json/lib_json/config.h \
+ jni/../../sources/third/Json/lib_json/value.h \
+ jni/../../sources/third/Json/lib_json/forwards.h \
+ jni/../../sources/third/Json/lib_json/reader.h \
+ jni/../../sources/third/Json/lib_json/features.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
+ jni/../../sources/third/Json/lib_json/writer.h
 
 jni/../../sources/view/taskScene/BuildingLayer.h:
 
@@ -744,3 +755,25 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
+
+jni/../../sources/utils/AppUtil.h:
+
+jni/../../sources/third/Json/lib_json/json_lib.h:
+
+jni/../../sources/third/Json/lib_json/autolink.h:
+
+jni/../../sources/third/Json/lib_json/config.h:
+
+jni/../../sources/third/Json/lib_json/value.h:
+
+jni/../../sources/third/Json/lib_json/forwards.h:
+
+jni/../../sources/third/Json/lib_json/reader.h:
+
+jni/../../sources/third/Json/lib_json/features.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
+
+jni/../../sources/third/Json/lib_json/writer.h:

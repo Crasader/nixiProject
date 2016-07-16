@@ -68,6 +68,7 @@ public:
     int allNumber;
     int selectedIndex;
     
+    CCArray* _rankers;
     
 public:
     

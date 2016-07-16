@@ -26,6 +26,19 @@ bool TotalRankScene::init(){
     
     enterBool = false;
     
+    _rankers = DATA->getRanking()->ranking();
+    int count = _rankers->count();
+    if (count == 0) {
+        item_first->setVisible(false);
+        item_second->setVisible(false);
+        item_third->setVisible(false);
+    }else if (count == 1){
+        item_second->setVisible(false);
+        item_third->setVisible(false);
+    }else if (count == 2) {
+        item_third->setVisible(false);
+    }
+    
     // 这里读取排行当前第一个人的衣服字典
     myClothesTemp = DATA->getClothes()->MyClothesTemp();
 //    const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
@@ -73,6 +86,15 @@ void TotalRankScene::createView(){
     CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/rank_bg_1.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
+    
+    //name_bar
+    CCSprite* name_bar = CCSprite::create("res/pic/qingjingScene/qj_dikuang1.png");
+    name_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .93f));
+    this->addChild(name_bar);
+    
+    CCLabelTTF* room_name = CCLabelTTF::create("排行榜", DISPLAY->fangzhengFont(), 22);
+    room_name->setPosition(ccp(name_bar->getContentSize().width* .5f, name_bar->getContentSize().height* .5f - 4));
+    name_bar->addChild(room_name);
     
     //分享
     CCSprite* share_spr = CCSprite::create("res/pic/haoyoupaihang/share.png");
@@ -139,8 +161,8 @@ void TotalRankScene::createView(){
     self_spr->addChild(name_bg);
 //    self_spr2->addChild(name_bg);
     
-    const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    const char* nickname_self = DATA->getShow()->nickname();
+    CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
@@ -158,9 +180,12 @@ void TotalRankScene::createView(){
 //    menu_self->setPosition(CCPointZero);
 //    this->addChild(menu_self);
     
+    
+    
     //first
     
     _curBtn_index = 0;
+    DATA->getSocial()->setSelectedRanker(0);
     
     CCSprite* bg_first = CCSprite::createWithSpriteFrameName("panel_normal.png");
     CCSprite* bg_first2 = CCSprite::createWithSpriteFrameName("panel_normal.png");
@@ -183,17 +208,21 @@ void TotalRankScene::createView(){
     name_bg_first->setPosition(ccp(bg_first->getContentSize().width - name_bg_first->getContentSize().width/2, 105));
     bg->addChild(name_bg_first);
     
-    CCLabelTTF* name_first = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    ShowComp* show_fst = (ShowComp* )_rankers->objectAtIndex(0);
+    const char* nickname_first = show_fst->nickname();
+    int collect_first = show_fst->collected();
+    
+    CCLabelTTF* name_first = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name_first->setPosition(ccp(name_bg_first->getContentSize().width/2, name_bg_first->getContentSize().height/2));
     name_bg_first->addChild(name_first);
     
-    CCLabelTTF* cloth_count_first = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_first_str = CCString::createWithFormat("%d", collect_first);
+    CCLabelTTF* cloth_count_first = CCLabelTTF::create(collect_first_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count_first->setPosition(ccp(bg_first->getContentSize().width * .8, bg_first->getContentSize().height/2));
     bg->addChild(cloth_count_first);
     
     
     //second
-    
     CCSprite* bg_second = CCSprite::createWithSpriteFrameName("panel_normal.png");
     CCSprite* bg_second2 = CCSprite::createWithSpriteFrameName("panel_normal.png");
     item_second = CCMenuItemSprite::create(bg_second, bg_second2, this, menu_selector(TotalRankScene::btn_toBig_callback));
@@ -210,11 +239,16 @@ void TotalRankScene::createView(){
     name_bg_second->setTag(0x2002);
     item_second->addChild(name_bg_second);
     
-    CCLabelTTF* name_second = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    ShowComp* show_sed = (ShowComp*)_rankers->objectAtIndex(1);
+    const char* nickname_second = show_sed->nickname();
+    int collect_second = show_sed->collected();
+    
+    CCLabelTTF* name_second = CCLabelTTF::create(nickname_second, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name_second->setPosition(ccp(name_bg_second->getContentSize().width/2 - 10, name_bg_second->getContentSize().height/2));
     name_bg_second->addChild(name_second);
     
-    CCLabelTTF* cloth_count_second = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_second_str = CCString::createWithFormat("%d", collect_second);
+    CCLabelTTF* cloth_count_second = CCLabelTTF::create(collect_second_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count_second->setPosition(ccp(bg_second->getContentSize().width * .8, bg_second->getContentSize().height/2));
     cloth_count_second->setTag(0x2003);
     item_second->addChild(cloth_count_second);
@@ -238,11 +272,16 @@ void TotalRankScene::createView(){
     name_bg_third->setTag(0x2002);
     item_third->addChild(name_bg_third);
     
-    CCLabelTTF* name_third = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(2);
+    const char* nickname_third = show_thd->nickname();
+    int collect_third = show_thd->collected();
+    
+    CCLabelTTF* name_third = CCLabelTTF::create(nickname_third, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name_third->setPosition(ccp(name_bg_third->getContentSize().width/2 - 10, name_bg_third->getContentSize().height/2));
     name_bg_third->addChild(name_third);
     
-    CCLabelTTF* cloth_count_third = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_third_str = CCString::createWithFormat("%d", collect_third);
+    CCLabelTTF* cloth_count_third = CCLabelTTF::create(collect_third_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     cloth_count_third->setPosition(ccp(bg_third->getContentSize().width * .8, bg_third->getContentSize().height/2));
     cloth_count_third->setTag(0x2003);
     item_third->addChild(cloth_count_third);
@@ -270,6 +309,7 @@ void TotalRankScene::btn_share_callback(CCObject* pSender){
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){
     _panel = NotePanel::create();
+    _panel->setEntranceType("ranker");
     this->addChild(_panel, 10000);
 }
 
@@ -293,6 +333,8 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     CCMenuItem* item = (CCMenuItem*)btn;
     item->setEnabled(false);
     int index = ((CCInteger*)item->getUserObject())->getValue();
+    
+    DATA->getSocial()->setSelectedRanker(index);
     
     if (item->getChildByTag(0x2001)) {
         item->removeChildByTag(0x2001, true);
@@ -329,11 +371,16 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     name_bg->setTag(0x2002);
     item->addChild(name_bg);
     
-    CCLabelTTF* name = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+    ShowComp* show = (ShowComp* )_rankers->objectAtIndex(index);
+    const char* nickname = show->nickname();
+    int collect = show->collected();
+    
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
     name_bg->addChild(name);
     
-    CCLabelTTF* count = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+    CCString* collect_str = CCString::createWithFormat("%d", collect);
+    CCLabelTTF* count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
     count->setPosition(ccp(item->getContentSize().width * .8f, item->getContentSize().height * .5f));
     count->setTag(0x2003);
     item->addChild(count);
@@ -381,11 +428,15 @@ void TotalRankScene::btn_toSmall_callback(int index){
         name_bg->setTag(0x2002);
         item_first->addChild(name_bg);
         
-        CCLabelTTF* name_third = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+        ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(0);
+        const char* nickname_fst = show_thd->nickname();
+        int collect = show_thd->collected();
+        CCLabelTTF* name_third = CCLabelTTF::create(nickname_fst, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
         name_third->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
         name_bg->addChild(name_third);
         
-        CCLabelTTF* cloth_count = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+        CCString* collect_str = CCString::createWithFormat("%d", collect);
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
         cloth_count->setPosition(ccp(item_first->getContentSize().width * .8, item_first->getContentSize().height/2));
         cloth_count->setTag(0x2003);
         item_first->addChild(cloth_count);
@@ -417,11 +468,15 @@ void TotalRankScene::btn_toSmall_callback(int index){
         name_bg->setTag(0x2002);
         item_second->addChild(name_bg);
         
-        CCLabelTTF* name_third = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+        ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(1);
+        const char* nickname_sed = show_thd->nickname();
+        int collect = show_thd->collected();
+        CCLabelTTF* name_third = CCLabelTTF::create(nickname_sed, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
         name_third->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
         name_bg->addChild(name_third);
         
-        CCLabelTTF* cloth_count = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+        CCString* collect_str = CCString::createWithFormat("%d", collect);
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
         cloth_count->setPosition(ccp(item_second->getContentSize().width * .8, item_second->getContentSize().height/2));
         cloth_count->setTag(0x2003);
         item_second->addChild(cloth_count);
@@ -453,11 +508,15 @@ void TotalRankScene::btn_toSmall_callback(int index){
         name_bg->setTag(0x2002);
         item_third->addChild(name_bg);
         
-        CCLabelTTF* name_third = CCLabelTTF::create("游客8A79B648", DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+        ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(2);
+        const char* nickname_thd = show_thd->nickname();
+        int collect = show_thd->collected();
+        CCLabelTTF* name_third = CCLabelTTF::create(nickname_thd, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
         name_third->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
         name_bg->addChild(name_third);
         
-        CCLabelTTF* cloth_count = CCLabelTTF::create("1000", DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
+        CCString* collect_str = CCString::createWithFormat("%d", collect);
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
         cloth_count->setPosition(ccp(item_third->getContentSize().width * .8, item_third->getContentSize().height/2));
         cloth_count->setTag(0x2003);
         item_third->addChild(cloth_count);

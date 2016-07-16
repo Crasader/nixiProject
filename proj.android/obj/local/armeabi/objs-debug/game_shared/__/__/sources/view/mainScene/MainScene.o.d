@@ -1,7 +1,6 @@
 obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.o: \
  jni/../../sources/view/mainScene/MainScene.cpp \
  jni/../../sources/view/mainScene/MainScene.h \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
@@ -13,6 +12,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/android/CCPlatformDefine.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/android/log.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/string \
  jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCGeometry.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCObject.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/math.h \
@@ -133,6 +133,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../../../lib/cocos2d-x/cocos2dx/label_nodes/CCLabelBMFont.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/sprite_nodes/CCSpriteBatchNode.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCLayer.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCScene.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCTransition.h \
@@ -247,7 +248,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/model/ClothesComp.h jni/../../sources/model/IAPComp.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
  jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
  jni/../../sources/model/MessageComp.h \
  jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
@@ -261,9 +263,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/haoyouScene/HaoyouRankLayer.h \
@@ -298,8 +300,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
 
 jni/../../sources/view/mainScene/MainScene.h:
 
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
-
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h:
@@ -321,6 +321,8 @@ jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h:
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/android/CCPlatformDefine.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/android/log.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/string:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCGeometry.h:
 
@@ -562,6 +564,8 @@ jni/../../../../lib/cocos2d-x/cocos2dx/sprite_nodes/CCSpriteBatchNode.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream:
 
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
+
 jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCLayer.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCScene.h:
@@ -792,7 +796,9 @@ jni/../../sources/third/Json/lib_json/writer.h:
 
 jni/../../sources/model/ClothesComp.h:
 
-jni/../../sources/model/IAPComp.h:
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
 
 jni/../../sources/model/LoginComp.h:
 
@@ -828,11 +834,11 @@ jni/../../sources/view/qingjingScene/QingjingScene.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
+jni/../../sources/view/mainScene/PromptLayer.h:
+
 jni/../../sources/view/taskScene/TaskScene.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 

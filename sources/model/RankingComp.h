@@ -24,11 +24,13 @@ public:
     void init_with_json(Value json);
     
 public:
+
     CCArray* ranking();
     
 protected:
     
 private:
+
     CCArray*                 _ranking;
 };
 
