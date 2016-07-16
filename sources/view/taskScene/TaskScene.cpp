@@ -72,7 +72,7 @@ bool TaskScene::init(bool isPhaseUP){
     this->creat_view();
     this->creat_Man();
     this->initClothes();
-    
+     
 //    this->creat_phone();
     
     return true;
