@@ -406,7 +406,7 @@ CCPoint FloorCell::randomStartPos(bool left) {
     if (left) {
         float ran = CCRANDOM_MINUS1_1() * widthDelta;
         CCLOG("ran = %f", ran);
-        return CCPointMake(FLOOR_CELL_WIDTH * 0.2 + ran, STAND_HEIGHT);
+        return CCPointMake(FLOOR_CELL_WIDTH * 0.3 + ran, STAND_HEIGHT);
     }
     else {
         float ran = CCRANDOM_MINUS1_1() * widthDelta;
@@ -421,7 +421,9 @@ float FloorCell::randomDuration() {
 
 CCPoint FloorCell::randomEdge() {
     float widthDelta = 30;
-    return CCPointMake(FLOOR_CELL_WIDTH * 0.7 + CCRANDOM_MINUS1_1() * widthDelta, 0);
+    float randDistance = FLOOR_CELL_WIDTH * 0.7 + CCRANDOM_MINUS1_1() * widthDelta;
+    randDistance = MIN(FLOOR_CELL_WIDTH * 0.5, MAX(FLOOR_CELL_WIDTH * 0.75, randDistance));
+    return CCPointMake(randDistance, 0);
 }
 
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
@@ -499,35 +501,63 @@ void FloorCell::self_remove(CCNode *node) {
     _coins->removeObject(node);
 }
 
-void FloorCell::show_coin_collected() {
+void FloorCell::_show_coin_collected() {
     if (! _coffers) {
         return;
     }
     
-    CCPoint pos = ccp(FLOOR_CELL_WIDTH * 0.7, 48);
-    float starDuration = 0.8f;
+    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
+    sptPromptBar->setContentSize(CCSizeMake(120, 30));
+    sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
+    _coffers->addChild(sptPromptBar, 100);
     
-    CCSprite* star1 = CCSprite::create("res/pic/loading/loading_star.png");
-    star1->setPosition(pos + ccp(0, 20));
-    star1->setScale(0.6);
-    _coffers->addChild(star1, 200);
-    star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    CoffersComp* coffers = DATA->getCoffers();
+    CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
+    CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
+    lbl->setColor(DISPLAY->defalutColor());
+    lbl->setAnchorPoint(ccp(0.5, 0.5));
+    lbl->setPosition(ccp(60, 15));
+    sptPromptBar->addChild(lbl);
     
-    CCSprite* star2 = CCSprite::create("res/pic/loading/loading_star.png");
-    star2->setPosition(pos + ccp(0, 20));
-    star2->setScale(0.4);
-    _coffers->addChild(star2, 200);
-    star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    sptPromptBar->runAction(AppUtil::action_expand_fade_out());
+}
+
+
+void FloorCell::show_coin_collected() {
+    scheduleOnce(SEL_SCHEDULE(&FloorCell::_show_coin_collected), 0.8);
     
-    CCSprite* star3 = CCSprite::create("res/pic/loading/loading_star.png");
-    star3->setPosition(pos + ccp(0, -20));
-    star3->setScale(0.5);
-    _coffers->addChild(star3, 200);
-    star3->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-52, -25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+//    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
+//    sptPromptBar->setContentSize(CCSizeMake(120, 30));
+//    sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
+//    _coffers->addChild(sptPromptBar, 101);
+//    
+//    sptPromptBar->runAction(AppUtil::action_expand_fade_out());
     
-    CCSprite* star4 = CCSprite::create("res/pic/loading/loading_star.png");
-    star4->setPosition(pos + ccp(0, -20));
-    star4->setScale(0.6);
-    _coffers->addChild(star4, 200);
-    star4->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(50, -22)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+    
+//    CCPoint pos = ccp(FLOOR_CELL_WIDTH * 0.7, 48);
+//    float starDuration = 0.8f;
+//    
+//    CCSprite* star1 = CCSprite::create("res/pic/loading/loading_star.png");
+//    star1->setPosition(pos + ccp(0, 20));
+//    star1->setScale(0.6);
+//    _coffers->addChild(star1, 200);
+//    star1->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-50, 20)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+//    
+//    CCSprite* star2 = CCSprite::create("res/pic/loading/loading_star.png");
+//    star2->setPosition(pos + ccp(0, 20));
+//    star2->setScale(0.4);
+//    _coffers->addChild(star2, 200);
+//    star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+//    
+//    CCSprite* star3 = CCSprite::create("res/pic/loading/loading_star.png");
+//    star3->setPosition(pos + ccp(0, -20));
+//    star3->setScale(0.5);
+//    _coffers->addChild(star3, 200);
+//    star3->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(-52, -25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
+//    
+//    CCSprite* star4 = CCSprite::create("res/pic/loading/loading_star.png");
+//    star4->setPosition(pos + ccp(0, -20));
+//    star4->setScale(0.6);
+//    _coffers->addChild(star4, 200);
+//    star4->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(50, -22)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
 }

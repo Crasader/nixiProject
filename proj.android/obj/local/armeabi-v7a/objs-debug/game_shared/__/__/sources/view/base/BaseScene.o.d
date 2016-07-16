@@ -271,7 +271,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/base/BaseScene.o
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/panel/PurchasePanel.h \
  jni/../../sources/view/panel/EnergyBuyPanel.h \
- jni/../../sources/manager/ConfigManager.h
+ jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/manager/SpecialManager.h
 
 jni/../../sources/view/base/BaseScene.h:
 
@@ -826,3 +827,5 @@ jni/../../sources/view/panel/PurchasePanel.h:
 jni/../../sources/view/panel/EnergyBuyPanel.h:
 
 jni/../../sources/manager/ConfigManager.h:
+
+jni/../../sources/manager/SpecialManager.h:

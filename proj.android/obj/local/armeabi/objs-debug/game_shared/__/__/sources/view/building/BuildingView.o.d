@@ -237,6 +237,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/building/BuildingVie
  jni/../../sources/view/building/FloorCell.h \
  jni/../../sources/view/common/UnreusedTableView/UnreusedTableView.h \
  jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -744,6 +745,8 @@ jni/../../sources/view/building/FloorCell.h:
 jni/../../sources/view/common/UnreusedTableView/UnreusedTableView.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/manager/SpecialManager.h:
 
 jni/../../sources/manager/DataManager.h:
 

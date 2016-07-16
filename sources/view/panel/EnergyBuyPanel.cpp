@@ -60,9 +60,9 @@ bool EnergyBuyPanel::init() {
             _content->addChild(lbl);
         }
         else {
-            CCString* str = CCString::createWithFormat("是否使用%d钻石兑换100点体?", int(pow(8, 2)));
+            CCString* str = CCString::createWithFormat("使用%d钻石兑换100点体力", int(pow(8, 2)));
             CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
-            lbl->setColor(ccGRAY);
+            lbl->setColor(DISPLAY->dullBlueColor());
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
             _content->addChild(lbl);
         }
@@ -73,10 +73,10 @@ bool EnergyBuyPanel::init() {
         lbl->setPosition(DISPLAY->center() + ccp(0, 110));
         _content->addChild(lbl);
         
-        CCLabelTTF* lbl_prompt = CCLabelTTF::create("(体力不满时每6分钟自动增长1点哟~)", DISPLAY->fangzhengFont(), 20.f);
-        lbl_prompt->setColor(ccMAGENTA);
-        lbl_prompt->setPosition(DISPLAY->center() + ccp(0, 60));
-        _content->addChild(lbl_prompt);
+//        CCLabelTTF* lbl_prompt = CCLabelTTF::create("(体力不满时每6分钟自动增长1点哟~)", DISPLAY->fangzhengFont(), 20.f);
+//        lbl_prompt->setColor(ccMAGENTA);
+//        lbl_prompt->setPosition(DISPLAY->center() + ccp(0, 60));
+//        _content->addChild(lbl_prompt);
         
         return true;
     }

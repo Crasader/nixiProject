@@ -80,6 +80,15 @@ void StrangerScene::createView(){
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
     
+    //name_bar
+    CCSprite* name_bar = CCSprite::create("res/pic/qingjingScene/qj_dikuang1.png");
+    name_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .93f));
+    this->addChild(name_bar);
+    
+    CCLabelTTF* room_name = CCLabelTTF::create("陌生人", DISPLAY->fangzhengFont(), 22);
+    room_name->setPosition(ccp(name_bar->getContentSize().width* .5f, name_bar->getContentSize().height* .5f - 4));
+    name_bar->addChild(room_name);
+    
     //分享
     CCSprite* share_spr = CCSprite::create("res/pic/haoyoupaihang/share.png");
     CCSprite* share_spr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
@@ -164,13 +173,13 @@ void StrangerScene::createView(){
         label_num->setPosition(ccp(head->getContentSize().width/2, head->getContentSize().height/2));
         head->addChild(label_num);
     }
-    head->setPosition(ccp(head->getContentSize().width - 13, self_spr->getContentSize().height/2 + 3));
+    head->setPosition(ccp(head->getContentSize().width - 13, item_self->getContentSize().height/2 + 3));
     head->setTag(0x10001);
     item_self->addChild(head);
     
     
     CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg->setPosition(ccp(self_spr->getContentSize().width - name_bg->getContentSize().width/2, 90));
+    name_bg->setPosition(ccp(item_self->getContentSize().width - name_bg->getContentSize().width/2, 90));
     name_bg->setTag(0x10002);
     item_self->addChild(name_bg);
     
@@ -181,7 +190,7 @@ void StrangerScene::createView(){
     
     CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
     CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
+    cloth_count->setPosition(ccp(item_self->getContentSize().width * .8, item_self->getContentSize().height/2));
     cloth_count->setTag(0x10003);
     item_self->addChild(cloth_count);
     
@@ -250,6 +259,13 @@ void StrangerScene::btn_self_toBig(CCMenuItem* btn){
     cloth_count->setPosition(ccp(item->getContentSize().width * .8, item->getContentSize().height/2));
     cloth_count->setTag(0x10003);
     item->addChild(cloth_count);
+    
+//    CCLayer* layer = CCLayer::create();
+//    layer->setTouchEnabled(true);
+//    layer->setTouchSwallowEnabled(true);
+//    layer->setTag(10000);
+//    CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+//    this->exitMan();
 }
 
 void StrangerScene::btn_self_toSmall(){

@@ -353,3 +353,12 @@ void NetManager::buy_energy_101() {
     string data = writer.write(root);
     this->post_data(101, data);
 }
+
+void NetManager::exchange_coin_103() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    string data = writer.write(root);
+    this->post_data(103, data);
+}
+

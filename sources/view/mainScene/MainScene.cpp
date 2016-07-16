@@ -28,6 +28,7 @@
 #include "MailPanel.h"
 #include "OperationPanel.h"
 #include "SettingPanel.h"
+#include "TaskSettlementLayer2.h"
 
 #include <time.h>
 
@@ -1027,11 +1028,17 @@ void MainScene::richangCallBack(CCObject* pSender){
 void MainScene::_600CallBack(CCObject* pSender){
     LOADING->remove();
     
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
+    
+//    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(3, 50, false);
+//    CCScene* scene = CCScene::create();
+//    scene->addChild(layer);
+//    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::shezhiCallBack(CCObject* pSender){

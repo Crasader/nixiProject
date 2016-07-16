@@ -259,7 +259,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 300: {
-            _ranking->init_with_json(content["coffers"]);
+            _ranking->init_with_json(content["ranking"]);
         } break;
             
         case 200: {

@@ -28,6 +28,7 @@ public:
     const char* nickname();
     int collected();            // 收集
     int ranking();              // 名次
+    string getShowID();
     CCDictionary* ondress();    // 着装
     
     int             isadd;
@@ -37,6 +38,7 @@ protected:
     
 private:
     string          _nickname;
+    string          _id;
     int             _collected;
     int             _ranking;
     CCDictionary*   _ondress;

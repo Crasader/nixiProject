@@ -42,10 +42,13 @@ public:
     
     ShowComp* getSelectedStrangerByIndex(int idx);
     ShowComp* getSelectedFriendByIndex(int idx);
+    ShowComp* getSelectedRankerByIndex(int idx);
     const char* getSelectedStrangerIDbyIndex(int idx);
     const char* getSelectedFriendIDbyIndex(int idx);
+    const char* getSelectedRankerIDbyIndex(int idx);
     CC_SYNTHESIZE(int, _selectedStranger, SelectedStranger);
     CC_SYNTHESIZE(int, _selectedFriend, SelectedFriend);
+    CC_SYNTHESIZE(int, _selectedRanker, SelectedRanker);
     
 private:
     void sort_friends_by_collected(CCDictionary* dic);

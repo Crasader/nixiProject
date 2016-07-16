@@ -265,7 +265,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
- jni/../../sources/manager/DisplayManager.h
+ jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/manager/SpecialManager.h
 
 jni/../../sources/view/taskScene/TaskSettlementLayer.h:
 
@@ -808,3 +809,5 @@ jni/../../sources/view/clothesScene/ClothesTableView.h:
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/manager/SpecialManager.h:

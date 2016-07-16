@@ -290,7 +290,11 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/panel/MailPanel.h \
  jni/../../sources/view/panel/OperationPanel.h \
- jni/../../sources/view/panel/SettingPanel.h
+ jni/../../sources/view/panel/SettingPanel.h \
+ jni/../../sources/view/taskScene/TaskSettlementLayer2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel4.h \
+ jni/../../sources/manager/SpecialManager.h
 
 jni/../../sources/view/mainScene/MainScene.h:
 
@@ -883,3 +887,11 @@ jni/../../sources/view/panel/MailPanel.h:
 jni/../../sources/view/panel/OperationPanel.h:
 
 jni/../../sources/view/panel/SettingPanel.h:
+
+jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel4.h:
+
+jni/../../sources/manager/SpecialManager.h:

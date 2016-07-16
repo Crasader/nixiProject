@@ -29,6 +29,7 @@ void ShowComp::init_with_json(Value json) {
     }
     
     _nickname = json["nickname"].asString();
+    _id = json["id"].asString();
     _collected = json["collected"].asInt();
     _ranking = json["ranking"].asInt();
     
@@ -70,6 +71,10 @@ int ShowComp::collected() {
 
 int ShowComp::ranking() {
     return _ranking;
+}
+
+string ShowComp::getShowID(){
+    return _id;
 }
 
 

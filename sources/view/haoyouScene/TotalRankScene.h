@@ -91,6 +91,8 @@ public:
     
     int _type;
     
+    CCArray* _rankers;
+    
 public:
     NotePanel* _panel;
     TotalRankTableView* tabLayer;

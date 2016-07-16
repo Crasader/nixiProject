@@ -33,10 +33,12 @@ public:
 public:
     
     void creat_view();
+    void creat_historyview();
     void enterTheKuang(float dt);
     void creat_Tishi();
     void EnterTheTishi();
     void ExitTishi();
+    void historyEnterTheKuang(float dt);
     
     void exitView();
     void openTaskStoryScene();
@@ -94,6 +96,9 @@ public:
     int OpenToWhichOne;
     int taskPhase;
     int taskIndex;
+    int historyIndex;
+    
+    bool historyBool;
     
 private:
     
