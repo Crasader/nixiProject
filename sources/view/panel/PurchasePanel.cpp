@@ -98,8 +98,8 @@ void PurchasePanel::init_content() {
 //    prompt->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.84));
 //    _panel->addChild(prompt);
     
-    IAPComp* iap = DATA->getIAP();
-    CCArray* products = iap->products();
+    PurchaseComp* purchase = DATA->getPurchase();
+    CCArray* products = purchase->products();
     int count = products->count();
     const char* png_format = "res/pic/panel/iap/iap_bar_%d.png";
     const char* png_format2 = "res/pic/panel/iap/iap_bar_%dx2.png";
@@ -109,7 +109,7 @@ void PurchasePanel::init_content() {
         ProductItem* pro = (ProductItem* )pObj;
         CCSprite* pic1 = NULL;
         CCSprite* pic2 = NULL;
-        if (iap->has_purchased(pro->id.c_str())) {
+        if (purchase->has_purchased(pro->id.c_str())) {
             CCString* file = CCString::createWithFormat(png_format, i);
             pic1 = CCSprite::create(file->getCString());
             pic2 = CCSprite::create(file->getCString());

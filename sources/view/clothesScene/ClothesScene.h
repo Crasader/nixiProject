@@ -222,10 +222,12 @@ public:
     
     void showAnimationWithType(int type);
     
+    void go_fitting_room();
+    
 private:
     void Http_Finished_401(CCObject* pObj);
-    void Http_Finished_601(CCObject* pObj);
-    void Http_Finished_602(CCObject* pObj);
+//    void Http_Finished_601(CCObject* pObj);
+    void Http_Finished_603(CCObject* pObj);
 };
 
 

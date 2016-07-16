@@ -60,8 +60,8 @@ public:
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     
     void completed_mission_600();
-    void start_mission_601(int id);
-    void commit_mission_602(int id);
+//    void start_mission_601(int id);
+    void commit_mission_603(int id);
     
     void completed_story_500();
     void start_story_501(const char* id);

@@ -66,6 +66,25 @@ int ConfigManager::mission_index_in_phase(int mission, int phase) {
     return MAX(mission - countAllOldPhase, 0);
 }
 
+int ConfigManager::phase_up_required(int phase) {
+    int rtn = 0;
+    if (_mission) {
+        CCObject* pObj = NULL;
+        CCARRAY_FOREACH(_mission, pObj) {
+            CCDictionary* mission = (CCDictionary*)pObj;
+            CCString* phaseInMission = (CCString*)mission->objectForKey("phase");
+            if (phaseInMission->intValue() == phase) {
+                int gradeup = ((CCString*)mission->objectForKey("upgrade"))->intValue();
+                if (gradeup > rtn) {
+                    rtn = gradeup;
+                }
+            }
+        }
+    }
+    
+    return rtn;
+}
+
 int ConfigManager::mission_count(int phase) {
     int rtn = 0;
     if (_mission) {
@@ -230,8 +249,14 @@ void ConfigManager::conf_mission_dialog(int phase) {
 }
 
 void ConfigManager::test_mission_count() {
-    for (int i = 0; i < 6; i ++) {
-        int count = CONFIG->mission_count(i);
+    for (int i = 0; i < 8; i ++) {
+        int count = this->mission_count(i);
         CCLOG("Phase %d mission_count=%d", i, count);
+    }
+}
+
+void ConfigManager::test_phase_up_required() {
+    for (int i = 0; i < 8; i ++) {
+        CCLOG("Phase: %d phase_up_required=%d", i, this->phase_up_required(i));
     }
 }
