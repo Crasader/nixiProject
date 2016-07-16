@@ -38,7 +38,7 @@ void DataManager::init_data() {
     this->setLogin(LoginComp::create());
     this->setPlayer(PlayerComp::create());
     this->setClothes(ClothesComp::create());
-    this->setIAP(IAPComp::create());
+    this->setPurchase(PurchaseComp::create());
     this->setMail(MailComp::create());
     this->setMessage(MessageComp::create());
     this->setMission(MissionComp::create());
@@ -121,7 +121,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
             _news->init_with_json(content["news"]);
-            _IAP->init_purchased(content["purchased"]);
+            _purchase->init_purchase(content["purchase"]);
             this->start_check_news();
         } break;
             
@@ -131,7 +131,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
             _news->init_with_json(content["news"]);
-            _IAP->init_purchased(content["purchased"]);
+            _purchase->init_purchase(content["purchase"]);
             this->start_check_news();
         } break;
             
@@ -223,14 +223,14 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
         } break;
             
-        case 602: {
+        case 603: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
             // 形如：{"rating":5,"levelup":0,"coin":50}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
+        
         case 500: {
             _story->init_with_json(content["story"]);
         } break;
@@ -259,7 +259,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 300: {
-            _ranking->init_with_json(content["coffers"]);
+            _ranking->init_with_json(content["ranking"]);
         } break;
             
         case 200: {
@@ -277,11 +277,19 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 100: {
-            _IAP->init_products(content);
+            _purchase->init_products(content);
         } break;
             
         case 101: {
             _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+        } break;
+            
+        case 103: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
         } break;
             
         default:

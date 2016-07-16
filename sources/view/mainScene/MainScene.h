@@ -9,7 +9,6 @@
 #ifndef __tiegao__MainScene__
 #define __tiegao__MainScene__
 
-#include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
 

@@ -24,15 +24,12 @@ public:
     void init_with_json(Value json);
     
 public:
-    CCDictionary* ranking();
-    void createArray_with_dic();
-    CCArray* getRankArray();
+    CCArray* ranking();
     
 protected:
     
 private:
-    CCDictionary*            _ranking;
-    CCArray*                 _rankArray;
+    CCArray*                 _ranking;
 };
 
 #endif /* RankingComp_hpp */

@@ -234,20 +234,20 @@ void NetManager::completed_mission_600() {
     this->post_data(600, string(""));
 }
 
-void NetManager::start_mission_601(int id) {
-    FastWriter writer;
-    Value root;
-    root["id"] = id;
-    string data = writer.write(root);
-    this->post_data(601, data);
-}
+//void NetManager::start_mission_601(int id) {
+//    FastWriter writer;
+//    Value root;
+//    root["id"] = id;
+//    string data = writer.write(root);
+//    this->post_data(601, data);
+//}
 
-void NetManager::commit_mission_602(int id) {
+void NetManager::commit_mission_603(int id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
     string data = writer.write(root);
-    this->post_data(602, data);
+    this->post_data(603, data);
 }
 
 
@@ -353,3 +353,12 @@ void NetManager::buy_energy_101() {
     string data = writer.write(root);
     this->post_data(101, data);
 }
+
+void NetManager::exchange_coin_103() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    string data = writer.write(root);
+    this->post_data(103, data);
+}
+

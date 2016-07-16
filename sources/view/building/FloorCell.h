@@ -46,6 +46,7 @@ private:
     void show_coin_at(CCPoint pos);
     void self_remove(CCNode* node);
     void show_coin_collected();
+    void _show_coin_collected();
     
 private:
     FloorCellType       _type;

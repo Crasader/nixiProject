@@ -13,6 +13,7 @@
 #include "Loading2.h"
 #include "PurchasePanel.h"
 #include "EnergyBuyPanel.h"
+#include "CoinExchangePanel.h"
 #include "ConfigManager.h"
 #include "SpecialManager.h"
 
@@ -268,7 +269,7 @@ void BaseScene::tiliCallBack(CCObject* pSender){
 }
 
 void BaseScene::goldCallBack(CCObject* pSender){
-    if (DATA->getIAP()->has_init_products()) {
+    if (DATA->getPurchase()->has_init_products()) {
         this->show_purchase_panel();
     }
     else {
@@ -278,7 +279,8 @@ void BaseScene::goldCallBack(CCObject* pSender){
 }
 
 void BaseScene::coinCallBack(CCObject* pSender){
-    
+    CoinExchangePanel* panel = CoinExchangePanel::create();
+    panel->show();
 }
 
 void BaseScene::will_number_scroll(){
@@ -312,7 +314,6 @@ void BaseScene::show_purchase_panel() {
 }
 
 void BaseScene::show_energybuy_panel() {
-    LOADING->remove();
     EnergyBuyPanel* panel = EnergyBuyPanel::create();
     panel->show();
 }

@@ -115,8 +115,8 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::creat_money), "Creat_money", NULL);
     
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
-    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
-    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_602), "HTTP_FINISHED_602", NULL);
+//    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
 }
 
 void ClothesScene::onExit(){
@@ -2460,7 +2460,8 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     
     if (clothesStatus == 1) {// 任务
         if (startTask) {
-            NET->start_mission_601(getTaskId(task_index - 1));
+//            NET->start_mission_601(getTaskId(task_index - 1));
+            this->go_fitting_room();
         }else{
             startTask = false;
             LOADING->remove();
@@ -2538,11 +2539,11 @@ int ClothesScene::getTaskId(int index){
     return 0;
 }
 
-void ClothesScene::Http_Finished_601(CCObject* pObj){
+void ClothesScene::go_fitting_room() {
     int tili = DATA->getPlayer()->energy;
     tili_AllIndex = 9;
     if (tili >= tili_AllIndex) {
-        NET->commit_mission_602(getTaskId(task_index - 1));
+        NET->commit_mission_603(getTaskId(task_index - 1));
     }else{
         LOADING->remove();
         AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
@@ -2551,8 +2552,20 @@ void ClothesScene::Http_Finished_601(CCObject* pObj){
     }
 }
 
-void ClothesScene::Http_Finished_602(CCObject* pObj){
-    LOADING->remove();
+//void ClothesScene::Http_Finished_601(CCObject* pObj){
+//    int tili = DATA->getPlayer()->energy;
+//    tili_AllIndex = 9;
+//    if (tili >= tili_AllIndex) {
+//        NET->commit_mission_603(getTaskId(task_index - 1));
+//    }else{
+//        LOADING->remove();
+//        AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+//        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+//    }
+//}
+
+void ClothesScene::Http_Finished_603(CCObject* pObj){
     // {"rating":5,"levelup":0,"coin":50}
     CCDictionary* result = (CCDictionary*)pObj;
     int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();

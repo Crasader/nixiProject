@@ -12,6 +12,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "BuildingView.h"
+#include "AppUtil.h"
 
 BuildingLayer::~BuildingLayer() {
 }
@@ -129,6 +130,11 @@ void BuildingLayer::show_building() {
 
 void BuildingLayer::show_phase_up() {
     CCLOG("BuildingLayer::show_phase_up()");
+    CCAnimation* anim = AppUtil::animationWithPics("pic/special/gradeup/gradeup_%d.png", 72, 1, 0.03);
+    CCSprite* spt = CCSprite::create("pic/special/gradeup/gradeup_1.png");
+    spt->setPosition(DISPLAY->center());
+    this->getScene()->addChild(spt);
+    spt->runAction(CCAnimate::create(anim));
 }
 
 void BuildingLayer::nc_building_disappear(CCObject *pObj) {

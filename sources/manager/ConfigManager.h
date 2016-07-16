@@ -29,6 +29,7 @@ public:
 public:
     int mission_count(int phase);
     int mission_index_in_phase(int mission, int phase);
+    int phase_up_required(int phase);       // 某公司阶段的升级总星要求
     CCArray* mission();
     
     CCDictionary* missionDialog();
@@ -48,6 +49,7 @@ public:
     
 public: //test
     void test_mission_count();
+    void test_phase_up_required();
     
 private:
     void conf_login_addr(int net);

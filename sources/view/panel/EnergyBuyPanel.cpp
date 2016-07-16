@@ -44,6 +44,7 @@ bool EnergyBuyPanel::init() {
         CCMenuItem* btn_confirm = CCMenuItemSprite::create(confirm1, confirm2, this, SEL_MenuHandler(&EnergyBuyPanel::buy));
         
         CCMenu* menu = CCMenu::create(btn_canel, btn_confirm, NULL);
+        menu->setPosition(ccp(menu->getPosition().x, menu->getPosition().y + 40));
         menu->alignItemsHorizontallyWithPadding(60);
         _content->addChild(menu);
         
@@ -51,32 +52,38 @@ bool EnergyBuyPanel::init() {
         PlayerComp* playerInfo = DATA->getPlayer();
         if (playerInfo->energy >= 100) {
             btn_confirm->setEnabled(false);
+            btn_confirm->setColor(ccGRAY);
         }
         
-        if (playerInfo->energyBuyTimes >= 20) {
+        int boughtTimes = DATA->getPurchase()->getEnergyBoughtTimes();
+        int limit = DATA->getPurchase()->getEnergyBuyLimit();
+        if (boughtTimes >= limit) {
+            btn_confirm->setEnabled(false);
+            btn_confirm->setColor(ccGRAY);
+            
             CCLabelTTF* lbl = CCLabelTTF::create("已达今日体力购买次数上限~", DISPLAY->fangzhengFont(), 28.f);
             lbl->setColor(ccRED);
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
             _content->addChild(lbl);
         }
         else {
-            CCString* str = CCString::createWithFormat("是否使用%d钻石兑换100点体?", int(pow(8, 2)));
+            CCString* str = CCString::createWithFormat("使用%d钻石兑换100点体力", 10 * int(pow(2, boughtTimes)));
             CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
-            lbl->setColor(ccGRAY);
+            lbl->setColor(DISPLAY->dullBlueColor());
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
             _content->addChild(lbl);
         }
         
-        CCString* str = CCString::createWithFormat("今日已购买%d/20次", playerInfo->energyBuyTimes);
+        CCString* str = CCString::createWithFormat("今日已购买%d/%d次", boughtTimes, limit);
         CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
         lbl->setColor(ccGRAY);
         lbl->setPosition(DISPLAY->center() + ccp(0, 110));
         _content->addChild(lbl);
         
-        CCLabelTTF* lbl_prompt = CCLabelTTF::create("(体力不满时每6分钟自动增长1点哟~)", DISPLAY->fangzhengFont(), 20.f);
-        lbl_prompt->setColor(ccMAGENTA);
-        lbl_prompt->setPosition(DISPLAY->center() + ccp(0, 60));
-        _content->addChild(lbl_prompt);
+//        CCLabelTTF* lbl_prompt = CCLabelTTF::create("(体力不满时每6分钟自动增长1点哟~)", DISPLAY->fangzhengFont(), 20.f);
+//        lbl_prompt->setColor(ccMAGENTA);
+//        lbl_prompt->setPosition(DISPLAY->center() + ccp(0, 60));
+//        _content->addChild(lbl_prompt);
         
         return true;
     }
