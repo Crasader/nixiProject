@@ -41,38 +41,9 @@ void RankingComp::init_with_json(Value json) {
         CC_SAFE_RELEASE(_ranking);
         _ranking = dic;
         _ranking->retain();
-        
-        this->createArray_with_dic();
     }
 }
 
 CCDictionary* RankingComp::ranking() {
     return _ranking;
-}
-
-void RankingComp::createArray_with_dic(){
-    _rankArray = CCArray::create();
-    
-    CCDictElement* pElem = NULL;
-    CCDICT_FOREACH(_ranking, pElem){
-        const char* user_id = pElem->getStrKey();
-        ShowComp* show = (ShowComp*)pElem->getObject();
-        int ranking = show->ranking();
-        if (_rankArray->count() == 0) {
-            _rankArray->addObject(CCString::createWithFormat("%s", user_id));
-        }else{
-            CCObject* pObj = NULL;
-            CCARRAY_FOREACH(_rankArray, pObj){
-                const char* id = ((CCString* )pObj)->getCString();
-                ShowComp* show_2 = (ShowComp* )_ranking->objectForKey(id);
-                int ranking_2 = show_2->ranking();
-                
-            }
-        }
-    }
-    
-}
-
-CCArray* RankingComp::getRankArray(){
-    return _rankArray;
 }

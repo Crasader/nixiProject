@@ -25,14 +25,11 @@ public:
     
 public:
     CCDictionary* ranking();
-    void createArray_with_dic();
-    CCArray* getRankArray();
     
 protected:
     
 private:
     CCDictionary*            _ranking;
-    CCArray*                 _rankArray;
 };
 
 #endif /* RankingComp_hpp */

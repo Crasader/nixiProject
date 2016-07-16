@@ -22,10 +22,14 @@ bool TotalRankTableView::init(){
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
-    allNumber = 0;
-    selectedIndex = NULL;
+//    _rankers = DATA->getSocial()->ranking()->allKeys();
+//    if (_rankers == NULL) {
+//        _rankers = CCArray::create();
+//    }
+//    _rankers->retain();
+//    allNumber =  _rankers->count();
     
-    allNumber = 20;
+    selectedIndex = NULL;
     
     pTableView = CCTableView::create(this, CCSizeMake(248, 3*138));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
