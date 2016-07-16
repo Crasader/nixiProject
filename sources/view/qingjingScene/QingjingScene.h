@@ -13,7 +13,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "QingjingCoverView.h"
-
+#include "PromptLayer.h"
 
 USING_NS_CC;
 
@@ -92,7 +92,11 @@ public:
     void updataButton();
     void updataMan();
     
+    void qingjingStatus();
+    
 public:
+    
+    PromptLayer* promptLayer;
     
     CCDictionary* allClothesDic;
     
@@ -101,9 +105,12 @@ public:
     
     int storyIndex;
     int renwuIndex;
+    int phaseIndex;
     int OpenToWhichOne;
     int allNumber;
     int selectedIndex;
+    
+    bool  theEndBool;
     
     CCSprite* roomSpr;
     CCSprite* manSpr;

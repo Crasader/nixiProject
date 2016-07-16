@@ -49,6 +49,9 @@ bool TaskSettlementLayer2::init(int rating, int coin, bool isPhaseUP){
     logic_end_Bool = false;
     animationBool = false;
     
+    promptLayer = PromptLayer::create();
+    this->addChild(promptLayer, 500);
+    
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     _ManSpr = CCSprite::create();
@@ -115,9 +118,10 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
         }else{
             if (!lingquBool) {
                 // 给个提示
-                CCLog("<><><>给个领取提示");
+                CCString* str = CCString::createWithFormat("还没有领奖呦!");
+                promptLayer->promptBoxString(str);
             }else{
-    //        exit();
+                exit();
                 CCLog("<><><>exit()");
             }
         }
@@ -126,6 +130,13 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     
     
     return true;
+}
+void TaskSettlementLayer2::exit() {
+    CCLayer* layer = TaskScene::create(1);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void TaskSettlementLayer2::creat_view(){

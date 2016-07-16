@@ -73,7 +73,7 @@ bool TaskScene::init(bool isPhaseUP){
     this->creat_Man();
     this->initClothes();
      
-//    this->creat_phone();
+    this->creat_phone();
     
     return true;
 }
@@ -207,29 +207,42 @@ void TaskScene::creat_view(){
     taskKuang = CCSprite::create("res/pic/taskScene/task_dikuang1.png");
     taskKuang->setAnchorPoint(ccp(1, .5f));
 //    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .475f));
-    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .3f));
+    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .31f));
     taskKuang->setTag(0x44444);
     this->addChild(taskKuang, 20);
     CCSprite* shangkuangSpr = CCSprite::create("res/pic/taskScene/task_shangkuang.png");
     shangkuangSpr->setAnchorPoint(ccp(.5f, 0));
     shangkuangSpr->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height - 2));
     taskKuang->addChild(shangkuangSpr);
-    CCLabelTTF* shangLabel1 = CCLabelTTF::create("总星:20/100", DISPLAY->fangzhengFont(), 20, CCSizeMake(shangkuangSpr->getContentSize().width* .85f, 20), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
-    shangLabel1->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .7f));
-    shangLabel1->setColor(ccc3(232,136,174));
-    shangkuangSpr->addChild(shangLabel1);
-    
-    CCLabelTTF* shangLabel2 = CCLabelTTF::create("升级还需:80", DISPLAY->fangzhengFont(), 20, CCSizeMake(shangkuangSpr->getContentSize().width* .85f, 20), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
-    shangLabel2->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .3f));
-    shangLabel2->setColor(ccc3(232,136,174));
-    shangkuangSpr->addChild(shangLabel2);
+    CCString* shangStr = CCString::createWithFormat("总星:%d/100", DATA->getPlayer()->ratings(DATA->getPlayer()->phase));
+    CCLabelTTF* shangLabel = CCLabelTTF::create(shangStr->getCString(), DISPLAY->fangzhengFont(), 25);
+    shangLabel->setAnchorPoint(ccp(0, .5f));
+    shangLabel->setPosition(ccp(5.f, shangkuangSpr->getContentSize().height* .5f));
+    shangLabel->setColor(ccc3(232,136,174));
+    shangkuangSpr->addChild(shangLabel);
+    CCSprite* shangXingSpr = CCSprite::create("res/pic/taskScene/task_xing3.png");
+    shangXingSpr->setAnchorPoint(ccp(0, .5));
+    shangXingSpr->setPosition(ccp(shangLabel->getContentSize().width + 5, shangLabel->getContentSize().height* .53f));
+    shangLabel->addChild(shangXingSpr);
     
     
     TaskTableView* tabLayer = TaskTableView::create();
-    tabLayer->setPosition(ccp(7, 10));
+    tabLayer->setPosition(ccp(7, 12));
     tabLayer->setTag(0x77777);
     taskKuang->addChild(tabLayer, 5);
     taskKuang->setScale(.3f);
+    
+    
+    barSpr = CCSprite::create("res/pic/mainScene/txt_bar.png");
+    barSpr->setAnchorPoint(ccp(.5f, 0));
+    barSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 1));
+    this->addChild(barSpr, 15);//478 37
+    int tempPhase = CONFIG->phase_up_required(DATA->getPlayer()->phase) - DATA->getPlayer()->ratings(DATA->getPlayer()->phase);
+    CCString* barStr = CCString::createWithFormat("下级公司还差 %d 星级", tempPhase);
+    CCLabelTTF* barLabel = CCLabelTTF::create(barStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(barSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    barLabel->setPosition(ccp(barSpr->getContentSize().width* .5f, barSpr->getContentSize().height* .5f));
+    barLabel->setColor(ccc3(80, 63, 68));
+    barSpr->addChild(barLabel);
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::enterTheKuang), .1f);
 }
@@ -381,12 +394,27 @@ void TaskScene::creat_historyview(){
     taskKuang = CCSprite::create("res/pic/taskScene/task_dikuang1.png");
     taskKuang->setAnchorPoint(ccp(1, .5f));
 //    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .475f));
-    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .3f));
+    taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .31f));
     taskKuang->setTag(0x44444);
     this->addChild(taskKuang, 20);
+    CCSprite* shangkuangSpr = CCSprite::create("res/pic/taskScene/task_shangkuang.png");
+    shangkuangSpr->setAnchorPoint(ccp(.5f, 0));
+    shangkuangSpr->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height - 2));
+    taskKuang->addChild(shangkuangSpr);
+    CCString* shangStr = CCString::createWithFormat("总星:%d/100", DATA->getPlayer()->ratings(taskPhase));
+    CCLabelTTF* shangLabel = CCLabelTTF::create(shangStr->getCString(), DISPLAY->fangzhengFont(), 25);
+    shangLabel->setAnchorPoint(ccp(0, .5f));
+    shangLabel->setPosition(ccp(5.f, shangkuangSpr->getContentSize().height* .5f));
+    shangLabel->setColor(ccc3(232,136,174));
+    shangkuangSpr->addChild(shangLabel);
+    CCSprite* shangXingSpr = CCSprite::create("res/pic/taskScene/task_xing3.png");
+    shangXingSpr->setAnchorPoint(ccp(0, .5));
+    shangXingSpr->setPosition(ccp(shangLabel->getContentSize().width + 5, shangLabel->getContentSize().height* .53f));
+    shangLabel->addChild(shangXingSpr);
+    
     
     TaskTableView* tabLayer = TaskTableView::create();
-    tabLayer->setPosition(ccp(7, 10));
+    tabLayer->setPosition(ccp(7, 12));
     tabLayer->setTag(0x77777);
     taskKuang->addChild(tabLayer, 5);
     taskKuang->setScale(.3f);
@@ -394,7 +422,7 @@ void TaskScene::creat_historyview(){
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::historyEnterTheKuang), .1f);
 }
 void TaskScene::historyEnterTheKuang(float dt){
-    CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() + 7, DISPLAY->ScreenHeight()* .54f));
+    CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() + 7, DISPLAY->ScreenHeight()* .49f));
     CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.f);
     CCSpawn* spawn1 = CCSpawn::create(moveTo1, scaleTo1, NULL);
     taskKuang->runAction(CCSequence::create(spawn1, NULL));
@@ -570,6 +598,8 @@ CCString* TaskScene::getTaskDescription(int index){
 
 void TaskScene::exitView(){
     BaseScene::hideBaseScene();
+    barSpr->setVisible(false);
+    
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::openTaskStoryScene));
     
     if (historyBool) {
@@ -1152,37 +1182,51 @@ void TaskScene::initClothes(){//穿衣服
 
 void TaskScene::creat_phone(){
     int renwuIndex = 0;
+    int phaseIndex = 0;
     int allNumber = 0;
-    int now_task_index = 0;
     // 显示的任务的结局
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     allNumber = taskConditionsDic->count();
     
     for (int i = 0; i < allNumber; i++) {
-        CCString* story_index = CCString::createWithFormat("%d", i);
-        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
-        if (storyArr == NULL) {
-            if (i > 0) {
-                now_task_index = i - 1;
-            }else{
-                now_task_index = 0;
+        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
+        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
+        renwuIndex = atoi(renwuIndexStr.c_str());
+        std::string phaseIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(5))->getCString();
+        phaseIndex = atoi(phaseIndexStr.c_str());
+        if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {// 解锁
+            CCString* story_index = CCString::createWithFormat("%d", i);
+            CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+            if (storyArr == NULL) {
+                now_task_index = i;
+                break;
             }
-            break;
         }
     }
     
-    CCLog("now_task_index == %d", now_task_index);
+    CCSprite* phoneSpr1 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
+    phoneSpr1->setRotation(12.f);
+    phoneSpr1->setScale(.4f);
+    CCSprite* phoneSpr2 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
+    phoneSpr2->setRotation(12.f);
+    phoneSpr2->setScale(.4f);
+    CCMenuItem* phoneItem = CCMenuItemSprite::create(phoneSpr1, phoneSpr2, this, menu_selector(TaskScene::phoneCallBack));
+    phoneItem->setPosition(ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
+    phoneItem->setTag(now_task_index);
+    CCMenu* menu = CCMenu::create(phoneItem, NULL);
+    menu->setPosition(CCPointZero);
+    _ManSpr->addChild(menu, 1000);
     
-    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", now_task_index);
-    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
-    renwuIndex = atoi(renwuIndexStr.c_str());
-    if (renwuIndex <= DATA->getPlayer()->mission) {// 解锁
-    }else{// 未解锁
-        
-    }
-    
-    
+    CCMoveTo* moveTo1 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f + 5));
+    CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
+    phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, NULL)));
 }
+void TaskScene::phoneCallBack(CCObject* pSender){
+    CCLog("phoneCallBack");
+}
+
+
+
 

@@ -57,6 +57,7 @@ bool MainScene::init(){
     _arrGroup1 = NULL;
     _arrGroup2 = NULL;
     _arrPlay = NULL;
+    isrenwuBool = false;
     
 //    _ManSpr = CCSprite::create();
 //    this->addChild(_ManSpr, 10);
@@ -1014,16 +1015,26 @@ void MainScene::juqingCallBack(CCObject* pSender){
     
 }
 void MainScene::_500CallBack(CCObject* pSender){
-    CCScene* scene = QingjingScene::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (isrenwuBool) {
+        LOADING->show_loading();
+        NET->completed_mission_600();
+    }else{
+        CCScene* scene = QingjingScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 void MainScene::richangCallBack(CCObject* pSender){
     if (isOk) {
-        LOADING->show_loading();
-        NET->completed_mission_600();
+        if (DATA->getStory()->has_init_story()) {
+            LOADING->show_loading();
+            NET->completed_mission_600();
+        }else{
+            isrenwuBool = true;
+            LOADING->show_loading();
+            NET->completed_story_500();
+        }
     }
-    
 }
 void MainScene::_600CallBack(CCObject* pSender){
     LOADING->remove();

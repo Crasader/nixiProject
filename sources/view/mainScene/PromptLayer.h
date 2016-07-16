@@ -26,7 +26,7 @@ public:
     CREATE_FUNC(PromptLayer);
     
     void promptBox(int idx);
-    void promptBox(CCString* str);
+    void promptBoxString(CCString* str);
     void promptBoxSprite();
     
     void show_prompt(CCNode* parent, const char*);
