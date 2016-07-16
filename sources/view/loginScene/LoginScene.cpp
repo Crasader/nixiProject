@@ -39,9 +39,10 @@ bool LoginScene::init() {
         CCSprite* bg = CCSprite::create("res/pic/loginScene/login_bg.png");
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);
-        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-        mask->setPosition(DISPLAY->center());
-        this->addChild(mask);
+        
+//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//        mask->setPosition(DISPLAY->center());
+//        this->addChild(mask);
         
         _views = NULL;
         _temp_account_pwd = NULL;

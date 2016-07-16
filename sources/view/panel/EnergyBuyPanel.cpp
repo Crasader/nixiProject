@@ -22,11 +22,12 @@ bool EnergyBuyPanel::init() {
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);
         
-        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-        mask->setPosition(DISPLAY->center());
-        this->addChild(mask);
+//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//        mask->setPosition(DISPLAY->center());
+//        this->addChild(mask);
         
         _content = CCLayer::create();
+        _content->setPosition(ccp(_content->getPosition().x, _content->getPosition().y - DISPLAY->H() * 0.1));
         this->addChild(_content);
         
         _panel = CCSprite::create("res/pic/panel/energybuy/eb_panel.png");
@@ -44,6 +45,7 @@ bool EnergyBuyPanel::init() {
         CCMenuItem* btn_confirm = CCMenuItemSprite::create(confirm1, confirm2, this, SEL_MenuHandler(&EnergyBuyPanel::buy));
         
         CCMenu* menu = CCMenu::create(btn_canel, btn_confirm, NULL);
+        menu->setPosition(ccp(menu->getPosition().x, menu->getPosition().y + 40));
         menu->alignItemsHorizontallyWithPadding(60);
         _content->addChild(menu);
         
@@ -51,23 +53,29 @@ bool EnergyBuyPanel::init() {
         PlayerComp* playerInfo = DATA->getPlayer();
         if (playerInfo->energy >= 100) {
             btn_confirm->setEnabled(false);
+            btn_confirm->setColor(ccGRAY);
         }
         
-        if (playerInfo->energyBuyTimes >= 20) {
+        int boughtTimes = DATA->getPurchase()->getEnergyBoughtTimes();
+        int limit = DATA->getPurchase()->getEnergyBuyLimit();
+        if (boughtTimes >= limit) {
+            btn_confirm->setEnabled(false);
+            btn_confirm->setColor(ccGRAY);
+            
             CCLabelTTF* lbl = CCLabelTTF::create("已达今日体力购买次数上限~", DISPLAY->fangzhengFont(), 28.f);
             lbl->setColor(ccRED);
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
             _content->addChild(lbl);
         }
         else {
-            CCString* str = CCString::createWithFormat("使用%d钻石兑换100点体力", int(pow(8, 2)));
+            CCString* str = CCString::createWithFormat("使用%d钻石兑换100点体力", 10 * int(pow(2, boughtTimes)));
             CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
             lbl->setColor(DISPLAY->dullBlueColor());
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
             _content->addChild(lbl);
         }
         
-        CCString* str = CCString::createWithFormat("今日已购买%d/20次", playerInfo->energyBuyTimes);
+        CCString* str = CCString::createWithFormat("今日已购买%d/%d次", boughtTimes, limit);
         CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
         lbl->setColor(ccGRAY);
         lbl->setPosition(DISPLAY->center() + ccp(0, 110));
@@ -101,9 +109,10 @@ void EnergyBuyPanel::onExit() {
 }
 
 bool EnergyBuyPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    CCPoint location = pTouch->getLocation();
+    CCPoint location = _content->convertToNodeSpace(pTouch->getLocation());
     if (! _panel->boundingBox().containsPoint(location)) {
 //        this->do_exit();
+        remove();
     }
     
     return true;

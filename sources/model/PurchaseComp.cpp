@@ -1,12 +1,12 @@
 //
-//  IAPComp.cpp
+//  PurchaseComp.cpp
 //  tiegao
 //
 //  Created by mac on 16/5/24.
 //
 //
 
-#include "IAPComp.h"
+#include "PurchaseComp.h"
 #include "AppUtil.h"
 
 ProductItem::~ProductItem() {
@@ -35,21 +35,21 @@ void ProductItem::print_self() {
 
 // --------------------------------------------------
 
-IAPComp::~IAPComp() {
+PurchaseComp::~PurchaseComp() {
     CC_SAFE_DELETE(_products);
-    CC_SAFE_DELETE(_purchased);
+    CC_SAFE_DELETE(_deals);
 }
 
-bool IAPComp::init() {
+bool PurchaseComp::init() {
     _products = NULL;
-    _purchased = NULL;
+    _deals = NULL;
 
     return true;
 }
 
-void IAPComp::init_products(Value json) {
-    if (!json.isObject()) {
-        CCLOG("IAPComp::init_with_json() json object error.");
+void PurchaseComp::init_products(Value json) {
+    if (json.type() == nullValue) {
+        CCLOG("PurchaseComp::init_products() json object error.");
         return;
     }
     
@@ -81,23 +81,40 @@ void IAPComp::init_products(Value json) {
     this->print_all_products();
 }
 
-void IAPComp::init_purchased(CSJson::Value json) {
-    CC_SAFE_RELEASE(_purchased);
-    _purchased = AppUtil::dictionary_with_json(json);
-    _purchased->retain();
+void PurchaseComp::init_purchase(CSJson::Value json) {
+    /*
+     {
+     "last": 0,
+     "eb_times": 0,
+     "eb_limit": 3,
+     "deals": {
+     
+     },
+     "deadline": 0,
+     "ce_times": 0,
+     "ce_limit": 3
+     }
+     */
+    setEnergyBoughtTimes(json["eb_times"].asInt());
+    setEnergyBuyLimit(json["eb_limit"].asInt());
+    setCoinExchangedTimes(json["ce_times"].asInt());
+    setCoinExchangeLimit(json["ce_limit"].asInt());
+    
+    CCDictionary* deals = AppUtil::dictionary_with_json(json);
+    setDeals(deals);
 }
 
-bool IAPComp::has_init_products() {
+bool PurchaseComp::has_init_products() {
     return (_products != NULL);
 }
 
-CCArray* IAPComp::products() {
+CCArray* PurchaseComp::products() {
     return _products;
 }
 
-bool IAPComp::has_purchased(const char *product_id) {
+bool PurchaseComp::has_purchased(const char *product_id) {
     bool rtn = false;
-    CCObject* pObj = _purchased->objectForKey(product_id);
+    CCObject* pObj = _deals->objectForKey(product_id);
     if (pObj != NULL) {
         CCInteger* value = (CCInteger* )pObj;
         if (value->getValue() > 0) {
@@ -108,7 +125,7 @@ bool IAPComp::has_purchased(const char *product_id) {
     return rtn;
 }
 
-void IAPComp::print_all_products() {
+void PurchaseComp::print_all_products() {
     CCObject* pObj = NULL;
     CCARRAY_FOREACH(_products, pObj) {
         ProductItem* item = (ProductItem* )pObj;

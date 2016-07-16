@@ -125,9 +125,7 @@ public:
 public:
     
     ClothesTableView* _delegate;
-    
-    CCLabelTTF* shaixuanLabel;
-    
+        
     bool startTask;
     bool animationBool;
     bool zhuangrongBool;
@@ -145,6 +143,9 @@ public:
     int tag1;
     int tag2;
     int tag3;
+    
+    CCSprite* shaixuanSpr;
+    CCSprite* yishaixuanSpr;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
@@ -222,10 +223,12 @@ public:
     
     void showAnimationWithType(int type);
     
+    void go_fitting_room();
+    
 private:
     void Http_Finished_401(CCObject* pObj);
-    void Http_Finished_601(CCObject* pObj);
-    void Http_Finished_602(CCObject* pObj);
+//    void Http_Finished_601(CCObject* pObj);
+    void Http_Finished_603(CCObject* pObj);
 };
 
 

@@ -56,6 +56,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     CONFIG->config();
     CONFIG->test_mission_count();
+    CONFIG->test_phase_up_required();
     //
     DATA->getLogin()->config_UUID();
     SPECIAL->init();

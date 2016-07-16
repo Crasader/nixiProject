@@ -268,7 +268,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSettle
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DisplayManager.h \
- jni/../../sources/manager/SpecialManager.h
+ jni/../../sources/manager/SpecialManager.h \
+ jni/../../sources/view/qingjingScene/QingjingScene.h \
+ jni/../../sources/view/qingjingScene/QingjingCoverView.h
 
 jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
 
@@ -817,3 +819,7 @@ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/SpecialManager.h:
+
+jni/../../sources/view/qingjingScene/QingjingScene.h:
+
+jni/../../sources/view/qingjingScene/QingjingCoverView.h:

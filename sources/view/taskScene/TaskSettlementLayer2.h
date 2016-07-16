@@ -27,8 +27,8 @@ class TaskSettlementLayer2
 {
 public:
     ~TaskSettlementLayer2();
-    static TaskSettlementLayer2* create(int rating, int coin, bool isPhaseUP);
-    virtual bool init(int rating, int coin, bool isPhaseUP);
+    static TaskSettlementLayer2* create(int rating, int coin, int energy, bool isPhaseUP);
+    virtual bool init(int rating, int coin, int energy, bool isPhaseUP);
     virtual void onEnter();
     virtual void onExit();
     virtual void keyBackClicked();
@@ -52,30 +52,56 @@ public:
 public:
     void creat_view();
     void lingquCallBack(CCObject* pSender);
+    void shareCallBack(CCObject* pSender);
     
     void creat_Man();
     void initClothes();
     
     void initAniamtion();
     void startAnimation(float dt);
+    
+    void updataNumber();
+    void creatXingXing();
+    
+    void openLogic();
+    
+    std::string content;
+    int wordCount;
+    int contentLength;
+    void logic(float dt);
+    const char* getContent(){return content.c_str();}
+    void init(std::string str);
+    std::string getContentByLength(int length);
+    int getContentLength();
 public:
     
+    bool logic_open_bool;
+    bool logic_end_Bool;
+    bool animationBool;
     bool lingquBool;
     int randIndex1;
     int randIndex2;
     int randIndex3;
     int randIndex4;
     
+    
+    
     CCSprite* coinSpr;
     CCSprite* renSpr;
     CCLabelTTF* coinLabel;
+    
+    CCSprite* xingSpr1;
+    CCSprite* xingSpr2;
+    CCSprite* xingSpr3;
+    CCSprite* xingSpr4;
+    CCSprite* xingSpr5;
     
     FlashNumberLabel* taskLabel1;
     FlashNumberLabel2* taskLabel2;
     FlashNumberLabel3* taskLabel3;
     FlashNumberLabel4* taskLabel4;
     
-    CCMenuItem* lingquItem;
+    CCMenuItem* lingquItem,* shareItem;
     CCString* tishiStr;
     CCLabelTTF* tishiLabel;
     
@@ -112,11 +138,15 @@ public:
     CCSprite* _bSpr1;  // 包
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
+    CCSprite* _zrSpr1; // 妆容
 
+private:
+    void exit();
     
 private:
     int             _rating;
     int             _coin;
+    int             _energy;
     bool            _isPhaseUP;
 };
 #endif /* defined(__tiegao__TaskSettlementLayer2__) */

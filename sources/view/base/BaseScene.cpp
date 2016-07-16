@@ -13,6 +13,7 @@
 #include "Loading2.h"
 #include "PurchasePanel.h"
 #include "EnergyBuyPanel.h"
+#include "CoinExchangePanel.h"
 #include "ConfigManager.h"
 #include "SpecialManager.h"
 
@@ -72,11 +73,8 @@ void BaseScene::init_UI(){
     CCSprite* nameSpr1 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
     CCSprite* nameSpr2 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
     nameItem = CCMenuItemSprite::create(nameSpr1, nameSpr2);
-    if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .115f, DISPLAY->ScreenHeight()* .972f));  //0.97f
-    }else{
-        nameItem->setPosition(ccp(DISPLAY->ScreenWidth()* .1f, DISPLAY->ScreenHeight()* .972f));
-    }
+    nameItem->setAnchorPoint(ccp(0, 1));
+    nameItem->setPosition(ccp(-DISPLAY->ScreenWidth()* .5f + 2, DISPLAY->ScreenHeight()* .5f - 5));
     CCString* nameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
     CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
     nameLabel->setPosition(ccp(nameItem->getContentSize().width* .545f, nameItem->getContentSize().height* .5f));
@@ -88,11 +86,8 @@ void BaseScene::init_UI(){
     CCSprite* tiliSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
     CCSprite* tiliSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
     tiliItem = CCMenuItemSprite::create(tiliSpr1, tiliSpr2, this, menu_selector(BaseScene::tiliCallBack));
-    if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .38f, DISPLAY->ScreenHeight()* .972f));   //0.965
-    }else{
-        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .48f, DISPLAY->ScreenHeight()* .972f));
-    }
+    tiliItem->setAnchorPoint(ccp(1, 1));
+    tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 2, DISPLAY->ScreenHeight()* .5f - 5));
     CCSprite* tiliIconSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
     tiliIconSpr->setScale(1.1f);
     tiliIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
@@ -144,11 +139,8 @@ void BaseScene::init_UI(){
     CCSprite* goldSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
 //    goldSpr2->setScale(DISPLAY->btn_scale());
     goldItem = CCMenuItemSprite::create(goldSpr1, goldSpr2, this, menu_selector(BaseScene::goldCallBack));
-    if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .972f));
-    }else{
-        goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .69f, DISPLAY->ScreenHeight()* .972f));
-    }
+    goldItem->setAnchorPoint(ccp(1, 1));
+    goldItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 2 - tiliItem->getContentSize().width* 1.08f, DISPLAY->ScreenHeight()* .5f - 5));
     CCSprite* goldIconSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
     goldIconSpr->setPosition(ccp(goldItem->getContentSize().width* .04f, goldItem->getContentSize().height* .52f));
     goldItem->addChild(goldIconSpr);
@@ -171,11 +163,8 @@ void BaseScene::init_UI(){
     CCSprite* coinSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
     CCSprite* coinSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
     coinItem = CCMenuItemSprite::create(coinSpr1, coinSpr2, this, menu_selector(BaseScene::coinCallBack));
-    if ((DISPLAY->ScreenWidth() - 640) == 0) {
-        coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f, DISPLAY->ScreenHeight()* .972f));
-    }else{
-        coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .9f, DISPLAY->ScreenHeight()* .972f));
-    }
+    coinItem->setAnchorPoint(ccp(1, 1));
+    coinItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 2 - tiliItem->getContentSize().width* 1.08f - goldItem->getContentSize().width* 1.08f, DISPLAY->ScreenHeight()* .5f - 5));
     CCSprite* coinIconSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     coinIconSpr->setPosition(ccp(coinItem->getContentSize().width* .04f, coinItem->getContentSize().height* .54f));
     coinItem->addChild(coinIconSpr);
@@ -194,16 +183,14 @@ void BaseScene::init_UI(){
     }
     coinItem->addChild(m_lbl_coin, 1);
     
-    
     barMenu = CCMenu::create(nameItem, tiliItem, goldItem, coinItem, NULL);
-    barMenu->setPosition(CCPointZero);
     this->addChild(barMenu, 10);
     
     // 公司等级进度
     _phaseStar = CCSprite::create("pic/baseScene/base_phase.png");
 //    _phaseStar->setPosition(nameItem->getPosition() + ccp(72, -16));
-    _phaseStar->setPosition(tiliItem->getPosition() - ccp(90, 16));
-    this->addChild(_phaseStar, 10);
+    _phaseStar->setPosition(ccp(-10, 4));
+    coinItem->addChild(_phaseStar, 10);
     //
     this->updatePhaseProgress();
 }
@@ -282,7 +269,7 @@ void BaseScene::tiliCallBack(CCObject* pSender){
 }
 
 void BaseScene::goldCallBack(CCObject* pSender){
-    if (DATA->getIAP()->has_init_products()) {
+    if (DATA->getPurchase()->has_init_products()) {
         this->show_purchase_panel();
     }
     else {
@@ -292,7 +279,8 @@ void BaseScene::goldCallBack(CCObject* pSender){
 }
 
 void BaseScene::coinCallBack(CCObject* pSender){
-    
+    CoinExchangePanel* panel = CoinExchangePanel::create();
+    panel->show();
 }
 
 void BaseScene::will_number_scroll(){
@@ -326,7 +314,6 @@ void BaseScene::show_purchase_panel() {
 }
 
 void BaseScene::show_energybuy_panel() {
-    LOADING->remove();
     EnergyBuyPanel* panel = EnergyBuyPanel::create();
     panel->show();
 }
@@ -368,16 +355,29 @@ void BaseScene::nc_need_coin_fly(CCObject *pObj) {
     if (dic) {
         CCInteger* num = (CCInteger*)dic->objectForKey("num");
         CCString* from = (CCString*)dic->objectForKey("from");
-        SPECIAL->show_coin_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), coinItem->getPosition());
+        CCPoint end = coinItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_coin_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
     }
 }
 
 void BaseScene::nc_need_gold_fly(CCObject *pObj) {
-
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        CCInteger* num = (CCInteger*)dic->objectForKey("num");
+        CCString* from = (CCString*)dic->objectForKey("from");
+        CCPoint end = goldItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_gold_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
+    }
 }
 
 void BaseScene::nc_need_energy_fly(CCObject *pObj) {
-
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        CCInteger* num = (CCInteger*)dic->objectForKey("num");
+        CCString* from = (CCString*)dic->objectForKey("from");
+        CCPoint end = tiliItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_energy_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
+    }
 }
 
 void BaseScene::nc_coin_fly_completed(CCObject *pObj) {

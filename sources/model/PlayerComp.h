@@ -35,12 +35,15 @@ public:
     int             mission;            // 最新解锁任务
     int             phase;              // 公司规模
     CCDictionary*   rating;             // 总任务评价(总星数)
-    int             energyBuyTimes;     // 体力每日已购次数
     
+public:
+    int total_ratings();         // 所有阶段总星数
+    int ratings(int phase);      // 某阶段星数
+
 protected:
     
 private:
-
+    void test();
 };
 
 #endif /* PlayerComp_hpp */

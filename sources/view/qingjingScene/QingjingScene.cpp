@@ -1068,37 +1068,41 @@ int QingjingScene::getStoryIndexStatus(){
     }
 }
 void QingjingScene::jiantou1CallBack(CCObject* pSender){
-    closeButton();
+    jiantouItem1->setEnabled(false);
+    jiantouItem2->setEnabled(false);
+    
     selectedIndex--;
     DATA->setChapterNumberBool(true);
     if (selectedIndex >= 0) {
-        if (selectedIndex == 0) {
-            jiantouItem1->setColor(ccGRAY);
-            jiantouItem1->setEnabled(false);
-        }
+//        if (selectedIndex == 0) {
+//            jiantouItem1->setColor(ccGRAY);
+//            jiantouItem1->setEnabled(false);
+//        }
         DATA->setChapterNumber(selectedIndex);
         qingjingCoverView->linshi2();
-        jiantouItem2->setColor(ccWHITE);
-        jiantouItem2->setEnabled(true);
+//        jiantouItem2->setColor(ccWHITE);
+//        jiantouItem2->setEnabled(true);
     }
-    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .5f);
+    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .3f);
 }
 void QingjingScene::jiantou2CallBack(CCObject* pSender){
-    closeButton();
+    jiantouItem1->setEnabled(false);
+    jiantouItem2->setEnabled(false);
+    
     selectedIndex++;
     DATA->setChapterNumberBool(true);
     if (selectedIndex < allNumber) {
         if (selectedIndex == allNumber-1) {
             selectedIndex = allNumber-1;
-            jiantouItem2->setColor(ccGRAY);
-            jiantouItem2->setEnabled(false);
+//            jiantouItem2->setColor(ccGRAY);
+//            jiantouItem2->setEnabled(false);
         }
         DATA->setChapterNumber(selectedIndex);
         qingjingCoverView->linshi();
-        jiantouItem1->setColor(ccWHITE);
-        jiantouItem1->setEnabled(true);
+//        jiantouItem1->setColor(ccWHITE);
+//        jiantouItem1->setEnabled(true);
     }
-    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .5f);
+    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .3f);
 }
 void QingjingScene::closeButton(){
     jiantouItem1->setEnabled(false);

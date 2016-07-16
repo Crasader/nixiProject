@@ -278,7 +278,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/clothesScene/Clothes
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/view/taskScene/TaskSettlementLayer.h \
+ jni/../../sources/view/taskScene/TaskSettlementLayer2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel4.h \
  jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
@@ -847,6 +849,10 @@ jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
-jni/../../sources/view/taskScene/TaskSettlementLayer.h:
+jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel4.h:
 
 jni/../../sources/utils/AppUtil.h:

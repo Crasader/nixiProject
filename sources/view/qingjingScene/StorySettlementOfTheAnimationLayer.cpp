@@ -38,7 +38,7 @@ bool StorySettlementOfTheAnimationLayer::init(){
         
         this->setTouchSwallowEnabled(true);
         this->setTouchMode(kCCTouchesOneByOne);
-        this->setTouchEnabled(false);
+        this->setTouchEnabled(true);
         
         this->scheduleOnce(SEL_SCHEDULE(&StorySettlementOfTheAnimationLayer::openTouch), 1.f);
         
