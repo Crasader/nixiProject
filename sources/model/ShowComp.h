@@ -37,6 +37,7 @@ protected:
     
 private:
     string          _nickname;
+    string          _id;
     int             _collected;
     int             _ranking;
     CCDictionary*   _ondress;

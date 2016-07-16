@@ -30,9 +30,13 @@ bool PurchasePanel::init() {
         this->addChild(mask);
         
         _content = CCLayer::create();
-        _content->setScale(0.1);
+//        _content->setScale(0.1);
+//        _content->setVisible(false);
         this->addChild(_content);
-        _content->setVisible(false);
+        
+        this->setTouchEnabled(true);
+        this->setTouchMode(kCCTouchesOneByOne);
+        this->setTouchSwallowEnabled(true);
         
         return true;
     }
@@ -48,19 +52,21 @@ void PurchasePanel::onEnter() {
 //    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
 
     this->init_content();
-    this->do_enter();
+//    this->do_enter();
 }
 
 void PurchasePanel::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
+    
     CCLayer::onExit();
 }
 
 bool PurchasePanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _panel->boundingBox().containsPoint(location)) {
-        this->do_exit();
+//        this->do_exit();
+        remove();
     }
     
     return true;
@@ -171,10 +177,6 @@ void PurchasePanel::do_enter() {
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
     //    _content->runAction(CCEaseBounceOut::create(spawn));
     _content->runAction(CCEaseElasticOut::create(spawn));
-    
-    this->setTouchEnabled(true);
-    this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchSwallowEnabled(true);
 }
 
 void PurchasePanel::do_exit() {
