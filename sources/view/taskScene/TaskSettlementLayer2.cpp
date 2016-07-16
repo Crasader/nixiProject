@@ -20,9 +20,9 @@
 TaskSettlementLayer2::~TaskSettlementLayer2(){
     
 }
-TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, bool isPhaseUP){
+TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int energy, bool isPhaseUP){
     TaskSettlementLayer2* rtn = new TaskSettlementLayer2();
-    if (rtn && rtn->init(rating, coin, isPhaseUP)) {
+    if (rtn && rtn->init(rating, coin, energy, isPhaseUP)) {
         rtn->autorelease();
     }
     else {
@@ -31,7 +31,7 @@ TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, bool is
     
     return rtn;
 }
-bool TaskSettlementLayer2::init(int rating, int coin, bool isPhaseUP){
+bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP){
     if (!CCLayer::init()) {
         return false;
     }
@@ -42,6 +42,7 @@ bool TaskSettlementLayer2::init(int rating, int coin, bool isPhaseUP){
     
     _rating = rating;
     _coin = coin;
+    _energy = energy;
     _isPhaseUP = isPhaseUP;
     
     lingquBool = false;
@@ -117,15 +118,21 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
                 // 给个提示
                 CCLog("<><><>给个领取提示");
             }else{
-    //        exit();
                 CCLog("<><><>exit()");
+                exit();
             }
         }
     }
-    
-    
-    
+
     return true;
+}
+
+void TaskSettlementLayer2::exit() {
+    CCLayer* layer = TaskScene::create(_isPhaseUP);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void TaskSettlementLayer2::creat_view(){

@@ -355,16 +355,29 @@ void BaseScene::nc_need_coin_fly(CCObject *pObj) {
     if (dic) {
         CCInteger* num = (CCInteger*)dic->objectForKey("num");
         CCString* from = (CCString*)dic->objectForKey("from");
-        SPECIAL->show_coin_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), coinItem->getPosition());
+        CCPoint end = coinItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_coin_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
     }
 }
 
 void BaseScene::nc_need_gold_fly(CCObject *pObj) {
-
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        CCInteger* num = (CCInteger*)dic->objectForKey("num");
+        CCString* from = (CCString*)dic->objectForKey("from");
+        CCPoint end = goldItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_gold_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
+    }
 }
 
 void BaseScene::nc_need_energy_fly(CCObject *pObj) {
-
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        CCInteger* num = (CCInteger*)dic->objectForKey("num");
+        CCString* from = (CCString*)dic->objectForKey("from");
+        CCPoint end = tiliItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_energy_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
+    }
 }
 
 void BaseScene::nc_coin_fly_completed(CCObject *pObj) {

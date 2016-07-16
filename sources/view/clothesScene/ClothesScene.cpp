@@ -2566,10 +2566,11 @@ void ClothesScene::go_fitting_room() {
 //}
 
 void ClothesScene::Http_Finished_603(CCObject* pObj){
-    // {"rating":5,"levelup":0,"coin":50}
+    // {"rating":5,"levelup":0,"coin":50,"energy":6}
     CCDictionary* result = (CCDictionary*)pObj;
     int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
     int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
+    int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
     bool levelup = ((CCInteger*)result->objectForKey("levelup"))->getValue() != 0;
     
 //    CCScene* scene = CCScene::create();
@@ -2579,7 +2580,7 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
 //    CCDirector::sharedDirector()->replaceScene(trans);
     
     CCScene* scene = CCScene::create();
-    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, levelup);
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, levelup);
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

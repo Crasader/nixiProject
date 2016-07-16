@@ -27,8 +27,8 @@ class TaskSettlementLayer2
 {
 public:
     ~TaskSettlementLayer2();
-    static TaskSettlementLayer2* create(int rating, int coin, bool isPhaseUP);
-    virtual bool init(int rating, int coin, bool isPhaseUP);
+    static TaskSettlementLayer2* create(int rating, int coin, int energy, bool isPhaseUP);
+    virtual bool init(int rating, int coin, int energy, bool isPhaseUP);
     virtual void onEnter();
     virtual void onExit();
     virtual void keyBackClicked();
@@ -140,10 +140,13 @@ public:
     CCSprite* _bSpr3;
     CCSprite* _zrSpr1; // 妆容
 
+private:
+    void exit();
     
 private:
     int             _rating;
     int             _coin;
+    int             _energy;
     bool            _isPhaseUP;
 };
 #endif /* defined(__tiegao__TaskSettlementLayer2__) */

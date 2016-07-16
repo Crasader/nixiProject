@@ -55,8 +55,8 @@ int ConfigManager::mission_index_in_phase(int mission, int phase) {
     if (_mission) {
         CCObject* pObj = NULL;
         CCARRAY_FOREACH(_mission, pObj) {
-            CCDictionary* mission = (CCDictionary*)pObj;
-            CCString* phaseInMission = (CCString*)mission->objectForKey("phase");
+            CCDictionary* phaseMission = (CCDictionary*)pObj;
+            CCString* phaseInMission = (CCString*)phaseMission->objectForKey("phase");
             if (phaseInMission->intValue() < phase) {
                 countAllOldPhase += 1;
             }
