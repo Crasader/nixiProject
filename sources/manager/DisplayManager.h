@@ -27,6 +27,7 @@ public:
     const char*         fangzhengFont();
     
     ccColor3B           defalutColor();
+    ccColor3B           dullBlueColor();
     
     CCPoint             center();
     float               ScreenWidth();

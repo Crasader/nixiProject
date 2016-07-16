@@ -78,6 +78,7 @@ public:
     
     void all_products_100();
     void buy_energy_101();
+    void exchange_coin_103();
     
 private:
     string generate_sign(int cid, const char* data);
