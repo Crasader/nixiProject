@@ -279,6 +279,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskScene.
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/taskScene/TaskTableView.h \
  jni/../../sources/view/MZResourceLoader.h \
+ jni/../../sources/utils/AppUtil.h \
  jni/../../sources/view/taskScene/BuildingLayer.h
 
 jni/../../sources/view/taskScene/TaskScene.h:
@@ -848,5 +849,7 @@ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 jni/../../sources/view/taskScene/TaskTableView.h:
 
 jni/../../sources/view/MZResourceLoader.h:
+
+jni/../../sources/utils/AppUtil.h:
 
 jni/../../sources/view/taskScene/BuildingLayer.h:

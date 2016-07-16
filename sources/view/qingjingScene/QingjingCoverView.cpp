@@ -202,12 +202,12 @@ void QingjingCoverView::adjusetEndScrollView2(float offsetPoint){
 void QingjingCoverView::linshi(){
     CCPoint endPoint = ccpAdd(scrollView->getContentOffset(),ccp(-517,0));
     scrollView->unscheduleAllSelectors();
-    scrollView->setContentOffset(endPoint,true);
+    scrollView->setContentOffset(endPoint, false);
 }
 void QingjingCoverView::linshi2(){
     CCPoint endPoint = ccpAdd(scrollView->getContentOffset(),ccp(517,0));
     scrollView->unscheduleAllSelectors();
-    scrollView->setContentOffset(endPoint,true);
+    scrollView->setContentOffset(endPoint, false);
 }
 
 void QingjingCoverView::cardViewEnd_callBack(CCNode* pSender)

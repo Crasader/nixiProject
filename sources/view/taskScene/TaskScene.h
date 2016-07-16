@@ -46,6 +46,8 @@ public:
     void creat_Man();
     void initClothes();
     
+    void creat_phone();
+    
     CCString* getTaskName(int index);
     CCString* getTaskDescription(int index);
     

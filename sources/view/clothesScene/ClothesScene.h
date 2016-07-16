@@ -125,9 +125,7 @@ public:
 public:
     
     ClothesTableView* _delegate;
-    
-    CCLabelTTF* shaixuanLabel;
-    
+        
     bool startTask;
     bool animationBool;
     bool zhuangrongBool;
@@ -145,6 +143,9 @@ public:
     int tag1;
     int tag2;
     int tag3;
+    
+    CCSprite* shaixuanSpr;
+    CCSprite* yishaixuanSpr;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;

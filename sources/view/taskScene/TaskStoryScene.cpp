@@ -44,6 +44,7 @@ bool TaskStoryScene::init(){
     quanBool = false;
     m_bIsKJSelect = false;
     buttonBool = false;
+    startBool = false;
     
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -68,11 +69,11 @@ bool TaskStoryScene::init(){
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     _ManSpr1 = CCSprite::create();
-    this->addChild(_ManSpr1, 20);
+    this->addChild(_ManSpr1, def_man1_oder);
     _ManSpr2 = CCSprite::create();
-    this->addChild(_ManSpr2, 19);
+    this->addChild(_ManSpr2, def_man2_oder);
     _dkSpr = CCSprite::create();
-    this->addChild(_dkSpr, 30);
+    this->addChild(_dkSpr, 50);
     
     CCArray* animations = CCArray::createWithCapacity(5);
     char strPei[100] = {};
@@ -320,7 +321,6 @@ void TaskStoryScene::creat_Man(float _widthFolt, float _heightFloat, float _scal
     _ManSpr1->setScale(_scaleFloat);
     
     int expression_1 = missionDic->valueForKey("Expression_1")->intValue();
-    
     if (expression_1 != 0) {
         CCString* expressionStr = CCString::createWithFormat("res/pic/taskScene/biaoqing/%d.png", expression_1);
         CCSprite* expressionSpr = CCSprite::create(expressionStr->getCString());
@@ -329,6 +329,8 @@ void TaskStoryScene::creat_Man(float _widthFolt, float _heightFloat, float _scal
         expressionSpr->setFlipX(true);
         expressionSpr->setTag(0x44444);
         _touSpr->addChild(expressionSpr);
+        
+        _ManSpr1->setZOrder(def_biaoqing_oder);
     }
     
 }
@@ -345,6 +347,7 @@ void TaskStoryScene::creat_Man2(float _widthFolt, float _heightFloat, float _sca
         _ManSpr2->addChild(spr);
         
         int expression_2 = missionDic->valueForKey("Expression_2")->intValue();
+//        expression_2 = 21;
         if (expression_2 != 0) {
             CCString* expressionStr = CCString::createWithFormat("res/pic/taskScene/biaoqing/%d.png", expression_2);
             CCSprite* expressionSpr = CCSprite::create(expressionStr->getCString());
@@ -374,6 +377,8 @@ void TaskStoryScene::creat_Man2(float _widthFolt, float _heightFloat, float _sca
             }
             expressionSpr->setTag(0x55555);
             spr->addChild(expressionSpr);
+            
+            _ManSpr2->setZOrder(def_biaoqing_oder);
         }
     }
 }
@@ -997,6 +1002,8 @@ void TaskStoryScene::dialogueControl(float dt){
             spr->removeChildByTag(0x55555);
         }
     }
+    _ManSpr1->setZOrder(def_man1_oder);
+    _ManSpr2->setZOrder(def_man2_oder);
     
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     this->setTouchEnabled(false);
@@ -1186,6 +1193,13 @@ bool TaskStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                 
             }
         }
+    }else{
+        if (startBool) {
+            if (this->getChildByTag(0x22222) != NULL) {
+                this->removeChildByTag(0x22222);
+            }
+            this->backCallBack(NULL);
+        }
     }
     
     return true;
@@ -1229,6 +1243,20 @@ void TaskStoryScene::getIndex(float dt){
 //            LOADING->show_loading();
 //            NET->owned_clothes_400();
 //        }
+    }else if (index == -3){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+            return;
+        }
+        
+//        if (DATA->getClothes()->has_init_clothes == true) {
+//            this->startCallBack(NULL);
+//        }
+//        else {
+//            LOADING->show_loading();
+//            NET->owned_clothes_400();
+//        }
     }else{
         index = missionDic->valueForKey("next")->intValue() - subscriptIndex;
         CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
@@ -1239,14 +1267,36 @@ void TaskStoryScene::getIndex(float dt){
     }
 }
 void TaskStoryScene::startCallBack(CCObject* pSender){
-    if (DATA->getClothes()->has_init_clothes == true) {
-        this->_400CallBack(NULL);
-    }
-    else {
-        LOADING->show_loading();
-        NET->owned_clothes_400();
-    }
+    CCMenuItem* item = (CCMenuItem* )pSender;
+    item->setEnabled(false);
     
+    index = missionDic->valueForKey("next")->intValue();
+    if (index == -1 || index == -2) {
+        if (DATA->getClothes()->has_init_clothes == true) {
+            this->_400CallBack(NULL);
+        }
+        else {
+            LOADING->show_loading();
+            NET->owned_clothes_400();
+        }
+    }else if (index == -3){
+        openStory = true;
+        startBool = true;
+        
+        CCSprite* banSpr = CCSprite::create("res/pic/panel/mail/mail_plate.png");
+        banSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
+        banSpr->setTag(0x22222);
+        this->addChild(banSpr, 110);
+        CCLabelTTF* label = CCLabelTTF::create("小游戏暂未开放,期待中.....", DISPLAY->fangzhengFont(), 25, CCSizeMake(banSpr->getContentSize().width* .8f, banSpr->getContentSize().height* .5f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+        label->setPosition(ccp(banSpr->getContentSize().width* .5f, banSpr->getContentSize().height* .6f));
+        label->setColor(ccc3(80, 63, 68));
+        banSpr->addChild(label);
+        
+        CCLabelTTF* label2 = CCLabelTTF::create("点击任意处关闭.", DISPLAY->fangzhengFont(), 20, CCSizeMake(banSpr->getContentSize().width* .5f, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+        label2->setPosition(ccp(banSpr->getContentSize().width* .75f, banSpr->getContentSize().height* .1f));
+        label2->setColor(ccc3(80, 63, 68));
+        banSpr->addChild(label2);
+    }
 }
 void TaskStoryScene::_400CallBack(CCObject* pSender){
     LOADING->remove();

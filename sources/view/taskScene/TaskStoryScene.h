@@ -14,6 +14,10 @@
 
 USING_NS_CC;
 
+#define def_man1_oder  20
+#define def_man2_oder  19
+#define def_biaoqing_oder  30
+
 typedef enum{
     Tag_Task_kuang = 0,
     Tag_Task_bg,
@@ -153,6 +157,7 @@ public:
     bool quanBool;
     bool m_bIsKJSelect;
     bool buttonBool;
+    bool startBool;
     
     int index;
     int tagIndex;

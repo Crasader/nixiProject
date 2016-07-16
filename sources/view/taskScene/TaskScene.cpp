@@ -18,6 +18,7 @@
 #include "ClothesScene.h"
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
+#include "AppUtil.h"
 
 #include "BuildingLayer.h"
 
@@ -71,6 +72,8 @@ bool TaskScene::init(bool isPhaseUP){
     this->creat_view();
     this->creat_Man();
     this->initClothes();
+    
+//    this->creat_phone();
     
     return true;
 }
@@ -207,6 +210,20 @@ void TaskScene::creat_view(){
     taskKuang->setPosition(ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .3f));
     taskKuang->setTag(0x44444);
     this->addChild(taskKuang, 20);
+    CCSprite* shangkuangSpr = CCSprite::create("res/pic/taskScene/task_shangkuang.png");
+    shangkuangSpr->setAnchorPoint(ccp(.5f, 0));
+    shangkuangSpr->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height - 2));
+    taskKuang->addChild(shangkuangSpr);
+    CCLabelTTF* shangLabel1 = CCLabelTTF::create("总星:20/100", DISPLAY->fangzhengFont(), 20, CCSizeMake(shangkuangSpr->getContentSize().width* .85f, 20), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    shangLabel1->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .7f));
+    shangLabel1->setColor(ccc3(232,136,174));
+    shangkuangSpr->addChild(shangLabel1);
+    
+    CCLabelTTF* shangLabel2 = CCLabelTTF::create("升级还需:80", DISPLAY->fangzhengFont(), 20, CCSizeMake(shangkuangSpr->getContentSize().width* .85f, 20), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    shangLabel2->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .3f));
+    shangLabel2->setColor(ccc3(232,136,174));
+    shangkuangSpr->addChild(shangLabel2);
+    
     
     TaskTableView* tabLayer = TaskTableView::create();
     tabLayer->setPosition(ccp(7, 10));
@@ -217,7 +234,7 @@ void TaskScene::creat_view(){
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::enterTheKuang), .1f);
 }
 void TaskScene::enterTheKuang(float dt){
-    CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() + 7, DISPLAY->ScreenHeight()* .54f));
+    CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() + 7, DISPLAY->ScreenHeight()* .49f));
     CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.f);
     CCSpawn* spawn1 = CCSpawn::create(moveTo1, scaleTo1, NULL);
     taskKuang->runAction(CCSequence::create(spawn1, NULL));
@@ -1130,5 +1147,42 @@ void TaskScene::initClothes(){//穿衣服
             }
         }
     }
+}
+
+
+void TaskScene::creat_phone(){
+    int renwuIndex = 0;
+    int allNumber = 0;
+    int now_task_index = 0;
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    allNumber = taskConditionsDic->count();
+    
+    for (int i = 0; i < allNumber; i++) {
+        CCString* story_index = CCString::createWithFormat("%d", i);
+        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+        if (storyArr == NULL) {
+            if (i > 0) {
+                now_task_index = i - 1;
+            }else{
+                now_task_index = 0;
+            }
+            break;
+        }
+    }
+    
+    CCLog("now_task_index == %d", now_task_index);
+    
+    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", now_task_index);
+    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
+    renwuIndex = atoi(renwuIndexStr.c_str());
+    if (renwuIndex <= DATA->getPlayer()->mission) {// 解锁
+    }else{// 未解锁
+        
+    }
+    
+    
 }
 

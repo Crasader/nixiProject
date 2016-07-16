@@ -16,7 +16,7 @@
 #include "TaskScene.h"
 #include "Loading2.h"
 #include "NetManager.h"
-#include "TaskSettlementLayer.h"
+#include "TaskSettlementLayer2.h"
 #include "AppUtil.h"
 
 ClothesScene::ClothesScene(){
@@ -101,8 +101,6 @@ bool ClothesScene::init(){
     _buttonStatus = 0;
     animationBool = false;
     zhuangrongBool = false;
-    
-    shaixuanLabel = NULL;
     
     return true;
 }
@@ -582,9 +580,13 @@ void ClothesScene::creat_ViewMethods(int index){
     DATA->setDataSource(tempArr);
     _delegate->updateTableView(index);
     
-    if (shaixuanLabel) {
-        shaixuanLabel->setVisible(false);
+    if (clothesStatus == 1) {// 任务
+        shaixuanSpr->setVisible(true);
+        yishaixuanSpr->setVisible(false);
+    }else if (clothesStatus == 2){// 换装
+        
     }
+    
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
@@ -602,12 +604,15 @@ void ClothesScene::crate_Tishi(){
         CCMenu* menu = CCMenu::create(renwukuangItem, NULL);
         menu->setPosition(CCPointZero);
         this->addChild(menu, 10);
-        shaixuanLabel = CCLabelTTF::create("已筛选", DISPLAY->fangzhengFont(), 25);
-        shaixuanLabel->setPosition(ccp(renwukuangItem->getContentSize().width* .9f, renwukuangItem->getContentSize().height* .5f));
-        shaixuanLabel->setColor(ccBLUE);
-        shaixuanLabel->setVisible(false);
-        shaixuanLabel->setRotation(45);
-        renwukuangItem->addChild(shaixuanLabel);
+        shaixuanSpr = CCSprite::create("res/pic/clothesScene/gj_shaixuan.png");
+        shaixuanSpr->setPosition(ccp(renwukuangItem->getContentSize().width* .8f, renwukuangItem->getContentSize().height* .15f));
+        renwukuangItem->addChild(shaixuanSpr, 5);
+        yishaixuanSpr = CCSprite::create("res/pic/clothesScene/gj_yishaixuan.png");
+        yishaixuanSpr->setPosition(ccp(renwukuangItem->getContentSize().width* .88f, renwukuangItem->getContentSize().height* .4f));
+        renwukuangItem->addChild(yishaixuanSpr, 20);
+        
+        shaixuanSpr->setVisible(true);
+        yishaixuanSpr->setVisible(false);
         
         
         CCArray* taskArr = DATA->getTaskSource();
@@ -619,19 +624,19 @@ void ClothesScene::crate_Tishi(){
             CCString* tagStr1 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag1);
             CCSprite* tagSpr1 = CCSprite::create(tagStr1->getCString());
             tagSpr1->setPosition(ccp(renwukuangItem->getContentSize().width* .25f, renwukuangItem->getContentSize().height* .4f));
-            renwukuangItem->addChild(tagSpr1);
+            renwukuangItem->addChild(tagSpr1, 10);
         }
         if (tag2 > 0) {
             CCString* tagStr2 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag2);
             CCSprite* tagSpr2 = CCSprite::create(tagStr2->getCString());
             tagSpr2->setPosition(ccp(renwukuangItem->getContentSize().width* .5f, renwukuangItem->getContentSize().height* .4f));
-            renwukuangItem->addChild(tagSpr2);
+            renwukuangItem->addChild(tagSpr2, 10);
         }
         if (tag3 > 0) {
             CCString* tagStr3 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag3);
             CCSprite* tagSpr3 = CCSprite::create(tagStr3->getCString());
             tagSpr3->setPosition(ccp(renwukuangItem->getContentSize().width* .75f, renwukuangItem->getContentSize().height* .4f));
-            renwukuangItem->addChild(tagSpr3);
+            renwukuangItem->addChild(tagSpr3, 10);
         }
         
     }else if (clothesStatus == 2){// 换装
@@ -772,7 +777,8 @@ void ClothesScene::renwukuangMethods(int index){
     DATA->setDataSource(tempArr);
     _delegate->updateTableView(index);
     
-    shaixuanLabel->setVisible(true);
+    shaixuanSpr->setVisible(false);
+    yishaixuanSpr->setVisible(true);
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
@@ -863,9 +869,94 @@ void ClothesScene::startCallBack(CCObject* pSender){
         this->removeAllSpr();
     }
     
-    startTask = true;
-    LOADING->show_loading();
-    NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    bool phaseBool = false;
+    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
+        CCArray* tempArr = CCArray::create();
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int sale = clothDic->valueForKey("sale")->intValue();
+            if (sale != 0) {
+                tempArr->addObject(clothDic);
+            }
+        }
+        for (int k = 0; k < tempArr->count(); k++) {
+            CCDictionary* dic = (CCDictionary* )tempArr->objectAtIndex(k);
+            CCInteger* clothesTemp_id;
+            CCDictionary* shipinDic;
+            if (i != Tag_GJ_ShiPin) {
+                clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                    int phase = dic->valueForKey("phase")->intValue();
+                    int cloth_type = dic->valueForKey("type")->intValue();
+                    if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                        phaseBool = true;
+                        
+                        CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                        CCString* keyStr = CCString::createWithFormat("%d", i);
+                        myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
+                        this->ChangeClothes((CCObject* )updataClothes(i));
+                        
+                        continue;
+                    }
+                }
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                CCInteger* clothesTemp_id;
+                for (int n = 11; n <= 20; n++) {
+                    clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                        int phase = dic->valueForKey("phase")->intValue();
+                        int cloth_type = dic->valueForKey("type")->intValue();
+                        if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                            phaseBool = true;
+                            
+                            CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                            CCString* keyStr = CCString::createWithFormat("%d", i);
+                            CCString* sub_part_keyStr = CCString::createWithFormat("%d", dic->valueForKey("sub_part")->intValue());
+                            CCDictionary* shipinDic2 = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                            shipinDic2->setObject(cloth_integer, sub_part_keyStr->getCString());
+                            myClothesTempDic->setObject(shipinDic2, keyStr->getCString());
+                            
+                            this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
+                            
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if (phaseBool) {
+        
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
+        
+        _delegate->clothesUpdateTableCell();
+    }else{
+        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
+            if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
+                _buttonStatus = 2;
+            }
+            startTask = true;
+            LOADING->show_loading();
+            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+            if (DATA->getPlayer()->diam < haveEnoughGold()) {
+                AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+                return;
+            }else if (DATA->getPlayer()->coin < haveEnoughCoin()){
+                AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
+        }
+    }
 }
 void ClothesScene::buyCallBack(CCObject* pSender){
     if (animationBool) {
@@ -2468,8 +2559,14 @@ void ClothesScene::Http_Finished_602(CCObject* pObj){
     int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
     bool levelup = ((CCInteger*)result->objectForKey("levelup"))->getValue() != 0;
     
+//    CCScene* scene = CCScene::create();
+//    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
+//    scene->addChild(layer);
+//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
+    
     CCScene* scene = CCScene::create();
-    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, levelup);
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
