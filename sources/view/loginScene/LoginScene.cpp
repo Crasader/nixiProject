@@ -92,14 +92,20 @@ void LoginScene::onEnter() {
     }
     CCLOG("%s", env_info.c_str());
     
-    this->slide_in_logo();
-    
     if (CONFIG->has_saved_uuid()) {
+        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
+        this->addChild(logo);
+        
         LOADING->show_loading();
         DATA->setLoginType(2);
         NET->fast_login_900(CONFIG->saved_uuid().c_str());
     }
     else if (CONFIG->has_saved_account()) {
+        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
+        this->addChild(logo);
+        
         LOADING->show_loading();
         DATA->setLoginType(2);
         NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
@@ -108,6 +114,8 @@ void LoginScene::onEnter() {
         this->create_views();
         this->show_registview();
         this->show_loginview();
+        
+        this->slide_in_logo();
     }
 }
 

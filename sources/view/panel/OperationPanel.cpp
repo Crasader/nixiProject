@@ -9,6 +9,8 @@
 #include "OperationPanel.h"
 #include "DisplayManager.h"
 #include "TransactionScene.h"
+#include "PromptLayer.h"
+
 
 OperationPanel::~OperationPanel() {
 }
@@ -41,7 +43,7 @@ bool OperationPanel::init() {
         CCSprite* monthlycard1 = CCSprite::create("res/pic/panel/operation/operation_monthlycard.png");
         CCSprite* monthlycard2 = CCSprite::create("res/pic/panel/operation/operation_monthlycard.png");
         purchase2->setScale(DISPLAY->btn_scale());
-        CCMenuItem* btn_monthlycard = CCMenuItemSprite::create(monthlycard1, monthlycard2, this, SEL_MenuHandler(&OperationPanel::on_purchase));
+        CCMenuItem* btn_monthlycard = CCMenuItemSprite::create(monthlycard1, monthlycard2, this, SEL_MenuHandler(&OperationPanel::on_monthlycard));
 //        btn_monthlycard->setPosition(ccp(0, DISPLAY->H() * 0.02));
         
         CCMenu* menu = CCMenu::create(btn_purchase, btn_monthlycard, NULL);
@@ -118,10 +120,11 @@ void OperationPanel::remove() {
 }
 
 void OperationPanel::on_purchase(cocos2d::CCMenuItem *btn) {
-    TransactionScene* scene = TransactionScene::create();
-//    CCDirector::sharedDirector()->replaceScene(scene);
+    this->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
 }
 
 void OperationPanel::on_monthlycard(cocos2d::CCMenuItem *btn) {
-
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待!~");
 }

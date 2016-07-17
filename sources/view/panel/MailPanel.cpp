@@ -67,6 +67,7 @@ void MailPanel::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&MailPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
     
 //    this->do_enter();
+    this->whether_mailbox_empty();
 }
 
 void MailPanel::onExit() {
@@ -94,6 +95,14 @@ void MailPanel::show_from(CCPoint from) {
 
 #pragma mark - inner
 
+void MailPanel::whether_mailbox_empty() {
+    if (this->numberOfCellsInTableView(NULL) == 0) {
+        CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
+        empty->setPosition(DISPLAY->center());
+        _content->addChild(empty);
+    }
+}
+
 void MailPanel::do_enter() {
     _content->setPosition(_enter_pos - DISPLAY->center());
     _content->setVisible(true);
@@ -104,12 +113,6 @@ void MailPanel::do_enter() {
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
 //    _content->runAction(CCEaseBounceOut::create(spawn));
     _content->runAction(CCEaseElasticOut::create(spawn));
-    
-    if (this->numberOfCellsInTableView(NULL) == 0) {
-        CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
-        empty->setPosition(DISPLAY->center());
-        _content->addChild(empty);
-    }
 }
 
 void MailPanel::do_exit() {
@@ -275,6 +278,8 @@ void MailPanel::display_reward_take(int mail_id) {
 void MailPanel::take_reward_done() {
     _tv->reloadData();
     LOADING->remove();
+    this->whether_mailbox_empty();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 

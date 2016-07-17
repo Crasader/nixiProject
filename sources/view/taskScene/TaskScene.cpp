@@ -214,7 +214,14 @@ void TaskScene::creat_view(){
     shangkuangSpr->setAnchorPoint(ccp(.5f, 0));
     shangkuangSpr->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height - 2));
     taskKuang->addChild(shangkuangSpr);
-    CCString* shangStr = CCString::createWithFormat("总星:%d/100", DATA->getPlayer()->ratings(DATA->getPlayer()->phase));
+
+    
+    int curPhase = DATA->getPlayer()->phase;
+    int ratingsRequire = CONFIG->phase_up_required(curPhase);
+    int curRatings = DATA->getPlayer()->ratings(curPhase);
+    
+    
+    CCString* shangStr = CCString::createWithFormat("总星:%d/%d", curRatings, ratingsRequire);
     CCLabelTTF* shangLabel = CCLabelTTF::create(shangStr->getCString(), DISPLAY->fangzhengFont(), 25);
     shangLabel->setAnchorPoint(ccp(0, .5f));
     shangLabel->setPosition(ccp(5.f, shangkuangSpr->getContentSize().height* .5f));
@@ -237,8 +244,7 @@ void TaskScene::creat_view(){
     barSpr->setAnchorPoint(ccp(.5f, 0));
     barSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 1));
     this->addChild(barSpr, 15);//478 37
-    int tempPhase = CONFIG->phase_up_required(DATA->getPlayer()->phase) - DATA->getPlayer()->ratings(DATA->getPlayer()->phase);
-    CCString* barStr = CCString::createWithFormat("下级公司还差 %d 星级", tempPhase);
+    CCString* barStr = CCString::createWithFormat("升级公司还差 %d 星级", ratingsRequire - curRatings);
     CCLabelTTF* barLabel = CCLabelTTF::create(barStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(barSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     barLabel->setPosition(ccp(barSpr->getContentSize().width* .5f, barSpr->getContentSize().height* .5f));
     barLabel->setColor(ccc3(80, 63, 68));
@@ -1225,8 +1231,8 @@ void TaskScene::creat_phone(){
 }
 void TaskScene::phoneCallBack(CCObject* pSender){
     CCLog("phoneCallBack");
-    CCString* str = CCString::createWithFormat("小手机界面没做完啊!");
-    promptLayer->promptBoxString(str);
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "敬请期待");
 }
 
 

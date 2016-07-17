@@ -16,7 +16,6 @@ enum {
     tag_tf_password = 102,
 };
 
-
 LoginView::~LoginView()
 {
     if (_validate) {
