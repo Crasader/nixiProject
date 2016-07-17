@@ -519,7 +519,7 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     if (show->issend == 0) {
         item_send = CCMenuItemSprite::create(tili_spr1, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
         item_send->setTag(index);
-        item_send->setUserData(show_id);
+        item_send->setUserObject(CCString::create(show_id->getCString()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr1->getContentSize().width/2 -10, 38));
         menu_send->setTag(0x10400);
@@ -527,7 +527,7 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     }else{
         item_send = CCMenuItemSprite::create(tili_spr3, tili_spr4, this, NULL);
         item_send->setTag(index);
-        item_send->setUserData(show_id);
+        item_send->setUserObject(show_id);
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr3->getContentSize().width/2 -10, 38));
         menu_send->setTag(0x10400);
@@ -607,7 +607,7 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     if (show->issend == 0) {
         item_send = CCMenuItemSprite::create(tili_spr1, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
         item_send->setTag(index);
-        item_send->setUserData(show_id);
+        item_send->setUserObject(ccs(show_id->getCString()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr1->getContentSize().width/2 -10, 38));
         menu_send->setTag(0x10400);
@@ -615,7 +615,7 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     }else{
         item_send = CCMenuItemSprite::create(tili_spr3, tili_spr4, this, NULL);
         item_send->setTag(index);
-        item_send->setUserData(show_id);
+        item_send->setUserObject(ccs(show_id->getCString()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr3->getContentSize().width/2 -10, 38));
         menu_send->setTag(0x10400);
@@ -639,19 +639,7 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
 
 void HaoyouRankTableView::sendTili(CCMenuItem* btn){    
     CCString* other_id = (CCString*)btn->getUserObject();
-//    SocialComp* social = DATA->getSocial();
-//    if (social->has_send_energy(other_id->getCString())) {
-//        PromptLayer* prompt = PromptLayer::create();
-//        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "今日已送出体力，请明日再试!~");
-//    }
-//    else {
-//        LOADING->show_loading();
-//        NET->send_message_803(other_id->getCString(), e_Msg_Send_Energy);
-//    }
-    
-    CCMenuItem* item = (CCMenuItem* )btn;
-    
-    CCNode* bg = (CCNode* )item->getParent()->getParent();
+    CCNode* bg = btn->getParent()->getParent();
     bg->removeChildByTag(0x10400);
     CCDictionary* friends = DATA->getSocial()->friends();
     ShowComp* other = (ShowComp*)friends->objectForKey(other_id->getCString());
