@@ -124,15 +124,6 @@ void AHMessageBox::load_content()
         case AH_BUTTON_TYPE_YESNO3:
         case AH_BUTTON_TYPE_YESNO4:
         case AH_BUTTON_TYPE_YESNO5:{
-//            m_item_yes = CCMenuItemImage::create("pic/common/btn_confirm.png", "pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
-            CCSprite* yes1 = CCSprite::create("pic/common/btn_confirm.png");
-            CCSprite* yes2 = CCSprite::create("pic/common/btn_confirm.png");
-            yes2->setScale(1.01);
-            m_item_yes = CCMenuItemSprite::create(yes1, yes2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
-            m_item_yes->setTag(AH_BUTTON_TAG_YES);
-            m_item_yes->setUserObject(ccs("pic/common/btn_confirm.png"));
-            m_main_menu->addChild(m_item_yes);
-            
 //            m_item_no = CCMenuItemImage::create("res/pic/common/ah_btn_cancel_normal.png", "res/pic/common/ah_btn_cancel_selected.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
             CCSprite* no1 = CCSprite::create("pic/common/btn_cancel.png");
             CCSprite* no2 = CCSprite::create("pic/common/btn_cancel.png");
@@ -141,6 +132,15 @@ void AHMessageBox::load_content()
             m_item_no->setTag(AH_BUTTON_TAG_NO);
             m_item_no->setUserObject(ccs("res/pic/common/ah_btn_cancel_normal.png"));
             m_main_menu->addChild(m_item_no);
+            
+//            m_item_yes = CCMenuItemImage::create("pic/common/btn_confirm.png", "pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            CCSprite* yes1 = CCSprite::create("pic/common/btn_confirm.png");
+            CCSprite* yes2 = CCSprite::create("pic/common/btn_confirm.png");
+            yes2->setScale(1.01);
+            m_item_yes = CCMenuItemSprite::create(yes1, yes2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            m_item_yes->setTag(AH_BUTTON_TAG_YES);
+            m_item_yes->setUserObject(ccs("pic/common/btn_confirm.png"));
+            m_main_menu->addChild(m_item_yes);
             
             //确定特效
             CCSprite* btnSpr = CCSprite::createWithSpriteFrameName("ah_btn_done1.png");

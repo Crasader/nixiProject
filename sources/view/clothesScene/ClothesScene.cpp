@@ -1047,15 +1047,14 @@ void ClothesScene::saveClothesMethods(){
         
         _delegate->clothesUpdateTableCell();
     }else{
-//        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
-//            if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
-//                _buttonStatus = 2;
-//            }
-//            LOADING->show_loading();
-//            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-//        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
-//            if (DATA->getPlayer()->diam < haveEnoughGold()) {
-        if (true) {
+        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
+            if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
+                _buttonStatus = 2;
+            }
+            LOADING->show_loading();
+            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+            if (DATA->getPlayer()->diam < haveEnoughGold()) {
                 AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
@@ -1066,7 +1065,7 @@ void ClothesScene::saveClothesMethods(){
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
             }
         }
-//    }
+    }
 }
 void ClothesScene::ChangeShipin(int clothesId, int sub_part){
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -2593,18 +2592,15 @@ void ClothesScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
     
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买体力协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买钻石协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买金币协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_COIN_EXCHANGE");
         }
     }
 }
