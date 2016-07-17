@@ -54,8 +54,8 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     this->addChild(bgSpr);
     
     // 返回
-    CCSprite* backSpr1 = CCSprite::create("res/pic/clothesScene/gj_back.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/clothesScene/gj_back.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(ClothesScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
@@ -65,13 +65,13 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     CCSprite* startSpr2;
     CCMenuItem* startItem;
     if (clothesStatus == 1) {// 任务
-        startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
-        startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
+        startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
     }else if (clothesStatus == 2){// 换装
-        startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
-        startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
+        startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::saveCallBack));
     }
@@ -1047,14 +1047,15 @@ void ClothesScene::saveClothesMethods(){
         
         _delegate->clothesUpdateTableCell();
     }else{
-        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
-            if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
-                _buttonStatus = 2;
-            }
-            LOADING->show_loading();
-            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
-            if (DATA->getPlayer()->diam < haveEnoughGold()) {
+//        if (DATA->getPlayer()->coin >= haveEnoughCoin() && DATA->getPlayer()->diam >= haveEnoughGold()) {
+//            if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
+//                _buttonStatus = 2;
+//            }
+//            LOADING->show_loading();
+//            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+//        }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
+//            if (DATA->getPlayer()->diam < haveEnoughGold()) {
+        if (true) {
                 AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
@@ -1065,7 +1066,7 @@ void ClothesScene::saveClothesMethods(){
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
             }
         }
-    }
+//    }
 }
 void ClothesScene::ChangeShipin(int clothesId, int sub_part){
     CCDictionary* dic = CONFIG->clothes();// 所有衣服

@@ -94,8 +94,8 @@ bool TaskStoryScene::init(){
     _dkSpr->addChild(kuangSpr, 5);
     
     // 退出
-    CCSprite* fhSpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
-    CCSprite* fhSpr2 = CCSprite::create("res/pic/taskScene/task_back.png");
+    CCSprite* fhSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* fhSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     fhSpr2->setColor(ccGRAY);
     backItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(TaskStoryScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -117,8 +117,8 @@ bool TaskStoryScene::init(){
     quanSpr->setVisible(false);
     
     // 开始
-    CCSprite* startSpr1 = CCSprite::create("res/pic/taskScene/task_start3.png");
-    CCSprite* startSpr2 = CCSprite::create("res/pic/taskScene/task_start3.png");
+    CCSprite* startSpr1 = CCSprite::create("pic/common/btn_start.png");
+    CCSprite* startSpr2 = CCSprite::create("pic/common/btn_start.png");
     startSpr2->setScale(1.02f);
     startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(TaskStoryScene::startCallBack));
 //    startItem->setPosition(ccp(kuangSpr->getContentSize().width* .85f, kuangSpr->getContentSize().height* .18f));

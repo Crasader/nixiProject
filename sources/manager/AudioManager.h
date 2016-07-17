@@ -27,6 +27,7 @@ public:
     void preload_audios();
     void purge();
     
+public:
     void play_music(const char* pszFilePath, bool bLoop);
     unsigned int play_effect(const char* pszFilePath, bool bLoop);
     
