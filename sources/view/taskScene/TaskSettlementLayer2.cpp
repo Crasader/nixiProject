@@ -333,7 +333,7 @@ void TaskSettlementLayer2::updataNumber(){
     renSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), moveTo1, moveTo2, moveTo3, CCDelayTime::create(.5f), callFunc, NULL));
 }
 void TaskSettlementLayer2::creatXingXing(){
-    _rating = 5;
+//    _rating = 5;
     
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskSettlementLayer2::openLogic));
     
