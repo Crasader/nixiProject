@@ -50,6 +50,8 @@ private:
     void display_reward_take(int mail_id);
     void take_reward_done();
     
+    void whether_mailbox_empty();
+    
 private:
     CCLayer*            _content;
     CCSprite*           _bg;

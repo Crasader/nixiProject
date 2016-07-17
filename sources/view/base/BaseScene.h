@@ -67,7 +67,7 @@ public:
     FlashNumberLabel2* m_lbl_gold;
     void updataMoney();
     
-private:
+private:    
     void show_purchase_panel();
     void show_energybuy_panel();
     void updatePhaseProgress();
