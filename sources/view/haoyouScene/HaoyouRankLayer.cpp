@@ -16,7 +16,7 @@
 #include "NetManager.h"
 #include "PromptLayer.h"
 #include "StrangerScene.h"
-
+#include "AudioManager.h"
 
 HaoyouRankLayer:: ~HaoyouRankLayer(){}
 
@@ -247,6 +247,7 @@ void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

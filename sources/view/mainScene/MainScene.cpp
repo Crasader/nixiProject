@@ -12,7 +12,7 @@
 #include "QingjingScene.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"
-
+#include "AudioManager.h"
 #include "HaoyouRankLayer.h"
 #include "StrangerScene.h"
 #include "TotalRankScene.h"
@@ -929,12 +929,14 @@ void MainScene::shouchongCallBack(CCObject* pSender){
 
 void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {
+        AUDIO->comfirm_effect();
         OperationPanel* panel = OperationPanel::create();
         panel->show_from(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
     }
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
+    AUDIO->shop_effect();
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(this, "敬请期待");
@@ -943,6 +945,7 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
 
 void MainScene::youjianCallBack(CCObject* pSender){
     if (isOk) {
+        AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->all_mails_700();
     }
@@ -950,6 +953,7 @@ void MainScene::youjianCallBack(CCObject* pSender){
 
 void MainScene::haoyouCallBack(CCObject* pSender){
     if (isOk) {
+        AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->social_info_800();
     }
@@ -963,7 +967,7 @@ void MainScene::social_info_callback_800(CCObject* pObj) {
 }
 
 void MainScene::renwuCallBack(CCObject* pSender){
-    
+    AUDIO->comfirm_effect();
 }
 
 void MainScene::huanzhuangCallBack(CCObject* pSender){
@@ -979,7 +983,7 @@ void MainScene::huanzhuangCallBack(CCObject* pSender){
 }
 
 void MainScene::_huanzhuangCallBack(CCObject* pSender){
-    
+    AUDIO->comfirm_effect();
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -994,8 +998,8 @@ void MainScene::paihangCallBack(CCObject* pSender){
 }
 
 void MainScene::rankList_callback_300(CCObject *pObj){
+    AUDIO->comfirm_effect();
     LOADING->remove();
-    
     CCLayer* layer = TotalRankScene::create_with_type(1);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -1015,6 +1019,7 @@ void MainScene::juqingCallBack(CCObject* pSender){
     
 }
 void MainScene::_500CallBack(CCObject* pSender){
+    AUDIO->comfirm_effect();
     if (isrenwuBool) {
         LOADING->show_loading();
         NET->completed_mission_600();
@@ -1037,6 +1042,7 @@ void MainScene::richangCallBack(CCObject* pSender){
     }
 }
 void MainScene::_600CallBack(CCObject* pSender){
+    AUDIO->comfirm_effect();
     LOADING->remove();
     
     DATA->setTaskPhase(DATA->getPlayer()->phase);
@@ -1049,6 +1055,7 @@ void MainScene::_600CallBack(CCObject* pSender){
 
 void MainScene::shezhiCallBack(CCObject* pSender){
     if (isOk) {
+        AUDIO->comfirm_effect();
         SettingPanel* panel = SettingPanel::create();
         panel->show_from(_shezhiItem->getPosition());
     }

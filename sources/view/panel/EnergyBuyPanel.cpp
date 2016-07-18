@@ -11,6 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 #include <math.h>
 
 EnergyBuyPanel::~EnergyBuyPanel() {
@@ -155,6 +156,7 @@ void EnergyBuyPanel::do_exit() {
 }
 
 void EnergyBuyPanel::remove() {
+    AUDIO->common_effect();
     this->removeFromParentAndCleanup(true);
 }
 

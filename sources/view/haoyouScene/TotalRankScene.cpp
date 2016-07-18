@@ -12,6 +12,7 @@
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
 #include "MainScene.h"
+#include "AudioManager.h"
 
 const float totalRank_z_oder = 20.f;
 
@@ -314,6 +315,7 @@ void TotalRankScene::btn_note_callback(CCObject* pSender){
 }
 
 void TotalRankScene::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     if (_type == 1) {
         CCScene* scene = MainScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

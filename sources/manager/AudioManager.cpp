@@ -13,6 +13,10 @@ static AudioManager* _instance = nullptr;
 #define kUDK_Music_Bool                 "is_music_on"
 #define kUDK_Effect_Bool                "is_effect_on"
 
+#define BGM_Main            "audio/mp3/bgm_main.mp3"
+#define BGM_Company         "audio/mp3/bgm_company.mp3"
+#define BGM_Story           "audio/mp3/bgm_story.mp3"
+
 AudioManager::~AudioManager()
 {
     if (_instance) {
@@ -21,21 +25,16 @@ AudioManager::~AudioManager()
     }
 }
 
-void AudioManager::init(bool music, bool effect)
+void AudioManager::init()
 {
     // 背景音量
     this->setBackgroundMusicVolume(1.f);
     // 音效音量
     this->setEffectsVolume(1.f);
     
-    CCUserDefault* user_default = CCUserDefault::sharedUserDefault();
-    this->set_music_on(user_default->getBoolForKey(kUDK_Music_Bool, true));
-    this->set_effect_on(user_default->getBoolForKey(kUDK_Effect_Bool, true));
-    
-    // 开启关闭背景音
-    this->set_music_on(music);
-    // 开启关闭音效
-    this->set_effect_on(effect);
+    CCUserDefault* UD = CCUserDefault::sharedUserDefault();
+    this->set_music_on(UD->getBoolForKey(kUDK_Music_Bool, true));
+    this->set_effect_on(UD->getBoolForKey(kUDK_Effect_Bool, true));
 }
 
 
@@ -43,6 +42,7 @@ AudioManager* AudioManager::Inst()
 {
     if (!_instance) {
         _instance = new AudioManager();
+        _instance->init();
         _instance->preload_audios();
     }
     
@@ -52,62 +52,24 @@ AudioManager* AudioManager::Inst()
 
 void AudioManager::preload_audios()
 {
-/*
-    this->preloadBackgroundMusic(kMusic_BG_Lives);
-    this->preloadBackgroundMusic(kMusic_BG_Choose);
-    this->preloadBackgroundMusic(kMusic_BG_Qingjing);
-    //
-    // 穿衣服 音效
-    this->preloadEffect(kAudio_Button_Clothes);
-    // 通用按键 音效
-    this->preloadEffect(kAudio_Button_Common);
-    // 通用 错误 音效
-    this->preloadEffect(kAudio_Button_errorCommon);
-    // 通用 按钮 返回声音
-    this->preloadEffect(kAudio_Button_Back);
-    // 通用 确认 音效
-    this->preloadEffect(kAudio_AH_YES);
-    // 购买 音效（花钱的声音）
-    this->preloadEffect(kAudio_Button_buy);
-    // 正确 音效
-    this->preloadEffect(kAudio_right);
-    // 商城 音效
-    this->preloadEffect(kAudio_Button_shop);
-    // 升级 音效
-    this->preloadEffect(kAudio_levelup);
-    // 任务成功 音效
-    this->preloadEffect(kAudio_task_success);
-    // 剧情 失败 音效
-    this->preloadEffect(kAudio_failure);
-    // 剧情 成功 音效
-    this->preloadEffect(kAudio_success);
-    // 任务结算 音效
-    this->preloadEffect(kAudio_a);
-    this->preloadEffect(kAudio_b);
-    this->preloadEffect(kAudio_s);
-    this->preloadEffect(kAudio_ss);
-    this->preloadEffect(kAudio_sss);
+    this->preloadBackgroundMusic(BGM_Main);
+    this->preloadBackgroundMusic(BGM_Company);
+    this->preloadBackgroundMusic(BGM_Story);
     
-    // 正确 音效
-    this->preloadEffect(kAudio_game_right);
-    // 错误 音效
-    this->preloadEffect(kAudio_game_wrong);
-    // 保养 音效
-    this->preloadEffect(kAudio_game_baoyang_1_4);
-    this->preloadEffect(kAudio_game_baoyang_2);
-    this->preloadEffect(kAudio_game_baoyang_3);
-    // 垃圾 音效
-    this->preloadEffect(kAudio_game_housework_1);
-    // music 音效
-    this->preloadEffect(kAudio_game_music_1);
-    this->preloadEffect(kAudio_game_music_2);
-    this->preloadEffect(kAudio_game_music_3);
-    this->preloadEffect(kAudio_game_music_4);
-    // 窗口弹出 音效
-    this->preloadEffect(kAudio_audio_AHMessageBox);
-    // 睡觉 音效
-    this->preloadEffect(kAudio_game_sleep_1);
-*/
+    // 通用按键 音效
+    this->preloadEffect("audio/wav/audio_button_common.wav");
+    // 通用 错误 音效
+    this->preloadEffect("audio/wav/audio_button_error.wav");
+    // 通用 确认 音效
+    this->preloadEffect("audio/wav/audio_button_Yes.wav");
+    // 通用 按钮 返回声音
+    this->preloadEffect("audio/wav/audio_button_back.wav");
+    // 穿衣服 音效
+    this->preloadEffect("audio/wav/audio_button_clothes.wav");
+    // 购买 音效（花钱的声音）
+    this->preloadEffect("audio/wav/audio_button_buy.wav");
+    // 商城 音效
+    this->preloadEffect("audio/wav/audio_button_shop.wav");
 }
 
 
@@ -161,7 +123,7 @@ void AudioManager::set_effect_on(bool is_on)
 
 void AudioManager::purge()
 {
-    
+
 }
 
 
@@ -169,7 +131,7 @@ void AudioManager::play_music(const char *pszFilePath, bool bLoop)
 {
     this->playBackgroundMusic(pszFilePath, bLoop);
     
-    if (!m_is_music_on) {
+    if (! m_is_music_on) {
         this->pauseBackgroundMusic();
     }
 }
@@ -214,5 +176,55 @@ void AudioManager::resume_all_effects()
     if (m_is_effect_on) {
         this->resumeAllEffects();
     }
+}
+
+#pragma - Export API
+
+void AudioManager::first_run_config() {
+    this->set_effect_on(true);
+    this->set_music_on(true);
+}
+
+void AudioManager::play_main_bgm() {
+    this->play_music(BGM_Main, true);
+    this->setCurBGM(ccs("MAIN"));
+}
+
+void AudioManager::play_company_bgm() {
+    this->play_music(BGM_Company, true);
+    this->setCurBGM(ccs("COMPANY"));
+}
+
+void AudioManager::play_story_bgm() {
+    this->play_music(BGM_Story, true);
+    this->setCurBGM(ccs("STORY"));
+}
+
+void AudioManager::common_effect() {
+    this->play_effect("audio/wav/audio_button_common.wav", false);
+}
+
+void AudioManager::error_effect() {
+    this->play_effect("audio/wav/audio_button_error.wav", false);
+}
+
+void AudioManager::comfirm_effect() {
+    this->play_effect("audio/wav/audio_button_Yes.wav", false);
+}
+
+void AudioManager::goback_effect() {
+    this->play_effect("audio/wav/audio_button_back.wav", false);
+}
+
+void AudioManager::buy_effect() {
+    this->play_effect("audio/wav/audio_button_buy.wav", false);
+}
+
+void AudioManager::shop_effect() {
+    this->play_effect("audio/wav/audio_button_shop.wav", false);
+}
+
+void AudioManager::clothes_effect() {
+    this->play_effect("audio/wav/audio_button_clothes.wav", false);
 }
 

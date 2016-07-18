@@ -17,7 +17,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "HaoyouRankLayer.h"
-
+#include "AudioManager.h"
 
 StrangerScene:: ~StrangerScene(){}
 
@@ -325,6 +325,7 @@ void StrangerScene::btn_note_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
         CCScene* scene = HaoyouScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
