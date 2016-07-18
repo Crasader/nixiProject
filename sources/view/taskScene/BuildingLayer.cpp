@@ -12,6 +12,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "BuildingView.h"
+#include "AudioManager.h"
 #include "AppUtil.h"
 
 BuildingLayer::~BuildingLayer() {
@@ -94,6 +95,7 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
     CCRect rect = _building->boundingBox();
     CCRect check = CCRectMake(rect.origin.x, rect.origin.y, (DISPLAY->W() - 200), rect.size.height);
     if (check.containsPoint(location)) {
+        AUDIO->comfirm_effect();
         this->building_touch_callback();
         return true;
     }

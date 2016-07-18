@@ -98,10 +98,16 @@ CCScene* MainScene::scene(){
     return scene;
 }
 
-
 void MainScene::onEnter(){
     BaseScene::onEnter();
     this->setAccelerometerEnabled(true); // ?
+    
+    if (AUDIO->getCurBGM()->compare("MAIN") == 0) {
+        
+    }
+    else {
+        AUDIO->play_main_bgm();
+    }
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);

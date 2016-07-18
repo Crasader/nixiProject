@@ -1233,6 +1233,7 @@ void TaskScene::creat_phone(){
     phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, NULL)));
 }
 void TaskScene::phoneCallBack(CCObject* pSender){
+    AUDIO->shop_effect();
     CCLog("phoneCallBack");
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "敬请期待");
