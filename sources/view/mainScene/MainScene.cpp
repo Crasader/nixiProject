@@ -914,21 +914,21 @@ void MainScene::setIsEffective(){
 void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this, "敬请期待");
+        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
     }
 }
 
 void MainScene::homeCallBack(CCObject *pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this, "暂未开放");
+        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
     }
 }
 
 void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this, "敬请期待");
+        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
     }
 }
 
@@ -944,7 +944,7 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
     AUDIO->shop_effect();
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this, "敬请期待");
+        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
     }
 }
 

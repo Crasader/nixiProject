@@ -224,3 +224,7 @@ CCArray* SocialComp::sort_friends_by_collected(CCDictionary* dic) {
     
     return rtn;
 }
+
+CCArray* SocialComp::sortedFriends(){
+    return _sortedFriends;
+}

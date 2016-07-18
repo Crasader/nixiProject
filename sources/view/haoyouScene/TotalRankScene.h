@@ -85,11 +85,15 @@ public:
     
     void small_callback();
     
+    CCSprite* getNumSprite(int num);
+    
     CCMenuItem* item_first;
     CCMenuItem* item_second;
     CCMenuItem* item_third;
     
     CCMenuItem* item_self;
+    
+    int rank_self;
     
     int _type;
     

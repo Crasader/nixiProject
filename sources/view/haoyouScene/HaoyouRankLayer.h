@@ -80,10 +80,23 @@ public:
     void gotoStranger();
     void gotoStranger_802();
     
+    void btn_toBig_callback(CCMenuItem* item);
+    void btn_toSmall_callback();
+    void small_callback();
+    
+    CCSprite* getNumSprite(int num);
+    
 public:
     NotePanel* _panel;
     int _energy_could_get;
     CCMenu* menu_tili;
+    CCMenuItem* item_self;
+    int _curBtn_index;
+    
+    int rank_self;
+    
+    CCLabelTTF* lab;
+    CCLabelTTF* lab2;
     
 public:
     

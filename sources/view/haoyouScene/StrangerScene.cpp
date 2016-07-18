@@ -154,13 +154,17 @@ void StrangerScene::createView(){
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, z_order);
     
+    ///-----
+    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .18f - 1));
+    this->addChild(di_spr, z_order);
 }
 
 void StrangerScene::initStranger(){
     CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/other_bg_nor.png");
     
     tabLayer = StrangerTableView::create();
-    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .2f));
+    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .16f));
     tabLayer->setTag(0x77777);
     
     this->addChild(tabLayer, 20);
@@ -173,7 +177,7 @@ void StrangerScene::initStranger(){
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
     PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(this, "暂未开放");
+    layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void StrangerScene::btn_refresh_callback(CCObject* pSender){

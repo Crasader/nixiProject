@@ -69,9 +69,7 @@ void FindPanel::initView(){
     find_panel->addChild(menu_back);
 }
 
-void FindPanel::btn_find_callback(){
-    LOADING->show_loading();
-    
+void FindPanel::btn_find_callback(){    
     _input_name->detachWithIME();
     if (this->check_nickname(_input_name->getText())) {
         LOADING->show_loading();
