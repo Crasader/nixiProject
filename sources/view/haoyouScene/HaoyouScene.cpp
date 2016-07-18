@@ -783,6 +783,7 @@ void HaoyouScene::update_news_status() {
     
     if (news->paper) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setScale(1.5);
         spt->setPosition(ccp(72, 92));
         _zhitiaoItem->addChild(spt);
     }

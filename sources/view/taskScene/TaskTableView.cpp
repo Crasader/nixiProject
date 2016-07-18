@@ -455,7 +455,6 @@ unsigned int TaskTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
 
 //按下去的时候，就是高亮显示，这里可以设置高亮状态
 void TaskTableView::tableCellHighlight(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
-    AUDIO->common_effect();
     
     OpenToWhichOne = cell->getIdx();
     int unlockCondition = DATA->getPlayer()->mission;
