@@ -640,7 +640,7 @@ void QingjingScene::startCallBack(CCObject* pSender){
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
             }
-        }else{
+        }else {
             PromptLayer* layer = PromptLayer::create();
             layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
         }
