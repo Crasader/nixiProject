@@ -1133,7 +1133,9 @@ void TaskStoryScene::logic(float dt){
     openStory = false;
     
     this->unschedule(schedule_selector(TaskStoryScene::logic));
-    this->openTouch(0);
+    if (!buttonBool) {
+        this->openTouch(0);
+    }
     
     std::string _name = missionDic->valueForKey("name")->getCString();
     if (_name.length() <= 0) {
@@ -1308,6 +1310,8 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     }else if (index == -2 || index == -3){
         openStory = true;
         startBool = true;
+        
+        this->setTouchEnabled(true);
         
         CCSprite* banSpr = CCSprite::create("res/pic/panel/mail/mail_plate.png");
         banSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
