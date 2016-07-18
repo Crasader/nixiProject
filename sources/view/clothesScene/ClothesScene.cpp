@@ -2149,6 +2149,21 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _kzSpr1->setTag(Tag_GJ_KuZi1);
                             _ManSpr->addChild(_kzSpr1, 290);
                             
+                        }else {
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
+                            }
+                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                            _kzSpr1 = CCSprite::create(str->getCString());
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setTag(Tag_GJ_KuZi1);
+                            _ManSpr->addChild(_kzSpr1, 290);
                         }
                         
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
