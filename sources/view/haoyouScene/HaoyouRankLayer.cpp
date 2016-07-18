@@ -61,7 +61,7 @@ void HaoyouRankLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::gotoStranger_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::exitMan), "ExitMan", NULL);
-    
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::small_callback), "Small", NULL);
 }
 
 void HaoyouRankLayer::onExit(){
@@ -117,63 +117,52 @@ void HaoyouRankLayer::createView(){
     this->addChild(menu_back, z_order);
     
     
-    CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
-    self_spr->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-    this->addChild(self_spr, z_order);
+    /////self
     
-    int my_rank = 8;
-    CCSprite* head;
-    if (my_rank == 1) {
-        head = CCSprite::create("res/pic/haoyoupaihang/first.png");
-    }else if (my_rank == 2){
-        head = CCSprite::create("res/pic/haoyoupaihang/second.png");
-    }else if (my_rank == 3){
-        head = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-    }else{
-        head = CCSprite::create("res/pic/haoyoupaihang/cell_head_normal.png");
-        CCLabelAtlas* rank_num;
-        CCString* str_num = CCString::createWithFormat("%d", my_rank);
-        if (my_rank < 10) {
-            rank_num =CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_single_normal.png", 25, 34, '4');
-        }else{
-            rank_num = CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
-        }
-        rank_num->setAnchorPoint(ccp(0.5, 0.5));
-        rank_num->setPosition(ccp(head->getContentSize().width/2, head->getContentSize().height/2));
-        head->addChild(rank_num);
-    }
-    head->setPosition(ccp(head->getContentSize().width - 13, self_spr->getContentSize().height/2 + 3));
-    self_spr->addChild(head);
+    CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/self_bg_nor.png");
+    CCSprite* self_spr2 = CCSprite::create("res/pic/haoyoupaihang/self_bg_nor.png");
+    item_self = CCMenuItemSprite::create(self_spr, self_spr2, this, menu_selector(HaoyouRankLayer::btn_toBig_callback));
+    item_self->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2, DISPLAY->ScreenHeight()* .08f));
     
-    CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg->setPosition(ccp(self_spr->getContentSize().width - name_bg->getContentSize().width/2, 90));
-    self_spr->addChild(name_bg);
+    const char* nickname_self = DATA->getShow()->nickname();
+    CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(item_self->getContentSize().width* .68f, item_self->getContentSize().height* .68f));
+    name->setColor(ccc3(234, 106, 106));
+    item_self->addChild(name);
     
-    const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-    name_bg->addChild(name);
-    
-    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
-    self_spr->addChild(cloth_count);
+    CCString* collect_str = CCString::createWithFormat("服装收集: %d", DATA->getShow()->collected());
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    cloth_count->setAnchorPoint(CCPoint(0, 0.5));
+    cloth_count->setPosition(ccp(item_self->getContentSize().width * .47f, item_self->getContentSize().height* .38f));
+    item_self->addChild(cloth_count);
     
     CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
     tili_spr2->setScale(1.02f);
     CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::btn_getTili_callback));
     menu_tili = CCMenu::create(item_tili, NULL);
-    menu_tili->setPosition(ccp(self_spr->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 28));
-    self_spr->addChild(menu_tili);
+    menu_tili->setPosition(ccp(item_self->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 21));
+    item_self->addChild(menu_tili);
     
     _energy_could_get = DATA->getSocial()->energy_could_take();
-    if (_energy_could_get <= 0) {
-        menu_tili->setEnabled(false);
-    }
+    CCString* str = CCString::createWithFormat("%d/%d", _energy_could_get, _energy_could_get);
+    lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 20);
+    lab->setPosition(ccp(item_self->getContentSize().width* .38f, item_self->getContentSize().height* .2f));
+    lab->setColor(ccBLACK);
+    item_self->addChild(lab);
+    
+    
+    CCMenu* menu_self = CCMenu::create(item_self, NULL);
+    menu_self->setPosition(CCPointZero);
+    this->addChild(menu_self, z_order);
+    
+    
+//    if (_energy_could_get <= 0) {
+//        menu_tili->setEnabled(false);
+//    }
     
     if (DATA->getSocial()->friends()->allKeys() == NULL) {
-        self_spr->setVisible(false);
+        item_self->setVisible(false);
         
         CCLabelTTF* lab = CCLabelTTF::create("暂时还没好友\n请去陌生人添加", DISPLAY->fangzhengFont(), 20, CCSizeMake(150, 250), kCCTextAlignmentCenter);
         lab->setColor(ccc3(135, 108, 123));
@@ -189,6 +178,94 @@ void HaoyouRankLayer::createView(){
         this->addChild(menu_spr);
     }
     
+}
+
+void HaoyouRankLayer::btn_toBig_callback(CCMenuItem* btn){
+    CCMenuItem* item = (CCMenuItem*)btn;
+    item->setEnabled(false);
+    _curBtn_index = 1;
+
+    CCSprite* bg;
+    CCSprite* num;
+    bg = CCSprite::create("res/pic/haoyoupaihang/self_bg_sel.png");
+        
+//        if (rank_self == -1) {
+//            CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/weishangbang.png");
+//            spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+//            bg->addChild(spr);
+//        }else{
+//            if (rank_self >= 1 && rank_self <= 9) {
+//                CCSprite* spr = this->getNumSprite(rank_self);
+//                spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+//                bg->addChild(spr);
+//            }else{
+//                CCSprite* spr1 = this->getNumSprite((int)floor(rank_self/10));
+//                spr1->setPosition(ccp(bg->getContentSize().width* .15f - 10, bg->getContentSize().height* .5f));
+//                bg->addChild(spr1);
+//                CCSprite* spr2 = this->getNumSprite((int)floor(rank_self%10));
+//                spr2->setPosition(ccp(bg->getContentSize().width* .15f + 10, bg->getContentSize().height* .5f));
+//                bg->addChild(spr2);
+//            }
+//        }
+    
+    bg->setAnchorPoint(CCPointZero);
+    bg->setPosition(ccp(0, 0));
+    bg->setTag(0x1000);
+    item->addChild(bg);
+    
+    const char* nickname = DATA->getShow()->nickname();
+    int collect = collect = DATA->getShow()->collected();
+    
+    
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(item->getContentSize().width* .6f, item->getContentSize().height* .68f));
+    name->setColor(ccc3(234, 106, 106));
+    bg->addChild(name);
+    
+    CCString* collect_str = CCString::createWithFormat("服装收集: %d", collect);
+    CCLabelTTF* count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    count->setPosition(ccp(item->getContentSize().width * .40f, item->getContentSize().height * .365f));
+    count->setAnchorPoint(CCPoint(0, 0.5));
+    bg->addChild(count);
+    
+    CCSprite* tili_spr = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
+    CCSprite* tili_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_get_tili.png");
+    tili_spr2->setScale(1.02f);
+    CCMenuItemSprite* item_tili = CCMenuItemSprite::create(tili_spr, tili_spr2, this, menu_selector(HaoyouRankLayer::btn_getTili_callback));
+    menu_tili = CCMenu::create(item_tili, NULL);
+    menu_tili->setPosition(ccp(bg->getContentSize().width - tili_spr->getContentSize().width/2 - 10, 19));
+    bg->addChild(menu_tili);
+    
+    _energy_could_get = DATA->getSocial()->energy_could_take();
+    CCString* str = CCString::createWithFormat("%d/%d", _energy_could_get, _energy_could_get);
+    lab2 = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 22);
+    lab2->setPosition(ccp(bg->getContentSize().width* .28, bg->getContentSize().height* .18f));
+    lab2->setColor(ccBLACK);
+    bg->addChild(lab2);
+    
+
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdateRank");
+    
+    CCLayer* layer = CCLayer::create();
+    layer->setTouchEnabled(true);
+    layer->setTouchSwallowEnabled(true);
+    layer->setTag(10000);
+    CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+    this->exitMan();
+}
+
+void HaoyouRankLayer::btn_toSmall_callback(){
+    if (item_self->getChildByTag(0x1000)) {
+        item_self->removeChildByTag(0x1000, true);
+        item_self->setEnabled(true);
+    }
+}
+
+void HaoyouRankLayer::small_callback(){
+    if (_curBtn_index == 1) {
+        this->btn_toSmall_callback();
+        _curBtn_index = -1;
+    }
 }
 
 void HaoyouRankLayer::gotoStranger(){
@@ -224,26 +301,38 @@ void HaoyouRankLayer::btn_getTili_callback(){
 
 void HaoyouRankLayer::get_tili_807(){
     LOADING->remove();
-    CCString* tip_str = CCString::createWithFormat("成功领取%d体力", _energy_could_get);
+    CCString* tip_str;
+//    if (DATA->getSocial()->energy_could_take() <= 0) {
+//        tip_str = CCString::createWithFormat("%s", "没有体力啦~！通知您的好友再送一些吧");
+//    }else{
+        tip_str = CCString::createWithFormat("成功领取%d体力", _energy_could_get);
+//    }
+    
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), tip_str->getCString());
-    if (_energy_could_get <= 0) {
-        menu_tili->setEnabled(false);
+    lab->setString("0/0");
+    if (lab2 != NULL) {
+        lab2->setString("0/0");
     }
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
     PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(this, "暂未开放");
+    layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
     if (DATA->getSocial()->getSelectedFriend() == -1) {
         
     }else{
-        _panel = NotePanel::create();
-        _panel->setEntranceType("friend");
-        this->addChild(_panel, 10000);
+        if (_curBtn_index == 1) {
+            PromptLayer* tip = PromptLayer::create();
+            tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不可以给自己发纸条哦");
+        }else{
+            _panel = NotePanel::create();
+            _panel->setEntranceType("friend");
+            this->addChild(_panel, 10000);
+        }
     }
 }
 
@@ -267,9 +356,14 @@ void HaoyouRankLayer::removeMan(){
 }
 
 void HaoyouRankLayer::enterMan(){
-    const char* curSelected_id = DATA->getSocial()->getSelectedFriendIDbyIndex(DATA->getSocial()->getSelectedFriend());
-    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
-    myClothesTemp = show->ondress();
+    if (_curBtn_index == 1) {
+        myClothesTemp = DATA->getShow()->ondress();
+    }else{
+        const char* curSelected_id = DATA->getSocial()->getSelectedFriendIDbyIndex(DATA->getSocial()->getSelectedFriend());
+        ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
+        myClothesTemp = show->ondress();
+    }
+    
     
     this->creat_Man();
     this->initClothes();
@@ -285,6 +379,46 @@ void HaoyouRankLayer::removeMask(){
     if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(10000)) {
         CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(10000, true);
     }
+}
+
+CCSprite* HaoyouRankLayer::getNumSprite(int num){
+    CCSprite* spr;
+    switch (num) {
+        case 0:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_0.png");
+            break;
+        case 1:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+            break;
+        case 2:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_2.png");
+            break;
+        case 3:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_3.png");
+            break;
+        case 4:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_4.png");
+            break;
+        case 5:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_5.png");
+            break;
+        case 6:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_6.png");
+            break;
+        case 7:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_7.png");
+            break;
+        case 8:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_8.png");
+            break;
+        case 9:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
+            break;
+        default:
+            break;
+    }
+    
+    return spr;
 }
 
 void HaoyouRankLayer::creat_Man(){

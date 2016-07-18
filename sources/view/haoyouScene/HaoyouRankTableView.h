@@ -82,6 +82,8 @@ public:
     
     void sendTili(CCMenuItem* btn);
     void send_message_callback_803(CCObject* pObj);
+    
+    void updateTabelView();
 };
 
 

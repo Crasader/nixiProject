@@ -159,7 +159,7 @@ void StrangerScene::initStranger(){
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
     PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(this, "暂未开放");
+    layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void StrangerScene::btn_refresh_callback(CCObject* pSender){

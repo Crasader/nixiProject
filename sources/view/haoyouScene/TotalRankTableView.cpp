@@ -20,7 +20,6 @@ bool TotalRankTableView::init(){
         return false;
     }
     
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
     _rankers = DATA->getRanking()->ranking();
     if (_rankers == NULL) {

@@ -52,16 +52,15 @@ bool TotalRankScene::init(){
     
     allClothesDic = CONFIG->clothes();// 所有衣服
     
-    ShowComp* show_self = (ShowComp*)DATA->getShow();
-    string id_self = show_self->getShowID();
-    
+    const char* id_self = DATA->getLogin()->obtain_sid();
     CCArray* rankers = DATA->getRanking()->ranking();
     CCObject* pObj = NULL;
-    int rank_self;
     CCARRAY_FOREACH(rankers, pObj){
         ShowComp* show_rank = (ShowComp*)pObj;
-        if (id_self.compare(show_rank->getShowID()) == 0) {
-            rank_self = show_rank->ranking();
+        if (show_rank->getShowID().compare(id_self) == 0) {
+            rank_self = (int)rankers->indexOfObject(pObj) + 1;
+        }else{
+            rank_self = -1;
         }
     }
     
@@ -146,7 +145,7 @@ void TotalRankScene::createView(){
     
     CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/self_bg_nor.png");
     CCSprite* self_spr2 = CCSprite::create("res/pic/haoyoupaihang/self_bg_nor.png");
-    CCMenuItemSprite* item_self = CCMenuItemSprite::create(self_spr, self_spr2, this, menu_selector(TotalRankScene::btn_toBig_callback));
+    item_self = CCMenuItemSprite::create(self_spr, self_spr2, this, menu_selector(TotalRankScene::btn_toBig_callback));
     item_self->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2, DISPLAY->ScreenHeight()* .08f));
     item_self ->setUserObject(CCInteger::create(-100));
     
@@ -163,6 +162,24 @@ void TotalRankScene::createView(){
     cloth_count->setPosition(ccp(item_self->getContentSize().width * .47f, item_self->getContentSize().height* .38f));
     item_self->addChild(cloth_count);
     
+    if (rank_self == -1) {
+        CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/weishangbang.png");
+        spr->setPosition(ccp(item_self->getContentSize().width* .25f, item_self->getContentSize().height* .5f));
+        item_self->addChild(spr);
+    }else{
+        if (rank_self >= 1 && rank_self <= 9) {
+            CCSprite* spr = this->getNumSprite(rank_self);
+            spr->setPosition(ccp(item_self->getContentSize().width* .25f, item_self->getContentSize().height* .5f));
+            item_self->addChild(spr);
+        }else{
+            CCSprite* spr1 = this->getNumSprite((int)floor(rank_self/10));
+            spr1->setPosition(ccp(item_self->getContentSize().width* .25f - 10, item_self->getContentSize().height* .5f));
+            item_self->addChild(spr1);
+            CCSprite* spr2 = this->getNumSprite((int)floor(rank_self%10));
+            spr2->setPosition(ccp(item_self->getContentSize().width* .25f + 10, item_self->getContentSize().height* .5f));
+            item_self->addChild(spr2);
+        }
+    }
     
     
     //first
@@ -294,13 +311,19 @@ void TotalRankScene::initTotalRank(){
 
 void TotalRankScene::btn_share_callback(CCObject* pSender){
     PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(this, "暂未开放");
+    layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){
-    _panel = NotePanel::create();
-    _panel->setEntranceType("ranker");
-    this->addChild(_panel, 10000);
+    if (_curBtn_index == -100) {
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不可以给自己发纸条哦");
+    }else{
+        _panel = NotePanel::create();
+        _panel->setEntranceType("ranker");
+        this->addChild(_panel, 10000);
+    }
+    
 }
 
 void TotalRankScene::btn_back_callback(CCObject* pSender){
@@ -315,16 +338,12 @@ void TotalRankScene::btn_back_callback(CCObject* pSender){
     }
 }
 
-//void TotalRankScene::btn_self_callback(CCObject* pSender){
-//    
-//}
 
 void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     CCMenuItem* item = (CCMenuItem*)btn;
     item->setEnabled(false);
     int index = ((CCInteger*)item->getUserObject())->getValue();
     
-    DATA->getSocial()->setSelectedRanker(index);
     
     
     CCSprite* bg;
@@ -341,6 +360,24 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     }else if (index == -100){
         bg = CCSprite::create("res/pic/haoyoupaihang/self_bg_sel.png");
         
+        if (rank_self == -1) {
+            CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/weishangbang.png");
+            spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+            bg->addChild(spr);
+        }else{
+            if (rank_self >= 1 && rank_self <= 9) {
+                CCSprite* spr = this->getNumSprite(rank_self);
+                spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+                bg->addChild(spr);
+            }else{
+                CCSprite* spr1 = this->getNumSprite((int)floor(rank_self/10));
+                spr1->setPosition(ccp(bg->getContentSize().width* .15f - 10, bg->getContentSize().height* .5f));
+                bg->addChild(spr1);
+                CCSprite* spr2 = this->getNumSprite((int)floor(rank_self%10));
+                spr2->setPosition(ccp(bg->getContentSize().width* .15f + 10, bg->getContentSize().height* .5f));
+                bg->addChild(spr2);
+            }
+        }
         
     }
     bg->setAnchorPoint(CCPointZero);
@@ -349,21 +386,22 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     item->addChild(bg);
     
     
-    
     const char* nickname;
     int collect;
     if (index == -100) {
         nickname = DATA->getShow()->nickname();
         collect = DATA->getShow()->collected();
     }else{
+        DATA->getSocial()->setSelectedRanker(index);
+        
         ShowComp* show = (ShowComp* )_rankers->objectAtIndex(index);
         nickname = show->nickname();
         collect = show->collected();
+        
+        num->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+        bg->addChild(num);
     }
     
-    
-    num->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
-    bg->addChild(num);
     
     CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(item->getContentSize().width* .6f, item->getContentSize().height* .68f));
@@ -427,13 +465,17 @@ void TotalRankScene::small_callback(){
 }
 
 void TotalRankScene::enterMan(){
-    ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(DATA->getSocial()->getSelectedRanker());
-    myClothesTemp = show->ondress();
+    if (_curBtn_index == -100) {
+        myClothesTemp = DATA->getShow()->ondress();
+    }else{
+        ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+        myClothesTemp = show->ondress();
+    }
+    
     
     this->creat_Man();
     this->initClothes();
     
-//    _ManSpr->setPosition(ccp(_ManSpr->getPosition().x + 1000, _ManSpr->getPosition().y));
     CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x + 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::removeMask));
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
@@ -441,22 +483,61 @@ void TotalRankScene::enterMan(){
 }
 void TotalRankScene::exitMan(){
     CCPlace* pl = CCPlace::create(ccp(_ManSpr->getPositionX() - 500, _ManSpr->getPositionY()));
-//    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(_ManSpr->getPosition().x - 500, _ManSpr->getPosition().y));
     CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::removeMan));
     CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::enterMan));
     CCSequence* seq = CCSequence::create(pl, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
     _ManSpr->runAction(seq);
 }
+
 void TotalRankScene::removeMan(){
     _ManSpr->removeAllChildren();
     
-//    myClothesTemp = 
 }
 
 void TotalRankScene::removeMask(){
     if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(10000)) {
         CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(10000, true);
     }
+}
+
+CCSprite* TotalRankScene::getNumSprite(int num){
+    CCSprite* spr;
+    switch (num) {
+        case 0:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_0.png");
+            break;
+        case 1:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+            break;
+        case 2:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_2.png");
+            break;
+        case 3:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_3.png");
+            break;
+        case 4:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_4.png");
+            break;
+        case 5:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_5.png");
+            break;
+        case 6:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_6.png");
+            break;
+        case 7:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_7.png");
+            break;
+        case 8:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_8.png");
+            break;
+        case 9:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
+            break;
+        default:
+            break;
+    }
+    
+    return spr;
 }
 
 void TotalRankScene::creat_Man(){
