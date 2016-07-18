@@ -17,6 +17,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "StorySettlementOfTheAnimationLayer.h"
+#include "PromptLayer.h"
 //#include "MMAudioManager.h"
 
 
@@ -53,9 +54,6 @@ bool StoryScene::init(){
     
     oneBool = false;
     twoBool = false;
-    
-    promptLayer = PromptLayer::create();
-    this->addChild(promptLayer, 100);
     
     _dkSpr = CCSprite::create();
     this->addChild(_dkSpr, 10);
@@ -1079,7 +1077,7 @@ void StoryScene::button1CallBack(CCObject* pSender){
 //            MMAudioManager::get_instance()->play_effect(kAudio_Button_errorCommon, false);
 //        }
         
-        promptLayer->promptBox(31);
+//        promptLayer->promptBox(31);
         
         buttonBool1 = false;
         recordBool1 = buttonBool1;

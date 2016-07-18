@@ -24,7 +24,8 @@ bool HaoyouRankTableView::init(){
     }
     
     
-    _friends = DATA->getSocial()->friends()->allKeys();
+//    _friends = DATA->getSocial()->friends()->allKeys();
+    _friends = DATA->getSocial()->sortedFriends();
     if (_friends == NULL) {
         _friends = CCArray::create();
     }
@@ -37,7 +38,7 @@ bool HaoyouRankTableView::init(){
         DATA->getSocial()->setSelectedFriend(selectedIndex);
     }
     
-    pTableView = CCTableView::create(this, CCSizeMake(275, 6*124));
+    pTableView = CCTableView::create(this, CCSizeMake(275, 6*130));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
@@ -94,8 +95,9 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
             bg2->removeChildByTag(0x10500);
         }
         
-        CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
-        ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
+//        CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
+//        ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
+        ShowComp* show2 = (ShowComp*)_friends->objectAtIndex(selectedIndex);
         
         const char* nickname2 = show2->nickname();
         int collected2 = show2->collected();
@@ -176,8 +178,9 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
                 bg1->removeChildByTag(0x10500);
             }
             
-            CCString* show_id = (CCString*)_friends->objectAtIndex(selectedIndex);
-            ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
+//            CCString* show_id = (CCString*)_friends->objectAtIndex(selectedIndex);
+//            ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
+            ShowComp* show = (ShowComp*)_friends->objectAtIndex(selectedIndex);
             const char* nickname = show->nickname();
             int collected1 = show->collected();
             
@@ -253,8 +256,9 @@ void HaoyouRankTableView::tableCellTouched(cocos2d::extension::CCTableView* tabl
                 bg2->removeChildByTag(0x10500);
             }
             
-            CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
-            ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
+//            CCString* show_id2 = (CCString*)_friends->objectAtIndex(selectedIndex);
+//            ShowComp* show2 = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id2->getCString());
+            ShowComp* show2 = (ShowComp*)_friends->objectAtIndex(selectedIndex);
             
             const char* nickname2 = show2->nickname();
             int collected2 = show2->collected();
@@ -405,8 +409,9 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     bg->setTag(0x10000);
     spr->addChild(bg);
     
-    CCString* show_id = (CCString*)_friends->objectAtIndex(index);
-    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
+//    CCString* show_id = (CCString*)_friends->objectAtIndex(index);
+//    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
+    ShowComp* show = (ShowComp*)_friends->objectAtIndex(index);
     const char* nickname = show->nickname();
     int collected = show->collected();
     
@@ -450,7 +455,8 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     if (show->issend == 0) {
         item_send = CCMenuItemSprite::create(tili_spr1, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
         item_send->setTag(index);
-        item_send->setUserObject(CCString::create(show_id->getCString()));
+//        item_send->setUserObject(CCString::create(show_id->getCString()));
+        item_send->setUserObject(CCString::create(show->getShowID()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr1->getContentSize().width/2 -10, 20));
         menu_send->setTag(0x10400);
@@ -458,7 +464,8 @@ void HaoyouRankTableView::bigSprite(int index, CCSprite* spr){
     }else{
         item_send = CCMenuItemSprite::create(tili_spr3, tili_spr4, this, NULL);
         item_send->setTag(index);
-        item_send->setUserObject(show_id);
+//        item_send->setUserObject(show_id);
+        item_send->setUserObject(CCString::create(show->getShowID()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr3->getContentSize().width/2 -10, 20));
         menu_send->setTag(0x10400);
@@ -480,8 +487,9 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     bg->setTag(0x10000);
     spr->addChild(bg);
     
-    CCString* show_id = (CCString*)_friends->objectAtIndex(index);
-    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
+//    CCString* show_id = (CCString*)_friends->objectAtIndex(index);
+//    ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(show_id->getCString());
+    ShowComp* show = (ShowComp*)_friends->objectAtIndex(index);
     const char* nickname = show->nickname();
     int collected = show->collected();
     
@@ -526,7 +534,8 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     if (show->issend == 0) {
         item_send = CCMenuItemSprite::create(tili_spr1, tili_spr2, this, menu_selector(HaoyouRankTableView::sendTili));
         item_send->setTag(index);
-        item_send->setUserObject(ccs(show_id->getCString()));
+//        item_send->setUserObject(ccs(show_id->getCString()));
+        item_send->setUserObject(ccs(show->getShowID()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr1->getContentSize().width/2 -10, 20));
         menu_send->setTag(0x10400);
@@ -535,14 +544,14 @@ void HaoyouRankTableView::smallSprite(int index, CCSprite* spr){
     }else{
         item_send = CCMenuItemSprite::create(tili_spr3, tili_spr4, this, NULL);
         item_send->setTag(index);
-        item_send->setUserObject(ccs(show_id->getCString()));
+//        item_send->setUserObject(ccs(show_id->getCString()));
+        item_send->setUserObject(ccs(show->getShowID()));
         CCMenu* menu_send = CCMenu::create(item_send, NULL);
         menu_send->setPosition(ccp(bg->getContentSize().width - tili_spr3->getContentSize().width/2 -10, 20));
         menu_send->setTag(0x10400);
         menu_send->setVisible(false);
         bg->addChild(menu_send);
     }
-    
     
 }
 

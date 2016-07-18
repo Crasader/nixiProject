@@ -37,7 +37,7 @@ bool StrangerTableView::init(){
     }
     
     
-    pTableView = CCTableView::create(this, CCSizeMake(275, 6*124));
+    pTableView = CCTableView::create(this, CCSizeMake(275, 6*130));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);

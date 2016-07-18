@@ -17,7 +17,9 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "HaoyouRankLayer.h"
+#include "AudioManager.h"
 
+#define REFRESH_INTERVAL   30 // 60秒
 
 StrangerScene:: ~StrangerScene(){}
 
@@ -26,6 +28,7 @@ bool StrangerScene::init(){
         return false;
     }
     
+    _timeLeft = 0;
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
     this->initStranger();
@@ -103,12 +106,23 @@ void StrangerScene::createView(){
     //刷新
     CCSprite* refresh_spr = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
     CCSprite* refresh_spr2 = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
+    CCSprite* refresh_spr3 = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
     refresh_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_refresh = CCMenuItemSprite::create(refresh_spr, refresh_spr2, this, menu_selector(StrangerScene::btn_refresh_callback));
-    item_refresh->setPosition(ccp(DISPLAY->ScreenWidth()*.08f, DISPLAY->ScreenHeight()*.2f + 200));
-    CCMenu* menu_refresh = CCMenu::create(item_refresh, NULL);
+    refresh_spr3->setColor(ccGRAY);
+    _itemRefresh = CCMenuItemSprite::create(refresh_spr, refresh_spr2, refresh_spr3, this, menu_selector(StrangerScene::btn_refresh_callback));
+    _itemRefresh->setPosition(ccp(DISPLAY->ScreenWidth()*.08f, DISPLAY->ScreenHeight()*.2f + 200));
+    CCMenu* menu_refresh = CCMenu::create(_itemRefresh, NULL);
     menu_refresh->setPosition(CCPointZero);
     this->addChild(menu_refresh, z_order);
+    
+    // 刷新倒计时
+    _countDown = CCLabelAtlas::create("00:00", "res/pic/baseScene/base_number3.png", 14, 20, '0');
+    _countDown->setScale(0.9);
+    _countDown->setPosition(ccp(6, 2));
+    _countDown->setVisible(false);
+    _itemRefresh->addChild(_countDown);
+    
+    this->update_refresh_state();
     
     //查找
     CCSprite* find_spr = CCSprite::create("res/pic/haoyoupaihang/find.png");
@@ -131,8 +145,8 @@ void StrangerScene::createView(){
     this->addChild(menu_note, z_order);
     
     //返回
-    CCSprite* back_spr = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* back_spr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* back_spr = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* back_spr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     back_spr2->setScale(1.02f);
     CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_spr, back_spr2, this, menu_selector(StrangerScene::btn_back_callback));
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -140,13 +154,17 @@ void StrangerScene::createView(){
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, z_order);
     
+    ///-----
+    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .18f - 1));
+    this->addChild(di_spr, z_order);
 }
 
 void StrangerScene::initStranger(){
     CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/other_bg_nor.png");
     
     tabLayer = StrangerTableView::create();
-    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .2f));
+    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .16f));
     tabLayer->setTag(0x77777);
     
     this->addChild(tabLayer, 20);
@@ -168,6 +186,9 @@ void StrangerScene::btn_refresh_callback(CCObject* pSender){
 }
 
 void StrangerScene::refresh_callback_802(){
+    DATA->setRefreshTimeStampe(DATA->cur_timestamp());
+    this->start_count_down(REFRESH_INTERVAL);
+    
     LOADING->remove();
     this->removeChild(tabLayer);
     this->initStranger();
@@ -203,6 +224,7 @@ void StrangerScene::btn_note_callback(CCObject* pSender){
 }
 
 void StrangerScene::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
         CCScene* scene = HaoyouScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
@@ -763,5 +785,38 @@ void StrangerScene::initClothes(){//穿衣服
                 }
             }
         }
+    }
+}
+
+void StrangerScene::update_refresh_state() {
+    time_t oldTS = DATA->getRefreshTimeStampe();
+    time_t nowTS = DATA->cur_timestamp();
+    time_t delta = nowTS - oldTS;
+    CCLOG("陌生人刷新时间间隔：%ld秒", delta);
+    if (delta < REFRESH_INTERVAL) {
+        this->start_count_down((int)(REFRESH_INTERVAL - delta));
+    }
+}
+
+void StrangerScene::start_count_down(int secondLeft) {
+    _timeLeft = secondLeft;
+    _countDown->setVisible(true);
+    _itemRefresh->setEnabled(false);
+    this->unschedule(SEL_SCHEDULE(&StrangerScene::schedule_count_down));
+    this->schedule(SEL_SCHEDULE(&StrangerScene::schedule_count_down));
+}
+
+void StrangerScene::schedule_count_down(float dt) {
+    _timeLeft -= dt;
+    if (_timeLeft > 0) {
+        int minute = int(_timeLeft) / 60;
+        int second = int(_timeLeft) % 60;
+        CCString* timeLeft = CCString::createWithFormat("%02d:%02d", minute, second);
+        _countDown->setString(timeLeft->getCString());
+    }
+    else {
+        this->unschedule(SEL_SCHEDULE(&StrangerScene::schedule_count_down));
+        _itemRefresh->setEnabled(true);
+        _countDown->setVisible(false);
     }
 }

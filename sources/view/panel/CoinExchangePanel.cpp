@@ -11,6 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 #include <math.h>
 
 CoinExchangePanel::~CoinExchangePanel() {
@@ -34,13 +35,13 @@ bool CoinExchangePanel::init() {
         _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.6));
         _content->addChild(_panel);
         
-        CCSprite* cancel1 = CCSprite::create("pic/common/btn_cancel.png");
-        CCSprite* cancel2 = CCSprite::create("pic/common/btn_cancel.png");
+        CCSprite* cancel1 = CCSprite::create("res/pic/common/btn_cancel.png");
+        CCSprite* cancel2 = CCSprite::create("res/pic/common/btn_cancel.png");
         cancel2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btn_canel = CCMenuItemSprite::create(cancel1, cancel2, this, SEL_MenuHandler(&CoinExchangePanel::remove));
         
-        CCSprite* confirm1 = CCSprite::create("pic/common/btn_purchase.png");
-        CCSprite* confirm2 = CCSprite::create("pic/common/btn_purchase.png");
+        CCSprite* confirm1 = CCSprite::create("res/pic/common/btn_purchase.png");
+        CCSprite* confirm2 = CCSprite::create("res/pic/common/btn_purchase.png");
         confirm2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btn_confirm = CCMenuItemSprite::create(confirm1, confirm2, this, SEL_MenuHandler(&CoinExchangePanel::buy));
         
@@ -141,6 +142,7 @@ void CoinExchangePanel::do_exit() {
 }
 
 void CoinExchangePanel::remove() {
+    AUDIO->common_effect();
     this->removeFromParentAndCleanup(true);
 }
 
@@ -150,6 +152,7 @@ void CoinExchangePanel::buy() {
 }
 
 void CoinExchangePanel::nc_exchange_coin_103(CCObject *pObj) {
+    AUDIO->comfirm_effect();
     LOADING->remove();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->remove();

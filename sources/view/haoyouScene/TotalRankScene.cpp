@@ -13,6 +13,7 @@
 #include "HaoyouScene.h"
 #include "MainScene.h"
 #include "PromptLayer.h"
+#include "AudioManager.h"
 
 const float totalRank_z_oder = 20.f;
 
@@ -27,26 +28,6 @@ bool TotalRankScene::init(){
     
     enterBool = false;
     
-    _rankers = DATA->getRanking()->ranking();
-    int count = _rankers->count();
-    if (count == 0) {
-        item_first->setVisible(false);
-        item_second->setVisible(false);
-        item_third->setVisible(false);
-        myClothesTemp = DATA->getClothes()->MyClothesTemp();
-    }else{
-        if (count == 1){
-            item_second->setVisible(false);
-            item_third->setVisible(false);
-        }else if (count == 2) {
-            item_third->setVisible(false);
-        }
-        
-        ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(0);
-        myClothesTemp = show->ondress();
-    }
-    
-    
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
@@ -57,15 +38,39 @@ bool TotalRankScene::init(){
     CCObject* pObj = NULL;
     CCARRAY_FOREACH(rankers, pObj){
         ShowComp* show_rank = (ShowComp*)pObj;
+        CCLOG("ID: %s, ID_SELF: %s", show_rank->getShowID().c_str(), id_self);
         if (show_rank->getShowID().compare(id_self) == 0) {
             rank_self = (int)rankers->indexOfObject(pObj) + 1;
+            break;
         }else{
             rank_self = -1;
         }
     }
     
+    _rankers = DATA->getRanking()->ranking();
     
     this->createView();
+    
+    int count = _rankers->count();
+    if (count == 0) {
+        item_first->setVisible(false);
+        item_second->setVisible(false);
+        item_third->setVisible(false);
+        // 自己的衣着
+        myClothesTemp = DATA->getShow()->ondress(); //DATA->getClothes()->MyClothesTemp();
+    }else{
+        if (count == 1){
+            item_second->setVisible(false);
+            item_third->setVisible(false);
+        }else if (count == 2) {
+            item_third->setVisible(false);
+        }
+        
+        ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(0);
+        // 排名第一的
+        myClothesTemp = show->ondress();
+    }
+    
     this->creat_Man();
     this->initClothes();
     
@@ -132,14 +137,15 @@ void TotalRankScene::createView(){
     this->addChild(menu_note, totalRank_z_oder);
     
     //返回
-    CCSprite* back_spr = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* back_spr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* back_spr = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* back_spr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     back_spr2->setScale(1.02f);
     CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_spr, back_spr2, this, menu_selector(TotalRankScene::btn_back_callback));
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, totalRank_z_oder);
+    
     
     //self
     
@@ -297,6 +303,10 @@ void TotalRankScene::createView(){
     this->addChild(menu_rank, totalRank_z_oder);
     
     this->initTotalRank();
+    
+    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .20f - 1));
+    this->addChild(di_spr, totalRank_z_oder);
 }
 
 void TotalRankScene::initTotalRank(){
@@ -327,6 +337,7 @@ void TotalRankScene::btn_note_callback(CCObject* pSender){
 }
 
 void TotalRankScene::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     if (_type == 1) {
         CCScene* scene = MainScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
@@ -343,7 +354,6 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     CCMenuItem* item = (CCMenuItem*)btn;
     item->setEnabled(false);
     int index = ((CCInteger*)item->getUserObject())->getValue();
-    
     
     
     CCSprite* bg;

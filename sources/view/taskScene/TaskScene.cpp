@@ -14,12 +14,15 @@
 #include "MainScene.h"
 #include "Loading2.h"
 #include "TaskStoryScene.h"
+#include "PhoneLayer.h"
+#include "PhoneLayer2.h"
 
 #include "ClothesScene.h"
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
+#include "AudioManager.h"
 #include "AppUtil.h"
-
+#include "PromptLayer.h"
 #include "BuildingLayer.h"
 
 TaskScene::~TaskScene(){
@@ -59,8 +62,8 @@ bool TaskScene::init(bool isPhaseUP){
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
-    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(TaskScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -80,6 +83,8 @@ bool TaskScene::init(bool isPhaseUP){
 
 void TaskScene::onEnter(){
     BaseScene::onEnter();
+    
+    AUDIO->play_company_bgm();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::creat_Tishi), "Task_Creat_Tishi", NULL);
@@ -239,16 +244,18 @@ void TaskScene::creat_view(){
     taskKuang->addChild(tabLayer, 5);
     taskKuang->setScale(.3f);
     
+    if (ratingsRequire == 9999) {
+        barSpr = CCSprite::create("res/pic/mainScene/txt_bar.png");
+        barSpr->setAnchorPoint(ccp(.5f, 0));
+        barSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 1));
+        this->addChild(barSpr, 15);//478 37
+        CCString* barStr = CCString::createWithFormat("升级公司还差 %d 星级", ratingsRequire - curRatings);
+        CCLabelTTF* barLabel = CCLabelTTF::create(barStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(barSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        barLabel->setPosition(ccp(barSpr->getContentSize().width* .5f, barSpr->getContentSize().height* .5f));
+        barLabel->setColor(ccc3(80, 63, 68));
+        barSpr->addChild(barLabel);
+    }
     
-    barSpr = CCSprite::create("res/pic/mainScene/txt_bar.png");
-    barSpr->setAnchorPoint(ccp(.5f, 0));
-    barSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 1));
-    this->addChild(barSpr, 15);//478 37
-    CCString* barStr = CCString::createWithFormat("升级公司还差 %d 星级", ratingsRequire - curRatings);
-    CCLabelTTF* barLabel = CCLabelTTF::create(barStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(barSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    barLabel->setPosition(ccp(barSpr->getContentSize().width* .5f, barSpr->getContentSize().height* .5f));
-    barLabel->setColor(ccc3(80, 63, 68));
-    barSpr->addChild(barLabel);
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::enterTheKuang), .1f);
 }
@@ -294,6 +301,7 @@ void TaskScene::enterTheKuang(float dt){
 }
 
 void TaskScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     if (historyBool) {
         historyBool = false;
         DATA->setTaskPhase(DATA->getPlayer()->phase);
@@ -491,16 +499,16 @@ void TaskScene::creat_Tishi(){
     CCSprite* startSpr2;
     CCMenuItem* startItem;
     if (unlockCondition <= OpenToWhichOne) {
-        startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
-        startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
+        startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(TaskScene::startCallBack));
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
         startItem->setTag(index);
     }else{
-        startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr1->setColor(ccGRAY);
-        startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setColor(ccGRAY);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
@@ -604,7 +612,12 @@ CCString* TaskScene::getTaskDescription(int index){
 
 void TaskScene::exitView(){
     BaseScene::hideBaseScene();
-    barSpr->setVisible(false);
+    
+    int curPhase = DATA->getPlayer()->phase;
+    int ratingsRequire = CONFIG->phase_up_required(curPhase);
+    if (ratingsRequire == 9999) {
+        barSpr->setVisible(false);
+    }
     
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::openTaskStoryScene));
     
@@ -1207,32 +1220,34 @@ void TaskScene::creat_phone(){
             CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
             if (storyArr == NULL) {
                 now_task_index = i;
+                
+                CCSprite* phoneSpr1 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
+                CCSprite* phoneSpr2 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
+                CCMenuItem* phoneItem = CCMenuItemSprite::create(phoneSpr1, phoneSpr2, this, menu_selector(TaskScene::phoneCallBack));
+                phoneItem->setPosition(ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
+                phoneItem->setTag(now_task_index);
+                CCMenu* menu = CCMenu::create(phoneItem, NULL);
+                menu->setPosition(CCPointZero);
+                _ManSpr->addChild(menu, 1000);
+                
+                CCMoveTo* moveTo1 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f + 5));
+                CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
+                phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.1f), NULL)));
                 break;
             }
         }
     }
-    
-    CCSprite* phoneSpr1 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
-    phoneSpr1->setRotation(12.f);
-    phoneSpr1->setScale(.4f);
-    CCSprite* phoneSpr2 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
-    phoneSpr2->setRotation(12.f);
-    phoneSpr2->setScale(.4f);
-    CCMenuItem* phoneItem = CCMenuItemSprite::create(phoneSpr1, phoneSpr2, this, menu_selector(TaskScene::phoneCallBack));
-    phoneItem->setPosition(ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
-    phoneItem->setTag(now_task_index);
-    CCMenu* menu = CCMenu::create(phoneItem, NULL);
-    menu->setPosition(CCPointZero);
-    _ManSpr->addChild(menu, 1000);
-    
-    CCMoveTo* moveTo1 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f + 5));
-    CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
-    phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, NULL)));
 }
 void TaskScene::phoneCallBack(CCObject* pSender){
+    AUDIO->shop_effect();
     CCLog("phoneCallBack");
-    PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(this->getScene(), "敬请期待");
+    
+//    CCLayer* layer = PhoneLayer::create();
+    CCLayer* layer = PhoneLayer2::create();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 

@@ -14,6 +14,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 
 BuildingView::~BuildingView() {
     CCLOG("BuildingView::~BuildingView() ");
@@ -212,6 +213,7 @@ unsigned int BuildingView::numberOfCellsInTableView(CCTableView *table) {
 #pragma mark - CCTableViewDelegate
 
 void BuildingView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
+    AUDIO->common_effect();
     FloorCell* floor = (FloorCell*)cell;
     floor->collected_coin();
 }

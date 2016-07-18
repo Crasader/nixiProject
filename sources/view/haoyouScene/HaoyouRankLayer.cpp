@@ -16,7 +16,7 @@
 #include "NetManager.h"
 #include "PromptLayer.h"
 #include "StrangerScene.h"
-
+#include "AudioManager.h"
 
 HaoyouRankLayer:: ~HaoyouRankLayer(){}
 
@@ -33,6 +33,16 @@ bool HaoyouRankLayer::init(){
         const char* curSelected_id = DATA->getSocial()->getSelectedFriendIDbyIndex(DATA->getSocial()->getSelectedFriend());
         ShowComp* show = (ShowComp*)DATA->getSocial()->friends()->objectForKey(curSelected_id);
         myClothesTemp = show->ondress();
+    }
+    
+    const char* id_self = DATA->getLogin()->obtain_sid();
+    CCArray* arr = DATA->getSocial()->sortedFriends();
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(arr, pObj){
+        ShowComp* show_rank = (ShowComp*)pObj;
+        if (show_rank->getShowID().compare(id_self) == 0) {
+            rank_self = (int)arr->indexOfObject(pObj) + 1;
+        }
     }
         
     _ManSpr = CCSprite::create();
@@ -107,14 +117,19 @@ void HaoyouRankLayer::createView(){
     this->addChild(menu_note, z_order);
     
     //返回
-    CCSprite* back_spr = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* back_spr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* back_spr = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* back_spr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     back_spr2->setScale(1.02f);
     CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_spr, back_spr2, this, menu_selector(HaoyouRankLayer::btn_back_callback));
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, z_order);
+    
+    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .22f - 1));
+    this->addChild(di_spr, z_order);
+
     
     
     /////self
@@ -151,6 +166,19 @@ void HaoyouRankLayer::createView(){
     lab->setColor(ccBLACK);
     item_self->addChild(lab);
     
+    
+    if (rank_self >= 1 && rank_self <= 9) {
+        CCSprite* spr = this->getNumSprite(rank_self);
+        spr->setPosition(ccp(item_self->getContentSize().width* .25f, item_self->getContentSize().height* .5f));
+        item_self->addChild(spr);
+    }else{
+        CCSprite* spr1 = this->getNumSprite((int)floor(rank_self/10));
+        spr1->setPosition(ccp(item_self->getContentSize().width* .25f - 10, item_self->getContentSize().height* .5f));
+        item_self->addChild(spr1);
+        CCSprite* spr2 = this->getNumSprite((int)floor(rank_self%10));
+        spr2->setPosition(ccp(item_self->getContentSize().width* .25f + 10, item_self->getContentSize().height* .5f));
+        item_self->addChild(spr2);
+    }
     
     CCMenu* menu_self = CCMenu::create(item_self, NULL);
     menu_self->setPosition(CCPointZero);
@@ -189,24 +217,18 @@ void HaoyouRankLayer::btn_toBig_callback(CCMenuItem* btn){
     CCSprite* num;
     bg = CCSprite::create("res/pic/haoyoupaihang/self_bg_sel.png");
         
-//        if (rank_self == -1) {
-//            CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/weishangbang.png");
-//            spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
-//            bg->addChild(spr);
-//        }else{
-//            if (rank_self >= 1 && rank_self <= 9) {
-//                CCSprite* spr = this->getNumSprite(rank_self);
-//                spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
-//                bg->addChild(spr);
-//            }else{
-//                CCSprite* spr1 = this->getNumSprite((int)floor(rank_self/10));
-//                spr1->setPosition(ccp(bg->getContentSize().width* .15f - 10, bg->getContentSize().height* .5f));
-//                bg->addChild(spr1);
-//                CCSprite* spr2 = this->getNumSprite((int)floor(rank_self%10));
-//                spr2->setPosition(ccp(bg->getContentSize().width* .15f + 10, bg->getContentSize().height* .5f));
-//                bg->addChild(spr2);
-//            }
-//        }
+    if (rank_self >= 1 && rank_self <= 9) {
+        CCSprite* spr = this->getNumSprite(rank_self);
+        spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+        bg->addChild(spr);
+    }else{
+        CCSprite* spr1 = this->getNumSprite((int)floor(rank_self/10));
+        spr1->setPosition(ccp(bg->getContentSize().width* .15f - 10, bg->getContentSize().height* .5f));
+        bg->addChild(spr1);
+        CCSprite* spr2 = this->getNumSprite((int)floor(rank_self%10));
+        spr2->setPosition(ccp(bg->getContentSize().width* .15f + 10, bg->getContentSize().height* .5f));
+        bg->addChild(spr2);
+    }
     
     bg->setAnchorPoint(CCPointZero);
     bg->setPosition(ccp(0, 0));
@@ -299,7 +321,7 @@ void HaoyouRankLayer::btn_getTili_callback(){
     NET->take_energy_807();
 }
 
-void HaoyouRankLayer::get_tili_807(){
+void HaoyouRankLayer::get_tili_807(CCObject* pObj){
     LOADING->remove();
     CCString* tip_str;
 //    if (DATA->getSocial()->energy_could_take() <= 0) {
@@ -314,6 +336,14 @@ void HaoyouRankLayer::get_tili_807(){
     if (lab2 != NULL) {
         lab2->setString("0/0");
     }
+    
+    CCDictionary* info = (CCDictionary*)pObj;
+    CCDictionary* dic = CCDictionary::create();
+    int num = ((CCInteger*)info->objectForKey("energy"))->getValue();
+    dic->setObject(CCInteger::create(num), "num");
+    CCPoint from = ccp(DISPLAY->halfW() + 100, DISPLAY->H() * 0.12);
+    dic->setObject(CCString::createWithFormat("{%f,%f}", from.x, from.y), "from");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
@@ -337,6 +367,7 @@ void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

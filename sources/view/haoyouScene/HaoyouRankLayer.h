@@ -75,7 +75,7 @@ public:
     void btn_back_callback(CCObject* pSender);
     
     void btn_getTili_callback();
-    void get_tili_807();
+    void get_tili_807(CCObject* pObj);
     
     void gotoStranger();
     void gotoStranger_802();
@@ -92,6 +92,8 @@ public:
     CCMenu* menu_tili;
     CCMenuItem* item_self;
     int _curBtn_index;
+    
+    int rank_self;
     
     CCLabelTTF* lab;
     CCLabelTTF* lab2;

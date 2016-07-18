@@ -15,7 +15,7 @@
 #include "Dialogs.h"
 #include "DialogItem.h"
 #include "BaseScene.h"
-#include "PromptLayer.h"
+
 
 USING_NS_CC;
 
@@ -75,8 +75,6 @@ public:
     CREATE_FUNC(StoryScene);
     
 public:
-    
-    PromptLayer* promptLayer;
     
     int m_current_story_index_id;
     int index;

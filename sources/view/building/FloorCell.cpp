@@ -11,6 +11,7 @@
 #include "SpecialManager.h"
 #include "DataManager.h"
 #include "AppUtil.h"
+#include "AudioManager.h"
 
 const float ROLE_SCALE = 0.25;
 const float STAND_HEIGHT = 3;
@@ -331,6 +332,7 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
 }
 
 void FloorCell::update_coffers() {
+    AUDIO->buy_effect();
     if (! _coffers) {
         _coffers = CCNode::create();
         _sptFloor->addChild(_coffers, 10);
@@ -505,6 +507,8 @@ void FloorCell::_show_coin_collected() {
     if (! _coffers) {
         return;
     }
+    
+    AUDIO->comfirm_effect();
     
     CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
     sptPromptBar->setContentSize(CCSizeMake(120, 30));

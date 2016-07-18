@@ -12,6 +12,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "BuildingView.h"
+#include "AudioManager.h"
 #include "AppUtil.h"
 
 BuildingLayer::~BuildingLayer() {
@@ -94,6 +95,7 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
     CCRect rect = _building->boundingBox();
     CCRect check = CCRectMake(rect.origin.x, rect.origin.y, (DISPLAY->W() - 200), rect.size.height);
     if (check.containsPoint(location)) {
+        AUDIO->comfirm_effect();
         this->building_touch_callback();
         return true;
     }
@@ -130,8 +132,8 @@ void BuildingLayer::show_building() {
 
 void BuildingLayer::show_phase_up() {
     CCLOG("BuildingLayer::show_phase_up()");
-    CCAnimation* anim = AppUtil::animationWithPics("pic/special/gradeup/gradeup_%d.png", 72, 1, 0.03);
-    CCSprite* spt = CCSprite::create("pic/special/gradeup/gradeup_1.png");
+    CCAnimation* anim = AppUtil::animationWithPics("res/pic/special/gradeup/gradeup_%d.png", 72, 1, 0.03);
+    CCSprite* spt = CCSprite::create("res/pic/special/gradeup/gradeup_1.png");
     spt->setPosition(DISPLAY->center());
     this->getScene()->addChild(spt);
     spt->runAction(CCAnimate::create(anim));

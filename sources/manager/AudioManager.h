@@ -12,7 +12,6 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 
-
 USING_NS_CC;
 using namespace CocosDenshion;
 
@@ -21,9 +20,24 @@ using namespace CocosDenshion;
 class AudioManager : public SimpleAudioEngine
 {
 public:
+    CC_SYNTHESIZE_RETAIN(CCString*, _curBGM, CurBGM);
+    void first_run_config();
+    void play_main_bgm();
+    void play_company_bgm();
+    void play_story_bgm();
+    
+    void common_effect();
+    void error_effect();
+    void comfirm_effect();
+    void goback_effect();
+    void buy_effect();
+    void shop_effect();
+    void clothes_effect();
+    
+public:
     ~AudioManager();
     static AudioManager* Inst();
-    void init(bool music, bool effect);
+    void init();
     void preload_audios();
     void purge();
     

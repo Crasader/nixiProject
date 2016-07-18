@@ -57,7 +57,11 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::tiliCallBack), "NEED_SHOW_BUY_ENERGY", NULL);
     //
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_gold_fly), "NEED_GOLD_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_energy_fly), "NEED_ENERGY_FLY", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_gold_fly_completed), "GOLD_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_energy_fly_completed), "ENERGY_FLY_COMPLETED", NULL);
 }
 
 void BaseScene::onExit(){
@@ -193,7 +197,7 @@ void BaseScene::init_UI(){
     this->addChild(barMenu, 10);
     
     // 公司等级进度
-    _phaseStar = CCSprite::create("pic/baseScene/base_phase.png");
+    _phaseStar = CCSprite::create("res/pic/baseScene/base_phase.png");
 //    _phaseStar->setPosition(nameItem->getPosition() + ccp(72, -16));
     _phaseStar->setPosition(ccp(-10, 4));
     coinItem->addChild(_phaseStar, 10);
@@ -233,9 +237,10 @@ void BaseScene::updataTileTime(float dt){
 
 void BaseScene::updataMoney(){
     uint energy = DATA->getPlayer()->energy;
+    tili_num = energy;
     CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
     m_tili_num->setString(tiliStr->getCString());
-    tili_num = energy;
+    
     if (energy >= def_TiliMax) {
         this->unschedule(schedule_selector(BaseScene::updataTileTime));
         
@@ -332,16 +337,16 @@ void BaseScene::updatePhaseProgress() {
     _phaseStar->removeAllChildrenWithCleanup(true);
     int phase = DATA->getPlayer()->phase;
 
-    CCLabelAtlas* phaseNum = CCLabelAtlas::create(CCString::createWithFormat("%d", phase)->getCString(), "pic/baseScene/base_number2.png", 13.9, 17, '0');
+    CCLabelAtlas* phaseNum = CCLabelAtlas::create(CCString::createWithFormat("%d", phase)->getCString(), "res/pic/baseScene/base_number2.png", 13.9, 17, '0');
     phaseNum->setPosition(ccp(10, 3));
     _phaseStar->addChild(phaseNum);
     
-    CCSprite* bottom = CCSprite::create("pic/baseScene/base_exp_bar_bottom.png");
+    CCSprite* bottom = CCSprite::create("res/pic/baseScene/base_exp_bar_bottom.png");
     bottom->setAnchorPoint(ccp(0, 0.5));
     bottom->setPosition(ccp(22, 10));
     _phaseStar->addChild(bottom);
     
-    CCSprite* top = CCSprite::create("pic/baseScene/base_exp_bar_top.png");
+    CCSprite* top = CCSprite::create("res/pic/baseScene/base_exp_bar_top.png");
     _progress = CCProgressTimer::create(top);
     _progress->setAnchorPoint(ccp(0, 0.5));
     _progress->setPosition(ccp(22, 10));

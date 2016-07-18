@@ -8,7 +8,7 @@
 
 #include "AHMessageBox.h"
 #include "DisplayManager.h"
-
+#include "AudioManager.h"
 #include "AppUtil.h"
 
 AHMessageBox::~AHMessageBox()
@@ -100,13 +100,13 @@ void AHMessageBox::load_content()
         case AH_BUTTON_TYPE_YES2:
         case AH_BUTTON_TYPE_YES3:
         case AH_BUTTON_TYPE_YES4:{
-//            m_item_yes = CCMenuItemImage::create("pic/common/btn_confirm.png", "pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
-            CCSprite* yes1 = CCSprite::create("pic/common/btn_confirm.png");
-            CCSprite* yes2 = CCSprite::create("pic/common/btn_confirm.png");
+//            m_item_yes = CCMenuItemImage::create("res/pic/common/btn_confirm.png", "res/pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            CCSprite* yes1 = CCSprite::create("res/pic/common/btn_confirm.png");
+            CCSprite* yes2 = CCSprite::create("res/pic/common/btn_confirm.png");
             yes2->setScale(1.01);
             m_item_yes = CCMenuItemSprite::create(yes1, yes2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
             m_item_yes->setTag(AH_BUTTON_TAG_YES);
-            m_item_yes->setUserObject(ccs("pic/common/btn_confirm.png"));
+            m_item_yes->setUserObject(ccs("res/pic/common/btn_confirm.png"));
             m_main_menu->addChild(m_item_yes);
             
             //确定特效
@@ -125,21 +125,21 @@ void AHMessageBox::load_content()
         case AH_BUTTON_TYPE_YESNO4:
         case AH_BUTTON_TYPE_YESNO5:{
 //            m_item_no = CCMenuItemImage::create("res/pic/common/ah_btn_cancel_normal.png", "res/pic/common/ah_btn_cancel_selected.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
-            CCSprite* no1 = CCSprite::create("pic/common/btn_cancel.png");
-            CCSprite* no2 = CCSprite::create("pic/common/btn_cancel.png");
+            CCSprite* no1 = CCSprite::create("res/pic/common/btn_cancel.png");
+            CCSprite* no2 = CCSprite::create("res/pic/common/btn_cancel.png");
             no2->setScale(1.01);
             m_item_no = CCMenuItemSprite::create(no1, no2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
             m_item_no->setTag(AH_BUTTON_TAG_NO);
             m_item_no->setUserObject(ccs("res/pic/common/ah_btn_cancel_normal.png"));
             m_main_menu->addChild(m_item_no);
             
-//            m_item_yes = CCMenuItemImage::create("pic/common/btn_confirm.png", "pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
-            CCSprite* yes1 = CCSprite::create("pic/common/btn_confirm.png");
-            CCSprite* yes2 = CCSprite::create("pic/common/btn_confirm.png");
+//            m_item_yes = CCMenuItemImage::create("res/pic/common/btn_confirm.png", "res/pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            CCSprite* yes1 = CCSprite::create("res/pic/common/btn_confirm.png");
+            CCSprite* yes2 = CCSprite::create("res/pic/common/btn_confirm.png");
             yes2->setScale(1.01);
             m_item_yes = CCMenuItemSprite::create(yes1, yes2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
             m_item_yes->setTag(AH_BUTTON_TAG_YES);
-            m_item_yes->setUserObject(ccs("pic/common/btn_confirm.png"));
+            m_item_yes->setUserObject(ccs("res/pic/common/btn_confirm.png"));
             m_main_menu->addChild(m_item_yes);
             
             //确定特效
@@ -208,31 +208,30 @@ void AHMessageBox::onExit()
 void AHMessageBox::on_menuitem_click(CCObject* pSender)
 {
     CCMenuItem* item = dynamic_cast<CCMenuItem*>(pSender);
-//    if (MMAudioManager::get_instance()->is_effect_on()) {
-//        switch (this->getButton_type()) {
-//            case AH_BUTTON_TYPE_YES:
-//            case AH_BUTTON_TYPE_YES2:
-//            case AH_BUTTON_TYPE_YES3:
-//            case AH_BUTTON_TYPE_YES4:
-//            case AH_BUTTON_TYPE_YESNO:
-//            case AH_BUTTON_TYPE_YESNO2:
-//            case AH_BUTTON_TYPE_YESNO3:
-//            case AH_BUTTON_TYPE_YESNO4:
-//            case AH_BUTTON_TYPE_YESNO5: {
-//                if (item->getTag() == AH_BUTTON_TAG_YES) {
-//                    // 确认音效
-//                    MMAudioManager::get_instance()->play_effect(kAudio_AH_YES, false);
-//                }
-//                else if (item->getTag() == AH_BUTTON_TAG_NO) {
-//                    // 取消音效
-//                    MMAudioManager::get_instance()->play_effect(kAudio_Button_Back, false);
-//                }
-//            } break;
-//                
-//            default:
-//                break;
-//        }
-//    }
+    switch (this->getButton_type()) {
+        case AH_BUTTON_TYPE_YES:
+        case AH_BUTTON_TYPE_YES2:
+        case AH_BUTTON_TYPE_YES3:
+        case AH_BUTTON_TYPE_YES4:
+        case AH_BUTTON_TYPE_YESNO:
+        case AH_BUTTON_TYPE_YESNO2:
+        case AH_BUTTON_TYPE_YESNO3:
+        case AH_BUTTON_TYPE_YESNO4:
+        case AH_BUTTON_TYPE_YESNO5: {
+            if (item->getTag() == AH_BUTTON_TAG_YES) {
+                // 确认音效
+                AUDIO->comfirm_effect();
+            }
+            else if (item->getTag() == AH_BUTTON_TAG_NO) {
+                // 取消音效
+                AUDIO->common_effect();
+            }
+        } break;
+            
+        default:
+            break;
+    }
+
     if (_delegate) {
         _delegate->message_box_did_selected_button(this, _button_type, (AH_BUTTON_TAGS)item->getTag());
     }

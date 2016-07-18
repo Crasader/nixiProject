@@ -15,7 +15,7 @@
 #include "FlashNumberLabel2.h"
 #include "FlashNumberLabel3.h"
 #include "FlashNumberLabel4.h"
-#include "PromptLayer.h"
+
 
 USING_NS_CC;
 
@@ -76,9 +76,9 @@ public:
     int getContentLength();
     
     void exit();
+    void nextAnimation1();
+    void nextAnimation2();
 public:
-    
-    PromptLayer* promptLayer;
     
     bool logic_open_bool;
     bool logic_end_Bool;
@@ -90,7 +90,7 @@ public:
     int randIndex4;
     
     
-    
+    CCSprite* kuangSpr1;
     CCSprite* coinSpr;
     CCSprite* renSpr;
     CCLabelTTF* coinLabel;

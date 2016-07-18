@@ -146,9 +146,9 @@ void SpecialManager::showFlowerAt(CCNode *parent, CCPoint pos, int zOrder) {
 void SpecialManager::show_coin_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration) {
     int zOrder = 1000;
     // icon
-    CCSprite* icon = CCSprite::create("pic/clothesScene/gj_coin.png");
+    CCSprite* icon = CCSprite::create("res/pic/clothesScene/gj_coin.png");
     icon->setPosition(start);
-    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("pic/common/fly_coin_%d.png", 2, 1, 0.3f));
+    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("res/pic/common/fly_coin_%d.png", 2, 1, 0.3f));
     icon->runAction(CCRepeatForever::create(flap));
     parent->addChild(icon, zOrder);
     
@@ -156,7 +156,7 @@ void SpecialManager::show_coin_reward(CCNode *parent, int num, CCPoint start, CC
     if (num > 0) {
         // num
         CCString* str_num = CCString::createWithFormat("%d", num);
-        lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
+        lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
         parent->addChild(lbl, zOrder);
     }
     
@@ -167,9 +167,9 @@ void SpecialManager::show_coin_reward(CCNode *parent, int num, CCPoint start, CC
 void SpecialManager::show_gold_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration) {
     int zOrder = 1000;
     // gold
-    CCSprite* icon = CCSprite::create("pic/clothesScene/gj_gold.png");
+    CCSprite* icon = CCSprite::create("res/pic/clothesScene/gj_gold.png");
     icon->setPosition(start);
-    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("pic/common/fly_gold_%d.png", 2, 1, 0.3f));
+    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("res/pic/common/fly_gold_%d.png", 2, 1, 0.3f));
     icon->runAction(CCRepeatForever::create(flap));
     parent->addChild(icon, zOrder);
     
@@ -177,7 +177,7 @@ void SpecialManager::show_gold_reward(CCNode *parent, int num, CCPoint start, CC
     if (num > 0) {
         // num
         CCString* str_num = CCString::createWithFormat("%d", num);
-        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
+        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
         parent->addChild(lbl, zOrder);
     }
     
@@ -188,9 +188,9 @@ void SpecialManager::show_gold_reward(CCNode *parent, int num, CCPoint start, CC
 void SpecialManager::show_energy_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration) {
     int zOrder = 1000;
     // piece
-    CCSprite* energy = CCSprite::create("pic/clothesScene/gj_xin.png");
+    CCSprite* energy = CCSprite::create("res/pic/clothesScene/gj_xin.png");
     energy->setPosition(start);
-    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("pic/common/fly_energy_%d.png", 2, 1, 0.3f));
+    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("res/pic/common/fly_energy_%d.png", 2, 1, 0.3f));
     energy->runAction(CCRepeatForever::create(flap));
     parent->addChild(energy, zOrder);
     
@@ -198,7 +198,7 @@ void SpecialManager::show_energy_reward(CCNode *parent, int num, CCPoint start, 
     if (num > 0) {
         // num
         CCString* str_num = CCString::createWithFormat("%d", num);
-        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "pic/baseScene/base_number.png", 14, 20, '0');
+        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
         parent->addChild(lbl, zOrder);
     }
     
@@ -281,7 +281,7 @@ void SpecialManager::energy_animation_completed(CCNode* node) {
 void SpecialManager::showStarParticleEffect(int color, CCPoint position, CCNode* node){
     //	CCParticleExplosion* effect = CCParticleExplosion::create();
     CCParticleFlower* effect = CCParticleFlower::create();
-    effect->setTexture(CCTextureCache::sharedTextureCache()->addImage("pic/common/ah_star.png"));
+    effect->setTexture(CCTextureCache::sharedTextureCache()->addImage("res/pic/common/ah_star.png"));
     effect->setTotalParticles(30);//最大粒子个数
     effect->setStartColor({0.5f,0.5f,0.5f,0.5f});//起始颜色
     effect->setStartColorVar({0.5f,0.5f,0.5f,1.0f});//起始颜色浮动值

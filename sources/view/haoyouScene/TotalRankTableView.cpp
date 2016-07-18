@@ -34,7 +34,7 @@ bool TotalRankTableView::init(){
     
     selectedIndex = -1;
     
-    pTableView = CCTableView::create(this, CCSizeMake(275, 3*124));
+    pTableView = CCTableView::create(this, CCSizeMake(275, 3*130));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);

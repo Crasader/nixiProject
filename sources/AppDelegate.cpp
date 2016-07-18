@@ -8,6 +8,7 @@
 
 #include "ConfigManager.h"
 #include "DataManager.h"
+#include "AudioManager.h"
 #include "SpecialManager.h"
 #include "LoginScene.h"
 #include "TaskSettlementLayer.h"
@@ -55,8 +56,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     CONFIG->config();
-    CONFIG->test_mission_count();
-    CONFIG->test_phase_up_required();
+//    CONFIG->test_mission_count();
+//    CONFIG->test_phase_up_required();
+    //
+    AUDIO->play_main_bgm();
     //
     DATA->getLogin()->config_UUID();
     SPECIAL->init();
