@@ -61,12 +61,14 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::rank_list_callback_300), "HTTP_FINISHED_300", NULL);
-
+    
+    this->update_news_status();
+    this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
 }
 
 void HaoyouScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    
+    this->unscheduleAllSelectors();
     BaseScene::onExit();
 }
 
@@ -88,14 +90,14 @@ void HaoyouScene::creat_view(){
     CCSprite* xiaoxiSpr1 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
     CCSprite* xiaoxiSpr2 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
     xiaoxiSpr2->setScale(1.02f);
-    CCMenuItem* xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
-    xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .32f));
+    _xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
+    _xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .32f));
     
     CCSprite* zhitiaoSpr1 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
     CCSprite* zhitiaoSpr2 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
     zhitiaoSpr2->setScale(1.02f);
-    CCMenuItem* zhitiaoItem = CCMenuItemSprite::create(zhitiaoSpr1, zhitiaoSpr2, this, menu_selector(HaoyouScene::zhitiaoCallBack));
-    zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
+    _zhitiaoItem = CCMenuItemSprite::create(zhitiaoSpr1, zhitiaoSpr2, this, menu_selector(HaoyouScene::zhitiaoCallBack));
+    _zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
     
     CCSprite* haoyouSpr1 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
     CCSprite* haoyouSpr2 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
@@ -115,7 +117,7 @@ void HaoyouScene::creat_view(){
     CCMenuItem* paihangItem = CCMenuItemSprite::create(paihangSpr1, paihangSpr2, this, menu_selector(HaoyouScene::paihangCallBack));
     paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .07f));
     
-    allMenu = CCMenu::create(backItem, xiaoxiItem, zhitiaoItem, haoyouItem, strangerItem, paihangItem, NULL);
+    allMenu = CCMenu::create(backItem, _xiaoxiItem, _zhitiaoItem, haoyouItem, strangerItem, paihangItem, NULL);
     allMenu->setPosition(CCPointZero);
     this->addChild(allMenu, 20);
     
@@ -770,18 +772,19 @@ void HaoyouScene::initClothes(){//穿衣服
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void HaoyouScene::update_news_status() {
+    NewsComp* news = DATA->getNews();
+    if (news->message > 0) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setScale(1.5);
+        spt->setPosition(ccp(72, 92));
+        _xiaoxiItem->addChild(spt);
+    }
+    
+    if (news->paper) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setPosition(ccp(72, 92));
+        _zhitiaoItem->addChild(spt);
+    }
+}
 
