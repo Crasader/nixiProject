@@ -50,6 +50,9 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
     logic_end_Bool = false;
     animationBool = false;
     
+    promptLayer = PromptLayer::create();
+    this->addChild(promptLayer, 500);
+    
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     _ManSpr = CCSprite::create();
@@ -116,10 +119,11 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
         }else{
             if (!lingquBool) {
                 // 给个提示
-                CCLog("<><><>给个领取提示");
+                CCString* str = CCString::createWithFormat("还没有领奖呦!");
+                promptLayer->promptBoxString(str);
             }else{
-                CCLog("<><><>exit()");
                 exit();
+                CCLog("<><><>exit()");
             }
         }
     }
@@ -276,9 +280,9 @@ void TaskSettlementLayer2::creat_view(){
     coinLabel->setColor(ccc3(80, 63, 68));
     coinSpr->addChild(coinLabel);
     
-    CCSprite* lingquSpr1 = CCSprite::create("res/pic/taskSettlement/ts_lingqu.png");
+    CCSprite* lingquSpr1 = CCSprite::create("pic/common/btn_take.png");
     lingquSpr1->setScale(.9f);
-    CCSprite* lingquSpr2 = CCSprite::create("res/pic/taskSettlement/ts_lingqu.png");
+    CCSprite* lingquSpr2 = CCSprite::create("pic/common/btn_take.png");
     lingquSpr2->setScale(.92f);
     lingquItem = CCMenuItemSprite::create(lingquSpr1, lingquSpr2, this, menu_selector(TaskSettlementLayer2::lingquCallBack));
     lingquItem->setPosition(ccp(kuangSpr1->getContentSize().width* .86f, kuangSpr1->getContentSize().height* .28f));

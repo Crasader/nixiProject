@@ -199,13 +199,18 @@ void QingjingCoverView::adjusetEndScrollView2(float offsetPoint){
     CCSequence* seq = CCSequence::create(moveBy,callFuncN,NULL);
     scrollLayer->runAction(seq);
 }
-void QingjingCoverView::linshi(){
+void QingjingCoverView::rightMethods(){
     CCPoint endPoint = ccpAdd(scrollView->getContentOffset(),ccp(-517,0));
     scrollView->unscheduleAllSelectors();
     scrollView->setContentOffset(endPoint, false);
 }
-void QingjingCoverView::linshi2(){
+void QingjingCoverView::leftMethods(){
     CCPoint endPoint = ccpAdd(scrollView->getContentOffset(),ccp(517,0));
+    scrollView->unscheduleAllSelectors();
+    scrollView->setContentOffset(endPoint, false);
+}
+void QingjingCoverView::scrollStatus(int index){
+    CCPoint endPoint = ccpAdd(scrollView->getContentOffset(),ccp(-(517* index),0));
     scrollView->unscheduleAllSelectors();
     scrollView->setContentOffset(endPoint, false);
 }

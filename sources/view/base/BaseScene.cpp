@@ -49,6 +49,12 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updataMoney), "UpdataMoney", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updatePhaseProgress), "UpdatePhaseProgress", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_purchase_panel), "HTTP_FINISHED_100", NULL);
+    // 从外部调用，打开充值面板
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::goldCallBack), "NEED_SHOW_PURCHASEPANEL", NULL);
+    // 从外部调用，打开金币兑换面板
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::coinCallBack), "NEED_SHOW_COIN_EXCHANGE", NULL);
+    // 从外部调用，打开体力购买面板
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::tiliCallBack), "NEED_SHOW_BUY_ENERGY", NULL);
     //
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);

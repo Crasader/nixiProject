@@ -236,6 +236,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -247,7 +248,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/model/ClothesComp.h jni/../../sources/model/IAPComp.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
  jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
  jni/../../sources/model/MessageComp.h \
  jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
@@ -274,7 +276,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/taskScene/TaskStoryScene.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/taskScene/TaskTableView.h \
@@ -754,6 +755,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
+jni/../../sources/view/mainScene/PromptLayer.h:
+
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -778,7 +781,9 @@ jni/../../sources/third/Json/lib_json/writer.h:
 
 jni/../../sources/model/ClothesComp.h:
 
-jni/../../sources/model/IAPComp.h:
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
 
 jni/../../sources/model/LoginComp.h:
 
@@ -839,8 +844,6 @@ jni/../../sources/view/common/Loading2/Loading2.h:
 jni/../../sources/view/taskScene/TaskStoryScene.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 

@@ -15,6 +15,7 @@
 #include "FlashNumberLabel2.h"
 #include "FlashNumberLabel3.h"
 #include "FlashNumberLabel4.h"
+#include "PromptLayer.h"
 
 USING_NS_CC;
 
@@ -73,7 +74,11 @@ public:
     void init(std::string str);
     std::string getContentByLength(int length);
     int getContentLength();
+    
+    void exit();
 public:
+    
+    PromptLayer* promptLayer;
     
     bool logic_open_bool;
     bool logic_end_Bool;
@@ -139,9 +144,6 @@ public:
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
     CCSprite* _zrSpr1; // 妆容
-
-private:
-    void exit();
     
 private:
     int             _rating;

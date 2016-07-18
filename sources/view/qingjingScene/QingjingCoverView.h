@@ -55,8 +55,9 @@ public:
     void addCard(CCNode * card, int zOrder);
     void addCard(CCNode* card, int zOrder, int tag);
     
-    void linshi();
-    void linshi2();
+    void rightMethods();
+    void leftMethods();
+    void scrollStatus(int index);
 public:
     
     CC_SYNTHESIZE(CCPoint , swPosition , SwPosition);//scrollView 位置

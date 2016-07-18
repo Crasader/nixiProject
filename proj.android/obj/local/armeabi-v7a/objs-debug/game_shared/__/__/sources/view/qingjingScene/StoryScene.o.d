@@ -251,7 +251,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/St
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/manager/DataManager.h \
- jni/../../sources/model/ClothesComp.h jni/../../sources/model/IAPComp.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
  jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
  jni/../../sources/model/MessageComp.h \
  jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
@@ -783,7 +784,9 @@ jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/model/ClothesComp.h:
 
-jni/../../sources/model/IAPComp.h:
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
 
 jni/../../sources/model/LoginComp.h:
 

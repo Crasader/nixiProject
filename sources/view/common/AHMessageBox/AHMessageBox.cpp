@@ -79,7 +79,8 @@ void AHMessageBox::load_content()
     // 文字
     m_lbl_msg = CCLabelTTF::create(_message->getCString(), DISPLAY->fangzhengFont(), 34.f, CCSizeMake(box_size.width - 60, box_size.height * 0.44f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     m_lbl_msg->setPosition(ccp(box_size.width * 0.5f, box_size.height * 0.6f));
-    m_lbl_msg->setColor(ccc3(125, 125, 125));
+//    m_lbl_msg->setColor(ccc3(125, 125, 125));
+    m_lbl_msg->setColor(ccc3(102, 102, 154));
     box->addChild(m_lbl_msg);
     
     // close button
@@ -99,9 +100,13 @@ void AHMessageBox::load_content()
         case AH_BUTTON_TYPE_YES2:
         case AH_BUTTON_TYPE_YES3:
         case AH_BUTTON_TYPE_YES4:{
-            m_item_yes = CCMenuItemImage::create("res/pic/common/ah_btn_done_normal.png", "res/pic/common/ah_btn_done_selected.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+//            m_item_yes = CCMenuItemImage::create("pic/common/btn_confirm.png", "pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            CCSprite* yes1 = CCSprite::create("pic/common/btn_confirm.png");
+            CCSprite* yes2 = CCSprite::create("pic/common/btn_confirm.png");
+            yes2->setScale(1.01);
+            m_item_yes = CCMenuItemSprite::create(yes1, yes2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
             m_item_yes->setTag(AH_BUTTON_TAG_YES);
-            m_item_yes->setUserObject(ccs("res/pic/common/ah_btn_done_normal.png"));
+            m_item_yes->setUserObject(ccs("pic/common/btn_confirm.png"));
             m_main_menu->addChild(m_item_yes);
             
             //确定特效
@@ -119,20 +124,30 @@ void AHMessageBox::load_content()
         case AH_BUTTON_TYPE_YESNO3:
         case AH_BUTTON_TYPE_YESNO4:
         case AH_BUTTON_TYPE_YESNO5:{
-            m_item_yes = CCMenuItemImage::create("res/pic/common/ah_btn_done_normal.png", "res/pic/common/ah_btn_done_selected.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
-            m_item_yes->setTag(AH_BUTTON_TAG_YES);
-            m_item_yes->setUserObject(ccs("res/pic/common/ah_btn_done_normal.png"));
-            m_main_menu->addChild(m_item_yes);
-            
-            m_item_no = CCMenuItemImage::create("res/pic/common/ah_btn_cancel_normal.png", "res/pic/common/ah_btn_cancel_selected.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+//            m_item_no = CCMenuItemImage::create("res/pic/common/ah_btn_cancel_normal.png", "res/pic/common/ah_btn_cancel_selected.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            CCSprite* no1 = CCSprite::create("pic/common/btn_cancel.png");
+            CCSprite* no2 = CCSprite::create("pic/common/btn_cancel.png");
+            no2->setScale(1.01);
+            m_item_no = CCMenuItemSprite::create(no1, no2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
             m_item_no->setTag(AH_BUTTON_TAG_NO);
             m_item_no->setUserObject(ccs("res/pic/common/ah_btn_cancel_normal.png"));
             m_main_menu->addChild(m_item_no);
             
+//            m_item_yes = CCMenuItemImage::create("pic/common/btn_confirm.png", "pic/common/btn_confirm.png", this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            CCSprite* yes1 = CCSprite::create("pic/common/btn_confirm.png");
+            CCSprite* yes2 = CCSprite::create("pic/common/btn_confirm.png");
+            yes2->setScale(1.01);
+            m_item_yes = CCMenuItemSprite::create(yes1, yes2, this, SEL_MenuHandler(&AHMessageBox::on_menuitem_click));
+            m_item_yes->setTag(AH_BUTTON_TAG_YES);
+            m_item_yes->setUserObject(ccs("pic/common/btn_confirm.png"));
+            m_main_menu->addChild(m_item_yes);
+            
             //确定特效
             CCSprite* btnSpr = CCSprite::createWithSpriteFrameName("ah_btn_done1.png");
-            btnSpr->setAnchorPoint(CCPointZero);
+            btnSpr->setAnchorPoint(ccp(0.01, 0.19));
             btnSpr->setPosition(CCPointZero);
+            btnSpr->setScaleX(0.96);
+            btnSpr->setScaleY(1.4);
             CCAnimation* anim_btn = AppUtil::animationWithFrame("ah_btn_done%d.png", 8, 1, .1f);
             CCSequence* seq_btn = CCSequence::create(CCAnimate::create(anim_btn), CCDelayTime::create(1.5f), NULL);
             btnSpr->runAction(CCRepeatForever::create(seq_btn));

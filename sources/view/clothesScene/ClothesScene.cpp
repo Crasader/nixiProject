@@ -54,8 +54,8 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     this->addChild(bgSpr);
     
     // 返回
-    CCSprite* backSpr1 = CCSprite::create("res/pic/clothesScene/gj_back.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/clothesScene/gj_back.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(ClothesScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
@@ -65,13 +65,13 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     CCSprite* startSpr2;
     CCMenuItem* startItem;
     if (clothesStatus == 1) {// 任务
-        startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
-        startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
+        startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
     }else if (clothesStatus == 2){// 换装
-        startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
-        startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
+        startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::saveCallBack));
     }
@@ -2592,18 +2592,15 @@ void ClothesScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
     
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买体力协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买钻石协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买金币协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_COIN_EXCHANGE");
         }
     }
 }

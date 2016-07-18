@@ -49,7 +49,7 @@ public:
     bool isEffective;
     bool isOk;
     bool isCanMove;
-    
+    bool isrenwuBool;
     
 public:
     

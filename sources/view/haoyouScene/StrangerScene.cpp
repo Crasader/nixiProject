@@ -131,8 +131,8 @@ void StrangerScene::createView(){
     this->addChild(menu_note, z_order);
     
     //返回
-    CCSprite* back_spr = CCSprite::create("res/pic/taskScene/task_back.png");
-    CCSprite* back_spr2 = CCSprite::create("res/pic/taskScene/task_back.png");
+    CCSprite* back_spr = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* back_spr2 = CCSprite::create("pic/common/btn_goback2.png");
     back_spr2->setScale(1.02f);
     CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_spr, back_spr2, this, menu_selector(StrangerScene::btn_back_callback));
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));

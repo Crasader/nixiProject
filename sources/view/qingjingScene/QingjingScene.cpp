@@ -33,6 +33,8 @@ bool QingjingScene::init(){
     storyIndex = 0;
     renwuIndex = 0;
     allNumber = 0;
+    theEndBool = false;
+    
     selectedIndex = DATA->getChapterNumber();
     OpenToWhichOne = getStoryIndexStatus();
     
@@ -40,6 +42,9 @@ bool QingjingScene::init(){
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
+    
+    promptLayer = PromptLayer::create();
+    this->addChild(promptLayer, 500);
     
     allClothesDic = CONFIG->clothes();// 所有衣服
     
@@ -85,8 +90,8 @@ void QingjingScene::keyBackClicked(){
 
 void QingjingScene::creat_view(){
     
-    CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(QingjingScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -179,6 +184,8 @@ void QingjingScene::creat_view(){
         taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
         std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
         renwuIndex = atoi(renwuIndexStr.c_str());
+        std::string phaseIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(5))->getCString();
+        phaseIndex = atoi(phaseIndexStr.c_str());
         
         CCSprite* kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
         kuangSpr->setPosition(CCPointZero);
@@ -275,15 +282,15 @@ void QingjingScene::creat_view(){
         tishiLabel->setColor(ccc3(80, 63, 68));
         kuangSpr->addChild(tishiLabel);
         
-        if (renwuIndex <= DATA->getPlayer()->mission) {
+        if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
             CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
             jiesuoSpr->setScale(.7f);
             jiesuoSpr->setAnchorPoint(ccp(0, .5f));
             jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
             tishiLabel->addChild(jiesuoSpr);
             
-            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+            startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
             startSpr2->setScale(1.02f);
             startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
@@ -295,8 +302,8 @@ void QingjingScene::creat_view(){
             jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
             tishiLabel->addChild(jiesuoSpr);
             
-            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+            startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
             startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
             startItem->setColor(ccGRAY);
@@ -310,6 +317,38 @@ void QingjingScene::creat_view(){
     qingjingCoverView->setPosition(swRect.origin);
     qingjingCoverView->setTag(0x77777);
     this->addChild(qingjingCoverView, 50);
+    
+    this->qingjingStatus();
+}
+void QingjingScene::qingjingStatus(){
+    int now_task_index = 0;
+    // 显示的任务的结局
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    allNumber = taskConditionsDic->count();
+    
+    for (int i = 0; i < allNumber; i++) {
+        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
+        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
+        renwuIndex = atoi(renwuIndexStr.c_str());
+        std::string phaseIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(5))->getCString();
+        phaseIndex = atoi(phaseIndexStr.c_str());
+        if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {// 解锁
+            CCString* story_index = CCString::createWithFormat("%d", i);
+            CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+            if (storyArr == NULL) {
+                if (i > 0) {
+                    now_task_index = i - 1;
+                }else{
+                    now_task_index = i;
+                }
+                break;
+            }
+        }
+    }
+    
+    qingjingCoverView->scrollStatus(now_task_index);
 }
 
 void QingjingScene::backCallBack(CCObject* pSender){
@@ -468,15 +507,15 @@ void QingjingScene::creat_Tishi(){
     CCSprite* startSpr2;
     CCMenuItem* startItem;
     if (renwuIndex < DATA->getPlayer()->mission) {
-        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+        startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
         startItem->setTag(index);
     }else{
-        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+        startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
         startItem->setColor(ccGRAY);
@@ -1079,30 +1118,35 @@ void QingjingScene::jiantou1CallBack(CCObject* pSender){
 //            jiantouItem1->setEnabled(false);
 //        }
         DATA->setChapterNumber(selectedIndex);
-        qingjingCoverView->linshi2();
+        qingjingCoverView->leftMethods();
 //        jiantouItem2->setColor(ccWHITE);
 //        jiantouItem2->setEnabled(true);
     }
     this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .3f);
 }
 void QingjingScene::jiantou2CallBack(CCObject* pSender){
-    jiantouItem1->setEnabled(false);
-    jiantouItem2->setEnabled(false);
-    
-    selectedIndex++;
-    DATA->setChapterNumberBool(true);
-    if (selectedIndex < allNumber) {
-        if (selectedIndex == allNumber-1) {
-            selectedIndex = allNumber-1;
-//            jiantouItem2->setColor(ccGRAY);
-//            jiantouItem2->setEnabled(false);
+    if (!theEndBool) {
+        jiantouItem1->setEnabled(false);
+        jiantouItem2->setEnabled(false);
+        
+        selectedIndex++;
+        DATA->setChapterNumberBool(true);
+        if (selectedIndex < allNumber) {
+            if (selectedIndex == allNumber-1) {
+                selectedIndex = allNumber-1;
+//                jiantouItem2->setColor(ccGRAY);
+//                jiantouItem2->setEnabled(false);
+            }
+            DATA->setChapterNumber(selectedIndex);
+            qingjingCoverView->rightMethods();
+//            jiantouItem1->setColor(ccWHITE);
+//            jiantouItem1->setEnabled(true);
         }
-        DATA->setChapterNumber(selectedIndex);
-        qingjingCoverView->linshi();
-//        jiantouItem1->setColor(ccWHITE);
-//        jiantouItem1->setEnabled(true);
+        this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .3f);
+    }else{
+        CCString* str = CCString::createWithFormat("敬请期待!");
+        promptLayer->promptBoxString(str);
     }
-    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .3f);
 }
 void QingjingScene::closeButton(){
     jiantouItem1->setEnabled(false);
@@ -1111,16 +1155,19 @@ void QingjingScene::closeButton(){
 void QingjingScene::updataButton(){
     selectedIndex = DATA->getChapterNumber();
     if (selectedIndex == allNumber-1) {
+        theEndBool = true;
         jiantouItem2->setColor(ccGRAY);
-        jiantouItem2->setEnabled(false);
+        jiantouItem2->setEnabled(true);
         jiantouItem1->setColor(ccWHITE);
         jiantouItem1->setEnabled(true);
     }else if (selectedIndex == 0){
+        theEndBool = false;
         jiantouItem1->setColor(ccGRAY);
         jiantouItem1->setEnabled(false);
         jiantouItem2->setColor(ccWHITE);
         jiantouItem2->setEnabled(true);
     }else{
+        theEndBool = false;
         jiantouItem1->setColor(ccWHITE);
         jiantouItem1->setEnabled(true);
         jiantouItem2->setColor(ccWHITE);

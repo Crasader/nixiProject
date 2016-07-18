@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "PromptLayer.h"
 
 USING_NS_CC;
 
@@ -55,14 +56,18 @@ public:
     void historyCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
     void _startCallBack(CCObject* pSender);
+    void phoneCallBack(CCObject* pSender);
     
 public:
+    
+    PromptLayer* promptLayer;
     
     CCDictionary* allClothesDic;
     
     CCMenuItem* historyItem1, * historyItem2, * historyItem3, * historyItem4, * historyItem5, * backItem;
     
 //    CCSprite* roomSpr;
+    CCSprite* barSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;
     CCSprite* _ManSpr;
@@ -99,6 +104,7 @@ public:
     int taskPhase;
     int taskIndex;
     int historyIndex;
+    int now_task_index;
     
     bool historyBool;
     

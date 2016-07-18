@@ -8,9 +8,7 @@
 
 #include "AudioManager.h"
 
-
 static AudioManager* _instance = nullptr;
-
 
 #define kUDK_Music_Bool                 "is_music_on"
 #define kUDK_Effect_Bool                "is_effect_on"
