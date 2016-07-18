@@ -56,16 +56,16 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     this->addChild(bgSpr);
     
     // 返回
-    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(ClothesScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
     if (clothesStatus == 1) {// 任务
-        CCSprite* startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
-        CCSprite* startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
+        CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
         startItem->setAnchorPoint(ccp(1.f, .5f));
@@ -2149,6 +2149,21 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _kzSpr1->setTag(Tag_GJ_KuZi1);
                             _ManSpr->addChild(_kzSpr1, 290);
                             
+                        }else {
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi1) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi1);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi2) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi2);
+                            }
+                            if (_ManSpr->getChildByTag(Tag_GJ_KuZi3) != NULL) {
+                                _ManSpr->removeChildByTag(Tag_GJ_KuZi3);
+                            }
+                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                            _kzSpr1 = CCSprite::create(str->getCString());
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setTag(Tag_GJ_KuZi1);
+                            _ManSpr->addChild(_kzSpr1, 290);
                         }
                         
                         const CCString* layer1 =  clothDic->valueForKey("layer1");

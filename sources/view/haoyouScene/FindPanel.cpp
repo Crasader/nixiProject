@@ -50,8 +50,8 @@ void FindPanel::initView(){
     
     
     
-    CCSprite* find_spr = CCSprite::create("pic/common/btn_find.png");
-    CCSprite* find_spr2 = CCSprite::create("pic/common/btn_find.png");
+    CCSprite* find_spr = CCSprite::create("res/pic/common/btn_find.png");
+    CCSprite* find_spr2 = CCSprite::create("res/pic/common/btn_find.png");
     find_spr2->setScale(1.02f);
     CCMenuItemSprite* item_find = CCMenuItemSprite::create(find_spr, find_spr2, this, menu_selector(FindPanel::btn_find_callback));
     item_find->setPosition(ccp(find_panel->getContentSize().width/2 - 90, find_panel->getContentSize().height*.2f));
@@ -59,8 +59,8 @@ void FindPanel::initView(){
     menu_find->setPosition(CCPointZero);
     find_panel->addChild(menu_find);
     
-    CCSprite* back_spr = CCSprite::create("pic/common/btn_goback1.png");
-    CCSprite* back_spr2 = CCSprite::create("pic/common/btn_goback1.png");
+    CCSprite* back_spr = CCSprite::create("res/pic/common/btn_goback1.png");
+    CCSprite* back_spr2 = CCSprite::create("res/pic/common/btn_goback1.png");
     back_spr2->setScale(1.02f);
     CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_spr, back_spr2, this, menu_selector(FindPanel::btn_back_callback));
     item_back->setPosition(ccp(find_panel->getContentSize().width/2 + 90, find_panel->getContentSize().height*.2f));
