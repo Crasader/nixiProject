@@ -19,7 +19,7 @@
 #include "TaskSettlementLayer2.h"
 #include "AppUtil.h"
 #include "PromptLayer.h"
-
+#include "AudioManager.h"
 
 ClothesScene::ClothesScene(){
     
@@ -56,16 +56,16 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     this->addChild(bgSpr);
     
     // 返回
-    CCSprite* backSpr1 = CCSprite::create("res/pic/clothesScene/gj_back.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/clothesScene/gj_back.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(ClothesScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
     if (clothesStatus == 1) {// 任务
-        CCSprite* startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
-        CCSprite* startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
+        CCSprite* startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
+        CCSprite* startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
         startItem->setAnchorPoint(ccp(1.f, .5f));
@@ -74,8 +74,8 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
         menu->setPosition(CCPointZero);
         this->addChild(menu, 15);
     }else if (clothesStatus == 2){// 换装
-        CCSprite* startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
-        CCSprite* startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
         CCSprite* startSpr3 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
         startSpr3->setColor(ccGRAY);
@@ -1024,6 +1024,7 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
     }
 }
 void ClothesScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     if (clothesStatus == 1) {// 任务
@@ -2734,7 +2735,7 @@ void ClothesScene::buttonStatus(){
 }
 
 void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
-    
+    AUDIO->buy_effect();
     if (clothesStatus == 1) {// 任务
         if (startTask) {
 //            NET->start_mission_601(getTaskId(task_index - 1));
@@ -2872,18 +2873,15 @@ void ClothesScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
     
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买体力协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买钻石协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {
-#warning 需要添加购买金币协议
-            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_COIN_EXCHANGE");
         }
     }
 }
@@ -2990,7 +2988,6 @@ int ClothesScene::haveEnoughGold(){
     return gold;
 }
 
-
 void ClothesScene::setShipinTag1(int index, CCSprite* spr){
     if (index == 11) {
         spr->setTag(Tag_GJ_ShiPin1_1);
@@ -3061,7 +3058,7 @@ int ClothesScene::updataClothes(int type){
 
 void ClothesScene::showAnimationWithType(int type) {
     _animLayer->removeAllChildrenWithCleanup(true);
-    
+    AUDIO->clothes_effect();
     if (type == 1) {
         SPECIAL->showStar2At(getParent(), ccp(DISPLAY->halfW() - 150, DISPLAY->H() * 0.55), 1);
     }

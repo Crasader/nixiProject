@@ -44,6 +44,7 @@ public:
     static DataManager* Inst();
     void http_response_error(int code, string msg);
     void http_response_handle(int resp_code, string response);
+    time_t cur_timestamp_msec();
     time_t cur_timestamp();
 
 public:
@@ -83,12 +84,15 @@ public:
     CC_SYNTHESIZE(int, taskPhase, TaskPhase);
     
     
-    //体力时间
+    // 体力时间
     CC_SYNTHESIZE(int, _tili_Minute, TiliMinute);
     CC_SYNTHESIZE(int, _tili_second, TiliSecond);
     void creat_Energy_Time();
     void updataTiliTime(float dt);
     void closeTiliTime();
+    
+    // 陌生人刷新计时
+    CC_SYNTHESIZE(time_t, _refreshTimeStampe, RefreshTimeStampe);
     
     //
     bool could_prduce();

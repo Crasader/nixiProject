@@ -38,7 +38,7 @@ public:
     CCDictionary* friends() const;       // 包括自己的Show在内
     bool is_friend(const char* other_sid);
     bool has_send_energy(const char* other_sid);
-    int energy_could_take();
+    int energy_could_take();            // 可以领取的体力数量
     
     ShowComp* getSelectedStrangerByIndex(int idx);
     ShowComp* getSelectedFriendByIndex(int idx);

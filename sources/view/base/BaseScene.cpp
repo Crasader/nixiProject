@@ -49,11 +49,19 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updataMoney), "UpdataMoney", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updatePhaseProgress), "UpdatePhaseProgress", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_purchase_panel), "HTTP_FINISHED_100", NULL);
-    // 从外部调用 点击钻石条，打开充值面板
+    // 从外部调用，打开充值面板
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::goldCallBack), "NEED_SHOW_PURCHASEPANEL", NULL);
+    // 从外部调用，打开金币兑换面板
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::coinCallBack), "NEED_SHOW_COIN_EXCHANGE", NULL);
+    // 从外部调用，打开体力购买面板
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::tiliCallBack), "NEED_SHOW_BUY_ENERGY", NULL);
     //
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_gold_fly), "NEED_GOLD_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_energy_fly), "NEED_ENERGY_FLY", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_gold_fly_completed), "GOLD_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_energy_fly_completed), "ENERGY_FLY_COMPLETED", NULL);
 }
 
 void BaseScene::onExit(){
@@ -229,9 +237,10 @@ void BaseScene::updataTileTime(float dt){
 
 void BaseScene::updataMoney(){
     uint energy = DATA->getPlayer()->energy;
+    tili_num = energy;
     CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
     m_tili_num->setString(tiliStr->getCString());
-    tili_num = energy;
+    
     if (energy >= def_TiliMax) {
         this->unschedule(schedule_selector(BaseScene::updataTileTime));
         

@@ -78,6 +78,8 @@ public:
     void bigSprite(int index, CCSprite* spr);
     void smallSprite(int index, CCSprite* spr);
     
+    CCSprite* getNumSprite(int num);
+    
     void sendTili(CCMenuItem* btn);
     void send_message_callback_803(CCObject* pObj);
 };

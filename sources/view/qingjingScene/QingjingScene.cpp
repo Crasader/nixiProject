@@ -17,6 +17,7 @@
 #include "NetManager.h"
 #include "AppUtil.h"
 #include "PromptLayer.h"
+#include "AudioManager.h"
 
 
 QingjingScene::QingjingScene(){
@@ -66,6 +67,8 @@ CCScene* QingjingScene::scene(){
 void QingjingScene::onEnter(){
     BaseScene::onEnter();
     
+    AUDIO->play_story_bgm();
+    
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::_501CallBack), "HTTP_FINISHED_501", NULL);
     
@@ -88,8 +91,8 @@ void QingjingScene::keyBackClicked(){
 
 void QingjingScene::creat_view(){
     
-    CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(QingjingScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -308,8 +311,8 @@ void QingjingScene::creat_view(){
             tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
             tishiLabel->addChild(tongguanSpr);
             
-            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+            startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+            startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
             startSpr2->setScale(1.02f);
             startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
@@ -322,8 +325,8 @@ void QingjingScene::creat_view(){
                 jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
                 tishiLabel->addChild(jiesuoSpr);
                 
-                startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-                startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+                startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+                startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
                 startSpr2->setScale(1.02f);
                 startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
                 startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
@@ -335,8 +338,8 @@ void QingjingScene::creat_view(){
                 jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
                 tishiLabel->addChild(jiesuoSpr);
                 
-                startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-                startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+                startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+                startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
                 startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
                 startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
                 startItem->setColor(ccGRAY);
@@ -380,6 +383,7 @@ void QingjingScene::qingjingStatus(){
 }
 
 void QingjingScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
@@ -535,15 +539,15 @@ void QingjingScene::creat_Tishi(){
     CCSprite* startSpr2;
     CCMenuItem* startItem;
     if (renwuIndex < DATA->getPlayer()->mission) {
-        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+        startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
         startItem->setTag(index);
     }else{
-        startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
-        startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_start.png");
+        startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+        startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
         startItem->setColor(ccGRAY);

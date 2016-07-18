@@ -77,14 +77,13 @@ public:
     void btn_find_callback(CCObject* pSender);
     void btn_refresh_callback(CCObject* pSender);
     
-    void btn_self_toBig(CCMenuItem* item);
-    void btn_self_toSmall();
     
     void refresh_callback_802();
     
     void result_tip();
     
     void update_man();
+    
     
 public:
     
@@ -137,6 +136,15 @@ public:
     void removeMask();
     
     CCDictionary* myClothesTemp;
+    
+private:
+    void update_refresh_state();
+    void start_count_down(int secondLeft);
+    void schedule_count_down(float dt);
+private:
+    CCLabelAtlas*       _countDown;
+    CCMenuItem*         _itemRefresh;
+    float               _timeLeft;
 };
 
 #endif /* StrangerScene_hpp */

@@ -18,7 +18,7 @@
 #include "NetManager.h"
 #include "MessageLayer.h"
 #include "NoteLayer.h"
-
+#include "AudioManager.h"
 
 HaoyouScene::HaoyouScene(){
     
@@ -79,8 +79,8 @@ void HaoyouScene::creat_view(){
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
-    CCSprite* backSpr1 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/qingjingScene/qj_fanhui.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(HaoyouScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -132,6 +132,7 @@ void HaoyouScene::creat_view(){
     
 }
 void HaoyouScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

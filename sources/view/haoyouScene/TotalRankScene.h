@@ -89,6 +89,8 @@ public:
     CCMenuItem* item_second;
     CCMenuItem* item_third;
     
+    CCMenuItem* item_self;
+    
     int _type;
     
     CCArray* _rankers;

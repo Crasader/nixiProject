@@ -32,8 +32,8 @@ private:
     void do_exit();
     void remove();
     
-    void on_purchase(CCMenuItem* btn);
-    void on_monthlycard(CCMenuItem* btn);
+    void on_music(CCMenuItem* btn);
+    void on_effect(CCMenuItem* btn);
     
 private:
     CCLayer*            _content;

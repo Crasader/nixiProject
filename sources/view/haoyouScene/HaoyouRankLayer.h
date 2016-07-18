@@ -75,7 +75,7 @@ public:
     void btn_back_callback(CCObject* pSender);
     
     void btn_getTili_callback();
-    void get_tili_807();
+    void get_tili_807(CCObject* pObj);
     
     void gotoStranger();
     void gotoStranger_802();

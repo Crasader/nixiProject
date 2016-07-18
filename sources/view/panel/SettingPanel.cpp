@@ -8,6 +8,7 @@
 
 #include "SettingPanel.h"
 #include "DisplayManager.h"
+#include "AudioManager.h"
 
 SettingPanel::~SettingPanel() {
 }
@@ -30,13 +31,15 @@ bool SettingPanel::init() {
         
         CCSize panelSize = _panel->boundingBox().size;
         
-        CCMenuItemImage* btn_music_on = CCMenuItemImage::create("res/pic/panel/setting/set_music_on.png", "res/pic/panel/setting/set_music_on.png");
         CCMenuItemImage* btn_music_off = CCMenuItemImage::create("res/pic/panel/setting/set_music_off.png", "res/pic/panel/setting/set_music_off.png");
-        CCMenuItemToggle* toggle_music = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_purchase), btn_music_on, btn_music_off, NULL);
+        CCMenuItemImage* btn_music_on = CCMenuItemImage::create("res/pic/panel/setting/set_music_on.png", "res/pic/panel/setting/set_music_on.png");
+        CCMenuItemToggle* toggle_music = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_music), btn_music_off, btn_music_on, NULL);
+        toggle_music->setSelectedIndex((int)AUDIO->is_music_on());
         
-        CCMenuItemImage* btn_effect_on = CCMenuItemImage::create("res/pic/panel/setting/set_effect_on.png", "res/pic/panel/setting/set_effect_on.png");
         CCMenuItemImage* btn_effect_off = CCMenuItemImage::create("res/pic/panel/setting/set_effect_off.png", "res/pic/panel/setting/set_effect_off.png");
-        CCMenuItemToggle* toggle_effect = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_monthlycard), btn_effect_on, btn_effect_off, NULL);
+        CCMenuItemImage* btn_effect_on = CCMenuItemImage::create("res/pic/panel/setting/set_effect_on.png", "res/pic/panel/setting/set_effect_on.png");
+        CCMenuItemToggle* toggle_effect = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_effect), btn_effect_off, btn_effect_on, NULL);
+        toggle_effect->setSelectedIndex((int)AUDIO->is_effect_on());
         
         CCMenu* menu = CCMenu::create(toggle_music, toggle_effect, NULL);
         menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.52));
@@ -109,10 +112,17 @@ void SettingPanel::remove() {
     this->removeFromParentAndCleanup(true);
 }
 
-void SettingPanel::on_purchase(cocos2d::CCMenuItem *btn) {
+void SettingPanel::on_music(cocos2d::CCMenuItem *btn) {
     //    CCDirector::sharedDirector()->replaceScene(scene);
+    CCMenuItemToggle* item = (CCMenuItemToggle*)btn;
+    int index = item->getSelectedIndex();
+    CCLOG("music getSelectedIndex = %d", index);
+    AUDIO->set_music_on((bool)index);
 }
 
-void SettingPanel::on_monthlycard(cocos2d::CCMenuItem *btn) {
-    
+void SettingPanel::on_effect(cocos2d::CCMenuItem *btn) {
+    CCMenuItemToggle* item = (CCMenuItemToggle*)btn;
+    int index = item->getSelectedIndex();
+    CCLOG("effect getSelectedIndex = %d", index);
+    AUDIO->set_effect_on((bool)index);
 }
