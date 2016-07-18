@@ -77,7 +77,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
         CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
         CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
-        CCSprite* startSpr3 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        CCSprite* startSpr3 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr3->setColor(ccGRAY);
         saveItem = CCMenuItemSprite::create(startSpr1, startSpr2, startSpr3, this, menu_selector(ClothesScene::saveCallBack));
         saveItem->setAnchorPoint(ccp(1.f, .5f));
@@ -185,19 +185,19 @@ void ClothesScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
         tskSpr->setTag(0x8888);
         this->addChild(tskSpr, 20);
         
-        CCLabelTTF* label = CCLabelTTF::create("是否脱光所有服饰", DISPLAY->fangzhengFont(), 40);
+        CCLabelTTF* label = CCLabelTTF::create("是否脱下所有服饰", DISPLAY->fangzhengFont(), 40);
         label->setPosition(ccp(tskSpr->boundingBox().size.width/2, tskSpr->boundingBox().size.height* .65));
         label->setColor(ccc3(80, 63, 68));
         tskSpr->addChild(label);
         
-        CCSprite* qdSpr1 = CCSprite::create("res/pic/common/ah_btn_done_normal.png");
-        CCSprite* qdSpr2 = CCSprite::create("res/pic/common/ah_btn_done_selected.png");
+        CCSprite* qdSpr1 = CCSprite::create("res/pic/common/btn_confirm.png");
+        CCSprite* qdSpr2 = CCSprite::create("res/pic/common/btn_confirm.png");
         qdSpr2->setScale(1.01f);
         CCMenuItem* quedingItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(ClothesScene::tuoguangConfirmCallBack));
         quedingItem->setPosition(ccp(tskSpr->boundingBox().size.width* .65, tskSpr->boundingBox().size.height* .2));
         
-        CCSprite* fhSpr1 = CCSprite::create("res/pic/common/ah_btn_cancel_normal.png");
-        CCSprite* fhSpr2 = CCSprite::create("res/pic/common/ah_btn_cancel_selected.png");
+        CCSprite* fhSpr1 = CCSprite::create("res/pic/common/btn_cancel.png");
+        CCSprite* fhSpr2 = CCSprite::create("res/pic/common/btn_cancel.png");
         fhSpr2->setScale(1.01f);
         CCMenuItem* fanhuiItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(ClothesScene::tuoguangCancelCallBack));
         fanhuiItem->setPosition(ccp(tskSpr->boundingBox().size.width* .35, tskSpr->boundingBox().size.height* .2));
