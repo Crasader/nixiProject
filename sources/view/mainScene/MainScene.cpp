@@ -28,7 +28,6 @@
 #include "MailPanel.h"
 #include "OperationPanel.h"
 #include "SettingPanel.h"
-#include "TaskSettlementLayer2.h"
 
 #include <time.h>
 

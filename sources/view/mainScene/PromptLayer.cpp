@@ -11,7 +11,8 @@
 #include "AudioManager.h"
 
 #define PROMPTNAME    "res/pic/prompt.png"
-#define TEXTCOLOR     ccBLACK
+#define TEXTCOLOR     ccc3(113, 89, 102)
+#define FONTSIZE      32
 
 PromptLayer::PromptLayer(){
     
@@ -25,7 +26,6 @@ bool PromptLayer::init(){
     if (!CCLayer::init()) {
         return false;
     }
-    
     
     return true;
 }
@@ -53,10 +53,10 @@ void PromptLayer::promptBox(int idx){
         str = CCString::create("");
     }
 
-    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 40.f);
+    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), FONTSIZE);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
-    lbl->setColor(ccc3(222, 222, 222));
+    lbl->setColor(TEXTCOLOR);
     this->addChild(lbl, 56);
     
     CCSequence* lblSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), NULL);
@@ -74,7 +74,7 @@ void PromptLayer::promptBoxString(CCString* str){
     CCSequence* boxSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), NULL);
     box->runAction(boxSeq);
     
-    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 40.f);
+    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), FONTSIZE);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
     lbl->setColor(TEXTCOLOR);
@@ -117,7 +117,7 @@ void PromptLayer::show_prompt(CCNode* parent, const char* str){
     CCSequence* boxSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), NULL);
     box->runAction(boxSeq);
     
-    CCLabelTTF* lbl = CCLabelTTF::create(str, DISPLAY->fangzhengFont(), 40.f);
+    CCLabelTTF* lbl = CCLabelTTF::create(str, DISPLAY->fangzhengFont(), FONTSIZE);
     lbl->setAnchorPoint(ccp(.5f, .5f));
     lbl->setPosition(DISPLAY->center());
     lbl->setColor(TEXTCOLOR);

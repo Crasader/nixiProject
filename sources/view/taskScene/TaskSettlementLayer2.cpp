@@ -196,7 +196,7 @@ void TaskSettlementLayer2::creat_view(){
     CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(DISPLAY->ScreenWidth()* .19f, DISPLAY->ScreenHeight()* .6f));
     CCScaleTo* scaleTo = CCScaleTo::create(.3f, 1.f);
     CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
-    renSpr->runAction(CCSequence::create(CCShow::create(), spawn, callFunc, NULL));
+    renSpr->runAction(CCSequence::create(CCDelayTime::create(1.f), CCShow::create(), spawn, callFunc, NULL));
     
     
     if (_rating == 5) {
@@ -624,11 +624,13 @@ int TaskSettlementLayer2::getContentLength(){
 void TaskSettlementLayer2::lingquCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     item->setEnabled(false);
-    
+    logic_open_bool = false;
     lingquBool = true;
     SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "领取成功!");
+    
+    this->nextAnimation1();
 }
 void TaskSettlementLayer2::shareCallBack(CCObject* pSender){
     

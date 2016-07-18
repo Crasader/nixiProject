@@ -207,7 +207,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/Prompt
  jni/../../../../lib/cocos2d-x/cocos2dx/support/data_support/uthash.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
- jni/../../sources/manager/DisplayManager.h
+ jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/mainScene/PromptLayer.h:
 
@@ -624,3 +627,9 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

@@ -23,7 +23,6 @@ public:
     void init();
     
 public:
-    const char*         font();
     const char*         fangzhengFont();
     
     ccColor3B           defalutColor();

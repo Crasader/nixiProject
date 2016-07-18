@@ -92,7 +92,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     this->creat_View();
     this->creat_Man();
     this->initClothes();
-    
+//    this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::openButtonMenu), .1f);
 }
 bool ClothesScene::init(){
     if (!BaseScene::init()) {
@@ -634,11 +634,12 @@ void ClothesScene::creat_View(){
     ycSpr10->setVisible(false);
     texiaoSpr->addChild(ycSpr10);
     
-    CCMenu* menu = CCMenu::create(tfItem, wtItem, syItem, kzItem, wzItem, xzItem, spItem, baoItem, zhuangrongItem, texiaoItem, NULL);
-    menu->alignItemsVerticallyWithPadding(10.f);
-    menu->setPosition(ccp(- tfItem->getContentSize().width* .5f, clothKuangSpr->getContentSize().height* .539f));
-    menu->setTag(0x3333);
-    clothKuangSpr->addChild(menu, 5);
+    buttonMenu = CCMenu::create(tfItem, wtItem, syItem, kzItem, wzItem, xzItem, spItem, baoItem, zhuangrongItem, texiaoItem, NULL);
+    buttonMenu->alignItemsVerticallyWithPadding(10.f);
+    buttonMenu->setPosition(ccp(- tfItem->getContentSize().width* .5f, clothKuangSpr->getContentSize().height* .539f));
+    buttonMenu->setTag(0x3333);
+    clothKuangSpr->addChild(buttonMenu, 5);
+    
     
     ClothesTableView* tabLayer = ClothesTableView::create();
     tabLayer->setPosition(ccp(0, clothKuangSpr->getContentSize().height* .128f));
@@ -743,6 +744,9 @@ void ClothesScene::creat_View(){
     
     this->buttonStatus();
     this->creat_money();
+}
+void ClothesScene::openButtonMenu(){
+    buttonMenu->setEnabled(true);
 }
 void ClothesScene::creat_ViewMethods(int index){
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
@@ -977,6 +981,7 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
 //    }
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     buttonTag = item->getTag();
+    CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(ClothesScene::openButtonMenu));
     
     if (buttonTag != Tag_GJ_ZhuangRong && buttonTag != Tag_GJ_TeXiao) {
         if (clothKuangSpr->getChildren() != NULL) {
@@ -987,10 +992,12 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
         
         if (zhuangrongBool) {
             zhuangrongBool = false;
+            buttonMenu->setEnabled(false);
             
             CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
             CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
-            _ManSpr->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
+            _ManSpr->runAction(CCSequence::create(spawn, CCDelayTime::create(.1f), callFuncN, NULL));
         }
         
     }else if (buttonTag == Tag_GJ_ZhuangRong){
@@ -1002,10 +1009,12 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
         
         if (!zhuangrongBool) {
             zhuangrongBool = true;
+            buttonMenu->setEnabled(false);
             
             CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(-DISPLAY->ScreenWidth()* .15f, -DISPLAY->ScreenHeight()* .5f));
             CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.5f);
-            _ManSpr->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
+            _ManSpr->runAction(CCSequence::create(spawn, CCDelayTime::create(.1f), callFuncN, NULL));
         }
     }else if (buttonTag == Tag_GJ_TeXiao){
         if (clothKuangSpr->getChildren() != NULL) {
@@ -1016,10 +1025,12 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
         
         if (zhuangrongBool) {
             zhuangrongBool = false;
+            buttonMenu->setEnabled(false);
             
             CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
             CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
-            _ManSpr->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
+            _ManSpr->runAction(CCSequence::create(spawn, CCDelayTime::create(.1f), callFuncN, NULL));
         }
     }
 }
@@ -1218,12 +1229,29 @@ void ClothesScene::buyCallBack(CCObject* pSender){
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
-        CCInteger* clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
-        // 价格
-        if (DATA->getClothes()->is_owned(i, clothesTemp_id->getValue())) {// 已购买
-            
-        }else{// 未购买
-            buyBool = true;
+        if (i != Tag_GJ_ShiPin) {
+            CCInteger* clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+            if (clothesTemp_id->getValue() != i* 10000) {
+                // 价格
+                if (DATA->getClothes()->is_owned(i, clothesTemp_id->getValue())) {// 已购买
+                    
+                }else{// 未购买
+                    buyBool = true;
+                }
+            }
+        }else{
+            CCDictionary* dic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+            for (int n = 11; n <= 20; n++) {
+                CCInteger* clothesTemp_id = (CCInteger* )dic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                if (clothesTemp_id->getValue() != i* 10000) {
+                    // 价格
+                    if (DATA->getClothes()->is_owned(i, clothesTemp_id->getValue())) {// 已购买
+                        
+                    }else{// 未购买
+                        buyBool = true;
+                    }
+                }
+            }
         }
     }
     

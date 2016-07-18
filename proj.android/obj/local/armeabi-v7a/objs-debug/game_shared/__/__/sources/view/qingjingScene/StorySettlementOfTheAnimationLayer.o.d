@@ -262,7 +262,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/St
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h:
@@ -799,6 +799,6 @@ jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/utils/AppUtil.h:

@@ -257,7 +257,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskTableV
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/manager/DisplayManager.h \
- jni/../../sources/manager/ConfigManager.h
+ jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/taskScene/TaskTableView.h:
 
@@ -784,3 +787,9 @@ jni/../../sources/model/CoffersComp.h:
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/ConfigManager.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

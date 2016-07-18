@@ -30,9 +30,6 @@ void DisplayManager::init() {
     _height = winsize.height;
 }
 
-const char* DisplayManager::font() {
-    return "TRENDS.ttf";
-}
 const char* DisplayManager::fangzhengFont(){
     return "FZY4JW--GB1-0.ttf";
 }
@@ -52,14 +49,14 @@ CCPoint DisplayManager::center() {
 float DisplayManager::ScreenWidth(){
     return _width;
 }
+
 float DisplayManager::ScreenHeight(){
     return _height;
 }
+
 float DisplayManager::OriginWidth(){
     return (_width - 640) * 0.5f;
 }
-
-
 
 CCString* DisplayManager::GetOffTheNumber(int index){
     CCString* str;
@@ -71,6 +68,7 @@ CCString* DisplayManager::GetOffTheNumber(int index){
     
     return str;
 }
+
 CCString* DisplayManager::GetOffTheName(int index){
     CCString* str;
     CSJson::Value data = AppUtil::read_json_file("res/story/storyNumber");

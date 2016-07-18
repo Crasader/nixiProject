@@ -265,7 +265,11 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/TotalRan
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/haoyouScene/HaoyouScene.h \
- jni/../../sources/view/mainScene/MainScene.h
+ jni/../../sources/view/mainScene/MainScene.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/haoyouScene/TotalRankScene.h:
 
@@ -808,3 +812,11 @@ jni/../../sources/manager/ConfigManager.h:
 jni/../../sources/view/haoyouScene/HaoyouScene.h:
 
 jni/../../sources/view/mainScene/MainScene.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

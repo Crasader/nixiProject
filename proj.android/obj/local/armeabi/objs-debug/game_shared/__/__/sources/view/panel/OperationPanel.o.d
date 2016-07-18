@@ -238,7 +238,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/OperationPanel
  jni/../../sources/view/scene/TransactionScene.h \
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
- jni/../../sources/view/common/Number/FlashNumberLabel2.h
+ jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/panel/OperationPanel.h:
 
@@ -717,3 +718,5 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

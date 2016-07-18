@@ -1205,6 +1205,7 @@ bool TaskStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
             int tili = DATA->getPlayer()->energy;
             int tili_AllIndex = 12;
             if (tili >= tili_AllIndex) {
+                this->setTouchEnabled(false);
                 LOADING->show_loading();
                 NET->commit_mission_603(missionDic->valueForKey("taskID")->intValue());
             }else{
@@ -1260,8 +1261,6 @@ void TaskStoryScene::getIndex(float dt){
             logIndex = 0;
             return;
         }
-        
-        this->setTouchEnabled(false);
         
 //        if (DATA->getClothes()->has_init_clothes == true) {
 //            this->startCallBack(NULL);

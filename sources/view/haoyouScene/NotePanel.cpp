@@ -8,7 +8,6 @@
 
 #include "NotePanel.h"
 #include "DisplayManager.h"
-#include "MMCursorTextField.h"
 #include "CursorTextField.h"
 #include "Loading2.h"
 #include "NetManager.h"
@@ -87,24 +86,25 @@ void NotePanel::initView(){
     title->setColor(ccc3(110, 92, 118));
     note_panel->addChild(title);
     
-    m_text = CursorTextField::cursorTextFieldWithPlaceHolder("请在这里输入...", CCSizeMake(350, 350), kCCTextAlignmentLeft, DISPLAY->font(), 23);
+    
+    m_text = CursorTextField::cursorTextFieldWithPlaceHolder("请在这里输入...", CCSizeMake(350, 350), kCCTextAlignmentLeft, DISPLAY->fangzhengFont(), 23);
     m_text->setTextColor(ccc3(154, 138, 147));
     m_text->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.5));
     m_text->setMaxTextBytes(150);
     m_text->setDelegate(this);
     note_panel->addChild(m_text);
         
-    CCLabelTTF* word = CCLabelTTF::create("字数: ", DISPLAY->font(), 19);
+    CCLabelTTF* word = CCLabelTTF::create("字数: ", DISPLAY->fangzhengFont(), 19);
     word->setPosition(ccp(note_panel->getContentSize().width*.75f - 30, note_panel->getContentSize().height*.2f));
     word->setColor(ccc3(135, 108, 123));
     note_panel->addChild(word);
     
-    CCLabelTTF* max_word = CCLabelTTF::create("/50", DISPLAY->font(), 19);
+    CCLabelTTF* max_word = CCLabelTTF::create("/50", DISPLAY->fangzhengFont(), 19);
     max_word->setPosition(ccp(note_panel->getContentSize().width*.75f + 35, note_panel->getContentSize().height*.2f));
     max_word->setColor(ccc3(135, 108, 123));
     note_panel->addChild(max_word);
     
-    _word_count = CCLabelTTF::create("0", DISPLAY->font(), 19);
+    _word_count = CCLabelTTF::create("0", DISPLAY->fangzhengFont(), 19);
     _word_count->setPosition(ccp(note_panel->getContentSize().width*.75f, note_panel->getContentSize().height*.2f));
     _word_count->setColor(ccc3(135, 108, 123));
     note_panel->addChild(_word_count);
@@ -130,6 +130,7 @@ void NotePanel::update(float dt){
     }
     unsigned long length = m_text->getText().length();
     const char* str = m_text->getText().c_str();
+    CCLog("<><><><> NotePanel::update m_text == %s", m_text->getText().c_str());
     int chs_count = 0;
     int eng_count = 0;
     int cur_count = 0;
@@ -153,7 +154,7 @@ void NotePanel::update(float dt){
 //    m_text->setText(cur_str);
     
     CCString* count_str = CCString::createWithFormat("%d", cur_count);
-    _word_count = CCLabelTTF::create(count_str->getCString(), DISPLAY->font(), 19);
+    _word_count = CCLabelTTF::create(count_str->getCString(), DISPLAY->fangzhengFont(), 19);
     _word_count->setPosition(ccp(note_panel->getContentSize().width*.75f + 10, note_panel->getContentSize().height*.2f));
     _word_count->setColor(ccc3(135, 108, 123));
     note_panel->addChild(_word_count);

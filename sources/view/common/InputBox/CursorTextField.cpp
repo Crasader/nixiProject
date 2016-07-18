@@ -141,8 +141,8 @@ void CursorTextField::hideCursor() {
 void CursorTextField::insertCursor() {
     CCString* str = CCString::createWithFormat("%s|", _oldText.c_str());
     _tf->setString(str->getCString());
-//    CCLOG("insertCursor:");
-//    CCLOG("%s", _tf->getString());
+    CCLog("insertCursor:");
+    CCLog("%s", _tf->getString());
 }
 
 void CursorTextField::deleteCursor() {

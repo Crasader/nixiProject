@@ -248,6 +248,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/BuildingLa
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/utils/AppUtil.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -755,6 +758,12 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/utils/AppUtil.h:
 

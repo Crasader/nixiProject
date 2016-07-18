@@ -209,6 +209,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/common/AHMessage
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
  jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/utils/AppUtil.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -638,6 +641,12 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/utils/AppUtil.h:
 

@@ -236,7 +236,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DataManager.h \
@@ -282,7 +281,11 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../sources/view/taskScene/TaskSettlementLayer2.h \
  jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/common/Number/FlashNumberLabel4.h \
- jni/../../sources/utils/AppUtil.h
+ jni/../../sources/utils/AppUtil.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
@@ -756,8 +759,6 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
-
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
@@ -859,3 +860,11 @@ jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 jni/../../sources/view/common/Number/FlashNumberLabel4.h:
 
 jni/../../sources/utils/AppUtil.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
