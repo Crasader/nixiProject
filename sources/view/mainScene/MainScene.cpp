@@ -1578,7 +1578,6 @@ void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
 }
 
 void MainScene::update_news_status() {
-#warning "需要更改"
     NewsComp* news = DATA->getNews();
     if (news->mail > 0) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");

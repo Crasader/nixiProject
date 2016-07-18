@@ -130,5 +130,12 @@ public:
     CCSprite* _bSpr2;
     CCSprite* _bSpr3;
     CCSprite* _zrSpr1; // 妆容
+    
+private:
+    void update_news_status();
+    
+private:
+    CCMenuItem*         _xiaoxiItem;
+    CCMenuItem*         _zhitiaoItem;
 };
 #endif /* defined(__tiegao__HaoyouScene__) */
