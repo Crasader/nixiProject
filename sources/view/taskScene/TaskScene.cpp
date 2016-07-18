@@ -62,8 +62,8 @@ bool TaskScene::init(bool isPhaseUP){
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
-    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(TaskScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
@@ -499,16 +499,16 @@ void TaskScene::creat_Tishi(){
     CCSprite* startSpr2;
     CCMenuItem* startItem;
     if (unlockCondition <= OpenToWhichOne) {
-        startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
-        startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
+        startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(TaskScene::startCallBack));
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));
         startItem->setTag(index);
     }else{
-        startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr1->setColor(ccGRAY);
-        startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
+        startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setColor(ccGRAY);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
         startItem->setPosition(ccp(kuangSpr->getContentSize().width* .845f, kuangSpr->getContentSize().height* .225f));

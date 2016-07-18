@@ -101,8 +101,8 @@ void CreateName::create_baes_view()
     spt_inputbox->addChild(randMenu);
     */
     //
-    CCSprite* spt_confirm_normal = CCSprite::create("pic/common/btn_confirm.png");
-    CCSprite* spt_confirm_selected = CCSprite::create("pic/common/btn_confirm.png");
+    CCSprite* spt_confirm_normal = CCSprite::create("res/pic/common/btn_confirm.png");
+    CCSprite* spt_confirm_selected = CCSprite::create("res/pic/common/btn_confirm.png");
     spt_confirm_normal->setScale(1.1);
     spt_confirm_selected->setScale(spt_confirm_normal->getScale() * DISPLAY->btn_scale());
     CCMenuItem* btn_confirm = CCMenuItemSprite::create(spt_confirm_normal, spt_confirm_selected, this, SEL_MenuHandler(&CreateName::on_btn_confirem));

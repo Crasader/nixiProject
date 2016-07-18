@@ -56,16 +56,16 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     this->addChild(bgSpr);
     
     // 返回
-    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(ClothesScene::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
     if (clothesStatus == 1) {// 任务
-        CCSprite* startSpr1 = CCSprite::create("pic/common/btn_startmission.png");
-        CCSprite* startSpr2 = CCSprite::create("pic/common/btn_startmission.png");
+        CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
         startItem->setAnchorPoint(ccp(1.f, .5f));

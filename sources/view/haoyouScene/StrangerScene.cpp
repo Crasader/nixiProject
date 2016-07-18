@@ -116,7 +116,7 @@ void StrangerScene::createView(){
     this->addChild(menu_refresh, z_order);
     
     // 刷新倒计时
-    _countDown = CCLabelAtlas::create("00:00", "pic/baseScene/base_number3.png", 14, 20, '0');
+    _countDown = CCLabelAtlas::create("00:00", "res/pic/baseScene/base_number3.png", 14, 20, '0');
     _countDown->setScale(0.9);
     _countDown->setPosition(ccp(6, 2));
     _countDown->setVisible(false);
@@ -145,8 +145,8 @@ void StrangerScene::createView(){
     this->addChild(menu_note, z_order);
     
     //返回
-    CCSprite* back_spr = CCSprite::create("pic/common/btn_goback2.png");
-    CCSprite* back_spr2 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* back_spr = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* back_spr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     back_spr2->setScale(1.02f);
     CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_spr, back_spr2, this, menu_selector(StrangerScene::btn_back_callback));
     item_back->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));

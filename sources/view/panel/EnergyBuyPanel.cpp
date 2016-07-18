@@ -35,13 +35,13 @@ bool EnergyBuyPanel::init() {
         _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.6));
         _content->addChild(_panel);
         
-        CCSprite* cancel1 = CCSprite::create("pic/common/btn_cancel.png");
-        CCSprite* cancel2 = CCSprite::create("pic/common/btn_cancel.png");
+        CCSprite* cancel1 = CCSprite::create("res/pic/common/btn_cancel.png");
+        CCSprite* cancel2 = CCSprite::create("res/pic/common/btn_cancel.png");
         cancel2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btn_canel = CCMenuItemSprite::create(cancel1, cancel2, this, SEL_MenuHandler(&EnergyBuyPanel::remove));
         
-        CCSprite* confirm1 = CCSprite::create("pic/common/btn_confirm.png");
-        CCSprite* confirm2 = CCSprite::create("pic/common/btn_confirm.png");
+        CCSprite* confirm1 = CCSprite::create("res/pic/common/btn_confirm.png");
+        CCSprite* confirm2 = CCSprite::create("res/pic/common/btn_confirm.png");
         confirm2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btn_confirm = CCMenuItemSprite::create(confirm1, confirm2, this, SEL_MenuHandler(&EnergyBuyPanel::buy));
         

@@ -304,9 +304,9 @@ void TaskSettlementLayer2::creat_view(){
     coinLabel->setColor(ccc3(80, 63, 68));
     coinSpr->addChild(coinLabel);
     
-    CCSprite* lingquSpr1 = CCSprite::create("pic/common/btn_take.png");
+    CCSprite* lingquSpr1 = CCSprite::create("res/pic/common/btn_take.png");
     lingquSpr1->setScale(.9f);
-    CCSprite* lingquSpr2 = CCSprite::create("pic/common/btn_take.png");
+    CCSprite* lingquSpr2 = CCSprite::create("res/pic/common/btn_take.png");
     lingquSpr2->setScale(.92f);
     lingquItem = CCMenuItemSprite::create(lingquSpr1, lingquSpr2, this, menu_selector(TaskSettlementLayer2::lingquCallBack));
     lingquItem->setPosition(ccp(kuangSpr1->getContentSize().width* .86f, kuangSpr1->getContentSize().height* .28f));

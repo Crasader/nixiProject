@@ -109,8 +109,8 @@ void NotePanel::initView(){
     _word_count->setColor(ccc3(135, 108, 123));
     note_panel->addChild(_word_count);
     
-    CCSprite* send_spr = CCSprite::create("pic/common/btn_send.png");
-    CCSprite* send_spr2 = CCSprite::create("pic/common/btn_send.png");
+    CCSprite* send_spr = CCSprite::create("res/pic/common/btn_send.png");
+    CCSprite* send_spr2 = CCSprite::create("res/pic/common/btn_send.png");
     send_spr2->setScale(1.02f);
     CCMenuItemSprite* item_send = CCMenuItemSprite::create(send_spr, send_spr2, this, menu_selector(NotePanel::btn_send_callback));
     item_send->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.1f));
