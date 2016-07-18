@@ -82,8 +82,8 @@ void PhoneLayer2::creat_view(){
     maskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(maskSpr, 5);
     
-    CCSprite* backSpr1 = CCSprite::create("res/pic/taskScene/task_back.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/taskScene/task_back.png");
+    CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
     CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(PhoneLayer2::backCallBack));
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
