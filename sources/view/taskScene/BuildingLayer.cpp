@@ -111,10 +111,9 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
 void BuildingLayer::building_shaking() {
     unschedule(SEL_SCHEDULE(&BuildingLayer::building_shaking));
     if (_building) {
-        float during = 0.1f;
-        CCSequence* seq = CCSequence::create(CCScaleTo::create(during, 1.1, 0.97), CCDelayTime::create(0.04), CCScaleTo::create(during, 1), NULL);
+        CCSequence* seq = CCSequence::create(CCScaleTo::create(0.5, 1.03, 0.97), CCDelayTime::create(0.1), CCScaleTo::create(0.3, 1), NULL);
         _building->runAction(seq);
-        schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 5.f);
+        schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 3.f);
     }
 }
 
