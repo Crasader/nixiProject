@@ -26,7 +26,7 @@ TaskStoryScene::~TaskStoryScene(){
 }
 
 bool TaskStoryScene::init(){
-    if (!CCLayer::init()) {
+    if (!BaseScene::init()) {
         return false;
     }
     
@@ -201,16 +201,18 @@ CCScene* TaskStoryScene::scene(){
 }
 
 void TaskStoryScene::onEnter(){
-    CCLayer::onEnter();
+    BaseScene::onEnter();
+    BaseScene::hideBaseScene();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_400CallBack), "HTTP_FINISHED_400", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_603CallBack), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
 }
 void TaskStoryScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    CCLayer::onExit();
+    BaseScene::onExit();
 }
 
 void TaskStoryScene::keyBackClicked(){
@@ -1198,11 +1200,35 @@ bool TaskStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
             if (this->getChildByTag(0x22222) != NULL) {
                 this->removeChildByTag(0x22222);
             }
-            this->backCallBack(NULL);
+            
+            int tili = DATA->getPlayer()->energy;
+            int tili_AllIndex = 12;
+            if (tili >= tili_AllIndex) {
+                LOADING->show_loading();
+                NET->commit_mission_603(missionDic->valueForKey("taskID")->intValue());
+            }else{
+                LOADING->remove();
+                AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
         }
     }
     
     return true;
+}
+void TaskStoryScene::_603CallBack(CCObject* pSender){
+    LOADING->remove();
+    this->backCallBack(NULL);
+}
+void TaskStoryScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
+    box->animation_out();
+    
+    if (button_type == AH_BUTTON_TYPE_YESNO) {
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
+        }
+    }
 }
 void TaskStoryScene::openTouch(float dt){
     logIndex = 0;
@@ -1271,7 +1297,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     item->setEnabled(false);
     
     index = missionDic->valueForKey("next")->intValue();
-    if (index == -1 || index == -2) {
+    if (index == -1) {
         if (DATA->getClothes()->has_init_clothes == true) {
             this->_400CallBack(NULL);
         }
@@ -1279,7 +1305,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
             LOADING->show_loading();
             NET->owned_clothes_400();
         }
-    }else if (index == -3){
+    }else if (index == -2 || index == -3){
         openStory = true;
         startBool = true;
         

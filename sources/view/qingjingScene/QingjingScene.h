@@ -13,7 +13,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "QingjingCoverView.h"
-#include "PromptLayer.h"
+#include "AHMessageBox.h"
 
 USING_NS_CC;
 
@@ -56,7 +56,9 @@ typedef enum{
     Tag_QJ_BuLiao = 91
 }QJ_Enum;
 
-class QingjingScene : public BaseScene
+class QingjingScene
+: public BaseScene
+, public AHMessageBoxDelegate
 {
 public:
     QingjingScene();
@@ -68,6 +70,8 @@ public:
     
     virtual void onEnter();
     virtual void onExit();
+    
+    virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
     
     virtual void keyBackClicked();
     
@@ -95,8 +99,6 @@ public:
     void qingjingStatus();
     
 public:
-    
-    PromptLayer* promptLayer;
     
     CCDictionary* allClothesDic;
     

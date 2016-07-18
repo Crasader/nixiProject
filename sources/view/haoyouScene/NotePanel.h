@@ -77,9 +77,7 @@ public:
 //    Other* other;
 //    RankItem* item;
 //    PaperItem* paper;
-    
-//    MMPromptLayer* promptLayer;
-    
+        
     //    MMJYTextField* m_text;
     
     int _index;

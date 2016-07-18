@@ -104,6 +104,7 @@ void ClothesTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vie
 void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
     now_CellIndex = cell->getIdx();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataSaveItemStatus");
     
     CCArray* arr = DATA->getDataSource();
     CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组

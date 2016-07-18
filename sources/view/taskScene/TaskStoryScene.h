@@ -11,6 +11,8 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "AHMessageBox.h"
+#include "BaseScene.h"
 
 USING_NS_CC;
 
@@ -99,7 +101,9 @@ typedef enum{
     Tag_TS_ShiPin3_9,
 }TS_Enum;
 
-class TaskStoryScene : public CCLayer
+class TaskStoryScene
+: public BaseScene
+, public AHMessageBoxDelegate
 {
 public:
     TaskStoryScene();
@@ -111,6 +115,8 @@ public:
     
     virtual void onEnter();
     virtual void onExit();
+    
+    virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
@@ -149,6 +155,7 @@ public:
     void kuaijinCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
     void _400CallBack(CCObject* pSender);
+    void _603CallBack(CCObject* pSender);
     void goTaskScene();
     void LabelColorFhCallBack(CCObject* pSender);
     

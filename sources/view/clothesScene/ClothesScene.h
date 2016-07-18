@@ -12,7 +12,6 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
-#include "PromptLayer.h"
 #include "ClothesTableView.h"
 #include "AHMessageBox.h"
 
@@ -115,8 +114,9 @@ public:
     
     virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){}
-    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
+    
     
     static cocos2d::CCScene* scene();
     
@@ -131,6 +131,7 @@ public:
     bool zhuangrongBool;
     bool renwukuangMethodsBool;
     bool kuziBool;
+    bool _manBool;
     
     long  changClothesIndex;
     int buttonTag;
@@ -146,6 +147,7 @@ public:
     
     CCSprite* shaixuanSpr;
     CCSprite* yishaixuanSpr;
+    CCSprite* tskSpr;
     
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
@@ -181,11 +183,11 @@ public:
     CCLayer* _animLayer;
     
     CCMenu* allMenu;
-    
-    PromptLayer* promptLayer;
+    CCMenuItem* startItem,* saveItem;
     
 public:
     
+    void updataSaveItemStatus();
     void openTouch(float dt);
     void creat_View();
     void creat_ViewMethods(int index);
@@ -208,6 +210,7 @@ public:
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
+    void startMethods();
     void buttonCallBack(CCObject* pSender);
     void buyCallBack(CCObject* pSender);
     void saveCallBack(CCObject* pSender);
@@ -224,6 +227,12 @@ public:
     void showAnimationWithType(int type);
     
     void go_fitting_room();
+    
+    CCRect isManRect();
+    bool isManContainTouchPoint(CCTouch* touch);
+    void tuoguangConfirmCallBack(CCObject* pSender);
+    void tuoguangCancelCallBack(CCObject* pSender);
+    bool isThereAClothes();
     
 private:
     void Http_Finished_401(CCObject* pObj);

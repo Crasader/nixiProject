@@ -18,6 +18,8 @@
 #include "NetManager.h"
 #include "TaskSettlementLayer2.h"
 #include "AppUtil.h"
+#include "PromptLayer.h"
+
 
 ClothesScene::ClothesScene(){
     
@@ -61,25 +63,30 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
-    CCSprite* startSpr1;
-    CCSprite* startSpr2;
-    CCMenuItem* startItem;
     if (clothesStatus == 1) {// 任务
-        startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
-        startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
+        CCSprite* startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_start.png");
         startSpr2->setScale(1.02f);
         startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
+        startItem->setAnchorPoint(ccp(1.f, .5f));
+        startItem->setPosition(ccp(DISPLAY->ScreenWidth() - backItem->getContentSize().width - startItem->getContentSize().width* .95f, DISPLAY->ScreenHeight()* .032f));
+        CCMenu* menu = CCMenu::create(backItem, startItem, NULL);
+        menu->setPosition(CCPointZero);
+        this->addChild(menu, 15);
     }else if (clothesStatus == 2){// 换装
-        startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
-        startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        CCSprite* startSpr1 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
         startSpr2->setScale(1.02f);
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::saveCallBack));
+        CCSprite* startSpr3 = CCSprite::create("res/pic/clothesScene/button/gj_save.png");
+        startSpr3->setColor(ccGRAY);
+        saveItem = CCMenuItemSprite::create(startSpr1, startSpr2, startSpr3, this, menu_selector(ClothesScene::saveCallBack));
+        saveItem->setAnchorPoint(ccp(1.f, .5f));
+        saveItem->setPosition(ccp(DISPLAY->ScreenWidth() - backItem->getContentSize().width - saveItem->getContentSize().width* .95f, DISPLAY->ScreenHeight()* .032f));
+        CCMenu* menu = CCMenu::create(backItem, saveItem, NULL);
+        menu->setPosition(CCPointZero);
+        this->addChild(menu, 15);
     }
-    startItem->setAnchorPoint(ccp(1.f, .5f));
-    startItem->setPosition(ccp(DISPLAY->ScreenWidth() - backItem->getContentSize().width - startItem->getContentSize().width* .95f, DISPLAY->ScreenHeight()* .032f));
-    CCMenu* menu = CCMenu::create(backItem, startItem, NULL);
-    menu->setPosition(CCPointZero);
-    this->addChild(menu, 15);
+    
     
     this->crate_Tishi();
     this->creat_View();
@@ -111,6 +118,8 @@ void ClothesScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(ClothesScene::ChangeClothes), "ChangeClothes", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::ChangClothesIndex), "ChangClothesIndex", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::updataSaveItemStatus), "UpdataSaveItemStatus", NULL);
+    
     nc->addObserver(this, menu_selector(ClothesScene::buttonStatus), "ButtonStatus", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::creat_money), "Creat_money", NULL);
     
@@ -143,11 +152,181 @@ bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     
     SPECIAL->showSpotAt(this->getScene(), pTouch->getLocation(), 1);
     
+    if (!zhuangrongBool) {
+        if (isManContainTouchPoint(pTouch)) {
+            _manBool = true;
+        }else{
+            _manBool = false;
+        }
+    }
+    
+    
     return true;
 }
 
+CCRect ClothesScene::isManRect(){
+    return CCRectMake(-245, -500, 220, 850);
+}
+bool ClothesScene::isManContainTouchPoint(CCTouch* touch){
+    return isManRect().containsPoint(convertTouchToNodeSpaceAR(touch));
+}
+
 void ClothesScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
+    if (_manBool) {
+        _manBool = false;
+        
+        if (this->getChildByTag(0x8888) != NULL) {
+            tskSpr->removeAllChildren();
+            this->removeChildByTag(0x8888);
+        }
+        
+        tskSpr = CCSprite::create("res/pic/common/ah_box_message.png");
+        tskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
+        tskSpr->setTag(0x8888);
+        this->addChild(tskSpr, 20);
+        
+        CCLabelTTF* label = CCLabelTTF::create("是否脱光所有服饰", DISPLAY->fangzhengFont(), 40);
+        label->setPosition(ccp(tskSpr->boundingBox().size.width/2, tskSpr->boundingBox().size.height* .65));
+        label->setColor(ccc3(80, 63, 68));
+        tskSpr->addChild(label);
+        
+        CCSprite* qdSpr1 = CCSprite::create("res/pic/common/ah_btn_done_normal.png");
+        CCSprite* qdSpr2 = CCSprite::create("res/pic/common/ah_btn_done_selected.png");
+        qdSpr2->setScale(1.01f);
+        CCMenuItem* quedingItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(ClothesScene::tuoguangConfirmCallBack));
+        quedingItem->setPosition(ccp(tskSpr->boundingBox().size.width* .65, tskSpr->boundingBox().size.height* .2));
+        
+        CCSprite* fhSpr1 = CCSprite::create("res/pic/common/ah_btn_cancel_normal.png");
+        CCSprite* fhSpr2 = CCSprite::create("res/pic/common/ah_btn_cancel_selected.png");
+        fhSpr2->setScale(1.01f);
+        CCMenuItem* fanhuiItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(ClothesScene::tuoguangCancelCallBack));
+        fanhuiItem->setPosition(ccp(tskSpr->boundingBox().size.width* .35, tskSpr->boundingBox().size.height* .2));
+        
+        CCMenu* menu = CCMenu::create(quedingItem, fanhuiItem, NULL);
+        menu->setPosition(CCPointZero);
+        tskSpr->addChild(menu);
+    }
+}
+void ClothesScene::tuoguangConfirmCallBack(CCObject* pSender){
+    if (this->getChildByTag(0x8888) != NULL) {
+        tskSpr->removeAllChildren();
+        this->removeChildByTag(0x8888);
+    }
     
+//    if (MMAudioManager::get_instance()->is_effect_on()) {
+//        MMAudioManager::get_instance()->play_effect(kAudio_Button_Clothes, false);
+//    }
+    
+    
+    if (isThereAClothes()) {// 有穿衣服
+        CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+        CCDictionary* shipinDic;
+        for (int i = Tag_GJ_TouFa; i <= Tag_GJ_ZhuangRong; i++) {
+            if (i != Tag_GJ_ShiPin) {
+                CCString* keyStr = CCString::createWithFormat("%d", i);
+                CCInteger* cloth_integer = CCInteger::create(i* 10000);
+                myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿饰品的字典
+                for (int n = 11; n <= 20; n++) {
+                    CCString* keyStr = CCString::createWithFormat("%d", i);
+                    CCString* sub_part_keyStr = CCString::createWithFormat("%d", n);
+                    CCInteger* cloth_integer = CCInteger::create(i* 10000);
+                    shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                    myClothesTempDic->setObject(shipinDic, keyStr->getCString());
+                }
+            }
+        }
+        
+        CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+        if (buttonTag != Tag_GJ_ZhuangRong && buttonTag != Tag_GJ_TeXiao) {
+            if (clothKuangSpr->getChildren() != NULL) {
+                clothKuangSpr->removeAllChildren();
+            }
+            
+            this->creat_View();
+            
+            if (zhuangrongBool) {
+                zhuangrongBool = false;
+                
+                CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
+                CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
+                _ManSpr->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
+            }
+            
+        }else if (buttonTag == Tag_GJ_ZhuangRong){
+            if (clothKuangSpr->getChildren() != NULL) {
+                clothKuangSpr->removeAllChildren();
+            }
+            
+            this->creat_View();
+            
+            if (!zhuangrongBool) {
+                zhuangrongBool = true;
+                
+                CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(-DISPLAY->ScreenWidth()* .15f, -DISPLAY->ScreenHeight()* .5f));
+                CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.5f);
+                _ManSpr->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
+            }
+        }else if (buttonTag == Tag_GJ_TeXiao){
+            if (clothKuangSpr->getChildren() != NULL) {
+                clothKuangSpr->removeAllChildren();
+            }
+            
+            this->creat_View();
+            
+            if (zhuangrongBool) {
+                zhuangrongBool = false;
+                
+                CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
+                CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
+                _ManSpr->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
+            }
+        }
+        
+        _ManSpr->removeAllChildrenWithCleanup(true);
+        this->creat_Man();
+        this->initClothes();
+        
+    }else{// 没穿衣服
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "已经光光了,没有可脱的衣服了.");
+    }
+}
+bool ClothesScene::isThereAClothes(){
+    bool _bool = false;
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    CCDictionary* shipinDic;
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_ZhuangRong; i++) {
+        CCInteger* clothesTemp_id;
+        if (i != Tag_GJ_ShiPin) {
+            clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+            if (clothesTemp_id->getValue() != i* 10000) {
+                _bool = true;
+                return _bool;
+            }
+        }else{
+            shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿饰品的字典
+            CCInteger* clothesTemp_id;
+            for (int n = 11; n <= 20; n++) {
+                clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                if (clothesTemp_id->getValue() != 70000) {
+                    _bool = true;
+                    return _bool;
+                }
+            }
+        }
+    }
+    return _bool;
+}
+void ClothesScene::tuoguangCancelCallBack(CCObject* pSender){
+    if (this->getChildByTag(0x8888) != NULL) {
+        tskSpr->removeAllChildren();
+        this->removeChildByTag(0x8888);
+    }
+//    if (MMAudioManager::get_instance()->is_effect_on()) {
+//        MMAudioManager::get_instance()->play_effect(kAudio_Button_Back, false);
+//    }
 }
 
 cocos2d::CCScene* ClothesScene::scene(){
@@ -871,8 +1050,76 @@ void ClothesScene::startCallBack(CCObject* pSender){
     
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    bool allClothesBool = false;
+    
+    int syClothesId = 0;
+    int sySub_part = 0;
+    int kzClothesId = 0;
+    int xzClothesId = 0;
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_XieZi; i++) {
+        CCInteger* clothesId = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+        if (i == Tag_GJ_ShangYi) {
+            syClothesId = clothesId->getValue();
+        }else if (i == Tag_GJ_KuZi){
+            kzClothesId = clothesId->getValue();
+        }else if (i == Tag_GJ_XieZi){
+            xzClothesId = clothesId->getValue();
+        }
+        if (clothesId->getValue() != i* 10000) {
+            allClothesBool = true;
+        }
+    }
+    if (syClothesId != 30000) {
+        CCArray* arr = (CCArray* )allClothesDic->objectForKey(Tag_GJ_ShangYi);// 获得当前类型所有衣服
+        for (int i = 0; i < arr->count(); i++) {
+            CCDictionary* clothDic = (CCDictionary* )arr->objectAtIndex(i);
+            int id = clothDic->valueForKey("id")->intValue();
+            if (id == syClothesId) {
+                sySub_part = clothDic->valueForKey("sub_part")->intValue();
+                break;
+            }
+        }
+    }
+    
+    if (!allClothesBool) {// 全都没穿
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "不穿衣服还想出门!!!");
+        return;
+    }else{
+        if (syClothesId != Tag_GJ_ShangYi* 10000) {
+            if (sySub_part == 0) {
+                if (kzClothesId == Tag_GJ_KuZi* 10000) {
+                    PromptLayer* layer = PromptLayer::create();
+                    layer->show_prompt(this->getScene(), "喂喂喂~!你是不是忘记穿裤子了");
+                    return;
+                }else if (xzClothesId == Tag_GJ_XieZi * 10000){
+                    PromptLayer* layer = PromptLayer::create();
+                    layer->show_prompt(this->getScene(), "鞋子都不穿,就不怕扎脚么....");
+                    return;
+                }else{
+                    this->startMethods();
+                }
+            }else if (sySub_part == 1){
+                if (xzClothesId == Tag_GJ_XieZi * 10000) {
+                    PromptLayer* layer = PromptLayer::create();
+                    layer->show_prompt(this->getScene(), "鞋子都不穿,就不怕扎脚么....");
+                }else{
+                    this->startMethods();
+                }
+            }
+        }else{
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "好像忘记穿上衣了吧.老大");
+        }
+    }
+}
+void ClothesScene::startMethods(){
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     bool phaseBool = false;
-    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+    
+    //////
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -903,7 +1150,7 @@ void ClothesScene::startCallBack(CCObject* pSender){
                     }
                 }
             }else{
-                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿饰品的字典
                 CCInteger* clothesTemp_id;
                 for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
@@ -958,6 +1205,7 @@ void ClothesScene::startCallBack(CCObject* pSender){
         }
     }
 }
+
 void ClothesScene::buyCallBack(CCObject* pSender){
     if (animationBool) {
         animationBool = false;
@@ -965,8 +1213,27 @@ void ClothesScene::buyCallBack(CCObject* pSender){
         this->removeAllSpr();
     }
     
-    _buttonStatus = 1;
-    this->saveClothesMethods();
+    bool buyBool = false;// 为true表示有未购买衣服
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
+        CCInteger* clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+        // 价格
+        if (DATA->getClothes()->is_owned(i, clothesTemp_id->getValue())) {// 已购买
+            
+        }else{// 未购买
+            buyBool = true;
+        }
+    }
+    
+    if (buyBool) {
+        _buttonStatus = 1;
+        this->saveClothesMethods();
+    }else{
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "没有可购买的衣饰!");
+    }
+    
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
     if (animationBool) {
@@ -974,15 +1241,23 @@ void ClothesScene::saveCallBack(CCObject* pSender){
         
         this->removeAllSpr();
     }
+    saveItem->setEnabled(false);
     
     _buttonStatus = 2;
     this->saveClothesMethods();
+}
+void ClothesScene::updataSaveItemStatus(){
+    if (clothesStatus == 1) {// 任务
+        
+    }else if (clothesStatus == 2){// 换装
+        saveItem->setEnabled(true);
+    }
 }
 void ClothesScene::saveClothesMethods(){
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     bool phaseBool = false;
-    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -1009,6 +1284,8 @@ void ClothesScene::saveClothesMethods(){
                         myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
                         this->ChangeClothes((CCObject* )updataClothes(i));
                         
+                        PromptLayer* layer = PromptLayer::create();
+                        layer->show_prompt(this->getScene(), "有不能购买的衣饰,已经送回商店!");
                         continue;
                     }
                 }
@@ -2487,6 +2764,9 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
         CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
         
         _delegate->clothesUpdateTableCell();
+        
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "保存成功!");
     }
 }
 void ClothesScene::create_buySuccess(){
@@ -2615,7 +2895,7 @@ int ClothesScene::haveEnoughCoin(){
     
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     
-    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -2666,7 +2946,7 @@ int ClothesScene::haveEnoughGold(){
         
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     
-    for (int i = Tag_GJ_TouFa; i < Tag_GJ_Bao; i++) {
+    for (int i = Tag_GJ_TouFa; i <= Tag_GJ_Bao; i++) {
         CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
