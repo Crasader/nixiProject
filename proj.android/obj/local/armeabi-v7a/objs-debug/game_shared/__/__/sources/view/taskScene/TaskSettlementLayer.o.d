@@ -262,7 +262,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
@@ -802,8 +801,6 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 

@@ -211,7 +211,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/common/Number/FlashNumberLabel4.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -271,7 +270,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
- jni/../../sources/view/qingjingScene/QingjingCoverView.h
+ jni/../../sources/view/qingjingScene/QingjingCoverView.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
 
@@ -695,8 +695,6 @@ jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel4.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
-
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -826,3 +824,5 @@ jni/../../sources/manager/SpecialManager.h:
 jni/../../sources/view/qingjingScene/QingjingScene.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

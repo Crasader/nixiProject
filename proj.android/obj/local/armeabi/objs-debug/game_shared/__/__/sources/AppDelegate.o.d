@@ -242,6 +242,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h \
+ jni/../../sources/manager/AudioManager.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/loginScene/LoginScene.h \
  jni/../../sources/view/taskScene/TaskSettlementLayer.h
@@ -739,6 +740,8 @@ jni/../../sources/model/StoryComp.h:
 jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
+
+jni/../../sources/manager/AudioManager.h:
 
 jni/../../sources/manager/SpecialManager.h:
 

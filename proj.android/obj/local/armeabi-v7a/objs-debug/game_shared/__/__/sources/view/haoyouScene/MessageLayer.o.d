@@ -236,7 +236,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Mess
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
@@ -266,7 +265,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Mess
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/haoyouScene/HaoyouScene.h \
  jni/../../sources/view/haoyouScene/MessageTableView.h \
- jni/../../sources/view/common/Number/SliderBar.h
+ jni/../../sources/view/common/Number/SliderBar.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/haoyouScene/MessageLayer.h:
 
@@ -740,8 +742,6 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
-
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/manager/DataManager.h:
@@ -811,3 +811,9 @@ jni/../../sources/view/haoyouScene/HaoyouScene.h:
 jni/../../sources/view/haoyouScene/MessageTableView.h:
 
 jni/../../sources/view/common/Number/SliderBar.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

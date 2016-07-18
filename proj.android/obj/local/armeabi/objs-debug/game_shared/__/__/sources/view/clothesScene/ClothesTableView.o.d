@@ -260,7 +260,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/clothesScene/Clothes
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/DisplayManager.h
@@ -794,8 +793,6 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 

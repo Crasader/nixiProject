@@ -237,7 +237,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/Qi
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -279,7 +279,11 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/Qi
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/utils/AppUtil.h
+ jni/../../sources/utils/AppUtil.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/qingjingScene/QingjingScene.h:
 
@@ -755,7 +759,7 @@ jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/manager/DataManager.h:
 
@@ -850,3 +854,11 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
 jni/../../sources/utils/AppUtil.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

@@ -30,9 +30,6 @@ void DisplayManager::init() {
     _height = winsize.height;
 }
 
-const char* DisplayManager::font() {
-    return "TRENDS.ttf";
-}
 const char* DisplayManager::fangzhengFont(){
     return "FZY4JW--GB1-0.ttf";
 }

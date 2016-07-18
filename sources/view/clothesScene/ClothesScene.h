@@ -182,7 +182,8 @@ public:
     
     CCLayer* _animLayer;
     
-    CCMenu* allMenu;
+    CCMenu* buttonMenu;
+    void openButtonMenu();
     CCMenuItem* startItem,* saveItem;
     
 public:

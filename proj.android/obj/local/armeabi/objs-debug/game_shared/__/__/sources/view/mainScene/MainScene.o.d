@@ -263,11 +263,13 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/view/haoyouScene/HaoyouRankLayer.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
  jni/../../sources/view/common/InputBox/CursorTextField.h \
@@ -293,9 +295,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/panel/MailPanel.h \
  jni/../../sources/view/panel/OperationPanel.h \
  jni/../../sources/view/panel/SettingPanel.h \
- jni/../../sources/view/taskScene/TaskSettlementLayer2.h \
- jni/../../sources/view/common/Number/FlashNumberLabel3.h \
- jni/../../sources/view/common/Number/FlashNumberLabel4.h \
  jni/../../sources/manager/SpecialManager.h
 
 jni/../../sources/view/mainScene/MainScene.h:
@@ -834,7 +833,7 @@ jni/../../sources/view/qingjingScene/QingjingScene.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/view/taskScene/TaskScene.h:
 
@@ -842,7 +841,11 @@ jni/../../sources/view/clothesScene/ClothesScene.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/view/haoyouScene/HaoyouRankLayer.h:
 
@@ -893,11 +896,5 @@ jni/../../sources/view/panel/MailPanel.h:
 jni/../../sources/view/panel/OperationPanel.h:
 
 jni/../../sources/view/panel/SettingPanel.h:
-
-jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel3.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel4.h:
 
 jni/../../sources/manager/SpecialManager.h:

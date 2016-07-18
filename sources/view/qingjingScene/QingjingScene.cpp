@@ -358,6 +358,16 @@ void QingjingScene::creat_view(){
     this->qingjingStatus();
 }
 void QingjingScene::qingjingStatus(){
+    if (this->getChildByTag(0x99999) != NULL) {
+        this->removeChildByTag(0x99999);
+    }
+    if (this->getChildByTag(0x11111) != NULL) {
+        this->removeChildByTag(0x11111);
+    }
+    if (this->getChildByTag(0x22222) != NULL) {
+        this->removeChildByTag(0x22222);
+    }
+    
     int now_task_index = -1;
     // 显示的任务的结局
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
@@ -380,6 +390,30 @@ void QingjingScene::qingjingStatus(){
     DATA->setChapterNumber(now_task_index);
     qingjingCoverView->scrollStatus(now_task_index);
     this->updataButton();
+    
+    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", now_task_index);
+    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
+    std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(3))->getCString();
+    // 人
+    std::string manStd = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
+    std::string lianStd = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
+    
+    CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
+    roomSpr = CCSprite::create(roomStr->getCString());
+    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    roomSpr->setTag(0x99999);
+    this->addChild(roomSpr);
+    
+    CCString* manStr = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", manStd.c_str());
+    manSpr = CCSprite::create(manStr->getCString());
+    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    manSpr->setTag(0x11111);
+    this->addChild(manSpr, 10);
+    CCString* lianStr = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", lianStd.c_str());
+    lianSpr = CCSprite::create(lianStr->getCString());
+    lianSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    lianSpr->setTag(0x22222);
+    this->addChild(lianSpr, 11);
 }
 
 void QingjingScene::backCallBack(CCObject* pSender){
@@ -580,14 +614,46 @@ void QingjingScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
     
-    if (DATA->getPlayer()->energy >= 9) {
-        LOADING->show_loading();
-        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-        NET->start_story_501(indexStr->getCString());
+    if (storyIndex > 0) {
+        bool tongguanBool = false;
+        CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
+        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+        if (storyArr != NULL) {
+            for (int i = 0; i < storyArr->count(); i++) {
+                CCString* tongguanStr1 = CCString::createWithFormat("-1");
+                CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(i);
+                if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
+                    tongguanBool = true;
+//                    CCLog("等于-1, 通关");
+                }else{
+//                    CCLog("不等于-1, 不通关");
+                }
+            }
+        }
+        if (tongguanBool) {
+            if (DATA->getPlayer()->energy >= 9) {
+                LOADING->show_loading();
+                CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+                NET->start_story_501(indexStr->getCString());
+            }else{
+                AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
+        }else{
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
+        }
     }else{
-        AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+        if (DATA->getPlayer()->energy >= 9) {
+            LOADING->show_loading();
+            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+            NET->start_story_501(indexStr->getCString());
+        }else{
+            AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+        }
     }
 }
 void QingjingScene::_501CallBack(CCObject* pSender){

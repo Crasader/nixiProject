@@ -248,7 +248,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/StoryS
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/model/ClothesComp.h \
@@ -265,6 +264,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/StoryS
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/LabelColorLayer.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
@@ -278,7 +278,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/StoryS
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h
+ jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/qingjingScene/StoryScene.h:
 
@@ -776,8 +777,6 @@ jni/../../sources/third/Json/lib_json/features.h:
 
 jni/../../sources/third/Json/lib_json/writer.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
-
 jni/../../sources/view/mainScene/MainScene.h:
 
 jni/../../sources/manager/DataManager.h:
@@ -820,6 +819,8 @@ jni/../../sources/view/qingjingScene/QingjingScene.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/qingjingScene/LabelColorLayer.h:
@@ -847,3 +848,5 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
 jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

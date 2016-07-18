@@ -236,7 +236,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskScene.
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -275,12 +274,18 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskScene.
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/taskScene/TaskStoryScene.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/taskScene/PhoneLayer.h \
+ jni/../../sources/view/taskScene/PhoneLayer2.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/taskScene/TaskTableView.h \
  jni/../../sources/view/MZResourceLoader.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/utils/AppUtil.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/taskScene/BuildingLayer.h
 
 jni/../../sources/view/taskScene/TaskScene.h:
@@ -755,8 +760,6 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
-jni/../../sources/view/mainScene/PromptLayer.h:
-
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -843,16 +846,28 @@ jni/../../sources/view/common/Loading2/Loading2.h:
 
 jni/../../sources/view/taskScene/TaskStoryScene.h:
 
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
+jni/../../sources/view/taskScene/PhoneLayer.h:
+
+jni/../../sources/view/taskScene/PhoneLayer2.h:
+
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/view/taskScene/TaskTableView.h:
 
 jni/../../sources/view/MZResourceLoader.h:
 
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
 jni/../../sources/utils/AppUtil.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/taskScene/BuildingLayer.h:
