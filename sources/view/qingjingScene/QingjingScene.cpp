@@ -16,6 +16,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "AppUtil.h"
+#include "PromptLayer.h"
 #include "AudioManager.h"
 
 
@@ -43,9 +44,6 @@ bool QingjingScene::init(){
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
-    
-    promptLayer = PromptLayer::create();
-    this->addChild(promptLayer, 500);
     
     allClothesDic = CONFIG->clothes();// 所有衣服
     
@@ -145,6 +143,18 @@ void QingjingScene::creat_view(){
     
     
     // 显示的任务的结局
+    /**
+     *   "101_80100_0"      任务id
+     *   "1009_1",          人id
+     *   "1009_2",          人表情
+     *   "0",               需要星星数
+     *   "1.png",           bg
+     *   "开启—弘鼎企业",     提示语
+     *   "1"                阶段
+     *   "1002_1",          手机需要的人id
+     *   "1002_5",          手机需要的人表情
+     *   "那么一段糗事,你就不要来看了嘛.讨厌~!"     手机需要的提示语
+     */
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", 0);
@@ -222,17 +232,26 @@ void QingjingScene::creat_view(){
         
         CCString* story_index = CCString::createWithFormat("%d", i);
         CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+        bool tongguanBool = false;
         for (int i = 0; i < achievemArr->count(); i++) {
             bool achiBool = false;
             CCString* str = (CCString* )achievemArr->objectAtIndex(i);
             if (storyArr != NULL) {
                 for (int k = 0; k < storyArr->count(); k++) {
                     CCString* storyStr = (CCString* )storyArr->objectAtIndex(k);
+                    CCString* tongguanStr1 = CCString::createWithFormat("-1");
                     if (strcmp(str->getCString(), storyStr->getCString()) == 0) {
                         achiBool = true;
                         CCLog("11111");
                     }else{
                         CCLog("22222");
+                    }
+                    CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(k);
+                    if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
+                        tongguanBool = true;
+                        CCLog("等于-1");
+                    }else{
+                        CCLog("不等于-1");
                     }
                 }
             }
@@ -285,12 +304,12 @@ void QingjingScene::creat_view(){
         tishiLabel->setColor(ccc3(80, 63, 68));
         kuangSpr->addChild(tishiLabel);
         
-        if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
-            CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
-            jiesuoSpr->setScale(.7f);
-            jiesuoSpr->setAnchorPoint(ccp(0, .5f));
-            jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-            tishiLabel->addChild(jiesuoSpr);
+        if (tongguanBool) {
+            CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
+            tongguanSpr->setScale(.7f);
+            tongguanSpr->setAnchorPoint(ccp(0, .5f));
+            tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+            tishiLabel->addChild(tongguanSpr);
             
             startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
             startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
@@ -299,18 +318,33 @@ void QingjingScene::creat_view(){
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
             startItem->setTag(i);
         }else{
-            CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_weijiesuo.png");
-            jiesuoSpr->setScale(.7f);
-            jiesuoSpr->setAnchorPoint(ccp(0, .5f));
-            jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-            tishiLabel->addChild(jiesuoSpr);
-            
-            startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
-            startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
-            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-            startItem->setColor(ccGRAY);
-            startItem->setTag(i);
+            if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
+                CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
+                jiesuoSpr->setScale(.7f);
+                jiesuoSpr->setAnchorPoint(ccp(0, .5f));
+                jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+                tishiLabel->addChild(jiesuoSpr);
+                
+                startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+                startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
+                startSpr2->setScale(1.02f);
+                startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
+                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+                startItem->setTag(i);
+            }else{
+                CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_weijiesuo.png");
+                jiesuoSpr->setScale(.7f);
+                jiesuoSpr->setAnchorPoint(ccp(0, .5f));
+                jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+                tishiLabel->addChild(jiesuoSpr);
+                
+                startSpr1 = CCSprite::create("pic/common/btn_startstory.png");
+                startSpr2 = CCSprite::create("pic/common/btn_startstory.png");
+                startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
+                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+                startItem->setColor(ccGRAY);
+                startItem->setTag(i);
+            }
         }
         CCMenu* startMenu = CCMenu::create(startItem, NULL);
         startMenu->setPosition(CCPointZero);
@@ -324,34 +358,28 @@ void QingjingScene::creat_view(){
     this->qingjingStatus();
 }
 void QingjingScene::qingjingStatus(){
-    int now_task_index = 0;
+    int now_task_index = -1;
     // 显示的任务的结局
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    allNumber = taskConditionsDic->count();
+    int allTask = taskConditionsDic->count();
     
-    for (int i = 0; i < allNumber; i++) {
-        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
-        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
-        renwuIndex = atoi(renwuIndexStr.c_str());
-        std::string phaseIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(5))->getCString();
-        phaseIndex = atoi(phaseIndexStr.c_str());
-        if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {// 解锁
-            CCString* story_index = CCString::createWithFormat("%d", i);
-            CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
-            if (storyArr == NULL) {
-                if (i > 0) {
-                    now_task_index = i - 1;
-                }else{
-                    now_task_index = i;
-                }
-                break;
-            }
+    for (int i = 0; i < allTask; i++) {
+        CCString* story_index = CCString::createWithFormat("%d", i);
+        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+        if (storyArr != NULL) {
+            continue;
+        }else{
+            now_task_index = i;
+            break;
         }
     }
-    
+    if (now_task_index == -1) {
+        now_task_index = allTask - 1;
+    }
+    DATA->setChapterNumber(now_task_index);
     qingjingCoverView->scrollStatus(now_task_index);
+    this->updataButton();
 }
 
 void QingjingScene::backCallBack(CCObject* pSender){
@@ -552,9 +580,15 @@ void QingjingScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
     
-    LOADING->show_loading();
-    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-    NET->start_story_501(indexStr->getCString());
+    if (DATA->getPlayer()->energy >= 9) {
+        LOADING->show_loading();
+        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+        NET->start_story_501(indexStr->getCString());
+    }else{
+        AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    }
 }
 void QingjingScene::_501CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();
@@ -1148,8 +1182,8 @@ void QingjingScene::jiantou2CallBack(CCObject* pSender){
         }
         this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::updataButton), .3f);
     }else{
-        CCString* str = CCString::createWithFormat("敬请期待!");
-        promptLayer->promptBoxString(str);
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "敬请期待!");
     }
 }
 void QingjingScene::closeButton(){
@@ -1215,5 +1249,18 @@ void QingjingScene::updataMan(){
     lianSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     lianSpr->setTag(0x22222);
     this->addChild(lianSpr, 11);
+}
+
+
+
+
+void QingjingScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
+    box->animation_out();
+    
+    if (button_type == AH_BUTTON_TYPE_YESNO) {
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
+        }
+    }
 }
 

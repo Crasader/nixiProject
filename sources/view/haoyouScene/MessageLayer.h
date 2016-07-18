@@ -12,7 +12,6 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
-#include "PromptLayer.h"
 //#include "ClothesTableView.h"
 #include "AHMessageBox.h"
 
@@ -51,8 +50,6 @@ public:
     CCSprite* dikuangSpr;
     
     CCMenu* allMenu;
-    
-    PromptLayer* promptLayer;
     
 public:
     

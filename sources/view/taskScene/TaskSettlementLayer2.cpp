@@ -15,6 +15,7 @@
 #include "DisplayManager.h"
 #include "SpecialManager.h"
 #include "QingjingScene.h"
+#include "PromptLayer.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
@@ -49,9 +50,6 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
     logic_open_bool = false;
     logic_end_Bool = false;
     animationBool = false;
-    
-    promptLayer = PromptLayer::create();
-    this->addChild(promptLayer, 500);
     
     allClothesDic = CONFIG->clothes();// 所有衣服
     
@@ -118,9 +116,17 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
             }
         }else{
             if (!lingquBool) {
-                // 给个提示
-                CCString* str = CCString::createWithFormat("还没有领奖呦!");
-                promptLayer->promptBoxString(str);
+                lingquBool = true;
+                lingquItem->setEnabled(false);
+                logic_open_bool = false;
+                SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+//                SPECIAL->show_energy_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+                
+                this->nextAnimation1();
+                
+//                // 给个提示
+//                PromptLayer* layer = PromptLayer::create();
+//                layer->show_prompt(this->getScene(), "领取成功!");
             }else{
                 exit();
                 CCLog("<><><>exit()");
@@ -130,6 +136,24 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
 
     return true;
 }
+void TaskSettlementLayer2::nextAnimation1(){
+    CCSprite* tiliSpr = CCSprite::create("res/pic/taskSettlement/ts_tili.png");
+    tiliSpr->setScale(.3f);
+    tiliSpr->setVisible(false);
+    tiliSpr->setPosition(ccp(renSpr->getContentSize().width* .5f, renSpr->getContentSize().height* .58f));
+    renSpr->addChild(tiliSpr, 5);
+    
+    CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(TaskSettlementLayer2::nextAnimation2));
+    CCMoveTo* moveTo = CCMoveTo::create(.7f, ccp(renSpr->getContentSize().width + kuangSpr1->getContentSize().width* .55f, renSpr->getContentSize().height* .58f));
+    CCScaleTo* scaleTo = CCScaleTo::create(.7f, 1.f);
+    CCSpawn* spawn = CCSpawn::create(CCShow::create(), moveTo, scaleTo, NULL);
+    tiliSpr->runAction(CCSequence::create(spawn, callFuncN, NULL));
+}
+void TaskSettlementLayer2::nextAnimation2(){
+    SPECIAL->show_energy_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+    logic_open_bool = true;
+}
+
 
 void TaskSettlementLayer2::exit() {
     CCLayer* layer = TaskScene::create(_isPhaseUP);
@@ -163,9 +187,9 @@ void TaskSettlementLayer2::creat_view(){
     this->addChild(renSpr, 20);
     
     // 下框
-    CCSprite* kuangSpr1 = CCSprite::create("res/pic/taskSettlement/ts_kuang1.png");
+    kuangSpr1 = CCSprite::create("res/pic/taskSettlement/ts_kuang1.png");
     kuangSpr1->setPosition(ccp(renSpr->getContentSize().width + kuangSpr1->getContentSize().width* .33f, renSpr->getContentSize().height* .3f));
-    renSpr->addChild(kuangSpr1);
+    renSpr->addChild(kuangSpr1, 10);
     
     
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskSettlementLayer2::updataNumber));
@@ -333,7 +357,7 @@ void TaskSettlementLayer2::updataNumber(){
     renSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), moveTo1, moveTo2, moveTo3, CCDelayTime::create(.5f), callFunc, NULL));
 }
 void TaskSettlementLayer2::creatXingXing(){
-    _rating = 5;
+//    _rating = 5;
     
     CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskSettlementLayer2::openLogic));
     
@@ -603,6 +627,8 @@ void TaskSettlementLayer2::lingquCallBack(CCObject* pSender){
     
     lingquBool = true;
     SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "领取成功!");
 }
 void TaskSettlementLayer2::shareCallBack(CCObject* pSender){
     
