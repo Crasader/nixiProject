@@ -12,6 +12,7 @@
 #include "ConfigManager.h"
 #include "HaoyouScene.h"
 #include "MainScene.h"
+#include "PromptLayer.h"
 
 const float totalRank_z_oder = 20.f;
 
@@ -32,23 +33,38 @@ bool TotalRankScene::init(){
         item_first->setVisible(false);
         item_second->setVisible(false);
         item_third->setVisible(false);
-    }else if (count == 1){
-        item_second->setVisible(false);
-        item_third->setVisible(false);
-    }else if (count == 2) {
-        item_third->setVisible(false);
+        myClothesTemp = DATA->getClothes()->MyClothesTemp();
+    }else{
+        if (count == 1){
+            item_second->setVisible(false);
+            item_third->setVisible(false);
+        }else if (count == 2) {
+            item_third->setVisible(false);
+        }
+        
+        ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(0);
+        myClothesTemp = show->ondress();
     }
     
-    // 这里读取排行当前第一个人的衣服字典
-    myClothesTemp = DATA->getClothes()->MyClothesTemp();
-//    const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
-//    ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
-//    myClothesTemp = show->ondress();
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
     allClothesDic = CONFIG->clothes();// 所有衣服
+    
+    ShowComp* show_self = (ShowComp*)DATA->getShow();
+    string id_self = show_self->getShowID();
+    
+    CCArray* rankers = DATA->getRanking()->ranking();
+    CCObject* pObj = NULL;
+    int rank_self;
+    CCARRAY_FOREACH(rankers, pObj){
+        ShowComp* show_rank = (ShowComp*)pObj;
+        if (id_self.compare(show_rank->getShowID()) == 0) {
+            rank_self = show_rank->ranking();
+        }
+    }
+    
     
     this->createView();
     this->creat_Man();
@@ -126,59 +142,26 @@ void TotalRankScene::createView(){
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, totalRank_z_oder);
     
-    CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
-//    CCSprite* self_spr2 = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
-    self_spr->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-    this->addChild(self_spr, totalRank_z_oder);
+    //self
     
-    int my_rank = 8;
-    CCSprite* head;
-    if (my_rank == 1) {
-        head = CCSprite::create("res/pic/haoyoupaihang/first.png");
-    }else if (my_rank == 2){
-        head = CCSprite::create("res/pic/haoyoupaihang/second.png");
-    }else if (my_rank == 3){
-        head = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-    }else{
-        head = CCSprite::create("res/pic/haoyoupaihang/cell_head_normal.png");
-        CCLabelAtlas* rank_num;
-        CCString* str_num = CCString::createWithFormat("%d", my_rank);
-        if (my_rank < 10) {
-            rank_num =CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_single_normal.png", 25, 34, '4');
-        }else{
-            rank_num = CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
-        }
-        rank_num->setAnchorPoint(ccp(0.5, 0.5));
-        rank_num->setPosition(ccp(head->getContentSize().width/2, head->getContentSize().height/2));
-        head->addChild(rank_num);
-    }
-    head->setPosition(ccp(head->getContentSize().width - 13, self_spr->getContentSize().height/2 + 3));
-    self_spr->addChild(head);
-//    self_spr2->addChild(head);
+    CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/self_bg_nor.png");
+    CCSprite* self_spr2 = CCSprite::create("res/pic/haoyoupaihang/self_bg_nor.png");
+    CCMenuItemSprite* item_self = CCMenuItemSprite::create(self_spr, self_spr2, this, menu_selector(TotalRankScene::btn_toBig_callback));
+    item_self->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2, DISPLAY->ScreenHeight()* .08f));
+    item_self ->setUserObject(CCInteger::create(-100));
     
-    CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg->setPosition(ccp(self_spr->getContentSize().width - name_bg->getContentSize().width/2, 90));
-    self_spr->addChild(name_bg);
-//    self_spr2->addChild(name_bg);
     
     const char* nickname_self = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-    name_bg->addChild(name);
+    CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(item_self->getContentSize().width* .68f, item_self->getContentSize().height* .68f));
+    name->setColor(ccc3(234, 106, 106));
+    item_self->addChild(name);
     
-    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count->setPosition(ccp(self_spr->getContentSize().width * .8, self_spr->getContentSize().height/2));
-    self_spr->addChild(cloth_count);
-//    self_spr2->addChild(cloth_count);
-    
-//    self_spr2->setScale(1.02f);
-//    
-//    CCMenuItemSprite* item_self = CCMenuItemSprite::create(self_spr, self_spr2, this, menu_selector(TotalRankScene::btn_self_callback));
-//    item_self->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-//    CCMenu* menu_self = CCMenu::create(item_self, NULL);
-//    menu_self->setPosition(CCPointZero);
-//    this->addChild(menu_self);
+    CCString* collect_str = CCString::createWithFormat("服装收集: %d", DATA->getShow()->collected());
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    cloth_count->setAnchorPoint(CCPoint(0, 0.5));
+    cloth_count->setPosition(ccp(item_self->getContentSize().width * .47f, item_self->getContentSize().height* .38f));
+    item_self->addChild(cloth_count);
     
     
     
@@ -187,106 +170,112 @@ void TotalRankScene::createView(){
     _curBtn_index = 0;
     DATA->getSocial()->setSelectedRanker(0);
     
-    CCSprite* bg_first = CCSprite::createWithSpriteFrameName("panel_normal.png");
-    CCSprite* bg_first2 = CCSprite::createWithSpriteFrameName("panel_normal.png");
+    CCSprite* bg_first = CCSprite::create("res/pic/haoyoupaihang/first_bg_nor.png");
+    CCSprite* bg_first2 = CCSprite::create("res/pic/haoyoupaihang/first_bg_nor.png");
     item_first = CCMenuItemSprite::create(bg_first, bg_first2, this, menu_selector(TotalRankScene::btn_toBig_callback));
-    item_first->setPosition(ccp(DISPLAY->ScreenWidth() - bg_first->getContentSize().width/2, DISPLAY->ScreenHeight()* .18f + 138*5.5));
+    item_first->setPosition(ccp(DISPLAY->ScreenWidth() - bg_first->getContentSize().width/2, DISPLAY->ScreenHeight()* .18f + 124*5.5));
     item_first->setUserObject(CCInteger::create(0));
     item_first->setEnabled(false);
-    
-    CCSprite* bg = CCSprite::createWithSpriteFrameName("panel_selected.png");
-    bg->setAnchorPoint(CCPointZero);
-    bg->setPosition(CCPointZero);
-    bg->setTag(0x1000);
-    item_first->addChild(bg);
-    
-    CCSprite* head_first = CCSprite::create("res/pic/haoyoupaihang/first_selected.png");
-    head_first->setPosition(ccp(head_first->getContentSize().width - 8, bg_first->getContentSize().height/2 + 3));
-    bg->addChild(head_first);
-    
-    CCSprite* name_bg_first = CCSprite::create("res/pic/haoyoupaihang/namebar_selected.png");
-    name_bg_first->setPosition(ccp(bg_first->getContentSize().width - name_bg_first->getContentSize().width/2, 105));
-    bg->addChild(name_bg_first);
     
     ShowComp* show_fst = (ShowComp* )_rankers->objectAtIndex(0);
     const char* nickname_first = show_fst->nickname();
     int collect_first = show_fst->collected();
     
-    CCLabelTTF* name_first = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name_first->setPosition(ccp(name_bg_first->getContentSize().width/2, name_bg_first->getContentSize().height/2));
-    name_bg_first->addChild(name_first);
+    CCSprite* num_fst_item = CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+    num_fst_item->setPosition(ccp(item_first->getContentSize().width* .25f, item_first->getContentSize().height* .5f));
+    item_first->addChild(num_fst_item);
     
-    CCString* collect_first_str = CCString::createWithFormat("%d", collect_first);
-    CCLabelTTF* cloth_count_first = CCLabelTTF::create(collect_first_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count_first->setPosition(ccp(bg_first->getContentSize().width * .8, bg_first->getContentSize().height/2));
+    CCLabelTTF* name_first_item = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name_first_item->setPosition(ccp(item_first->getContentSize().width* .68f, item_first->getContentSize().height* .68));
+    name_first_item->setColor(ccc3(234, 106, 106));
+    item_first->addChild(name_first_item);
+    
+    CCString* collect_first_str = CCString::createWithFormat("服装收集: %d", collect_first);
+    CCLabelTTF* cloth_count_first_item = CCLabelTTF::create(collect_first_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    cloth_count_first_item->setPosition(ccp(item_first->getContentSize().width * .47, item_first->getContentSize().height* .38f));
+    cloth_count_first_item->setAnchorPoint(CCPoint(0, 0.5));
+    item_first->addChild(cloth_count_first_item);
+    
+    CCSprite* bg = CCSprite::create("res/pic/haoyoupaihang/first_bg_sel.png");
+    bg->setAnchorPoint(CCPointZero);
+    bg->setPosition(ccp(0, 0));
+    bg->setTag(0x1000);
+    item_first->addChild(bg);
+    
+    CCSprite* num_fst = CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+    num_fst->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+    bg->addChild(num_fst);
+    
+    CCLabelTTF* name_first = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name_first->setPosition(ccp(bg->getContentSize().width* .6f, bg->getContentSize().height* .68));
+    name_first->setColor(ccc3(234, 106, 106));
+    bg->addChild(name_first);
+    
+    CCLabelTTF* cloth_count_first = CCLabelTTF::create(collect_first_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    cloth_count_first->setPosition(ccp(bg->getContentSize().width * .40, bg->getContentSize().height* .365f));
+    cloth_count_first->setAnchorPoint(CCPoint(0, 0.5));
     bg->addChild(cloth_count_first);
     
     
     //second
-    CCSprite* bg_second = CCSprite::createWithSpriteFrameName("panel_normal.png");
-    CCSprite* bg_second2 = CCSprite::createWithSpriteFrameName("panel_normal.png");
+    CCSprite* bg_second = CCSprite::create("res/pic/haoyoupaihang/second_bg_nor.png");
+    CCSprite* bg_second2 = CCSprite::create("res/pic/haoyoupaihang/second_bg_nor.png");
     item_second = CCMenuItemSprite::create(bg_second, bg_second2, this, menu_selector(TotalRankScene::btn_toBig_callback));
-    item_second->setPosition(ccp(DISPLAY->ScreenWidth() - bg_second->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .18f + 138*4.5));
+    item_second->setPosition(ccp(DISPLAY->ScreenWidth() - bg_second->getContentSize().width/2, DISPLAY->ScreenHeight()* .18f + 124*4.5));
     item_second->setUserObject(CCInteger::create(1));
     
-    CCSprite* head_second = CCSprite::create("res/pic/haoyoupaihang/second.png");
-    head_second->setPosition(ccp(head_second->getContentSize().width + 4, bg_second->getContentSize().height/2 + 5));
-    head_second->setTag(0x2001);
-    item_second->addChild(head_second);
-    
-    CCSprite* name_bg_second = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg_second->setPosition(ccp(bg_second->getContentSize().width - name_bg_second->getContentSize().width/2, 105));
-    name_bg_second->setTag(0x2002);
-    item_second->addChild(name_bg_second);
     
     ShowComp* show_sed = (ShowComp*)_rankers->objectAtIndex(1);
     const char* nickname_second = show_sed->nickname();
     int collect_second = show_sed->collected();
     
-    CCLabelTTF* name_second = CCLabelTTF::create(nickname_second, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name_second->setPosition(ccp(name_bg_second->getContentSize().width/2 - 10, name_bg_second->getContentSize().height/2));
-    name_bg_second->addChild(name_second);
+    CCSprite* num_sed = CCSprite::create("res/pic/haoyoupaihang/num_2.png");
+    num_sed->setPosition(ccp(item_second->getContentSize().width* .25f, item_second->getContentSize().height* .5f));
+    item_second->addChild(num_sed);
     
-    CCString* collect_second_str = CCString::createWithFormat("%d", collect_second);
-    CCLabelTTF* cloth_count_second = CCLabelTTF::create(collect_second_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count_second->setPosition(ccp(bg_second->getContentSize().width * .8, bg_second->getContentSize().height/2));
-    cloth_count_second->setTag(0x2003);
+    CCLabelTTF* name_second = CCLabelTTF::create(nickname_second, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name_second->setPosition(ccp(item_second->getContentSize().width* .68f, item_second->getContentSize().height* .68));
+    name_second->setColor(ccc3(234, 106, 106));
+//    name_second->setTag(0x2002);
+    item_second->addChild(name_second);
+    
+    CCString* collect_second_str = CCString::createWithFormat("服装收集: %d", collect_second);
+    CCLabelTTF* cloth_count_second = CCLabelTTF::create(collect_second_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    cloth_count_second->setPosition(ccp(item_second->getContentSize().width * .47f, item_second->getContentSize().height* .38f));
+    cloth_count_second->setAnchorPoint(CCPoint(0, 0.5));
+//    cloth_count_second->setTag(0x2003);
     item_second->addChild(cloth_count_second);
     
     
     //third
     
-    CCSprite* bg_third = CCSprite::createWithSpriteFrameName("panel_normal.png");
-    CCSprite* bg_third2 = CCSprite::createWithSpriteFrameName("panel_normal.png");
+    CCSprite* bg_third = CCSprite::create("res/pic/haoyoupaihang/third_bg_nor.png");
+    CCSprite* bg_third2 = CCSprite::create("res/pic/haoyoupaihang/third_bg_nor.png");
     item_third = CCMenuItemSprite::create(bg_third, bg_third2, this, menu_selector(TotalRankScene::btn_toBig_callback));
-    item_third->setPosition(ccp(DISPLAY->ScreenWidth() - bg_third->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .18f + 138*3.5));
+    item_third->setPosition(ccp(DISPLAY->ScreenWidth() - bg_third->getContentSize().width/2, DISPLAY->ScreenHeight()* .18f + 124*3.5));
     item_third->setUserObject(CCInteger::create(2));
     
-    CCSprite* head_third = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-    head_third->setPosition(ccp(head_third->getContentSize().width + 4, bg_third->getContentSize().height/2 + 5));
-    head_third->setTag(0x2001);
-    item_third->addChild(head_third);
-    
-    CCSprite* name_bg_third = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg_third->setPosition(ccp(bg_third->getContentSize().width - name_bg_third->getContentSize().width/2, 105));
-    name_bg_third->setTag(0x2002);
-    item_third->addChild(name_bg_third);
     
     ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(2);
     const char* nickname_third = show_thd->nickname();
     int collect_third = show_thd->collected();
     
-    CCLabelTTF* name_third = CCLabelTTF::create(nickname_third, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name_third->setPosition(ccp(name_bg_third->getContentSize().width/2 - 10, name_bg_third->getContentSize().height/2));
-    name_bg_third->addChild(name_third);
+    CCSprite* num_thd = CCSprite::create("res/pic/haoyoupaihang/num_3.png");
+    num_thd->setPosition(ccp(item_third->getContentSize().width* .25f, item_third->getContentSize().height* .5f));
+    item_third->addChild(num_thd);
     
-    CCString* collect_third_str = CCString::createWithFormat("%d", collect_third);
-    CCLabelTTF* cloth_count_third = CCLabelTTF::create(collect_third_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count_third->setPosition(ccp(bg_third->getContentSize().width * .8, bg_third->getContentSize().height/2));
-    cloth_count_third->setTag(0x2003);
+    CCLabelTTF* name_third = CCLabelTTF::create(nickname_third, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name_third->setPosition(ccp(item_third->getContentSize().width* .68f, item_third->getContentSize().height* .68f));
+    name_third->setColor(ccc3(234, 106, 106));
+    item_third->addChild(name_third);
+    
+    CCString* collect_third_str = CCString::createWithFormat("服装收集: %d", collect_third);
+    CCLabelTTF* cloth_count_third = CCLabelTTF::create(collect_third_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    cloth_count_third->setPosition(ccp(item_third->getContentSize().width * .47f, item_third->getContentSize().height* .38f));
+    cloth_count_third->setAnchorPoint(CCPoint(0, 0.5));
     item_third->addChild(cloth_count_third);
     
-    CCMenu* menu_rank = CCMenu::create(item_first, item_second, item_third, NULL);
+    CCMenu* menu_rank = CCMenu::create(item_first, item_second, item_third, item_self, NULL);
     menu_rank->setPosition(CCPointZero);
     this->addChild(menu_rank, totalRank_z_oder);
     
@@ -294,7 +283,7 @@ void TotalRankScene::createView(){
 }
 
 void TotalRankScene::initTotalRank(){
-    CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/panel_normal.png");
+    CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/other_bg_nor.png");
     
     tabLayer = TotalRankTableView::create();
     
@@ -304,7 +293,8 @@ void TotalRankScene::initTotalRank(){
 }
 
 void TotalRankScene::btn_share_callback(CCObject* pSender){
-    
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this, "暂未开放");
 }
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){
@@ -336,54 +326,55 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     
     DATA->getSocial()->setSelectedRanker(index);
     
-    if (item->getChildByTag(0x2001)) {
-        item->removeChildByTag(0x2001, true);
-    }
-    if (item->getChildByTag(0x2002)) {
-        item->removeChildByTag(0x2002, true);
-    }
-    if (item->getChildByTag(0x2003)) {
-        item->removeChildByTag(0x2003, true);
-    }
     
-    item->setPosition(item->getPositionX() - 10, item->getPositionY());
-    
-    CCSprite* bg = CCSprite::createWithSpriteFrameName("panel_selected.png");
+    CCSprite* bg;
+    CCSprite* num;
+    if (index == 0) {
+        bg = CCSprite::create("res/pic/haoyoupaihang/first_bg_sel.png");
+        num = CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+    }else if (index == 1){
+        bg = CCSprite::create("res/pic/haoyoupaihang/second_bg_sel.png");
+        num = CCSprite::create("res/pic/haoyoupaihang/num_2.png");
+    }else if (index == 2){
+        bg = CCSprite::create("res/pic/haoyoupaihang/third_bg_sel.png");
+        num = CCSprite::create("res/pic/haoyoupaihang/num_3.png");
+    }else if (index == -100){
+        bg = CCSprite::create("res/pic/haoyoupaihang/self_bg_sel.png");
+        
+        
+    }
     bg->setAnchorPoint(CCPointZero);
-    bg->setPosition(CCPointZero);
+    bg->setPosition(ccp(0, 0));
     bg->setTag(0x1000);
     item->addChild(bg);
     
-    CCSprite* head;
-    if (index == 0) {
-        head = CCSprite::create("res/pic/haoyoupaihang/first_selected.png");
-    }else if (index == 1){
-        head = CCSprite::create("res/pic/haoyoupaihang/second_selected.png");
-    }else if (index == 2){
-        head = CCSprite::create("res/pic/haoyoupaihang/thrid_selected.png");
+    
+    
+    const char* nickname;
+    int collect;
+    if (index == -100) {
+        nickname = DATA->getShow()->nickname();
+        collect = DATA->getShow()->collected();
+    }else{
+        ShowComp* show = (ShowComp* )_rankers->objectAtIndex(index);
+        nickname = show->nickname();
+        collect = show->collected();
     }
-    head->setPosition(ccp(head->getContentSize().width - 8, item->getContentSize().height/2 + 3));
-    head->setTag(0x2001);
-    item->addChild(head);
     
-    CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_selected.png");
-    name_bg->setPosition(ccp(item->getContentSize().width - name_bg->getContentSize().width/2, 105));
-    name_bg->setTag(0x2002);
-    item->addChild(name_bg);
     
-    ShowComp* show = (ShowComp* )_rankers->objectAtIndex(index);
-    const char* nickname = show->nickname();
-    int collect = show->collected();
+    num->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+    bg->addChild(num);
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2, name_bg->getContentSize().height/2));
-    name_bg->addChild(name);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(item->getContentSize().width* .6f, item->getContentSize().height* .68f));
+    name->setColor(ccc3(234, 106, 106));
+    bg->addChild(name);
     
-    CCString* collect_str = CCString::createWithFormat("%d", collect);
-    CCLabelTTF* count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    count->setPosition(ccp(item->getContentSize().width * .8f, item->getContentSize().height * .5f));
-    count->setTag(0x2003);
-    item->addChild(count);
+    CCString* collect_str = CCString::createWithFormat("服装收集: %d", collect);
+    CCLabelTTF* count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
+    count->setPosition(ccp(item->getContentSize().width * .40f, item->getContentSize().height * .365f));
+    count->setAnchorPoint(CCPoint(0, 0.5));
+    bg->addChild(count);
     
     if (_curBtn_index != -1) {
         this->btn_toSmall_callback(index);
@@ -406,122 +397,25 @@ void TotalRankScene::btn_toSmall_callback(int index){
         if (item_first->getChildByTag(0x1000)) {
             item_first->removeChildByTag(0x1000, true);
         }
-        if (item_first->getChildByTag(0x2001)) {
-            item_first->removeChildByTag(0x2001, true);
-        }
-        if (item_first->getChildByTag(0x2002)) {
-            item_first->removeChildByTag(0x2002, true);
-        }
-        if (item_first->getChildByTag(0x2003)) {
-            item_first->removeChildByTag(0x2003, true);
-        }
-        
-        item_first->setPosition(item_first->getPositionX() + 10, item_first->getPositionY());
-        
-        CCSprite* head = CCSprite::create("res/pic/haoyoupaihang/first.png");
-        head->setPosition(ccp(head->getContentSize().width + 4, item_first->getContentSize().height/2 + 5));
-        head->setTag(0x2001);
-        item_first->addChild(head);
-        
-        CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-        name_bg->setPosition(ccp(item_first->getContentSize().width - name_bg->getContentSize().width/2, 105));
-        name_bg->setTag(0x2002);
-        item_first->addChild(name_bg);
-        
-        ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(0);
-        const char* nickname_fst = show_thd->nickname();
-        int collect = show_thd->collected();
-        CCLabelTTF* name_third = CCLabelTTF::create(nickname_fst, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-        name_third->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-        name_bg->addChild(name_third);
-        
-        CCString* collect_str = CCString::createWithFormat("%d", collect);
-        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-        cloth_count->setPosition(ccp(item_first->getContentSize().width * .8, item_first->getContentSize().height/2));
-        cloth_count->setTag(0x2003);
-        item_first->addChild(cloth_count);
-        
         item_first->setEnabled(true);
+        
     }else if (_curBtn_index == 1){
         if (item_second->getChildByTag(0x1000)) {
             item_second->removeChildByTag(0x1000, true);
         }
-        if (item_second->getChildByTag(0x2001)) {
-            item_second->removeChildByTag(0x2001, true);
-        }
-        if (item_second->getChildByTag(0x2002)) {
-            item_second->removeChildByTag(0x2002, true);
-        }
-        if (item_second->getChildByTag(0x2003)) {
-            item_second->removeChildByTag(0x2003, true);
-        }
-        
-        item_second->setPosition(item_second->getPositionX() + 10, item_second->getPositionY());
-        
-        CCSprite* head = CCSprite::create("res/pic/haoyoupaihang/second.png");
-        head->setPosition(ccp(head->getContentSize().width + 4, item_second->getContentSize().height/2 + 5));
-        head->setTag(0x2001);
-        item_second->addChild(head);
-        
-        CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-        name_bg->setPosition(ccp(item_second->getContentSize().width - name_bg->getContentSize().width/2, 105));
-        name_bg->setTag(0x2002);
-        item_second->addChild(name_bg);
-        
-        ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(1);
-        const char* nickname_sed = show_thd->nickname();
-        int collect = show_thd->collected();
-        CCLabelTTF* name_third = CCLabelTTF::create(nickname_sed, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-        name_third->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-        name_bg->addChild(name_third);
-        
-        CCString* collect_str = CCString::createWithFormat("%d", collect);
-        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-        cloth_count->setPosition(ccp(item_second->getContentSize().width * .8, item_second->getContentSize().height/2));
-        cloth_count->setTag(0x2003);
-        item_second->addChild(cloth_count);
-        
         item_second->setEnabled(true);
+        
     }else if (_curBtn_index == 2){
         if (item_third->getChildByTag(0x1000)) {
             item_third->removeChildByTag(0x1000, true);
         }
-        if (item_third->getChildByTag(0x2001)) {
-            item_third->removeChildByTag(0x2001, true);
-        }
-        if (item_third->getChildByTag(0x2002)) {
-            item_third->removeChildByTag(0x2002, true);
-        }
-        if (item_third->getChildByTag(0x2003)) {
-            item_third->removeChildByTag(0x2003, true);
-        }
-        
-        item_third->setPosition(item_third->getPositionX() + 10, item_third->getPositionY());
-        
-        CCSprite* head = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-        head->setPosition(ccp(head->getContentSize().width + 4, item_third->getContentSize().height/2 + 5));
-        head->setTag(0x2001);
-        item_third->addChild(head);
-        
-        CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-        name_bg->setPosition(ccp(item_third->getContentSize().width - name_bg->getContentSize().width/2, 105));
-        name_bg->setTag(0x2002);
-        item_third->addChild(name_bg);
-        
-        ShowComp* show_thd = (ShowComp*)_rankers->objectAtIndex(2);
-        const char* nickname_thd = show_thd->nickname();
-        int collect = show_thd->collected();
-        CCLabelTTF* name_third = CCLabelTTF::create(nickname_thd, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-        name_third->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-        name_bg->addChild(name_third);
-        
-        CCString* collect_str = CCString::createWithFormat("%d", collect);
-        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-        cloth_count->setPosition(ccp(item_third->getContentSize().width * .8, item_third->getContentSize().height/2));
-        cloth_count->setTag(0x2003);
-        item_third->addChild(cloth_count);
-        
         item_third->setEnabled(true);
+        
+    }else if (_curBtn_index == -100){
+        if (item_self->getChildByTag(0x1000)) {
+            item_self->removeChildByTag(0x1000, true);
+        }
+        item_self->setEnabled(true);
     }
 }
 
@@ -530,11 +424,11 @@ void TotalRankScene::small_callback(){
         this->btn_toSmall_callback(_curBtn_index);
         _curBtn_index = -1;
     }
-    
 }
 
 void TotalRankScene::enterMan(){
-//    myClothesTemp =
+    ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+    myClothesTemp = show->ondress();
     
     this->creat_Man();
     this->initClothes();

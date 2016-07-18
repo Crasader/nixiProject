@@ -63,6 +63,7 @@ void StrangerScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::refresh_callback_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::result_tip), "HTTP_FINISHED_803", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::exitMan), "ExitMan",  NULL);
 //    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::update_man), "UpdateMan", NULL);
 }
@@ -139,150 +140,26 @@ void StrangerScene::createView(){
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, z_order);
     
-    
-    //--------点击切换到自己按钮----------
-    CCSprite* self_spr = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
-    CCSprite* self_spr_2 = CCSprite::create("res/pic/haoyoupaihang/panel_self.png");
-    CCMenuItemSprite* item_self = CCMenuItemSprite::create(self_spr, self_spr_2, this, menu_selector(StrangerScene::btn_self_toBig));
-    item_self->setPosition(ccp(DISPLAY->ScreenWidth() - self_spr->getContentSize().width/2 + 10, DISPLAY->ScreenHeight()* .08f));
-    
-    int my_num = 8;
-    item_self->setUserObject(CCInteger::create(8));
-    
-    CCMenu* menu_self = CCMenu::create(item_self, NULL);
-    menu_self->setPosition(CCPointZero);
-    this->addChild(menu_self, z_order);
-    
-    CCSprite* head;
-    if (my_num == 1) {
-        head = CCSprite::create("res/pic/haoyoupaihang/first.png");
-    }else if (my_num == 2){
-        head = CCSprite::create("res/pic/haoyoupaihang/second.png");
-    }else if (my_num == 3){
-        head = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-    }else{
-        head = CCSprite::create("res/pic/haoyoupaihang/cell_head_normal.png");
-        CCLabelAtlas* label_num;
-        CCString* str_num = CCString::createWithFormat("%d", my_num);
-        if (my_num < 10) {
-            label_num =CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_single_normal.png", 25, 34, '4');
-        }else{
-            label_num = CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
-        }
-        label_num->setAnchorPoint(ccp(0.5, 0.5));
-        label_num->setPosition(ccp(head->getContentSize().width/2, head->getContentSize().height/2));
-        head->addChild(label_num);
-    }
-    head->setPosition(ccp(head->getContentSize().width - 13, item_self->getContentSize().height/2 + 3));
-    head->setTag(0x10001);
-    item_self->addChild(head);
-    
-    
-    CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg->setPosition(ccp(item_self->getContentSize().width - name_bg->getContentSize().width/2, 90));
-    name_bg->setTag(0x10002);
-    item_self->addChild(name_bg);
-    
-    const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-    name_bg->addChild(name);
-    
-    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count->setPosition(ccp(item_self->getContentSize().width * .8, item_self->getContentSize().height/2));
-    cloth_count->setTag(0x10003);
-    item_self->addChild(cloth_count);
-    
-}
-
-void StrangerScene::btn_self_toBig(CCMenuItem* btn){
-    CCMenuItem* item = (CCMenuItem*)btn;
-    item->setEnabled(false);
-    int my_num = ((CCInteger*)item->getUserObject())->getValue();
-    
-    if (item->getChildByTag(0x10001)) {
-        item->removeChildByTag(0x10001, true);
-    }
-    if (item->getChildByTag(0x10002)) {
-        item->removeChildByTag(0x10002, true);
-    }
-    if (item->getChildByTag(0x10003)) {
-        item->removeChildByTag(0x10003, true);
-    }
-    
-    item->setPosition(item->getPositionX() - 10, item->getPositionY());
-    
-    CCSprite* bg = CCSprite::createWithSpriteFrameName("panel_selected.png");
-    bg->setAnchorPoint(CCPointZero);
-    bg->setPosition(CCPointZero);
-    bg->setTag(0x1000);
-    item->addChild(bg);
-    
-    CCSprite* head;
-    if (my_num == 1) {
-        head = CCSprite::create("res/pic/haoyoupaihang/first.png");
-    }else if (my_num == 2){
-        head = CCSprite::create("res/pic/haoyoupaihang/second.png");
-    }else if (my_num == 3){
-        head = CCSprite::create("res/pic/haoyoupaihang/thrid.png");
-    }else{
-        head = CCSprite::create("res/pic/haoyoupaihang/cell_head_normal.png");
-        CCLabelAtlas* label_num;
-        CCString* str_num = CCString::createWithFormat("%d", my_num);
-        if (my_num < 10) {
-            label_num =CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_single_normal.png", 25, 34, '4');
-        }else{
-            label_num = CCLabelAtlas::create(str_num->getCString(), "res/pic/haoyoupaihang/num_double_normal.png", 14, 21, '0');
-        }
-        label_num->setAnchorPoint(ccp(0.5, 0.5));
-        label_num->setPosition(ccp(head->getContentSize().width/2, head->getContentSize().height/2));
-        head->addChild(label_num);
-    }
-    head->setPosition(ccp(head->getContentSize().width - 13, item->getContentSize().height/2 + 3));
-    head->setTag(0x10001);
-    item->addChild(head);
-    
-    
-    CCSprite* name_bg = CCSprite::create("res/pic/haoyoupaihang/namebar_normal.png");
-    name_bg->setPosition(ccp(item->getContentSize().width - name_bg->getContentSize().width/2, 90));
-    name_bg->setTag(0x10002);
-    item->addChild(name_bg);
-    
-    const char* nickname = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 20, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(name_bg->getContentSize().width/2 - 10, name_bg->getContentSize().height/2));
-    name_bg->addChild(name);
-    
-    CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(150, 20), kCCTextAlignmentCenter);
-    cloth_count->setPosition(ccp(item->getContentSize().width * .8, item->getContentSize().height/2));
-    cloth_count->setTag(0x10003);
-    item->addChild(cloth_count);
-    
-//    CCLayer* layer = CCLayer::create();
-//    layer->setTouchEnabled(true);
-//    layer->setTouchSwallowEnabled(true);
-//    layer->setTag(10000);
-//    CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
-//    this->exitMan();
-}
-
-void StrangerScene::btn_self_toSmall(){
-    
 }
 
 void StrangerScene::initStranger(){
-    CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/panel_normal.png");
+    CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/other_bg_nor.png");
     
     tabLayer = StrangerTableView::create();
-    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .18f));
+    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .2f));
     tabLayer->setTag(0x77777);
+    
     this->addChild(tabLayer, 20);
+    
+//    CCSprite* di_bar = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+//    di_bar->setPosition(ccp(di_bar->getContentSize().width* .5f, 0));
+//    tabLayer->addChild(di_bar);
+
 }
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
-    
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this, "暂未开放");
 }
 
 void StrangerScene::btn_refresh_callback(CCObject* pSender){
@@ -302,10 +179,11 @@ void StrangerScene::refresh_callback_802(){
         ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
         myClothesTemp = show->ondress();
     }
-//    _ManSpr->removeAllChildrenWithCleanup(true);
-//    this->creat_Man();
-//    this->initClothes();
     this->exitMan();
+    
+    CCMoveTo* mt = CCMoveTo::create(0.25f, CCPoint(tabLayer->getPositionX() + 500, tabLayer->getPositionY()));
+    CCMoveTo* mt2 = CCMoveTo::create(0.25f, CCPoint(tabLayer->getPositionX(), tabLayer->getPositionY()));
+    tabLayer->runAction(CCSequence::create(mt, mt2, NULL));
 }
 
 

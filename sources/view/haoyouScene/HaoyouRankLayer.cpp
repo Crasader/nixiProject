@@ -208,7 +208,7 @@ void HaoyouRankLayer::gotoStranger_802(){
 }
 
 void HaoyouRankLayer::initRank(){
-    CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/panel_normal.png");
+    CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/other_bg_nor.png");
     
     HaoyouRankTableView* tabLayer = HaoyouRankTableView::create();
     
@@ -233,7 +233,8 @@ void HaoyouRankLayer::get_tili_807(){
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
-    
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this, "暂未开放");
 }
 
 void HaoyouRankLayer::btn_note_callback(CCObject* pSender){

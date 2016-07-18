@@ -77,14 +77,13 @@ public:
     void btn_find_callback(CCObject* pSender);
     void btn_refresh_callback(CCObject* pSender);
     
-    void btn_self_toBig(CCMenuItem* item);
-    void btn_self_toSmall();
     
     void refresh_callback_802();
     
     void result_tip();
     
     void update_man();
+    
     
 public:
     
