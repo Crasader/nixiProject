@@ -8,6 +8,7 @@
 
 #include "PromptLayer.h"
 #include "DisplayManager.h"
+#include "AudioManager.h"
 
 #define PROMPTNAME    "res/pic/prompt.png"
 #define TEXTCOLOR     ccBLACK
@@ -84,6 +85,7 @@ void PromptLayer::promptBoxString(CCString* str){
 }
 
 void PromptLayer::promptBoxSprite(){
+    
     CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
 //    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;
@@ -104,6 +106,7 @@ void PromptLayer::promptBoxSprite(){
 }
 
 void PromptLayer::show_prompt(CCNode* parent, const char* str){
+    AUDIO->error_effect();
     CCSprite* box = CCSprite::create(PROMPTNAME);
     CCSize box_size = box->boundingBox().size;
 //    box->setScale(DISPLAY->ScreenWidth() / box_size.width) ;

@@ -18,6 +18,7 @@
 #include "NetManager.h"
 #include "TaskSettlementLayer2.h"
 #include "AppUtil.h"
+#include "AudioManager.h"
 
 ClothesScene::ClothesScene(){
     
@@ -845,6 +846,7 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
     }
 }
 void ClothesScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     if (clothesStatus == 1) {// 任务
@@ -2457,7 +2459,7 @@ void ClothesScene::buttonStatus(){
 }
 
 void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
-    
+    AUDIO->buy_effect();
     if (clothesStatus == 1) {// 任务
         if (startTask) {
 //            NET->start_mission_601(getTaskId(task_index - 1));
@@ -2707,7 +2709,6 @@ int ClothesScene::haveEnoughGold(){
     return gold;
 }
 
-
 void ClothesScene::setShipinTag1(int index, CCSprite* spr){
     if (index == 11) {
         spr->setTag(Tag_GJ_ShiPin1_1);
@@ -2778,7 +2779,7 @@ int ClothesScene::updataClothes(int type){
 
 void ClothesScene::showAnimationWithType(int type) {
     _animLayer->removeAllChildrenWithCleanup(true);
-    
+    AUDIO->clothes_effect();
     if (type == 1) {
         SPECIAL->showStar2At(getParent(), ccp(DISPLAY->halfW() - 150, DISPLAY->H() * 0.55), 1);
     }

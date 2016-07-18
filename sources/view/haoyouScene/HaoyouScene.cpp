@@ -18,7 +18,7 @@
 #include "NetManager.h"
 #include "MessageLayer.h"
 #include "NoteLayer.h"
-
+#include "AudioManager.h"
 
 HaoyouScene::HaoyouScene(){
     
@@ -132,6 +132,7 @@ void HaoyouScene::creat_view(){
     
 }
 void HaoyouScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

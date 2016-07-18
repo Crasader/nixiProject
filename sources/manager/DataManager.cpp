@@ -35,6 +35,8 @@ DataManager* DataManager::Inst() {
 }
 
 void DataManager::init_data() {
+    this->setRefreshTimeStampe(0);
+    
     this->setLogin(LoginComp::create());
     this->setPlayer(PlayerComp::create());
     this->setClothes(ClothesComp::create());
@@ -53,12 +55,21 @@ void DataManager::init_data() {
     this->setCoffers(CoffersComp::create());
 }
 
+time_t DataManager::cur_timestamp_msec() {
+    //    time_t t = time(NULL);
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    time_t rtn = t.tv_sec * 1000000 + t.tv_usec;
+    CCLOG("timestamp msec = %ld", rtn);
+    return rtn;
+}
+
 time_t DataManager::cur_timestamp() {
     //    time_t t = time(NULL);
     struct timeval t;
     gettimeofday(&t, NULL);
-    time_t rtn = t.tv_sec * 100000 + t.tv_usec;
-    CCLOG("Now time = %ld", rtn);
+    time_t rtn = t.tv_sec;
+    CCLOG("timestamp sec = %ld", rtn);
     return rtn;
 }
 
@@ -184,6 +195,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _social->init_with_json(content["social"]);
+            pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
             
         case 808: {

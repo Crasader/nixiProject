@@ -11,6 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "DisplayManager.h"
+#include "AudioManager.h"
 #include "Loading2.h"
 #include "PromptLayer.h"
 #include "LoginView.h"
@@ -247,6 +248,8 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
         }
         
         this->show_nicknameview();
+        AUDIO->first_run_config();
+        AUDIO->play_main_bgm();
     }
     else {
         CCScene* scene = MainScene::scene();

@@ -13,6 +13,7 @@
 #include "HaoyouScene.h"
 #include "MainScene.h"
 #include "PromptLayer.h"
+#include "AudioManager.h"
 
 const float totalRank_z_oder = 20.f;
 
@@ -26,26 +27,6 @@ bool TotalRankScene::init(){
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
     enterBool = false;
-    
-    _rankers = DATA->getRanking()->ranking();
-    int count = _rankers->count();
-    if (count == 0) {
-        item_first->setVisible(false);
-        item_second->setVisible(false);
-        item_third->setVisible(false);
-        myClothesTemp = DATA->getClothes()->MyClothesTemp();
-    }else{
-        if (count == 1){
-            item_second->setVisible(false);
-            item_third->setVisible(false);
-        }else if (count == 2) {
-            item_third->setVisible(false);
-        }
-        
-        ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(0);
-        myClothesTemp = show->ondress();
-    }
-    
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
@@ -65,8 +46,30 @@ bool TotalRankScene::init(){
         }
     }
     
+    _rankers = DATA->getRanking()->ranking();
     
     this->createView();
+    
+    int count = _rankers->count();
+    if (count == 0) {
+        item_first->setVisible(false);
+        item_second->setVisible(false);
+        item_third->setVisible(false);
+        // 自己的衣着
+        myClothesTemp = DATA->getShow()->ondress(); //DATA->getClothes()->MyClothesTemp();
+    }else{
+        if (count == 1){
+            item_second->setVisible(false);
+            item_third->setVisible(false);
+        }else if (count == 2) {
+            item_third->setVisible(false);
+        }
+        
+        ShowComp* show = (ShowComp*)DATA->getRanking()->ranking()->objectAtIndex(0);
+        // 排名第一的
+        myClothesTemp = show->ondress();
+    }
+    
     this->creat_Man();
     this->initClothes();
     
@@ -304,6 +307,7 @@ void TotalRankScene::btn_note_callback(CCObject* pSender){
 }
 
 void TotalRankScene::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     if (_type == 1) {
         CCScene* scene = MainScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

@@ -136,6 +136,15 @@ public:
     void removeMask();
     
     CCDictionary* myClothesTemp;
+    
+private:
+    void update_refresh_state();
+    void start_count_down(int secondLeft);
+    void schedule_count_down(float dt);
+private:
+    CCLabelAtlas*       _countDown;
+    CCMenuItem*         _itemRefresh;
+    float               _timeLeft;
 };
 
 #endif /* StrangerScene_hpp */

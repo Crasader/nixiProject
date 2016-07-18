@@ -16,7 +16,7 @@
 #include "ClothesScene.h"
 #include "Loading2.h"
 #include "TaskLabelColorLayer.h"
-
+#include "AudioManager.h"
 
 TaskStoryScene::TaskStoryScene(){
     
@@ -252,6 +252,7 @@ void TaskStoryScene::creat_view(){
     this->addChild(fountain);
 }
 void TaskStoryScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     if (missionDic->valueForKey("states")->intValue() == 1){// ==1 一个人
         if (_touSpr->getChildByTag(0x44444) != NULL) {
             _touSpr->removeChildByTag(0x44444);

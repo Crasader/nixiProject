@@ -16,7 +16,7 @@
 #include "NetManager.h"
 #include "PromptLayer.h"
 #include "StrangerScene.h"
-
+#include "AudioManager.h"
 
 HaoyouRankLayer:: ~HaoyouRankLayer(){}
 
@@ -61,7 +61,6 @@ void HaoyouRankLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::get_tili_807), "HTTP_FINISHED_807", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::gotoStranger_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouRankLayer::exitMan), "ExitMan", NULL);
-    
 }
 
 void HaoyouRankLayer::onExit(){
@@ -222,7 +221,7 @@ void HaoyouRankLayer::btn_getTili_callback(){
     NET->take_energy_807();
 }
 
-void HaoyouRankLayer::get_tili_807(){
+void HaoyouRankLayer::get_tili_807(CCObject* pObj){
     LOADING->remove();
     CCString* tip_str = CCString::createWithFormat("成功领取%d体力", _energy_could_get);
     PromptLayer* tip = PromptLayer::create();
@@ -230,6 +229,14 @@ void HaoyouRankLayer::get_tili_807(){
     if (_energy_could_get <= 0) {
         menu_tili->setEnabled(false);
     }
+    
+    CCDictionary* info = (CCDictionary*)pObj;
+    CCDictionary* dic = CCDictionary::create();
+    int num = ((CCInteger*)info->objectForKey("energy"))->getValue();
+    dic->setObject(CCInteger::create(num), "num");
+    CCPoint from = ccp(DISPLAY->halfW() + 100, DISPLAY->H() * 0.12);
+    dic->setObject(CCString::createWithFormat("{%f,%f}", from.x, from.y), "from");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
 }
 
 void HaoyouRankLayer::btn_share_callback(CCObject* pSender){
@@ -248,6 +255,7 @@ void HaoyouRankLayer::btn_note_callback(CCObject* pSender){
 }
 
 void HaoyouRankLayer::btn_back_callback(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

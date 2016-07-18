@@ -18,8 +18,8 @@
 #include "ClothesScene.h"
 #include "TaskTableView.h"
 #include "MZResourceLoader.h"
+#include "AudioManager.h"
 #include "AppUtil.h"
-
 #include "BuildingLayer.h"
 
 TaskScene::~TaskScene(){
@@ -80,6 +80,8 @@ bool TaskScene::init(bool isPhaseUP){
 
 void TaskScene::onEnter(){
     BaseScene::onEnter();
+    
+    AUDIO->play_company_bgm();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::creat_Tishi), "Task_Creat_Tishi", NULL);
@@ -294,6 +296,7 @@ void TaskScene::enterTheKuang(float dt){
 }
 
 void TaskScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     if (historyBool) {
         historyBool = false;
         DATA->setTaskPhase(DATA->getPlayer()->phase);
@@ -1230,6 +1233,7 @@ void TaskScene::creat_phone(){
     phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, NULL)));
 }
 void TaskScene::phoneCallBack(CCObject* pSender){
+    AUDIO->shop_effect();
     CCLog("phoneCallBack");
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "敬请期待");

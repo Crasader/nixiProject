@@ -16,6 +16,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "AppUtil.h"
+#include "AudioManager.h"
 
 
 QingjingScene::QingjingScene(){
@@ -67,6 +68,8 @@ CCScene* QingjingScene::scene(){
 
 void QingjingScene::onEnter(){
     BaseScene::onEnter();
+    
+    AUDIO->play_story_bgm();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::_501CallBack), "HTTP_FINISHED_501", NULL);
@@ -352,6 +355,7 @@ void QingjingScene::qingjingStatus(){
 }
 
 void QingjingScene::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

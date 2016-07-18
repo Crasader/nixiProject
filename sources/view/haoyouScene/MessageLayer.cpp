@@ -13,7 +13,7 @@
 #include "Loading2.h"
 #include "HaoyouScene.h"
 #include "MessageTableView.h"
-
+#include "AudioManager.h"
 
 MessageLayer::MessageLayer(){
     
@@ -72,6 +72,7 @@ void MessageLayer::creat_View(){
     this->addChild(layer, 50);
 }
 void MessageLayer::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

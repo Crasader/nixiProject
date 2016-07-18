@@ -11,6 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 #include <math.h>
 
 CoinExchangePanel::~CoinExchangePanel() {
@@ -141,6 +142,7 @@ void CoinExchangePanel::do_exit() {
 }
 
 void CoinExchangePanel::remove() {
+    AUDIO->common_effect();
     this->removeFromParentAndCleanup(true);
 }
 
@@ -150,6 +152,7 @@ void CoinExchangePanel::buy() {
 }
 
 void CoinExchangePanel::nc_exchange_coin_103(CCObject *pObj) {
+    AUDIO->comfirm_effect();
     LOADING->remove();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->remove();

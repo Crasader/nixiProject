@@ -57,7 +57,11 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::tiliCallBack), "NEED_SHOW_BUY_ENERGY", NULL);
     //
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_gold_fly), "NEED_GOLD_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_energy_fly), "NEED_ENERGY_FLY", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_gold_fly_completed), "GOLD_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_energy_fly_completed), "ENERGY_FLY_COMPLETED", NULL);
 }
 
 void BaseScene::onExit(){
@@ -233,9 +237,10 @@ void BaseScene::updataTileTime(float dt){
 
 void BaseScene::updataMoney(){
     uint energy = DATA->getPlayer()->energy;
+    tili_num = energy;
     CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
     m_tili_num->setString(tiliStr->getCString());
-    tili_num = energy;
+    
     if (energy >= def_TiliMax) {
         this->unschedule(schedule_selector(BaseScene::updataTileTime));
         

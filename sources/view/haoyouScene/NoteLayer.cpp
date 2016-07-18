@@ -13,7 +13,7 @@
 #include "Loading2.h"
 #include "HaoyouScene.h"
 #include "NoteTableView.h"
-
+#include "AudioManager.h"
 
 NoteLayer::~NoteLayer(){
     
@@ -68,6 +68,7 @@ void NoteLayer::create_view(){
     this->addChild(layer, 50);
 }
 void NoteLayer::backCallback(CCObject* pSender){
+    AUDIO->goback_effect();
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

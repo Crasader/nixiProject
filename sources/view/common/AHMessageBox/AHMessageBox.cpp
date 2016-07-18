@@ -8,7 +8,7 @@
 
 #include "AHMessageBox.h"
 #include "DisplayManager.h"
-
+#include "AudioManager.h"
 #include "AppUtil.h"
 
 AHMessageBox::~AHMessageBox()
@@ -208,31 +208,30 @@ void AHMessageBox::onExit()
 void AHMessageBox::on_menuitem_click(CCObject* pSender)
 {
     CCMenuItem* item = dynamic_cast<CCMenuItem*>(pSender);
-//    if (MMAudioManager::get_instance()->is_effect_on()) {
-//        switch (this->getButton_type()) {
-//            case AH_BUTTON_TYPE_YES:
-//            case AH_BUTTON_TYPE_YES2:
-//            case AH_BUTTON_TYPE_YES3:
-//            case AH_BUTTON_TYPE_YES4:
-//            case AH_BUTTON_TYPE_YESNO:
-//            case AH_BUTTON_TYPE_YESNO2:
-//            case AH_BUTTON_TYPE_YESNO3:
-//            case AH_BUTTON_TYPE_YESNO4:
-//            case AH_BUTTON_TYPE_YESNO5: {
-//                if (item->getTag() == AH_BUTTON_TAG_YES) {
-//                    // 确认音效
-//                    MMAudioManager::get_instance()->play_effect(kAudio_AH_YES, false);
-//                }
-//                else if (item->getTag() == AH_BUTTON_TAG_NO) {
-//                    // 取消音效
-//                    MMAudioManager::get_instance()->play_effect(kAudio_Button_Back, false);
-//                }
-//            } break;
-//                
-//            default:
-//                break;
-//        }
-//    }
+    switch (this->getButton_type()) {
+        case AH_BUTTON_TYPE_YES:
+        case AH_BUTTON_TYPE_YES2:
+        case AH_BUTTON_TYPE_YES3:
+        case AH_BUTTON_TYPE_YES4:
+        case AH_BUTTON_TYPE_YESNO:
+        case AH_BUTTON_TYPE_YESNO2:
+        case AH_BUTTON_TYPE_YESNO3:
+        case AH_BUTTON_TYPE_YESNO4:
+        case AH_BUTTON_TYPE_YESNO5: {
+            if (item->getTag() == AH_BUTTON_TAG_YES) {
+                // 确认音效
+                AUDIO->comfirm_effect();
+            }
+            else if (item->getTag() == AH_BUTTON_TAG_NO) {
+                // 取消音效
+                AUDIO->common_effect();
+            }
+        } break;
+            
+        default:
+            break;
+    }
+
     if (_delegate) {
         _delegate->message_box_did_selected_button(this, _button_type, (AH_BUTTON_TAGS)item->getTag());
     }
