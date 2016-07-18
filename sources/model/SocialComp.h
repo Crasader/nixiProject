@@ -35,7 +35,8 @@ public:
     
 public:
     CCDictionary* strangers();
-    CCDictionary* friends() const;       // 包括自己的Show在内
+    CCDictionary* friends() const;      // 包括自己的Show在内
+    CCArray* sortedFriends();           // 按收集度从高到低排序
     bool is_friend(const char* other_sid);
     bool has_send_energy(const char* other_sid);
     int energy_could_take();            // 可以领取的体力数量
@@ -51,12 +52,13 @@ public:
     CC_SYNTHESIZE(int, _selectedRanker, SelectedRanker);
     
 private:
-    void sort_friends_by_collected(CCDictionary* dic);
+    CCArray* sort_friends_by_collected(CCDictionary* dic);
     
 private:
     int                 _energy_token;
     CCDictionary*       _strangers;
     CCDictionary*       _friends;
+    CCArray*            _sortedFriends;
     CCArray*            _arr_friends;
     CCArray*            _energy_send;
     CCArray*            _energy_receive;

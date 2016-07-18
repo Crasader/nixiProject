@@ -34,9 +34,7 @@ public:
     int             isadd;
     int             issend;
     
-protected:
-    
-private:
+public:
     string          _nickname;
     string          _id;
     int             _collected;

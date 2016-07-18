@@ -7,12 +7,14 @@
 //
 
 #include "SocialComp.h"
+#include "DataManager.h"
 #include "AppUtil.h"
 #include "ShowComp.h"
 
 SocialComp::~SocialComp() {
     CC_SAFE_DELETE(_strangers);
     CC_SAFE_DELETE(_friends);
+    CC_SAFE_DELETE(_sortedFriends);
     CC_SAFE_DELETE(_arr_friends);
     CC_SAFE_DELETE(_energy_send);
     CC_SAFE_DELETE(_energy_receive);
@@ -21,6 +23,7 @@ SocialComp::~SocialComp() {
 bool SocialComp::init() {
     _strangers = NULL;
     _friends = NULL;
+    _sortedFriends = NULL;
     _arr_friends = NULL;
     _energy_send = NULL;
     _energy_receive = NULL;
@@ -73,6 +76,10 @@ void SocialComp::init_friends(Value json) {
     CC_SAFE_RELEASE(_friends);
     _friends = dic;
     _friends->retain();
+    
+    CC_SAFE_RELEASE(_sortedFriends);
+    _sortedFriends = this->sort_friends_by_collected(_friends);
+    _sortedFriends->retain();
 }
 
 void SocialComp::update_strangers(CSJson::Value json) {
@@ -183,17 +190,37 @@ const char* SocialComp::getSelectedFriendIDbyIndex(int idx){
     }
 }
 
-void SocialComp::sort_friends_by_collected(CCDictionary* dic) {
-    CCArray* arr = dic->allKeys();
-    int size = arr->count();
-    for (int i = 0; i < size - 1; ++i) {
-        CCString* pA = (CCString* )arr->objectAtIndex(i);
-        for (int j = i + 1; j < size; ++j) {
-            CCString* pB = (CCString* )arr->objectAtIndex(j);
-            if (pA->compare(pB->getCString()) > 0) {
-                arr->exchangeObjectAtIndex(i, j);
-                
+CCArray* SocialComp::sort_friends_by_collected(CCDictionary* dic) {
+    ShowComp* self = DATA->getShow();
+    self->_id = DATA->getLogin()->obtain_sid();
+    dic->setObject(self, self->getShowID());
+    
+    CCArray* rtn = CCArray::create();
+    int size = dic->count();
+    if (size > 0) {
+        CCArray* keys = dic->allKeys();
+        for (int i = 0; i < size; i++) {
+            CCString* key = (CCString* )keys->objectAtIndex(i);
+            ShowComp* show = (ShowComp*)dic->objectForKey(key->getCString());
+            show->_id = key->getCString();
+            rtn->addObject(show);
+        }
+        
+        for (int i = 0; i < size - 1; ++i) {
+            ShowComp* show1 = (ShowComp*)rtn->objectAtIndex(i);
+            for (int j = i + 1; j < size; ++j) {
+                ShowComp* show2 = (ShowComp*)rtn->objectAtIndex(j);
+                if (show1->collected() < show2->collected()) {
+                    rtn->exchangeObjectAtIndex(i, j);
+                }
             }
         }
     }
+    
+    for (int i = 0; i < size; i++) {
+        ShowComp* show = (ShowComp*)rtn->objectAtIndex(i);
+        CCLOG("好友排序：%d，ID：%s，收集度：%d", i, show->getShowID().c_str(), show->collected());
+    }
+    
+    return rtn;
 }
