@@ -192,21 +192,21 @@ bool CursorTextField::onTextFieldInsertText(CCTextFieldTTF * sender, const char 
         return false;
     }
     
-    CCSize tfSize = _tf->boundingBox().size;
-    CCSize tfDimession = _tf->getDimensions();
-//    CCLOG("tfSize.width = %f, tfDimession.width = %f", tfSize.width, tfDimession.width);
-//    CCLOG("tfSize.height = %f, tfDimession.height = %f", tfSize.height, tfDimession.height);
-//    CCLOG("%d, %d", int(tfSize.width - tfDimession.width), int(tfSize.height - tfDimession.height));
-    if (int(tfSize.width - tfDimession.width) != 2 ||
-        int(tfSize.height - tfDimession.height) != 2) {
-        return true;
-    }
-    
-    if (_delegate != NULL) {
-        if (_delegate->onCursorTextFieldInsertText(this, text, nLen)) {
-            return true;
-        }
-    }
+//    CCSize tfSize = _tf->boundingBox().size;
+//    CCSize tfDimession = _tf->getDimensions();
+////    CCLOG("tfSize.width = %f, tfDimession.width = %f", tfSize.width, tfDimession.width);
+////    CCLOG("tfSize.height = %f, tfDimession.height = %f", tfSize.height, tfDimession.height);
+////    CCLOG("%d, %d", int(tfSize.width - tfDimession.width), int(tfSize.height - tfDimession.height));
+//    if (int(tfSize.width - tfDimession.width) != 2 ||
+//        int(tfSize.height - tfDimession.height) != 2) {
+//        return true;
+//    }
+//    
+//    if (_delegate != NULL) {
+//        if (_delegate->onCursorTextFieldInsertText(this, text, nLen)) {
+//            return true;
+//        }
+//    }
     
     _oldText.append(text);
     _nCurTextBytes += nLen;
