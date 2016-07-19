@@ -47,6 +47,7 @@ private:
     
     void nc_change_shower(CCObject* pObj);
     void nc_goto_strangers_802(CCObject* pObj);
+    void nc_send_energy_803(CCObject* pObj);
     void nc_take_energy_807(CCObject* pObj);
 
     

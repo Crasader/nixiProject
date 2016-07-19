@@ -79,6 +79,7 @@ void FriendsScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_change_shower), "ON_CHANGE_SHOWER", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_goto_strangers_802), "HTTP_FINISHED_802", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_send_energy_803), "HTTP_FINISHED_803", NULL);
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_take_energy_807), "HTTP_FINISHED_807", NULL);
 }
 
@@ -327,8 +328,23 @@ void FriendsScene::nc_goto_strangers_802(CCObject *pObj) {
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
+void FriendsScene::nc_send_energy_803(CCObject *pObj) {
+    LOADING->remove();
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "体力赠送成功~");
+}
+
 void FriendsScene::nc_take_energy_807(CCObject *pObj) {
+    LOADING->remove();
+    this->update_self_panel(DATA->getShow());
     
+    CCDictionary* info = (CCDictionary*)pObj;
+    CCDictionary* dic = CCDictionary::create();
+    int num = ((CCInteger*)info->objectForKey("energy"))->getValue();
+    dic->setObject(CCInteger::create(num), "num");
+    CCPoint from = ccp(DISPLAY->halfW() + 100, DISPLAY->H() * 0.12);
+    dic->setObject(CCString::createWithFormat("{%f,%f}", from.x, from.y), "from");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
 }
 
 void FriendsScene::btn_no_realize(CCMenuItem* menuItem) {

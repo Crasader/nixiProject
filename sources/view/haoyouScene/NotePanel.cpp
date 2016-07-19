@@ -161,25 +161,38 @@ void NotePanel::update(float dt){
 }
 
 void NotePanel::btn_send_callback(){
-    LOADING->show_loading();
-    
-    const char* id = NULL;
     if (!_entranceType.empty() && _entranceType.compare("friend") == 0) {
-        id = DATA->getSocial()->getSelectedFriendIDbyIndex(_index);
+        ShowComp* other = DATA->getSocial()->getSelectedFriendByIndex(_index);
+        if (other) {
+            LOADING->show_loading();
+            NET->send_papar_809(other->getShowID().c_str(), m_text->getText().c_str());
+        }
     }
     else if (!_entranceType.empty() && _entranceType.compare("stranger") == 0) {
-        id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
+        const char* id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
+        if (id) {
+            LOADING->show_loading();
+            NET->send_papar_809(id, m_text->getText().c_str());
+        }
     }
     else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
-        id = DATA->getPaper()->getReplyID();
+        const char* id = DATA->getPaper()->getReplyID();
+        if (id) {
+            LOADING->show_loading();
+            NET->send_papar_809(id, m_text->getText().c_str());
+        }
     }
     else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
         CCArray* arr = DATA->getRanking()->ranking();
         ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
-        id = show->getShowID().c_str();
+        const char* id = show->getShowID().c_str();
+        if (id) {
+            LOADING->show_loading();
+            NET->send_papar_809(id, m_text->getText().c_str());
+        }
     }
     
-    NET->send_papar_809(id, m_text->getText().c_str());
+    
 }
 
 void NotePanel::note_callback_809(){
