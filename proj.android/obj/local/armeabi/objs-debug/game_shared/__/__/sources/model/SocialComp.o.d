@@ -218,7 +218,20 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/model/SocialComp.o: \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/utils/AppUtil.h jni/../../sources/model/ShowComp.h
+ jni/../../sources/manager/DataManager.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
+ jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
+ jni/../../sources/model/MessageComp.h \
+ jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
+ jni/../../sources/model/NoticeComp.h \
+ jni/../../sources/model/PlayerComp.h \
+ jni/../../sources/model/RankingComp.h jni/../../sources/model/ShowComp.h \
+ jni/../../sources/model/SigninComp.h \
+ jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
+ jni/../../sources/model/PaperComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/utils/AppUtil.h \
+ jni/../../sources/model/ShowComp.h
 
 jni/../../sources/model/SocialComp.h:
 
@@ -655,6 +668,42 @@ jni/../../sources/third/Json/lib_json/features.h:
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
 
 jni/../../sources/third/Json/lib_json/writer.h:
+
+jni/../../sources/manager/DataManager.h:
+
+jni/../../sources/model/ClothesComp.h:
+
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
+
+jni/../../sources/model/LoginComp.h:
+
+jni/../../sources/model/MailComp.h:
+
+jni/../../sources/model/MessageComp.h:
+
+jni/../../sources/model/MissionComp.h:
+
+jni/../../sources/model/NewsComp.h:
+
+jni/../../sources/model/NoticeComp.h:
+
+jni/../../sources/model/PlayerComp.h:
+
+jni/../../sources/model/RankingComp.h:
+
+jni/../../sources/model/ShowComp.h:
+
+jni/../../sources/model/SigninComp.h:
+
+jni/../../sources/model/SocialComp.h:
+
+jni/../../sources/model/StoryComp.h:
+
+jni/../../sources/model/PaperComp.h:
+
+jni/../../sources/model/CoffersComp.h:
 
 jni/../../sources/utils/AppUtil.h:
 
