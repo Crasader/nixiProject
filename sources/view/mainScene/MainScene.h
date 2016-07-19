@@ -102,6 +102,8 @@ public:
     CCSprite* huodong_bar1;
     CCSprite* paihang_bar1;
     
+    CCMenuItem* haoyou_Item;
+    
     CCArray* target_arr;
     
     void check_begin_position(CCObject* pos);
@@ -132,6 +134,7 @@ public:
     void all_mail_callback_700(CCObject* pObj);
     void social_info_callback_800(CCObject* pObj);
     void rankList_callback_300(CCObject* pObj);
+    void all_friends_callback_806(CCObject* pObj);
     
 public:
     CCDictionary* allClothesDic;

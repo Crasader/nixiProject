@@ -29,7 +29,7 @@ bool StrangerScene::init(){
     }
     
     _timeLeft = 0;
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
+
     
     this->initStranger();
     
@@ -156,7 +156,7 @@ void StrangerScene::createView(){
     
     ///-----
     CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
-    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .18f - 1));
+    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .14f - 1));
     this->addChild(di_spr, z_order);
 }
 
@@ -164,7 +164,7 @@ void StrangerScene::initStranger(){
     CCSprite* spr = CCSprite::create("res/pic/haoyoupaihang/other_bg_nor.png");
     
     tabLayer = StrangerTableView::create();
-    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .16f));
+    tabLayer->setPosition(ccp(DISPLAY->ScreenWidth() - spr->getContentSize().width, DISPLAY->ScreenHeight()* .12f));
     tabLayer->setTag(0x77777);
     
     this->addChild(tabLayer, 20);

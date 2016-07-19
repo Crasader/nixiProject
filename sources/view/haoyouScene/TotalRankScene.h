@@ -99,6 +99,8 @@ public:
     
     CCArray* _rankers;
     
+    void toBeFriend(CCMenuItem* item);
+    
 public:
     NotePanel* _panel;
     TotalRankTableView* tabLayer;
