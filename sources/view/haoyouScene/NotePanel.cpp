@@ -60,7 +60,7 @@ void NotePanel::initView(){
 
     ShowComp* show = NULL;
     const char* nickname = NULL;
-    _index = NULL;
+    _index = -1;
     if (!_entranceType.empty() && _entranceType.compare("friend") == 0) {
         _index = DATA->getSocial()->getSelectedFriend();
         show = DATA->getSocial()->getSelectedFriendByIndex(_index);

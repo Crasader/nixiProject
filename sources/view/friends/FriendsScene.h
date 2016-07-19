@@ -43,6 +43,7 @@ private:
     void on_btn_self_panel(CCMenuItemToggle* menuItem);
     void on_btn_goto_starngers(CCMenuItem* menuItem);
     void on_btn_take_energy(CCMenuItem* menuItem);
+    void on_btn_send_paper(CCMenuItem* menuItem);
     
     void nc_change_shower(CCObject* pObj);
     void nc_goto_strangers_802(CCObject* pObj);
@@ -55,6 +56,8 @@ private:
     CCArray*                _data;
     ShowerView*             _showerView;
     FriendsListView*        _listView;
+    
+    int                     _curIndex;
     
     CCMenuItem*             _btnPaper;
     

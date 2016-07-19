@@ -12,13 +12,14 @@
 #include "NetManager.h"
 #include "AudioManager.h"
 #include "Loading2.h"
+#include "PromptLayer.h"
 
 #include "FriendsListView.h"
 #include "ShowerView.h"
 
 #include "HaoyouScene.h"
 #include "StrangerScene.h"
-
+#include "NotePanel.h"
 
 #pragma mark - Export API
 
@@ -38,6 +39,7 @@ FriendsScene::~FriendsScene() {
 
 bool FriendsScene::init() {
     if (BaseScene::init()) {
+        _curIndex = -1;
         _listView = NULL;
         _showerView = NULL;
         
@@ -58,6 +60,7 @@ bool FriendsScene::init() {
             this->on_btn_self_panel(_btnSelfPanel);
         }
         else {
+            _curIndex = 0;
             this->create_listview();
             this->nc_change_shower(CCInteger::create(0));
         }
@@ -116,7 +119,7 @@ void FriendsScene::create_UI() {
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     CCSprite* note_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     note_spr2->setScale(1.02f);
-    _btnPaper = CCMenuItemSprite::create(note_spr, note_spr2, this, menu_selector(FriendsScene::btn_no_realize));
+    _btnPaper = CCMenuItemSprite::create(note_spr, note_spr2, this, menu_selector(FriendsScene::on_btn_send_paper));
     _btnPaper->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
     CCMenu* menu_note = CCMenu::create(_btnPaper, NULL);
     menu_note->setPosition(CCPointZero);
@@ -284,14 +287,23 @@ void FriendsScene::on_btn_take_energy(CCMenuItem *menuItem) {
     NET->take_energy_807();
 }
 
+void FriendsScene::on_btn_send_paper(CCMenuItem *menuItem) {
+    DATA->getSocial()->setSelectedFriend(_curIndex);
+    NotePanel* panel = NotePanel::create();
+    panel->setEntranceType("friend");
+    this->addChild(panel, 10000);
+}
+
+
 void FriendsScene::nc_change_shower(CCObject *pObj) {
     // 恢复自己的面板状态
     _btnSelfPanel->setSelectedIndex(0);
     this->on_btn_self_panel(_btnSelfPanel);
     // 换装
     CCInteger* value = (CCInteger*)pObj;
-    CCLOG("FriendsScene::nc_change_shower(idx = %d)", value->getValue());
-    ShowComp* show = (ShowComp*)_data->objectAtIndex(value->getValue());
+    _curIndex = value->getValue();
+    CCLOG("FriendsScene::nc_change_shower() - _curIndex = %d", _curIndex);
+    ShowComp* show = (ShowComp*)_data->objectAtIndex(_curIndex);
     if (_showerView) {
         _showerView->change_shower(show->ondress());
     }
@@ -320,5 +332,6 @@ void FriendsScene::nc_take_energy_807(CCObject *pObj) {
 }
 
 void FriendsScene::btn_no_realize(CCMenuItem* menuItem) {
-    
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放，敬请期待~");
 }
