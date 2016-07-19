@@ -116,9 +116,9 @@ void FriendsScene::create_UI() {
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     CCSprite* note_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     note_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_note = CCMenuItemSprite::create(note_spr, note_spr2, this, menu_selector(FriendsScene::btn_no_realize));
-    item_note->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
-    CCMenu* menu_note = CCMenu::create(item_note, NULL);
+    _btnPaper = CCMenuItemSprite::create(note_spr, note_spr2, this, menu_selector(FriendsScene::btn_no_realize));
+    _btnPaper->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
+    CCMenu* menu_note = CCMenu::create(_btnPaper, NULL);
     menu_note->setPosition(CCPointZero);
     this->addChild(menu_note);
     
@@ -181,20 +181,34 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         return;
     }
     
+    CCSize plateSize = _selfPanelNormal->getContentSize();
+
     const char* nickname_self = self->nickname();
+    //  体力收入
+    int energyCount = DATA->getSocial()->energy_could_take();
+    
     if (_nodeNormal) {
         _nodeNormal->removeAllChildrenWithCleanup(true);
         CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        name->setPosition(ccp(_selfPanelNormal->getContentSize().width* .68f, _selfPanelNormal->getContentSize().height* .68f));
+        name->setPosition(ccp(plateSize.width* .68f, plateSize.height* .68f));
         name->setColor(ccc3(234, 106, 106));
         _nodeNormal->addChild(name);
         
         CCString* collect_str = CCString::createWithFormat("服装收集: %d", DATA->getShow()->collected());
         CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
         cloth_count->setAnchorPoint(CCPoint(0, 0.5));
-        cloth_count->setPosition(ccp(_selfPanelNormal->getContentSize().width * .47f, _selfPanelNormal->getContentSize().height* .36f));
+        cloth_count->setPosition(ccp(plateSize.width * .47f, plateSize.height* .36f));
         _nodeNormal->addChild(cloth_count);
+        
+        // 体力
+        CCString* strEnergy = CCString::createWithFormat("收到体力：%d", energyCount);
+        CCLabelTTF* lblEnergy = CCLabelTTF::create(strEnergy->getCString(), DISPLAY->fangzhengFont(), 14.f);
+        lblEnergy->setAnchorPoint(ccp(0, 0.5));
+        lblEnergy->setColor(DISPLAY->defalutColor());
+        lblEnergy->setPosition(ccp(plateSize.width * .22f, plateSize.height* .16f));
+        _nodeNormal->addChild(lblEnergy);
     }
+    
     if (_nodeSelected) {
         _nodeSelected->removeAllChildrenWithCleanup(true);
         float scaleRate = 1.2f;
@@ -210,6 +224,28 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         cloth_count->setPosition(ccp(_selfPanelSelected->getContentSize().width * .42f, _selfPanelSelected->getContentSize().height* .34f));
         cloth_count->setScale(scaleRate);
         _nodeSelected->addChild(cloth_count);
+        
+        // 体力
+        CCString* strEnergy = CCString::createWithFormat("收到体力：%d", energyCount);
+        CCLabelTTF* lblEnergy = CCLabelTTF::create(strEnergy->getCString(), DISPLAY->fangzhengFont(), 14.f);
+        lblEnergy->setAnchorPoint(ccp(0, 0.5));
+        lblEnergy->setColor(DISPLAY->defalutColor());
+        lblEnergy->setScale(scaleRate);
+        lblEnergy->setPosition(ccp(plateSize.width * .12f, plateSize.height* .12f));
+        _nodeSelected->addChild(lblEnergy);
+        //
+        CCSprite* spt1 = CCSprite::create("pic/haoyoupaihang/btn_get_tili.png");
+        CCSprite* spt2 = CCSprite::create("pic/haoyoupaihang/btn_get_tili.png");
+        CCSprite* spt3 = CCSprite::create("pic/haoyoupaihang/btn_get_tili.png");
+        spt2->setScale(DISPLAY->btn_scale());
+        spt3->setColor(ccGRAY);
+        CCMenuItem* btnTake = CCMenuItemSprite::create(spt1, spt2, spt3, this, SEL_MenuHandler(&FriendsScene::on_btn_take_energy));
+        CCMenu* menu = CCMenu::createWithItem(btnTake);
+        menu->setPosition(ccp(plateSize.width - 55, 15));
+        _nodeSelected->addChild(menu);
+        if (energyCount <= 0) {
+            btnTake->setEnabled(false);
+        }
     }
 }
 
@@ -224,11 +260,17 @@ void FriendsScene::on_btn_self_panel(CCMenuItemToggle *menuItem) {
     int selectedIndex = menuItem->getSelectedIndex();
     if (selectedIndex == 1) {
         _btnSelfPanel->setEnabled(false);       // 关闭按钮
+        if (_listView) {
+            _listView->unseleted_cells();       // 重设listview所有cell状态
+        }
         ShowComp* selfShow = DATA->getShow();
         _showerView->change_shower(selfShow->ondress());
+
+        _btnPaper->setVisible(false);           // 不能发纸条给自己
     }
     else {
         _btnSelfPanel->setEnabled(true);        // 开启按钮
+        _btnPaper->setVisible(true);
     }
 }
 
@@ -237,15 +279,28 @@ void FriendsScene::on_btn_goto_starngers(CCMenuItem* menuItem) {
     NET->recommend_stranger_802();
 }
 
+void FriendsScene::on_btn_take_energy(CCMenuItem *menuItem) {
+    LOADING->show_loading();
+    NET->take_energy_807();
+}
+
 void FriendsScene::nc_change_shower(CCObject *pObj) {
+    // 恢复自己的面板状态
     _btnSelfPanel->setSelectedIndex(0);
     this->on_btn_self_panel(_btnSelfPanel);
-    
+    // 换装
     CCInteger* value = (CCInteger*)pObj;
     CCLOG("FriendsScene::nc_change_shower(idx = %d)", value->getValue());
+    ShowComp* show = (ShowComp*)_data->objectAtIndex(value->getValue());
     if (_showerView) {
-        ShowComp* show = (ShowComp*)_data->objectAtIndex(value->getValue());
         _showerView->change_shower(show->ondress());
+    }
+    
+    if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+        _btnPaper->setVisible(false);           // 不能发纸条给自己
+    }
+    else {
+        _btnPaper->setVisible(true);
     }
 }
 

@@ -22,7 +22,7 @@ class FriendsListView
 {
 public:
     CREATE_FUNC(FriendsListView);
-    
+    void unseleted_cells();
     
 public:
     ~FriendsListView();
@@ -45,7 +45,6 @@ public:
 private:
     void config_cell(CCTableViewCell* cell, int idx);
     void seleted_cell(int idx);
-    void unseleted_cells();
     
     void add_ranking_num(CCSprite* plate, int ranking, bool selected);
     void add_name(CCSprite* plate, const char* nickname, bool selected);
