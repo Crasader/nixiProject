@@ -15,14 +15,14 @@
 USING_NS_CC;
 
 class ShowComp;
+class ShowerView;
+class FriendsListView;
 
 class FriendsScene : public BaseScene
 {
 public:
     static CCScene* scene();
-    
-    
-    
+
 public:
     ~FriendsScene();
     CREATE_FUNC(FriendsScene);
@@ -34,16 +34,28 @@ private:
     void create_UI();
     void create_listview();
     void create_self_panel();
-    void create_show_view(ShowComp* show);
+    void create_show_view();
+    void create_empty_prompt();
     
     void update_self_panel(ShowComp* self);
     
     void on_btn_back_to_social(CCMenuItem* menuItem);
-    void on_btn_self_panel(CCMenuItem* menuItem);
-    void btn_no_realize(CCMenuItem* menuItem);
+    void on_btn_self_panel(CCMenuItemToggle* menuItem);
+    void on_btn_goto_starngers(CCMenuItem* menuItem);
     
+    void nc_change_shower(CCObject* pObj);
+    void nc_goto_strangers_802(CCObject* pObj);
+    void nc_take_energy_807(CCObject* pObj);
+
+    
+    void btn_no_realize(CCMenuItem* menuItem);
+
 private:
     CCArray*                _data;
+    ShowerView*             _showerView;
+    FriendsListView*        _listView;
+    
+    CCMenuItemToggle*       _btnSelfPanel;
     CCMenuItemImage*        _selfPanelNormal;
     CCMenuItemImage*        _selfPanelSelected;
     CCNode*                 _nodeNormal;

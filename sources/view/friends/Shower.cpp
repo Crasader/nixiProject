@@ -75,7 +75,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _tfSpr1->setFlipX(flipxBool);
                 _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _tfSpr1->setTag(Tag_Rank_TouFa1);
-                _ManSpr->addChild(_tfSpr1, 430);
+                this->addChild(_tfSpr1, 430);
                 
                 CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10009);
                 _tfSpr2 = CCSprite::create(str2->getCString());
@@ -83,7 +83,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _tfSpr2->setFlipX(flipxBool);
                 _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _tfSpr2->setTag(Tag_Rank_TouFa2);
-                _ManSpr->addChild(_tfSpr2, 50);
+                this->addChild(_tfSpr2, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -100,7 +100,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _tfSpr1->setFlipX(flipxBool);
                             _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr1->setTag(Tag_Rank_TouFa1);
-                            _ManSpr->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -110,7 +110,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _tfSpr2->setFlipX(flipxBool);
                             _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr2->setTag(Tag_Rank_TouFa2);
-                            _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -120,7 +120,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _tfSpr3->setFlipX(flipxBool);
                             _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr3->setTag(Tag_Rank_TouFa3);
-                            _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -137,7 +137,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _wtSpr1->setFlipX(flipxBool);
                 _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _wtSpr1->setTag(Tag_Rank_WaiTao1);
-                _ManSpr->addChild(_wtSpr1, 50);
+                this->addChild(_wtSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -154,7 +154,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _wtSpr1->setFlipX(flipxBool);
                             _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr1->setTag(Tag_Rank_WaiTao1);
-                            _ManSpr->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -164,7 +164,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _wtSpr2->setFlipX(flipxBool);
                             _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr2->setTag(Tag_Rank_WaiTao2);
-                            _ManSpr->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -174,7 +174,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _wtSpr3->setFlipX(flipxBool);
                             _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr3->setTag(Tag_Rank_WaiTao3);
-                            _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -191,7 +191,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _sySpr1->setFlipX(flipxBool);
                 _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _sySpr1->setTag(Tag_Rank_ShangYi1);
-                _ManSpr->addChild(_sySpr1, 305);
+                this->addChild(_sySpr1, 305);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -208,7 +208,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _sySpr1->setFlipX(flipxBool);
                             _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr1->setTag(Tag_Rank_ShangYi1);
-                            _ManSpr->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -218,7 +218,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _sySpr2->setFlipX(flipxBool);
                             _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr2->setTag(Tag_Rank_ShangYi2);
-                            _ManSpr->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -228,7 +228,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _sySpr3->setFlipX(flipxBool);
                             _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr3->setTag(Tag_Rank_ShangYi3);
-                            _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -245,7 +245,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _kzSpr1->setFlipX(flipxBool);
                 _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _kzSpr1->setTag(Tag_Rank_KuZi1);
-                _ManSpr->addChild(_kzSpr1, 290);
+                this->addChild(_kzSpr1, 290);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -262,7 +262,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _kzSpr1->setFlipX(flipxBool);
                             _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr1->setTag(Tag_Rank_KuZi1);
-                            _ManSpr->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -272,7 +272,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _kzSpr2->setFlipX(flipxBool);
                             _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr2->setTag(Tag_Rank_KuZi2);
-                            _ManSpr->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -282,7 +282,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _kzSpr3->setFlipX(flipxBool);
                             _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr3->setTag(Tag_Rank_KuZi3);
-                            _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -299,7 +299,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _wzSpr1->setFlipX(flipxBool);
                 _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _wzSpr1->setTag(Tag_Rank_WaZi1);
-                _ManSpr->addChild(_wzSpr1, 50);
+                this->addChild(_wzSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -316,7 +316,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _wzSpr1->setFlipX(flipxBool);
                             _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wzSpr1->setTag(Tag_Rank_WaZi1);
-                            _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -326,7 +326,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _wzSpr2->setFlipX(flipxBool);
                             _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wzSpr2->setTag(Tag_Rank_WaZi2);
-                            _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -336,7 +336,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _wzSpr3->setFlipX(flipxBool);
                             _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wzSpr3->setTag(Tag_Rank_WaZi3);
-                            _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -353,7 +353,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _xzSpr1->setFlipX(flipxBool);
                 _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _xzSpr1->setTag(Tag_Rank_XieZi1);
-                _ManSpr->addChild(_xzSpr1, 50);
+                this->addChild(_xzSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -370,7 +370,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _xzSpr1->setFlipX(flipxBool);
                             _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr1->setTag(Tag_Rank_XieZi1);
-                            _ManSpr->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -380,7 +380,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _xzSpr2->setFlipX(flipxBool);
                             _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr2->setTag(Tag_Rank_XieZi2);
-                            _ManSpr->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -390,7 +390,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _xzSpr3->setFlipX(flipxBool);
                             _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr3->setTag(Tag_Rank_XieZi3);
-                            _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -410,7 +410,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                     _spSpr1->setFlipX(flipxBool);
                     _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* .5f));
                     _spSpr1->setTag(j + 1000);
-                    _ManSpr->addChild(_spSpr1, 50);
+                    this->addChild(_spSpr1, 50);
                 }else{
                     CCDictionary* dic = CONFIG->clothes();// 所有衣服
                     CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -428,7 +428,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                                 _spSpr1->setFlipX(flipxBool);
                                 _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr1->setTag(j + 1000);
-                                _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
+                                this->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
                             }
                             
                             if (layer2->compare("") != 0) {
@@ -438,7 +438,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                                 _spSpr2->setFlipX(flipxBool);
                                 _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr2->setTag(j + 2000);
-                                _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
+                                this->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
                             }
                             
                             if (layer3->compare("") != 0) {
@@ -448,7 +448,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                                 _spSpr3->setFlipX(flipxBool);
                                 _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr3->setTag(j + 3000);
-                                _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
+                                this->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                             }
                             break;
                         }
@@ -466,7 +466,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _bSpr1->setFlipX(flipxBool);
                 _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _bSpr1->setTag(Tag_Rank_Bao1);
-                _ManSpr->addChild(_bSpr1, 50);
+                this->addChild(_bSpr1, 50);
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -483,7 +483,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _bSpr1->setFlipX(flipxBool);
                             _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr1->setTag(Tag_Rank_Bao1);
-                            _ManSpr->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
@@ -493,7 +493,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _bSpr2->setFlipX(flipxBool);
                             _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr2->setTag(Tag_Rank_Bao2);
-                            _ManSpr->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
+                            this->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
@@ -503,7 +503,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _bSpr3->setFlipX(flipxBool);
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_Rank_Bao3);
-                            _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            this->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         break;
                     }
@@ -519,7 +519,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                 _zrSpr1->setTag(Tag_Rank_ZhuangRong1);
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
-                _ManSpr->addChild(_zrSpr1, 220);
+                this->addChild(_zrSpr1, 220);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -535,7 +535,7 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                             _zrSpr1->setTag(Tag_Rank_ZhuangRong1);
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
-                            _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            this->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         break;
                     }

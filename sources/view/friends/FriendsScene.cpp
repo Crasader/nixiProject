@@ -9,12 +9,15 @@
 #include "FriendsScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "NetManager.h"
 #include "AudioManager.h"
+#include "Loading2.h"
 
 #include "FriendsListView.h"
-#include "Shower.h"
+#include "ShowerView.h"
 
 #include "HaoyouScene.h"
+#include "StrangerScene.h"
 
 
 #pragma mark - Export API
@@ -35,21 +38,29 @@ FriendsScene::~FriendsScene() {
 
 bool FriendsScene::init() {
     if (BaseScene::init()) {
+        _listView = NULL;
+        _showerView = NULL;
+        
         _data = DATA->getSocial()->sortedFriends();
         
         this->create_UI();
         
+        this->create_self_panel();
+        this->update_self_panel(DATA->getShow());
+
+        this->create_show_view();
+        
         if (_data->count() <= 1) {
             // 没有好友，提示去添加好友
+            this->create_empty_prompt();
+            // 显示自己
+            _btnSelfPanel->setSelectedIndex(1);
+            this->on_btn_self_panel(_btnSelfPanel);
         }
         else {
             this->create_listview();
+            this->nc_change_shower(CCInteger::create(0));
         }
-        
-        this->create_self_panel();
-        this->update_self_panel(DATA->getShow());
-        
-        this->create_show_view(NULL);
         
         return true;
     }
@@ -62,6 +73,10 @@ void FriendsScene::onEnter() {
     BaseScene::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_change_shower), "ON_CHANGE_SHOWER", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_goto_strangers_802), "HTTP_FINISHED_802", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_take_energy_807), "HTTP_FINISHED_807", NULL);
 }
 
 void FriendsScene::onExit() {
@@ -119,16 +134,16 @@ void FriendsScene::create_UI() {
 }
 
 void FriendsScene::create_listview() {
-    FriendsListView* view = FriendsListView::create();
-    this->addChild(view);
+    _listView = FriendsListView::create();
+    this->addChild(_listView);
 }
 
 void FriendsScene::create_self_panel() {
     _selfPanelNormal = CCMenuItemImage::create("pic/haoyoupaihang/self_bg_nor.png", "pic/haoyoupaihang/self_bg_nor.png");
     _selfPanelSelected = CCMenuItemImage::create("pic/haoyoupaihang/self_bg_sel.png", "pic/haoyoupaihang/self_bg_sel.png");
-    CCMenuItemToggle* btnSelfPanel = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&FriendsScene::on_btn_self_panel), _selfPanelNormal, _selfPanelSelected, NULL);
-    btnSelfPanel->setAnchorPoint(ccp(1, 0.5));
-    btnSelfPanel->setPosition(ccp(DISPLAY->W(), DISPLAY->H() * 0.12));
+    _btnSelfPanel = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&FriendsScene::on_btn_self_panel), _selfPanelNormal, _selfPanelSelected, NULL);
+    _btnSelfPanel->setAnchorPoint(ccp(1, 0.5));
+    _btnSelfPanel->setPosition(ccp(DISPLAY->W(), DISPLAY->H() * 0.12));
     
     _nodeNormal = CCNode::create();
     _selfPanelNormal->addChild(_nodeNormal);
@@ -136,14 +151,29 @@ void FriendsScene::create_self_panel() {
     _nodeSelected = CCNode::create();
     _selfPanelSelected->addChild(_nodeSelected);
     
-    CCMenu* menu = CCMenu::createWithItem(btnSelfPanel);
+    CCMenu* menu = CCMenu::createWithItem(_btnSelfPanel);
     menu->ignoreAnchorPointForPosition(false);
     this->addChild(menu);
 }
 
-void FriendsScene::create_show_view(ShowComp *show) {
-    Shower* me = Shower::create();
-    this->addChild(me);
+void FriendsScene::create_show_view() {
+    _showerView = ShowerView::create();
+    this->addChild(_showerView);
+}
+
+void FriendsScene::create_empty_prompt() {
+    CCLabelTTF* lab = CCLabelTTF::create("暂时还没好友\n请去陌生人添加", DISPLAY->fangzhengFont(), 20, CCSizeMake(150, 250), kCCTextAlignmentCenter);
+    lab->setColor(ccc3(135, 108, 123));
+    lab->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .5f + 100));
+    this->addChild(lab);
+    
+    CCSprite* spr = CCSprite::create("pic/haoyouScene/hy_stranger.png");
+    CCSprite* spr2 = CCSprite::create("pic/haoyouScene/hy_stranger.png");
+    spr2->setScale(DISPLAY->btn_scale());
+    CCMenuItemSprite* item_spr = CCMenuItemSprite::create(spr, spr2, this, menu_selector(FriendsScene::on_btn_goto_starngers));
+    CCMenu* menu_spr = CCMenu::create(item_spr, NULL);
+    menu_spr->setPosition(ccp(DISPLAY->ScreenWidth()* .88f, DISPLAY->ScreenHeight()* .58f));
+    this->addChild(menu_spr);
 }
 
 void FriendsScene::update_self_panel(ShowComp* self) {
@@ -190,7 +220,47 @@ void FriendsScene::on_btn_back_to_social(CCMenuItem *menuItem) {
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-void FriendsScene::on_btn_self_panel(CCMenuItem *menuItem) {
+void FriendsScene::on_btn_self_panel(CCMenuItemToggle *menuItem) {
+    int selectedIndex = menuItem->getSelectedIndex();
+    if (selectedIndex == 1) {
+        _btnSelfPanel->setEnabled(false);       // 关闭按钮
+        ShowComp* selfShow = DATA->getShow();
+        _showerView->change_shower(selfShow->ondress());
+    }
+    else {
+        _btnSelfPanel->setEnabled(true);        // 开启按钮
+    }
+}
+
+void FriendsScene::on_btn_goto_starngers(CCMenuItem* menuItem) {
+    LOADING->show_loading();
+    NET->recommend_stranger_802();
+}
+
+void FriendsScene::nc_change_shower(CCObject *pObj) {
+    _btnSelfPanel->setSelectedIndex(0);
+    this->on_btn_self_panel(_btnSelfPanel);
+    
+    CCInteger* value = (CCInteger*)pObj;
+    CCLOG("FriendsScene::nc_change_shower(idx = %d)", value->getValue());
+    if (_showerView) {
+        ShowComp* show = (ShowComp*)_data->objectAtIndex(value->getValue());
+        _showerView->change_shower(show->ondress());
+    }
+}
+
+void FriendsScene::nc_goto_strangers_802(CCObject *pObj) {
+    LOADING->remove();
+    CCScene* scene = CCScene::create();
+    StrangerScene* layer = StrangerScene::create();
+    layer->setEnterType("my_friend");
+    scene->addChild(layer);
+    
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+
+void FriendsScene::nc_take_energy_807(CCObject *pObj) {
     
 }
 

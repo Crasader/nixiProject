@@ -9,6 +9,9 @@
 #include "FriendsListView.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
+#include "NetManager.h"
+#include "AudioManager.h"
+#include "Loading2.h"
 
 #define CELL_WIDTH          275
 #define CELL_HEIGHT         124
@@ -88,6 +91,9 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
     if (! show) {
         return;
     }
+    
+    const char* otherId = show->getShowID().c_str();
+    
     CCSprite* plate = NULL;
     if (_seletedIndex == idx) {
         if (idx == 0) {
@@ -107,8 +113,13 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
         this->add_ranking_num(plate, idx + 1, true);
         this->add_name(plate, show->nickname(), true);
         this->add_collected(plate, show->collected(), true);
-        bool hasSent = DATA->getSocial()->has_send_energy(show->getShowID().c_str());
-        this->add_send_button(plate, ! hasSent, true);
+        if (strcasecmp(otherId, DATA->getLogin()->obtain_sid()) == 0) { // 不能给自己送体力
+            
+        }
+        else {
+            bool hasSent = DATA->getSocial()->has_send_energy(otherId);
+            this->add_send_button(plate, otherId, ! hasSent, true);
+        }
     }
     else {
         if (idx == 0) {
@@ -128,8 +139,13 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
         this->add_ranking_num(plate, idx + 1, false);
         this->add_name(plate, show->nickname(), false);
         this->add_collected(plate, show->collected(), false);
-        bool hasSent = DATA->getSocial()->has_send_energy(show->getShowID().c_str());
-        this->add_send_button(plate, ! hasSent, false);
+        if (strcasecmp(otherId, DATA->getLogin()->obtain_sid()) == 0) { // 不能给自己送体力
+            
+        }
+        else {
+            bool hasSent = DATA->getSocial()->has_send_energy(otherId);
+            this->add_send_button(plate, otherId, ! hasSent, false);
+        }
     }
     
 
@@ -202,7 +218,7 @@ void FriendsListView::add_collected(CCSprite *plate, int collected, bool selecte
     plate->addChild(label);
 }
 
-void FriendsListView::add_send_button(CCSprite* plate, bool couldSend, bool selected) {
+void FriendsListView::add_send_button(CCSprite* plate, const char* otherId, bool couldSend, bool selected) {
     CCSize plateSize = plate->getContentSize();
     if (couldSend) {
         if (selected) {
@@ -210,6 +226,7 @@ void FriendsListView::add_send_button(CCSprite* plate, bool couldSend, bool sele
             CCSprite* sptSend2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
             sptSend2->setScale(DISPLAY->btn_scale());
             CCMenuItem* btnSend = CCMenuItemSprite::create(sptSend1, sptSend2, this, SEL_MenuHandler(&FriendsListView::on_btn_send_energy));
+            btnSend->setUserObject(ccs(otherId));
             CCMenu* menu = CCMenu::createWithItem(btnSend);
             //        menu->setPosition(ccp(plateSize.width - 50, 24));
             menu->setPosition(ccp(plateSize.width - 55, 18));
@@ -276,6 +293,7 @@ void FriendsListView::seleted_cell(int idx) {
         if (oldIndex != idx) {
             _seletedIndex = idx;
             _tv->updateCellAtIndex(_seletedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("ON_CHANGE_SHOWER", CCInteger::create(idx));
         }
         
         if (oldIndex != -1) {
@@ -296,7 +314,9 @@ void FriendsListView::unseleted_cells() {
 }
 
 void FriendsListView::on_btn_send_energy(CCMenuItem *menuItem) {
-    
+    LOADING->show_loading();
+    CCString* otherId = (CCString*)menuItem->getUserObject();
+    NET->send_message_803(otherId->getCString(), e_Msg_Send_Energy);
 }
 
 #pragma mark - CCTableViewDataSource
@@ -329,7 +349,8 @@ unsigned int FriendsListView::numberOfCellsInTableView(CCTableView *table) {
 #pragma mark - CCTableViewDelegate
 
 void FriendsListView::tableCellTouched(CCTableView *table, CCTableViewCell *cell) {
-    this->seleted_cell(cell->getIdx());
+    int idx = cell->getIdx();
+    this->seleted_cell(idx);
 }
 
 void FriendsListView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view) {

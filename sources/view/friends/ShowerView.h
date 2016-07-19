@@ -15,15 +15,22 @@ USING_NS_CC;
 
 class ShowerView : public CCLayer
 {
-public:    
-    
+public:
+    CREATE_FUNC(ShowerView);
+    void change_shower(CCDictionary* clothes);
     
 public:
     ~ShowerView();
-    CREATE_FUNC(ShowerView);
+    
     virtual bool init();
     virtual void onEnter();
     virtual void onExit();
+    
+private:
+    void change_finish();
+    
+private:
+    CCNode*             _curShower;
 };
 
 #endif /* ShowerView_hpp */
