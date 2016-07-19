@@ -573,6 +573,7 @@ void TotalRankScene::toBeFriend(CCMenuItem *btn){
     int index = ((CCInteger*)item->getUserObject())->getValue();
     
     CCNode* bg = (CCNode* )item->getParent()->getParent();
+    bg->removeChildByTag(0x10400);
     CCArray* rankers = DATA->getRanking()->ranking();
     ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
     
