@@ -43,6 +43,7 @@ private:
     void btn_no_realize(CCMenuItem* menuItem);
     
 private:
+    CCArray*                _data;
     CCMenuItemImage*        _selfPanelNormal;
     CCMenuItemImage*        _selfPanelSelected;
     CCNode*                 _nodeNormal;

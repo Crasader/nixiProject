@@ -65,6 +65,9 @@ void FriendsListView::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    
+    this->_seletedIndex = 0;
+    this->tableCellTouched(_tv, _tv->cellAtIndex(0));
 }
 
 void FriendsListView::onExit() {
@@ -202,17 +205,25 @@ void FriendsListView::add_collected(CCSprite *plate, int collected, bool selecte
 void FriendsListView::add_send_button(CCSprite* plate, bool couldSend, bool selected) {
     CCSize plateSize = plate->getContentSize();
     if (couldSend) {
-        CCSprite* sptSend1 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-        CCSprite* sptSend2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
-        sptSend2->setScale(DISPLAY->btn_scale());
-        CCMenuItem* btnSend = CCMenuItemSprite::create(sptSend1, sptSend2, this, SEL_MenuHandler(&FriendsListView::on_btn_send_energy));
-        CCMenu* menu = CCMenu::createWithItem(btnSend);
-        menu->setPosition(ccp(plateSize.width - 50, 20));
-        plate->addChild(menu);
+        if (selected) {
+            CCSprite* sptSend1 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+            CCSprite* sptSend2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+            sptSend2->setScale(DISPLAY->btn_scale());
+            CCMenuItem* btnSend = CCMenuItemSprite::create(sptSend1, sptSend2, this, SEL_MenuHandler(&FriendsListView::on_btn_send_energy));
+            CCMenu* menu = CCMenu::createWithItem(btnSend);
+            //        menu->setPosition(ccp(plateSize.width - 50, 24));
+            menu->setPosition(ccp(plateSize.width - 55, 18));
+            plate->addChild(menu);
+        }
     }
     else {
         CCSprite* hasSent = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
-        hasSent->setPosition(ccp(plateSize.width - 50, 20));
+        hasSent->setPosition(ccp(plateSize.width - 50, 24));
+        if (selected) {
+            hasSent->setScale(selectedScale);
+            hasSent->setPosition(ccp(plateSize.width - 55, 18));
+        }
+        
         plate->addChild(hasSent);
     }
 }

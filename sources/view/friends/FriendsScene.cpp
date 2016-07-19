@@ -35,9 +35,16 @@ FriendsScene::~FriendsScene() {
 
 bool FriendsScene::init() {
     if (BaseScene::init()) {
+        _data = DATA->getSocial()->sortedFriends();
+        
         this->create_UI();
-
-        this->create_listview();
+        
+        if (_data->count() <= 1) {
+            // 没有好友，提示去添加好友
+        }
+        else {
+            this->create_listview();
+        }
         
         this->create_self_panel();
         this->update_self_panel(DATA->getShow());
