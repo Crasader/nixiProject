@@ -21,7 +21,6 @@ bool StrangerTableView::init(){
         return false;
     }
     
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/haoyoupaihang/panel.plist");
     
     _stangers = DATA->getSocial()->strangers()->allKeys();
     if (_stangers == NULL) {
@@ -37,7 +36,7 @@ bool StrangerTableView::init(){
     }
     
     
-    pTableView = CCTableView::create(this, CCSizeMake(275, 6*130));
+    pTableView = CCTableView::create(this, CCSizeMake(275, 6.5*124));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
