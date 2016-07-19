@@ -103,6 +103,9 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
         
         this->add_ranking_num(plate, idx + 1, true);
         this->add_name(plate, show->nickname(), true);
+        this->add_collected(plate, show->collected(), true);
+        bool hasSent = DATA->getSocial()->has_send_energy(show->getShowID().c_str());
+        this->add_send_button(plate, ! hasSent, true);
     }
     else {
         if (idx == 0) {
@@ -121,6 +124,9 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
         
         this->add_ranking_num(plate, idx + 1, false);
         this->add_name(plate, show->nickname(), false);
+        this->add_collected(plate, show->collected(), false);
+        bool hasSent = DATA->getSocial()->has_send_energy(show->getShowID().c_str());
+        this->add_send_button(plate, ! hasSent, false);
     }
     
 
@@ -163,16 +169,52 @@ void FriendsListView::add_ranking_num(CCSprite* plate, int ranking, bool selecte
 }
 
 void FriendsListView::add_name(CCSprite *plate, const char *nickname, bool selected) {
+    CCSize plateSize = plate->getContentSize();
     CCLabelTTF* labelName = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    labelName->setAnchorPoint(ccp(0, 0.5));
     labelName->setColor(ccc3(234, 106, 106));
     if (selected) {
-        labelName->setPosition(ccp(plate->getContentSize().width* .6f, plate->getContentSize().height* .68));
+        labelName->setPosition(ccp(plateSize.width* .24f, plateSize.height* .68));
         labelName->setScale(selectedScale);
     }
     else {
-        labelName->setPosition(ccp(plate->getContentSize().width* .5f, plate->getContentSize().height* .68));
+        labelName->setPosition(ccp(plateSize.width* .34f, plateSize.height* .68));
     }
     plate->addChild(labelName);
+}
+
+void FriendsListView::add_collected(CCSprite *plate, int collected, bool selected) {
+    CCSize plateSize = plate->getContentSize();
+    CCString* strCollected = CCString::createWithFormat("服装收集: %d", collected);
+    CCLabelTTF* label = CCLabelTTF::create(strCollected->getCString(), DISPLAY->fangzhengFont(), 16);
+    label->setAnchorPoint(CCPoint(0, 0.5));
+    if (selected) {
+        label->setPosition(ccp(plateSize.width * .42f, plateSize.height* .35f));
+        label->setScale(selectedScale);
+    }
+    else {
+        label->setPosition(ccp(plateSize.width * .48f, plateSize.height* .365f));
+    }
+    
+    plate->addChild(label);
+}
+
+void FriendsListView::add_send_button(CCSprite* plate, bool couldSend, bool selected) {
+    CCSize plateSize = plate->getContentSize();
+    if (couldSend) {
+        CCSprite* sptSend1 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+        CCSprite* sptSend2 = CCSprite::create("res/pic/haoyoupaihang/btn_send_tili.png");
+        sptSend2->setScale(DISPLAY->btn_scale());
+        CCMenuItem* btnSend = CCMenuItemSprite::create(sptSend1, sptSend2, this, SEL_MenuHandler(&FriendsListView::on_btn_send_energy));
+        CCMenu* menu = CCMenu::createWithItem(btnSend);
+        menu->setPosition(ccp(plateSize.width - 50, 20));
+        plate->addChild(menu);
+    }
+    else {
+        CCSprite* hasSent = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
+        hasSent->setPosition(ccp(plateSize.width - 50, 20));
+        plate->addChild(hasSent);
+    }
 }
 
 CCSprite* FriendsListView::num_sprite(int num){
@@ -240,6 +282,10 @@ void FriendsListView::unseleted_cells() {
         _seletedIndex = -1;
         _tv->updateCellAtIndex(oldSeletedIndex);
     }
+}
+
+void FriendsListView::on_btn_send_energy(CCMenuItem *menuItem) {
+    
 }
 
 #pragma mark - CCTableViewDataSource

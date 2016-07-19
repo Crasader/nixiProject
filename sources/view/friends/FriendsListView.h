@@ -49,7 +49,12 @@ private:
     
     void add_ranking_num(CCSprite* plate, int ranking, bool selected);
     void add_name(CCSprite* plate, const char* nickname, bool selected);
+    void add_collected(CCSprite* plate, int collected, bool selected);
+    void add_send_button(CCSprite* plate, bool couldSend, bool selected);
+    
     CCSprite* num_sprite(int num);
+    
+    void on_btn_send_energy(CCMenuItem* menuItem);
     
 private:
     CCTableView*        _tv;
