@@ -20,6 +20,80 @@ const float selectedScale = 1.2f;
 
 #pragma mark - Export API
 
+void FriendsListView::add_ranking_num(CCSprite* plate, int ranking, bool selected) {
+    if (0 < ranking && ranking < 10) {
+        CCSprite* spr = FriendsListView::num_sprite(ranking);
+        if (selected) {
+            spr->setPosition(ccp(plate->getContentSize().width* .15f, plate->getContentSize().height* .5f));
+            spr->setScale(selectedScale);
+        }
+        else {
+            spr->setPosition(ccp(plate->getContentSize().width* .25f, plate->getContentSize().height* .5f));
+        }
+        plate->addChild(spr);
+    }else{
+        CCSprite* spr1 = FriendsListView::num_sprite((int)floor(ranking / 10));
+        if (selected) {
+            spr1->setPosition(ccp(plate->getContentSize().width* .15f - 9, plate->getContentSize().height* .5f));
+            spr1->setScale(selectedScale);
+        }
+        else {
+            spr1->setPosition(ccp(plate->getContentSize().width* .25f - 8, plate->getContentSize().height* .5f));
+        }
+        plate->addChild(spr1);
+        
+        CCSprite* spr2 = FriendsListView::num_sprite((int)floor(ranking % 10));
+        if (selected) {
+            spr2->setPosition(ccp(plate->getContentSize().width* .15f + 9, plate->getContentSize().height* .5f));
+            spr2->setScale(selectedScale);
+        }
+        else {
+            spr2->setPosition(ccp(plate->getContentSize().width* .25f + 8, plate->getContentSize().height* .5f));
+        }
+        plate->addChild(spr2);
+    }
+}
+
+CCSprite* FriendsListView::num_sprite(int num){
+    CCSprite* spr = NULL;
+    switch (num) {
+        case 0:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_0.png");
+            break;
+        case 1:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+            break;
+        case 2:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_2.png");
+            break;
+        case 3:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_3.png");
+            break;
+        case 4:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_4.png");
+            break;
+        case 5:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_5.png");
+            break;
+        case 6:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_6.png");
+            break;
+        case 7:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_7.png");
+            break;
+        case 8:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_8.png");
+            break;
+        case 9:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
+            break;
+        default:
+            break;
+    }
+    
+    return spr;
+}
+
 #pragma mark - Super API
 
 FriendsListView::~FriendsListView() {
@@ -153,40 +227,6 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
     cell->addChild(plate);
 }
 
-void FriendsListView::add_ranking_num(CCSprite* plate, int ranking, bool selected) {
-    if (0 < ranking && ranking < 10) {
-        CCSprite* spr = this->num_sprite(ranking);
-        if (selected) {
-            spr->setPosition(ccp(plate->getContentSize().width* .15f, plate->getContentSize().height* .5f));
-            spr->setScale(selectedScale);
-        }
-        else {
-            spr->setPosition(ccp(plate->getContentSize().width* .25f, plate->getContentSize().height* .5f));
-        }
-        plate->addChild(spr);
-    }else{
-        CCSprite* spr1 = this->num_sprite((int)floor(ranking / 10));
-        if (selected) {
-             spr1->setPosition(ccp(plate->getContentSize().width* .15f - 9, plate->getContentSize().height* .5f));
-            spr1->setScale(selectedScale);
-        }
-        else {
-             spr1->setPosition(ccp(plate->getContentSize().width* .25f - 8, plate->getContentSize().height* .5f));
-        }
-        plate->addChild(spr1);
-        
-        CCSprite* spr2 = this->num_sprite((int)floor(ranking % 10));
-        if (selected) {
-            spr2->setPosition(ccp(plate->getContentSize().width* .15f + 9, plate->getContentSize().height* .5f));
-            spr2->setScale(selectedScale);
-        }
-        else {
-            spr2->setPosition(ccp(plate->getContentSize().width* .25f + 8, plate->getContentSize().height* .5f));
-        }
-        plate->addChild(spr2);
-    }
-}
-
 void FriendsListView::add_name(CCSprite *plate, const char *nickname, bool selected) {
     CCSize plateSize = plate->getContentSize();
     CCLabelTTF* labelName = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
@@ -243,46 +283,6 @@ void FriendsListView::add_send_button(CCSprite* plate, const char* otherId, bool
         
         plate->addChild(hasSent);
     }
-}
-
-CCSprite* FriendsListView::num_sprite(int num){
-    CCSprite* spr = NULL;
-    switch (num) {
-        case 0:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_0.png");
-            break;
-        case 1:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_1.png");
-            break;
-        case 2:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_2.png");
-            break;
-        case 3:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_3.png");
-            break;
-        case 4:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_4.png");
-            break;
-        case 5:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_5.png");
-            break;
-        case 6:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_6.png");
-            break;
-        case 7:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_7.png");
-            break;
-        case 8:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_8.png");
-            break;
-        case 9:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
-            break;
-        default:
-            break;
-    }
-    
-    return spr;
 }
 
 void FriendsListView::seleted_cell(int idx) {

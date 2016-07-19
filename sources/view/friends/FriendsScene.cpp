@@ -52,6 +52,8 @@ bool FriendsScene::init() {
 
         this->create_show_view();
         
+        this->obtain_self_ranking();
+        
         if (_data->count() <= 1) {
             // 没有好友，提示去添加好友
             this->create_empty_prompt();
@@ -151,9 +153,11 @@ void FriendsScene::create_self_panel() {
     
     _nodeNormal = CCNode::create();
     _selfPanelNormal->addChild(_nodeNormal);
+    _nodeNormal->setContentSize(_selfPanelNormal->getContentSize());
     
     _nodeSelected = CCNode::create();
     _selfPanelSelected->addChild(_nodeSelected);
+    _nodeSelected->setContentSize(_selfPanelSelected->getContentSize());
     
     CCMenu* menu = CCMenu::createWithItem(_btnSelfPanel);
     menu->ignoreAnchorPointForPosition(false);
@@ -180,6 +184,30 @@ void FriendsScene::create_empty_prompt() {
     this->addChild(menu_spr);
 }
 
+bool FriendsScene::is_self_sid(const char *sid) {
+    const char* selfSid = DATA->getLogin()->obtain_sid();
+    return strcmp(selfSid, sid) == 0;
+}
+
+int FriendsScene::obtain_self_ranking() {
+    int rtn = 0;
+    int count = _data->count();
+    if (count == 0) {
+        return 1;
+    }
+    else {
+        for (int i = 0; i < count; i++) {
+            rtn += 1;
+            ShowComp* show = (ShowComp*)_data->objectAtIndex(i);
+            if (this->is_self_sid(show->getShowID().c_str())) {
+                break;
+            }
+        }
+        
+        return rtn;
+    }
+}
+
 void FriendsScene::update_self_panel(ShowComp* self) {
     if (! self) {
         return;
@@ -190,6 +218,8 @@ void FriendsScene::update_self_panel(ShowComp* self) {
     const char* nickname_self = self->nickname();
     //  体力收入
     int energyCount = DATA->getSocial()->energy_could_take();
+    // 自己名次
+    int selfRanking = this->obtain_self_ranking();
     
     if (_nodeNormal) {
         _nodeNormal->removeAllChildrenWithCleanup(true);
@@ -211,6 +241,9 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         lblEnergy->setColor(DISPLAY->defalutColor());
         lblEnergy->setPosition(ccp(plateSize.width * .22f, plateSize.height* .16f));
         _nodeNormal->addChild(lblEnergy);
+        
+        // 名次，借用功能
+        FriendsListView::add_ranking_num((CCSprite*)_nodeNormal, selfRanking, false);
     }
     
     if (_nodeSelected) {
@@ -250,6 +283,9 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         if (energyCount <= 0) {
             btnTake->setEnabled(false);
         }
+        
+        // 名次，借用功能
+        FriendsListView::add_ranking_num((CCSprite*)_nodeSelected, selfRanking, true);
     }
 }
 
@@ -309,7 +345,7 @@ void FriendsScene::nc_change_shower(CCObject *pObj) {
         _showerView->change_shower(show->ondress());
     }
     
-    if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+    if (this->is_self_sid(show->getShowID().c_str())) {
         _btnPaper->setVisible(false);           // 不能发纸条给自己
     }
     else {

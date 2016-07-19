@@ -37,6 +37,8 @@ private:
     void create_show_view();
     void create_empty_prompt();
     
+    bool is_self_sid(const char* sid);
+    int obtain_self_ranking();
     void update_self_panel(ShowComp* self);
     
     void on_btn_back_to_social(CCMenuItem* menuItem);
