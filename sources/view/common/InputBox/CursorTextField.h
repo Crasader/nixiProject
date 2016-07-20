@@ -36,9 +36,11 @@ public:
     ~CursorTextField();
     
     static CursorTextField * cursorTextFieldWithPlaceHolder(const char *placeholder, const CCSize& dimensions, CCTextAlignment alignment, const char *fontName, float fontSize);
+    
     bool initWithPlaceHolder(const char *placeholder, const CCSize& dimensions, CCTextAlignment alignment, const char *fontName, float fontSize);
     
     static CursorTextField * cursorTextFieldWithPlaceHolder(const char *placeholder, const char *fontName, float fontSize);
+    
     bool initWithPlaceHolder(const char *placeholder, const char *fontName, float fontSize);
     
     virtual void onEnter();
@@ -73,11 +75,24 @@ public:
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {};
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {};
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {};
     
     CC_SYNTHESIZE(CursorTextFieldDelegate*, _delegate, Delegate);
-
+    
+    virtual void keyboardWillHide(CCIMEKeyboardNotificationInfo& info);
+    
+public:
+    bool openBool;
+    // 点击开始位置
+    CCPoint m_beginPos;
+    void openIME();
+    void closeIME();
+    // 判断是否点击在TextField处
+    bool isInTextField(CCTouch *pTouch);
+    // 得到TextField矩形
+    CCRect getRect();
+    
     void setDebugMode(bool debug) { _isDebug = debug; }
     void setDimensions(const cocos2d::CCSize &dim);
     void setText(const char* text) { _oldText = std::string(text); } // 小心使用

@@ -130,7 +130,7 @@ void NotePanel::update(float dt){
     }
     unsigned long length = m_text->getText().length();
     const char* str = m_text->getText().c_str();
-    CCLog("<><><><> NotePanel::update m_text == %s", m_text->getText().c_str());
+//    CCLog("<><><><> NotePanel::update m_text == %s", m_text->getText().c_str());
     int chs_count = 0;
     int eng_count = 0;
     int cur_count = 0;
@@ -195,10 +195,13 @@ bool NotePanel::onCursorTextFieldInsertText(CursorTextField* sender, const char*
 }
 
 bool NotePanel::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){
-    CCPoint location = pTouch->getLocation();
-    if (! note_panel->boundingBox().containsPoint(location)) {
-        this->closeNotePanel();
+    if (!m_text->openBool) {
+        CCPoint location = pTouch->getLocation();
+        if (! note_panel->boundingBox().containsPoint(location)) {
+            this->closeNotePanel();
+        }
     }
+    
     
     return true;
 }
