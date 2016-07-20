@@ -10,6 +10,8 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "TotalRankScene.h"
+#include "NetManager.h"
+#include "PromptLayer.h"
 
 const float NAME_FONT_SIZE = 20;
 
@@ -34,7 +36,7 @@ bool TotalRankTableView::init(){
     
     selectedIndex = -1;
     
-    pTableView = CCTableView::create(this, CCSizeMake(275, 3*130));
+    pTableView = CCTableView::create(this, CCSizeMake(275, 3.5*124));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
@@ -50,6 +52,8 @@ bool TotalRankTableView::init(){
 
 void TotalRankTableView::onEnter(){
     CCLayer::onEnter();
+    
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TotalRankTableView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TotalRankTableView::updateTabelView), "UpdateRank", NULL);
 }
 
@@ -152,6 +156,12 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->addChild(spr2);
         }
         
+        CCMenu* menu_add2 = (CCMenu*)bg2->getChildByTag(0x10900);
+        if (menu_add2 != NULL) {
+            menu_add2->setVisible(true);
+        }
+        
+        
         CCLayer* layer = CCLayer::create();
         layer->setTouchEnabled(true);
         layer->setTouchSwallowEnabled(true);
@@ -230,6 +240,12 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->addChild(spr2);
         }
         
+        CCMenu* menu_add = (CCMenu*)bg1->getChildByTag(0x10900);
+        if (menu_add != NULL) {
+            menu_add->setVisible(false);
+        }
+        
+        
         // 记录需要变大节点
         selectedIndex = cell->getIdx() + 3;
         DATA->getSocial()->setSelectedRanker(selectedIndex);
@@ -253,7 +269,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         
 
         
-            ShowComp* show_2 = (ShowComp* )_rankers->objectAtIndex(selectedIndex);
+        ShowComp* show_2 = (ShowComp* )_rankers->objectAtIndex(selectedIndex);
         const char* nickname_2 = show_2->nickname();
         int collected2 = show_2->collected();
         
@@ -304,6 +320,11 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             spr2->setPosition(ccp(bg2->getContentSize().width* .15f + 10, bg2->getContentSize().height* .5f));
             spr2->setTag(0x10700);
             bg2->addChild(spr2);
+        }
+        
+        CCMenu* menu_add2 = (CCMenu*)bg2->getChildByTag(0x10900);
+        if (menu_add2 != NULL) {
+            menu_add2->setVisible(true);
         }
         
         CCLayer* layer = CCLayer::create();
@@ -448,6 +469,65 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
         bg->addChild(spr2);
     }
     
+    CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+    CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    add_spr2->setScale(1.02f);
+    CCMenuItemSprite* item_add;
+//    if (show->isadd == 0) {
+//        item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(TotalRankTableView::toBeFriend));
+//        item_add->setTag(index);
+//        item_add->setUserObject(CCInteger::create(index + 3));
+//        CCMenu* menu_add = CCMenu::create(item_add, NULL);
+//        menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 20));
+//        menu_add->setTag(0x10900);
+//        bg->addChild(menu_add);
+//    }else{
+//        item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+//        item_add->setTag(index);
+//        item_add->setUserObject(CCInteger::create(index + 3));
+//        CCMenu* menu_add = CCMenu::create(item_add, NULL);
+//        menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+//        menu_add->setTag(0x10900);
+//        bg->addChild(menu_add);
+//    }
+    
+    if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+        //这是我自己
+        
+    }else {
+        if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
+            //是好友
+            item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+            item_add->setTag(index);
+            item_add->setUserObject(CCInteger::create(index + 3));
+            CCMenu* menu_add = CCMenu::create(item_add, NULL);
+            menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+            menu_add->setTag(0x10900);
+            bg->addChild(menu_add);
+        }else{
+            //不是好友
+            if (show->isadd == 0) {
+                item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(TotalRankTableView::toBeFriend));
+                item_add->setTag(index);
+                item_add->setUserObject(CCInteger::create(index + 3));
+                CCMenu* menu_add = CCMenu::create(item_add, NULL);
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 20));
+                menu_add->setTag(0x10900);
+                bg->addChild(menu_add);
+            }else{
+                item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+                item_add->setTag(index);
+                item_add->setUserObject(CCInteger::create(index + 3));
+                CCMenu* menu_add = CCMenu::create(item_add, NULL);
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+                menu_add->setTag(0x10900);
+                bg->addChild(menu_add);
+            }
+        }
+    }
+    
 }
 void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     CCSprite* bg;
@@ -499,7 +579,100 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
         spr2->setTag(0x10700);
         bg->addChild(spr2);
     }
+    
+    
+    CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+    CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    add_spr2->setScale(1.02f);
+    CCMenuItemSprite* item_add;
+//    if (show->isadd == 0) {
+//        item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(TotalRankTableView::toBeFriend));
+//        item_add->setTag(index);
+//        item_add->setUserObject(CCInteger::create(index + 3));
+//        CCMenu* menu_add = CCMenu::create(item_add, NULL);
+//        menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 20));
+//        menu_add->setTag(0x10900);
+//        menu_add->setVisible(false);
+//        bg->addChild(menu_add);
+//    }else{
+//        item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+//        item_add->setTag(index);
+//        item_add->setUserObject(CCInteger::create(index + 3));
+//        CCMenu* menu_add = CCMenu::create(item_add, NULL);
+//        menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+//        menu_add->setTag(0x10900);
+//        menu_add->setVisible(false);
+//        bg->addChild(menu_add);
+//    }
+    
+    if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+        //这是我自己
+        
+    }else {
+        if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
+            //是好友
+            item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+            item_add->setTag(index);
+            item_add->setUserObject(CCInteger::create(index + 3));
+            CCMenu* menu_add = CCMenu::create(item_add, NULL);
+            menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+            menu_add->setTag(0x10900);
+            menu_add->setVisible(false);
+            bg->addChild(menu_add);
+        }else{
+            //不是好友
+            if (show->isadd == 0) {
+                item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(TotalRankTableView::toBeFriend));
+                item_add->setTag(index);
+                item_add->setUserObject(CCInteger::create(index + 3));
+                CCMenu* menu_add = CCMenu::create(item_add, NULL);
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 20));
+                menu_add->setTag(0x10900);
+                menu_add->setVisible(false);
+                bg->addChild(menu_add);
+            }else{
+                item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+                item_add->setTag(index);
+                item_add->setUserObject(CCInteger::create(index + 3));
+                CCMenu* menu_add = CCMenu::create(item_add, NULL);
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+                menu_add->setTag(0x10900);
+                menu_add->setVisible(false);
+                bg->addChild(menu_add);
+            }
+        }
+    }
 
+
+}
+
+void TotalRankTableView::toBeFriend(CCMenuItem* btn){
+    CCMenuItem* item = (CCMenuItem* )btn;
+    int index = ((CCInteger*)item->getUserObject())->getValue();
+    
+    CCNode* bg = (CCNode* )item->getParent()->getParent();
+    bg->removeChildByTag(0x10900);
+    CCArray* rankers = DATA->getRanking()->ranking();
+    ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
+    other->isadd = 1;
+    
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCMenuItemSprite* item_add;
+    item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+    CCMenu* menu_add = CCMenu::create(item_add, NULL);
+    menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+    menu_add->setTag(0X10900);
+    bg->addChild(menu_add);
+    
+    NET->send_message_803(other->getShowID().c_str(), 1);
+}
+
+void TotalRankTableView::tobeFriend_callback_803(){
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
 }
 
 CCSprite* TotalRankTableView::getNumSprite(int num){

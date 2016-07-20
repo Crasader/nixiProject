@@ -166,11 +166,13 @@ const char* SocialComp::getSelectedStrangerIDbyIndex(int idx){
 }
 
 ShowComp* SocialComp::getSelectedFriendByIndex(int idx) {
-    CCArray* arrKeys = _friends->allKeys();
-    int count = arrKeys->count();
+//    CCArray* arrKeys = _friends->allKeys();
+//    int count = arrKeys->count();
+    int count = _sortedFriends->count();
     if (0 <= idx && idx < count) {
-        CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
-        ShowComp* show = (ShowComp*)_friends->objectForKey(key->getCString());
+//        CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
+//        ShowComp* show = (ShowComp*)_friends->objectForKey(key->getCString());
+        ShowComp* show = (ShowComp*)_sortedFriends->objectAtIndex(idx);
         return show;
     }
     else {
@@ -206,11 +208,11 @@ CCArray* SocialComp::sort_friends_by_collected(CCDictionary* dic) {
             rtn->addObject(show);
         }
         
-        for (int i = 0; i < size - 1; ++i) {
+        for (int i = size - 1; i >= 0; i--) {
             ShowComp* show1 = (ShowComp*)rtn->objectAtIndex(i);
-            for (int j = i + 1; j < size; ++j) {
+            for (int j = i - 1; j >= 0; j--) {
                 ShowComp* show2 = (ShowComp*)rtn->objectAtIndex(j);
-                if (show1->collected() < show2->collected()) {
+                if (show1->collected() > show2->collected()) {
                     rtn->exchangeObjectAtIndex(i, j);
                 }
             }

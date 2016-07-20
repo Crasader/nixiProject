@@ -79,6 +79,9 @@ public:
     
     void updateTabelView();
     
+    void toBeFriend(CCMenuItem* btn);
+    void tobeFriend_callback_803();
+    
 };
 
 
