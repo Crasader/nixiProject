@@ -83,6 +83,10 @@ public:
     
     int _curBtn_index;
     
+    void create_first();
+    void create_second();
+    void create_third();
+    
     void small_callback();
     
     CCSprite* getNumSprite(int num);

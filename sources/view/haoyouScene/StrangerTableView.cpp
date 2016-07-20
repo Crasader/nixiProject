@@ -41,7 +41,6 @@ bool StrangerTableView::init(){
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
     pTableView->setDelegate(this);
-    pTableView->setTag(0);
     
     this->addChild(pTableView);
     

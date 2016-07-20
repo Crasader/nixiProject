@@ -84,6 +84,8 @@ public:
         
     CursorTextField*  m_text;
     
+    int erase_pos;
+    
     CCLabelTTF* _word_count;
     
 public:
