@@ -49,6 +49,9 @@ bool TotalRankTableView::init(){
     di_spr->setAnchorPoint(CCPoint(1, 0));
     di_spr->setPosition(ccp(pTableView->getContentSize().width, -1));
     this->addChild(di_spr);
+    if (allNumber == 0) {
+        di_spr->setVisible(false);
+    }
     
     pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
     pTableView->reloadData();
