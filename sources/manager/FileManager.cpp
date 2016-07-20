@@ -119,10 +119,10 @@ const vector<string> FileManager::illegalWrods() {
         _illegalWords = this->fetch_file_contents("conf/learn2", "、");
     }
     
-    long size = _illegalWords.size();
-    for (int i = 0; i < size; i++) {
-        CCLOG("%d -- %s", i, _illegalWords[i].c_str());
-    }
+//    long size = _illegalWords.size();
+//    for (int i = 0; i < size; i++) {
+//        CCLOG("%d -- %s", i, _illegalWords[i].c_str());
+//    }
     
     return _illegalWords;
 }
