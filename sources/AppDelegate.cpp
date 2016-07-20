@@ -17,6 +17,11 @@ using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
 
+
+// -------------------- 4 test ---------------------
+#include "FileManager.h"
+
+
 AppDelegate::AppDelegate()
 {
     // fixed me

@@ -13,7 +13,10 @@
 #include "TaskScene.h"
 #include "ClothesScene.h"
 #include "AudioManager.h"
-#include "HaoyouRankLayer.h"
+
+//#include "HaoyouRankLayer.h"
+#include "Shower.h"
+
 #include "StrangerScene.h"
 #include "TotalRankScene.h"
 #include "HaoyouScene.h"
@@ -32,8 +35,6 @@
 #include <time.h>
 
 // --------------- test ----------------
-
-#include "SpecialManager.h"
 
 MainScene::MainScene(){
     
@@ -993,6 +994,7 @@ void MainScene::creat_Man(){
     _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
     _ManSpr->addChild(_touSpr, 210);
 }
+
 void MainScene::initClothes(){//穿衣服
     CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     float widthFolt = .65f;
