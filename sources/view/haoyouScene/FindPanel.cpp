@@ -152,7 +152,7 @@ bool FindPanel::check_nickname(std::string str)
         
         if (zhongBool && (yingBool == false)) { // 只有中文
             if (zhongWenCount + yingwen <= lenLimit) {
-                if (FILEM->is_illegal(nameChar) == true) {
+                if (FILEM->is_illegal(nameChar) == false) {
                     return true;
                 }else{
                     PromptLayer* prompt = PromptLayer::create();
@@ -167,7 +167,7 @@ bool FindPanel::check_nickname(std::string str)
         }
         else if (yingBool && (zhongBool == false)){ // 只有英文和数字
             if (zhongWenCount + yingwen <= lenLimit) {
-                if (FILEM->is_illegal(nameChar) == true) {
+                if (FILEM->is_illegal(nameChar) == false) {
                     return true;
                 }else{
                     PromptLayer* prompt = PromptLayer::create();
@@ -181,7 +181,7 @@ bool FindPanel::check_nickname(std::string str)
             }
         }else if (zhongBool && yingBool){ // 混合英文、数字和中文
             if (zhongWenCount + yingwen <= lenLimit) {
-                if (FILEM->is_illegal(nameChar) == true) {
+                if (FILEM->is_illegal(nameChar) == false) {
                     return true;
                 }else{
                     PromptLayer* prompt = PromptLayer::create();
