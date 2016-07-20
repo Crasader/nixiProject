@@ -245,7 +245,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/manager/AudioManager.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/loginScene/LoginScene.h \
- jni/../../sources/view/taskScene/TaskSettlementLayer.h
+ jni/../../sources/view/taskScene/TaskSettlementLayer.h \
+ jni/../../sources/manager/FileManager.h
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -748,3 +749,5 @@ jni/../../sources/manager/SpecialManager.h:
 jni/../../sources/view/loginScene/LoginScene.h:
 
 jni/../../sources/view/taskScene/TaskSettlementLayer.h:
+
+jni/../../sources/manager/FileManager.h:

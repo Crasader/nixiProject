@@ -270,10 +270,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
- jni/../../sources/view/haoyouScene/HaoyouRankLayer.h \
+ jni/../../sources/view/friends/Shower.h \
+ jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
  jni/../../sources/view/common/InputBox/CursorTextField.h \
- jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/StrangerTableView.h \
  jni/../../sources/view/haoyouScene/TotalRankScene.h \
  jni/../../sources/view/haoyouScene/TotalRankTableView.h \
@@ -294,8 +294,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/panel/MailPanel.h \
  jni/../../sources/view/panel/OperationPanel.h \
- jni/../../sources/view/panel/SettingPanel.h \
- jni/../../sources/manager/SpecialManager.h
+ jni/../../sources/view/panel/SettingPanel.h
 
 jni/../../sources/view/mainScene/MainScene.h:
 
@@ -847,13 +846,13 @@ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
-jni/../../sources/view/haoyouScene/HaoyouRankLayer.h:
+jni/../../sources/view/friends/Shower.h:
+
+jni/../../sources/view/haoyouScene/StrangerScene.h:
 
 jni/../../sources/view/haoyouScene/NotePanel.h:
 
 jni/../../sources/view/common/InputBox/CursorTextField.h:
-
-jni/../../sources/view/haoyouScene/StrangerScene.h:
 
 jni/../../sources/view/haoyouScene/StrangerTableView.h:
 
@@ -896,5 +895,3 @@ jni/../../sources/view/panel/MailPanel.h:
 jni/../../sources/view/panel/OperationPanel.h:
 
 jni/../../sources/view/panel/SettingPanel.h:
-
-jni/../../sources/manager/SpecialManager.h:

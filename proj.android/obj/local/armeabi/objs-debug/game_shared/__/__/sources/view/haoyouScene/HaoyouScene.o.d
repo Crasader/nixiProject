@@ -262,10 +262,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/HaoyouSc
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/view/haoyouScene/HaoyouRankLayer.h \
+ jni/../../sources/view/friends/FriendsScene.h \
+ jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
  jni/../../sources/view/common/InputBox/CursorTextField.h \
- jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/StrangerTableView.h \
  jni/../../sources/view/haoyouScene/TotalRankScene.h \
  jni/../../sources/view/haoyouScene/TotalRankTableView.h \
@@ -821,13 +821,13 @@ jni/../../sources/view/mainScene/MainScene.h:
 
 jni/../../sources/manager/ConfigManager.h:
 
-jni/../../sources/view/haoyouScene/HaoyouRankLayer.h:
+jni/../../sources/view/friends/FriendsScene.h:
+
+jni/../../sources/view/haoyouScene/StrangerScene.h:
 
 jni/../../sources/view/haoyouScene/NotePanel.h:
 
 jni/../../sources/view/common/InputBox/CursorTextField.h:
-
-jni/../../sources/view/haoyouScene/StrangerScene.h:
 
 jni/../../sources/view/haoyouScene/StrangerTableView.h:
 
