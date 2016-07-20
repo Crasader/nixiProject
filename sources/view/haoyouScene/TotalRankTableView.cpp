@@ -43,7 +43,12 @@ bool TotalRankTableView::init(){
     pTableView->setDelegate(this);
     pTableView->setTag(0);
     
-    this->addChild(pTableView, 1);
+    this->addChild(pTableView);
+    
+    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+    di_spr->setAnchorPoint(CCPoint(1, 0));
+    di_spr->setPosition(ccp(pTableView->getContentSize().width, -1));
+    this->addChild(di_spr);
     
     pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
     pTableView->reloadData();

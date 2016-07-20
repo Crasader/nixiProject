@@ -47,6 +47,11 @@ bool TotalRankScene::init(){
     
     _rankers = DATA->getRanking()->ranking();
     
+    
+    isadd_fst = false;
+    isadd_sed = false;
+    isadd_thd = false;
+    
     this->createView();
     
     int count = _rankers->count();
@@ -330,9 +335,9 @@ void TotalRankScene::createView(){
     
     this->initTotalRank();
     
-    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
-    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .18f - 1));
-    this->addChild(di_spr, totalRank_z_oder);
+//    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+//    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .18f - 1));
+//    this->addChild(di_spr, totalRank_z_oder);
 }
 
 void TotalRankScene::initTotalRank(){
@@ -439,35 +444,141 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
         num->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
         bg->addChild(num);
         
-        if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
-            //这是我自己
-            
-        }else {
-            if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
-                //是好友
-                CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-                CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-                spr_fst2->setScale(1.02f);
-                CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
-//                item_add->setUserObject(CCInteger::create(index + 3));
-                CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
-                menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
-                bg->addChild(menu_add_fst);
-                menu_add_fst->setTag(0x10400);
-                item_add_fst->setEnabled(false);
-            }else{
-                //不是好友
-                CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-                CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-                spr_fst2->setScale(1.02f);
-                CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
-                item_add_fst->setUserObject(CCInteger::create(index));
-                CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
-                menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
-                menu_add_fst->setTag(0x10400);
-                bg->addChild(menu_add_fst);
+        if (index == 0) {
+            if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+                //这是我自己
+                
+            }else {
+                if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
+                    //是好友
+                    CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    spr_fst2->setScale(1.02f);
+                    CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                    //                item_add->setUserObject(CCInteger::create(index + 3));
+                    CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                    menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                    bg->addChild(menu_add_fst);
+                    menu_add_fst->setTag(0x10400);
+                    item_add_fst->setEnabled(false);
+                }else{
+                    //不是好友
+                    if (isadd_fst) {
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                        spr_fst2->setScale(1.02f);
+                        CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                        //                item_add->setUserObject(CCInteger::create(index + 3));
+                        CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                        menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                        bg->addChild(menu_add_fst);
+                        menu_add_fst->setTag(0x10400);
+                        item_add_fst->setEnabled(false);
+                    }else{
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+                        spr_fst2->setScale(1.02f);
+                        CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                        item_add_fst->setUserObject(CCInteger::create(index));
+                        CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                        menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                        menu_add_fst->setTag(0x10400);
+                        bg->addChild(menu_add_fst);
+                    }
+                    
+                }
+            }
+        }else if(index == 1){
+            if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+                //这是我自己
+                
+            }else {
+                if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
+                    //是好友
+                    CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    spr_fst2->setScale(1.02f);
+                    CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                    //                item_add->setUserObject(CCInteger::create(index + 3));
+                    CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                    menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                    bg->addChild(menu_add_fst);
+                    menu_add_fst->setTag(0x10400);
+                    item_add_fst->setEnabled(false);
+                }else{
+                    //不是好友
+                    if (isadd_sed) {
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                        spr_fst2->setScale(1.02f);
+                        CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                        //                item_add->setUserObject(CCInteger::create(index + 3));
+                        CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                        menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                        bg->addChild(menu_add_fst);
+                        menu_add_fst->setTag(0x10400);
+                        item_add_fst->setEnabled(false);
+                    }else{
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+                        spr_fst2->setScale(1.02f);
+                        CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                        item_add_fst->setUserObject(CCInteger::create(index));
+                        CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                        menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                        menu_add_fst->setTag(0x10400);
+                        bg->addChild(menu_add_fst);
+                    }
+                    
+                }
+            }
+        }else if(index == 2){
+            if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+                //这是我自己
+                
+            }else {
+                if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
+                    //是好友
+                    CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    spr_fst2->setScale(1.02f);
+                    CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                    //                item_add->setUserObject(CCInteger::create(index + 3));
+                    CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                    menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                    bg->addChild(menu_add_fst);
+                    menu_add_fst->setTag(0x10400);
+                    item_add_fst->setEnabled(false);
+                }else{
+                    //不是好友
+                    if (isadd_thd) {
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                        spr_fst2->setScale(1.02f);
+                        CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                        //                item_add->setUserObject(CCInteger::create(index + 3));
+                        CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                        menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                        bg->addChild(menu_add_fst);
+                        menu_add_fst->setTag(0x10400);
+                        item_add_fst->setEnabled(false);
+                    }else{
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
+                        spr_fst2->setScale(1.02f);
+                        CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+                        item_add_fst->setUserObject(CCInteger::create(index));
+                        CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+                        menu_add_fst->setPosition(ccp(bg->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+                        menu_add_fst->setTag(0x10400);
+                        bg->addChild(menu_add_fst);
+                    }
+                    
+                }
             }
         }
+        
+        
     }
     
     
@@ -574,6 +685,14 @@ void TotalRankScene::toBeFriend(CCMenuItem *btn){
     
     CCNode* bg = (CCNode* )item->getParent()->getParent();
     bg->removeChildByTag(0x10400);
+    if (index == 0) {
+        isadd_fst = true;
+    }else if (index == 1){
+        isadd_sed = true;
+    }else if(index == 2){
+        isadd_thd = true;
+    }
+    
     CCArray* rankers = DATA->getRanking()->ranking();
     ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
     

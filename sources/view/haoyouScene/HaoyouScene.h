@@ -137,5 +137,6 @@ private:
 private:
     CCMenuItem*         _xiaoxiItem;
     CCMenuItem*         _zhitiaoItem;
+    bool hasFriends;
 };
 #endif /* defined(__tiegao__HaoyouScene__) */

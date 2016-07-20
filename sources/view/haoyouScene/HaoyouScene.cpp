@@ -171,9 +171,18 @@ void HaoyouScene::haoyouCallBack(CCObject* pSender){
 
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
     LOADING->remove();
-    CCScene* scene = HaoyouRankLayer::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    
+    if (hasFriends) {
+        CCLayer* layer = TotalRankScene::create_with_type(2);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCScene* scene = HaoyouRankLayer::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void HaoyouScene::strangerCallBack(CCObject* pSender){
@@ -186,14 +195,10 @@ void HaoyouScene::paihangCallBack(CCObject* pSender){
     NET->ranking_list_300();
 }
 
-void HaoyouScene::rank_list_callback_300(CCObject *pObj){
-    LOADING->remove();
+void HaoyouScene::rank_list_callback_300(CCObject *pObj){    
+    hasFriends = true;
+    NET->all_friends_806();
     
-    CCLayer* layer = TotalRankScene::create_with_type(2);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){

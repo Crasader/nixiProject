@@ -154,10 +154,6 @@ void StrangerScene::createView(){
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, z_order);
     
-    ///-----
-    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
-    di_spr->setPosition(ccp(DISPLAY->ScreenWidth() - di_spr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .14f - 1));
-    this->addChild(di_spr, z_order);
 }
 
 void StrangerScene::initStranger(){

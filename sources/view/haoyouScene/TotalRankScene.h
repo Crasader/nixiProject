@@ -101,6 +101,10 @@ public:
     
     void toBeFriend(CCMenuItem* item);
     
+    bool isadd_fst;
+    bool isadd_sed;
+    bool isadd_thd;
+    
 public:
     NotePanel* _panel;
     TotalRankTableView* tabLayer;
