@@ -20,19 +20,20 @@ using namespace std;
 class FileManager : public CCObject
 {
 public:
-    ~FileManager();
     static FileManager* Inst();
+    bool is_illegal(const char* name);
+    bool whether_contain_string(vector<string>& contents, const char* str);
     
-    bool searchString(const char* str);
-    unsigned long itemCount();
-    string randItem();
-    
-private:
-    bool IsForbid( const char* name );
-    bool config_with_file(const char* fileName);
+public:
+    ~FileManager();
+    string rand_item(vector<string>& contents);
     
 private:
-    vector<string>          _container;
+    const vector<string> illegalWrods();
+    vector<string> fetch_file_contents(const char* filePath, const char* splitChar="\r\n");
+    
+private:
+    vector<string>          _illegalWords;
 };
 
 #endif /* defined(__mm3c__FileTool__) */

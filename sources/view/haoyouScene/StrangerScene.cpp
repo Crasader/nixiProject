@@ -16,7 +16,8 @@
 #include "FindPanel.h"
 #include "Loading2.h"
 #include "NetManager.h"
-#include "HaoyouRankLayer.h"
+//#include "HaoyouRankLayer.h"
+#include "FriendsScene.h"
 #include "AudioManager.h"
 
 #define REFRESH_INTERVAL   30 // 60秒
@@ -226,7 +227,10 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (!_enterType.empty() && _enterType.compare("my_friend") == 0){
-        CCScene* scene = HaoyouRankLayer::scene();
+//        CCScene* scene = HaoyouRankLayer::scene();
+//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//        CCDirector::sharedDirector()->replaceScene(trans);
+        CCScene* scene = FriendsScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }

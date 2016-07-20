@@ -11,7 +11,7 @@
 #include "CursorTextField.h"
 #include "Loading2.h"
 #include "NetManager.h"
-#include "HaoyouRankLayer.h"
+//#include "HaoyouRankLayer.h"
 #include "DataManager.h"
 #include "PromptLayer.h"
 
