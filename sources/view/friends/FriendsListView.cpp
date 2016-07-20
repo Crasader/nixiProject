@@ -356,15 +356,12 @@ void FriendsListView::tableCellTouched(CCTableView *table, CCTableViewCell *cell
 void FriendsListView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view) {
     CCPoint contOffsetPos = view->getContentOffset();
     if (this->numberOfCellsInTableView(_tv) > 5) {
-        _tv->setBounceable(true);
+//        _tv->setBounceable(true);
         if (contOffsetPos.y < view->minContainerOffset().y) {
             view->setContentOffset(CCPoint(contOffsetPos.x, view->minContainerOffset().y));
         }else if (contOffsetPos.y > view->maxContainerOffset().y){
             view->setContentOffset(CCPoint(contOffsetPos.x, view->maxContainerOffset().y));
         }
-    }
-    else {
-        _tv->setBounceable(false);
     }
 }
 

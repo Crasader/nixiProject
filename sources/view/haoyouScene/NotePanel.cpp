@@ -24,6 +24,8 @@ bool NotePanel::init(){
         return false;
     }
     
+    erase_pos = 1000000;
+    
     return true;
 }
 
@@ -120,8 +122,9 @@ void NotePanel::initView(){
 
     
     CCSprite* tips = CCSprite::create("res/pic/txt_close.png");
-    tips->setPosition(ccp(DISPLAY->ScreenWidth()/2, DISPLAY->ScreenHeight()*.25f));
-    this->addChild(tips);
+    tips->setAnchorPoint(CCPoint(0.5, 1));
+    tips->setPosition(ccp(note_panel->getContentSize().width* .5f, -15));
+    note_panel->addChild(tips);
 }
 
 void NotePanel::update(float dt){
@@ -146,10 +149,16 @@ void NotePanel::update(float dt){
             m_text->setMaxTextBytes(i);
             break;
         }
+        
+//        if (i > erase_pos) {
+//            m_text->setText(m_text->getText().erase(erase_pos).c_str());
+//        }
+        
 //        if(cur_count <= 50){
 //            cur_str += str[i];
 //        }
     }
+    
     
 //    m_text->setText(cur_str);
     

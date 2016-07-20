@@ -39,18 +39,22 @@ FriendsScene::~FriendsScene() {
 
 bool FriendsScene::init() {
     if (BaseScene::init()) {
+        CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/main_bg.png");
+        background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
+        this->addChild(background);
+        
         _curIndex = -1;
         _listView = NULL;
         _showerView = NULL;
         
         _data = DATA->getSocial()->sortedFriends();
         
+        this->create_show_view();
         this->create_UI();
         
         this->create_self_panel();
         this->update_self_panel(DATA->getShow());
 
-        this->create_show_view();
         
         this->obtain_self_ranking();
         
@@ -95,9 +99,6 @@ void FriendsScene::onExit() {
 #pragma mark - Inner API
 
 void FriendsScene::create_UI() {
-    CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/main_bg.png");
-    background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
-    this->addChild(background);
     
     //name_bar
     CCSprite* name_bar = CCSprite::create("res/pic/qingjingScene/qj_dikuang1.png");
@@ -235,7 +236,7 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         _nodeNormal->addChild(cloth_count);
         
         // 体力
-        CCString* strEnergy = CCString::createWithFormat("收到体力：%d", energyCount);
+        CCString* strEnergy = CCString::createWithFormat("收到体力: %d", energyCount);
         CCLabelTTF* lblEnergy = CCLabelTTF::create(strEnergy->getCString(), DISPLAY->fangzhengFont(), 14.f);
         lblEnergy->setAnchorPoint(ccp(0, 0.5));
         lblEnergy->setColor(DISPLAY->defalutColor());

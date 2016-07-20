@@ -1504,6 +1504,7 @@ void MainScene::update_news_status() {
         _haoyouItem->addChild(spt);
         
         CCSprite* spt2 = CCSprite::create("res/pic/new.png");
+        spt2->setScale(1.08);
         spt2->setPosition(ccp(210, 205));
         haoyou_Item->addChild(spt2);
     }
