@@ -36,8 +36,6 @@
 
 // --------------- test ----------------
 
-#include "SpecialManager.h"
-
 MainScene::MainScene(){
     
 }

@@ -11,7 +11,6 @@
 #include "NetManager.h"
 #include "DataManager.h"
 //#include "AHMessageBox.h"
-#include "MMMachining.h"
 #include "FileManager.h"
 
 #include "Loading2.h"
@@ -165,7 +164,7 @@ bool CreateName::check_nickname(std::string str)
         
         if (zhongBool && (yingBool == false)) { // 只有中文
             if (zhongWenCount + yingwen <= lenLimit) {
-                if (MMMachining::getInstance()->IsForbid(nameChar) == true) {
+                if (FILEM->is_illegal(nameChar) == true) {
                     return true;
                 }else{
                     PromptLayer* prompt = PromptLayer::create();
@@ -180,7 +179,7 @@ bool CreateName::check_nickname(std::string str)
         }
         else if (yingBool && (zhongBool == false)){ // 只有英文和数字
             if (zhongWenCount + yingwen <= lenLimit) {
-                if (MMMachining::getInstance()->IsForbid(nameChar) == true) {
+                if (FILEM->is_illegal(nameChar) == true) {
                     return true;
                 }else{
                     PromptLayer* prompt = PromptLayer::create();
@@ -194,7 +193,7 @@ bool CreateName::check_nickname(std::string str)
             }
         }else if (zhongBool && yingBool){ // 混合英文、数字和中文
             if (zhongWenCount + yingwen <= lenLimit) {
-                if (MMMachining::getInstance()->IsForbid(nameChar) == true) {
+                if (FILEM->is_illegal(nameChar) == true) {
                     return true;
                 }else{
                     PromptLayer* prompt = PromptLayer::create();

@@ -26,6 +26,23 @@ int ReplaceStringWithGivenSubstring(string& src, const string& substring, const 
     return count;
 }
 
+int replace_all(std::string& str,const std::string& pattern,const std::string& newpat)
+{
+    int count = 0;
+    const size_t nsize = newpat.size();
+    const size_t psize = pattern.size();
+    
+    for(size_t pos = str.find(pattern, 0);
+        pos != std::string::npos;
+        pos = str.find(pattern,pos + nsize))
+    {
+        str.replace(pos, psize, newpat);
+        count++;
+    }
+    
+    return count;
+}
+
 void SplitString(vector<string>& output, const string& input, char separator)
 {
     output.clear();
@@ -46,8 +63,6 @@ void SplitString(vector<string>& output, const string& input, char separator)
 
 static FileManager* _instance = nullptr;
 
-const int CONNECT_TIMEOUT = 60;
-
 FileManager::~FileManager() {
     
 }
@@ -55,75 +70,91 @@ FileManager::~FileManager() {
 FileManager* FileManager::Inst() {
     if (_instance == nullptr) {
         _instance = new FileManager();
-        _instance->config_with_file("res/config/learn");
     }
     
     return _instance;
 }
 
-bool FileManager::config_with_file(const char* fileName)
-{
-    string fileFullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName);
+vector<string> FileManager::fetch_file_contents(const char *filePath, const char *splitChar) {
+    vector<string> rtn;
+    string fileFullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filePath);
     unsigned long bufferSize = 0;
-//    char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(fileFullPath.c_str(), "r", &bufferSize);
+    //    char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(fileFullPath.c_str(), "r", &bufferSize);
     char* pBuffer = (char*)CZHelperFunc::getFileData(fileFullPath.c_str(), "r", &bufferSize);
     
     string buf(pBuffer, bufferSize);
-    ReplaceStringWithGivenSubstring(buf, "\r\n", "\n");
-    SplitString(_container, buf, '\n');
+    ReplaceStringWithGivenSubstring(buf, splitChar, "\n");
+    SplitString(rtn, buf, '\n');
     
     if (pBuffer) {
         delete []pBuffer;
         pBuffer = NULL;
     }
     
-    return true;
+    return rtn;
 }
 
-bool FileManager::IsForbid(const char* name)
-{
-    bool res = searchString(name);
-    
-    CCLOG("res");
-    if (res == false) {
-        CCLOG(" Found it.！-----");
-        return false;
+//bool FileManager::config_with_file(const char* fileName, const char splitChar)
+//{
+//    
+//    string fileFullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName);
+//    unsigned long bufferSize = 0;
+////    char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(fileFullPath.c_str(), "r", &bufferSize);
+//    char* pBuffer = (char*)CZHelperFunc::getFileData(fileFullPath.c_str(), "r", &bufferSize);
+//    
+//    string buf(pBuffer, bufferSize);
+//    ReplaceStringWithGivenSubstring(buf, "\r\n", "\n");
+//    SplitString(_container, buf, '\n');
+//    
+//    if (pBuffer) {
+//        delete []pBuffer;
+//        pBuffer = NULL;
+//    }
+//    
+//    return true;
+//}
+
+const vector<string> FileManager::illegalWrods() {
+    if (_illegalWords.empty()) {
+        _illegalWords = this->fetch_file_contents("conf/learn2", "、");
     }
     
-    return true;
+    long size = _illegalWords.size();
+    for (int i = 0; i < size; i++) {
+        CCLOG("%d -- %s", i, _illegalWords[i].c_str());
+    }
+    
+    return _illegalWords;
 }
 
-bool FileManager::searchString(const char* str)
+bool FileManager::is_illegal(const char* name) {
+    vector<string>cotents = this->illegalWrods();
+    return this->whether_contain_string(cotents, name);
+}
+
+bool FileManager::whether_contain_string(vector<string>& contents, const char* str)
 {
-    unsigned long containerSize = this->itemCount();
+    unsigned long containerSize = contents.size();
     for (int i = 0; i < containerSize; ++i)
     {
-        string item = _container.at(i);
-        char* res = strstr(str, item.c_str()) ;
-        
-        if (!item.empty() && res != NULL) {
-            CCLOG("Found the result=%s", str);
-            return true;       // 找到了
+        string item = contents.at(i);
+        if (! item.empty()) {
+            char* res = strstr(str, item.c_str()) ;
+            if (res != NULL) {
+                CCLOG("Found the str=%s in %s", str, item.c_str());
+                return true;       // 找到了
+            }
         }
+        
     }
     
     return false;
 }
 
-unsigned long FileManager::itemCount() {
-    if (_container.empty()) {
-        return 0;
-    }
-    else {
-        return _container.size();
-    }
-}
-
-string FileManager::randItem() {
-    unsigned long count = this->itemCount();
+string FileManager::rand_item(vector<string>& contents) {
+    unsigned long count = contents.size();
     unsigned long choosed = CCRANDOM_0_1() * count;
     CCLOG("FileManager::randItem() -- choosed : %ld", choosed);
-    return _container.at(choosed);
+    return contents.at(choosed);
 }
-
 
