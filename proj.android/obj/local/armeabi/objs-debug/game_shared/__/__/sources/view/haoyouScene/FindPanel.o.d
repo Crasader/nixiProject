@@ -235,7 +235,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/FindPane
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/manager/DisplayManager.h \
- jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/manager/FileManager.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -246,7 +246,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/FindPane
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/view/loginScene/MMMachining.h \
+ jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/model/ShowComp.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
@@ -730,7 +730,7 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 
 jni/../../sources/manager/DisplayManager.h:
 
-jni/../../sources/view/common/Loading2/Loading2.h:
+jni/../../sources/manager/FileManager.h:
 
 jni/../../sources/manager/NetManager.h:
 
@@ -752,7 +752,7 @@ jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
-jni/../../sources/view/loginScene/MMMachining.h:
+jni/../../sources/view/common/Loading2/Loading2.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
 
