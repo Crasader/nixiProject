@@ -146,7 +146,8 @@ void NotePanel::update(float dt){
         }
         cur_count = (int)ceil(chs_count/3) + eng_count;
         if(cur_count == 50){
-            m_text->setMaxTextBytes(i);
+//            m_text->setMaxTextBytes(i);
+            m_text->setText(m_text->getText().erase(i).c_str());
             break;
         }
         
@@ -154,13 +155,8 @@ void NotePanel::update(float dt){
 //            m_text->setText(m_text->getText().erase(erase_pos).c_str());
 //        }
         
-//        if(cur_count <= 50){
-//            cur_str += str[i];
-//        }
     }
     
-    
-//    m_text->setText(cur_str);
     
     CCString* count_str = CCString::createWithFormat("%d", cur_count);
     _word_count = CCLabelTTF::create(count_str->getCString(), DISPLAY->fangzhengFont(), 19);

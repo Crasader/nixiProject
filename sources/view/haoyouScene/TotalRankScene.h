@@ -86,6 +86,7 @@ public:
     void create_first();
     void create_second();
     void create_third();
+    void create_self();
     
     void small_callback();
     

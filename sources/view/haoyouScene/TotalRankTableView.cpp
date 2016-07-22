@@ -116,7 +116,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         int collected2 = show_2->collected();
         
         if (bg2->getChildByTag(0x10500) != NULL) {
-            bg2->removeChildByTag(0X10500);
+            bg2->removeChildByTag(0X10500, true);
         }
         
         CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
@@ -126,7 +126,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         bg2->addChild(name2);
         
         if (bg2->getChildByTag(0x10300) != NULL) {
-            bg2->removeChildByTag(0x10300);
+            bg2->removeChildByTag(0x10300, true);
         }
         
         CCString* collected_str2 = CCString::createWithFormat("服装收集: %d", collected2);
@@ -139,7 +139,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         int num = selectedIndex + 1;
         if (num >= 4 && num <= 9) {
             if (bg2->getChildByTag(0x10400) != NULL) {
-                bg2->removeChildByTag(0x10400);
+                bg2->removeChildByTag(0x10400, true);
             }
             
             CCSprite* spr = this->getNumSprite(num);
@@ -148,10 +148,10 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->addChild(spr);
         }else{
             if (bg2->getChildByTag(0x10600) != NULL) {
-                bg2->removeChildByTag(0x10600);
+                bg2->removeChildByTag(0x10600, true);
             }
             if (bg2->getChildByTag(0x10700) != NULL) {
-                bg2->removeChildByTag(0x10700);
+                bg2->removeChildByTag(0x10700, true);
             }
             
             CCSprite* spr1 = this->getNumSprite((int)floor(num/10));
@@ -200,7 +200,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         int collected1 = show->collected();
         
         if (bg1->getChildByTag(0x10500) != NULL) {
-            bg1->removeChildByTag(0X10500);
+            bg1->removeChildByTag(0X10500, true);
         }
         
             CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
@@ -211,7 +211,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         
         
         if (bg1->getChildByTag(0x10300) != NULL) {
-            bg1->removeChildByTag(0x10300);
+            bg1->removeChildByTag(0x10300, true);
         }
         CCString* collected_str1 = CCString::createWithFormat("服装收集: %d", collected1);
         CCLabelTTF* cloth_count1 = CCLabelTTF::create(collected_str1->getCString(), DISPLAY->fangzhengFont(), 16);
@@ -223,7 +223,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         int num1 = selectedIndex + 1;
         if (num1 >= 4 && num1 <= 9) {
             if (bg1->getChildByTag(0x10400) != NULL) {
-                bg1->removeChildByTag(0x10400);
+                bg1->removeChildByTag(0x10400, true);
             }
             
             CCSprite* spr = this->getNumSprite(num1);
@@ -232,10 +232,10 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->addChild(spr);
         }else{
             if (bg1->getChildByTag(0x10600) != NULL) {
-                bg1->removeChildByTag(0x10600);
+                bg1->removeChildByTag(0x10600, true);
             }
             if (bg1->getChildByTag(0x10700) != NULL) {
-                bg1->removeChildByTag(0x10700);
+                bg1->removeChildByTag(0x10700, true);
             }
             
             CCSprite* spr1 = this->getNumSprite((int)floor(num1/10));
@@ -282,7 +282,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         int collected2 = show_2->collected();
         
         if (bg2->getChildByTag(0x10500) != NULL) {
-            bg2->removeChildByTag(0X10500);
+            bg2->removeChildByTag(0X10500, true);
         }
         
         CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
@@ -292,7 +292,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         bg2->addChild(name2);
         
         if (bg2->getChildByTag(0x10300) != NULL) {
-            bg2->removeChildByTag(0x10300);
+            bg2->removeChildByTag(0x10300, true);
         }
         
         CCString* collected_str2 = CCString::createWithFormat("服装收集: %d", collected2);
@@ -305,7 +305,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         int num2 = selectedIndex + 1;
         if (num2 >= 4 && num2 <= 9) {
             if (bg2->getChildByTag(0x10400) != NULL) {
-                bg2->removeChildByTag(0x10400);
+                bg2->removeChildByTag(0x10400, true);
             }
             
             CCSprite* spr = this->getNumSprite(num2);
@@ -314,10 +314,10 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->addChild(spr);
         }else{
             if (bg2->getChildByTag(0x10600) != NULL) {
-                bg2->removeChildByTag(0x10600);
+                bg2->removeChildByTag(0x10600, true);
             }
             if (bg2->getChildByTag(0x10700) != NULL) {
-                bg2->removeChildByTag(0x10700);
+                bg2->removeChildByTag(0x10700, true);
             }
             
             CCSprite* spr1 = this->getNumSprite((int)floor(num2/10));
@@ -661,7 +661,7 @@ void TotalRankTableView::toBeFriend(CCMenuItem* btn){
     int index = ((CCInteger*)item->getUserObject())->getValue();
     
     CCNode* bg = (CCNode* )item->getParent()->getParent();
-    bg->removeChildByTag(0x10900);
+    bg->removeChildByTag(0x10900, true);
     CCArray* rankers = DATA->getRanking()->ranking();
     ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
     other->isadd = 1;
