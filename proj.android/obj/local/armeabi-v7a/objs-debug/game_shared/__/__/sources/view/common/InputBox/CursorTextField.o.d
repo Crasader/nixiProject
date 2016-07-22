@@ -233,7 +233,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/common/InputBox/
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
- jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/manager/DisplayManager.h
 
 jni/../../sources/view/common/InputBox/CursorTextField.h:
 
@@ -702,3 +703,5 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
+
+jni/../../sources/manager/DisplayManager.h:

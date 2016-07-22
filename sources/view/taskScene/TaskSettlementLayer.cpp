@@ -8,7 +8,6 @@
 
 #include "TaskSettlementLayer.h"
 #include "DataManager.h"
-#include "Loading.h"
 #include "ConfigManager.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"

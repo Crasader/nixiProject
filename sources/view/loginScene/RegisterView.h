@@ -43,6 +43,7 @@ protected:
     void shift_to_loginview(CCMenuItem* pSender);
     void send_register_request(CCMenuItem* pSender);
     bool check_can_send_request();
+    void show_privacy_policy();
     
 private:
 };

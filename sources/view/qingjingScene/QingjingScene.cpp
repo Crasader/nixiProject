@@ -374,16 +374,45 @@ void QingjingScene::qingjingStatus(){
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     int allTask = taskConditionsDic->count();
     
+//    for (int i = 0; i < allTask; i++) {
+//        CCString* story_index = CCString::createWithFormat("%d", i);
+//        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+//        if (storyArr != NULL) {
+//            continue;
+//        }else{
+//            now_task_index = i;
+//            break;
+//        }
+//    }
+    
+    bool tongguanBool = false;
     for (int i = 0; i < allTask; i++) {
         CCString* story_index = CCString::createWithFormat("%d", i);
         CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
         if (storyArr != NULL) {
-            continue;
+            for (int k = 0; k < storyArr->count(); k++) {
+                CCString* tongguanStr1 = CCString::createWithFormat("-1");
+                CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(k);
+                if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
+                    tongguanBool = true;
+                    CCLog("等于-1");
+                }else{
+                    CCLog("不等于-1");
+                }
+            }
+            
+            if (tongguanBool) {
+                tongguanBool = false;
+            }else{
+                now_task_index = i;
+                break;
+            }
         }else{
             now_task_index = i;
             break;
         }
     }
+    
     if (now_task_index == -1) {
         now_task_index = allTask - 1;
     }
