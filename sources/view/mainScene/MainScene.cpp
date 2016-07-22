@@ -12,6 +12,7 @@
 #include "QingjingScene.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"
+#include "NoticeManager.h"
 #include "AudioManager.h"
 
 //#include "HaoyouRankLayer.h"
@@ -576,16 +577,18 @@ void MainScene::creat_view(){
     menu->setPosition(CCPointZero);
     this->addChild(menu);
     
-//    CCSprite* txt_bar = CCSprite::create("res/pic/mainScene/txt_bar.png");
-//    txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
-//    this->addChild(txt_bar);
-//    
-//    
-//    CCLabelTTF* lab = CCLabelTTF::create("小秘书提醒：公司发展到关键阶段了，云总", DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-//    lab->setColor(ccc3(155, 84, 46));
-//    lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
-//    txt_bar->addChild(lab);
-    
+    // 通知信息
+    Notice* notice = NOTICE->fetch_notice();
+    if (notice) {
+        CCSprite* txt_bar = CCSprite::create("res/pic/mainScene/txt_bar.png");
+        txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
+        this->addChild(txt_bar);
+        
+        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        lab->setColor(ccc3(155, 84, 46));
+        lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
+        txt_bar->addChild(lab);
+    }
 }
 
 CCArray* MainScene::rand_array(CCArray *arr) {

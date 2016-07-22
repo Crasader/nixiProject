@@ -14,7 +14,7 @@ StoryComp::~StoryComp() {
 }
 
 bool StoryComp::init() {
-    _cmpleted_story = NULL;
+    _cmpleted_story = nullptr;
 
     return true;
 }
@@ -31,6 +31,7 @@ void StoryComp::init_with_json(Value json) {
 }
 
 CCDictionary* StoryComp::cmpleted_story() {
+    CCAssert(_cmpleted_story != nullptr, "剧情信息尚未初始化~!");
     return _cmpleted_story;
 }
 

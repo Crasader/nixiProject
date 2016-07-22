@@ -31,6 +31,7 @@ void MissionComp::init_with_json(Value json) {
 }
 
 CCDictionary* MissionComp::cmpleted_mission() {
+    CCAssert(_cmpleted_mission != nullptr, "任务信息尚未初始化~!");
     return _cmpleted_mission;
 }
 

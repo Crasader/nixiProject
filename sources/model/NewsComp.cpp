@@ -28,6 +28,7 @@ void NewsComp::init_with_json(Value json) {
     mail = json["I"].asInt();
     message = json["M"].asInt();
     paper = json["P"].asInt();
+    signin = json["S"].asInt();
     
     this->print_news();
 }
