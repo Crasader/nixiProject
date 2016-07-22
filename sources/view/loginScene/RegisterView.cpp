@@ -9,6 +9,7 @@
 #include "RegisterView.h"
 #include "DisplayManager.h"
 #include "AccountValidate.h"
+#include "PrivacyPolicyView.h"
 #include "PromptLayer.h"
 
 enum {
@@ -36,6 +37,7 @@ bool RegisterView::init()
     _validate = new AccountValidate();
     
 //    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RegisterView::update_account_info), NOTIFICATION_9669_DONE, NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RegisterView::start_regist), "Agree_PP", NULL);
     
     this->create_view();
     return true;
@@ -204,7 +206,7 @@ void RegisterView::send_register_request(CCMenuItem* pSender)
 //        else {
 //            this->message_box_did_selected_button(NULL, AH_BUTTON_TYPE_YESNO, AH_BUTTON_TAG_YES);
 //        }
-        this->start_regist();
+        this->show_privacy_policy();
     }
 }
 
@@ -213,6 +215,11 @@ void RegisterView::start_regist() {
     dic->setObject(ccs(_tf_account->getText()), "account");
     dic->setObject(ccs(_tf_password->getText()), "password");
     CCNotificationCenter::sharedNotificationCenter()->postNotification("start_regist", dic);
+}
+
+void RegisterView::show_privacy_policy() {
+    PrivacyPolicyView* view = PrivacyPolicyView::create();
+    this->getScene()->addChild(view);
 }
 
 //void RegisterView::message_box_did_selected_button(AHMessageBox *box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag) {
