@@ -133,11 +133,9 @@ void NotePanel::update(float dt){
     }
     unsigned long length = m_text->getText().length();
     const char* str = m_text->getText().c_str();
-//    CCLog("<><><><> NotePanel::update m_text == %s", m_text->getText().c_str());
     int chs_count = 0;
     int eng_count = 0;
     int cur_count = 0;
-//    const char* cur_str = "";
     for(int i = 0; i < length; i++){
         if (('0' <= str[i] && str[i] <= '9') || ('A' <= str[i] && str[i] <= 'Z') || ('a' <= str[i] && str[i] <= 'z')  || (32 <= str[i] && str[i] <= 47) || (58 <= str[i] && str[i] <= 64) || (91 <= str[i] && str[i] <= 96) || (123 <= str[i] && str[i] <= 126)) {
             eng_count++;
@@ -147,20 +145,11 @@ void NotePanel::update(float dt){
         cur_count = (int)ceil(chs_count/3) + eng_count;
         if(cur_count == 50){
             m_text->setMaxTextBytes(i);
+//            m_text->setText(m_text->getText().erase(i).c_str());
             break;
         }
         
-//        if (i > erase_pos) {
-//            m_text->setText(m_text->getText().erase(erase_pos).c_str());
-//        }
-        
-//        if(cur_count <= 50){
-//            cur_str += str[i];
-//        }
     }
-    
-    
-//    m_text->setText(cur_str);
     
     CCString* count_str = CCString::createWithFormat("%d", cur_count);
     _word_count = CCLabelTTF::create(count_str->getCString(), DISPLAY->fangzhengFont(), 19);

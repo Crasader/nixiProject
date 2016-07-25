@@ -141,8 +141,6 @@ bool FriendsListView::init() {
 void FriendsListView::onEnter() {
     CCLayer::onEnter();
     
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    
     this->_seletedIndex = 0;
     this->tableCellTouched(_tv, _tv->cellAtIndex(0));
 }

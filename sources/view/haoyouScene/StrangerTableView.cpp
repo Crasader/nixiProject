@@ -11,6 +11,7 @@
 #include "DisplayManager.h"
 #include "StrangerScene.h"
 #include "NetManager.h"
+#include "Loading2.h"
 
 const float NAME_FONT_SIZE = 22;
 
@@ -84,6 +85,12 @@ void StrangerTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vi
 void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
     if (selectedIndex != cell->getIdx()) {
+        CCLayer* layer = CCLayer::create();
+        layer->setTouchEnabled(true);
+        layer->setTouchSwallowEnabled(true);
+        layer->setTag(10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
+        
         // 需要变小
         CCSprite* bg1 = (CCSprite*)sprNode->getChildByTag(0x10000);
         CCTexture2D* tet;
@@ -99,7 +106,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         int collected1 = show->collected();
         
         if (bg1->getChildByTag(0x10500) != NULL) {
-            bg1->removeChildByTag(0X10500);
+            bg1->removeChildByTag(0X10500, true);
         }
         
         CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
@@ -109,7 +116,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
             bg1->addChild(name1);
         
         if (bg1->getChildByTag(0x10300) != NULL) {
-            bg1->removeChildByTag(0x10300);
+            bg1->removeChildByTag(0x10300, true);
         }
         
         CCString* collected_str1 = CCString::createWithFormat("服装收集: %d", collected1);
@@ -144,7 +151,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         int collected2 = show2->collected();
         
         if (bg2->getChildByTag(0x10500) != NULL) {
-            bg2->removeChildByTag(0X10500);
+            bg2->removeChildByTag(0X10500, true);
         }
         
             CCLabelTTF* name2 = CCLabelTTF::create(nickname2, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
@@ -154,7 +161,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
             bg2->addChild(name2);
         
         if (bg2->getChildByTag(0x10300) != NULL) {
-            bg2->removeChildByTag(0x10300);
+            bg2->removeChildByTag(0x10300, true);
         }
         
         CCString* collected_str2 = CCString::createWithFormat("服装收集: %d", collected2);
@@ -168,12 +175,6 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
         CCMenu* menu_add2 = (CCMenu*)bg2->getChildByTag(0x10400);
         menu_add2->setVisible(true);
         
-        
-        CCLayer* layer = CCLayer::create();
-        layer->setTouchEnabled(true);
-        layer->setTouchSwallowEnabled(true);
-        layer->setTag(10000);
-        CCDirector::sharedDirector()->getRunningScene()->addChild(layer, 10000);
         CCNotificationCenter::sharedNotificationCenter()->postNotification("ExitMan");
     }
 }
