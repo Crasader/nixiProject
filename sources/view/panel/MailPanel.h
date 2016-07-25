@@ -26,6 +26,9 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
+    
     virtual CCSize tableCellSizeForIndex(CCTableView *table, unsigned int idx);
     virtual CCSize cellSizeForTable(CCTableView *table);
     virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);

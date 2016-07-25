@@ -80,6 +80,11 @@ void BuildingView::onEnter() {
     
     _tbView->setContentOffset(CCPointZero);
     schedule(SEL_SCHEDULE(&BuildingView::update_produce), CCRANDOM_0_1() * 10);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&BuildingView::keyBackStatus), .8f);
+}
+void BuildingView::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void BuildingView::onExit() {
@@ -217,3 +222,17 @@ void BuildingView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
     FloorCell* floor = (FloorCell*)cell;
     floor->collected_coin();
 }
+
+
+void BuildingView::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->go_back();
+}
+
+

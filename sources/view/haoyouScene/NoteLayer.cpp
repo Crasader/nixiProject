@@ -32,6 +32,11 @@ bool NoteLayer::init(){
 void NoteLayer::onEnter(){
     BaseScene::onEnter();
     
+    
+    this->scheduleOnce(SEL_SCHEDULE(&NoteLayer::keyBackStatus), .8f);
+}
+void NoteLayer::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void NoteLayer::onExit(){

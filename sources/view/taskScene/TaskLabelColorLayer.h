@@ -26,6 +26,9 @@ public:
     
     bool init();
     
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
+    
     static TaskLabelColorLayer* create_with_index(const char* text);
     void init_with_index(const char* text);
     

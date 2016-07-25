@@ -29,6 +29,11 @@ void PhoneLayer2::onEnter(){
     BaseScene::onEnter();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&PhoneLayer2::_500CallBack), "HTTP_FINISHED_500", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&PhoneLayer2::keyBackStatus), .8f);
+}
+void PhoneLayer2::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 void PhoneLayer2::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
@@ -324,5 +329,16 @@ std::string PhoneLayer2::getContentByLength(int length){
 }
 int PhoneLayer2::getContentLength(){
     return contentLength;
+}
+
+void PhoneLayer2::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->backCallBack(NULL);
 }
 

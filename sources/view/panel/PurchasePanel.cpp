@@ -53,6 +53,11 @@ void PurchasePanel::onEnter() {
 
     this->init_content();
 //    this->do_enter();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::keyBackStatus), .8f);
+}
+void PurchasePanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void PurchasePanel::onExit() {
@@ -207,6 +212,17 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         CCLOG("can not purchases");
     }
 #endif
+}
+
+void PurchasePanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->remove();
 }
 
 

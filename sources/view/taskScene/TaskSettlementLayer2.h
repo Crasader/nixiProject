@@ -32,6 +32,7 @@ public:
     virtual bool init(int rating, int coin, int energy, bool isPhaseUP);
     virtual void onEnter();
     virtual void onExit();
+    void keyBackStatus(float dt);
     virtual void keyBackClicked();
     virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){}

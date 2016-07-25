@@ -103,6 +103,11 @@ void TotalRankScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::small_callback), "Small", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::exitMan), "ExitMan", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TotalRankScene::keyBackStatus), .8f);
+}
+void TotalRankScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void TotalRankScene::onExit(){
@@ -1283,3 +1288,15 @@ void TotalRankScene::initClothes(){
         }
     }
 }
+
+void TotalRankScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->btn_back_callback(NULL);
+}
+

@@ -61,6 +61,11 @@ void SettingPanel::onEnter() {
     this->setTouchSwallowEnabled(true);
     
 //    this->do_enter();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&SettingPanel::keyBackStatus), .8f);
+}
+void SettingPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void SettingPanel::onExit() {
@@ -126,3 +131,16 @@ void SettingPanel::on_effect(cocos2d::CCMenuItem *btn) {
     CCLOG("effect getSelectedIndex = %d", index);
     AUDIO->set_effect_on((bool)index);
 }
+
+
+void SettingPanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->remove();
+}
+

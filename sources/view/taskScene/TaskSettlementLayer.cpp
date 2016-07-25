@@ -66,6 +66,11 @@ void TaskSettlementLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskSettlementLayer::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
     
     SPECIAL->showPetal2At(this, DISPLAY->center(), 1);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskSettlementLayer::keyBackStatus), .8f);
+}
+void TaskSettlementLayer::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void TaskSettlementLayer::onExit(){

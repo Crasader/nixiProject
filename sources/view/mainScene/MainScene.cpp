@@ -135,6 +135,11 @@ void MainScene::onEnter(){
 //        CCSprite* spt = (CCSprite*)arr->objectAtIndex(i);
 //        this->play(spt);
 //    }
+    
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
+}
+void MainScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void MainScene::onExit(){
