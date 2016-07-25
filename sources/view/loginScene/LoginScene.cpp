@@ -93,7 +93,8 @@ void LoginScene::onEnter() {
     }
     CCLOG("%s", env_info.c_str());
     
-    if (CONFIG->has_saved_uuid()) {
+    bool autoLogin = DATA->getAutoLogin();
+    if (autoLogin && CONFIG->has_saved_uuid()) {
         CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
         logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
         this->addChild(logo);
@@ -102,7 +103,7 @@ void LoginScene::onEnter() {
         DATA->setLoginType(2);
         NET->fast_login_900(CONFIG->saved_uuid().c_str());
     }
-    else if (CONFIG->has_saved_account()) {
+    else if (autoLogin && CONFIG->has_saved_account()) {
         CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
         logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
         this->addChild(logo);
