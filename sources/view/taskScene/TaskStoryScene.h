@@ -123,6 +123,7 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {}
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {}
     
+    void keyBackStatus(float dt);
     virtual void keyBackClicked();
     
 public:

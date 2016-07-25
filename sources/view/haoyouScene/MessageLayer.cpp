@@ -36,6 +36,10 @@ void MessageLayer::onEnter(){
     BaseScene::onEnter();
     
     
+    this->scheduleOnce(SEL_SCHEDULE(&MessageLayer::keyBackStatus), .8f);
+}
+void MessageLayer::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void MessageLayer::onExit(){

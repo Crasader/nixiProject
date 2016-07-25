@@ -208,6 +208,11 @@ void TaskStoryScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_400CallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_603CallBack), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskStoryScene::keyBackStatus), .8f);
+}
+void TaskStoryScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 void TaskStoryScene::onExit(){
     this->unscheduleAllSelectors();

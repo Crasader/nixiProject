@@ -67,6 +67,11 @@ void OperationPanel::onEnter() {
 //    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
     
 //    this->do_enter();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&OperationPanel::keyBackStatus), .8f);
+}
+void OperationPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void OperationPanel::onExit() {
@@ -128,3 +133,17 @@ void OperationPanel::on_monthlycard(cocos2d::CCMenuItem *btn) {
     PromptLayer* prompt = PromptLayer::create();
     prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待!~");
 }
+
+
+void OperationPanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->remove();
+}
+
+

@@ -23,6 +23,10 @@ void TaskLabelColorLayer::onEnter(){
     CCLayer::onEnter();
     
     
+    this->scheduleOnce(SEL_SCHEDULE(&TaskLabelColorLayer::keyBackStatus), .8f);
+}
+void TaskLabelColorLayer::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 void TaskLabelColorLayer::onExit(){
     
@@ -205,4 +209,14 @@ bool TaskLabelColorLayer::isDkContainTouchPoint1(CCTouch* touch){
     return isDkRect().containsPoint(convertTouchToNodeSpaceAR(touch));
 }
 
+void TaskLabelColorLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->fhCallBack(NULL);
+}
 

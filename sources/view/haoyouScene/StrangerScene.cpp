@@ -818,3 +818,14 @@ void StrangerScene::schedule_count_down(float dt) {
         _countDown->setVisible(false);
     }
 }
+
+void StrangerScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->btn_back_callback(NULL);
+}

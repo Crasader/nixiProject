@@ -126,6 +126,11 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
+}
+void ClothesScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void ClothesScene::onExit(){
@@ -133,10 +138,6 @@ void ClothesScene::onExit(){
     this->unscheduleAllSelectors();
     
     BaseScene::onExit();
-}
-
-void ClothesScene::keyBackStatus(float dt){
-    
 }
 
 void ClothesScene::keyBackClicked(){

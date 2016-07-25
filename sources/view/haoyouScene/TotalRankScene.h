@@ -69,6 +69,9 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
+    
     void createView();
     void initTotalRank();
     

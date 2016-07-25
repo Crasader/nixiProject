@@ -42,6 +42,11 @@ void NotePanel::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&NotePanel::note_callback_809), "HTTP_FINISHED_809", NULL);
     this->initView();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&NotePanel::keyBackStatus), .8f);
+}
+void NotePanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void NotePanel::onExit(){
@@ -233,3 +238,16 @@ void NotePanel::onCursorTextFieldDetachWithIME(CursorTextField * sender) {
     note_panel->stopAllActions();
     note_panel->runAction(CCSequence::create(_actionMove, NULL));
 }
+
+void NotePanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->closeNotePanel();
+}
+
+

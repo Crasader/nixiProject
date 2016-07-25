@@ -32,6 +32,9 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
+    
     virtual void editBoxEditingDidBegin(CCEditBox* editBox);
     virtual void editBoxEditingDidEnd(CCEditBox* editBox);
     virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);

@@ -68,6 +68,11 @@ void MailPanel::onEnter() {
     
 //    this->do_enter();
     this->whether_mailbox_empty();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&MailPanel::keyBackStatus), .8f);
+}
+void MailPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void MailPanel::onExit() {
@@ -310,4 +315,16 @@ CCTableViewCell* MailPanel::tableCellAtIndex(CCTableView *table, unsigned int id
 unsigned int MailPanel::numberOfCellsInTableView(CCTableView *table) {
     CCArray* mails = DATA->getMail()->mails();
     return mails->count();
+}
+
+
+void MailPanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->remove();
 }
