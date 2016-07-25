@@ -66,6 +66,7 @@ public:
     CC_SYNTHESIZE_RETAIN(CoffersComp*, _coffers, Coffers);
     
     //
+    CC_SYNTHESIZE(int, _autoLogin, AutoLogin);
     CC_SYNTHESIZE(int, _loginType, LoginType);
     // 剧情选中数
     CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
@@ -93,7 +94,6 @@ public:
     
     // 陌生人刷新计时
     CC_SYNTHESIZE(time_t, _refreshTimeStampe, RefreshTimeStampe);
-    
     //
     bool could_prduce();
     
