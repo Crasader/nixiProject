@@ -46,6 +46,8 @@ public:
     void http_response_handle(int resp_code, string response);
     time_t cur_timestamp_msec();
     time_t cur_timestamp();
+    
+    void relogin();
 
 public:
     CC_SYNTHESIZE_RETAIN(LoginComp*, _login, Login);
@@ -105,7 +107,7 @@ private:
     void handle_protocol(int cid, Value content);
     void start_check_news();
     void update(float dt);
-    void relogin();
+    
 };
 
 #endif /* DataManager_hpp */

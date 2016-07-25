@@ -9,7 +9,7 @@
 #include "SettingPanel.h"
 #include "DisplayManager.h"
 #include "AudioManager.h"
-#include "LoginScene.h"
+#include "DataManager.h"
 
 SettingPanel::~SettingPanel() {
 }
@@ -39,14 +39,19 @@ bool SettingPanel::init() {
         CCMenuItemToggle* toggle_effect = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_effect), btn_effect_off, btn_effect_on, NULL);
         toggle_effect->setSelectedIndex((int)AUDIO->is_effect_on());
         
-//        CCSprite* back_nor = CCSprite::create();
-//        CCSprite* back_sel = CCSprite::create();
-//        CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_nor, back_sel, this, menu_selector(SettingPanel::on_back));
-        
         CCMenu* menu = CCMenu::create(toggle_music, toggle_effect, NULL);
         menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.52));
         menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.18);
         _panel->addChild(menu);
+        
+        CCSprite* back_nor = CCSprite::create("res/pic/panel/setting/relogin.png");
+        CCSprite* back_sel = CCSprite::create("res/pic/panel/setting/relogin.png");
+        back_sel->setScale(1.02f);
+        CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_nor, back_sel, this, menu_selector(SettingPanel::on_back));
+        item_back->setPosition(ccp(panelSize.width * 0.8, panelSize.height * 0.18));
+        CCMenu* menu_back = CCMenu::create(item_back, NULL);
+        menu_back->setPosition(CCPointZero);
+        _panel->addChild(menu_back);
         
         return true;
     }
@@ -129,8 +134,7 @@ void SettingPanel::on_effect(cocos2d::CCMenuItem *btn) {
     AUDIO->set_effect_on((bool)index);
 }
 
-//void SettingPanel::on_back(CCMenuItem *btn){
-//    CCScene* scene = L::scene();
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
-//}
+void SettingPanel::on_back(CCMenuItem *btn){
+    DATA->setAutoLogin(false);
+    DATA->relogin();
+}
