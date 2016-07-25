@@ -1,6 +1,6 @@
-obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/support/Loading.o: \
- jni/../../sources/view/support/Loading.cpp \
- jni/../../sources/view/support/Loading.h \
+obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/loginScene/PrivacyPolicyView.o: \
+ jni/../../sources/view/loginScene/PrivacyPolicyView.cpp \
+ jni/../../sources/view/loginScene/PrivacyPolicyView.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
@@ -208,9 +208,35 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/support/Loading.o: \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/data_support/uthash.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
+ jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
+ jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
+ jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
+ jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h \
+ jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/manager/DisplayManager.h
 
-jni/../../sources/view/support/Loading.h:
+jni/../../sources/view/loginScene/PrivacyPolicyView.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -625,5 +651,57 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/data_support/uthash.h:
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
+
+jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h:
+
+jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
 
 jni/../../sources/manager/DisplayManager.h:

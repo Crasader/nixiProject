@@ -236,6 +236,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/loginScene/RegisterV
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/loginScene/AccountValidate.h \
+ jni/../../sources/view/loginScene/PrivacyPolicyView.h \
  jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/loginScene/RegisterView.h:
@@ -709,5 +710,7 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/loginScene/AccountValidate.h:
+
+jni/../../sources/view/loginScene/PrivacyPolicyView.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:

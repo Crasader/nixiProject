@@ -214,8 +214,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  jni/../../sources/manager/ConfigManager.h \
@@ -243,6 +241,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/loginScene/LoginScene.h \
  jni/../../sources/view/taskScene/TaskSettlementLayer.h \
@@ -676,10 +676,6 @@ jni/../../../../lib/cocos2d-x/extensions/ProjectConfig/SimulatorConfig.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
 
-jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
-
-jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
-
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h:
@@ -743,6 +739,10 @@ jni/../../sources/model/PaperComp.h:
 jni/../../sources/model/CoffersComp.h:
 
 jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/manager/SpecialManager.h:
 

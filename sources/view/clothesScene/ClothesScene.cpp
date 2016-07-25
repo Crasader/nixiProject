@@ -103,7 +103,7 @@ bool ClothesScene::init(){
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
     
-    buttonTag = Tag_GJ_TouFa;
+    buttonTag = Tag_GJ_ShangYi;
     isClothesType = 0;
     _buttonStatus = 0;
     animationBool = false;
@@ -140,7 +140,14 @@ void ClothesScene::keyBackStatus(float dt){
 }
 
 void ClothesScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){

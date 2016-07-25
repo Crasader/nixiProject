@@ -105,6 +105,15 @@ void TaskSettlementLayer2::did_number_stoped4(){
 }
 
 void TaskSettlementLayer2::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    
+    
     
 }
 bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
