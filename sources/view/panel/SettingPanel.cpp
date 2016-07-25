@@ -9,15 +9,13 @@
 #include "SettingPanel.h"
 #include "DisplayManager.h"
 #include "AudioManager.h"
+#include "LoginScene.h"
 
 SettingPanel::~SettingPanel() {
 }
 
 bool SettingPanel::init() {
     if (CCLayer::init()) {
-//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-//        mask->setPosition(DISPLAY->center());
-//        this->addChild(mask);
         
         _content = CCLayer::create();
 //        _content->setScale(0.1);
@@ -40,6 +38,10 @@ bool SettingPanel::init() {
         CCMenuItemImage* btn_effect_on = CCMenuItemImage::create("res/pic/panel/setting/set_effect_on.png", "res/pic/panel/setting/set_effect_on.png");
         CCMenuItemToggle* toggle_effect = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_effect), btn_effect_off, btn_effect_on, NULL);
         toggle_effect->setSelectedIndex((int)AUDIO->is_effect_on());
+        
+//        CCSprite* back_nor = CCSprite::create();
+//        CCSprite* back_sel = CCSprite::create();
+//        CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_nor, back_sel, this, menu_selector(SettingPanel::on_back));
         
         CCMenu* menu = CCMenu::create(toggle_music, toggle_effect, NULL);
         menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.52));
@@ -126,3 +128,9 @@ void SettingPanel::on_effect(cocos2d::CCMenuItem *btn) {
     CCLOG("effect getSelectedIndex = %d", index);
     AUDIO->set_effect_on((bool)index);
 }
+
+//void SettingPanel::on_back(CCMenuItem *btn){
+//    CCScene* scene = L::scene();
+//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
+//}
