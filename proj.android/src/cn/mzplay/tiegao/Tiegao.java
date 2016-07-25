@@ -26,6 +26,7 @@ package cn.mzplay.tiegao;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 public class Tiegao extends Cocos2dxActivity {
 
@@ -37,4 +38,35 @@ public class Tiegao extends Cocos2dxActivity {
     static {
     	System.loadLibrary("game");
     }
+    
+    
+    
+    
+    @Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.i("", "===============onResume()");
+	}
+    
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		Log.i("", "================onPause()");
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		Log.i("", "================onBackPressed()");
+		super.onBackPressed();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		Log.i("", "================onDestroy()");
+		super.onDestroy();
+	}
 }

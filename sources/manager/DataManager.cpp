@@ -36,6 +36,7 @@ DataManager* DataManager::Inst() {
 
 void DataManager::init_data() {
     this->setRefreshTimeStampe(0);
+    this->setAutoLogin(true);
     
     this->setLogin(LoginComp::create());
     this->setPlayer(PlayerComp::create());

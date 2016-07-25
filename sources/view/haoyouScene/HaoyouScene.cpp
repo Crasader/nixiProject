@@ -78,7 +78,14 @@ void HaoyouScene::onExit(){
 }
 
 void HaoyouScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 void HaoyouScene::creat_view(){
