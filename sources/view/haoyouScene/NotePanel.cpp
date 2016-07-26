@@ -11,6 +11,7 @@
 #include "CursorTextField.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "FileManager.h"
 //#include "HaoyouRankLayer.h"
 #include "DataManager.h"
 #include "PromptLayer.h"
@@ -167,22 +168,37 @@ void NotePanel::btn_send_callback(){
     if (!_entranceType.empty() && _entranceType.compare("friend") == 0) {
         ShowComp* other = DATA->getSocial()->getSelectedFriendByIndex(_index);
         if (other) {
-            LOADING->show_loading();
-            NET->send_papar_809(other->getShowID().c_str(), m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(other->getShowID().c_str(), m_text->getText().c_str());
+            }
         }
     }
     else if (!_entranceType.empty() && _entranceType.compare("stranger") == 0) {
         const char* id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
         if (id) {
-            LOADING->show_loading();
-            NET->send_papar_809(id, m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(id, m_text->getText().c_str());
+            }
         }
     }
     else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
         const char* id = DATA->getPaper()->getReplyID();
         if (id) {
-            LOADING->show_loading();
-            NET->send_papar_809(id, m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(id, m_text->getText().c_str());
+            }
         }
     }
     else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
@@ -190,12 +206,15 @@ void NotePanel::btn_send_callback(){
         ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
         const char* id = show->getShowID().c_str();
         if (id) {
-            LOADING->show_loading();
-            NET->send_papar_809(id, m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(id, m_text->getText().c_str());
+            }
         }
     }
-    
-    
 }
 
 void NotePanel::note_callback_809(){
