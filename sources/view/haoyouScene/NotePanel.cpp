@@ -169,8 +169,11 @@ void NotePanel::btn_send_callback(){
         ShowComp* other = DATA->getSocial()->getSelectedFriendByIndex(_index);
         if (other) {
             if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
                 PromptLayer* tip = PromptLayer::create();
-                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
             }else{
                 LOADING->show_loading();
                 NET->send_papar_809(other->getShowID().c_str(), m_text->getText().c_str());
@@ -181,8 +184,11 @@ void NotePanel::btn_send_callback(){
         const char* id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
         if (id) {
             if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
                 PromptLayer* tip = PromptLayer::create();
-                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
             }else{
                 LOADING->show_loading();
                 NET->send_papar_809(id, m_text->getText().c_str());
@@ -193,8 +199,11 @@ void NotePanel::btn_send_callback(){
         const char* id = DATA->getPaper()->getReplyID();
         if (id) {
             if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
                 PromptLayer* tip = PromptLayer::create();
-                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
             }else{
                 LOADING->show_loading();
                 NET->send_papar_809(id, m_text->getText().c_str());
@@ -207,8 +216,11 @@ void NotePanel::btn_send_callback(){
         const char* id = show->getShowID().c_str();
         if (id) {
             if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
                 PromptLayer* tip = PromptLayer::create();
-                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "纸条中包含非法字符，请使用文明语言!");
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
             }else{
                 LOADING->show_loading();
                 NET->send_papar_809(id, m_text->getText().c_str());
