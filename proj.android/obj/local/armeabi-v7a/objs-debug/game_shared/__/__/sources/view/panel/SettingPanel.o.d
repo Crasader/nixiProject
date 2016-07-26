@@ -211,7 +211,30 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/panel/SettingPan
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/manager/DataManager.h \
+ jni/../../sources/third/Json/lib_json/json_lib.h \
+ jni/../../sources/third/Json/lib_json/autolink.h \
+ jni/../../sources/third/Json/lib_json/config.h \
+ jni/../../sources/third/Json/lib_json/value.h \
+ jni/../../sources/third/Json/lib_json/forwards.h \
+ jni/../../sources/third/Json/lib_json/reader.h \
+ jni/../../sources/third/Json/lib_json/features.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
+ jni/../../sources/third/Json/lib_json/writer.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
+ jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
+ jni/../../sources/model/MessageComp.h \
+ jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
+ jni/../../sources/model/NoticeComp.h \
+ jni/../../sources/model/PlayerComp.h \
+ jni/../../sources/model/RankingComp.h jni/../../sources/model/ShowComp.h \
+ jni/../../sources/model/SigninComp.h \
+ jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
+ jni/../../sources/model/PaperComp.h \
+ jni/../../sources/model/CoffersComp.h
 
 jni/../../sources/view/panel/SettingPanel.h:
 
@@ -636,3 +659,59 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/manager/DataManager.h:
+
+jni/../../sources/third/Json/lib_json/json_lib.h:
+
+jni/../../sources/third/Json/lib_json/autolink.h:
+
+jni/../../sources/third/Json/lib_json/config.h:
+
+jni/../../sources/third/Json/lib_json/value.h:
+
+jni/../../sources/third/Json/lib_json/forwards.h:
+
+jni/../../sources/third/Json/lib_json/reader.h:
+
+jni/../../sources/third/Json/lib_json/features.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
+
+jni/../../sources/third/Json/lib_json/writer.h:
+
+jni/../../sources/model/ClothesComp.h:
+
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
+
+jni/../../sources/model/LoginComp.h:
+
+jni/../../sources/model/MailComp.h:
+
+jni/../../sources/model/MessageComp.h:
+
+jni/../../sources/model/MissionComp.h:
+
+jni/../../sources/model/NewsComp.h:
+
+jni/../../sources/model/NoticeComp.h:
+
+jni/../../sources/model/PlayerComp.h:
+
+jni/../../sources/model/RankingComp.h:
+
+jni/../../sources/model/ShowComp.h:
+
+jni/../../sources/model/SigninComp.h:
+
+jni/../../sources/model/SocialComp.h:
+
+jni/../../sources/model/StoryComp.h:
+
+jni/../../sources/model/PaperComp.h:
+
+jni/../../sources/model/CoffersComp.h:

@@ -70,6 +70,11 @@ void StrangerScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::exitMan), "ExitMan",  NULL);
 //    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::update_man), "UpdateMan", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&StrangerScene::keyBackStatus), .8f);
+}
+void StrangerScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void StrangerScene::onExit(){
