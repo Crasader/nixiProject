@@ -89,6 +89,11 @@ void CoinExchangePanel::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&CoinExchangePanel::nc_exchange_coin_103), "HTTP_FINISHED_103", NULL);
     
 //    this->do_enter();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&CoinExchangePanel::keyBackStatus), .8f);
+}
+void CoinExchangePanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void CoinExchangePanel::onExit() {
@@ -155,5 +160,17 @@ void CoinExchangePanel::nc_exchange_coin_103(CCObject *pObj) {
     AUDIO->comfirm_effect();
     LOADING->remove();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    this->remove();
+}
+
+
+void CoinExchangePanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
     this->remove();
 }

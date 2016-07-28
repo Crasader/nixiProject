@@ -78,6 +78,11 @@ void QingjingScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::creat_Tishi), "Qingjing_Creat_Tishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::ExitTishi), "Qingjing_ExitTishi", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::keyBackStatus), .8f);
+}
+void QingjingScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 void QingjingScene::onExit(){
     this->unscheduleAllSelectors();
@@ -86,7 +91,14 @@ void QingjingScene::onExit(){
 }
 
 void QingjingScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 void QingjingScene::creat_view(){

@@ -68,6 +68,11 @@ void TaskSettlementLayer2::onEnter(){
     
     
     SPECIAL->showPetal2At(this, DISPLAY->center(), 1);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskSettlementLayer2::keyBackStatus), .8f);
+}
+void TaskSettlementLayer2::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 void TaskSettlementLayer2::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
@@ -105,6 +110,15 @@ void TaskSettlementLayer2::did_number_stoped4(){
 }
 
 void TaskSettlementLayer2::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    
+    
     
 }
 bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){

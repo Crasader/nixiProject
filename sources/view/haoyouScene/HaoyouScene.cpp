@@ -69,16 +69,17 @@ void HaoyouScene::onEnter(){
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::keyBackStatus), .8f);
+}
+void HaoyouScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void HaoyouScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     BaseScene::onExit();
-}
-
-void HaoyouScene::keyBackClicked(){
-    
 }
 
 void HaoyouScene::creat_view(){
@@ -801,5 +802,17 @@ void HaoyouScene::update_news_status() {
         spt->setPosition(ccp(72, 92));
         _zhitiaoItem->addChild(spt);
     }
+}
+
+
+void HaoyouScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->backCallBack(NULL);
 }
 

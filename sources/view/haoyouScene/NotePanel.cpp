@@ -11,6 +11,7 @@
 #include "CursorTextField.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "FileManager.h"
 //#include "HaoyouRankLayer.h"
 #include "DataManager.h"
 #include "PromptLayer.h"
@@ -42,6 +43,11 @@ void NotePanel::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&NotePanel::note_callback_809), "HTTP_FINISHED_809", NULL);
     this->initView();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&NotePanel::keyBackStatus), .8f);
+}
+void NotePanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void NotePanel::onExit(){
@@ -162,22 +168,46 @@ void NotePanel::btn_send_callback(){
     if (!_entranceType.empty() && _entranceType.compare("friend") == 0) {
         ShowComp* other = DATA->getSocial()->getSelectedFriendByIndex(_index);
         if (other) {
-            LOADING->show_loading();
-            NET->send_papar_809(other->getShowID().c_str(), m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(other->getShowID().c_str(), m_text->getText().c_str());
+            }
         }
     }
     else if (!_entranceType.empty() && _entranceType.compare("stranger") == 0) {
         const char* id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
         if (id) {
-            LOADING->show_loading();
-            NET->send_papar_809(id, m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(id, m_text->getText().c_str());
+            }
         }
     }
     else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
         const char* id = DATA->getPaper()->getReplyID();
         if (id) {
-            LOADING->show_loading();
-            NET->send_papar_809(id, m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(id, m_text->getText().c_str());
+            }
         }
     }
     else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
@@ -185,12 +215,18 @@ void NotePanel::btn_send_callback(){
         ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
         const char* id = show->getShowID().c_str();
         if (id) {
-            LOADING->show_loading();
-            NET->send_papar_809(id, m_text->getText().c_str());
+            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+                FILEM->replace_all_illegal(m_text->getText(), "**");
+//                m_text->setText(m_text->getText().c_str());
+                m_text->openIME();
+                PromptLayer* tip = PromptLayer::create();
+                tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "信息包含敏感字已替换成 ** ,是否继续发送?");
+            }else{
+                LOADING->show_loading();
+                NET->send_papar_809(id, m_text->getText().c_str());
+            }
         }
     }
-    
-    
 }
 
 void NotePanel::note_callback_809(){
@@ -233,3 +269,16 @@ void NotePanel::onCursorTextFieldDetachWithIME(CursorTextField * sender) {
     note_panel->stopAllActions();
     note_panel->runAction(CCSequence::create(_actionMove, NULL));
 }
+
+void NotePanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->closeNotePanel();
+}
+
+

@@ -103,6 +103,11 @@ void EnergyBuyPanel::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&EnergyBuyPanel::buy_energy_callback_101), "HTTP_FINISHED_101", NULL);
     
 //    this->do_enter();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&EnergyBuyPanel::keyBackStatus), .8f);
+}
+void EnergyBuyPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void EnergyBuyPanel::onExit() {
@@ -170,3 +175,17 @@ void EnergyBuyPanel::buy_energy_callback_101(CCObject *pObj) {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->remove();
 }
+
+
+void EnergyBuyPanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->remove();
+}
+
+

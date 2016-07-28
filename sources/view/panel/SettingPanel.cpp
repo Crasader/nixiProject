@@ -9,15 +9,13 @@
 #include "SettingPanel.h"
 #include "DisplayManager.h"
 #include "AudioManager.h"
+#include "DataManager.h"
 
 SettingPanel::~SettingPanel() {
 }
 
 bool SettingPanel::init() {
     if (CCLayer::init()) {
-//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-//        mask->setPosition(DISPLAY->center());
-//        this->addChild(mask);
         
         _content = CCLayer::create();
 //        _content->setScale(0.1);
@@ -46,6 +44,15 @@ bool SettingPanel::init() {
         menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.18);
         _panel->addChild(menu);
         
+        CCSprite* back_nor = CCSprite::create("res/pic/panel/setting/relogin.png");
+        CCSprite* back_sel = CCSprite::create("res/pic/panel/setting/relogin.png");
+        back_sel->setScale(1.02f);
+        CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_nor, back_sel, this, menu_selector(SettingPanel::on_back));
+        item_back->setPosition(ccp(panelSize.width * 0.8, panelSize.height * 0.18));
+        CCMenu* menu_back = CCMenu::create(item_back, NULL);
+        menu_back->setPosition(CCPointZero);
+        _panel->addChild(menu_back);
+        
         return true;
     }
     else {
@@ -61,6 +68,11 @@ void SettingPanel::onEnter() {
     this->setTouchSwallowEnabled(true);
     
 //    this->do_enter();
+    
+    this->scheduleOnce(SEL_SCHEDULE(&SettingPanel::keyBackStatus), .8f);
+}
+void SettingPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void SettingPanel::onExit() {
@@ -125,4 +137,20 @@ void SettingPanel::on_effect(cocos2d::CCMenuItem *btn) {
     int index = item->getSelectedIndex();
     CCLOG("effect getSelectedIndex = %d", index);
     AUDIO->set_effect_on((bool)index);
+}
+
+void SettingPanel::on_back(CCMenuItem *btn){
+    DATA->setAutoLogin(false);
+    DATA->relogin();
+}
+
+void SettingPanel::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->remove();
 }

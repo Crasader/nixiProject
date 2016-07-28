@@ -27,6 +27,8 @@ public:
     void onExit();
     
     bool init();
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}

@@ -92,6 +92,11 @@ void TaskScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::ExitTishi), "Task_ExitTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::exitView), "Task_ExitView", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::_startCallBack), "HTTP_FINISHED_400", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
+}
+void TaskScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void TaskScene::onExit(){
@@ -101,7 +106,14 @@ void TaskScene::onExit(){
 }
 
 void TaskScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 void TaskScene::creat_view(){

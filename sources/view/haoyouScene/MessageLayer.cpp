@@ -36,6 +36,10 @@ void MessageLayer::onEnter(){
     BaseScene::onEnter();
     
     
+    this->scheduleOnce(SEL_SCHEDULE(&MessageLayer::keyBackStatus), .8f);
+}
+void MessageLayer::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void MessageLayer::onExit(){
@@ -79,7 +83,14 @@ void MessageLayer::backCallBack(CCObject* pSender){
 }
 
 void MessageLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 void MessageLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){

@@ -22,6 +22,9 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
+    
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
@@ -34,6 +37,7 @@ private:
     
     void on_music(CCMenuItem* btn);
     void on_effect(CCMenuItem* btn);
+    void on_back(CCMenuItem* btn);
     
 private:
     CCLayer*            _content;

@@ -2095,9 +2095,8 @@ void StoryScene::didAccelerate( CCAcceleration* pAccelerationValue){
 //}
 
 void StoryScene::keyBackClicked(){
-    CCLog("===== StoryScene::keyBackClicked");
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-//    MZLog("===== children_num: %d", num_child);
+    CCLog("===== children_num: %d", num_child);
     if(num_child > 1)
     {
         return;

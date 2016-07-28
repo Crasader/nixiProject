@@ -73,6 +73,7 @@ public:
     
     virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
     
+    void keyBackStatus(float dt);
     virtual void keyBackClicked();
     
 public:

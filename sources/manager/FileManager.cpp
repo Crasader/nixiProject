@@ -26,7 +26,7 @@ int ReplaceStringWithGivenSubstring(string& src, const string& substring, const 
     return count;
 }
 
-int replace_all(std::string& str,const std::string& pattern,const std::string& newpat)
+int replace_all(std::string& str, const std::string& pattern, const std::string& newpat)
 {
     int count = 0;
     const size_t nsize = newpat.size();
@@ -34,7 +34,7 @@ int replace_all(std::string& str,const std::string& pattern,const std::string& n
     
     for(size_t pos = str.find(pattern, 0);
         pos != std::string::npos;
-        pos = str.find(pattern,pos + nsize))
+        pos = str.find(pattern, pos + nsize))
     {
         str.replace(pos, psize, newpat);
         count++;
@@ -127,9 +127,9 @@ const vector<string> FileManager::illegalWrods() {
     return _illegalWords;
 }
 
-bool FileManager::is_illegal(const char* name) {
+bool FileManager::is_illegal(const char* toCheck) {
     vector<string>cotents = this->illegalWrods();
-    return this->whether_contain_string(cotents, name);
+    return this->whether_contain_string(cotents, toCheck);
 }
 
 bool FileManager::whether_contain_string(vector<string>& contents, const char* str)
@@ -156,5 +156,21 @@ string FileManager::rand_item(vector<string>& contents) {
     unsigned long choosed = CCRANDOM_0_1() * count;
     CCLOG("FileManager::randItem() -- choosed : %ld", choosed);
     return contents.at(choosed);
+}
+
+void FileManager::replace_all_illegal(string& toCheck, const char *replace) {
+    vector<string>contents = this->illegalWrods();
+    unsigned long containerSize = contents.size();
+    for (int i = 0; i < containerSize; ++i)
+    {
+        string item = contents.at(i);
+        if (! item.empty()) {
+            char* res = strstr(toCheck.c_str(), item.c_str()) ;
+            if (res != NULL) {
+                replace_all(toCheck, item.c_str(), replace);
+                CCLOG("replace - %s", toCheck.c_str());
+            }
+        }
+    }
 }
 

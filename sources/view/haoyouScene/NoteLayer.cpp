@@ -32,6 +32,11 @@ bool NoteLayer::init(){
 void NoteLayer::onEnter(){
     BaseScene::onEnter();
     
+    
+    this->scheduleOnce(SEL_SCHEDULE(&NoteLayer::keyBackStatus), .8f);
+}
+void NoteLayer::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void NoteLayer::onExit(){
@@ -75,7 +80,14 @@ void NoteLayer::backCallback(CCObject* pSender){
 }
 
 void NoteLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallback(NULL);
 }
 
 void NoteLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){

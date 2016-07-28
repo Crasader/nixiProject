@@ -103,7 +103,7 @@ bool ClothesScene::init(){
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
     
-    buttonTag = Tag_GJ_TouFa;
+    buttonTag = Tag_GJ_ShangYi;
     isClothesType = 0;
     _buttonStatus = 0;
     animationBool = false;
@@ -126,6 +126,11 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
+}
+void ClothesScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void ClothesScene::onExit(){
@@ -135,12 +140,15 @@ void ClothesScene::onExit(){
     BaseScene::onExit();
 }
 
-void ClothesScene::keyBackStatus(float dt){
-    
-}
-
 void ClothesScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 bool ClothesScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
