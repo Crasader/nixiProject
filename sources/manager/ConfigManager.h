@@ -43,9 +43,9 @@ public:
     static ConfigManager* Inst();
     void config();
     
-public:
-    int                     net;
+public:    
     string                  login_addr;
+    string                  chator_addr;
     
 public: //test
     void test_mission_count();
@@ -53,6 +53,7 @@ public: //test
     
 private:
     void conf_login_addr(int net);
+    void conf_chat_addr(int chat);
     void conf_mission();
     void conf_mission_dialog(int phase);
     void conf_clothes();

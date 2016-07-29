@@ -92,6 +92,7 @@ void CoinExchangePanel::onEnter() {
     
     this->scheduleOnce(SEL_SCHEDULE(&CoinExchangePanel::keyBackStatus), .8f);
 }
+
 void CoinExchangePanel::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
