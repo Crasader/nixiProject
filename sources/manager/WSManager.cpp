@@ -91,7 +91,6 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
         }
         
         CCLOG("WSManager::onMessage() - %s", binaryStr.c_str());
-//        _sendBinaryStatus->setString(binaryStr.c_str());
     }
 }
 

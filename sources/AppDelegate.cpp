@@ -19,7 +19,7 @@ using namespace CocosDenshion;
 
 
 // -------------------- 4 test ---------------------
-#include "FileManager.h"
+
 
 AppDelegate::AppDelegate()
 {
@@ -62,7 +62,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     CONFIG->config();
 //    CONFIG->test_mission_count();
 //    CONFIG->test_phase_up_required();
-    
+
     //
     AUDIO->play_main_bgm();
     //
