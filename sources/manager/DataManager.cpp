@@ -54,6 +54,7 @@ void DataManager::init_data() {
     this->setStory(StoryComp::create());
     this->setPaper(PaperComp::create());
     this->setCoffers(CoffersComp::create());
+    this->setChat(ChatComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {

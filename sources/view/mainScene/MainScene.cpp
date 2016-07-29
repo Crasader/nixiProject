@@ -14,6 +14,7 @@
 #include "ClothesScene.h"
 #include "NoticeManager.h"
 #include "AudioManager.h"
+#include "WSManager.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -846,6 +847,7 @@ void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        WS->connect();
     }
 }
 
