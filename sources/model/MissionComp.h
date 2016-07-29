@@ -18,16 +18,16 @@ using namespace CSJson;
 
 class MissionComp : public CCObject
 {
+public: // Export
+    CCDictionary* cmpleted_mission();
+    int mission_rating(const char* mission_index);
+    
 public:
     ~MissionComp();
     CREATE_FUNC(MissionComp);
     bool init();
     void init_with_json(Value json);
     
-public:
-    CCDictionary* cmpleted_mission();
-    int mission_rating(const char* mission_index);
-        
 private:
     CCDictionary*           _cmpleted_mission;
 };

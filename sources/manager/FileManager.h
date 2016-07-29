@@ -21,8 +21,9 @@ class FileManager : public CCObject
 {
 public:
     static FileManager* Inst();
-    bool is_illegal(const char* name);
+    bool is_illegal(const char* toCheck);
     bool whether_contain_string(vector<string>& contents, const char* str);
+    void replace_all_illegal(string& toCheck, const char* replace);
     
 public:
     ~FileManager();

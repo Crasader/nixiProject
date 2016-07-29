@@ -17,16 +17,7 @@ USING_NS_CC;
 
 class ConfigManager
 {
-public:
-    ~ConfigManager();
-    static ConfigManager* Inst();
-    void config();
-    
-public:
-    int                     net;
-    string                  login_addr;
-
-public:
+public: // Export
     int mission_count(int phase);
     int mission_index_in_phase(int mission, int phase);
     int phase_up_required(int phase);       // 某公司阶段的升级总星要求
@@ -36,7 +27,7 @@ public:
     CCArray* getMissionDialog(int phase, int taskID);
     
     CCDictionary* clothes();
-
+    
     bool has_saved_uuid();
     void save_uuid(const char* str);
     string saved_uuid();
@@ -46,6 +37,15 @@ public:
     string saved_password();
     void save_account(const char* str);
     void save_password(const char* str);
+    
+public:
+    ~ConfigManager();
+    static ConfigManager* Inst();
+    void config();
+    
+public:
+    int                     net;
+    string                  login_addr;
     
 public: //test
     void test_mission_count();

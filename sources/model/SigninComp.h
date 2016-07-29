@@ -4,7 +4,6 @@
 //
 //  Created by mac on 16/5/24.
 //
-//
 
 #ifndef SigninComp_hpp
 #define SigninComp_hpp
