@@ -21,7 +21,7 @@ public:
     CREATE_FUNC(SigninComp);
     bool init();
     
-    void init_with_json(Value json);
+    void parse_signin7_info(Value json);
     
 public:
     

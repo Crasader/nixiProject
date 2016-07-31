@@ -38,6 +38,7 @@
 
 // --------------- test ----------------
 
+
 MainScene::MainScene(){
     
 }
@@ -140,6 +141,7 @@ void MainScene::onEnter(){
     
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
 }
+
 void MainScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
@@ -840,6 +842,8 @@ void MainScene::homeCallBack(CCObject *pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
+        
+        NET->signin7_info_302();
     }
 }
 

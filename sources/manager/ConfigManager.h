@@ -18,6 +18,7 @@ USING_NS_CC;
 class ConfigManager
 {
 public: // Export
+    // 任务
     int mission_count(int phase);
     int mission_index_in_phase(int mission, int phase);
     int phase_up_required(int phase);       // 某公司阶段的升级总星要求
@@ -25,9 +26,9 @@ public: // Export
     
     CCDictionary* missionDialog();
     CCArray* getMissionDialog(int phase, int taskID);
-    
+    // 衣服
     CCDictionary* clothes();
-    
+    // 登录
     bool has_saved_uuid();
     void save_uuid(const char* str);
     string saved_uuid();
@@ -37,6 +38,8 @@ public: // Export
     string saved_password();
     void save_account(const char* str);
     void save_password(const char* str);
+    // 签到
+    CCArray* signin7_template();
     
 public:
     ~ConfigManager();
@@ -50,6 +53,7 @@ public:
 public: //test
     void test_mission_count();
     void test_phase_up_required();
+    void test_signin7();
     
 private:
     void conf_login_addr(int net);
@@ -57,12 +61,14 @@ private:
     void conf_mission();
     void conf_mission_dialog(int phase);
     void conf_clothes();
+    void conf_signin7();
 
 private:
     bool            _hasconfig;
     CCArray*        _mission;
     CCDictionary*   _missionDialog;
     CCDictionary*   _clothes;
+    CCArray*        _signin7;
 };
 
 #endif /* ConfigManager_hpp */
