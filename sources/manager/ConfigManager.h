@@ -53,7 +53,7 @@ public:
 public: //test
     void test_mission_count();
     void test_phase_up_required();
-    void test_signin7();
+    void test_signin7Template();
     
 private:
     void conf_login_addr(int net);
@@ -61,14 +61,14 @@ private:
     void conf_mission();
     void conf_mission_dialog(int phase);
     void conf_clothes();
-    void conf_signin7();
+    void conf_signin7Template();
 
 private:
     bool            _hasconfig;
     CCArray*        _mission;
     CCDictionary*   _missionDialog;
     CCDictionary*   _clothes;
-    CCArray*        _signin7;
+    CCArray*        _signin7Template;
 };
 
 #endif /* ConfigManager_hpp */

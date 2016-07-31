@@ -19,7 +19,7 @@ ConfigManager::~ConfigManager() {
     CC_SAFE_DELETE(_mission);
     CC_SAFE_DELETE(_clothes);
     CC_SAFE_DELETE(_missionDialog);
-    CC_SAFE_DELETE(_signin7);
+    CC_SAFE_DELETE(_signin7Template);
 }
 
 ConfigManager* ConfigManager::Inst() {
@@ -28,7 +28,7 @@ ConfigManager* ConfigManager::Inst() {
         _instance->_hasconfig = false;
         _instance->_mission = nullptr;
         _instance->_clothes = nullptr;
-        _instance->_signin7 = nullptr;
+        _instance->_signin7Template = nullptr;
     }
     
     return _instance;
@@ -177,11 +177,11 @@ void ConfigManager::save_password(const char *str) {
 }
 
 CCArray* ConfigManager::signin7_template() {
-    if (! _signin7) {
-        this->conf_signin7();
+    if (! _signin7Template) {
+        this->conf_signin7Template();
     }
     
-    return _signin7;
+    return _signin7Template;
 }
 
 #pragma mark - inner API
@@ -282,7 +282,7 @@ void ConfigManager::conf_mission_dialog(int phase) {
     _missionDialog->setObject(allPahseMission, phase);
 }
 
-void ConfigManager::conf_signin7() {
+void ConfigManager::conf_signin7Template() {
     /*
     "id" : 跟第几天相关
     "type" : 类型， 如："clothes",
@@ -291,8 +291,8 @@ void ConfigManager::conf_signin7() {
     */
     const char* config_file = "conf/signin7";
     CSJson::Value root = AppUtil::read_json_file(config_file);
-    _signin7 = AppUtil::array_with_json(root);
-    _signin7->retain();
+    _signin7Template = AppUtil::array_with_json(root);
+    _signin7Template->retain();
 }
 
 
@@ -309,9 +309,9 @@ void ConfigManager::test_phase_up_required() {
     }
 }
 
-void ConfigManager::test_signin7() {
+void ConfigManager::test_signin7Template() {
     CCObject* pObj = NULL;
-    CCARRAY_FOREACH(_signin7, pObj) {
+    CCARRAY_FOREACH(_signin7Template, pObj) {
         CCDictionary* item = (CCDictionary*)pObj;
         CCLOG("签到 id = %s", item->valueForKey("id")->getCString());
         CCLOG("签到 type = %s", item->valueForKey("type")->getCString());
