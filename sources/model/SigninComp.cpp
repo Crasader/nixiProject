@@ -16,9 +16,9 @@ CCArray* SigninComp::signin7_template() {
     return CONFIG->signin7_template();
 }
 
-SigninState SigninComp::fetch_signin7_state(int id) {
-    CCInteger* state = (CCInteger*)_signin7Info->objectAtIndex(id - 1);
-    return (SigninState)state->getValue();
+SigninState SigninComp::fetch_signin7_state(string& id) {
+    const CCString* state = _signin7Info->valueForKey(id);
+    return (SigninState)state->intValue();
 }
 
 #pragma mark - Inner API
@@ -40,6 +40,7 @@ void SigninComp::parse_signin7_info(Value json) {
     }
     
     CC_SAFE_RELEASE(_signin7Info);
-    _signin7Info = AppUtil::array_with_json(json);
+    _signin7Info = AppUtil::dictionary_with_json(json);
     _signin7Info->retain();
 }
+

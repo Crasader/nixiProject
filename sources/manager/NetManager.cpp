@@ -324,10 +324,11 @@ void NetManager::signin7_info_302() {
     this->post_data(302, string(""));
 }
 
-void NetManager::perform_signin7_303() {
+void NetManager::perform_signin7_303(string id) {
     FastWriter writer;
     Value root;
-    root["id"] = (int)DATA->cur_timestamp();
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(303, data);
 }

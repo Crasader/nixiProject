@@ -15,6 +15,7 @@
 #include "NoticeManager.h"
 #include "AudioManager.h"
 #include "WSManager.h"
+#include "Signin7Panel.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -119,6 +120,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
@@ -162,7 +164,6 @@ void MainScene::didAccelerate( CCAcceleration* pAccelerationValue){
     float sensitivity = 500;
     
     playerVelocity.x = playerVelocity.x * deceleration+ pAccelerationValue->x*sensitivity;
-    
     playerVelocity.x = playerVelocity.x / 10;
 }
 
@@ -842,8 +843,6 @@ void MainScene::homeCallBack(CCObject *pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
-        
-        NET->signin7_info_302();
     }
 }
 
@@ -851,7 +850,6 @@ void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
-        WS->connect();
     }
 }
 
@@ -864,10 +862,12 @@ void MainScene::huodongCallBack(CCObject* pSender){
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
-    AUDIO->shop_effect();
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        NET->signin7_info_302();
     }
 }
 
@@ -927,6 +927,11 @@ void MainScene::paihangCallBack(CCObject* pSender){
 
 void MainScene::rankList_callback_300(CCObject *pObj){
     NET->all_friends_806();
+}
+
+void MainScene::nc_signin_info_302(CCObject *pObj) {
+    LOADING->remove();
+    Signin7Panel::show();
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){

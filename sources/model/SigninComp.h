@@ -25,7 +25,7 @@ class SigninComp : public CCObject
 {
 public: // Export
     CCArray* signin7_template();                // 7日签模版
-    SigninState fetch_signin7_state(int id);    // 签到状态
+    SigninState fetch_signin7_state(string& id);    // 签到状态
     
 public:
     ~SigninComp();
@@ -36,7 +36,7 @@ public:
 protected:
     
 private:
-    CCArray*            _signin7Info;
+    CCDictionary*            _signin7Info;
 };
 
 #endif /* SigninComp_hpp */
