@@ -375,3 +375,13 @@ void NetManager::exchange_coin_103() {
     this->post_data(103, data);
 }
 
+void NetManager::verify_order_android_105(string &orderId, string &productId) {
+    FastWriter writer;
+    Value root;
+    root["order_id"] = orderId;
+    root["product_id"] = productId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(105, data);
+}
+

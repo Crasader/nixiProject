@@ -37,6 +37,8 @@ private:
     void remove();
     void on_bar_clicked(CCMenuItem* item);
     
+    void nc_verify_android_105(CCObject* pObj);
+    
 private:
     CCLayer*            _content;
     CCSprite*           _panel;

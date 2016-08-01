@@ -49,7 +49,7 @@ void PurchasePanel::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
 
     this->init_content();
 //    this->do_enter();
@@ -200,6 +200,7 @@ void PurchasePanel::remove() {
 void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     ProductItem* pro = (ProductItem* )item->getUserObject();
     CCLOG("clicked %s", pro->id.c_str());
+/*
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 //    LOADING->show_loading();
@@ -212,6 +213,10 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         CCLOG("can not purchases");
     }
 #endif
+*/
+    LOADING->show_loading();
+    string orderId = "";
+    NET->verify_order_android_105(orderId, pro->id);
 }
 
 void PurchasePanel::keyBackClicked(){
@@ -225,4 +230,8 @@ void PurchasePanel::keyBackClicked(){
     this->remove();
 }
 
+void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
 

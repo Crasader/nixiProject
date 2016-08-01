@@ -81,6 +81,7 @@ public:
     void all_products_100();
     void buy_energy_101();
     void exchange_coin_103();
+    void verify_order_android_105(string& orderId, string& productId);
     
 private:
     string generate_sign(int cid, const char* data);
