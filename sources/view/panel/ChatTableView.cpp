@@ -8,6 +8,8 @@
 
 #include "ChatTableView.h"
 #include "DisplayManager.h"
+#include "ChatComp.h"
+#include "DataManager.h"
 
 ChatTableView::~ChatTableView(){
     
@@ -17,10 +19,13 @@ bool ChatTableView::init(){
     if (!CCLayer::init()) {
         return false;
     }
+    
+    cell_num = 0;
+    
 
     pTableView = CCTableView::create(this, CCSizeMake(526, 73*8));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
-    pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
+    pTableView->setVerticalFillOrder(kCCTableViewFillBottomUp);
     pTableView->ignoreAnchorPointForPosition(false);
     pTableView->setAnchorPoint(CCPoint(0.5, 0));
     pTableView->setPosition(ccp(0, 0));
@@ -34,10 +39,30 @@ bool ChatTableView::init(){
 
 void ChatTableView::onEnter(){
     CCLayer::onEnter();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&ChatTableView::insertMessage), "NEW_CHAT", NULL);
 }
 
 void ChatTableView::onExit(){
     CCLayer::onExit();
+}
+
+void ChatTableView::insertMessage(CCObject *pObj){
+//    ChatItem* chat = (ChatItem*)pObj;
+//    insert_name = chat->name.c_str();
+//    insert_chat = chat->chat.c_str();
+//    
+//    pTableView->insertCellAtIndex(DATA->getChat()->getItems()->count());
+//    pTableView->setContentOffset(CCPoint(0, -73));
+//    pTableView->_updateCellPositions();
+    pTableView->reloadData();
+//    this->updateCellPosition();
+//    CCLOG("NUM = %d", DATA->getChat()->getItems()->count());
+}
+
+void ChatTableView::updateCellPosition(){
+    
 }
 
 CCTableViewCell* ChatTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
@@ -56,7 +81,9 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     CCSprite* bg = CCSprite::create("res/pic/panel/chat/text_bg_2.png");
     bg->setPosition(ccp(bg->getContentSize().width* .5f, bg->getContentSize().height* .5f));
     
-    CCLabelTTF* nickname = CCLabelTTF::create("昵称七个字以内:", DISPLAY->fangzhengFont(), 17);
+    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(index);
+    const char* insert_name = chat->name.c_str();
+    CCLabelTTF* nickname = CCLabelTTF::create(insert_name, DISPLAY->fangzhengFont(), 17);
     nickname->setAnchorPoint(CCPointZero);
     nickname->setColor(ccc3(248, 83, 18));
     nickname->setPosition(ccp(bg->getContentSize().width* .05f, bg->getContentSize().height* .55f));
@@ -69,7 +96,8 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     bg->addChild(name_bg);
     bg->addChild(nickname);
     
-    CCLabelTTF* message = CCLabelTTF::create("消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行", DISPLAY->fangzhengFont(), 14, CCSizeMake(bg->getContentSize().width* .9f - nickname->getContentSize().width - 5, 60), kCCTextAlignmentLeft);
+    const char* insert_chat = chat->chat.c_str();
+    CCLabelTTF* message = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 14, CCSizeMake(bg->getContentSize().width* .9f - nickname->getContentSize().width - 5, 60), kCCTextAlignmentLeft);
     message->setColor(ccc3(171, 107, 119));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width + 5, bg->getContentSize().height* .39f));
@@ -87,7 +115,7 @@ CCSize ChatTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){
 }
 
 unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
-    return 20;
+    return DATA->getChat()->getItems()->count();
 }
 
 //CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){

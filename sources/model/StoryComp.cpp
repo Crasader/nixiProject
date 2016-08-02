@@ -20,8 +20,8 @@ bool StoryComp::init() {
 }
 
 void StoryComp::init_with_json(Value json) {
-    if (json.type() == nullValue && !json.isObject()) {
-        CCLOG("<ERROR> MissionComp::init_with_json() json object error.");
+    if (json.type() == nullValue) {
+        CCLOG("<ERROR> StoryComp::init_with_json() json object error.");
         return;
     }
     

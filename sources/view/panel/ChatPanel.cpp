@@ -9,6 +9,7 @@
 #include "ChatPanel.h"
 #include "DisplayManager.h"
 #include "ChatTableView.h"
+#include "WSManager.h"
 
 
 ChatPanel::~ChatPanel(){
@@ -112,6 +113,7 @@ void ChatPanel::initTopMessage(){
 
 void ChatPanel::btn_sendMessage(CCMenuItem *item){
     
+//    WS->send();
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
@@ -129,10 +131,8 @@ void ChatPanel::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
 void ChatPanel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
     CCPoint pos = _panel_bg->convertToNodeSpace(pTouch->getLocation());
     if (_input_bg->boundingBox().containsPoint(pos)) {
-        CCLOG("ATTACH IME");
         _input_text->attachWithIME();
     }else{
-        CCLOG("DETACH IME");
         _input_text->detachWithIME();
     }
 }

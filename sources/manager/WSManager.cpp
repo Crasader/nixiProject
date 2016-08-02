@@ -7,16 +7,16 @@
 //
 
 #include "WSManager.h"
+#include "ConfigManager.h"
 #include "DataManager.h"
 #include "ChatComp.h"
 #include "BarrageView.h"
 #include "json_lib.h"
+#include "ChatPanel.h"
 
 using namespace CSJson;
 
 static WSManager* _instance = nullptr;
-
-const int CONNECT_TIMEOUT = 60;
 
 #pragma mark - Export API
 
@@ -25,11 +25,9 @@ void WSManager::show_barrage() {
 }
 
 void WSManager::connect() {
-//        const char* addr = "ws://localhost:8080/websocket";
-    const char* addr = "ws://192.168.1.234:8080/websocket";
-//        const char* addr = "ws://echo.websocket.org";
-    WebSocket* ws = new WebSocket();
-    ws->init(*_instance, addr);
+    _ws = new WebSocket();
+    CCLOG("WS start connect to chat server addr: %s", CONFIG->chator_addr.c_str());
+    _ws->init(*_instance, CONFIG->chator_addr);
 }
 
 void WSManager::send(const string& msg) {
@@ -38,7 +36,7 @@ void WSManager::send(const string& msg) {
 
 void WSManager::disconnect() {
     if (_ws) {
-        CC_SAFE_DELETE(_ws);
+        _ws->close();
     }
 }
 
@@ -52,7 +50,7 @@ WSManager::~WSManager() {
 WSManager* WSManager::Inst() {
     if (_instance == nullptr) {
         _instance = new WSManager();
-        _instance->_ws = nullptr;
+        _instance->_ws = NULL;
     }
     
     return _instance;
@@ -62,7 +60,9 @@ WSManager* WSManager::Inst() {
 
 void WSManager::onOpen(WebSocket* ws) {
     CCLOG("Websocket (%p) opened", ws);
-    BarrageView::show();
+//    BarrageView::show();
+    ChatPanel* panel = ChatPanel::create();
+    CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
 }
 
 void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
@@ -102,6 +102,7 @@ void WSManager::onClose(WebSocket* ws) {
     CCLOG("websocket instance (%p) closed.", ws);
     // Delete websocket instance.
     CC_SAFE_DELETE(ws);
+    ws = NULL;
 }
 
 void WSManager::onError(WebSocket* ws, const WebSocket::ErrorCode& error) {

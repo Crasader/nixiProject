@@ -7,19 +7,40 @@
 //
 
 #include "SigninComp.h"
+#include "AppUtil.h"
+#include "ConfigManager.h"
+
+#pragma mark - Export API
+
+CCArray* SigninComp::signin7_template() {
+    return CONFIG->signin7_template();
+}
+
+SigninState SigninComp::fetch_signin7_state(string& id) {
+    const CCString* state = _signin7Info->valueForKey(id);
+    return (SigninState)state->intValue();
+}
+
+#pragma mark - Inner API
 
 SigninComp::~SigninComp() {
+    CC_SAFE_DELETE(_signin7Info);
 }
 
 bool SigninComp::init() {
+    _signin7Info = NULL;
 
     return true;
 }
 
-void SigninComp::init_with_json(Value json) {
-    if (json.type() == nullValue && !json.isObject()) {
-        CCLOG("SigninComp::init_with_json() json object error.");
+void SigninComp::parse_signin7_info(Value json) {
+    if (json.type() == nullValue) {
+        CCLOG("SigninComp::parse_signin7_info() json object error.");
         return;
     }
     
+    CC_SAFE_RELEASE(_signin7Info);
+    _signin7Info = AppUtil::dictionary_with_json(json);
+    _signin7Info->retain();
 }
+

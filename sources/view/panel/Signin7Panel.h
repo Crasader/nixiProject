@@ -1,27 +1,26 @@
 //
-//  BarrageView.hpp
+//  Signin7Panel.hpp
 //  tiegao
 //
-//  Created by mac on 16/7/29.
+//  Created by mac on 16/8/1.
 //
 //
 
-#ifndef BarrageView_hpp
-#define BarrageView_hpp
+#ifndef Signin7Panel_hpp
+#define Signin7Panel_hpp
 
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-class BarrageView : public CCLayer
+class Signin7Panel : public CCLayer
 {
-public:
+public: // Export
     static void show();
-    void addNewChat(CCObject* pObj);
     
 public:
-    ~BarrageView();
-    CREATE_FUNC(BarrageView);
+    ~Signin7Panel();
+    CREATE_FUNC(Signin7Panel);
     virtual bool init();
     virtual void onEnter();
     virtual void onExit();
@@ -35,6 +34,8 @@ private:
     void remove();
     
 private:
+    CCLayer*            _content;
+    CCSprite*           _panel;
 };
 
-#endif /* BarrageView_hpp */
+#endif /* Signin7Panel_hpp */

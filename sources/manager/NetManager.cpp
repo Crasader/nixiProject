@@ -320,6 +320,19 @@ void NetManager::ranking_list_300() {
     this->post_data(300, string(""));
 }
 
+void NetManager::signin7_info_302() {
+    this->post_data(302, string(""));
+}
+
+void NetManager::perform_signin7_303(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(303, data);
+}
+
 
 void NetManager::coffers_info_200() {
     this->post_data(200, string(""));
@@ -328,7 +341,7 @@ void NetManager::coffers_info_200() {
 void NetManager::collect_coin_201() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(201, data);
 }
@@ -336,7 +349,7 @@ void NetManager::collect_coin_201() {
 void NetManager::take_income_203() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(203, data);
 }
@@ -349,7 +362,7 @@ void NetManager::all_products_100() {
 void NetManager::buy_energy_101() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(101, data);
 }
@@ -357,7 +370,7 @@ void NetManager::buy_energy_101() {
 void NetManager::exchange_coin_103() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(103, data);
 }

@@ -43,7 +43,7 @@ CSJson::Value AppUtil::read_json_file(const char* filename) {
     char* file_data = AppUtil::read_file(filename);
     CSJson::Reader reader;
     CSJson::Value root;
-    if (!reader.parse(file_data, root, false)) {
+    if (! reader.parse(file_data, root, false)) {
         CCLOG("AppUtil::read_json_file(%s) error!~", filename);
         return CSJson::nullValue;
     }

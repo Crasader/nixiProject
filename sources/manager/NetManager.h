@@ -71,6 +71,8 @@ public:
     void save_dressed_401(CCDictionary* dressed);
     
     void ranking_list_300();
+    void signin7_info_302();
+    void perform_signin7_303(string id);
     
     void coffers_info_200();
     void collect_coin_201();
