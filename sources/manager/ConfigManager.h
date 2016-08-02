@@ -38,9 +38,7 @@ public: // Export
     string saved_password();
     void save_account(const char* str);
     void save_password(const char* str);
-    // 签到
-    CCArray* signin7_template();
-    
+
 public:
     ~ConfigManager();
     static ConfigManager* Inst();
@@ -53,7 +51,6 @@ public:
 public: //test
     void test_mission_count();
     void test_phase_up_required();
-    void test_signin7Template();
     
 private:
     void conf_login_addr(int net);
@@ -68,7 +65,6 @@ private:
     CCArray*        _mission;
     CCDictionary*   _missionDialog;
     CCDictionary*   _clothes;
-    CCArray*        _signin7Template;
 };
 
 #endif /* ConfigManager_hpp */

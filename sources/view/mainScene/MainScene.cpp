@@ -867,7 +867,12 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
         AUDIO->comfirm_effect();
         LOADING->show_loading();
-        NET->signin7_info_302();
+        if (DATA->getSignin()->has_init_signin7_template()) {
+            NET->signin7_info_302(false);
+        }
+        else {
+            NET->signin7_info_302(true);
+        }
     }
 }
 
