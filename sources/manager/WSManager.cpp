@@ -32,6 +32,10 @@ void WSManager::connect() {
     ws->init(*_instance, addr);
 }
 
+void WSManager::send(const string& msg) {
+    _ws->send(msg);
+}
+
 void WSManager::disconnect() {
     if (_ws) {
         CC_SAFE_DELETE(_ws);

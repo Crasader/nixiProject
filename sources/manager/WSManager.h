@@ -24,6 +24,7 @@ public:
     void show_barrage();
     void connect();
     void disconnect();
+    void send(const string& msg);
     
 public:
     ~WSManager();

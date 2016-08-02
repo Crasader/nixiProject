@@ -33,6 +33,7 @@
 #include "MailPanel.h"
 #include "OperationPanel.h"
 #include "SettingPanel.h"
+#include "ChatPanel.h"
 
 #include <time.h>
 
@@ -862,8 +863,10 @@ void MainScene::huodongCallBack(CCObject* pSender){
 void MainScene::qiandaoCallBack(CCObject* pSender){
     AUDIO->shop_effect();
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
     }
 }
 
