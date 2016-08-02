@@ -24,19 +24,23 @@ typedef enum {
 class SigninComp : public CCObject
 {
 public: // Export
-    CCArray* signin7_template();                // 7日签模版
-    SigninState fetch_signin7_state(string& id);    // 签到状态
+    bool has_init_signin7_template();
+    CCArray* signin7_template() const;                          // 7日签模版
+    SigninState fetch_signin7_state(const string& id);    // 签到状态
     
 public:
     ~SigninComp();
     CREATE_FUNC(SigninComp);
     bool init();
-    void parse_signin7_info(Value json);
+    void init_signin7_template(Value json);
+    void update_signin7_info(Value json);
     
 protected:
+    void test_signin7Template();
     
 private:
-    CCDictionary*            _signin7Info;
+    CCArray*                _signin7Template;
+    CCDictionary*           _signin7Info;
 };
 
 #endif /* SigninComp_hpp */

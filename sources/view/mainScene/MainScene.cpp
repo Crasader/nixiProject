@@ -839,7 +839,6 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 //        PromptLayer* layer = PromptLayer::create();
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
         WS->connect();
-        
     }
 }
 
@@ -860,8 +859,7 @@ void MainScene::shouchongCallBack(CCObject* pSender){
 void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
-        OperationPanel* panel = OperationPanel::create();
-        panel->show_from(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
+        OperationPanel::show();
     }
 }
 
@@ -869,7 +867,12 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
-        NET->signin7_info_302();
+        if (DATA->getSignin()->has_init_signin7_template()) {
+            NET->signin7_info_302(false);
+        }
+        else {
+            NET->signin7_info_302(true);
+        }
     }
 }
 

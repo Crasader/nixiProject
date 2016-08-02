@@ -320,8 +320,12 @@ void NetManager::ranking_list_300() {
     this->post_data(300, string(""));
 }
 
-void NetManager::signin7_info_302() {
-    this->post_data(302, string(""));
+void NetManager::signin7_info_302(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(302, data);
 }
 
 void NetManager::perform_signin7_303(string id) {
@@ -373,5 +377,15 @@ void NetManager::exchange_coin_103() {
     root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(103, data);
+}
+
+void NetManager::verify_order_android_105(string &orderId, string &productId) {
+    FastWriter writer;
+    Value root;
+    root["order_id"] = orderId;
+    root["product_id"] = productId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(105, data);
 }
 

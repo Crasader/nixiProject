@@ -100,7 +100,7 @@ void PurchaseComp::init_purchase(CSJson::Value json) {
     setCoinExchangedTimes(json["ce_times"].asInt());
     setCoinExchangeLimit(json["ce_limit"].asInt());
     
-    CCDictionary* deals = AppUtil::dictionary_with_json(json);
+    CCDictionary* deals = AppUtil::dictionary_with_json(json["deals"]);
     setDeals(deals);
 }
 
