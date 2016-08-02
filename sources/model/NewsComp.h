@@ -28,11 +28,14 @@ class NewsComp : public CCObject
 public:
     bool otherday;
     int coin;
-    int energy;
+    int energy1;
+    int energy2;
     int mail;
     int message;
     int paper;
-    int signin;
+    int purchaseAchievement;
+    int signin7;
+    int signin30;
     
     void print_news();
 
