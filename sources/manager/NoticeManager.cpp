@@ -58,7 +58,7 @@ Notice* NoticeManager::fetch_prior_notice() {
     Notice* rtn = NULL;
     
     NewsComp* news = DATA->getNews();
-    if (news->signin > 0) {
+    if (news->signin7 > 0) {
         rtn = Notice::create();
         rtn->setName("signin");
         rtn->setDesc("小秘书提醒您：今天的签到还么有签，钱钱钱~!");

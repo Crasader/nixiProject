@@ -836,6 +836,7 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        WS->connect();
     }
 }
 
@@ -856,8 +857,7 @@ void MainScene::shouchongCallBack(CCObject* pSender){
 void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
-        OperationPanel* panel = OperationPanel::create();
-        panel->show_from(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
+        OperationPanel::show();
     }
 }
 

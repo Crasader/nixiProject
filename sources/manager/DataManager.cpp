@@ -321,7 +321,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 105: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
-            _purchase->init_products(content["purchase"]);
+            _purchase->init_purchase(content["purchase"]);
         } break;
             
         default:

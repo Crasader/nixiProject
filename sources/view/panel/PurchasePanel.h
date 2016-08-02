@@ -32,6 +32,7 @@ public:
     
 private:
     void init_content();
+    void update_content();
     void do_enter();
     void do_exit();
     void remove();
@@ -43,6 +44,7 @@ private:
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;
+    CCMenu*             _menu;
 };
 
 #endif /* PurchasePanel_hpp */

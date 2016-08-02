@@ -96,18 +96,25 @@ void PurchasePanel::init_content() {
     txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
     _content->addChild(txt_close);
     
-    CCSize panelsize = _panel->boundingBox().size;
-    float padding = 9;
-    
 //    CCSprite* prompt = CCSprite::create("res/pic/panel/iap/iap_prompt.png");
 //    prompt->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.84));
 //    _panel->addChild(prompt);
+    this->update_content();
+}
+
+void PurchasePanel::update_content() {
+    if (_menu) {
+        _menu->removeFromParent();
+    }
+    
+    CCSize panelsize = _panel->boundingBox().size;
+    float padding = 9;
     
     PurchaseComp* purchase = DATA->getPurchase();
     CCArray* products = purchase->products();
     int count = products->count();
-    const char* png_format = "res/pic/panel/iap/iap_bar_%d.png";
-    const char* png_format2 = "res/pic/panel/iap/iap_bar_%dx2.png";
+    const char* png_format = "pic/panel/iap/iap_bar_%d.png";
+    const char* png_format2 = "pic/panel/iap/iap_bar_%dx2.png";
     CCArray* arr = CCArray::createWithCapacity(count);
     for (int i = 0; i < count; ++i) {
         CCObject* pObj = products->objectAtIndex(i);
@@ -166,10 +173,10 @@ void PurchasePanel::init_content() {
         arr->addObject(btn);
     }
     
-    CCMenu* menu = CCMenu::createWithArray(arr);
-    menu->alignItemsVerticallyWithPadding(padding);
-    menu->setPosition(menu->getPosition() - ccp(8, 18));
-    _content->addChild(menu);
+    _menu = CCMenu::createWithArray(arr);
+    _menu->alignItemsVerticallyWithPadding(padding);
+    _menu->setPosition(_menu->getPosition() - ccp(8, 18));
+    _content->addChild(_menu);
 }
 
 void PurchasePanel::do_enter() {
@@ -232,6 +239,7 @@ void PurchasePanel::keyBackClicked(){
 
 void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
     LOADING->remove();
+    this->update_content();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
