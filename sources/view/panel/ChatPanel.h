@@ -42,6 +42,12 @@ public:
 //    void keyBackStatus(float dt);
 //    virtual void keyBackClicked();
     
+    
+//    virtual void editBoxEditingDidBegin(CCEditBox* editBox);
+//    virtual void editBoxEditingDidEnd(CCEditBox* editBox);
+//    virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
+//    virtual void editBoxReturn(CCEditBox* editBox);
+    
 public:
     void show_panel();
     
@@ -53,6 +59,7 @@ private:
     CCSprite* _input_bg;
     
     CCTextFieldTTF* _input_text;
+//    CCEditBox* _input_text;
     CCLabelTTF* _text_lab;
     CCClippingNode* _node;
 };
