@@ -19,9 +19,7 @@ bool ChatTableView::init(){
     if (!CCLayer::init()) {
         return false;
     }
-    
-    cell_num = 0;
-    
+        
 
     pTableView = CCTableView::create(this, CCSizeMake(526, 73*8));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -62,10 +60,6 @@ void ChatTableView::insertMessage(CCObject *pObj){
 //    CCLOG("NUM = %d", DATA->getChat()->getItems()->count());
 }
 
-void ChatTableView::updateCellPosition(){
-    
-}
-
 CCTableViewCell* ChatTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
     CCTableViewCell* pCell = table->dequeueCell();
     if (pCell) {
@@ -84,7 +78,8 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     
     ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(index);
     const char* insert_name = chat->name.c_str();
-    CCLabelTTF* nickname = CCLabelTTF::create(insert_name, DISPLAY->fangzhengFont(), 17);
+    CCString* str = CCString::createWithFormat("%s:", insert_name);
+    CCLabelTTF* nickname = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 17);
     nickname->setAnchorPoint(CCPointZero);
     nickname->setColor(ccc3(248, 83, 18));
     nickname->setPosition(ccp(bg->getContentSize().width* .05f, bg->getContentSize().height* .55f));

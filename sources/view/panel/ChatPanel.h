@@ -62,6 +62,7 @@ private:
 //    CCEditBox* _input_text;
     CCLabelTTF* _text_lab;
     CCClippingNode* _node;
+    bool isCanClose;
 };
 
 #endif /* ChatPanel_hpp */

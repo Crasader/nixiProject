@@ -24,6 +24,8 @@ bool ChatPanel::init(){
         return false;
     }
     
+    isCanClose = true;
+    
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
@@ -88,7 +90,6 @@ void ChatPanel::initChatPanel(){
     
     CCSprite* stencil = CCSprite::create();
     stencil->setTextureRect(CCRect(0, 0, _input_bg->getContentSize().width - 2, _input_bg->getContentSize().height));
-    stencil->setColor(ccRED);
     
     _node = CCClippingNode::create(stencil);
     _node->setPosition(ccp(_input_bg->getPositionX(), _input_bg->getPositionY()));
@@ -128,17 +129,30 @@ void ChatPanel::initTopMessage(){
 void ChatPanel::btn_sendMessage(CCMenuItem *item){
     FastWriter writer;
     Value root;
-    root["name"] = DATA->getShow()->nickname();
-    root["chat"] = _input_text->getString();
-    string data = writer.write(root);
-    WS->send(data);
     
-    _input_text->setString("");
+    CCString* text_str = CCString::createWithFormat("%s", _input_text->getString());
+    
+    if (text_str->compare("") == 0) {
+        
+    }else{
+        root["name"] = DATA->getShow()->nickname();
+        root["chat"] = _input_text->getString();
+        string data = writer.write(root);
+        WS->send(data);
+        
+        CCLOG("chat = %s", _input_text->getString());
+        CCLOG("send_name = %s", data.c_str());
+        
+        _input_text->setString("");
+        _input_text->setAnchorPoint(CCPoint(0, 0.5));
+        _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
+    }
+ 
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     CCPoint pos = pTouch->getLocation();
-    if (!_panel_bg->boundingBox().containsPoint(pos)) {
+    if (!_panel_bg->boundingBox().containsPoint(pos) && isCanClose) {
         WS->disconnect();
         this->removeFromParentAndCleanup(true);
     }
@@ -153,8 +167,10 @@ void ChatPanel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
     CCPoint pos = _panel_bg->convertToNodeSpace(pTouch->getLocation());
     if (_input_bg->boundingBox().containsPoint(pos)) {
         _input_text->attachWithIME();
+        isCanClose = false;
     }else{
         _input_text->detachWithIME();
+        isCanClose = true;
     }
 }
 
@@ -213,13 +229,15 @@ bool ChatPanel::onTextFieldDeleteBackward(cocos2d::CCTextFieldTTF *sender, const
 //}
 //
 //void ChatPanel::editBoxTextChanged(cocos2d::extension::CCEditBox *editBox, const std::string &text){
-//    CCLOG("SIZE = %f", editBox->getContentSize().width);
-//    CCLOG("text = %s", text.c_str());
-//    if (editBox->getContentSize().width >= _input_bg->getContentSize().width) {
+//    CCString* str = CCString::createWithFormat("%s", text.c_str());
+//    CCLabelTTF* lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 26);
+//    if (lab->getContentSize().width >= _input_bg->getContentSize().width) {
 //        editBox->setAnchorPoint(CCPoint(1, 0.5));
+//        editBox->setContentSize(CCSizeMake(lab->getContentSize().width, _input_bg->getContentSize().height));
 //        editBox->setPosition(ccp(_input_bg->getContentSize().width* .5f - 1, 0));
 //    }else{
 //        editBox->setAnchorPoint(CCPoint(0, 0.5));
+//        editBox->setContentSize(CCSizeMake(lab->getContentSize().width, _input_bg->getContentSize().height));
 //        editBox->setPosition(ccp(- _input_bg->getContentSize().width* .5f + 1, 0));
 //    }
 //}
