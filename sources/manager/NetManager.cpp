@@ -337,6 +337,23 @@ void NetManager::perform_signin7_303(string id) {
     this->post_data(303, data);
 }
 
+void NetManager::purchase_achievement_info_304(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(304, data);
+}
+
+void NetManager::take_purchase_achievement_305(string &id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(305, data);
+}
+
 
 void NetManager::coffers_info_200() {
     this->post_data(200, string(""));
