@@ -20,7 +20,7 @@ using namespace CSJson;
 class ChatItem : public CCObject
 {
 public:
-    void init_with_json(Value json);
+    bool init_with_json(Value json);
     void print_self();
     
 public:

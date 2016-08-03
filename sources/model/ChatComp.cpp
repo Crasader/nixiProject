@@ -8,14 +8,31 @@
 
 #include "ChatComp.h"
 
-void ChatItem::init_with_json(Value json) {
-    if (json.type() == nullValue) {
+bool ChatItem::init_with_json(Value json) {
+    bool btn = true;
+    if (json.type() == nullValue || json.type() != objectValue) {
         CCLOG("ChatItem::init_with_json() json object error.");
-        return;
+        btn = false;
     }
-    
-    name = json["name"].asString();
-    chat = json["chat"].asString();
+    else  {
+        Value name = json["name"];
+        if (name.type() != nullValue) {
+            this->name = name.asString();
+        }
+        else {
+            btn = false;
+        }
+        
+        Value chat = json["chat"];
+        if (name.type() != nullValue) {
+            this->chat = chat.asString();
+        }
+        else {
+            btn = false;
+        }
+    }
+
+    return btn;
 }
 
 void ChatItem::print_self() {

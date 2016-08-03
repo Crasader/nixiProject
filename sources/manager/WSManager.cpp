@@ -75,10 +75,10 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
             return;
         }
         ChatItem* chat = ChatItem::create();
-        chat->init_with_json(root);
-//        chat->print_self();
-        DATA->getChat()->addItem(chat);
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
+        if (chat->init_with_json(root)) {
+            DATA->getChat()->addItem(chat);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
+        }        
     }
     else {
         std::string binaryStr = "response bin msg: ";
