@@ -14,14 +14,14 @@ StoryComp::~StoryComp() {
 }
 
 bool StoryComp::init() {
-    _cmpleted_story = NULL;
+    _cmpleted_story = nullptr;
 
     return true;
 }
 
 void StoryComp::init_with_json(Value json) {
-    if (json.type() == nullValue && !json.isObject()) {
-        CCLOG("<ERROR> MissionComp::init_with_json() json object error.");
+    if (json.type() == nullValue) {
+        CCLOG("<ERROR> StoryComp::init_with_json() json object error.");
         return;
     }
     
@@ -31,6 +31,7 @@ void StoryComp::init_with_json(Value json) {
 }
 
 CCDictionary* StoryComp::cmpleted_story() {
+    CCAssert(_cmpleted_story != nullptr, "剧情信息尚未初始化~!");
     return _cmpleted_story;
 }
 

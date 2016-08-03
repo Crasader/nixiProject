@@ -71,6 +71,10 @@ public:
     void save_dressed_401(CCDictionary* dressed);
     
     void ranking_list_300();
+    void signin7_info_302(bool full);
+    void perform_signin7_303(string id);
+    void purchase_achievement_info_304(bool full);
+    void take_purchase_achievement_305(string& id);
     
     void coffers_info_200();
     void collect_coin_201();
@@ -79,6 +83,7 @@ public:
     void all_products_100();
     void buy_energy_101();
     void exchange_coin_103();
+    void verify_order_android_105(string& orderId, string& productId);
     
 private:
     string generate_sign(int cid, const char* data);

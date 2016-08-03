@@ -49,7 +49,7 @@ void PurchasePanel::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
 
     this->init_content();
 //    this->do_enter();
@@ -96,18 +96,25 @@ void PurchasePanel::init_content() {
     txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
     _content->addChild(txt_close);
     
-    CCSize panelsize = _panel->boundingBox().size;
-    float padding = 9;
-    
 //    CCSprite* prompt = CCSprite::create("res/pic/panel/iap/iap_prompt.png");
 //    prompt->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.84));
 //    _panel->addChild(prompt);
+    this->update_content();
+}
+
+void PurchasePanel::update_content() {
+    if (_menu) {
+        _menu->removeFromParent();
+    }
+    
+    CCSize panelsize = _panel->boundingBox().size;
+    float padding = 9;
     
     PurchaseComp* purchase = DATA->getPurchase();
     CCArray* products = purchase->products();
     int count = products->count();
-    const char* png_format = "res/pic/panel/iap/iap_bar_%d.png";
-    const char* png_format2 = "res/pic/panel/iap/iap_bar_%dx2.png";
+    const char* png_format = "pic/panel/iap/iap_bar_%d.png";
+    const char* png_format2 = "pic/panel/iap/iap_bar_%dx2.png";
     CCArray* arr = CCArray::createWithCapacity(count);
     for (int i = 0; i < count; ++i) {
         CCObject* pObj = products->objectAtIndex(i);
@@ -166,10 +173,10 @@ void PurchasePanel::init_content() {
         arr->addObject(btn);
     }
     
-    CCMenu* menu = CCMenu::createWithArray(arr);
-    menu->alignItemsVerticallyWithPadding(padding);
-    menu->setPosition(menu->getPosition() - ccp(8, 18));
-    _content->addChild(menu);
+    _menu = CCMenu::createWithArray(arr);
+    _menu->alignItemsVerticallyWithPadding(padding);
+    _menu->setPosition(_menu->getPosition() - ccp(8, 18));
+    _content->addChild(_menu);
 }
 
 void PurchasePanel::do_enter() {
@@ -200,6 +207,7 @@ void PurchasePanel::remove() {
 void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     ProductItem* pro = (ProductItem* )item->getUserObject();
     CCLOG("clicked %s", pro->id.c_str());
+/*
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 //    LOADING->show_loading();
@@ -212,6 +220,10 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         CCLOG("can not purchases");
     }
 #endif
+*/
+    LOADING->show_loading();
+    string orderId = "";
+    NET->verify_order_android_105(orderId, pro->id);
 }
 
 void PurchasePanel::keyBackClicked(){
@@ -225,4 +237,9 @@ void PurchasePanel::keyBackClicked(){
     this->remove();
 }
 
+void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
+    LOADING->remove();
+    this->update_content();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
 

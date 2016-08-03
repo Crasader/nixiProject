@@ -29,6 +29,8 @@
 #include "StoryComp.h"
 #include "PaperComp.h"
 #include "CoffersComp.h"
+#include "ChatComp.h"
+#include "OperationComp.h"
 
 USING_NS_CC;
 //USING_NS_CC_EXT;
@@ -66,6 +68,8 @@ public:
     CC_SYNTHESIZE_RETAIN(StoryComp*, _story, Story);
     CC_SYNTHESIZE_RETAIN(PaperComp*, _paper, Paper);
     CC_SYNTHESIZE_RETAIN(CoffersComp*, _coffers, Coffers);
+    CC_SYNTHESIZE_RETAIN(ChatComp*, _chat, Chat);
+    CC_SYNTHESIZE_RETAIN(OperationComp*, _operation, Operation);
     
     //
     CC_SYNTHESIZE(int, _autoLogin, AutoLogin);

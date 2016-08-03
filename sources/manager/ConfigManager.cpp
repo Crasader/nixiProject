@@ -39,8 +39,12 @@ void ConfigManager::config() {
     
     const char* config_file = "conf/conf";
     CSJson::Value config = AppUtil::read_json_file(config_file);
-    net = config["net"].asInt();
+    
+    int net = config["net"].asInt();
     this->conf_login_addr(net);
+    
+    int chat = config["chat"].asInt();
+    this->conf_chat_addr(chat);
     
     this->conf_mission();
     _missionDialog = CCDictionary::create();
@@ -170,10 +174,9 @@ void ConfigManager::save_password(const char *str) {
     CCUserDefault::sharedUserDefault()->setStringForKey(UD_PASSWORD, str);
 }
 
-#pragma - inner API
+#pragma mark - inner API
 
 void ConfigManager::conf_login_addr(int net) {
-    string addr;
     switch (net) {
         case 17:
             login_addr = "http://115.28.179.17:9765/account";
@@ -186,6 +189,24 @@ void ConfigManager::conf_login_addr(int net) {
             break;
         default:
             login_addr = "";
+            break;
+    }
+}
+
+void ConfigManager::conf_chat_addr(int chat) {
+//        const char* addr = "ws://echo.websocket.org";
+    switch (chat) {
+        case 17:
+            chator_addr = "ws://115.28.179.17:20168/chator";
+            break;
+        case 170:
+            chator_addr = "ws://118.178.24.170:20168/chator";
+            break;
+        case 234:
+            chator_addr = "ws://192.168.1.234:20168/chator";
+            break;
+        default:
+            chator_addr = "";
             break;
     }
 }

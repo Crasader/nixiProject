@@ -320,6 +320,40 @@ void NetManager::ranking_list_300() {
     this->post_data(300, string(""));
 }
 
+void NetManager::signin7_info_302(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(302, data);
+}
+
+void NetManager::perform_signin7_303(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(303, data);
+}
+
+void NetManager::purchase_achievement_info_304(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(304, data);
+}
+
+void NetManager::take_purchase_achievement_305(string &id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(305, data);
+}
+
 
 void NetManager::coffers_info_200() {
     this->post_data(200, string(""));
@@ -328,7 +362,7 @@ void NetManager::coffers_info_200() {
 void NetManager::collect_coin_201() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(201, data);
 }
@@ -336,7 +370,7 @@ void NetManager::collect_coin_201() {
 void NetManager::take_income_203() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(203, data);
 }
@@ -349,7 +383,7 @@ void NetManager::all_products_100() {
 void NetManager::buy_energy_101() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(101, data);
 }
@@ -357,8 +391,18 @@ void NetManager::buy_energy_101() {
 void NetManager::exchange_coin_103() {
     FastWriter writer;
     Value root;
-    root["id"] = 1;
+    root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(103, data);
+}
+
+void NetManager::verify_order_android_105(string &orderId, string &productId) {
+    FastWriter writer;
+    Value root;
+    root["order_id"] = orderId;
+    root["product_id"] = productId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(105, data);
 }
 

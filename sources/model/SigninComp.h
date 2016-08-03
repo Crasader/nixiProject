@@ -4,7 +4,6 @@
 //
 //  Created by mac on 16/5/24.
 //
-//
 
 #ifndef SigninComp_hpp
 #define SigninComp_hpp
@@ -15,21 +14,33 @@
 USING_NS_CC;
 using namespace CSJson;
 
+typedef enum {
+    e_SigninState_Locked = 0,       // 锁定
+    e_SigninState_Available = 1,    // 可用
+    e_SigninState_Retroactive = 2,  // 可补签
+    e_SigninState_Done = 3          // 已签
+} SigninState;
+
 class SigninComp : public CCObject
 {
+public: // Export
+    bool has_init_signin7_template();
+    CCArray* signin7_template() const;                          // 7日签模版
+    SigninState fetch_signin7_state(const string& id);    // 签到状态
+    
 public:
     ~SigninComp();
     CREATE_FUNC(SigninComp);
     bool init();
-    
-    void init_with_json(Value json);
-    
-public:
+    void init_signin7_template(Value json);
+    void update_signin7_info(Value json);
     
 protected:
+    void test_signin7Template();
     
 private:
-    
+    CCArray*                _signin7Template;
+    CCDictionary*           _signin7Info;
 };
 
 #endif /* SigninComp_hpp */

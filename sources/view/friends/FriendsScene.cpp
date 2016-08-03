@@ -170,7 +170,7 @@ void FriendsScene::create_self_panel() {
     this->addChild(menu);
 }
 
-void FriendsScene::create_show_view() {
+void FriendsScene::create_show_view(){
     _showerView = ShowerView::create();
     this->addChild(_showerView);
 }

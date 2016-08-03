@@ -15,8 +15,15 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class OperationPanel : public CCLayer
+class OperationPanel
+    : public CCLayer
+    , CCTableViewDataSource
+    , CCTableViewDelegate
 {
+    
+public: // Export
+    static void show();
+    
 public:
     ~OperationPanel();
     CREATE_FUNC(OperationPanel);
@@ -29,21 +36,28 @@ public:
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
-public:
-    void show_from(CCPoint from);
+    virtual CCSize tableCellSizeForIndex(CCTableView *table, unsigned int idx);
+    virtual CCSize cellSizeForTable(CCTableView *table);
+    virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
+    virtual unsigned int numberOfCellsInTableView(CCTableView *table);
+    
+    virtual void tableCellTouched(CCTableView* table, CCTableViewCell* cell);
+    
+    virtual void scrollViewDidScroll(cocos2d::extension::CCScrollView* view);
+    virtual void scrollViewDidZoom(cocos2d::extension::CCScrollView* view);
     
 private:
     void do_enter();
     void do_exit();
     void remove();
     
-    void on_purchase(CCMenuItem* btn);
-    void on_monthlycard(CCMenuItem* btn);
+    void on_purchase();
+    void on_purchase_achievement();
     
 private:
     CCLayer*            _content;
-    CCSprite*           _bg;
-    CCPoint             _enter_pos;
+    CCSprite*           _panel;
+    CCTableView*        _tv;
 };
 
 #endif /* OperationPanel_hpp */

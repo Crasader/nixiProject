@@ -12,7 +12,10 @@
 #include "QingjingScene.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"
+#include "NoticeManager.h"
 #include "AudioManager.h"
+#include "WSManager.h"
+#include "Signin7Panel.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -31,10 +34,13 @@
 #include "MailPanel.h"
 #include "OperationPanel.h"
 #include "SettingPanel.h"
+#include "ChatPanel.h"
+#include "WSManager.h"
 
 #include <time.h>
 
 // --------------- test ----------------
+
 
 MainScene::MainScene(){
     
@@ -116,6 +122,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
@@ -138,6 +145,7 @@ void MainScene::onEnter(){
     
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
 }
+
 void MainScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
@@ -158,7 +166,6 @@ void MainScene::didAccelerate( CCAcceleration* pAccelerationValue){
     float sensitivity = 500;
     
     playerVelocity.x = playerVelocity.x * deceleration+ pAccelerationValue->x*sensitivity;
-    
     playerVelocity.x = playerVelocity.x / 10;
 }
 
@@ -581,16 +588,18 @@ void MainScene::creat_view(){
     menu->setPosition(CCPointZero);
     this->addChild(menu);
     
-//    CCSprite* txt_bar = CCSprite::create("res/pic/mainScene/txt_bar.png");
-//    txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
-//    this->addChild(txt_bar);
-//    
-//    
-//    CCLabelTTF* lab = CCLabelTTF::create("小秘书提醒：公司发展到关键阶段了，云总", DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-//    lab->setColor(ccc3(155, 84, 46));
-//    lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
-//    txt_bar->addChild(lab);
-    
+    // 通知信息
+    Notice* notice = NOTICE->fetch_notice();
+    if (notice) {
+        CCSprite* txt_bar = CCSprite::create("res/pic/mainScene/txt_bar.png");
+        txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
+        this->addChild(txt_bar);
+        
+        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        lab->setColor(ccc3(155, 84, 46));
+        lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
+        txt_bar->addChild(lab);
+    }
 }
 
 CCArray* MainScene::rand_array(CCArray *arr) {
@@ -827,8 +836,9 @@ void MainScene::setIsEffective(){
 
 void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        WS->connect();
     }
 }
 
@@ -849,16 +859,20 @@ void MainScene::shouchongCallBack(CCObject* pSender){
 void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
-        OperationPanel* panel = OperationPanel::create();
-        panel->show_from(ccp(DISPLAY->ScreenWidth()* .07f, DISPLAY->ScreenHeight()* .85f));
+        OperationPanel::show();
     }
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
-    AUDIO->shop_effect();
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        if (DATA->getSignin()->has_init_signin7_template()) {
+            NET->signin7_info_302(false);
+        }
+        else {
+            NET->signin7_info_302(true);
+        }
     }
 }
 
@@ -918,6 +932,11 @@ void MainScene::paihangCallBack(CCObject* pSender){
 
 void MainScene::rankList_callback_300(CCObject *pObj){
     NET->all_friends_806();
+}
+
+void MainScene::nc_signin_info_302(CCObject *pObj) {
+    LOADING->remove();
+    Signin7Panel::show();
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){

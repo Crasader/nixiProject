@@ -54,6 +54,8 @@ void DataManager::init_data() {
     this->setStory(StoryComp::create());
     this->setPaper(PaperComp::create());
     this->setCoffers(CoffersComp::create());
+    this->setChat(ChatComp::create());
+    this->setOperation(OperationComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -275,6 +277,28 @@ void DataManager::handle_protocol(int cid, Value content) {
             _ranking->init_with_json(content["ranking"]);
         } break;
             
+        case 302: {
+            _signin->init_signin7_template(content["template"]);
+            _signin->update_signin7_info(content["signin7"]);
+        } break;
+            
+        case 303: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _signin->update_signin7_info(content["signin7"]);
+            _clothes->init_with_json(content["clothes"]);
+        } break;
+            
+        case 304: {
+            _operation->init_purchase_achievement_template(content["template"]);
+            _operation->replace_purchase_achievement(content["pAchievement"]);
+        } break;
+            
+        case 305: {
+            _operation->replace_purchase_achievement(content["pAchievement"]);
+            _clothes->init_with_json(content["clothes"]);
+        } break;
+            
         case 200: {
             _coffers->init_with_json(content["coffers"]);
         } break;
@@ -300,6 +324,12 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 103: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+        } break;
+            
+        case 105: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
