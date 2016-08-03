@@ -57,12 +57,19 @@ class OperationComp : public CCObject
 // Export
     // 累计充值数
     SYNTHESIZE_READONLY(int, _purchasedTotal, PurchasedTotal);
-    // 累计充模版数组
+    // 累计充值模版数组
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementTemplate, PurchaseAchievementTemplate);
-    // 累计充玩家数据
+    // 累计充值玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCDictionary*, _purchaseAchievementUser, PurchaseAchievementUser);
-public: 
+    
+    // 扭蛋模版数组
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponTemplate, GashaponTemplate);
+    // 扭蛋玩家数据
+    SYNTHESIZE_RETAIN_READONLY(CCDictionary*, _gashaponUser, GashaponUser);
+    
+public:
     bool has_init_purchase_achievement_template();
+    bool has_init_gashapon_template();
     
 public: // Inport
     void init_purchase_achievement_template(Value json);

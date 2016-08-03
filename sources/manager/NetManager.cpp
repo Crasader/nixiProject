@@ -363,6 +363,14 @@ void NetManager::take_purchase_achievement_305(string &id) {
     this->post_data(305, data);
 }
 
+void NetManager::gashapon_info_306(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(306, data);
+}
+
 
 void NetManager::coffers_info_200() {
     this->post_data(200, string(""));

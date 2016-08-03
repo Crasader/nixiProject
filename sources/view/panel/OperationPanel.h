@@ -53,6 +53,7 @@ private:
     
     void on_purchase();
     void on_purchase_achievement();
+    void on_signin7();
     
     void on_take_energy(CCMenuItem* btn);
     

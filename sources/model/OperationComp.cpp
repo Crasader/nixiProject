@@ -15,6 +15,10 @@ bool OperationComp::has_init_purchase_achievement_template() {
     return (_purchaseAchievementTemplate != NULL);
 }
 
+bool OperationComp::has_init_gashapon_template() {
+    return (_gashaponTemplate != NULL);
+}
+
 #pragma mark - Inport
 
 void OperationComp::init_purchase_achievement_template(Value json) {
@@ -54,11 +58,15 @@ void OperationComp::replace_purchase_achievement(Value json) {
 OperationComp::~OperationComp() {
     CC_SAFE_DELETE(_purchaseAchievementTemplate);
     CC_SAFE_DELETE(_purchaseAchievementUser);
+    CC_SAFE_DELETE(_gashaponTemplate);
+    CC_SAFE_DELETE(_gashaponUser);
 }
 
 bool OperationComp::init() {
     _purchaseAchievementTemplate = NULL;
     _purchaseAchievementUser = NULL;
+    _gashaponTemplate = NULL;
+    _gashaponUser = NULL;
     
     return true;
 }

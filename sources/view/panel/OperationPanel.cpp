@@ -118,6 +118,10 @@ void OperationPanel::on_purchase_achievement() {
     }
 }
 
+void OperationPanel::on_signin7() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_SIGNIN7");
+}
+
 void OperationPanel::on_take_energy(CCMenuItem *btn) {
     LOADING->show_loading();
     NET->take_energy_reward_301();
@@ -231,6 +235,7 @@ void OperationPanel::tableCellTouched(CCTableView *table, CCTableViewCell *cell)
             
         case 2: {
             node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
+            this->on_signin7();
         } break;
             
         case 3: {
