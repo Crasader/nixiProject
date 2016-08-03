@@ -54,6 +54,10 @@ private:
     void on_purchase();
     void on_purchase_achievement();
     
+    void on_take_energy(CCMenuItem* btn);
+    
+    void nc_take_energy_301(CCObject* pObj);
+    
 private:
     CCLayer*            _content;
     CCSprite*           _panel;

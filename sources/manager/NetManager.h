@@ -71,10 +71,12 @@ public:
     void save_dressed_401(CCDictionary* dressed);
     
     void ranking_list_300();
+    void take_energy_reward_301();
     void signin7_info_302(bool full);
     void perform_signin7_303(string id);
     void purchase_achievement_info_304(bool full);
     void take_purchase_achievement_305(string& id);
+    
     
     void coffers_info_200();
     void collect_coin_201();

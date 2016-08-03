@@ -46,7 +46,7 @@ void CreateName::onEnter()
 void CreateName::onExit()
 {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    
+    CCEGLView::sharedOpenGLView()->setIMEKeyboardState(false);
     CCScene::onExit();
 }
 
