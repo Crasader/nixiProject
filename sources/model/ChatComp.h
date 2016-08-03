@@ -36,6 +36,7 @@ class ChatComp : public CCObject
 public:
     void addItem(ChatItem* item);
     CCColor3bObject* randColor();
+    CC_SYNTHESIZE(int, _interval, Interval);
     
 public:
     ~ChatComp();

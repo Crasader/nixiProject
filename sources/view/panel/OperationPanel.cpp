@@ -8,6 +8,8 @@
 
 #include "OperationPanel.h"
 #include "DisplayManager.h"
+#include "DataManager.h"
+#include "NetManager.h"
 #include "TransactionScene.h"
 #include "PromptLayer.h"
 
@@ -104,8 +106,14 @@ void OperationPanel::on_purchase() {
 }
 
 void OperationPanel::on_purchase_achievement() {
-    PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待!~");
+//    PromptLayer* prompt = PromptLayer::create();
+//    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待!~");
+    if (DATA->getOperation()->has_init_purchase_achievement_template()) {
+        NET->purchase_achievement_info_304(false);
+    }
+    else {
+        NET->purchase_achievement_info_304(true);
+    }
 }
 
 void OperationPanel::keyBackClicked(){
