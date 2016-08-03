@@ -34,6 +34,8 @@
 #include "MailPanel.h"
 #include "OperationPanel.h"
 #include "SettingPanel.h"
+#include "ChatPanel.h"
+#include "WSManager.h"
 
 #include <time.h>
 
@@ -834,8 +836,8 @@ void MainScene::setIsEffective(){
 
 void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
         WS->connect();
     }
 }
@@ -863,8 +865,6 @@ void MainScene::huodongCallBack(CCObject* pSender){
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
-//        PromptLayer* layer = PromptLayer::create();
-//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
         AUDIO->comfirm_effect();
         LOADING->show_loading();
         if (DATA->getSignin()->has_init_signin7_template()) {

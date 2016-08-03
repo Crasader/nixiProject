@@ -64,4 +64,37 @@ void ChatComp::initColors() {
     
     CCColor3bObject* color3 = new CCColor3bObject(ccc3(254, 187, 200));
     _colors->addObject(color3);
+    
+    CCColor3bObject* color4 = new CCColor3bObject(ccc3(254, 187, 252));
+    _colors->addObject(color4);
+    
+    CCColor3bObject* color5 = new CCColor3bObject(ccc3(255, 254, 254));
+    _colors->addObject(color5);
+    
+    CCColor3bObject* color6 = new CCColor3bObject(ccc3(187, 254, 247));
+    _colors->addObject(color6);
+    
+    CCColor3bObject* color7 = new CCColor3bObject(ccc3(168, 205, 254));
+    _colors->addObject(color7);
+    
+    CCColor3bObject* color8 = new CCColor3bObject(ccc3(98, 203, 150));
+    _colors->addObject(color8);
+    
+    CCColor3bObject* color9 = new CCColor3bObject(ccc3(203, 45, 74));
+    _colors->addObject(color9);
+    
+    CCColor3bObject* color10 = new CCColor3bObject(ccc3(235, 212, 107));
+    _colors->addObject(color10);
+    
+    CCColor3bObject* color_name = new CCColor3bObject(ccc3(248, 83, 18));
+    _colors->addObject(color_name);
+    
+    CCColor3bObject* color_selfname = new CCColor3bObject(ccc3(84, 118, 245));
+    _colors->addObject(color_selfname);
+    
+    CCColor3bObject* color_11 = new CCColor3bObject(ccc3(240, 88, 116));
+    _colors->addObject(color_11);
+    
+    CCColor3bObject* color_12 = new CCColor3bObject(ccc3(171, 107, 119));
+    _colors->addObject(color_12);
 }

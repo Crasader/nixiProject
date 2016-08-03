@@ -12,6 +12,7 @@
 #include "ChatComp.h"
 #include "BarrageView.h"
 #include "json_lib.h"
+#include "ChatPanel.h"
 
 using namespace CSJson;
 
@@ -27,6 +28,10 @@ void WSManager::connect() {
     _ws = new WebSocket();
     CCLOG("WS start connect to chat server addr: %s", CONFIG->chator_addr.c_str());
     _ws->init(*_instance, CONFIG->chator_addr);
+}
+
+void WSManager::send(const string& msg) {
+    _ws->send(msg);
 }
 
 void WSManager::disconnect() {
@@ -55,7 +60,9 @@ WSManager* WSManager::Inst() {
 
 void WSManager::onOpen(WebSocket* ws) {
     CCLOG("Websocket (%p) opened", ws);
-    BarrageView::show();
+//    BarrageView::show();
+    ChatPanel* panel = ChatPanel::create();
+    CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
 }
 
 void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
