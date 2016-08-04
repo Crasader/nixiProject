@@ -125,6 +125,9 @@ public:
     void shezhiCallBack(CCObject* pSender);
     void shouchongCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
+    void energyLargessCallBack(CCObject* pSender);
+    void purchaseAchievementCallBack(CCObject* pSender);
+    void gashaponCallBack(CCObject* pSender);
     
     void juqing_vipCallBack(CCObject* pSender);
     void homeCallBack(CCObject* pSender);
@@ -134,9 +137,10 @@ public:
     void _600CallBack(CCObject* pSender);
     void all_mail_callback_700(CCObject* pObj);
     void social_info_callback_800(CCObject* pObj);
+    void all_friends_callback_806(CCObject* pObj);
     void rankList_callback_300(CCObject* pObj);
     void nc_signin_info_302(CCObject* pObj);
-    void all_friends_callback_806(CCObject* pObj);
+    void nc_gashapon_info_306(CCObject *pObj);
     
 public:
     CCDictionary* allClothesDic;

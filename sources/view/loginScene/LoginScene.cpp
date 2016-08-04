@@ -125,6 +125,8 @@ void LoginScene::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     
+    CCEGLView::sharedOpenGLView()->setIMEKeyboardState(false);
+    
     CCLayer::onExit();
 }
 

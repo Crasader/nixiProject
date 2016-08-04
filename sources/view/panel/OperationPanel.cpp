@@ -12,6 +12,7 @@
 #include "NetManager.h"
 #include "TransactionScene.h"
 #include "PromptLayer.h"
+#include "Loading2.h"
 
 const float CELL_WIDTH = 500;
 const float CELL_HEIGHT = 200;
@@ -71,13 +72,10 @@ bool OperationPanel::init() {
 void OperationPanel::onEnter() {
     CCLayer::onEnter();
     
-//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::nc_take_energy_301), "HTTP_FINISHED_301", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&OperationPanel::keyBackStatus), .8f);
-}
-void OperationPanel::keyBackStatus(float dt){
-    this->setKeypadEnabled(true);
 }
 
 void OperationPanel::onExit() {
@@ -86,9 +84,13 @@ void OperationPanel::onExit() {
     CCLayer::onExit();
 }
 
+void OperationPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
+}
+
 bool OperationPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    CCPoint location = pTouch->getLocation();
-    if (! _panel->boundingBox().containsPoint(location)) {
+    _touchLocation = pTouch->getLocation();
+    if (! _panel->boundingBox().containsPoint(_touchLocation)) {
         remove();
     }
     
@@ -106,14 +108,25 @@ void OperationPanel::on_purchase() {
 }
 
 void OperationPanel::on_purchase_achievement() {
-//    PromptLayer* prompt = PromptLayer::create();
-//    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待!~");
     if (DATA->getOperation()->has_init_purchase_achievement_template()) {
         NET->purchase_achievement_info_304(false);
     }
     else {
         NET->purchase_achievement_info_304(true);
     }
+}
+
+void OperationPanel::on_signin7() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_SIGNIN7");
+}
+
+void OperationPanel::on_gashapon() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_GASHAPON");
+}
+
+void OperationPanel::on_take_energy(CCMenuItem *btn) {
+    LOADING->show_loading();
+    NET->take_energy_reward_301();
 }
 
 void OperationPanel::keyBackClicked(){
@@ -124,6 +137,16 @@ void OperationPanel::keyBackClicked(){
     }
     
     this->remove();
+}
+
+void OperationPanel::nc_take_energy_301(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* dic = CCDictionary::create();
+    dic->setObject( (CCInteger*)pObj, "num");
+    dic->setObject(CCString::createWithFormat("{%f,%f}", _touchLocation.x, _touchLocation.y), "from");
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 #pragma mark - CCTableViewDataSource
@@ -137,13 +160,7 @@ CCSize OperationPanel::cellSizeForTable(CCTableView *table) {
 }
 
 CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned int idx) {
-    CCTableViewCell* cell = table->dequeueCell();
-    if (cell) {
-        cell->removeAllChildren();
-    }
-    else {
-        cell = new CCTableViewCell();
-    }
+    CCTableViewCell* cell = new CCTableViewCell();
     
     CCSprite* spt = NULL;
     switch (idx) {
@@ -176,6 +193,7 @@ CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned i
         cell->addChild(spt);
         spt->setTag(123);
     }
+    
     return cell;
 }
 
@@ -188,8 +206,8 @@ unsigned int OperationPanel::numberOfCellsInTableView(CCTableView *table) {
 void OperationPanel::tableCellTouched(CCTableView *table, CCTableViewCell *cell) {
     CCNode* node = cell->getChildByTag(123);
 //    node->stopAllActions();
-    node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
     int idx = cell->getIdx();
+    node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
     switch (idx) {
         case 0: {
             this->on_purchase();
@@ -200,12 +218,23 @@ void OperationPanel::tableCellTouched(CCTableView *table, CCTableViewCell *cell)
         } break;
             
         case 2: {
+            this->on_signin7();
         } break;
             
         case 3: {
+            int energy1 = DATA->getNews()->energy1;
+            int energy2 = DATA->getNews()->energy2;
+            if (energy1 == 1 || energy2 == 1) {
+                this->on_take_energy(NULL);
+            }
+            else {
+                PromptLayer* prompt = PromptLayer::create();
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "时机不对!~");
+            }
         } break;
             
         case 4: {
+            this->on_gashapon();
         } break;
             
         default:

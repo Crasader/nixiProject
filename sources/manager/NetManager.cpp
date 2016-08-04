@@ -320,6 +320,15 @@ void NetManager::ranking_list_300() {
     this->post_data(300, string(""));
 }
 
+void NetManager::take_energy_reward_301() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 15;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(301, data);
+}
+
 void NetManager::signin7_info_302(bool full) {
     FastWriter writer;
     Value root;
@@ -352,6 +361,14 @@ void NetManager::take_purchase_achievement_305(string &id) {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(305, data);
+}
+
+void NetManager::gashapon_info_306(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(306, data);
 }
 
 

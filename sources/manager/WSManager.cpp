@@ -66,35 +66,36 @@ void WSManager::onOpen(WebSocket* ws) {
 }
 
 void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
-    if (! data.isBinary) {
-        CCLOG("WSManager::onMessage() - %s", data.bytes);
-        Reader reader;
-        Value root;
-        if (! reader.parse(data.bytes, root, false)) {
-            CCLOG("WSManager::onMessage() json reader error.");
-            return;
-        }
-        ChatItem* chat = ChatItem::create();
-        if (chat->init_with_json(root)) {
-            DATA->getChat()->addItem(chat);
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
-        }        
-    }
-    else {
+    if (data.isBinary) {
         std::string binaryStr = "response bin msg: ";
-        
         for (int i = 0; i < data.len; ++i) {
-            if (data.bytes[i] != '\0')
-            {
+            if (data.bytes[i] != '\0') {
                 binaryStr += data.bytes[i];
             }
-            else
-            {
+            else {
                 binaryStr += "\'\\0\'";
             }
         }
-        
-        CCLOG("WSManager::onMessage() - %s", binaryStr.c_str());
+        CCLOG("WSManager::onMessage(BINARY) - %s", binaryStr.c_str());
+    }
+    else {
+        CCLOG("WSManager::onMessage(TEXT) - %s", data.bytes);
+        Reader reader;
+        Value root;
+        if (reader.parse(data.bytes, root, false)) {
+            Value reply = root["reply"];
+            if (reply != nullValue) {
+                DATA->getChat()->setInterval(reply.asInt());
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("CHAT_REPLY");
+            }
+            else {
+                ChatItem* chat = ChatItem::create();
+                if (chat->init_with_json(root)) {
+                    DATA->getChat()->addItem(chat);
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
+                }
+            }
+        }
     }
 }
 
