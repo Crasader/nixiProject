@@ -129,7 +129,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "NEED_SHOW_GASHAPON", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::gashaponCallBack), "NEED_SHOW_GASHAPON", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);

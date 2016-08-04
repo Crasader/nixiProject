@@ -34,6 +34,7 @@ public:
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
 private:
+    void update_content();
     void remove();
     
     void on_purchase();

@@ -9,9 +9,9 @@
 #ifndef extend_define_h
 #define extend_define_h
 
-#define SYNTHESIZE_READONLY(varType, varName, funName)\
-protected: varType varName;\
-public: virtual varType get##funName(void) const { return varName; }\
+#define SYNTHESIZE_READONLY(varType, varName, funName) \
+protected: varType varName; \
+public: virtual varType get##funName(void) const { return varName; } \
 private: virtual void set##funName(varType var){ varName = var; }
 
 
