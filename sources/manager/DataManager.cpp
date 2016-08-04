@@ -277,6 +277,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             _ranking->init_with_json(content["ranking"]);
         } break;
             
+        case 301: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
         case 302: {
             _signin->init_signin7_template(content["template"]);
             _signin->update_signin7_info(content["signin7"]);

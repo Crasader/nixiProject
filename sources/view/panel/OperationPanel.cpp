@@ -12,6 +12,7 @@
 #include "NetManager.h"
 #include "TransactionScene.h"
 #include "PromptLayer.h"
+#include "Loading2.h"
 
 const float CELL_WIDTH = 500;
 const float CELL_HEIGHT = 200;
@@ -71,19 +72,20 @@ bool OperationPanel::init() {
 void OperationPanel::onEnter() {
     CCLayer::onEnter();
     
-//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::hanle_mail_oper), "HTTP_FINISHED_701", NULL);
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::nc_take_energy_301), "HTTP_FINISHED_301", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&OperationPanel::keyBackStatus), .8f);
-}
-void OperationPanel::keyBackStatus(float dt){
-    this->setKeypadEnabled(true);
 }
 
 void OperationPanel::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     CCLayer::onExit();
+}
+
+void OperationPanel::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 bool OperationPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
@@ -116,6 +118,15 @@ void OperationPanel::on_purchase_achievement() {
     }
 }
 
+void OperationPanel::on_signin7() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_SIGNIN7");
+}
+
+void OperationPanel::on_take_energy(CCMenuItem *btn) {
+    LOADING->show_loading();
+    NET->take_energy_reward_301();
+}
+
 void OperationPanel::keyBackClicked(){
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
     CCLog("===== children_num: %d", num_child);
@@ -124,6 +135,12 @@ void OperationPanel::keyBackClicked(){
     }
     
     this->remove();
+}
+
+void OperationPanel::nc_take_energy_301(CCObject *pObj) {
+    LOADING->remove();
+    _tv->updateCellAtIndex(3);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 #pragma mark - CCTableViewDataSource
@@ -137,13 +154,7 @@ CCSize OperationPanel::cellSizeForTable(CCTableView *table) {
 }
 
 CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned int idx) {
-    CCTableViewCell* cell = table->dequeueCell();
-    if (cell) {
-        cell->removeAllChildren();
-    }
-    else {
-        cell = new CCTableViewCell();
-    }
+    CCTableViewCell* cell = new CCTableViewCell();
     
     CCSprite* spt = NULL;
     switch (idx) {
@@ -175,7 +186,29 @@ CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned i
         spt->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
         cell->addChild(spt);
         spt->setTag(123);
+        
+        if (idx == 3) {
+            CCSprite* btn1 = CCSprite::create("pic/common/btn_take.png");
+            btn1->setScale(0.8);
+            CCSprite* btn2 = CCSprite::create("pic/common/btn_take.png");
+            btn2->setScale(btn1->getScale() * DISPLAY->btn_scale());
+            CCMenuItem* btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&OperationPanel::on_take_energy));
+            CCMenu* menu = CCMenu::createWithItem(btn);
+            menu->setPosition(ccp(CELL_WIDTH * 0.9, CELL_HEIGHT * 0.22));
+            spt->addChild(menu);
+            //
+            int energy1 = DATA->getNews()->energy1;
+            int energy2 = DATA->getNews()->energy2;
+            if (energy1 == 1 || energy2 == 1) {
+                
+            }
+            else {
+                btn->setColor(ccGRAY);
+                menu->setEnabled(false);
+            }
+        }
     }
+    
     return cell;
 }
 
@@ -188,24 +221,29 @@ unsigned int OperationPanel::numberOfCellsInTableView(CCTableView *table) {
 void OperationPanel::tableCellTouched(CCTableView *table, CCTableViewCell *cell) {
     CCNode* node = cell->getChildByTag(123);
 //    node->stopAllActions();
-    node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
     int idx = cell->getIdx();
     switch (idx) {
         case 0: {
+            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
             this->on_purchase();
         } break;
             
         case 1: {
+            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
             this->on_purchase_achievement();
         } break;
             
         case 2: {
+            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
+            this->on_signin7();
         } break;
             
         case 3: {
+            
         } break;
             
         case 4: {
+            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
         } break;
             
         default:

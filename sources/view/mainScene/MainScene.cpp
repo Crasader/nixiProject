@@ -35,7 +35,7 @@
 #include "OperationPanel.h"
 #include "SettingPanel.h"
 #include "ChatPanel.h"
-#include "WSManager.h"
+#include "GashaponPanel.h"
 
 #include <time.h>
 
@@ -121,11 +121,15 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
+    // 从别处调用签到
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "NEED_SHOW_Gashapon", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
@@ -215,7 +219,6 @@ void MainScene::creat_view(){
     CCMenuItem* qiandaoItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(MainScene::qiandaoCallBack));
     qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .45f));
 
-
     // 好友
     CCSprite* hySpr1 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
     CCSprite* hySpr2 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
@@ -236,6 +239,27 @@ void MainScene::creat_view(){
     phSpr2->setScale(1.02f);
     CCMenuItem* paihangItem = CCMenuItemSprite::create(phSpr1, phSpr2, this, menu_selector(MainScene::paihangCallBack));
     paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .72f));
+    
+    // 体力福利
+    CCSprite* energyLargess1 = CCSprite::create("res/pic/mainScene/btn_energylargess.png");
+    CCSprite* energyLargess2 = CCSprite::create("res/pic/mainScene/btn_energylargess.png");
+    energyLargess2->setScale(1.02f);
+    CCMenuItem* btnEnergyLargess = CCMenuItemSprite::create(energyLargess1, energyLargess2, this, menu_selector(MainScene::energyLargessCallBack));
+    btnEnergyLargess->setPosition(qiandaoItem->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+    
+    // 充值成就
+    CCSprite* purchaseAchievement1 = CCSprite::create("res/pic/mainScene/btn_purchaseachievement.png");
+    CCSprite* purchaseAchievement2 = CCSprite::create("res/pic/mainScene/btn_purchaseachievement.png");
+    purchaseAchievement2->setScale(1.02f);
+    CCMenuItem* btnPurchaseAchievement = CCMenuItemSprite::create(purchaseAchievement1, purchaseAchievement2, this, menu_selector(MainScene::purchaseAchievementCallBack));
+    btnPurchaseAchievement->setPosition(btnEnergyLargess->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+    
+    // 扭蛋
+    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+    gashapon2->setScale(1.02f);
+    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
 
     //设置
@@ -584,7 +608,17 @@ void MainScene::creat_view(){
     this->addChild(_layer_0);
     
     
-    CCMenu* menu = CCMenu::create(shouchongItem, huodongItem, qiandaoItem, _haoyouItem, huanzhuangItem, paihangItem, _shezhiItem, NULL);
+    CCMenu* menu = CCMenu::create(shouchongItem,
+                                  huodongItem,
+                                  qiandaoItem,
+                                  _haoyouItem,
+                                  huanzhuangItem,
+                                  paihangItem,
+                                  _shezhiItem,
+                                  btnEnergyLargess,
+                                  btnPurchaseAchievement,
+                                  btnGashapon,
+                                  NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
     
@@ -853,6 +887,7 @@ void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+        NET->gashapon_info_306(true);
     }
 }
 
@@ -889,6 +924,31 @@ void MainScene::haoyouCallBack(CCObject* pSender){
         AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->social_info_800();
+    }
+}
+
+void MainScene::energyLargessCallBack(CCObject *pSender) {
+    if (isOk) {
+        
+    }
+}
+
+void MainScene::purchaseAchievementCallBack(CCObject *pSender) {
+    if (isOk) {
+        
+    }
+}
+
+void MainScene::gashaponCallBack(CCObject *pSender) {
+    if (isOk) {
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        if (DATA->getOperation()->has_init_gashapon_template()) {
+            NET->gashapon_info_306(false);
+        }
+        else {
+            NET->gashapon_info_306(true);
+        }
     }
 }
 
@@ -937,6 +997,11 @@ void MainScene::rankList_callback_300(CCObject *pObj){
 void MainScene::nc_signin_info_302(CCObject *pObj) {
     LOADING->remove();
     Signin7Panel::show();
+}
+
+void MainScene::nc_gashapon_info_306(CCObject *pObj) {
+    LOADING->remove();
+    GashaponPanel::show();
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){
