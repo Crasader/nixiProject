@@ -146,7 +146,7 @@ void MainScene::onEnter(){
 //        CCSprite* spt = (CCSprite*)arr->objectAtIndex(i);
 //        this->play(spt);
 //    }
-    
+
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
 }
 
