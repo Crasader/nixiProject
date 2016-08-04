@@ -39,14 +39,18 @@ bool Signin7Panel::init() {
         _content = CCLayer::create();
         this->addChild(_content);
         
-        _panel = CCSprite::create("pic/panel/signin7/si_panel.png");
+        _panel = CCSprite::create("pic/panel/signin7/signin7_panel.png");
         _panel->setPosition(DISPLAY->center());
         _content->addChild(_panel);
         
         CCSize panelSize = _panel->boundingBox().size;
         
+        CCSprite* text_spr = CCSprite::create("pic/panel/signin7/text_reward.png");
+        text_spr->setPosition(ccp(panelSize.width* .5f, panelSize.height* .9f));
+        _panel->addChild(text_spr);
+        
         CCSprite* model = CCSprite::create("pic/panel/signin7/si_model.png");
-        model->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.5));
+        model->setPosition(ccp(panelSize.width, panelSize.height * 0.5));
         _panel->addChild(model);
         
         
