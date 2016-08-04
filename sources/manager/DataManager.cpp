@@ -282,6 +282,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
+            
+            pData = CCInteger::create(content["reward"].asInt());
         } break;
             
         case 302: {
@@ -304,6 +306,10 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 305: {
             _operation->replace_purchase_achievement(content["pAchievement"]);
             _clothes->init_with_json(content["clothes"]);
+        } break;
+            
+        case 306: {
+
         } break;
             
         case 200: {

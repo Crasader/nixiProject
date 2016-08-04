@@ -62,6 +62,10 @@ class OperationComp : public CCObject
     // 累计充值玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCDictionary*, _purchaseAchievementUser, PurchaseAchievementUser);
     
+    // 玩家拥有碎片
+    SYNTHESIZE_READONLY(int, _piece, Piece);
+    // 玩家上次免费抽取的时间戳
+    SYNTHESIZE_READONLY(unsigned long, _freePoint, FreePoint);
     // 扭蛋模版数组
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponTemplate, GashaponTemplate);
     // 扭蛋玩家数据
@@ -74,6 +78,9 @@ public:
 public: // Inport
     void init_purchase_achievement_template(Value json);
     void replace_purchase_achievement(Value json);
+    
+    void init_gashapon_template(Value json);
+    void replace_gashapon_user(Value json);
     
 public:
     ~OperationComp();
