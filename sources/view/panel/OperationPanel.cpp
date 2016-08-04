@@ -89,8 +89,8 @@ void OperationPanel::keyBackStatus(float dt){
 }
 
 bool OperationPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    CCPoint location = pTouch->getLocation();
-    if (! _panel->boundingBox().containsPoint(location)) {
+    _touchLocation = pTouch->getLocation();
+    if (! _panel->boundingBox().containsPoint(_touchLocation)) {
         remove();
     }
     
@@ -108,8 +108,6 @@ void OperationPanel::on_purchase() {
 }
 
 void OperationPanel::on_purchase_achievement() {
-//    PromptLayer* prompt = PromptLayer::create();
-//    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待!~");
     if (DATA->getOperation()->has_init_purchase_achievement_template()) {
         NET->purchase_achievement_info_304(false);
     }
@@ -120,6 +118,10 @@ void OperationPanel::on_purchase_achievement() {
 
 void OperationPanel::on_signin7() {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_SIGNIN7");
+}
+
+void OperationPanel::on_gashapon() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_GASHAPON");
 }
 
 void OperationPanel::on_take_energy(CCMenuItem *btn) {
@@ -139,7 +141,11 @@ void OperationPanel::keyBackClicked(){
 
 void OperationPanel::nc_take_energy_301(CCObject *pObj) {
     LOADING->remove();
-    _tv->updateCellAtIndex(3);
+    CCDictionary* dic = CCDictionary::create();
+    dic->setObject( (CCInteger*)pObj, "num");
+    dic->setObject(CCString::createWithFormat("{%f,%f}", _touchLocation.x, _touchLocation.y), "from");
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
@@ -186,27 +192,6 @@ CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned i
         spt->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
         cell->addChild(spt);
         spt->setTag(123);
-        
-        if (idx == 3) {
-            CCSprite* btn1 = CCSprite::create("pic/common/btn_take.png");
-            btn1->setScale(0.8);
-            CCSprite* btn2 = CCSprite::create("pic/common/btn_take.png");
-            btn2->setScale(btn1->getScale() * DISPLAY->btn_scale());
-            CCMenuItem* btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&OperationPanel::on_take_energy));
-            CCMenu* menu = CCMenu::createWithItem(btn);
-            menu->setPosition(ccp(CELL_WIDTH * 0.9, CELL_HEIGHT * 0.22));
-            spt->addChild(menu);
-            //
-            int energy1 = DATA->getNews()->energy1;
-            int energy2 = DATA->getNews()->energy2;
-            if (energy1 == 1 || energy2 == 1) {
-                
-            }
-            else {
-                btn->setColor(ccGRAY);
-                menu->setEnabled(false);
-            }
-        }
     }
     
     return cell;
@@ -222,28 +207,34 @@ void OperationPanel::tableCellTouched(CCTableView *table, CCTableViewCell *cell)
     CCNode* node = cell->getChildByTag(123);
 //    node->stopAllActions();
     int idx = cell->getIdx();
+    node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
     switch (idx) {
         case 0: {
-            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
             this->on_purchase();
         } break;
             
         case 1: {
-            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
             this->on_purchase_achievement();
         } break;
             
         case 2: {
-            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
             this->on_signin7();
         } break;
             
         case 3: {
-            
+            int energy1 = DATA->getNews()->energy1;
+            int energy2 = DATA->getNews()->energy2;
+            if (energy1 == 1 || energy2 == 1) {
+                this->on_take_energy(NULL);
+            }
+            else {
+                PromptLayer* prompt = PromptLayer::create();
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "时机不对!~");
+            }
         } break;
             
         case 4: {
-            node->runAction(CCSequence::create(CCScaleTo::create(0.08, 0.9), CCScaleTo::create(0.06, 1.1), CCScaleTo::create(0.08, 0.95), CCScaleTo::create(0.06, 1.0), NULL));
+            this->on_gashapon();
         } break;
             
         default:

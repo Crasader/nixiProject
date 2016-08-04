@@ -49,6 +49,9 @@ public:
     time_t cur_timestamp_msec();
     time_t cur_timestamp();
     
+    CCString* clothes_icon_path_with_id(int clothesId);
+    CCString* clothes_icon_path_with_uri(string& uri);
+    
     void relogin();
 
 public:

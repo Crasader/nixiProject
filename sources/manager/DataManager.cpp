@@ -76,6 +76,52 @@ time_t DataManager::cur_timestamp() {
     return rtn;
 }
 
+CCString* DataManager::clothes_icon_path_with_id(int clothesId) {
+    CCString* rtn = NULL;
+    int part = clothesId / 10000;
+    if (part == 1) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/1toufa/%d.png", clothesId);
+    }
+    else if (part == 2) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/2waitao/%d.png", clothesId);
+    }
+    else if (part == 3) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/3shangyi/%d.png", clothesId);
+    }
+    else if (part == 4) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/4kuzi/%d.png", clothesId);
+    }
+    else if (part == 5) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/5wazi/%d.png", clothesId);
+    }
+    else if (part == 6) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/6xiezi/%d.png", clothesId);
+    }
+    else if (part == 7) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/7shipin/%d.png", clothesId);
+    }
+    else if (part == 8) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/8bao/%d.png", clothesId);
+    }
+    else if (part == 9) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/9zhuangrong/%d.png", clothesId);
+    }
+    else if (part == 10) {
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/10texiao/%d.png", clothesId);
+    }
+    else {
+        rtn = CCString::create("pic/unknown.png");
+    }
+    
+    return rtn;
+}
+
+CCString* DataManager::clothes_icon_path_with_uri(string &uri) {
+    CCString* strUri = CCString::create(uri);
+    int clothesId = strUri->intValue();
+    return this->clothes_icon_path_with_id(clothesId);
+}
+
 void DataManager::http_response_error(int code, string msg) {
     
 }
@@ -282,6 +328,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
+            
+            pData = CCInteger::create(content["reward"].asInt());
         } break;
             
         case 302: {
@@ -304,6 +352,10 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 305: {
             _operation->replace_purchase_achievement(content["pAchievement"]);
             _clothes->init_with_json(content["clothes"]);
+        } break;
+            
+        case 306: {
+
         } break;
             
         case 200: {
