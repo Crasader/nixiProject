@@ -16,6 +16,7 @@
 #include "TaskStoryScene.h"
 #include "PhoneLayer.h"
 #include "PhoneLayer2.h"
+#include "HomeLayer.h"
 
 #include "ClothesScene.h"
 #include "TaskTableView.h"
@@ -314,18 +315,27 @@ void TaskScene::enterTheKuang(float dt){
 
 void TaskScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
-    if (historyBool) {
-        historyBool = false;
-        DATA->setTaskPhase(DATA->getPlayer()->phase);
-        CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::creat_view));
-        CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
-        CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
-        CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
-        taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, callFunc, NULL));
-    }else{
-        CCScene* scene = MainScene::scene();
+    
+    if (DATA->getHomeBool()) {
+        DATA->setHomeBool(false);
+        
+        CCScene* scene = HomeLayer::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        if (historyBool) {
+            historyBool = false;
+            DATA->setTaskPhase(DATA->getPlayer()->phase);
+            CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::creat_view));
+            CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
+            CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
+            taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, callFunc, NULL));
+        }else{
+            CCScene* scene = MainScene::scene();
+            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+            CCDirector::sharedDirector()->replaceScene(trans);
+        }
     }
 }
 
@@ -1232,19 +1242,46 @@ void TaskScene::creat_phone(){
             CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
             if (storyArr == NULL) {
                 now_task_index = i;
+                // 差.45
+                CCSprite* phoneDiSpr = CCSprite::create("res/pic/taskScene/animation/task_phoneDi.png");
+                phoneDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .22f));
+                phoneDiSpr->setTag(0x7788);
+                _ManSpr->addChild(phoneDiSpr, 900);
                 
                 CCSprite* phoneSpr1 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
                 CCSprite* phoneSpr2 = CCSprite::create("res/pic/taskScene/animation/task_phone.png");
                 CCMenuItem* phoneItem = CCMenuItemSprite::create(phoneSpr1, phoneSpr2, this, menu_selector(TaskScene::phoneCallBack));
-                phoneItem->setPosition(ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
+                phoneItem->setPosition(ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f));
                 phoneItem->setTag(now_task_index);
                 CCMenu* menu = CCMenu::create(phoneItem, NULL);
                 menu->setPosition(CCPointZero);
                 _ManSpr->addChild(menu, 1000);
                 
-                CCMoveTo* moveTo1 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f + 5));
-                CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .23f, DISPLAY->ScreenHeight()* .79f));
+                CCMoveTo* moveTo1 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f + 5));
+                CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f));
                 phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.1f), NULL)));
+                
+                
+                
+                CCArray* phoneAnimations = CCArray::createWithCapacity(5);
+                char strPei[100] = {};
+                for (int i = 1; i <= 3; i++) {
+                    
+                    sprintf(strPei, "res/pic/taskScene/animation/task_phone%d.png", i);
+                    CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 154, 51));
+                    phoneAnimations->addObject(frame);
+                }
+                CCAnimation* animation = CCAnimation::createWithSpriteFrames(phoneAnimations, .3f);
+                CCAnimationCache::sharedAnimationCache()->addAnimation(animation, "phoneStr");
+                CCSprite* phoneSpr = CCSprite::create("res/pic/taskScene/animation/task_phone1.png");
+                phoneSpr->setPosition(ccp(phoneItem->getContentSize().width* .5f, phoneItem->getContentSize().height* .5f));
+                phoneSpr->setTag(0x88999);
+                phoneItem->addChild(phoneSpr, 100);
+                CCAnimation* phoneAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("phoneStr");
+                CCAnimate* animate = CCAnimate::create(phoneAnimation);
+                CCRepeatForever* rep = CCRepeatForever::create(animate);
+                CCDirector::sharedDirector()->getActionManager()->addAction(rep, phoneSpr, false);
+                
                 break;
             }
         }

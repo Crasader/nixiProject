@@ -16,6 +16,7 @@
 #include "AudioManager.h"
 #include "WSManager.h"
 #include "Signin7Panel.h"
+#include "HomeLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -843,10 +844,16 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 }
 
 void MainScene::homeCallBack(CCObject *pSender){
+//    if (isOk) {
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
+//    }
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
+        CCScene* scene = HomeLayer::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
     }
+    
 }
 
 void MainScene::shouchongCallBack(CCObject* pSender){
