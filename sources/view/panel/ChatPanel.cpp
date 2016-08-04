@@ -25,6 +25,9 @@ bool ChatPanel::init(){
     }
     
     isCanClose = true;
+    if (!DATA->getBeginTime()) {
+        DATA->setBeginTime(-1);
+    }
     
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
@@ -40,6 +43,8 @@ bool ChatPanel::init(){
 void ChatPanel::onEnter(){
     CCLayer::onEnter();
     
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::send_replay_callback), "CHAT_REPLY", NULL);
+    
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
@@ -47,6 +52,8 @@ void ChatPanel::onEnter(){
 
 void ChatPanel::onExit(){
     CCLayer::onExit();
+    
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
 }
 
 void ChatPanel::initChatPanel(){
@@ -64,13 +71,30 @@ void ChatPanel::initChatPanel(){
     _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .4f, 45));
     _panel_bg->addChild(_input_bg);
     
-    CCSprite* send_spr = CCSprite::create("res/pic/panel/chat/btn_send.png");
-    CCSprite* send_spr2 = CCSprite::create("res/pic/panel/chat/btn_send.png");
+    CCSprite* send_spr = CCSprite::create("res/pic/panel/chat/send_on.png");
+    CCSprite* send_spr2 = CCSprite::create("res/pic/panel/chat/send_on.png");
+    CCSprite* send_spr3 = CCSprite::create("res/pic/panel/chat/btn_send.png");
     send_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_send = CCMenuItemSprite::create(send_spr, send_spr2, this, menu_selector(ChatPanel::btn_sendMessage));
+    send_spr3->setColor(ccGRAY);
+    item_send = CCMenuItemSprite::create(send_spr, send_spr2, send_spr3, this, menu_selector(ChatPanel::btn_sendMessage));
+
+//    send_mask = CCSprite::create("res/pic/panel/chat/btn_send.png");
+//    send_mask->setPosition(ccp(item_send->getContentSize().width* .5f, item_send->getContentSize().height* .5f));
+    lab_time = CCLabelAtlas::create("00:00", "res/pic/baseScene/base_number3.png", 14, 20, '0');
+    lab_time->setPosition(ccp(item_send->getContentSize().width* .5f, item_send->getContentSize().height* .35f));
+    lab_time->setAnchorPoint(CCPoint(0.5, 0.5));
+    lab_time->setVisible(false);
+//    send_mask->addChild(lab_time);
+//    send_mask->setColor(ccGRAY);
+//    send_mask->setVisible(false);
+    item_send->addChild(lab_time);
+    
     CCMenu* menu_send = CCMenu::create(item_send, NULL);
     menu_send->setPosition(ccp(_panel_bg->getContentSize().width* .87f, _input_bg->getPositionY()));
     _panel_bg->addChild(menu_send);
+    
+    this->updateSendTime();
+    
 
     _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("请输入...", DISPLAY->fangzhengFont(), 26);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
@@ -101,6 +125,50 @@ void ChatPanel::initChatPanel(){
     
 }
 
+void ChatPanel::send_replay_callback(){
+    DATA->setBeginTime(DATA->cur_timestamp());
+//    begin_time = DATA->cur_timestamp();
+    this->updateSendTime();
+}
+
+void ChatPanel::updateSendTime(){
+    if (DATA->getBeginTime() == -1) {
+        
+    }else{
+        time_t cd_time = DATA->getChat()->getInterval();
+        time_t now_time = DATA->cur_timestamp();
+        time_t delat_time = now_time - DATA->getBeginTime();
+        if (delat_time < cd_time) {
+            this->start_updatetime((int)(cd_time - delat_time));
+        }
+    }
+}
+
+void ChatPanel::start_updatetime(int secondLeft){
+    _timeLeft = secondLeft;
+    item_send->setEnabled(false);
+//    item_send->selected();
+    lab_time->setVisible(true);
+    
+    this->unschedule(SEL_SCHEDULE(&ChatPanel::schedule_count_down));
+    this->schedule(SEL_SCHEDULE(&ChatPanel::schedule_count_down));
+}
+
+void ChatPanel::schedule_count_down(float dt){
+    _timeLeft -= dt;
+    if (_timeLeft > 0) {
+        int minute = int(_timeLeft) / 60;
+        int second = int(_timeLeft) % 60;
+        CCString* timeLeft = CCString::createWithFormat("%02d:%02d", minute, second);
+        lab_time->setString(timeLeft->getCString());
+    }else{
+        this->unschedule(SEL_SCHEDULE(&ChatPanel::schedule_count_down));
+        item_send->setEnabled(true);
+//        item_send->unselected();
+        lab_time->setVisible(false);
+    }
+}
+
 void ChatPanel::initTopMessage(){
     CCSprite* bg = CCSprite::create("res/pic/panel/chat/text_bg_1.png");
     bg->setPosition(ccp(_panel_bg->getContentSize().width* .5f, _panel_bg->getContentSize().height* .89f));
@@ -120,7 +188,7 @@ void ChatPanel::initTopMessage(){
     bg->addChild(nickname);
     
     CCLabelTTF* message = CCLabelTTF::create("消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行", DISPLAY->fangzhengFont(), 14, CCSizeMake(bg->getContentSize().width* .9f - nickname->getContentSize().width - 5, 60), kCCTextAlignmentLeft);
-    message->setColor(ccc3(171, 107, 119));
+    message->setColor(ccc3(240, 88, 116));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width + 5, bg->getContentSize().height* .39));
     bg->addChild(message);
