@@ -19,6 +19,30 @@ bool OperationComp::has_init_gashapon_template() {
     return (_gashaponTemplate != NULL);
 }
 
+bool OperationComp::has_taken_pAchievement(string &id) {
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(_purchaseAchievementUser, pObj) {
+        CCString* strId = (CCString*)pObj;
+        if (strId->compare(id.c_str()) == 0) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+bool OperationComp::has_owned_gashapon(string &id) {
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(_gashaponUser, pObj) {
+        CCString* strId = (CCString*)pObj;
+        if (strId->compare(id.c_str()) == 0) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 #pragma mark - Inport
 
 void OperationComp::init_purchase_achievement_template(Value json) {
@@ -36,7 +60,7 @@ void OperationComp::init_purchase_achievement_template(Value json) {
     AppUtil::sort_string_array(keys);
     CCArray* arr = CCArray::create();
     CCObject* pObj = NULL;
-    CCARRAY_FOREACH(arr, pObj) {
+    CCARRAY_FOREACH(keys, pObj) {
         CCString* key = (CCString*)pObj;
         arr->addObject(dic->objectForKey(key->getCString()));
     }
@@ -50,7 +74,7 @@ void OperationComp::replace_purchase_achievement(Value json) {
     }
     
     this->setPurchasedTotal(json["total"].asInt());
-    this->setPurchaseAchievementUser(AppUtil::dictionary_with_json(json["pAchievement"]));
+    this->setPurchaseAchievementUser(AppUtil::array_with_json(json["pAchievement"]));
 }
 
 void OperationComp::init_gashapon_template(Value json) {
@@ -68,7 +92,7 @@ void OperationComp::init_gashapon_template(Value json) {
     AppUtil::sort_string_array(keys);
     CCArray* arr = CCArray::create();
     CCObject* pObj = NULL;
-    CCARRAY_FOREACH(arr, pObj) {
+    CCARRAY_FOREACH(keys, pObj) {
         CCString* key = (CCString*)pObj;
         arr->addObject(dic->objectForKey(key->getCString()));
     }
@@ -83,7 +107,7 @@ void OperationComp::replace_gashapon_user(Value json) {
     
     this->setPiece(json["piece"].asInt());
     this->setFreePoint(json["free_point"].asInt64());
-    this->setGashaponUser(AppUtil::dictionary_with_json(json["owned"]));
+    this->setGashaponUser(AppUtil::array_with_json(json["owned"]));
 }
 
 #pragma mark - Supper

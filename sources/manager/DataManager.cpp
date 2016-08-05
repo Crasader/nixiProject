@@ -56,6 +56,7 @@ void DataManager::init_data() {
     this->setCoffers(CoffersComp::create());
     this->setChat(ChatComp::create());
     this->setOperation(OperationComp::create());
+    this->setHome(HomeComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -275,6 +276,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
             
+        case 704: {
+            _home->init_house_template(content["template"]);
+            _home->replace_home_info(content["home"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;
@@ -355,7 +361,8 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 306: {
-
+            _operation->init_gashapon_template(content["template"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
         } break;
             
         case 200: {
