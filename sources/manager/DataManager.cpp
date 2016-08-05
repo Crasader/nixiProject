@@ -56,6 +56,7 @@ void DataManager::init_data() {
     this->setCoffers(CoffersComp::create());
     this->setChat(ChatComp::create());
     this->setOperation(OperationComp::create());
+    this->setHome(HomeComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -80,34 +81,34 @@ CCString* DataManager::clothes_icon_path_with_id(int clothesId) {
     CCString* rtn = NULL;
     int part = clothesId / 10000;
     if (part == 1) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/1toufa/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/1toufa/icon%d.png", clothesId);
     }
     else if (part == 2) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/2waitao/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/2waitao/icon%d.png", clothesId);
     }
     else if (part == 3) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/3shangyi/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/3shangyi/icon%d.png", clothesId);
     }
     else if (part == 4) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/4kuzi/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/4kuzi/icon%d.png", clothesId);
     }
     else if (part == 5) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/5wazi/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/5wazi/icon%d.png", clothesId);
     }
     else if (part == 6) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/6xiezi/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/6xiezi/icon%d.png", clothesId);
     }
     else if (part == 7) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/7shipin/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/7shipin/icon%d.png", clothesId);
     }
     else if (part == 8) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/8bao/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/8bao/icon%d.png", clothesId);
     }
     else if (part == 9) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/9zhuangrong/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/9zhuangrong/icon%d.png", clothesId);
     }
     else if (part == 10) {
-        rtn = CCString::createWithFormat("pic/clothesScene/icon/10texiao/%d.png", clothesId);
+        rtn = CCString::createWithFormat("pic/clothesScene/icon/10texiao/icon%d.png", clothesId);
     }
     else {
         rtn = CCString::create("pic/unknown.png");
@@ -275,6 +276,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
             
+        case 704: {
+            _home->init_house_template(content["template"]);
+            _home->replace_home_info(content["home"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;
@@ -355,7 +361,8 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 306: {
-
+            _operation->init_gashapon_template(content["template"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
         } break;
             
         case 200: {

@@ -229,6 +229,14 @@ void NetManager::response_mail_701(int id, int oper) {
     this->post_data(701, data);
 }
 
+void NetManager::home_info_704(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(704, data);
+}
+
 
 void NetManager::completed_mission_600() {
     this->post_data(600, string(""));
