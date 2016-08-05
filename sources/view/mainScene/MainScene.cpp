@@ -233,7 +233,7 @@ void MainScene::creat_view(){
     hzSpr2->setScale(1.02f);
     CCMenuItem* huanzhuangItem = CCMenuItemSprite::create(hzSpr1, hzSpr2, this, menu_selector(MainScene::huanzhuangCallBack));
     huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .81f));
-
+    
     // 排行
     CCSprite* phSpr1 = CCSprite::create("res/pic/mainScene/main_paihang.png");
     CCSprite* phSpr2 = CCSprite::create("res/pic/mainScene/main_paihang.png");
@@ -887,7 +887,6 @@ void MainScene::homeCallBack(CCObject *pSender){
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
-    
 }
 
 void MainScene::shouchongCallBack(CCObject* pSender){

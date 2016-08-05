@@ -107,7 +107,7 @@ void HomeLayer::creat_View(){
     this->addChild(titleDiSpr, 15);
     CCString* labelStr = CCString::createWithFormat("云诗彤的房间.布拉格广场");
     CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    label->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .5f));
+    label->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .48f));
     label->setColor(ccWHITE);
     titleDiSpr->addChild(label);
     
