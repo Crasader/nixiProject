@@ -56,6 +56,7 @@ void DataManager::init_data() {
     this->setCoffers(CoffersComp::create());
     this->setChat(ChatComp::create());
     this->setOperation(OperationComp::create());
+    this->setHome(HomeComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -273,6 +274,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
 //            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
             pData = AppUtil::dictionary_with_json(content["info"]);
+        } break;
+            
+        case 704: {
+            _home->init_house_template(content["template"]);
+            _home->replace_home_info(content["home"]);
         } break;
             
         case 600: {

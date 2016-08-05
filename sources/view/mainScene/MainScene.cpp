@@ -929,7 +929,7 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 
 void MainScene::energyLargessCallBack(CCObject *pSender) {
     if (isOk) {
-        
+        NET->home_info_704(true);
     }
 }
 
