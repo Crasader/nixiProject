@@ -198,12 +198,12 @@ void MainScene::creat_view(){
     _arrGroup2 = CCArray::create();
     _arrGroup2->retain();
     
-    // 首冲
-    CCSprite* scSpr1 = CCSprite::create("res/pic/mainScene/main_chong.png");
-    CCSprite* scSpr2 = CCSprite::create("res/pic/mainScene/main_chong.png");
-    scSpr2->setScale(1.02f);
-    CCMenuItem* shouchongItem = CCMenuItemSprite::create(scSpr1, scSpr2, this, menu_selector(MainScene::shouchongCallBack));
-    shouchongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .63f));
+//    // 首冲
+//    CCSprite* scSpr1 = CCSprite::create("res/pic/mainScene/main_chong.png");
+//    CCSprite* scSpr2 = CCSprite::create("res/pic/mainScene/main_chong.png");
+//    scSpr2->setScale(1.02f);
+//    CCMenuItem* shouchongItem = CCMenuItemSprite::create(scSpr1, scSpr2, this, menu_selector(MainScene::shouchongCallBack));
+//    shouchongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .63f));
 
     // 活动
     CCSprite* hdSpr1 = CCSprite::create("res/pic/mainScene/main_huodong.png");
@@ -608,7 +608,7 @@ void MainScene::creat_view(){
     this->addChild(_layer_0);
     
     
-    CCMenu* menu = CCMenu::create(shouchongItem,
+    CCMenu* menu = CCMenu::create(//shouchongItem,
                                   huodongItem,
                                   qiandaoItem,
                                   _haoyouItem,
@@ -883,13 +883,13 @@ void MainScene::homeCallBack(CCObject *pSender){
     }
 }
 
-void MainScene::shouchongCallBack(CCObject* pSender){
-    if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
-        NET->gashapon_info_306(true);
-    }
-}
+//void MainScene::shouchongCallBack(CCObject* pSender){
+//    if (isOk) {
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
+//        NET->gashapon_info_306(true);
+//    }
+//}
 
 void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {

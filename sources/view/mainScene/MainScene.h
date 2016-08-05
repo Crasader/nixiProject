@@ -123,7 +123,7 @@ public:
     void juqingCallBack(CCObject* pSender);
     void richangCallBack(CCObject* pSender);
     void shezhiCallBack(CCObject* pSender);
-    void shouchongCallBack(CCObject* pSender);
+//    void shouchongCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
     void energyLargessCallBack(CCObject* pSender);
     void purchaseAchievementCallBack(CCObject* pSender);

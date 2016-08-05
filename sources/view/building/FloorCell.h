@@ -14,8 +14,8 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-const float FLOOR_CELL_WIDTH = 544.f;
-const float FLOOR_CELL_HEIGHT = 194.f;
+const float FLOOR_CELL_WIDTH = 558.f;
+const float FLOOR_CELL_HEIGHT = 197.f;
 
 typedef enum {
     FloorCellType_Reception = 1,

@@ -342,31 +342,30 @@ void FloorCell::update_coffers() {
     }
     
     // 金库信息
-    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
-    sptPromptBar->setContentSize(CCSizeMake(120, 30));
+    CCSprite* sptPromptBar = CCSprite::create("res/pic/building/coin_plate.png");
     sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
     _coffers->addChild(sptPromptBar, 100);
     
     CoffersComp* coffers = DATA->getCoffers();
     CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
-    CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
-    lbl->setColor(DISPLAY->defalutColor());
+    CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 18);
+    lbl->setColor(ccc3(192, 102, 82));
     lbl->setAnchorPoint(ccp(0.5, 0.5));
-    lbl->setPosition(ccp(60, 15));
+    lbl->setPosition(ccp(sptPromptBar->getContentSize().width * 0.5, sptPromptBar->getContentSize().height * 0.5));
     sptPromptBar->addChild(lbl);
     
     // 领取按钮
-    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
-    sptTakeBar->setContentSize(CCSizeMake(90, 30));
-    sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 48));
+    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("res/pic/building/coin_plate.png");
+    sptTakeBar->setContentSize(CCSizeMake(84, 25));
+    sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.86, 48));
     _coffers->addChild(sptTakeBar, 100);
     
-    CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
-    CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+    CCSprite* take1 = CCSprite::create("res/pic/building/btn_take.png");
+    CCSprite* take2 = CCSprite::create("res/pic/building/btn_take.png");
     take2->setScale(DISPLAY->btn_scale());
     CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&FloorCell::on_take_rewards));
     CCMenu* menuTake = CCMenu::createWithItem(btn_take);
-    menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.89, 49));
+    menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.86, 49));
     _coffers->addChild(menuTake, 101);
 }
 
