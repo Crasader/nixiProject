@@ -43,8 +43,8 @@ void ChatTableView::onEnter(){
 }
 
 void ChatTableView::onExit(){
-    CCLayer::onExit();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    CCLayer::onExit();
 }
 
 void ChatTableView::insertMessage(CCObject *pObj){

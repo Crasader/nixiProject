@@ -51,9 +51,8 @@ void ChatPanel::onEnter(){
 }
 
 void ChatPanel::onExit(){
-    CCLayer::onExit();
-    
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    CCLayer::onExit();
 }
 
 void ChatPanel::initChatPanel(){
