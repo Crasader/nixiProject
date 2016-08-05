@@ -9,10 +9,10 @@
 #ifndef extend_define_h
 #define extend_define_h
 
-#define SYNTHESIZE_PASS_BY_REF_READONLY(varType, varName, funName)\
-protected: varType varName;\
-public: virtual const varType& get##funName(void) const { return varName; }\
-public: virtual void set##funName(const varType& var){ varName = var; }
+#define SYNTHESIZE_PASS_BY_REF_READONLY(varType, varName, funName) \
+protected: varType varName; \
+public: virtual const varType& get##funName(void) const { return varName; } \
+private: virtual void set##funName(const varType& var){ varName = var; }
 
 
 #define SYNTHESIZE_READONLY(varType, varName, funName) \
