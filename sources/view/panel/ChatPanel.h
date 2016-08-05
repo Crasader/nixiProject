@@ -54,14 +54,25 @@ public:
 private:
     void initTopMessage();
     
+    void send_replay_callback();
+    void updateSendTime();
+    void start_updatetime(int secondLeft);
+    void schedule_count_down(float dt);
+    
 private:
     CCSprite* _panel_bg;
     CCSprite* _input_bg;
+    
+    CCMenuItemSprite* item_send;
+    CCSprite* send_mask;
+    CCLabelAtlas* lab_time;
+    float               _timeLeft;
     
     CCTextFieldTTF* _input_text;
 //    CCEditBox* _input_text;
     CCLabelTTF* _text_lab;
     CCClippingNode* _node;
+    bool isCanClose;
 };
 
 #endif /* ChatPanel_hpp */
