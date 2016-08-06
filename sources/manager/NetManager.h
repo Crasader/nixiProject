@@ -36,10 +36,10 @@ public:
 public:
     NetEnv obtain_net_env();
     
-    void fast_login_900(const char* uuid);
+    void fast_login_900(const char* uuid, const char* recommender = "");
     void account_login_901(const char* account, const char* password);
     void login_game_server_902();
-    void account_regist_903(const char* account, const char* password);
+    void account_regist_903(const char* account, const char* password, const char* recommender = "");
     void save_nickname_904(const char* nickname);
     
     void check_news_910();

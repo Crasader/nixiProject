@@ -7,6 +7,7 @@
 //
 
 #include "LoginComp.h"
+#include "AppUtil.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "native/CCNative.h"
@@ -22,6 +23,7 @@ bool LoginComp::init() {
     _sid = "";
     _uuid = "";
     _skey = "";
+    _config = NULL;
     
     return true;
 }
@@ -54,6 +56,10 @@ const char* LoginComp::obtain_game_addr() {
     return _gameaddr.c_str();
 }
 
+const CCDictionary* LoginComp::config() {
+    return _config;
+}
+
 void LoginComp::init_with_json(Value json) {
     if (!json.isObject()) {
         CCLOG("LoginComp::init_with_json() json object error.");
@@ -63,6 +69,11 @@ void LoginComp::init_with_json(Value json) {
     _sid = json["sid"].asString();
     _skey = json["skey"].asString();
     _gameaddr = json["addr"].asString();
+    
+    CC_SAFE_RELEASE(_config);
+    _config = AppUtil::dictionary_with_json(json["main"]);
+    _config->retain();
+    
     CCLOG("Game addr: %s", _gameaddr.c_str());
 }
 

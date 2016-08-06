@@ -25,9 +25,9 @@
 
 #pragma mark - Export
 
-void Signin7Panel::show() {
+void Signin7Panel::show(CCNode* parent) {
     Signin7Panel* panel = Signin7Panel::create();
-    CCDirector::sharedDirector()->getRunningScene()->addChild(panel, 1000);
+    parent->addChild(panel);
 }
 
 

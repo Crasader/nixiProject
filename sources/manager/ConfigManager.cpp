@@ -40,8 +40,10 @@ void ConfigManager::config() {
     const char* config_file = "conf/conf";
     CSJson::Value config = AppUtil::read_json_file(config_file);
     
-    int net = config["net"].asInt();
-    this->conf_login_addr(net);
+    version = config["version"].asString();
+    
+    netId = config["net"].asInt();
+    this->conf_login_addr(netId);
     
     int chat = config["chat"].asInt();
     this->conf_chat_addr(chat);

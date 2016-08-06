@@ -11,6 +11,14 @@
 
 #pragma mark - Export
 
+unsigned OperationComp::cur_purchase_achievement_template_index() {
+    if (_purchaseAchievementUser) {
+        return _purchaseAchievementUser->count();
+    }
+    
+    return 0;
+}
+
 bool OperationComp::has_init_purchase_achievement_template() {
     return (_purchaseAchievementTemplate != NULL);
 }

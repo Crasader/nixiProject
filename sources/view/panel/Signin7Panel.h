@@ -16,7 +16,7 @@ USING_NS_CC;
 class Signin7Panel : public CCLayer
 {
 public: // Export
-    static void show();
+    static void show(CCNode* parent);
     
 public:
     ~Signin7Panel();

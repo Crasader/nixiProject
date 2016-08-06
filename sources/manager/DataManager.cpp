@@ -348,6 +348,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
             _signin->update_signin7_info(content["signin7"]);
             _clothes->init_with_json(content["clothes"]);
+            _news->init_with_json(content["news"]);
         } break;
             
         case 304: {

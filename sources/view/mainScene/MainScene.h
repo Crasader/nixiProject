@@ -123,7 +123,7 @@ public:
     void juqingCallBack(CCObject* pSender);
     void richangCallBack(CCObject* pSender);
     void shezhiCallBack(CCObject* pSender);
-    void shouchongCallBack(CCObject* pSender);
+//    void shouchongCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
     void energyLargessCallBack(CCObject* pSender);
     void purchaseAchievementCallBack(CCObject* pSender);
@@ -135,6 +135,7 @@ public:
     
     void _500CallBack(CCObject* pSender);
     void _600CallBack(CCObject* pSender);
+    void _704CallBack(CCObject* pSender);
     void all_mail_callback_700(CCObject* pObj);
     void social_info_callback_800(CCObject* pObj);
     void all_friends_callback_806(CCObject* pObj);
@@ -145,6 +146,8 @@ public:
     
 public:
     CCDictionary* allClothesDic;
+    
+    bool vipBool;
     
     CCSprite* roomSpr;
     CCSprite* _ManSpr;

@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "MainScene.h"
+#include "HomeLayer.h"
 #include "ConfigManager.h"
 
 //#include "HaoyouRankLayer.h"
@@ -141,9 +142,18 @@ void HaoyouScene::creat_view(){
 }
 void HaoyouScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
-    CCScene* scene = MainScene::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    
+    if (DATA->getHomeBool()) {
+        DATA->setHomeBool(false);
+        
+        CCScene* scene = HomeLayer::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCScene* scene = MainScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
     LOADING->show_loading();

@@ -87,6 +87,11 @@ void FriendsScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_goto_strangers_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_send_energy_803), "HTTP_FINISHED_803", NULL);
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_take_energy_807), "HTTP_FINISHED_807", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&FriendsScene::keyBackStatus), .8f);
+}
+void FriendsScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
 }
 
 void FriendsScene::onExit() {
@@ -388,3 +393,16 @@ void FriendsScene::btn_no_realize(CCMenuItem* menuItem) {
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放，敬请期待~");
 }
+
+
+void FriendsScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
+    
+    this->on_btn_back_to_social(NULL);
+}
+

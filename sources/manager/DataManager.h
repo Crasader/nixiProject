@@ -94,6 +94,8 @@ public:
     CC_SYNTHESIZE_RETAIN(CCArray*, _dataSource, DataSource);
     // 任务记录阶段
     CC_SYNTHESIZE(int, taskPhase, TaskPhase);
+    // 家记录状态
+    CC_SYNTHESIZE(bool, homeBool, HomeBool);
     
     
     // 体力时间

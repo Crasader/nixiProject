@@ -29,6 +29,7 @@ public:
     const char* obtain_sid();
     const char* obtain_skey();
     const char* obtain_game_addr();
+    const CCDictionary* config();
     
 protected:
     
@@ -37,6 +38,7 @@ private:
     string          _sid;
     string          _skey;
     string          _gameaddr;
+    CCDictionary*   _config;
 };
 
 #endif /* LoginComp_hpp */
