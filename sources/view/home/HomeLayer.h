@@ -51,6 +51,7 @@ public:
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
     CCSprite* bgSpr;
+    CCSprite* kuangSpr;
     
     CCSprite* _tfSpr1; // 头发
     CCSprite* _tfSpr2;

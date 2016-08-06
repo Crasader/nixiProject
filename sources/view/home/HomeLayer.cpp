@@ -11,6 +11,7 @@
 #include "MainScene.h"
 #include "TaskScene.h"
 #include "HaoyouScene.h"
+#include "HomeTableView.h"
 
 #include "DataManager.h"
 #include "DisplayManager.h"
@@ -103,7 +104,7 @@ void HomeLayer::creat_View(){
     this->addChild(menu, 15);
     
     CCSprite* titleDiSpr = CCSprite::create("res/pic/house/house_titleDi.png");
-    titleDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .92f));
+    titleDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .93f));
     this->addChild(titleDiSpr, 15);
     CCString* labelStr = CCString::createWithFormat("云诗彤的房间.布拉格广场");
     CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
@@ -136,7 +137,14 @@ void HomeLayer::creat_View(){
     this->addChild(buttonMenu, 20);
     
     
-    
+//    kuangSpr = CCSprite::create("res/pic/house/house_di.png");
+//    kuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .475f));
+//    this->addChild(kuangSpr, 20);
+//    
+//    HomeTableView* tabLayer = HomeTableView::create();
+//    tabLayer->setPosition(ccp(-2, 90));
+//    tabLayer->setTag(0x77777);
+//    kuangSpr->addChild(tabLayer, 5);
 }
 
 void HomeLayer::backCallBack(CCObject* pSender){

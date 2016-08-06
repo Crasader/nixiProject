@@ -20,10 +20,10 @@ using namespace CSJson;
 
 class HomeComp : public CCObject
 {
-    SYNTHESIZE_PASS_BY_REF_READONLY(string, _curHouse, CurHouse);
-    SYNTHESIZE_READONLY(CCArray*, _houseTemplate, HouseTemplate);
-    SYNTHESIZE_READONLY(CCArray*, _houseUser, HouseUser);
-    SYNTHESIZE_READONLY(CCDictionary*, _scores, Scores);
+    SYNTHESIZE_PASS_BY_REF_READONLY(string, _curHouse, CurHouse);   // 当前用的房子的id
+    SYNTHESIZE_READONLY(CCArray*, _houseTemplate, HouseTemplate);   // 所有的房子(每个下标对应一个房间id 类型为 CCString)
+    SYNTHESIZE_READONLY(CCArray*, _houseUser, HouseUser);           // 玩家拥有的房子(每个下标对应一个房间id 类型为 CCString)
+    SYNTHESIZE_READONLY(CCDictionary*, _scores, Scores);            // 3个游戏最高分的字典
     
 public: // Export
     bool has_init_house_template();

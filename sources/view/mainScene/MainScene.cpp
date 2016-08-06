@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "QingjingScene.h"
+#include "VipQingjingScene.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"
 #include "NoticeManager.h"
@@ -66,6 +67,8 @@ bool MainScene::init(){
     _arrPlay = NULL;
     isrenwuBool = false;
     
+    vipBool = false;
+    
 //    _ManSpr = CCSprite::create();
 //    this->addChild(_ManSpr, 10);
 //    
@@ -120,6 +123,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_704CallBack), "HTTP_FINISHED_704", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
@@ -873,7 +877,15 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
 //        PromptLayer* layer = PromptLayer::create();
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
-        WS->connect();
+//        WS->connect();
+        
+        vipBool = true;
+        if (DATA->getStory()->has_init_story()) {
+            this->_500CallBack(NULL);
+        }else{
+            LOADING->show_loading();
+            NET->completed_story_500();
+        }
     }
 }
 
@@ -883,17 +895,22 @@ void MainScene::homeCallBack(CCObject *pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 //    }
     if (isOk) {
-        CCScene* scene = HomeLayer::scene();
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        NET->home_info_704(true);
     }
+}
+void MainScene::_704CallBack(CCObject* pSender){
+    LOADING->remove();
+    CCScene* scene = HomeLayer::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void MainScene::shouchongCallBack(CCObject* pSender){
     if (isOk) {
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
-        NET->gashapon_info_306(true);
     }
 }
 
@@ -935,7 +952,7 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 
 void MainScene::energyLargessCallBack(CCObject *pSender) {
     if (isOk) {
-        NET->home_info_704(true);
+        
     }
 }
 
@@ -1022,6 +1039,7 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 
 void MainScene::juqingCallBack(CCObject* pSender){
     if (isOk) {
+        vipBool = false;
         if (DATA->getStory()->has_init_story()) {
             this->_500CallBack(NULL);
         }else{
@@ -1037,7 +1055,12 @@ void MainScene::_500CallBack(CCObject* pSender){
         LOADING->show_loading();
         NET->completed_mission_600();
     }else{
-        CCScene* scene = QingjingScene::scene();
+        CCScene* scene;
+        if (!vipBool) {
+            scene = QingjingScene::scene();
+        }else{
+            scene = VipQingjingScene::scene();
+        }
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
