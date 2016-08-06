@@ -18,6 +18,7 @@
 #include "WSManager.h"
 #include "Signin7Panel.h"
 #include "HomeLayer.h"
+#include "EnergyLargessPanel.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -136,6 +137,8 @@ void MainScene::onEnter(){
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::gashaponCallBack), "NEED_SHOW_GASHAPON", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::energyLargessCallBack), "NEED_SHOW_ENERGY_GARLESS", NULL);
+    
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
@@ -958,7 +961,7 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 
 void MainScene::energyLargessCallBack(CCObject *pSender) {
     if (isOk) {
-        
+        EnergyLargessPanel::show(this->getScene());
     }
 }
 

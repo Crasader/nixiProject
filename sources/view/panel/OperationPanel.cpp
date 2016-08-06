@@ -72,8 +72,7 @@ bool OperationPanel::init() {
 void OperationPanel::onEnter() {
     CCLayer::onEnter();
     
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&OperationPanel::nc_take_energy_301), "HTTP_FINISHED_301", NULL);
+//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     
     this->scheduleOnce(SEL_SCHEDULE(&OperationPanel::keyBackStatus), .8f);
 }
@@ -116,17 +115,16 @@ void OperationPanel::on_purchase_achievement() {
     }
 }
 
+void OperationPanel::on_energy_largess() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_ENERGY_GARLESS");
+}
+
 void OperationPanel::on_signin7() {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_SIGNIN7");
 }
 
 void OperationPanel::on_gashapon() {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_GASHAPON");
-}
-
-void OperationPanel::on_take_energy(CCMenuItem *btn) {
-    LOADING->show_loading();
-    NET->take_energy_reward_301();
 }
 
 void OperationPanel::keyBackClicked(){
@@ -137,16 +135,6 @@ void OperationPanel::keyBackClicked(){
     }
     
     this->remove();
-}
-
-void OperationPanel::nc_take_energy_301(CCObject *pObj) {
-    LOADING->remove();
-    CCDictionary* dic = CCDictionary::create();
-    dic->setObject( (CCInteger*)pObj, "num");
-    dic->setObject(CCString::createWithFormat("{%f,%f}", _touchLocation.x, _touchLocation.y), "from");
-    
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 #pragma mark - CCTableViewDataSource
@@ -173,11 +161,11 @@ CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned i
         } break;
             
         case 2: {
-            spt = CCSprite::create("pic/panel/operation/operation_signin7.png");
+            spt = CCSprite::create("pic/panel/operation/operation_energy_largess.png");
         } break;
             
         case 3: {
-            spt = CCSprite::create("pic/panel/operation/operation_energy_largess.png");
+            spt = CCSprite::create("pic/panel/operation/operation_signin7.png");
         } break;
             
         case 4: {
@@ -219,19 +207,11 @@ void OperationPanel::tableCellTouched(CCTableView *table, CCTableViewCell *cell)
         } break;
             
         case 2: {
-            this->on_signin7();
+            this->on_energy_largess();
         } break;
             
         case 3: {
-            int energy1 = DATA->getNews()->energy1;
-            int energy2 = DATA->getNews()->energy2;
-            if (energy1 == 1 || energy2 == 1) {
-                this->on_take_energy(NULL);
-            }
-            else {
-                PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "时机不对!~");
-            }
+            this->on_signin7();
         } break;
             
         case 4: {
