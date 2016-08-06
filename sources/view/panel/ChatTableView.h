@@ -50,15 +50,14 @@ public:
 private:
     void config_cell(CCTableViewCell* pCell, int index);
     void insertMessage(CCObject* pObj);
-    void updateCellPosition();
     
 private:
     
     CCTableView* pTableView;
-    int cell_num;
+//    int cell_num;
     
-    const char* insert_name;
-    const char* insert_chat;
+//    const char* insert_name;
+//    const char* insert_chat;
     
 };
 

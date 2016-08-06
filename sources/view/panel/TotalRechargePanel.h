@@ -1,26 +1,26 @@
 //
-//  Signin7Panel.hpp
+//  TotalRechargePanel.hpp
 //  tiegao
 //
-//  Created by mac on 16/8/1.
+//  Created by stevenLi on 16/8/5.
 //
 //
 
-#ifndef Signin7Panel_hpp
-#define Signin7Panel_hpp
+#ifndef TotalRechargePanel_hpp
+#define TotalRechargePanel_hpp
 
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-class Signin7Panel : public CCLayer
+class TotalRechargePanel : public CCLayer
 {
 public: // Export
     static void show();
     
 public:
-    ~Signin7Panel();
-    CREATE_FUNC(Signin7Panel);
+    ~TotalRechargePanel();
+    CREATE_FUNC(TotalRechargePanel);
     virtual bool init();
     virtual void onEnter();
     virtual void onExit();
@@ -29,17 +29,14 @@ public:
     virtual void keyBackClicked();
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+//    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
 private:
     void remove();
-    void config_siginInfo();
-    void signin_callback_303();
     
 private:
     CCLayer*            _content;
     CCSprite*           _panel;
-    int                 _signin_id;
 };
 
-#endif /* Signin7Panel_hpp */
+#endif /* TotalRechargePanel_hpp */

@@ -21,8 +21,8 @@ CCArray* SigninComp::signin7_template() const {
 }
 
 SigninState SigninComp::fetch_signin7_state(const string& id) {
-    const CCString* state = _signin7Info->valueForKey(id);
-    return (SigninState)state->intValue();
+    CCInteger* state = (CCInteger*)_signin7Info->objectForKey(id);
+    return (SigninState)state->getValue();
 }
 
 #pragma mark - Inner API
@@ -59,6 +59,7 @@ void SigninComp::init_signin7_template(Value json) {
         CCString* key = (CCString*)pObj;
         _signin7Template->addObject(dic->objectForKey(key->getCString()));
     }
+    _signin7Template->retain();
     this->test_signin7Template();
 }
 
