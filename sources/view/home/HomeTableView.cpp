@@ -63,10 +63,18 @@ void HomeTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 
 //点击哪个cell
 void HomeTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
-    if (atoi(nowHouse.c_str()) != cell->getIdx() + 1) {
-        CCString* str = CCString::createWithFormat("%d", cell->getIdx() + 1);
-        DATA->getHome()->setCurHouse(str->getCString());
+    touchHouse = cell->getIdx() + 1;
+    DATA->setHouseIndex(touchHouse);
+    
+    if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
+        kuangSpr->removeFromParent();
     }
+    CCSprite* spr = CCSprite::create("res/pic/house/house_kuang.png");
+    kuangSpr->setPosition(ccp(spr->getContentSize().width* .8f, spr->getContentSize().height* .9f));
+    kuangSpr->setTag(cell->getIdx());
+    cell->addChild(kuangSpr, 5);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("HomeUpdataBg");
 }
 
 //每个cell的size
@@ -85,17 +93,17 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
     CCSprite* bgKuangSpr = CCSprite::create(bgStr->getCString());
     bgKuangSpr->setAnchorPoint(CCPointZero);
     bgKuangSpr->setPosition(CCPointZero);
+    bgKuangSpr->setTag(idx);
     spr->addChild(bgKuangSpr);
     
     if (atoi(nowHouse.c_str()) == idx + 1) {
         if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
-            kuangSpr->removeFromParentAndCleanup(true);
-            kuangSpr = NULL;
+            kuangSpr->removeFromParent();
         }
-        kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-        kuangSpr->setPosition(ccp(bgKuangSpr->getContentSize().width* .8f, bgKuangSpr->getContentSize().height* .9f));
+        CCSprite* spr = CCSprite::create("res/pic/house/house_kuang.png");
+        kuangSpr->setPosition(ccp(spr->getContentSize().width* .8f, spr->getContentSize().height* .9f));
         kuangSpr->setTag(idx);
-        bgKuangSpr->addChild(kuangSpr, 5);
+        pCell->addChild(kuangSpr, 5);
     }
     
     

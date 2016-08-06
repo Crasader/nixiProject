@@ -12,6 +12,7 @@
 #include "TaskScene.h"
 #include "HaoyouScene.h"
 #include "HomeTableView.h"
+#include "PromptLayer.h"
 
 #include "DataManager.h"
 #include "DisplayManager.h"
@@ -41,9 +42,12 @@ bool HomeLayer::init(){
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
-    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%s.png", DATA->getHome()->getCurHouse().c_str());
+    std::string nowHouse = DATA->getHome()->getCurHouse().c_str();
+    DATA->setHouseIndex(atoi(nowHouse.c_str()));
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", DATA->getHouseIndex());
     bgSpr = CCSprite::create(bgStr->getCString());
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    bgSpr->setTag(0x88888);
     this->addChild(bgSpr);
     
     this->creat_View();
@@ -51,6 +55,17 @@ bool HomeLayer::init(){
     this->initClothes();
     
     return true;
+}
+void HomeLayer::updataBg(){
+    if (this->getChildByTag(0x88888) != NULL) {
+        this->removeChildByTag(0x88888);
+    }
+    
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", DATA->getHouseIndex());
+    bgSpr = CCSprite::create(bgStr->getCString());
+    bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    bgSpr->setTag(0x88888);
+    this->addChild(bgSpr);
 }
 
 void HomeLayer::onEnter(){
@@ -60,8 +75,9 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_500CallBack), "HTTP_FINISHED_500", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_600CallBack), "HTTP_FINISHED_600", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_705CallBack), "HTTP_FINISHED_705", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
-    
+    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
 }
 
 void HomeLayer::onExit(){
@@ -213,7 +229,14 @@ void HomeLayer::manAction2(){
     _ManSpr->runAction(moveTo);
 }
 void HomeLayer::saveCallBack(CCObject* pSender){
-    
+    LOADING->show_loading();
+    CCString* str = CCString::createWithFormat("%d", DATA->getHouseIndex());
+    NET->change_house_705(str->getCString());
+}
+void HomeLayer::_705CallBack(CCObject* pSender){
+    LOADING->remove();
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "保存成功.");
 }
 
 void HomeLayer::backCallBack(CCObject* pSender){

@@ -88,6 +88,7 @@ public:
     void creat_View();
     void creat_Man();
     void initClothes();//穿衣服
+    void updataBg();
     
     void manAction1();
     void manAction2();
@@ -102,6 +103,7 @@ public:
     void _huanzhuangCallBack(CCObject* pSender);
     void _500CallBack(CCObject* pSender);
     void _600CallBack(CCObject* pSender);
+    void _705CallBack(CCObject* pSender);
     void _800CallBack(CCObject* pSender);
 };
 #endif /* defined(__tiegao__HomeLayer__) */
