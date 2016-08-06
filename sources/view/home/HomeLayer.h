@@ -48,6 +48,8 @@ public:
     
 public:
     
+    bool kuangBool;
+    
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
     CCSprite* bgSpr;
@@ -79,6 +81,7 @@ public:
     
     
     CCMenuItem* backItem;
+    CCMenuItem* qiehuanItem;
     
 public:
     
@@ -86,9 +89,14 @@ public:
     void creat_Man();
     void initClothes();//穿衣服
     
-    
+    void manAction1();
+    void manAction2();
+    void openTouch(float dt);
+    void openButton(float dt);
     void backCallBack(CCObject* pSender);
     void gongsiCallBack(CCObject* pSender);
+    void qiehuanCallBack(CCObject* pSender);
+    void saveCallBack(CCObject* pSender);
     void huanzhuangCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
     void _huanzhuangCallBack(CCObject* pSender);

@@ -10,8 +10,8 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "MainScene.h"
-#include "QingjingTableView.h"
-#include "StoryScene.h"
+#include "VipQingjingTableView.h"
+#include "VipStoryScene.h"
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
@@ -167,7 +167,7 @@ void VipQingjingScene::creat_view(){
      *   "1002_5",          手机需要的人表情
      *   "那么一段糗事,你就不要来看了嘛.讨厌~!"     手机需要的提示语
      */
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", 0);
     CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
@@ -201,7 +201,7 @@ void VipQingjingScene::creat_view(){
     CCSize slSize = CCSizeMake(517, 210);
     float disDistance = 517;
     float disScale = .25f;
-    qingjingCoverView = QingjingCoverView::create(swRect, slSize, disDistance, disScale);
+    qingjingCoverView = VipQingjingCoverView::create(swRect, slSize, disDistance, disScale);
     
     for (int i = 0; i < allNumber; i++) {        
         //
@@ -233,13 +233,13 @@ void VipQingjingScene::creat_view(){
 //        titleLabel->enableStroke(ccc3(80, 63, 68), .4f);
         kuangSpr->addChild(titleLabel);
         // 显示的结局
-        CSJson::Value data = AppUtil::read_json_file("res/vipStory/storyAchievementArr");
+        CSJson::Value data = AppUtil::read_json_file("res/vipStory/vip_storyAchievementArr");
         CCDictionary* dic = AppUtil::dictionary_with_json(data);
         CCString* keyStr = CCString::createWithFormat("101_80100_%d", i);
         CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
         
         
-        CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
+        CSJson::Value storyData = AppUtil::read_json_file("res/vipStory/vip_storyAchievement");
         CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
         
         CCString* story_index = CCString::createWithFormat("%d", i);
@@ -382,7 +382,7 @@ void VipQingjingScene::qingjingStatus(){
     
     int now_task_index = -1;
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     int allTask = taskConditionsDic->count();
     
@@ -480,7 +480,7 @@ void VipQingjingScene::creat_Tishi(){
     int index = DATA->getChapterNumber();
     
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", index);
     CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
@@ -565,12 +565,12 @@ void VipQingjingScene::creat_Tishi(){
     kuangSpr->addChild(titleLabel3);
     
     // 显示的结局
-    CSJson::Value data = AppUtil::read_json_file("res/vipStory/storyAchievementArr");
+    CSJson::Value data = AppUtil::read_json_file("res/vipStory/vip_storyAchievementArr");
     CCDictionary* dic = AppUtil::dictionary_with_json(data);
     CCString* keyStr = CCString::createWithFormat("101_80100_%d", index);
     CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
 
-    CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
+    CSJson::Value storyData = AppUtil::read_json_file("res/vipStory/vip_storyAchievement");
     CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
     if (!tempBool) {// 需要判断 如果获得的结局等于0
         for (int i = 0; i < achievemArr->count(); i++) {
@@ -699,7 +699,7 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
 }
 void VipQingjingScene::_501CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();
-    StoryScene* layer = StoryScene::create_with_story_id(storyIndex);
+    VipStoryScene* layer = VipStoryScene::create_with_story_id(storyIndex);
     pScene->addChild(layer);
     CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
     CCDirector::sharedDirector()->replaceScene(trans);
@@ -1224,7 +1224,7 @@ void VipQingjingScene::initClothes(){//穿衣服
 
 int VipQingjingScene::getStoryIndexStatus(){
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     allNumber = taskConditionsDic->count();
     int index = 0;
@@ -1331,7 +1331,7 @@ void VipQingjingScene::updataMan(){
     }
     
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", DATA->getChapterNumber());
     CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());

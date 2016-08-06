@@ -10,6 +10,7 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "QingjingScene.h"
+#include "VipQingjingScene.h"
 #include "AppUtil.h"
 
 
@@ -158,7 +159,13 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
 }
 void StorySettlementOfTheAnimationLayer::closeCallBack(CCObject* pSender){
     this->removeFromParentAndCleanup(true);
-    CCScene* scene = QingjingScene::scene();
+    
+    CCScene* scene;
+    if (!DATA->getVipBool()) {
+        scene = QingjingScene::scene();
+    }else{
+        scene = VipQingjingScene::scene();
+    }
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

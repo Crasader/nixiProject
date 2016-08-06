@@ -68,8 +68,13 @@ public:
     
     float offsetFloat;
     CCArray* allHomeArr;
+    CCArray* haveHomeArr;
+    std::string nowHouse;
+    
+    CCSprite* kuangSpr;
     
     int allNumber;
+    int touchHouse;
     
 };
 #endif /* defined(__tiegao__HomeTableView__) */

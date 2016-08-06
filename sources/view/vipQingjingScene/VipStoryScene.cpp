@@ -7,16 +7,14 @@
 //
 
 #include "VipStoryScene.h"
-#include "Dialogs.h"
-#include "DialogItem.h"
 #include "MainScene.h"
 #include "DataManager.h"
-#include "QingjingScene.h"
+#include "VipQingjingScene.h"
 #include "DisplayManager.h"
-#include "LabelColorLayer.h"
+#include "VipLabelColorLayer.h"
 #include "Loading2.h"
 #include "NetManager.h"
-#include "StorySettlementOfTheAnimationLayer.h"
+#include "VipStorySettlementOfTheAnimationLayer.h"
 #include "PromptLayer.h"
 //#include "MMAudioManager.h"
 
@@ -66,7 +64,7 @@ bool VipStoryScene::init(){
     char strPei[100] = {};
     for (int i = 2; i >= 1; i--) {
     
-        sprintf(strPei, "res/pic/qingjingScene/VipStoryScene/qj_act%d.png", i);
+        sprintf(strPei, "res/pic/qingjingScene/StoryScene/qj_act%d.png", i);
         CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 107, 107));
         animations->addObject(frame);
     }
@@ -115,25 +113,25 @@ void VipStoryScene::init_with_story_id(int _index){
     
     m_current_story_index_id = _index;
     
-    CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_shangkuang.png");
+    CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_shangkuang.png");
     shangkuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .97f));
     this->addChild(shangkuangSpr, 50);
-    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheName(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
+    CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheName2(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
     shangLabel->setPosition(ccp(shangkuangSpr->getContentSize().width* .5f, shangkuangSpr->getContentSize().height* .5f));
     shangLabel->setColor(ccWHITE);
     shangkuangSpr->addChild(shangLabel);
     
-    dialog = Dialogs::create();
+    dialog = VipDialogs::create();
     dialog->retain();
-    CCString* fileStr = CCString::createWithFormat("res/vipStory/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
+    CCString* fileStr = CCString::createWithFormat("res/vipStory/80100/%s", DISPLAY->GetOffTheNumber2(m_current_story_index_id)->getCString());
 //    CCString* fileStr = CCString::createWithFormat("res/vipStory/80100/story_80100_101_%d", 5);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
-    dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
+    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(index);
     
     this->init(dialogItem);
     
-    kuangSpr = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_di.png");
+    kuangSpr = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_di.png");
     kuangSpr->setAnchorPoint(ccp(.5f, 0));
     kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5, 80 - 500));
     kuangSpr->setTag(Tag_GJ_kuang);
@@ -141,7 +139,7 @@ void VipStoryScene::init_with_story_id(int _index){
     
     DATA->setDiKuangSize(kuangSpr->boundingBox().size);
     
-    quanSpr = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_act1.png");
+    quanSpr = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_act1.png");
     quanSpr->setPosition(ccp(kuangSpr->getContentSize().width* .96f, -12));
     quanSpr->setTag(0x88999);
     kuangSpr->addChild(quanSpr, 100);
@@ -156,7 +154,7 @@ void VipStoryScene::init_with_story_id(int _index){
     float widSize = kuangSpr->getContentSize().width;
     float heiSize = kuangSpr->getContentSize().height;
     
-    nameKuang = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_namekuang.png");
+    nameKuang = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_namekuang.png");
     nameKuang->setPosition(ccp(kuangSpr->getContentSize().width* .2f, kuangSpr->getContentSize().height - 10));
     kuangSpr->addChild(nameKuang);
     nameKuang->setVisible(false);
@@ -180,7 +178,7 @@ void VipStoryScene::init_with_story_id(int _index){
     this->schedule(schedule_selector(VipStoryScene::gengxin), .1f);
 }
 
-void VipStoryScene::dialogueControl(DialogItem* dialItem){
+void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
 //    CCLog("index ==== %d", dialItem->getIndex());
 //    CCLog("states ==== %d", dialItem->getStates());
 //    CCLog("passersby ==== %d", dialItem->getPassersby());
@@ -403,7 +401,7 @@ void VipStoryScene::dialogueControl(DialogItem* dialItem){
     }
 }
 
-void VipStoryScene::recordLabel(DialogItem* dialItem){
+void VipStoryScene::recordLabel(VipDialogItem* dialItem){
     if (dialItem->getName().length() != 0) {
         labStr.append(dialItem->getName().c_str());
         labStr.append("\n\t");
@@ -966,27 +964,27 @@ void VipStoryScene::emptyLabel(){
 
 void VipStoryScene::addButton(){
     // 退出
-    CCSprite* fhSpr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_tuichu.png");
-    CCSprite* fhSpr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_tuichu.png");
+    CCSprite* fhSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_tuichu.png");
+    CCSprite* fhSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_tuichu.png");
     fhSpr2->setColor(ccGRAY);
     CCMenuItem* fhItem;
     fhItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(VipStoryScene::fhCallBack));
     fhItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .1f, 43 - 500));
     
     // 回顾
-    CCSprite* hgSpr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_huikan.png");
-    CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_huikan.png");
+    CCSprite* hgSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_huikan.png");
+    CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_huikan.png");
     hgSpr2->setColor(ccGRAY);
     CCMenuItem* hkButton = CCMenuItemSprite::create(hgSpr1, hgSpr2, this, menu_selector(VipStoryScene::button2CallBack));
     hkButton->setPosition(ccp(kuangSpr->boundingBox().size.width* .58, kuangSpr->boundingBox().size.height + 80 - 500));
     
     
     // 自动
-    CCSprite* zdSpr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_zidong1.png");
-    CCSprite* zdSpr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_zidong1.png");
+    CCSprite* zdSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong1.png");
+    CCSprite* zdSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong1.png");
     zdSpr2->setColor(ccGRAY);
-    CCSprite* ztSpr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_zidong2.png");
-    CCSprite* ztSpr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_zidong2.png");
+    CCSprite* ztSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong2.png");
+    CCSprite* ztSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong2.png");
     ztSpr2->setColor(ccGRAY);
     CCMenuItem* zidongItemOn = CCMenuItemSprite::create(zdSpr1, zdSpr1);
     CCMenuItem* zidongItemOff = CCMenuItemSprite::create(ztSpr1, ztSpr2);
@@ -1001,11 +999,11 @@ void VipStoryScene::addButton(){
     }
     
     // 快进
-    CCSprite* kjSpr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_kuaijin1.png");
-    CCSprite* kjSpr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_kuaijin1.png");
+    CCSprite* kjSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin1.png");
+    CCSprite* kjSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin1.png");
     kjSpr2->setColor(ccGRAY);
-    CCSprite* ztSpr3 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_kuaijin2.png");
-    CCSprite* ztSpr4 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_kuaijin2.png");
+    CCSprite* ztSpr3 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin2.png");
+    CCSprite* ztSpr4 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin2.png");
     ztSpr4->setColor(ccGRAY);
     CCMenuItem* kuaijinItemOn = CCMenuItemSprite::create(kjSpr1, kjSpr2);
     CCMenuItem* kuaijinItemOff = CCMenuItemSprite::create(ztSpr3, ztSpr4);
@@ -1110,7 +1108,7 @@ void VipStoryScene::button2CallBack(CCObject* pSender){
         // talkingData
 //        MMDataManager::get_instance()->onEvent("点击事件", "星途界面", "开启日志");
         
-        LabelColorLayer* layer = LabelColorLayer::create_with_index(labStr.c_str());
+        VipLabelColorLayer* layer = VipLabelColorLayer::create_with_index(labStr.c_str());
         layer->setTag(0x999999);
         this->addChild(layer, 100);
         
@@ -1198,8 +1196,8 @@ void VipStoryScene::creatButton(int dex){
     
     if (dex == 0) {
         // 任务条
-        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_rwtiao.png");
-        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_rwtiao.png");
+        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
         CCMenuItem* item1 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(VipStoryScene::callBackMethods));
         item1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .59f));
         item1->setTag(Tag_Item_0);
@@ -1210,8 +1208,8 @@ void VipStoryScene::creatButton(int dex){
         this->addChild(menu1, 20);
         
     }else if (dex == 1){
-        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_rwtiao.png");
-        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_rwtiao.png");
+        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
         CCMenuItem* item2 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(VipStoryScene::callBackMethods));
         item2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         item2->setTag(Tag_Item_1);
@@ -1222,8 +1220,8 @@ void VipStoryScene::creatButton(int dex){
         this->addChild(menu2, 20);
         
     }else if (dex == 2){
-        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_rwtiao.png");
-        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/VipStoryScene/qj_rwtiao.png");
+        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
         CCMenuItem* item3 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(VipStoryScene::callBackMethods));
         item3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .41f));
         item3->setTag(Tag_Item_2);
@@ -1722,7 +1720,7 @@ void VipStoryScene::callBack1(){
     buttonBool3 = recordBool3;
 //    MZLog("VipStoryScene::callBack1 ******* buttonBool3 === %d", buttonBool3);
     
-    dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
+    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
     wordCount = 0;
     this->init(dialogItem);
     this->dialogueControl(dialogItem);
@@ -1750,7 +1748,7 @@ void VipStoryScene::callBack2(){
     buttonBool3 = recordBool3;
 //    MZLog("VipStoryScene::callBack2 ******* buttonBool3 === %d", buttonBool3);
     
-    dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
+    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
     wordCount = 0;
     this->init(dialogItem);
     this->dialogueControl(dialogItem);
@@ -1778,7 +1776,7 @@ void VipStoryScene::callBack3(){
     buttonBool3 = recordBool3;
 //    MZLog("VipStoryScene::callBack3 ******* buttonBool3 === %d", buttonBool3);
     
-    dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
+    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
     wordCount = 0;
     this->init(dialogItem);
     this->dialogueControl(dialogItem);
@@ -1814,7 +1812,7 @@ void VipStoryScene::gengxin(float dt){
     }
 }
 
-void VipStoryScene::init(DialogItem* item){
+void VipStoryScene::init(VipDialogItem* item){
     content = item->getSaid();
     contentLength = 0;
     
@@ -2048,7 +2046,7 @@ void VipStoryScene::getIndex(float dt){
             NET->commit_story_503(indexStr->getCString(), endingStr->getCString());
             
         }else{
-            dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
+            dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(index);
             this->init(dialogItem);
             wordCount = 0;
             this->dialogueControl(dialogItem);
@@ -2116,7 +2114,7 @@ void VipStoryScene::fhCallBack(CCObject* pSender){
 //    mb->setPosition(Center);
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3010);
     
-    CCScene* scene = QingjingScene::scene();
+    CCScene* scene = VipQingjingScene::scene();
     CCDirector::sharedDirector()->replaceScene(scene);
 }
 
@@ -2138,7 +2136,7 @@ void VipStoryScene::LabelColorFhCallBack(CCObject* pSender){
 void VipStoryScene::_503CallBack(CCObject* pSender){
     LOADING->remove();
     CCLog("<><><>endingStr ==== %s", endingStr->getCString());
-    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
+    VipStorySettlementOfTheAnimationLayer* layer = VipStorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
     this->addChild(layer, 1000);
 }
 

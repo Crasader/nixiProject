@@ -96,6 +96,8 @@ public:
     CC_SYNTHESIZE(int, taskPhase, TaskPhase);
     // 家记录状态
     CC_SYNTHESIZE(bool, homeBool, HomeBool);
+    // vip记录状态
+    CC_SYNTHESIZE(bool, _vipBool, VipBool);
     
     
     // 体力时间
