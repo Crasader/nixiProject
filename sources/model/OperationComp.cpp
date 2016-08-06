@@ -12,8 +12,9 @@
 #pragma mark - Export
 
 unsigned OperationComp::cur_purchase_achievement_template_index() {
+    int templateMax = _purchaseAchievementTemplate->count();
     if (_purchaseAchievementUser) {
-        return _purchaseAchievementUser->count();
+        return MIN(_purchaseAchievementUser->count(), templateMax - 1);
     }
     
     return 0;
@@ -82,7 +83,7 @@ void OperationComp::replace_purchase_achievement(Value json) {
     }
     
     this->setPurchasedTotal(json["total"].asInt());
-    this->setPurchaseAchievementUser(AppUtil::array_with_json(json["pAchievement"]));
+    this->setPurchaseAchievementUser(AppUtil::array_with_json(json["record"]));
 }
 
 void OperationComp::init_gashapon_template(Value json) {

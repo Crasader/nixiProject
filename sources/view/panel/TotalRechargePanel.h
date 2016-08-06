@@ -41,7 +41,8 @@ private:
 private:
     CCLayer*            _content;
     CCSprite*           _panel;
-    CCArray*            _template;
+    CCArray*            _clothes;
+    CCMenuItemSprite*   _item;
 };
 
 #endif /* TotalRechargePanel_hpp */
