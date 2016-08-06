@@ -47,7 +47,7 @@ bool BuildingView::init(int phase) {
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     
-    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+    CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
     
@@ -194,7 +194,6 @@ CCTableViewCell* BuildingView::tableCellAtIndex(CCTableView *table, unsigned int
         }
         else if (idx == floorCount - 1) { // 屋顶
             cell = FloorCell::create(FloorCellType_Roof, _phase, idx);
-            cell->setZOrder(1);
         }
         else if (idx == floorCount - 2) { // 总裁办
             cell = FloorCell::create(FloorCellType_Manager_Office, _phase, idx);

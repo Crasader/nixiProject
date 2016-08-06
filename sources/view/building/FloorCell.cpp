@@ -460,12 +460,12 @@ void FloorCell::show_coin_at(CCPoint pos) {
     this->addChild(coinSpr);
     CCCallFuncN* idleAnimation = CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::start_coin_idle));
     if (pos.x < FLOOR_CELL_WIDTH * 0.5) {
-        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, -180, 0, 0), idleAnimation, NULL);
+        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(50, -76), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, -180, 0, 0), idleAnimation, NULL);
         coinSpr->runAction(seqCoin);
         
     }
     else {
-        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(-50, -80), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, 360, 0, 0), idleAnimation, NULL);
+        CCSequence* seqCoin = CCSequence::create(CCJumpBy::create(0.5f, CCPoint(-50, -76), 80, 1), CCOrbitCamera::create(0.2, 1, 0, 0, 360, 0, 0), idleAnimation, NULL);
         coinSpr->runAction(seqCoin);
     }
     

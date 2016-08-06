@@ -117,6 +117,12 @@ void BuildingLayer::building_shaking() {
     }
 }
 
+void BuildingLayer::show_arrow() {
+    CCSprite* sptArrow = CCSprite::create("pic/building/arrow.png");
+    sptArrow->setPosition(ccp(DISPLAY->W() * 0.3, DISPLAY->H() * 0.76));
+    this->addChild(sptArrow);
+}
+
 void BuildingLayer::building_touch_callback() {
     this->setTouchEnabled(false);
     CCCallFunc* call = CCCallFunc::create(this, SEL_CallFunc(&BuildingLayer::show_building));
