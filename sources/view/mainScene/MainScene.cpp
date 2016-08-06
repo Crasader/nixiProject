@@ -69,6 +69,7 @@ bool MainScene::init(){
     
     vipBool = false;
     
+    
 //    _ManSpr = CCSprite::create();
 //    this->addChild(_ManSpr, 10);
 //    
@@ -153,6 +154,11 @@ void MainScene::onEnter(){
 //    }
 
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
+    
+    if (DATA->getNews()->signin7 > 0) {
+        isOk = true;
+        this->qiandaoCallBack(NULL);
+    }
 }
 
 void MainScene::keyBackStatus(float dt){
@@ -1019,7 +1025,7 @@ void MainScene::rankList_callback_300(CCObject *pObj){
 
 void MainScene::nc_signin_info_302(CCObject *pObj) {
     LOADING->remove();
-    Signin7Panel::show();
+    Signin7Panel::show(this->getScene());
 }
 
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {

@@ -44,7 +44,9 @@ public:
     static ConfigManager* Inst();
     void config();
     
-public:    
+public:
+    string                  version;
+    int                     netId; // 显示用
     string                  login_addr;
     string                  chator_addr;
     
