@@ -108,12 +108,7 @@ void OperationPanel::on_purchase() {
 }
 
 void OperationPanel::on_purchase_achievement() {
-    if (DATA->getOperation()->has_init_purchase_achievement_template()) {
-        NET->purchase_achievement_info_304(false);
-    }
-    else {
-        NET->purchase_achievement_info_304(true);
-    }
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_RECHARTE");
 }
 
 void OperationPanel::on_signin7() {

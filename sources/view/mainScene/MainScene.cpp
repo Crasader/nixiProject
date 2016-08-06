@@ -36,6 +36,7 @@
 #include "SettingPanel.h"
 #include "ChatPanel.h"
 #include "GashaponPanel.h"
+#include "TotalRechargePanel.h"
 
 #include <time.h>
 
@@ -124,12 +125,14 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_recharge_info_304), "HTTP_FINISHED_304", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::gashaponCallBack), "NEED_SHOW_GASHAPON", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::purchaseAchievementCallBack), "NEED_SHOW_RECHARTE", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
@@ -935,7 +938,14 @@ void MainScene::energyLargessCallBack(CCObject *pSender) {
 
 void MainScene::purchaseAchievementCallBack(CCObject *pSender) {
     if (isOk) {
-        
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        if (DATA->getOperation()->has_init_purchase_achievement_template()) {
+            NET->purchase_achievement_info_304(false);
+        }
+        else {
+            NET->purchase_achievement_info_304(true);
+        }
     }
 }
 
@@ -992,6 +1002,11 @@ void MainScene::paihangCallBack(CCObject* pSender){
 
 void MainScene::rankList_callback_300(CCObject *pObj){
     NET->all_friends_806();
+}
+
+void MainScene::nc_recharge_info_304(CCObject *pObj){
+    LOADING->remove();
+    TotalRechargePanel::show();
 }
 
 void MainScene::nc_signin_info_302(CCObject *pObj) {
