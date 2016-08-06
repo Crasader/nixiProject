@@ -14,6 +14,7 @@
 #include "MZResourceLoader.h"
 #include "ConfigManager.h"
 #include "TaskScene.h"
+#include "HomeLayer.h"
 #include "Loading2.h"
 #include "NetManager.h"
 #include "TaskSettlementLayer2.h"
@@ -1046,19 +1047,28 @@ void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
-    if (clothesStatus == 1) {// 任务
-//        CCScene* scene = TaskScene::scene();
-//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//        CCDirector::sharedDirector()->replaceScene(trans);
-        CCLayer* layer = TaskScene::create(false);
-        CCScene* scene = CCScene::create();
-        scene->addChild(layer);
+    
+    if (DATA->getHomeBool()) {
+        DATA->setHomeBool(false);
+        
+        CCScene* scene = HomeLayer::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
-    }else if (clothesStatus == 2){// 换装
-        CCScene* scene = MainScene::scene();
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        if (clothesStatus == 1) {// 任务
+//            CCScene* scene = TaskScene::scene();
+//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//            CCDirector::sharedDirector()->replaceScene(trans);
+            CCLayer* layer = TaskScene::create(false);
+            CCScene* scene = CCScene::create();
+            scene->addChild(layer);
+            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+            CCDirector::sharedDirector()->replaceScene(trans);
+        }else if (clothesStatus == 2){// 换装
+            CCScene* scene = MainScene::scene();
+            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+            CCDirector::sharedDirector()->replaceScene(trans);
+        }
     }
 }
 void ClothesScene::startCallBack(CCObject* pSender){

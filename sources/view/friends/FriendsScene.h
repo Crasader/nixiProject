@@ -30,6 +30,9 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    void keyBackStatus(float dt);
+    virtual void keyBackClicked();
+    
 private:
     void create_UI();
     void create_listview();

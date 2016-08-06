@@ -10,12 +10,14 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "QingjingScene.h"
+#include "VipQingjingScene.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"
 #include "NoticeManager.h"
 #include "AudioManager.h"
 #include "WSManager.h"
 #include "Signin7Panel.h"
+#include "HomeLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -64,6 +66,8 @@ bool MainScene::init(){
     _arrGroup2 = NULL;
     _arrPlay = NULL;
     isrenwuBool = false;
+    
+    vipBool = false;
     
 //    _ManSpr = CCSprite::create();
 //    this->addChild(_ManSpr, 10);
@@ -119,6 +123,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_704CallBack), "HTTP_FINISHED_704", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
@@ -232,7 +237,7 @@ void MainScene::creat_view(){
     hzSpr2->setScale(1.02f);
     CCMenuItem* huanzhuangItem = CCMenuItemSprite::create(hzSpr1, hzSpr2, this, menu_selector(MainScene::huanzhuangCallBack));
     huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .81f));
-
+    
     // 排行
     CCSprite* phSpr1 = CCSprite::create("res/pic/mainScene/main_paihang.png");
     CCSprite* phSpr2 = CCSprite::create("res/pic/mainScene/main_paihang.png");
@@ -254,12 +259,12 @@ void MainScene::creat_view(){
     CCMenuItem* btnPurchaseAchievement = CCMenuItemSprite::create(purchaseAchievement1, purchaseAchievement2, this, menu_selector(MainScene::purchaseAchievementCallBack));
     btnPurchaseAchievement->setPosition(btnEnergyLargess->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
     
-    // 扭蛋
-    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
-    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
-    gashapon2->setScale(1.02f);
-    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
-    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+//    // 扭蛋
+//    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+//    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+//    gashapon2->setScale(1.02f);
+//    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+//    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
 
     //设置
@@ -617,7 +622,7 @@ void MainScene::creat_view(){
                                   _shezhiItem,
                                   btnEnergyLargess,
                                   btnPurchaseAchievement,
-                                  btnGashapon,
+//                                  btnGashapon,
                                   NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
@@ -872,22 +877,40 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
     if (isOk) {
 //        PromptLayer* layer = PromptLayer::create();
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
-        WS->connect();
+//        WS->connect();
+        
+        vipBool = true;
+        if (DATA->getStory()->has_init_story()) {
+            this->_500CallBack(NULL);
+        }else{
+            LOADING->show_loading();
+            NET->completed_story_500();
+        }
     }
 }
 
 void MainScene::homeCallBack(CCObject *pSender){
+//    if (isOk) {
+//        PromptLayer* layer = PromptLayer::create();
+//        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
+//    }
     if (isOk) {
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        NET->home_info_704(true);
     }
+}
+void MainScene::_704CallBack(CCObject* pSender){
+    LOADING->remove();
+    CCScene* scene = HomeLayer::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 //void MainScene::shouchongCallBack(CCObject* pSender){
 //    if (isOk) {
 //        PromptLayer* layer = PromptLayer::create();
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
-//        NET->gashapon_info_306(true);
 //    }
 //}
 
@@ -929,7 +952,7 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 
 void MainScene::energyLargessCallBack(CCObject *pSender) {
     if (isOk) {
-        NET->home_info_704(true);
+        
     }
 }
 
@@ -1016,6 +1039,7 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 
 void MainScene::juqingCallBack(CCObject* pSender){
     if (isOk) {
+        vipBool = false;
         if (DATA->getStory()->has_init_story()) {
             this->_500CallBack(NULL);
         }else{
@@ -1031,7 +1055,12 @@ void MainScene::_500CallBack(CCObject* pSender){
         LOADING->show_loading();
         NET->completed_mission_600();
     }else{
-        CCScene* scene = QingjingScene::scene();
+        CCScene* scene;
+        if (!vipBool) {
+            scene = QingjingScene::scene();
+        }else{
+            scene = VipQingjingScene::scene();
+        }
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }

@@ -198,7 +198,8 @@ CCTableViewCell* OperationPanel::tableCellAtIndex(CCTableView *table, unsigned i
 }
 
 unsigned int OperationPanel::numberOfCellsInTableView(CCTableView *table) {
-    return 5;
+    //return 5;
+    return 4;
 }
 
 #pragma mark - CCTableViewDelegate

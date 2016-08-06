@@ -80,6 +80,8 @@ void BuildingLayer::onEnter() {
     else {
         schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
     }
+    
+    this->show_arrow();
 }
 
 void BuildingLayer::onExit() {
@@ -119,8 +121,14 @@ void BuildingLayer::building_shaking() {
 
 void BuildingLayer::show_arrow() {
     CCSprite* sptArrow = CCSprite::create("pic/building/arrow.png");
-    sptArrow->setPosition(ccp(DISPLAY->W() * 0.3, DISPLAY->H() * 0.76));
+    sptArrow->setPosition(ccp(DISPLAY->W() * 0.22, DISPLAY->H() * 0.81));
     this->addChild(sptArrow);
+    sptArrow->runAction(CCRepeatForever::create(CCSequence::create(CCMoveBy::create(0.5, ccp(0, -60)), CCMoveBy::create(0.5, ccp(0, 60)), NULL)));
+    
+    CCSprite* sptFlow = CCSprite::create("pic/building/arrow_flow.png");
+    sptFlow->setPosition(ccp(50, 30));
+    sptFlow->runAction(CCRepeatForever::create(CCSequence::create(CCFadeOut::create(1.0f), CCFadeIn::create(1.0f), CCDelayTime::create(0.5), NULL)));
+    sptArrow->addChild(sptFlow);
 }
 
 void BuildingLayer::building_touch_callback() {
