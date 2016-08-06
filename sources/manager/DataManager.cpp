@@ -281,6 +281,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _home->replace_home_info(content["home"]);
         } break;
             
+        case 705: {
+            _home->replace_home_info(content["home"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;

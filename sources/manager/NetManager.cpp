@@ -239,6 +239,14 @@ void NetManager::home_info_704(bool full) {
     this->post_data(704, data);
 }
 
+void NetManager::change_house_705(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    string data = writer.write(root);
+    this->post_data(705, data);
+}
+
 
 void NetManager::completed_mission_600() {
     this->post_data(600, string(""));
