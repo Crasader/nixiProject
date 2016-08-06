@@ -54,11 +54,8 @@ private:
     void on_purchase();
     void on_purchase_achievement();
     void on_signin7();
+    void on_energy_largess();
     void on_gashapon();
-    
-    void on_take_energy(CCMenuItem* btn);
-    
-    void nc_take_energy_301(CCObject* pObj);
     
 private:
     CCPoint             _touchLocation;
