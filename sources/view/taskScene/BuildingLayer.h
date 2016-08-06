@@ -26,8 +26,10 @@ public:
 public:
     
 private:
+    void show_arrow();
     void building_shaking();
     void building_touch_callback();
+    
     void show_building();
     void show_phase_up();
     

@@ -22,12 +22,13 @@
 #include "SigninComp.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "PromptLayer.h"
 
 #pragma mark - Export
 
-void Signin7Panel::show() {
+void Signin7Panel::show(CCNode* parent) {
     Signin7Panel* panel = Signin7Panel::create();
-    CCDirector::sharedDirector()->getRunningScene()->addChild(panel, 1000);
+    parent->addChild(panel);
 }
 
 
@@ -227,6 +228,9 @@ void Signin7Panel::signin_callback_303(){
         CCSprite* state = CCSprite::create("pic/panel/signin7/state_got.png");
         state->setPosition(ccp(icon_bg->getContentSize().width - state->getContentSize().width* .5f, state->getContentSize().height* .5f));
         icon_bg->addChild(state);
+        
+        PromptLayer* tip = PromptLayer::create();
+        tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "领取成功");
     }
 }
 

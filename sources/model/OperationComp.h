@@ -40,6 +40,8 @@ class OperationComp : public CCObject
     SYNTHESIZE_READONLY(unsigned long, _freePoint, FreePoint);
     
 public:
+    // 返回用于需要显示的模版下标
+    unsigned cur_purchase_achievement_template_index();
     bool has_init_purchase_achievement_template();
     bool has_init_gashapon_template();
     bool has_taken_pAchievement(string& id);

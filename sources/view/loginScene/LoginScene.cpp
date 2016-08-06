@@ -49,6 +49,7 @@ bool LoginScene::init() {
         _temp_account_pwd = NULL;
         _container = NULL;
         
+        
         return true;
     }
     else {
@@ -119,6 +120,12 @@ void LoginScene::onEnter() {
         
         this->slide_in_logo();
     }
+    
+    CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
+    CCLabelTTF* lblVersion = CCLabelTTF::create(strVersion->getCString(), DISPLAY->fangzhengFont(), 20.f);
+    lblVersion->setColor(ccORANGE);
+    lblVersion->setPosition(ccp(DISPLAY->W() * 0.85, DISPLAY->H() * 0.04));
+    this->addChild(lblVersion);
 }
 
 void LoginScene::onExit() {

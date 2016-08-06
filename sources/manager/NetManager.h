@@ -36,10 +36,10 @@ public:
 public:
     NetEnv obtain_net_env();
     
-    void fast_login_900(const char* uuid);
+    void fast_login_900(const char* uuid, const char* recommender = "");
     void account_login_901(const char* account, const char* password);
     void login_game_server_902();
-    void account_regist_903(const char* account, const char* password);
+    void account_regist_903(const char* account, const char* password, const char* recommender = "");
     void save_nickname_904(const char* nickname);
     
     void check_news_910();
@@ -59,6 +59,7 @@ public:
     void all_mails_700();
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void home_info_704(bool full);
+    void change_house_705(string id);
     
     void completed_mission_600();
 //    void start_mission_601(int id);

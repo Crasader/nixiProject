@@ -281,6 +281,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _home->replace_home_info(content["home"]);
         } break;
             
+        case 705: {
+            _home->replace_home_info(content["home"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;
@@ -348,6 +352,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
             _signin->update_signin7_info(content["signin7"]);
             _clothes->init_with_json(content["clothes"]);
+            _news->init_with_json(content["news"]);
         } break;
             
         case 304: {

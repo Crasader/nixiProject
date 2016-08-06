@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
+#include "PromptLayer.h"
 //#include "Reward.h"
 #include "Loading2.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -241,5 +242,7 @@ void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
     LOADING->remove();
     this->update_content();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "💎购买成功~!");
 }
 

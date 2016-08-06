@@ -10,8 +10,10 @@
 #define TotalRechargePanel_hpp
 
 #include "cocos2d.h"
+#include "cocos-ext.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 class TotalRechargePanel : public CCLayer
 {
@@ -29,14 +31,18 @@ public:
     virtual void keyBackClicked();
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-//    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
 private:
     void remove();
+    void btn_lingqu_callback();
+    void btn_chongzhi_callback();
+    void reward_callback_305(CCObject *obj);
     
 private:
     CCLayer*            _content;
     CCSprite*           _panel;
+    CCArray*            _clothes;
+    CCMenuItemSprite*   _item;
 };
 
 #endif /* TotalRechargePanel_hpp */
