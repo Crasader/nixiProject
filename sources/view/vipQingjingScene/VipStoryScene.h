@@ -207,7 +207,7 @@ public:
     void callBackMethods(CCObject* pSender);
     void LabelColorFhCallBack(CCObject* pSender);
     
-    void _503CallBack(CCObject* pSender);
+    void _507CallBack(CCObject* pSender);
 };
 
 #endif /* defined(__mm3c__VipStoryScene__) */

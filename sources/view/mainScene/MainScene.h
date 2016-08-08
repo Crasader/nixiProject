@@ -134,6 +134,7 @@ public:
     void update(float dt);
     
     void _500CallBack(CCObject* pSender);
+    void _504CallBack(CCObject* pSender);
     void _600CallBack(CCObject* pSender);
     void _704CallBack(CCObject* pSender);
     void all_mail_callback_700(CCObject* pObj);

@@ -1863,7 +1863,7 @@ void VipStoryScene::onEnter()
     BaseScene::hideBaseScene();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&VipStoryScene::_503CallBack), "HTTP_FINISHED_503", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipStoryScene::_507CallBack), "HTTP_FINISHED_507", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&VipStoryScene::LabelColorFhCallBack), "LabelColorFhCallBack", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipStoryScene::goCallBackMethods), "GoCallBackMethods", NULL);
@@ -2019,31 +2019,7 @@ void VipStoryScene::getIndex(float dt){
             endingStr = CCString::createWithFormat("%s", "-1");
             endingStr->retain();
             CCString* indexStr = CCString::createWithFormat("%d", m_current_story_index_id);
-            NET->commit_story_503(indexStr->getCString(), endingStr->getCString());
-            
-        }else if (index == -2){
-            buttonBool1 = false;
-            buttonBool2 = false;
-            buttonBool3 = false;
-            
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
-                if (node->getChildByTag(Tag_kuaijin) != NULL) {
-                    kuaijinToggleItem->setSelectedIndex(0);
-                }
-                if (node->getChildByTag(Tag_zidong) != NULL) {
-                    zidongToggleItem->setSelectedIndex(0);
-                }
-            }
-            
-            this->setTouchEnabled(false);
-            endingStr = CCString::createWithFormat("%s", _achievement->getCString());
-            endingStr->retain();
-            
-            storyIndex = 2;
-            LOADING->show_loading();
-            CCString* indexStr = CCString::createWithFormat("%d", m_current_story_index_id);
-            NET->commit_story_503(indexStr->getCString(), endingStr->getCString());
+            NET->commit_story2_507(indexStr->getCString());
             
         }else{
             dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(index);
@@ -2133,7 +2109,7 @@ void VipStoryScene::LabelColorFhCallBack(CCObject* pSender){
     this->setTouchEnabled(true);
 }
 
-void VipStoryScene::_503CallBack(CCObject* pSender){
+void VipStoryScene::_507CallBack(CCObject* pSender){
     LOADING->remove();
     CCLog("<><><>endingStr ==== %s", endingStr->getCString());
     VipStorySettlementOfTheAnimationLayer* layer = VipStorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());

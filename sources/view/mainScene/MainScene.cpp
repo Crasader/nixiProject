@@ -69,8 +69,6 @@ bool MainScene::init(){
     _arrPlay = NULL;
     isrenwuBool = false;
     
-    DATA->setVipBool(false);
-    
     
 //    _ManSpr = CCSprite::create();
 //    this->addChild(_ManSpr, 10);
@@ -125,6 +123,7 @@ void MainScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_500CallBack), "HTTP_FINISHED_500", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_504CallBack), "HTTP_FINISHED_504", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_mail_callback_700), "HTTP_FINISHED_700", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_704CallBack), "HTTP_FINISHED_704", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
@@ -891,14 +890,19 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
 //        WS->connect();
         
-        DATA->setVipBool(true);
         if (DATA->getStory()->has_init_story()) {
-            this->_500CallBack(NULL);
+            this->_504CallBack(NULL);
         }else{
             LOADING->show_loading();
-            NET->completed_story_500();
+            NET->completed_story2_504();
         }
     }
+}
+void MainScene::_504CallBack(CCObject* pSender){
+    AUDIO->comfirm_effect();
+    CCScene* scene = VipQingjingScene::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void MainScene::homeCallBack(CCObject *pSender){
@@ -1063,7 +1067,6 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 
 void MainScene::juqingCallBack(CCObject* pSender){
     if (isOk) {
-        DATA->setVipBool(false);
         if (DATA->getStory()->has_init_story()) {
             this->_500CallBack(NULL);
         }else{
@@ -1079,12 +1082,7 @@ void MainScene::_500CallBack(CCObject* pSender){
         LOADING->show_loading();
         NET->completed_mission_600();
     }else{
-        CCScene* scene;
-        if (!DATA->getVipBool()) {
-            scene = QingjingScene::scene();
-        }else{
-            scene = VipQingjingScene::scene();
-        }
+        CCScene* scene = QingjingScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
