@@ -69,6 +69,9 @@ public:
     void start_story_501(const char* id);
     void commit_story_503(const char* id, const char* flag);
     void completed_story2_504();
+    void buy_story2_505(const char* id);
+    void commit_story2_507(const char* id);
+    void start_story2_509(const char* id);
     
     void owned_clothes_400();
     void save_dressed_401(CCDictionary* dressed);
