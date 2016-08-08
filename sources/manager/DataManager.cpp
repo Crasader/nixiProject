@@ -317,6 +317,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _story->init_with_json(content["story"]);
         } break;
             
+        case 504: {
+            _story->replace_story2_user(content["story2"]);
+        } break;
+            
         case 400: {
             _clothes->init_with_json(content["clothes"]);
         } break;

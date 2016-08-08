@@ -290,6 +290,10 @@ void NetManager::commit_story_503(const char* id, const char* flag) {
     this->post_data(503, data);
 }
 
+void NetManager::completed_story2_504() {
+    this->post_data(504, string(""));
+}
+
 void NetManager::owned_clothes_400() {
     this->post_data(400, string(""));
 }
