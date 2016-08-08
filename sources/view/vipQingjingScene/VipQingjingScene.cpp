@@ -360,6 +360,9 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
 void VipQingjingScene::_505CallBack(CCObject* pSender){
     LOADING->remove();
     
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "购买成功.");
+    
     CCMenu* menu = (CCMenu* )tempItem->getParent();
     CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
     CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);

@@ -229,10 +229,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h \
- jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/view/taskScene/TaskScene.h \
- jni/../../sources/view/base/BaseScene.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
@@ -259,6 +256,11 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
+ jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/view/taskScene/TaskScene.h \
+ jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
@@ -737,11 +739,7 @@ jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
 
-jni/../../sources/manager/ConfigManager.h:
-
-jni/../../sources/view/taskScene/TaskScene.h:
-
-jni/../../sources/view/base/BaseScene.h:
+jni/../../sources/model/ChatComp.h:
 
 jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
 
@@ -794,6 +792,16 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
+
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/manager/ConfigManager.h:
+
+jni/../../sources/view/taskScene/TaskScene.h:
+
+jni/../../sources/view/base/BaseScene.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 

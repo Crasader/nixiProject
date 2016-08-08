@@ -230,9 +230,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/St
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h \
- jni/../../sources/view/qingjingScene/QingjingScene.h \
- jni/../../sources/view/base/BaseScene.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
@@ -259,10 +257,16 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/St
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
+ jni/../../sources/view/qingjingScene/QingjingScene.h \
+ jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/vipQingjingScene/VipQingjingScene.h \
+ jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h \
  jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h:
@@ -737,9 +741,7 @@ jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
 
-jni/../../sources/view/qingjingScene/QingjingScene.h:
-
-jni/../../sources/view/base/BaseScene.h:
+jni/../../sources/model/ChatComp.h:
 
 jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
 
@@ -793,6 +795,14 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
 
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/view/qingjingScene/QingjingScene.h:
+
+jni/../../sources/view/base/BaseScene.h:
+
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
@@ -800,5 +810,9 @@ jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
+jni/../../sources/view/vipQingjingScene/VipQingjingScene.h:
+
+jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h:
 
 jni/../../sources/utils/AppUtil.h:

@@ -10,7 +10,7 @@
 #include "DataManager.h"
 #include "AudioManager.h"
 #include "SpecialManager.h"
-#include "LoginScene.h"
+#include "LogoScene.h"
 #include "TaskSettlementLayer.h"
 
 using namespace std;
@@ -72,7 +72,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCLog("========UUID=========\n%s\n", uuid);
     // first scene
     CCLog("========LoginScene::scene=========");
-    CCScene* pScene = LoginScene::scene();
+    CCScene* pScene = LogoScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
     
 //    CCScene* scene = CCScene::create();

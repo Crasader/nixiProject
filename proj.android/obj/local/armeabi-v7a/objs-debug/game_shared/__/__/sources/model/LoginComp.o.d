@@ -217,7 +217,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/model/LoginComp.o: \
  jni/../../sources/third/Json/lib_json/features.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
- jni/../../sources/third/Json/lib_json/writer.h
+ jni/../../sources/third/Json/lib_json/writer.h \
+ jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/model/LoginComp.h:
 
@@ -654,3 +655,5 @@ jni/../../sources/third/Json/lib_json/features.h:
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
 
 jni/../../sources/third/Json/lib_json/writer.h:
+
+jni/../../sources/utils/AppUtil.h:
