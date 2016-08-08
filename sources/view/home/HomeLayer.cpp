@@ -12,6 +12,7 @@
 #include "TaskScene.h"
 #include "HaoyouScene.h"
 #include "HomeTableView.h"
+#include "PromptLayer.h"
 
 #include "DataManager.h"
 #include "DisplayManager.h"
@@ -32,12 +33,21 @@ bool HomeLayer::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    kuangBool = false;
+    
+    this->setTouchSwallowEnabled(true);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchEnabled(false);
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
-    bgSpr = CCSprite::create("res/pic/house/house_2.png");
+    std::string nowHouse = DATA->getHome()->getCurHouse().c_str();
+    DATA->setHouseIndex(atoi(nowHouse.c_str()));
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", DATA->getHouseIndex());
+    bgSpr = CCSprite::create(bgStr->getCString());
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    bgSpr->setTag(0x88888);
     this->addChild(bgSpr);
     
     this->creat_View();
@@ -45,6 +55,17 @@ bool HomeLayer::init(){
     this->initClothes();
     
     return true;
+}
+void HomeLayer::updataBg(){
+    if (this->getChildByTag(0x88888) != NULL) {
+        this->removeChildByTag(0x88888);
+    }
+    
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", DATA->getHouseIndex());
+    bgSpr = CCSprite::create(bgStr->getCString());
+    bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    bgSpr->setTag(0x88888);
+    this->addChild(bgSpr);
 }
 
 void HomeLayer::onEnter(){
@@ -54,8 +75,9 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_500CallBack), "HTTP_FINISHED_500", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_600CallBack), "HTTP_FINISHED_600", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_705CallBack), "HTTP_FINISHED_705", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
-    
+    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
 }
 
 void HomeLayer::onExit(){
@@ -79,10 +101,25 @@ void HomeLayer::keyBackClicked(){
 
 bool HomeLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     
+    CCPoint location = pTouch->getLocation();
+    if (kuangBool) {
+        if (!kuangSpr->boundingBox().containsPoint(location)) {
+            kuangBool = false;
+            
+            CCCallFuncN* callFuncN = CCCallFuncN::create(this,callfuncN_selector(HomeLayer::manAction2));
+            CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(kuangSpr->getContentSize().width* .5f - 200, DISPLAY->ScreenHeight()* .475f));
+            CCSequence* seq = CCSequence::create(CCDelayTime::create(.3f), callFuncN, NULL);
+            kuangSpr->runAction(CCSpawn::create(seq, moveTo, NULL));
+            
+            this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::openButton), .7f);
+        }
+    }
     
     return true;
 }
-
+void HomeLayer::openButton(float dt){
+    qiehuanItem->setVisible(true);
+}
 
 cocos2d::CCScene* HomeLayer::scene(){
     CCScene* scene = CCScene::create();
@@ -136,15 +173,70 @@ void HomeLayer::creat_View(){
     buttonMenu->setPosition(ccp(DISPLAY->ScreenWidth() - gongsiSpr1->getContentSize().width* .5f - 5.f, DISPLAY->ScreenHeight()* .7f));
     this->addChild(buttonMenu, 20);
     
+    // 切换
+    CCSprite* qhSpr1 = CCSprite::create("res/pic/house/house_qiehuan.png");
+    CCSprite* qhSpr2 = CCSprite::create("res/pic/house/house_qiehuan.png");
+    qhSpr2->setScale(1.02f);
+    qiehuanItem = CCMenuItemSprite::create(qhSpr1, qhSpr2, this, menu_selector(HomeLayer::qiehuanCallBack));
+    qiehuanItem->setPosition(ccp(qhSpr1->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .85f));
+    CCMenu* qiehuanMenu = CCMenu::create(qiehuanItem, NULL);
+    qiehuanMenu->setPosition(CCPointZero);
+    this->addChild(qiehuanMenu, 20);
     
-//    kuangSpr = CCSprite::create("res/pic/house/house_di.png");
-//    kuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .475f));
-//    this->addChild(kuangSpr, 20);
-//    
-//    HomeTableView* tabLayer = HomeTableView::create();
-//    tabLayer->setPosition(ccp(-2, 90));
-//    tabLayer->setTag(0x77777);
-//    kuangSpr->addChild(tabLayer, 5);
+    
+    kuangSpr = CCSprite::create("res/pic/house/house_di.png");
+    kuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f - 200, DISPLAY->ScreenHeight()* .475f));
+    this->addChild(kuangSpr, 20);
+    
+    // 保存
+    CCSprite* saveSpr1 = CCSprite::create("res/pic/common/btn_save.png");
+    CCSprite* saveSpr2 = CCSprite::create("res/pic/common/btn_save.png");
+    saveSpr2->setScale(1.02f);
+    CCMenuItem* saveItem = CCMenuItemSprite::create(saveSpr1, saveSpr2, this, menu_selector(HomeLayer::saveCallBack));
+    saveItem->setAnchorPoint(ccp(.5f, .5f));
+    saveItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f - 2, kuangSpr->getContentSize().height* .04f));
+    CCMenu* saveMenu = CCMenu::create(saveItem, NULL);
+    saveMenu->setPosition(CCPointZero);
+    kuangSpr->addChild(saveMenu, 15);
+    
+    
+    HomeTableView* tabLayer = HomeTableView::create();
+    tabLayer->setPosition(ccp(-2, 90));
+    tabLayer->setTag(0x77777);
+    kuangSpr->addChild(tabLayer, 5);
+}
+void HomeLayer::qiehuanCallBack(CCObject* pSender){
+    qiehuanItem->setVisible(false);
+    
+    this->setTouchEnabled(false);
+    CCCallFuncN* callFuncN = CCCallFuncN::create(this,callfuncN_selector(HomeLayer::manAction1));
+    CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .475f));
+    CCSequence* seq = CCSequence::create(CCDelayTime::create(.3f), moveTo, NULL);
+    kuangSpr->runAction(CCSpawn::create(seq, callFuncN, NULL));
+    
+    this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::openTouch), .7f);
+}
+void HomeLayer::openTouch(float dt){
+    this->setTouchEnabled(true);
+    kuangBool = true;
+}
+void HomeLayer::manAction1(){
+    CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(130, 0));
+    _ManSpr->runAction(moveTo);
+}
+void HomeLayer::manAction2(){
+    CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
+    _ManSpr->runAction(moveTo);
+}
+void HomeLayer::saveCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    CCString* str = CCString::createWithFormat("%d", DATA->getHouseIndex());
+    NET->change_house_705(str->getCString());
+}
+void HomeLayer::_705CallBack(CCObject* pSender){
+    LOADING->remove();
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "保存成功.");
 }
 
 void HomeLayer::backCallBack(CCObject* pSender){
@@ -210,8 +302,8 @@ void HomeLayer::_800CallBack(CCObject* pSender){
 }
 
 void HomeLayer::creat_Man(){
-    float widthFolt = .65f;
-//    float widthFolt = .5f;
+//    float widthFolt = .65f;
+    float widthFolt = .5f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;
     
@@ -229,8 +321,8 @@ void HomeLayer::creat_Man(){
     _ManSpr->addChild(shadowSpr);
 }
 void HomeLayer::initClothes(){//穿衣服
-    float widthFolt = .65f;
-//    float widthFolt = .5f;
+//    float widthFolt = .65f;
+    float widthFolt = .5f;
     float heightFloat = .5f;
     float scaleFloat = 1.f;
     bool flipxBool = false;

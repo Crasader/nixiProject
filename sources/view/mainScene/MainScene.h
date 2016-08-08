@@ -146,9 +146,7 @@ public:
     
 public:
     CCDictionary* allClothesDic;
-    
-    bool vipBool;
-    
+        
     CCSprite* roomSpr;
     CCSprite* _ManSpr;
     CCSprite* _touSpr;

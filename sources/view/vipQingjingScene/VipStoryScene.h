@@ -12,8 +12,8 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
-#include "Dialogs.h"
-#include "DialogItem.h"
+#include "VipDialogs.h"
+#include "VipDialogItem.h"
 #include "BaseScene.h"
 
 
@@ -140,9 +140,9 @@ public:
     CCSpriteFrameCache* cache;
     
     
-    Dialogs* dialog;
-    DialogItem* dialogItem;
-    DialogItem* storyItem;
+    VipDialogs* dialog;
+    VipDialogItem* dialogItem;
+    VipDialogItem* storyItem;
     
     CCSprite* nameKuang;
     CCLabelTTF* nameLab;
@@ -183,7 +183,7 @@ public:
     void buttonAction(float dt);
     void removeButton();
     void removeMan();
-    void recordLabel(DialogItem* dialItem);
+    void recordLabel(VipDialogItem* dialItem);
     void creatPassersbyMan(float dt);
     void creatButton(int dex);
     void initLabel(int dex);
@@ -191,12 +191,12 @@ public:
     
     
     const char* getContent(){return content.c_str();}
-    void init(DialogItem* item);
+    void init(VipDialogItem* item);
     std::string getContentByLength(int length);
     int getContentLength();
     
     
-    void dialogueControl(DialogItem* dialItem);
+    void dialogueControl(VipDialogItem* dialItem);
     
     
     void fhCallBack(CCObject* pSender);

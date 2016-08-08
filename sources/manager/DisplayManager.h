@@ -39,6 +39,9 @@ public:
     
     CCString* GetOffTheNumber(int index);
     CCString* GetOffTheName(int index);
+    
+    CCString* GetOffTheNumber2(int index);
+    CCString* GetOffTheName2(int index);
 
     float               btn_scale();
     

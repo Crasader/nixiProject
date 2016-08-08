@@ -12,7 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
-#include "QingjingCoverView.h"
+#include "VipQingjingCoverView.h"
 #include "AHMessageBox.h"
 
 USING_NS_CC;
@@ -103,7 +103,7 @@ public:
     
     CCDictionary* allClothesDic;
     
-    QingjingCoverView* qingjingCoverView;
+    VipQingjingCoverView* qingjingCoverView;
     CCMenuItem* jiantouItem1,* jiantouItem2;
     
     int storyIndex;

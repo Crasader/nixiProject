@@ -264,7 +264,7 @@ int VipQingjingCoverView::getCurCardIndex()
     if (DATA->getChapterNumberBool()) {
         DATA->setChapterNumberBool(false);
     }else{
-        CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+        CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
         CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
         int allNumber = taskConditionsDic->count();
         

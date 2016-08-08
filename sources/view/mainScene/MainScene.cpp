@@ -69,7 +69,7 @@ bool MainScene::init(){
     _arrPlay = NULL;
     isrenwuBool = false;
     
-    vipBool = false;
+    DATA->setVipBool(false);
     
     
 //    _ManSpr = CCSprite::create();
@@ -891,7 +891,7 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
 //        WS->connect();
         
-        vipBool = true;
+        DATA->setVipBool(true);
         if (DATA->getStory()->has_init_story()) {
             this->_500CallBack(NULL);
         }else{
@@ -1063,7 +1063,7 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 
 void MainScene::juqingCallBack(CCObject* pSender){
     if (isOk) {
-        vipBool = false;
+        DATA->setVipBool(false);
         if (DATA->getStory()->has_init_story()) {
             this->_500CallBack(NULL);
         }else{
@@ -1080,7 +1080,7 @@ void MainScene::_500CallBack(CCObject* pSender){
         NET->completed_mission_600();
     }else{
         CCScene* scene;
-        if (!vipBool) {
+        if (!DATA->getVipBool()) {
             scene = QingjingScene::scene();
         }else{
             scene = VipQingjingScene::scene();

@@ -170,7 +170,7 @@ void VipQingjingTableView::onExit(){
 
 int VipQingjingTableView::getStoryIndexStatus(){
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     allNumber = taskConditionsDic->count();
     int index = 0;
