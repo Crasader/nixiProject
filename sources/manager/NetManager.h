@@ -70,7 +70,7 @@ public:
     void commit_story_503(const char* id, const char* flag);
     void completed_story2_504();
     void buy_story2_505(const char* id);
-    void commit_story2_507(const char* id);
+    void commit_story2_507(const char* id, const char* flag);
     void start_story2_509(const char* id);
     
     void owned_clothes_400();
