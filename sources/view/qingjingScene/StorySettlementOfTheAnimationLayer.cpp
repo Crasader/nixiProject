@@ -145,7 +145,7 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
         
         
         CCLabelTTF* wanchengLabel = CCLabelTTF::create(endingStr->getCString(), DISPLAY->fangzhengFont(), 40);
-        wanchengLabel->setPosition(ccp(jjKuangSpr->getContentSize().width* .64f, jjKuangSpr->getContentSize().height* .36f));
+        wanchengLabel->setPosition(ccp(jjKuangSpr->getContentSize().width* .5f, jjKuangSpr->getContentSize().height* .32f));
         wanchengLabel->setColor(ccc3(80, 63, 68));
         jjKuangSpr->addChild(wanchengLabel, 5);
         
