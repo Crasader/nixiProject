@@ -64,7 +64,7 @@ bool VipStoryScene::init(){
     char strPei[100] = {};
     for (int i = 2; i >= 1; i--) {
     
-        sprintf(strPei, "res/pic/qingjingScene/StoryScene/qj_act%d.png", i);
+        sprintf(strPei, "res/pic/qingjingScene/storyscene/qj_act%d.png", i);
         CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 107, 107));
         animations->addObject(frame);
     }
@@ -113,7 +113,7 @@ void VipStoryScene::init_with_story_id(int _index){
     
     m_current_story_index_id = _index;
     
-    CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_shangkuang.png");
+    CCSprite* shangkuangSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_shangkuang.png");
     shangkuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .97f));
     this->addChild(shangkuangSpr, 50);
     CCLabelTTF* shangLabel = CCLabelTTF::create(DISPLAY->GetOffTheName2(m_current_story_index_id)->getCString(), DISPLAY->fangzhengFont(), 30);
@@ -131,7 +131,7 @@ void VipStoryScene::init_with_story_id(int _index){
     
     this->init(dialogItem);
     
-    kuangSpr = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_di.png");
+    kuangSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_di.png");
     kuangSpr->setAnchorPoint(ccp(.5f, 0));
     kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5, 80 - 500));
     kuangSpr->setTag(Tag_GJ_kuang);
@@ -139,7 +139,7 @@ void VipStoryScene::init_with_story_id(int _index){
     
     DATA->setDiKuangSize(kuangSpr->boundingBox().size);
     
-    quanSpr = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_act1.png");
+    quanSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_act1.png");
     quanSpr->setPosition(ccp(kuangSpr->getContentSize().width* .96f, -12));
     quanSpr->setTag(0x88999);
     kuangSpr->addChild(quanSpr, 100);
@@ -154,7 +154,7 @@ void VipStoryScene::init_with_story_id(int _index){
     float widSize = kuangSpr->getContentSize().width;
     float heiSize = kuangSpr->getContentSize().height;
     
-    nameKuang = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_namekuang.png");
+    nameKuang = CCSprite::create("res/pic/qingjingScene/storyscene/qj_namekuang.png");
     nameKuang->setPosition(ccp(kuangSpr->getContentSize().width* .2f, kuangSpr->getContentSize().height - 10));
     kuangSpr->addChild(nameKuang);
     nameKuang->setVisible(false);
@@ -964,27 +964,27 @@ void VipStoryScene::emptyLabel(){
 
 void VipStoryScene::addButton(){
     // 退出
-    CCSprite* fhSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_tuichu.png");
-    CCSprite* fhSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_tuichu.png");
+    CCSprite* fhSpr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_tuichu.png");
+    CCSprite* fhSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_tuichu.png");
     fhSpr2->setColor(ccGRAY);
     CCMenuItem* fhItem;
     fhItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(VipStoryScene::fhCallBack));
     fhItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .1f, 43 - 500));
     
     // 回顾
-    CCSprite* hgSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_huikan.png");
-    CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_huikan.png");
+    CCSprite* hgSpr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_huikan.png");
+    CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_huikan.png");
     hgSpr2->setColor(ccGRAY);
     CCMenuItem* hkButton = CCMenuItemSprite::create(hgSpr1, hgSpr2, this, menu_selector(VipStoryScene::button2CallBack));
     hkButton->setPosition(ccp(kuangSpr->boundingBox().size.width* .58, kuangSpr->boundingBox().size.height + 80 - 500));
     
     
     // 自动
-    CCSprite* zdSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong1.png");
-    CCSprite* zdSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong1.png");
+    CCSprite* zdSpr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_zidong1.png");
+    CCSprite* zdSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_zidong1.png");
     zdSpr2->setColor(ccGRAY);
-    CCSprite* ztSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong2.png");
-    CCSprite* ztSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_zidong2.png");
+    CCSprite* ztSpr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_zidong2.png");
+    CCSprite* ztSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_zidong2.png");
     ztSpr2->setColor(ccGRAY);
     CCMenuItem* zidongItemOn = CCMenuItemSprite::create(zdSpr1, zdSpr1);
     CCMenuItem* zidongItemOff = CCMenuItemSprite::create(ztSpr1, ztSpr2);
@@ -999,11 +999,11 @@ void VipStoryScene::addButton(){
     }
     
     // 快进
-    CCSprite* kjSpr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin1.png");
-    CCSprite* kjSpr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin1.png");
+    CCSprite* kjSpr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_kuaijin1.png");
+    CCSprite* kjSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_kuaijin1.png");
     kjSpr2->setColor(ccGRAY);
-    CCSprite* ztSpr3 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin2.png");
-    CCSprite* ztSpr4 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_kuaijin2.png");
+    CCSprite* ztSpr3 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_kuaijin2.png");
+    CCSprite* ztSpr4 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_kuaijin2.png");
     ztSpr4->setColor(ccGRAY);
     CCMenuItem* kuaijinItemOn = CCMenuItemSprite::create(kjSpr1, kjSpr2);
     CCMenuItem* kuaijinItemOff = CCMenuItemSprite::create(ztSpr3, ztSpr4);
@@ -1196,8 +1196,8 @@ void VipStoryScene::creatButton(int dex){
     
     if (dex == 0) {
         // 任务条
-        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
-        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
+        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCMenuItem* item1 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(VipStoryScene::callBackMethods));
         item1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .59f));
         item1->setTag(Tag_Item_0);
@@ -1208,8 +1208,8 @@ void VipStoryScene::creatButton(int dex){
         this->addChild(menu1, 20);
         
     }else if (dex == 1){
-        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
-        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
+        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCMenuItem* item2 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(VipStoryScene::callBackMethods));
         item2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         item2->setTag(Tag_Item_1);
@@ -1220,8 +1220,8 @@ void VipStoryScene::creatButton(int dex){
         this->addChild(menu2, 20);
         
     }else if (dex == 2){
-        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
-        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/StoryScene/qj_rwtiao.png");
+        CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
+        CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCMenuItem* item3 = CCMenuItemSprite::create(spr1, spr2, this, menu_selector(VipStoryScene::callBackMethods));
         item3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .41f));
         item3->setTag(Tag_Item_2);
