@@ -334,7 +334,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 509: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
-            _story->replace_story2_user(content["story2"]);
+//            _story->replace_story2_user(content["story2"]);
         } break;
             
         case 400: {

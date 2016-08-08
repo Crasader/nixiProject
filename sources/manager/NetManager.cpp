@@ -294,10 +294,6 @@ void NetManager::completed_story2_504() {
     this->post_data(504, string(""));
 }
 
-void NetManager::owned_clothes_400() {
-    this->post_data(400, string(""));
-}
-
 void NetManager::buy_story2_505(const char *id) {
     FastWriter writer;
     Value root;
@@ -307,10 +303,11 @@ void NetManager::buy_story2_505(const char *id) {
     this->post_data(505, data);
 }
 
-void NetManager::commit_story2_507(const char *id) {
+void NetManager::commit_story2_507(const char *id, const char* flag) {
     FastWriter writer;
     Value root;
     root["id"] = id;
+    root["flag"] = flag;
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(507, data);
@@ -323,6 +320,11 @@ void NetManager::start_story2_509(const char *id) {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(509, data);
+}
+
+
+void NetManager::owned_clothes_400() {
+    this->post_data(400, string(""));
 }
 
 void NetManager::save_dressed_401(CCDictionary *dressed) {
