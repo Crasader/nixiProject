@@ -375,16 +375,16 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         bool tongguanBool = false;
         CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
         // 0为未购买 非0已购买 -1通关
-        int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
         
-        if (storyIndex == -1) {
+        if (tempIndex == -1) {
             tongguanBool = true;
         }
         if (tongguanBool) {
             if (DATA->getPlayer()->energy >= 9) {
                 LOADING->show_loading();
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-                NET->start_story_501(indexStr->getCString());
+                NET->start_story2_509(indexStr->getCString());
             }else{
                 AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));

@@ -2019,7 +2019,7 @@ void VipStoryScene::getIndex(float dt){
             endingStr = CCString::createWithFormat("%s", "-1");
             endingStr->retain();
             CCString* indexStr = CCString::createWithFormat("%d", m_current_story_index_id);
-            NET->commit_story2_507(indexStr->getCString());
+            NET->commit_story2_507(indexStr->getCString(), endingStr->getCString());
             
         }else{
             dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(index);
