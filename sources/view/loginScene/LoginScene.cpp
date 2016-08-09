@@ -16,6 +16,7 @@
 #include "PromptLayer.h"
 #include "LoginView.h"
 #include "RegisterView.h"
+#include "RecommendView.h"
 #include "CreateName.h"
 #include "MainScene.h"
 
@@ -200,6 +201,8 @@ void LoginScene::show_nicknameview() {
 }
 
 void LoginScene::fast_login(CCMenuItem *pObj) {
+//    RecommendView::show(this->getScene());
+    
     LOADING->show_loading();
     DATA->setLoginType(1);
     NET->fast_login_900(DATA->getLogin()->obtain_UUID());
