@@ -255,7 +255,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/Qingji
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/utils/AppUtil.h
 
@@ -780,6 +782,12 @@ jni/../../sources/model/StoryComp.h:
 jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
+
+jni/../../sources/model/ChatComp.h:
+
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

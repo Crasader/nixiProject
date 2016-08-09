@@ -230,7 +230,35 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/PurchasePanel.
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
+ jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
+ jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
+ jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
+ jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h \
+ jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
+ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
@@ -242,6 +270,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/PurchasePanel.
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/common/Loading2/Loading2.h
 
 jni/../../sources/view/panel/PurchasePanel.h:
@@ -716,6 +745,64 @@ jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
 
+jni/../../sources/model/ChatComp.h:
+
+jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h:
+
+jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
+
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/NetManager.h:
@@ -737,5 +824,7 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:

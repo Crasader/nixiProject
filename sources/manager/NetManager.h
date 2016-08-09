@@ -59,6 +59,7 @@ public:
     void all_mails_700();
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void home_info_704(bool full);
+    void change_house_705(string id);
     
     void completed_mission_600();
 //    void start_mission_601(int id);
@@ -67,6 +68,10 @@ public:
     void completed_story_500();
     void start_story_501(const char* id);
     void commit_story_503(const char* id, const char* flag);
+    void completed_story2_504();
+    void buy_story2_505(const char* id);
+    void commit_story2_507(const char* id, const char* flag);
+    void start_story2_509(const char* id);
     
     void owned_clothes_400();
     void save_dressed_401(CCDictionary* dressed);

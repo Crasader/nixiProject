@@ -10,6 +10,7 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "QingjingScene.h"
+#include "VipQingjingScene.h"
 #include "AppUtil.h"
 
 
@@ -144,7 +145,7 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
         
         
         CCLabelTTF* wanchengLabel = CCLabelTTF::create(endingStr->getCString(), DISPLAY->fangzhengFont(), 40);
-        wanchengLabel->setPosition(ccp(jjKuangSpr->getContentSize().width* .64f, jjKuangSpr->getContentSize().height* .36f));
+        wanchengLabel->setPosition(ccp(jjKuangSpr->getContentSize().width* .5f, jjKuangSpr->getContentSize().height* .32f));
         wanchengLabel->setColor(ccc3(80, 63, 68));
         jjKuangSpr->addChild(wanchengLabel, 5);
         
@@ -158,6 +159,7 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
 }
 void StorySettlementOfTheAnimationLayer::closeCallBack(CCObject* pSender){
     this->removeFromParentAndCleanup(true);
+    
     CCScene* scene = QingjingScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

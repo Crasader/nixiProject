@@ -12,7 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "BaseScene.h"
-#include "QingjingCoverView.h"
+#include "VipQingjingCoverView.h"
 #include "AHMessageBox.h"
 
 USING_NS_CC;
@@ -79,18 +79,15 @@ public:
 public:
     
     void creat_view();
-    void creat_Tishi();
-    void EnterTheTishi();
-    void ExitTishi();
     
     void creat_Man();
     void initClothes();
     
-    int getStoryIndexStatus();
-    
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
-    void _501CallBack(CCObject* pSender);
+    void buyCallBack(CCObject* pSender);
+    void _509CallBack(CCObject* pSender);
+    void _505CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);
     void closeButton();
@@ -103,17 +100,19 @@ public:
     
     CCDictionary* allClothesDic;
     
-    QingjingCoverView* qingjingCoverView;
-    CCMenuItem* jiantouItem1,* jiantouItem2;
+    VipQingjingCoverView* qingjingCoverView;
+    CCMenuItem* jiantouItem1, *jiantouItem2, *tempItem;
     
     int storyIndex;
     int renwuIndex;
     int phaseIndex;
-    int OpenToWhichOne;
     int allNumber;
     int selectedIndex;
     
     bool  theEndBool;
+    
+    CCMenu* startMenu;
+    CCMenuItem* startItem, * buyItem;
     
     CCSprite* roomSpr;
     CCSprite* manSpr;

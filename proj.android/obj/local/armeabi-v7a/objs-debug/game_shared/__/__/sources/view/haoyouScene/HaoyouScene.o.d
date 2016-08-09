@@ -258,9 +258,13 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Haoy
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
+ jni/../../sources/view/home/HomeLayer.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/friends/FriendsScene.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
@@ -281,7 +285,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Haoy
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/haoyouScene/MessageLayer.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/haoyouScene/NoteLayer.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
@@ -815,9 +818,19 @@ jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
 
+jni/../../sources/model/ChatComp.h:
+
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/mainScene/MainScene.h:
+
+jni/../../sources/view/home/HomeLayer.h:
+
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/manager/ConfigManager.h:
 
@@ -858,8 +871,6 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
 jni/../../sources/view/haoyouScene/MessageLayer.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/view/haoyouScene/NoteLayer.h:
 

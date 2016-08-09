@@ -239,6 +239,14 @@ void NetManager::home_info_704(bool full) {
     this->post_data(704, data);
 }
 
+void NetManager::change_house_705(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    string data = writer.write(root);
+    this->post_data(705, data);
+}
+
 
 void NetManager::completed_mission_600() {
     this->post_data(600, string(""));
@@ -281,6 +289,39 @@ void NetManager::commit_story_503(const char* id, const char* flag) {
     string data = writer.write(root);
     this->post_data(503, data);
 }
+
+void NetManager::completed_story2_504() {
+    this->post_data(504, string(""));
+}
+
+void NetManager::buy_story2_505(const char *id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(505, data);
+}
+
+void NetManager::commit_story2_507(const char *id, const char* flag) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["flag"] = flag;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(507, data);
+}
+
+void NetManager::start_story2_509(const char *id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(509, data);
+}
+
 
 void NetManager::owned_clothes_400() {
     this->post_data(400, string(""));

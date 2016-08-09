@@ -259,17 +259,32 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/model/SigninComp.h \
  jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
  jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/vipQingjingScene/VipQingjingScene.h \
+ jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
+ jni/../../sources/manager/NoticeManager.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/manager/WSManager.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
+ jni/../../sources/view/panel/Signin7Panel.h \
+ jni/../../sources/view/home/HomeLayer.h \
+ jni/../../sources/view/panel/EnergyLargessPanel.h \
  jni/../../sources/view/friends/Shower.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
@@ -294,7 +309,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/panel/MailPanel.h \
  jni/../../sources/view/panel/OperationPanel.h \
- jni/../../sources/view/panel/SettingPanel.h
+ jni/../../sources/view/panel/SettingPanel.h \
+ jni/../../sources/view/panel/ChatPanel.h \
+ jni/../../sources/view/panel/GashaponPanel.h \
+ jni/../../sources/view/panel/TotalRechargePanel.h
 
 jni/../../sources/view/mainScene/MainScene.h:
 
@@ -826,6 +844,12 @@ jni/../../sources/model/PaperComp.h:
 
 jni/../../sources/model/CoffersComp.h:
 
+jni/../../sources/model/ChatComp.h:
+
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/qingjingScene/QingjingScene.h:
@@ -834,17 +858,43 @@ jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
+jni/../../sources/view/vipQingjingScene/VipQingjingScene.h:
+
+jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h:
+
 jni/../../sources/view/taskScene/TaskScene.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 
+jni/../../sources/manager/NoticeManager.h:
+
 jni/../../sources/manager/AudioManager.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/manager/WSManager.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
+
+jni/../../sources/view/panel/Signin7Panel.h:
+
+jni/../../sources/view/home/HomeLayer.h:
+
+jni/../../sources/view/panel/EnergyLargessPanel.h:
 
 jni/../../sources/view/friends/Shower.h:
 
@@ -895,3 +945,9 @@ jni/../../sources/view/panel/MailPanel.h:
 jni/../../sources/view/panel/OperationPanel.h:
 
 jni/../../sources/view/panel/SettingPanel.h:
+
+jni/../../sources/view/panel/ChatPanel.h:
+
+jni/../../sources/view/panel/GashaponPanel.h:
+
+jni/../../sources/view/panel/TotalRechargePanel.h:

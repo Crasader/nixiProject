@@ -185,11 +185,6 @@ void Signin7Panel::config_siginInfo(){
                 stars->runAction(CCRepeatForever::create(seq));
             }
                 break;
-            case e_SigninState_Retroactive:{
-                // 可补签
-            }
-                
-                break;
             case e_SigninState_Done:{
                 // 已签
                 state_spr = CCSprite::create("pic/panel/signin7/state_got.png");
@@ -233,9 +228,6 @@ void Signin7Panel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
                     LOADING->show_loading();
                     NET->perform_signin7_303(id_str->getCString());
                     _signin_id = i;
-                    break;
-                case e_SigninState_Retroactive:
-                    // 发送补签请求
                     break;
                 case e_SigninState_Done:
                     

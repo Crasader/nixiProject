@@ -24,10 +24,15 @@ bool HomeTableView::init(){
     if (!CCLayer::init()) {
         return false;
     }
+    touchHouse = 0;
     
     allHomeArr = DATA->getHome()->getHouseTemplate();
     allNumber = allHomeArr->count();
-//    allNumber = 5;
+    nowHouse = DATA->getHome()->getCurHouse().c_str();
+    haveHomeArr = DATA->getHome()->getHouseUser();
+    
+    kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
+    kuangSpr->retain();
     
     pTableView = CCTableView::create(this, CCSizeMake(157, 189* def_HomePage_Index));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -58,7 +63,18 @@ void HomeTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 
 //点击哪个cell
 void HomeTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
+    touchHouse = cell->getIdx() + 1;
+    DATA->setHouseIndex(touchHouse);
     
+    if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
+        kuangSpr->removeFromParent();
+    }
+    CCSprite* spr = CCSprite::create("res/pic/house/house_kuang.png");
+    kuangSpr->setPosition(ccp(spr->getContentSize().width* .8f, spr->getContentSize().height* .9f));
+    kuangSpr->setTag(cell->getIdx());
+    cell->addChild(kuangSpr, 5);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("HomeUpdataBg");
 }
 
 //每个cell的size
@@ -73,10 +89,24 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    CCSprite* bgKuangSpr = CCSprite::create("res/pic/house/house_kuang.png");
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/icon_%d.png", idx + 1);
+    CCSprite* bgKuangSpr = CCSprite::create(bgStr->getCString());
     bgKuangSpr->setAnchorPoint(CCPointZero);
     bgKuangSpr->setPosition(CCPointZero);
+    bgKuangSpr->setTag(idx);
     spr->addChild(bgKuangSpr);
+    
+    if (atoi(nowHouse.c_str()) == idx + 1) {
+        if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
+            kuangSpr->removeFromParent();
+        }
+        CCSprite* spr = CCSprite::create("res/pic/house/house_kuang.png");
+        kuangSpr->setPosition(ccp(spr->getContentSize().width* .8f, spr->getContentSize().height* .9f));
+        kuangSpr->setTag(idx);
+        pCell->addChild(kuangSpr, 5);
+    }
+    
+    
     
     pCell->addChild(spr);
     

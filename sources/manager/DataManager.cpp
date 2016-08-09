@@ -281,6 +281,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _home->replace_home_info(content["home"]);
         } break;
             
+        case 705: {
+            _home->replace_home_info(content["home"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;
@@ -311,6 +315,26 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->init_with_json(content["story"]);
+        } break;
+            
+        case 504: {
+            _story->replace_story2_user(content["story2"]);
+        } break;
+            
+        case 505: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _story->replace_story2_user(content["story2"]);
+        } break;
+            
+        case 507: {
+            _story->replace_story2_user(content["story2"]);
+        } break;
+            
+        case 509: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+//            _story->replace_story2_user(content["story2"]);
         } break;
             
         case 400: {

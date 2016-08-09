@@ -10,8 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "MainScene.h"
-#include "QingjingTableView.h"
-#include "StoryScene.h"
+#include "VipStoryScene.h"
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
@@ -31,14 +30,17 @@ bool VipQingjingScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
-    
+//    // 0为未购买 非0已购买 -1通关
+//    int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
     storyIndex = 0;
     renwuIndex = 0;
     allNumber = 0;
     theEndBool = false;
     
     selectedIndex = DATA->getChapterNumber();
-    OpenToWhichOne = getStoryIndexStatus();
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    allNumber = taskConditionsDic->count();
     
     DATA->setChapterNumber(0);
     
@@ -70,14 +72,11 @@ void VipQingjingScene::onEnter(){
     AUDIO->play_story_bgm();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_501CallBack), "HTTP_FINISHED_501", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_509CallBack), "HTTP_FINISHED_509", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_505CallBack), "HTTP_FINISHED_505", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "Qingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "Qingjing_UpdataMan", NULL);
-    
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::creat_Tishi), "Qingjing_Creat_Tishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::ExitTishi), "Qingjing_ExitTishi", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::keyBackStatus), .8f);
 }
@@ -112,17 +111,6 @@ void VipQingjingScene::creat_view(){
     CCMenu* menu = CCMenu::create(backItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu, 20);
-    
-    
-//    qingjingKuang = CCSprite::create("res/pic/qingjingScene/qj_kuang1.png");
-//    qingjingKuang->setAnchorPoint(ccp(1, .5f));
-//    qingjingKuang->setPosition(ccp(DISPLAY->ScreenWidth()+7, DISPLAY->ScreenHeight()* .61f));
-//    this->addChild(qingjingKuang, 20);
-//    
-//    QingjingTableView* tabLayer = QingjingTableView::create();
-//    tabLayer->setPosition(ccp(20, 35));
-//    tabLayer->setTag(0x77777);
-//    qingjingKuang->addChild(tabLayer, 5);
     
     CCSprite* tempKuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
     CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
@@ -167,7 +155,7 @@ void VipQingjingScene::creat_view(){
      *   "1002_5",          手机需要的人表情
      *   "那么一段糗事,你就不要来看了嘛.讨厌~!"     手机需要的提示语
      */
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", 0);
     CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
@@ -197,11 +185,11 @@ void VipQingjingScene::creat_view(){
     this->addChild(lianSpr, 11);
     
     
-    CCRect swRect = CCRectMake(DISPLAY->ScreenWidth()* .5f - 517/2, DISPLAY->ScreenHeight()* .1f, 517, 210);
-    CCSize slSize = CCSizeMake(517, 210);
+    CCRect swRect = CCRectMake(DISPLAY->ScreenWidth()* .5f - 517/2, DISPLAY->ScreenHeight()* .01f, 517, 450);
+    CCSize slSize = CCSizeMake(517, 450);
     float disDistance = 517;
     float disScale = .25f;
-    qingjingCoverView = QingjingCoverView::create(swRect, slSize, disDistance, disScale);
+    qingjingCoverView = VipQingjingCoverView::create(swRect, slSize, disDistance, disScale);
     
     for (int i = 0; i < allNumber; i++) {        
         //
@@ -216,151 +204,77 @@ void VipQingjingScene::creat_view(){
         kuangSpr->setPosition(CCPointZero);
         qingjingCoverView->addCard(kuangSpr, i, i);
         
-        CCSprite* kuangSpr1 = CCSprite::create("res/pic/qingjingScene/qj_dikuang1.png");
-        kuangSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height - 30));
+        CCSprite* kuangSpr1 = CCSprite::create("res/pic/qingjingScene/qj_dikuang2.png");
+        kuangSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height + kuangSpr1->getContentSize().height* .18f));
         kuangSpr->addChild(kuangSpr1);
         
-        CCString* labelStr = CCString::createWithFormat("序章. %s", DISPLAY->GetOffTheName(i)->getCString());
-        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25);
-        label->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
-        label->setColor(ccWHITE);
+        // 第一章
+        std::string tishiStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(4))->getCString();
+        CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr.c_str(), DISPLAY->fangzhengFont(), 30, CCSizeMake(100, 30), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        tishiLabel->setPosition(ccp(kuangSpr1->getContentSize().width* .14f, kuangSpr1->getContentSize().height* .5f));
+        tishiLabel->setColor(ccc3(114, 184, 238));
+        kuangSpr1->addChild(tishiLabel);
+        
+        // 不想长大
+        CCString* labelStr = CCString::createWithFormat("%s", DISPLAY->GetOffTheName2(i)->getCString());
+        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 30);
+        label->setPosition(ccp(kuangSpr1->getContentSize().width* .55f, kuangSpr1->getContentSize().height* .5f));
+        label->setColor(ccc3(155, 92, 112));
         kuangSpr1->addChild(label, 2);
         
-        // 结局成就
-        CCLabelTTF* titleLabel = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-        titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
+        // 内容
+        std::string titleStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(8))->getCString();
+        CCLabelTTF* titleLabel = CCLabelTTF::create(titleStr.c_str(), DISPLAY->fangzhengFont(), 22, CCSizeMake(kuangSpr->getContentSize().width* .85f, kuangSpr->getContentSize().height* .7f), kCCTextAlignmentLeft,kCCVerticalTextAlignmentTop);
+        titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .4f));
         titleLabel->setColor(ccc3(80, 63, 68));
-//        titleLabel->enableStroke(ccc3(80, 63, 68), .4f);
         kuangSpr->addChild(titleLabel);
-        // 显示的结局
-        CSJson::Value data = AppUtil::read_json_file("res/vipStory/storyAchievementArr");
-        CCDictionary* dic = AppUtil::dictionary_with_json(data);
-        CCString* keyStr = CCString::createWithFormat("101_80100_%d", i);
-        CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
-        
-        
-        CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
-        CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
-        
+
         CCString* story_index = CCString::createWithFormat("%d", i);
-        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
-        bool tongguanBool = false;
-        for (int i = 0; i < achievemArr->count(); i++) {
-            bool achiBool = false;
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            if (storyArr != NULL) {
-                for (int k = 0; k < storyArr->count(); k++) {
-                    CCString* storyStr = (CCString* )storyArr->objectAtIndex(k);
-                    CCString* tongguanStr1 = CCString::createWithFormat("-1");
-                    if (strcmp(str->getCString(), storyStr->getCString()) == 0) {
-                        achiBool = true;
-                        CCLog("11111");
-                    }else{
-                        CCLog("22222");
-                    }
-                    CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(k);
-                    if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
-                        tongguanBool = true;
-                        CCLog("等于-1");
-                    }else{
-                        CCLog("不等于-1");
-                    }
-                }
-            }
-            
-            
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(200, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            if (i == 0){
-                label->setPosition(ccp(166, kuangSpr->getContentSize().height* .36f));
-            }else if (i == 1){
-                label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .36f));
-            }else if (i == 2){
-                label->setPosition(ccp(166, kuangSpr->getContentSize().height* .23f));
-            }else if (i == 3){
-                label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .23f));
-            }
-            if (achiBool) {
-                label->setColor(ccc3(80, 63, 68));
-            }else{
-                label->setColor(ccc3(139, 140, 164));
-            }
-            kuangSpr->addChild(label);
-            
-            
-            if (achiBool) {
-                CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-                gouSpr1->setScale(1.f);
-                if (i == 0){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .36f));
-                }else if (i == 1){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .36f));
-                }else if (i == 2){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .23f));
-                }else if (i == 3){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .23f));
-                }
-                kuangSpr->addChild(gouSpr1, 1);
-            }
-        }
-        
-        
+        // 0为未购买 非0已购买 -1通关
+        int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
         // 开始故事
         CCSprite* startSpr1;
         CCSprite* startSpr2;
-        CCMenuItem* startItem;
-        
-        std::string tishiStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(4))->getCString();
-        CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr.c_str(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .6f, 25), kCCTextAlignmentRight, kCCVerticalTextAlignmentTop);
-        tishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .35f, kuangSpr->getContentSize().height* .66f));
-        tishiLabel->setColor(ccc3(80, 63, 68));
-        kuangSpr->addChild(tishiLabel);
-        
-        if (tongguanBool) {
-            CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
-            tongguanSpr->setScale(.7f);
-            tongguanSpr->setAnchorPoint(ccp(0, .5f));
-            tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-            tishiLabel->addChild(tongguanSpr);
+        if (storyIndex != 0) {
+//            CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
+//            tongguanSpr->setScale(.7f);
+//            tongguanSpr->setAnchorPoint(ccp(0, .5f));
+//            tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+//            tishiLabel->addChild(tongguanSpr);
             
-            startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-            startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
+            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
             startSpr2->setScale(1.02f);
             startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
             startItem->setTag(i);
+            startMenu = CCMenu::create(startItem, NULL);
+            startMenu->setPosition(CCPointZero);
+            startMenu->setTag(i);
+            kuangSpr->addChild(startMenu);
+            
         }else{
-            if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
-                CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
-                jiesuoSpr->setScale(.7f);
-                jiesuoSpr->setAnchorPoint(ccp(0, .5f));
-                jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-                tishiLabel->addChild(jiesuoSpr);
-                
-                startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-                startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
-                startSpr2->setScale(1.02f);
-                startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-                startItem->setTag(i);
-            }else{
-                CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_weijiesuo.png");
-                jiesuoSpr->setScale(.7f);
-                jiesuoSpr->setAnchorPoint(ccp(0, .5f));
-                jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-                tishiLabel->addChild(jiesuoSpr);
-                
-                startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-                startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
-                startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-                startItem->setColor(ccGRAY);
-                startItem->setTag(i);
-            }
+            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+            startSpr2->setScale(1.02f);
+            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
+            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
+            startItem->setTag(i);
+            
+            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            buySpr2->setScale(1.02f);
+            buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
+            buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
+            buyItem->setTag(i+1000);
+            
+            startItem->setVisible(false);
+            buyItem->setVisible(true);
+            
+            startMenu = CCMenu::create(startItem, buyItem, NULL);
+            startMenu->setPosition(CCPointZero);
+            kuangSpr->addChild(startMenu);
         }
-        CCMenu* startMenu = CCMenu::create(startItem, NULL);
-        startMenu->setPosition(CCPointZero);
-        kuangSpr->addChild(startMenu);
     }
     
     qingjingCoverView->setPosition(swRect.origin);
@@ -382,44 +296,15 @@ void VipQingjingScene::qingjingStatus(){
     
     int now_task_index = -1;
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     int allTask = taskConditionsDic->count();
-    
-//    for (int i = 0; i < allTask; i++) {
-//        CCString* story_index = CCString::createWithFormat("%d", i);
-//        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
-//        if (storyArr != NULL) {
-//            continue;
-//        }else{
-//            now_task_index = i;
-//            break;
-//        }
-//    }
-    
-    bool tongguanBool = false;
     for (int i = 0; i < allTask; i++) {
         CCString* story_index = CCString::createWithFormat("%d", i);
-        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
-        if (storyArr != NULL) {
-            for (int k = 0; k < storyArr->count(); k++) {
-                CCString* tongguanStr1 = CCString::createWithFormat("-1");
-                CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(k);
-                if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
-                    tongguanBool = true;
-                    CCLog("等于-1");
-                }else{
-                    CCLog("不等于-1");
-                }
-            }
-            
-            if (tongguanBool) {
-                tongguanBool = false;
-            }else{
-                now_task_index = i;
-                break;
-            }
-        }else{
+        // 0为未购买 非0已购买 -1通关
+        int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
+        
+        if (storyIndex != -1) {
             now_task_index = i;
             break;
         }
@@ -464,191 +349,25 @@ void VipQingjingScene::backCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-
-void VipQingjingScene::creat_Tishi(){
+void VipQingjingScene::buyCallBack(CCObject* pSender){
+    tempItem = (CCMenuItem* )pSender;
     
-    if (this->getChildByTag(0x88888) != NULL) {
-        this->removeChildByTag(0x88888);
-        kuangSpr = NULL;
-    }
+    AUDIO->comfirm_effect();
+    LOADING->show_loading();
+    CCString* indexStr = CCString::createWithFormat("%d", tempItem->getTag()-1000);
+    NET->buy_story2_505(indexStr->getCString());
+}
+void VipQingjingScene::_505CallBack(CCObject* pSender){
+    LOADING->remove();
     
-    if (this->getChildByTag(0x99999) != NULL) {
-        this->removeChildByTag(0x99999);
-    }
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "购买成功.");
     
-    bool tempBool = false;
-    int index = DATA->getChapterNumber();
-    
-    // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
-    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", index);
-    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-    
-    std::string renwuStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
-    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
-    std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
-    renwuIndex = atoi(renwuIndexStr.c_str());
-    
-    int tiliIndex = 9;
-    CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
-    roomSpr = CCSprite::create(roomStr->getCString());
-    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    roomSpr->setTag(0x99999);
-    this->addChild(roomSpr);
-    
-    kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_kuang2.png");
-    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .155f));
-    kuangSpr->setTag(0x88888);
-    this->addChild(kuangSpr, 20);
-    
-    CCSprite* xianSpr1 = CCSprite::create("res/pic/qingjingScene/qj_xian.png");
-    xianSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
-    kuangSpr->addChild(xianSpr1);
-    
-    // 标题
-    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheName(index)->getCString(), DISPLAY->fangzhengFont(), 25);
-    btLabel1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .91f));
-    btLabel1->setColor(ccWHITE);
-//    btLabel1->enableStroke(ccWHITE, .4f);
-    kuangSpr->addChild(btLabel1, 2);
-    
-    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheName(index)->getCString(), DISPLAY->fangzhengFont(), 25);
-    btLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .91f - 2));
-    btLabel2->setColor(ccGRAY);
-//    btLabel2->enableStroke(ccGRAY, .4f);
-    kuangSpr->addChild(btLabel2);
-    
-    // 解锁条件
-    CCLabelTTF* titleLabel2 = CCLabelTTF::create("解锁条件", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    titleLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .75f));
-    titleLabel2->setColor(ccc3(80, 63, 68));
-//    titleLabel2->enableStroke(ccc3(80, 63, 68), .4f);
-    kuangSpr->addChild(titleLabel2);
-    
-    // 解锁条件内容
-    CCLabelTTF* label1 = CCLabelTTF::create("日常: ", DISPLAY->fangzhengFont(), 20);
-    label1->setAnchorPoint(CCPointZero);
-    label1->setPosition(ccp(kuangSpr->getContentSize().width* .117f, kuangSpr->getContentSize().height* .565f));
-    label1->setColor(ccc3(102, 103, 125));
-//    label1->enableStroke(ccc3(102, 103, 125), .4f);
-    kuangSpr->addChild(label1);
-    // 任务名
-    CCString* labStr2 = CCString::createWithFormat("%s", renwuStr.c_str());
-    CCLabelTTF* label2 = CCLabelTTF::create(labStr2->getCString(), DISPLAY->fangzhengFont(), 20);
-    label2->setAnchorPoint(CCPointZero);
-    label2->setPosition(ccp(kuangSpr->getContentSize().width* .117f + label1->getContentSize().width, kuangSpr->getContentSize().height* .565f));
-    label2->setColor(ccc3(137, 211, 117));
-//    label2->enableStroke(ccc3(137, 211, 117), .4f);
-    kuangSpr->addChild(label2);
-    // 任务数
-    CCString* labStr3 = CCString::createWithFormat(" (%d)  达成", renwuIndex);
-    CCLabelTTF* label3 = CCLabelTTF::create(labStr3->getCString(), DISPLAY->fangzhengFont(), 20);
-    label3->setAnchorPoint(CCPointZero);
-    label3->setPosition(ccp(kuangSpr->getContentSize().width* .117f + label1->getContentSize().width + label2->getContentSize().width, kuangSpr->getContentSize().height* .565f));
-    label3->setColor(ccc3(102, 103, 125));
-//    label3->enableStroke(ccc3(102, 103, 125), .4f);
-    kuangSpr->addChild(label3);
-    // 勾
-    if (renwuIndex < DATA->getPlayer()->mission) {
-        CCSprite* rightSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-        rightSpr->setPosition(ccp(label3->getContentSize().width* .9f, label3->getContentSize().height* .15f));
-        label3->addChild(rightSpr);
-    }
-    
-    
-    // 结局成就
-    CCLabelTTF* titleLabel3 = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    titleLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .48f));
-    titleLabel3->setColor(ccc3(80, 63, 68));
-//    titleLabel3->enableStroke(ccc3(80, 63, 68), .4f);
-    kuangSpr->addChild(titleLabel3);
-    
-    // 显示的结局
-    CSJson::Value data = AppUtil::read_json_file("res/vipStory/storyAchievementArr");
-    CCDictionary* dic = AppUtil::dictionary_with_json(data);
-    CCString* keyStr = CCString::createWithFormat("101_80100_%d", index);
-    CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
-
-    CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
-    CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
-    if (!tempBool) {// 需要判断 如果获得的结局等于0
-        for (int i = 0; i < achievemArr->count(); i++) {
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .38f - (28 * i)));
-            label->setColor(ccc3(139, 140, 164));
-//            label->enableStroke(ccc3(139, 140, 164), .4f);
-            kuangSpr->addChild(label);
-        }
-        
-    }else{
-        for (int i = 0; i < achievemArr->count(); i++) {
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            bool achiBool = false;// 需要判断是否与获得的结局相等
-            
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .38f - (28 * i)));
-            if (achiBool) {
-                label->setColor(ccc3(102, 103, 125));
-//                label->enableStroke(ccc3(102, 103, 125), .4f);
-            }else{
-                label->setColor(ccc3(139, 140, 164));
-//                label->enableStroke(ccc3(139, 140, 164), .4f);
-            }
-            kuangSpr->addChild(label);
-            
-            if (achiBool) {
-                CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-                gouSpr1->setScale(.3f);
-                gouSpr1->setPosition(ccp(label->getContentSize().width, kuangSpr->getContentSize().height* .38f - (28 * i)));
-                kuangSpr->addChild(gouSpr1, 1);
-            }
-        }
-    }
-    
-    // 开始故事
-    CCSprite* startSpr1;
-    CCSprite* startSpr2;
-    CCMenuItem* startItem;
-    if (renwuIndex < DATA->getPlayer()->mission) {
-        startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startSpr2->setScale(1.02f);
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-        startItem->setTag(index);
-    }else{
-        startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-        startItem->setColor(ccGRAY);
-        startItem->setTag(index);
-    }
-    CCMenu* menu = CCMenu::create(startItem, NULL);
-    menu->setPosition(CCPointZero);
-    kuangSpr->addChild(menu);
-    
-    
-    // 消耗体力
-    CCSprite* tiliSpr = CCSprite::create("res/pic/qingjingScene/qj_tili_bar.png");
-    tiliSpr->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .1f));
-    kuangSpr->addChild(tiliSpr);
-    // 体力数
-    CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
-    CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
-    tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
-    tiliLabel->setColor(ccWHITE);
-//    tiliLabel->enableStroke(ccWHITE, .4f);
-    tiliSpr->addChild(tiliLabel);
-    // 心
-    CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
-    xinSpr->setScale(.9f);
-    xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .85f, tiliSpr->getContentSize().height* .49f));
-    tiliSpr->addChild(xinSpr);
+    CCMenu* menu = (CCMenu* )tempItem->getParent();
+    CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
+    CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);
+    startItem->setVisible(true);
+    buyItem->setVisible(false);
 }
 
 void VipQingjingScene::startCallBack(CCObject* pSender){
@@ -658,24 +377,17 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
     if (storyIndex > 0) {
         bool tongguanBool = false;
         CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
-        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
-        if (storyArr != NULL) {
-            for (int i = 0; i < storyArr->count(); i++) {
-                CCString* tongguanStr1 = CCString::createWithFormat("-1");
-                CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(i);
-                if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
-                    tongguanBool = true;
-//                    CCLog("等于-1, 通关");
-                }else{
-//                    CCLog("不等于-1, 不通关");
-                }
-            }
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+        
+        if (tempIndex == -1) {
+            tongguanBool = true;
         }
         if (tongguanBool) {
             if (DATA->getPlayer()->energy >= 9) {
                 LOADING->show_loading();
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-                NET->start_story_501(indexStr->getCString());
+                NET->start_story2_509(indexStr->getCString());
             }else{
                 AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
@@ -689,7 +401,7 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         if (DATA->getPlayer()->energy >= 9) {
             LOADING->show_loading();
             CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-            NET->start_story_501(indexStr->getCString());
+            NET->start_story2_509(indexStr->getCString());
         }else{
             AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
             mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
@@ -697,24 +409,12 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         }
     }
 }
-void VipQingjingScene::_501CallBack(CCObject* pSender){
+void VipQingjingScene::_509CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();
-    StoryScene* layer = StoryScene::create_with_story_id(storyIndex);
+    VipStoryScene* layer = VipStoryScene::create_with_story_id(storyIndex);
     pScene->addChild(layer);
     CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
     CCDirector::sharedDirector()->replaceScene(trans);
-}
-
-void VipQingjingScene::EnterTheTishi(){    
-    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .155f));
-    kuangSpr->runAction(moveTo);
-}
-void VipQingjingScene::ExitTishi(){
-    if (this->getChildByTag(0x88888) != NULL) {
-        kuangSpr->removeAllChildren();
-        this->removeChildByTag(0x88888);
-        kuangSpr = NULL;
-    }
 }
 
 void VipQingjingScene::creat_Man(){
@@ -1222,35 +922,6 @@ void VipQingjingScene::initClothes(){//穿衣服
     }
 }
 
-int VipQingjingScene::getStoryIndexStatus(){
-    // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
-    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    allNumber = taskConditionsDic->count();
-    int index = 0;
-    for (int i = 1; i < taskConditionsDic->count(); i++) {
-        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
-        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
-        int renwuIndex = atoi(renwuIndexStr.c_str());
-        if (renwuIndex >= DATA->getPlayer()->mission) {
-            index = i;
-            break;
-        }
-    }
-    
-    if (DATA->getStory()->has_passed(CCString::createWithFormat("%d", index)->getCString())) {
-        if (index >= taskConditionsDic->count()) {
-            index = taskConditionsDic->count() - 1;
-            return index;
-        }else{
-            return index + 1;
-        }
-        
-    }else{
-        return index;
-    }
-}
 void VipQingjingScene::jiantou1CallBack(CCObject* pSender){
     jiantouItem1->setEnabled(false);
     jiantouItem2->setEnabled(false);
@@ -1331,7 +1002,7 @@ void VipQingjingScene::updataMan(){
     }
     
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/taskConditions");
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", DATA->getChapterNumber());
     CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());

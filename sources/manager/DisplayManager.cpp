@@ -80,6 +80,28 @@ CCString* DisplayManager::GetOffTheName(int index){
     return str;
 }
 
+CCString* DisplayManager::GetOffTheNumber2(int index){
+    CCString* str;
+    CSJson::Value data = AppUtil::read_json_file("res/vipStory/vip_storyNumber");
+    CCDictionary* dic = AppUtil::dictionary_with_json(data);
+    CCString* keyStr = CCString::createWithFormat("%d", index);
+    CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
+    str = (CCString* )achievemArr->objectAtIndex(0);
+    
+    return str;
+}
+
+CCString* DisplayManager::GetOffTheName2(int index){
+    CCString* str;
+    CSJson::Value data = AppUtil::read_json_file("res/vipStory/vip_storyNumber");
+    CCDictionary* dic = AppUtil::dictionary_with_json(data);
+    CCString* keyStr = CCString::createWithFormat("%d", index);
+    CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
+    str = (CCString* )achievemArr->objectAtIndex(1);
+    
+    return str;
+}
+
 float DisplayManager::W() {
     return _width;
 }

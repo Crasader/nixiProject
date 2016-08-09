@@ -25,6 +25,10 @@ bool ClothesTableView::init(){
         return false;
     }
     
+    this->setTouchSwallowEnabled(false);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchEnabled(true);
+    
     clothesPage = 0;
     clothesType = 0;
     now_CellIndex = 0;

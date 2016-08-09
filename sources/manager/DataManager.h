@@ -96,7 +96,8 @@ public:
     CC_SYNTHESIZE(int, taskPhase, TaskPhase);
     // 家记录状态
     CC_SYNTHESIZE(bool, homeBool, HomeBool);
-    
+    // 房间记录状态
+    CC_SYNTHESIZE(int, _houseIndex, HouseIndex);
     
     // 体力时间
     CC_SYNTHESIZE(int, _tili_Minute, TiliMinute);
