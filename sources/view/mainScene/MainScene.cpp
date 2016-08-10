@@ -160,7 +160,7 @@ void MainScene::onEnter(){
 
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
     
-    if (DATA->getNews()->signin7 > 0) {
+    if (DATA->getNews()->signin7 == 1) {
         isOk = true;
         this->qiandaoCallBack(NULL);
     }

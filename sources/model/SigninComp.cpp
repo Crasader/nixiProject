@@ -22,7 +22,12 @@ CCArray* SigninComp::signin7_template() const {
 
 SigninState SigninComp::fetch_signin7_state(const string& id) {
     CCInteger* state = (CCInteger*)_signin7Info->objectForKey(id);
-    return (SigninState)state->getValue();
+    if (state == NULL) {
+        return e_SigninState_Locked;
+    }
+    else {
+        return (SigninState)state->getValue();
+    }
 }
 
 #pragma mark - Inner API

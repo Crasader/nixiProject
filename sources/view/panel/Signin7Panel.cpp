@@ -92,8 +92,19 @@ bool Signin7Panel::init() {
         _panel->addChild(icon_7);
         
         CCSprite* model = CCSprite::create("pic/panel/signin7/si_model.png");
-        model->setPosition(ccp(panelSize.width* .94f, panelSize.height * 0.46f));
+        model->setPosition(ccp(panelSize.width* .72f, panelSize.height * 0.46f));
         _panel->addChild(model);
+        
+        CCSprite* model_bg = CCSprite::create("pic/panel/signin7/model_bg.png");
+        model_bg->setPosition(ccp(panelSize.width* .72f, panelSize.height * 0.46f));
+        _panel->addChild(model_bg);
+        
+        CCFadeOut* fo = CCFadeOut::create(0.8f);
+        CCScaleTo* st = CCScaleTo::create(0.8, 1.0f);
+        CCFadeIn* fi = CCFadeIn::create(0.5f);
+        CCScaleTo* st2 = CCScaleTo::create(0.5, 1.02f);
+        CCSequence* seq = CCSequence::create(CCSpawn::create(fi, st2, NULL), CCDelayTime::create(0.2f), CCScaleTo::create(0.5, 1.0f), CCSpawn::create(fi, st2, NULL), CCSpawn::create(fo, st, NULL), CCDelayTime::create(0.2f), NULL);
+        model_bg->runAction(CCRepeatForever::create(seq));
         
         this->config_siginInfo();
         
@@ -143,30 +154,44 @@ void Signin7Panel::config_siginInfo(){
         CCLOG("STATE = %d", cur_state);
         CCSprite* state_spr = NULL;
         switch (cur_state) {
-            case e_SigninState_Locked:
+            case e_SigninState_Locked:{
                 // 锁定
-//                state_spr = CCSprite::create("res/pic/mask.png");
-//                state_spr->CCNode::setScale(icon_bg->getContentSize().width / state_spr->getContentSize().width, icon_bg->getContentSize().height / state_spr->getContentSize().height);
-//                state_spr->setPosition(ccp(icon_bg->getContentSize().width* .5f, icon_bg->getContentSize().height* .5f));
-//                icon_bg->addChild(state_spr);
+                //                state_spr = CCSprite::create("res/pic/mask.png");
+                //                state_spr->CCNode::setScale(icon_bg->getContentSize().width / state_spr->getContentSize().width, icon_bg->getContentSize().height / state_spr->getContentSize().height);
+                //                state_spr->setPosition(ccp(icon_bg->getContentSize().width* .5f, icon_bg->getContentSize().height* .5f));
+                //                icon_bg->addChild(state_spr);
+                
+                
+            }
+                
                 
                 break;
-            case e_SigninState_Available:
+            case e_SigninState_Available:{
                 // 可用
                 state_spr = CCSprite::create("pic/panel/signin7/state_clickget.png");
                 state_spr->setPosition(ccp(icon_bg->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
                 state_spr->setTag(200);
                 icon_bg->addChild(state_spr);
                 
+                CCSprite* stars = CCSprite::create("pic/panel/signin7/state_clickget.png");
+                stars->setPosition(ccp(state_spr->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
+                state_spr->addChild(stars);
+                
+                CCFadeOut* fo = CCFadeOut::create(0.8f);
+                CCScaleTo* st = CCScaleTo::create(0.8, 1.0f);
+                CCFadeIn* fi = CCFadeIn::create(0.5f);
+                CCScaleTo* st2 = CCScaleTo::create(0.5, 1.02f);
+                CCSequence* seq = CCSequence::create(CCSpawn::create(fi, st2, NULL), CCDelayTime::create(0.2f), CCScaleTo::create(0.5, 1.0f), CCSpawn::create(fi, st2, NULL), CCSpawn::create(fo, st, NULL), CCDelayTime::create(0.2f), NULL);
+                stars->runAction(CCRepeatForever::create(seq));
+            }
                 break;
-            case e_SigninState_Retroactive:
-                // 可补签
-                break;
-            case e_SigninState_Done:
+            case e_SigninState_Done:{
                 // 已签
                 state_spr = CCSprite::create("pic/panel/signin7/state_got.png");
                 state_spr->setPosition(ccp(icon_bg->getContentSize().width - state_spr->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
                 icon_bg->addChild(state_spr);
+            }
+                
                 
                 break;
             default:
@@ -203,9 +228,6 @@ void Signin7Panel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
                     LOADING->show_loading();
                     NET->perform_signin7_303(id_str->getCString());
                     _signin_id = i;
-                    break;
-                case e_SigninState_Retroactive:
-                    // 发送补签请求
                     break;
                 case e_SigninState_Done:
                     
