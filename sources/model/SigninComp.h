@@ -17,8 +17,7 @@ using namespace CSJson;
 typedef enum {
     e_SigninState_Locked = 0,       // 锁定
     e_SigninState_Available = 1,    // 可用
-    e_SigninState_Retroactive = 2,  // 可补签
-    e_SigninState_Done = 3          // 已签
+    e_SigninState_Done = 2          // 已签
 } SigninState;
 
 class SigninComp : public CCObject
