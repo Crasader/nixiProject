@@ -398,6 +398,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
             
+        case 309: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _operation->replace_gashapon_user(content["gashapon"]);
+            pData = AppUtil::dictionary_with_json(content["result"]);
+        } break;
+            
         case 200: {
             _coffers->init_with_json(content["coffers"]);
         } break;
