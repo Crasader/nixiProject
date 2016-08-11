@@ -276,9 +276,9 @@ int VipQingjingCoverView::getCurCardIndex()
     
     if (moveBool) {
         moveBool = false;
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_UpdataButton");
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("VipQingjing_UpdataButton");
     }
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("Qingjing_UpdataMan");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("VipQingjing_UpdataMan");
     
     return index;
 }

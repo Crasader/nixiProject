@@ -890,7 +890,7 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
 //        WS->connect();
         
-        if (DATA->getStory()->has_init_story()) {
+        if (DATA->getStory()->has_init_story2()) {
             this->_504CallBack(NULL);
         }else{
             LOADING->show_loading();

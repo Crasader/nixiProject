@@ -75,8 +75,8 @@ void VipQingjingScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_509CallBack), "HTTP_FINISHED_509", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_505CallBack), "HTTP_FINISHED_505", NULL);
     
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "Qingjing_UpdataButton", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "Qingjing_UpdataMan", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "VipQingjing_UpdataButton", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::keyBackStatus), .8f);
 }
