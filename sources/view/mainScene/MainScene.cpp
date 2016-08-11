@@ -38,7 +38,6 @@
 #include "OperationPanel.h"
 #include "SettingPanel.h"
 #include "ChatPanel.h"
-#include "GashaponPanel.h"
 #include "TotalRechargePanel.h"
 
 #include <time.h>
@@ -270,12 +269,12 @@ void MainScene::creat_view(){
     CCMenuItem* btnPurchaseAchievement = CCMenuItemSprite::create(purchaseAchievement1, purchaseAchievement2, this, menu_selector(MainScene::purchaseAchievementCallBack));
     btnPurchaseAchievement->setPosition(btnEnergyLargess->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
     
-//    // 扭蛋
-//    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
-//    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
-//    gashapon2->setScale(1.02f);
-//    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
-//    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+    // 扭蛋
+    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+    gashapon2->setScale(1.02f);
+    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
 
     //设置
@@ -633,7 +632,7 @@ void MainScene::creat_view(){
                                   _shezhiItem,
                                   btnEnergyLargess,
                                   btnPurchaseAchievement,
-//                                  btnGashapon,
+                                  btnGashapon,
                                   NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
@@ -1052,7 +1051,7 @@ void MainScene::nc_signin_info_302(CCObject *pObj) {
 
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {
     LOADING->remove();
-    GashaponPanel::show();
+
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){

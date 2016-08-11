@@ -196,7 +196,7 @@ void LoginScene::show_nicknameview() {
         _container->removeAllChildrenWithCleanup(true);
     }
     
-    CCLayer* layer = (CCLayer* )_views->objectForKey("nickname");
+    CCLayer* layer = (CCLayer*)_views->objectForKey("nickname");
     _container->addChild(layer);
 }
 
