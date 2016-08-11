@@ -56,7 +56,7 @@ const char* LoginComp::obtain_game_addr() {
     return _gameaddr.c_str();
 }
 
-const CCDictionary* LoginComp::config() {
+CCDictionary* LoginComp::config() {
     return _config;
 }
 

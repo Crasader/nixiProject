@@ -30,8 +30,8 @@ class OperationComp : public CCObject
     // 累计充值玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementUser, PurchaseAchievementUser);
     
-    // 扭蛋模版数组
-    SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponTemplate, GashaponTemplate);
+    // 套装数组
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _suits, Suits);
     // 扭蛋玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponUser, GashaponUser);
     // 玩家拥有碎片
@@ -58,12 +58,10 @@ public:
     ~OperationComp();
     CREATE_FUNC(OperationComp);
     virtual bool init();
-
-protected:
-    
     
 private:
-    
+    // 扭蛋模版数组
+    SYNTHESIZE_RETAIN_READONLY(CCDictionary*, _gashaponTemplate, GashaponTemplate);
 };
 
 #endif /* OperationComp_hpp */
