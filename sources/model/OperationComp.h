@@ -32,12 +32,18 @@ class OperationComp : public CCObject
     
     // 套装数组
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _suits, Suits);
+    // 扭蛋模版数组
+    SYNTHESIZE_RETAIN_READONLY(CCDictionary*, _gashaponTemplate, GashaponTemplate);
     // 扭蛋玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponUser, GashaponUser);
     // 玩家拥有碎片
     SYNTHESIZE_READONLY(int, _piece, Piece);
-    // 玩家上次免费抽取的时间戳
+    // 玩家免费抽取倒计时
     SYNTHESIZE_READONLY(unsigned long, _freePoint, FreePoint);
+    // 单次花费
+    SYNTHESIZE_READONLY(int, _signleCost, SignleCost);
+    // 十次花费
+    SYNTHESIZE_READONLY(int, _tenCost, TenCost);
     
 public:
     // 返回用于需要显示的模版下标
@@ -49,6 +55,7 @@ public:
     
 public: // Inport
     void init_purchase_achievement_template(Value json);
+    void init_costs(Value json);
     void replace_purchase_achievement(Value json);
     
     void init_gashapon_template(Value json);
@@ -60,8 +67,7 @@ public:
     virtual bool init();
     
 private:
-    // 扭蛋模版数组
-    SYNTHESIZE_RETAIN_READONLY(CCDictionary*, _gashaponTemplate, GashaponTemplate);
+    
 };
 
 #endif /* OperationComp_hpp */

@@ -1010,13 +1010,14 @@ void MainScene::renwuCallBack(CCObject* pSender){
 
 void MainScene::huanzhuangCallBack(CCObject* pSender){
     if (isOk) {
-        if (DATA->getClothes()->has_init_clothes == true) {
-            this->_huanzhuangCallBack(pSender);
-        }
-        else {
-            LOADING->show_loading();
-            NET->owned_clothes_400();
-        }
+//        if (DATA->getClothes()->has_init_clothes == true) {
+//            this->_huanzhuangCallBack(pSender);
+//        }
+//        else {
+//            LOADING->show_loading();
+//            NET->owned_clothes_400();
+//        }
+        NET->single_lottery_307();
     }
 }
 

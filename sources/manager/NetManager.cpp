@@ -422,6 +422,15 @@ void NetManager::gashapon_info_306(bool full) {
     this->post_data(306, data);
 }
 
+void NetManager::single_lottery_307() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(307, data);
+}
+
 
 void NetManager::coffers_info_200() {
     this->post_data(200, string(""));

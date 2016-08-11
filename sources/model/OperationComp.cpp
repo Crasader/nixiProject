@@ -78,6 +78,16 @@ void OperationComp::init_purchase_achievement_template(Value json) {
     this->setPurchaseAchievementTemplate(arr);
 }
 
+void OperationComp::init_costs(Value json) {
+    if (json.type() == nullValue) {
+        CCLOG("OperationComp::init_costs() json object error.");
+        return;
+    }
+    
+    this->setSignleCost(json["single_cost"].asInt());
+    this->setTenCost(json["ten_cost"].asInt());
+}
+
 void OperationComp::replace_purchase_achievement(Value json) {
     if (json.type() == nullValue) {
         CCLOG("OperationComp::replace_purchase_achievement() json object error.");

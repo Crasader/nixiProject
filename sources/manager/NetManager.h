@@ -83,6 +83,7 @@ public:
     void purchase_achievement_info_304(bool full);
     void take_purchase_achievement_305(string& id);
     void gashapon_info_306(bool full);
+    void single_lottery_307();
 
     
     void coffers_info_200();
