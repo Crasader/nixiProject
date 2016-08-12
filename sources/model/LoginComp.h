@@ -29,7 +29,7 @@ public:
     const char* obtain_sid();
     const char* obtain_skey();
     const char* obtain_game_addr();
-    const CCDictionary* config();
+    CCDictionary* config();
     
 protected:
     

@@ -38,7 +38,6 @@
 #include "OperationPanel.h"
 #include "SettingPanel.h"
 #include "ChatPanel.h"
-#include "GashaponPanel.h"
 #include "TotalRechargePanel.h"
 
 #include <time.h>
@@ -270,12 +269,12 @@ void MainScene::creat_view(){
     CCMenuItem* btnPurchaseAchievement = CCMenuItemSprite::create(purchaseAchievement1, purchaseAchievement2, this, menu_selector(MainScene::purchaseAchievementCallBack));
     btnPurchaseAchievement->setPosition(btnEnergyLargess->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
     
-//    // 扭蛋
-//    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
-//    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
-//    gashapon2->setScale(1.02f);
-//    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
-//    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+    // 扭蛋
+    CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+    CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
+    gashapon2->setScale(1.02f);
+    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
     // 聊天
     CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -642,6 +641,7 @@ void MainScene::creat_view(){
                                   btnPurchaseAchievement,
 //                                  btnGashapon,
                                   item_chat,
+                                  btnGashapon,
                                   NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
@@ -1041,6 +1041,7 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void MainScene::paihangCallBack(CCObject* pSender){
     if (isOk) {
         LOADING->show_loading();
@@ -1064,7 +1065,7 @@ void MainScene::nc_signin_info_302(CCObject *pObj) {
 
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {
     LOADING->remove();
-    GashaponPanel::show();
+
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){
@@ -1088,6 +1089,7 @@ void MainScene::juqingCallBack(CCObject* pSender){
     }
     
 }
+
 void MainScene::_500CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     if (isrenwuBool) {
@@ -1099,6 +1101,7 @@ void MainScene::_500CallBack(CCObject* pSender){
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
+
 void MainScene::richangCallBack(CCObject* pSender){
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
@@ -1111,6 +1114,7 @@ void MainScene::richangCallBack(CCObject* pSender){
         }
     }
 }
+
 void MainScene::_600CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     LOADING->remove();

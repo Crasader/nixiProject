@@ -60,8 +60,8 @@ private:
     void schedule_count_down(float dt);
     
 private:
-    CCSprite* _panel_bg;
-    CCSprite* _input_bg;
+    CCSprite*           _panel_bg;
+    CCSprite*           _input_bg;
     
     CCMenuItemSprite* item_send;
     CCSprite* send_mask;
