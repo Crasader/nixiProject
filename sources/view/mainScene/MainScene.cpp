@@ -1010,14 +1010,13 @@ void MainScene::renwuCallBack(CCObject* pSender){
 
 void MainScene::huanzhuangCallBack(CCObject* pSender){
     if (isOk) {
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->_huanzhuangCallBack(pSender);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
-        NET->single_lottery_307();
+        if (DATA->getClothes()->has_init_clothes == true) {
+            this->_huanzhuangCallBack(pSender);
+        }
+        else {
+            LOADING->show_loading();
+            NET->owned_clothes_400();
+        }
     }
 }
 
@@ -1029,6 +1028,7 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void MainScene::paihangCallBack(CCObject* pSender){
     if (isOk) {
         LOADING->show_loading();
@@ -1076,6 +1076,7 @@ void MainScene::juqingCallBack(CCObject* pSender){
     }
     
 }
+
 void MainScene::_500CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     if (isrenwuBool) {
@@ -1087,6 +1088,7 @@ void MainScene::_500CallBack(CCObject* pSender){
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
+
 void MainScene::richangCallBack(CCObject* pSender){
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
@@ -1099,6 +1101,7 @@ void MainScene::richangCallBack(CCObject* pSender){
         }
     }
 }
+
 void MainScene::_600CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     LOADING->remove();
