@@ -19,6 +19,7 @@
 #include "Signin7Panel.h"
 #include "HomeLayer.h"
 #include "EnergyLargessPanel.h"
+#include "GashaponLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -995,6 +996,10 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
             NET->gashapon_info_306(true);
         }
     }
+    
+//    Shower* shower = Shower::create();
+//    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
+//    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
 void MainScene::social_info_callback_800(CCObject* pObj) {
@@ -1051,7 +1056,9 @@ void MainScene::nc_signin_info_302(CCObject *pObj) {
 
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {
     LOADING->remove();
-
+    
+    GashaponLayer* layer = GashaponLayer::create();
+    this->addChild(layer, 500);
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){

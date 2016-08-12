@@ -166,9 +166,9 @@ void OperationComp::init_gashapon_template(Value json) {
     this->setGashaponTemplate(dic);
     
     //
-    Shower* shower = Shower::create();
-    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
-    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
+//    Shower* shower = Shower::create();
+//    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
+//    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
 void OperationComp::replace_gashapon_user(Value json) {
