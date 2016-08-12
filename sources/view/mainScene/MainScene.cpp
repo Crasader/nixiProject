@@ -277,6 +277,13 @@ void MainScene::creat_view(){
 //    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
 //    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    CCMenuItem* item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(MainScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .18f));
+    
 
     //设置
     CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
@@ -634,6 +641,7 @@ void MainScene::creat_view(){
                                   btnEnergyLargess,
                                   btnPurchaseAchievement,
 //                                  btnGashapon,
+                                  item_chat,
                                   NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu);
@@ -996,6 +1004,10 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
             NET->gashapon_info_306(true);
         }
     }
+}
+
+void MainScene::openChat(cocos2d::CCObject *pSender){
+    WS->connect();
 }
 
 void MainScene::social_info_callback_800(CCObject* pObj) {

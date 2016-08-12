@@ -29,9 +29,6 @@ bool ChatPanel::init(){
         DATA->setBeginTime(-1);
     }
     
-    CCSprite* mask = CCSprite::create("res/pic/mask.png");
-    mask->setPosition(DISPLAY->center());
-    this->addChild(mask);
     
     this->initChatPanel();
     
@@ -56,18 +53,15 @@ void ChatPanel::onExit(){
 }
 
 void ChatPanel::initChatPanel(){
-    _panel_bg = CCSprite::create("res/pic/panel/chat/panel_bg.png");
-    _panel_bg->setPosition(ccp(DISPLAY->halfW(), DISPLAY->halfH()));
+    _panel_bg = CCSprite::create("res/pic/panel/chat/chat_bg.png");
+    _panel_bg->setAnchorPoint(ccp(0, 0));
+    _panel_bg->setPosition(ccp(0, DISPLAY->ScreenHeight()* .18f));
     this->addChild(_panel_bg);
     
-    this->initTopMessage();
     
-    ChatTableView* chatView = ChatTableView::create();
-    chatView->setPosition(ccp(_panel_bg->getContentSize().width* .5f, _panel_bg->getContentSize().height* .10f));
-    _panel_bg->addChild(chatView);
     
     _input_bg = CCSprite::create("res/pic/panel/chat/input.png");
-    _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .4f, 45));
+    _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .4f, 35));
     _panel_bg->addChild(_input_bg);
     
     CCSprite* send_spr = CCSprite::create("res/pic/panel/chat/send_on.png");
@@ -95,7 +89,7 @@ void ChatPanel::initChatPanel(){
     this->updateSendTime();
     
 
-    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("请输入...", DISPLAY->fangzhengFont(), 26);
+    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("请输入...", DISPLAY->fangzhengFont(), 24);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
     _input_text->setColor(ccBLACK);
     _input_text->setDelegate(this);
@@ -122,6 +116,11 @@ void ChatPanel::initChatPanel(){
     _panel_bg->addChild(_node);
     
     
+    this->initTopMessage();
+    
+    ChatTableView* chatView = ChatTableView::create();
+    chatView->setPosition(ccp(_panel_bg->getContentSize().width* .5f, _panel_bg->getContentSize().height* .12f));
+    _panel_bg->addChild(chatView);
 }
 
 void ChatPanel::send_replay_callback(){
@@ -169,9 +168,13 @@ void ChatPanel::schedule_count_down(float dt){
 }
 
 void ChatPanel::initTopMessage(){
-    CCSprite* bg = CCSprite::create("res/pic/panel/chat/text_bg_1.png");
-    bg->setPosition(ccp(_panel_bg->getContentSize().width* .5f, _panel_bg->getContentSize().height* .89f));
+    CCSprite* bg = CCSprite::create("res/pic/panel/chat/notice_bg.png");
+    bg->setPosition(ccp(_panel_bg->getContentSize().width* .5f, _panel_bg->getContentSize().height - bg->getContentSize().height* .5f));
     _panel_bg->addChild(bg);
+    
+    CCSprite* notice_spr = CCSprite::create("res/pic/panel/chat/notice.png");
+    notice_spr->setPosition(ccp(notice_spr->getContentSize().width* .5f, bg->getContentSize().height* .5f));
+    bg->addChild(notice_spr);
     
     CCLabelTTF* nickname = CCLabelTTF::create("昵称七个字:", DISPLAY->fangzhengFont(), 17);
     nickname->setColor(ccc3(248, 83, 18));

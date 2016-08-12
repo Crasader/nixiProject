@@ -128,6 +128,7 @@ public:
     void energyLargessCallBack(CCObject* pSender);
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
+    void openChat(CCObject* pSender);
     
     void juqing_vipCallBack(CCObject* pSender);
     void homeCallBack(CCObject* pSender);
