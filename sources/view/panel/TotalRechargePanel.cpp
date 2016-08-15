@@ -13,6 +13,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "PromptLayer.h"
+#include "Shower.h"
 
 
 #pragma mark - Export
@@ -84,9 +85,18 @@ void TotalRechargePanel::updatePanel(){
         
     }
     
-    CCSprite* girl = CCSprite::create("pic/panel/totalRecharge/gril.png");
-    girl->setPosition(ccp(_panel->getContentSize().width* .25f, _panel->getContentSize().height* .52f));
-    _panel->addChild(girl);
+//    CCSprite* girl = CCSprite::create("pic/panel/totalRecharge/gril.png");
+//    girl->setPosition(ccp(_panel->getContentSize().width* .25f, _panel->getContentSize().height* .52f));
+//    _panel->addChild(girl);
+    
+    CCArray* suits = DATA->getOperation()->getPASuits();
+    Shower* shower = Shower::create();
+    
+    int index = DATA->getOperation()->getPurchaseAchievementUser()->count() == 2 ? 1 : DATA->getOperation()->getPurchaseAchievementUser()->count();
+    shower->ondress((CCDictionary*)suits->objectAtIndex(index));
+    shower->setScale(0.6f);
+    shower->setPosition(ccp(_panel->getContentSize().width* .0f, _panel->getContentSize().height* .1f));
+    _panel->addChild(shower);
     
     CCSprite* red_bg = CCSprite::create("pic/panel/totalRecharge/red_bg.png");
     red_bg->setPosition(ccp(_panel->getContentSize().width* .3f, _panel->getContentSize().height* .08f));
