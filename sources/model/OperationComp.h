@@ -14,6 +14,7 @@
 #include "json_lib.h"
 #include "extend_define.h"
 
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace CSJson;
@@ -27,6 +28,8 @@ class OperationComp : public CCObject
     SYNTHESIZE_READONLY(int, _purchasedTotal, PurchasedTotal);
     // 累计充值模版数组
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementTemplate, PurchaseAchievementTemplate);
+    // 套装数组
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _paSuits, PASuits);
     // 累计充值玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementUser, PurchaseAchievementUser);
     
@@ -38,6 +41,8 @@ class OperationComp : public CCObject
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponUser, GashaponUser);
     // 玩家拥有碎片
     SYNTHESIZE_READONLY(int, _piece, Piece);
+    // 抽10次奖励
+    SYNTHESIZE_READONLY(int, _extra, Extra);
     // 玩家免费抽取倒计时
     SYNTHESIZE_READONLY(unsigned long, _freePoint, FreePoint);
     // 单次花费
@@ -60,6 +65,7 @@ public: // Inport
     
     void init_gashapon_template(Value json);
     void replace_gashapon_user(Value json);
+    void init_extra(Value json);
     
 public:
     ~OperationComp();

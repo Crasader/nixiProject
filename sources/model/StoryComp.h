@@ -20,6 +20,7 @@ class StoryComp : public CCObject
 public: // Export
     CCDictionary* cmpleted_story();
     bool has_init_story();                          // 是否初始化已完成的剧情信息
+    bool has_init_story2();                          // 是否初始化已完成的剧情信息
     bool has_passed(const char* story_index);       // 剧情是否已通过
     CCArray* story_achievments(const char* story_index); // 剧情已获得成就列表(CCString)
     int story2_state(const char* story2_index);

@@ -49,6 +49,9 @@ CCDictionary* StoryComp::cmpleted_story() {
 bool StoryComp::has_init_story() {
     return !(_cmpleted_story == NULL);
 }
+bool StoryComp::has_init_story2(){
+    return !(_cmpleted_story2 == NULL);
+}
 
 bool StoryComp::has_passed(const char *story_index) {
     bool rtn = false;

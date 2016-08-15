@@ -19,6 +19,7 @@
 #include "Signin7Panel.h"
 #include "HomeLayer.h"
 #include "EnergyLargessPanel.h"
+#include "GashaponLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -41,6 +42,9 @@
 #include "TotalRechargePanel.h"
 
 #include <time.h>
+
+
+#include "RewardLayer.h"
 
 // --------------- test ----------------
 
@@ -142,6 +146,8 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::purchaseAchievementCallBack), "NEED_SHOW_RECHARTE", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::energyLargessCallBack), "NEED_SHOW_ENERGY_GARLESS", NULL);
     
+    
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::linshiMethod), "linshiMethod", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
@@ -967,7 +973,7 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
 //        WS->connect();
         
-        if (DATA->getStory()->has_init_story()) {
+        if (DATA->getStory()->has_init_story2()) {
             this->_504CallBack(NULL);
         }else{
             LOADING->show_loading();
@@ -1073,6 +1079,10 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
             NET->gashapon_info_306(true);
         }
     }
+    
+//    Shower* shower = Shower::create();
+//    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
+//    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
 void MainScene::openChat(cocos2d::CCObject *pSender){
@@ -1134,7 +1144,9 @@ void MainScene::nc_signin_info_302(CCObject *pObj) {
 
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {
     LOADING->remove();
-
+    
+    GashaponLayer* layer = GashaponLayer::create();
+    this->addChild(layer, 500);
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){
@@ -1734,5 +1746,15 @@ void MainScene::update_news_status() {
         haoyou_Item->addChild(spt2);
     }
 }
+
+
+void MainScene::linshiMethod(CCObject *pObj){
+    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )pObj);
+    this->addChild(layer, 100);
+}
+
+
+
+
 
 

@@ -97,6 +97,7 @@ public:
     void backCallBack(CCObject* pSender);
     void gongsiCallBack(CCObject* pSender);
     void qiehuanCallBack(CCObject* pSender);
+    void gameCallBack(CCObject* pSender);
     void saveCallBack(CCObject* pSender);
     void huanzhuangCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
