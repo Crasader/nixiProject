@@ -51,9 +51,9 @@ private:
     void config_cell(CCTableViewCell* pCell, int index);
     void insertMessage(CCObject* pObj);
     
-private:
-    
+public:
     CCTableView* pTableView;
+    
 //    int cell_num;
     
 //    const char* insert_name;

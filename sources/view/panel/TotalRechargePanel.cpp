@@ -32,9 +32,6 @@ bool TotalRechargePanel::init(){
     if (!CCLayer::init()) {
         return false;
     }
-    CCArray* _template = DATA->getOperation()->getPurchaseAchievementTemplate();
-    CCDictionary* temp = (CCDictionary*)_template->objectAtIndex(DATA->getOperation()->cur_purchase_achievement_template_index());
-    _clothes = (CCArray*)temp->objectForKey("clothes");
     
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
@@ -47,15 +44,38 @@ bool TotalRechargePanel::init(){
     _panel->setPosition(DISPLAY->center());
     _content->addChild(_panel);
     
-    CCSize panelSize = _panel->boundingBox().size;
+    this->updatePanel();
     
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 2; j++) {
+    return true;
+}
+
+void TotalRechargePanel::updatePanel(){
+    _panel->removeAllChildrenWithCleanup(true);
+    
+    CCArray* _template = DATA->getOperation()->getPurchaseAchievementTemplate();
+    CCDictionary* temp = (CCDictionary*)_template->objectAtIndex(DATA->getOperation()->cur_purchase_achievement_template_index());
+    CCArray* clothes = (CCArray*)temp->objectForKey("clothes");
+    
+    CCLOG("index = %d", DATA->getOperation()->cur_purchase_achievement_template_index());
+    
+    CCSize panelSize = _panel->boundingBox().size;
+    int count = clothes->count();
+    int row = ceil(count/2);
+    int col = 2;
+    for (int i = 0; i < row; i++) {
+        if (count % 2) {
+            if (i == row - 1) {
+                col = 1;
+            }
+        }else{
+            
+        }
+        for (int j = 0; j < col; j++) {
             CCSprite* icon_bg = CCSprite::create("pic/panel/signin7/icon_bg.png");
             icon_bg->setPosition(ccp(_panel->getContentSize().width* .52f + _panel->getContentSize().width* .26f *j, _panel->getContentSize().height* .73f - _panel->getContentSize().height* .14f * i));
             _panel->addChild(icon_bg);
             
-            CCInteger* id = (CCInteger*)_clothes->objectAtIndex(j + i*2);
+            CCInteger* id = (CCInteger*)clothes->objectAtIndex(j + i*2);
             CCSprite* icon = CCSprite::create(DATA->clothes_icon_path_with_id(id->getValue())->getCString());
             icon->setPosition(ccp(icon_bg->getContentSize().width* .5f, icon_bg->getContentSize().height* .45f));
             icon->setScale(0.6f);
@@ -64,9 +84,9 @@ bool TotalRechargePanel::init(){
         
     }
     
-    CCSprite* gril = CCSprite::create("pic/panel/totalRecharge/gril.png");
-    gril->setPosition(ccp(_panel->getContentSize().width* .25f, _panel->getContentSize().height* .52f));
-    _panel->addChild(gril);
+    CCSprite* girl = CCSprite::create("pic/panel/totalRecharge/gril.png");
+    girl->setPosition(ccp(_panel->getContentSize().width* .25f, _panel->getContentSize().height* .52f));
+    _panel->addChild(girl);
     
     CCSprite* red_bg = CCSprite::create("pic/panel/totalRecharge/red_bg.png");
     red_bg->setPosition(ccp(_panel->getContentSize().width* .3f, _panel->getContentSize().height* .08f));
@@ -97,7 +117,7 @@ bool TotalRechargePanel::init(){
         _panel->addChild(menu);
         menu->setTag(300);
         
-        if (DATA->getOperation()->getPurchaseAchievementUser()->count()) {
+        if (DATA->getOperation()->getPurchaseAchievementUser()->count() == 2) {
             _item->setEnabled(false);
         }
         
@@ -112,9 +132,6 @@ bool TotalRechargePanel::init(){
         menu->setPosition(ccp(0, 0));
         _panel->addChild(menu);
     }
-    
-    
-    return true;
 }
 
 void TotalRechargePanel::onEnter() {
@@ -179,7 +196,13 @@ void TotalRechargePanel::btn_chongzhi_callback(){
 
 void TotalRechargePanel::reward_callback_305(cocos2d::CCObject *obj){
     LOADING->remove();
-    _item->setEnabled(false);
+    
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "领取成功");
+    
+//    if (DATA->getOperation()->getPurchaseAchievementUser()->count() == 3) {
+//        _item->setEnabled(false);
+//    }
+    
+    this->updatePanel();
 }

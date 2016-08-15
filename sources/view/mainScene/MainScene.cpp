@@ -85,6 +85,8 @@ bool MainScene::init(){
     isEffective = true;
     move_x = 0;
     
+    isOpen = false;
+    
     time_t t;
     struct tm *p;
     t = 1467241111;
@@ -225,56 +227,56 @@ void MainScene::creat_view(){
     CCSprite* hdSpr2 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     hdSpr2->setScale(1.02f);
     CCMenuItem* huodongItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::huodongCallBack));
-    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .54));
+//    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .54));
 
     // 签到
     CCSprite* qdSpr1 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
     CCSprite* qdSpr2 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
     qdSpr2->setScale(1.02f);
     CCMenuItem* qiandaoItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(MainScene::qiandaoCallBack));
-    qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .45f));
+//    qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .45f));
 
     // 好友
     CCSprite* hySpr1 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
     CCSprite* hySpr2 = CCSprite::create("res/pic/mainScene/main_haoyou.png");
     hySpr2->setScale(1.02f);
     _haoyouItem = CCMenuItemSprite::create(hySpr1, hySpr2, this, menu_selector(MainScene::haoyouCallBack));
-    _haoyouItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .9f));
+//    _haoyouItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .9f));
 
     // 换装
     CCSprite* hzSpr1 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
     CCSprite* hzSpr2 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
     hzSpr2->setScale(1.02f);
     CCMenuItem* huanzhuangItem = CCMenuItemSprite::create(hzSpr1, hzSpr2, this, menu_selector(MainScene::huanzhuangCallBack));
-    huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .81f));
+//    huanzhuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .81f));
     
     // 排行
     CCSprite* phSpr1 = CCSprite::create("res/pic/mainScene/main_paihang.png");
     CCSprite* phSpr2 = CCSprite::create("res/pic/mainScene/main_paihang.png");
     phSpr2->setScale(1.02f);
     CCMenuItem* paihangItem = CCMenuItemSprite::create(phSpr1, phSpr2, this, menu_selector(MainScene::paihangCallBack));
-    paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .72f));
+//    paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .72f));
     
     // 体力福利
     CCSprite* energyLargess1 = CCSprite::create("res/pic/mainScene/btn_energylargess.png");
     CCSprite* energyLargess2 = CCSprite::create("res/pic/mainScene/btn_energylargess.png");
     energyLargess2->setScale(1.02f);
     CCMenuItem* btnEnergyLargess = CCMenuItemSprite::create(energyLargess1, energyLargess2, this, menu_selector(MainScene::energyLargessCallBack));
-    btnEnergyLargess->setPosition(qiandaoItem->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+//    btnEnergyLargess->setPosition(qiandaoItem->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
     
     // 充值成就
     CCSprite* purchaseAchievement1 = CCSprite::create("res/pic/mainScene/btn_purchaseachievement.png");
     CCSprite* purchaseAchievement2 = CCSprite::create("res/pic/mainScene/btn_purchaseachievement.png");
     purchaseAchievement2->setScale(1.02f);
     CCMenuItem* btnPurchaseAchievement = CCMenuItemSprite::create(purchaseAchievement1, purchaseAchievement2, this, menu_selector(MainScene::purchaseAchievementCallBack));
-    btnPurchaseAchievement->setPosition(btnEnergyLargess->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+//    btnPurchaseAchievement->setPosition(btnEnergyLargess->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
     
     // 扭蛋
     CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     gashapon2->setScale(1.02f);
     CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
-    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+//    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
     // 聊天
     CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -630,21 +632,61 @@ void MainScene::creat_view(){
     this->addChild(_layer_0);
     
     
-    CCMenu* menu = CCMenu::create(//shouchongItem,
-                                  huodongItem,
-                                  qiandaoItem,
+//    CCSprite* effect = CCSprite::create("res/pic/mainScene/icon_effect.png");
+//    effect->setPosition(ccp(huanzhuangItem->getPositionX(), huanzhuangItem->getPositionY()));
+//    this->addChild(effect);
+//    effect->runAction(this->getIntervalAction());
+//    
+//    CCSprite* effect2 = CCSprite::create("res/pic/mainScene/icon_effect.png");
+//    effect2->setPosition(ccp(huodongItem->getPositionX(), huodongItem->getPositionY()));
+//    this->addChild(effect2);
+//    effect2->runAction(this->getIntervalAction());
+//    
+//    CCSprite* effect3 = CCSprite::create("res/pic/mainScene/icon_effect.png");
+//    effect3->setPosition(ccp(btnGashapon->getPositionX(), btnGashapon->getPositionY()));
+//    this->addChild(effect3);
+//    effect3->runAction(this->getIntervalAction());
+//    
+//    CCSprite* effect4 = CCSprite::create("res/pic/mainScene/icon_effect.png");
+//    effect4->setPosition(ccp(btnPurchaseAchievement->getPositionX(), btnPurchaseAchievement->getPositionY()));
+//    this->addChild(effect4);
+//    effect4->runAction(this->getIntervalAction());
+    
+    CCMenu* menu_set = CCMenu::create(_shezhiItem, item_chat, NULL);
+    menu_set->setPosition(CCPointZero);
+    this->addChild(menu_set);
+    
+    CCSprite* lingdang = CCSprite::create("res/pic/mainScene/lingdang.png");
+    CCSprite* lingdang2 = CCSprite::create("res/pic/mainScene/lingdang.png");
+    CCMenuItemSprite* item_lingdang = CCMenuItemSprite::create(lingdang, lingdang2, this, menu_selector(MainScene::lingdang_callback));
+    
+    CCSprite* lingdang_effect = CCSprite::create("res/pic/mainScene/lingdang_effect.png");
+    lingdang_effect->setPosition(ccp(item_lingdang->getContentSize().width* .5f, item_lingdang->getContentSize().height* .5f));
+    item_lingdang->addChild(lingdang_effect);
+    lingdang_effect->runAction(this->getIntervalAction());
+    
+    menu = CCMenu::create(//shouchongItem,
                                   _haoyouItem,
                                   huanzhuangItem,
                                   paihangItem,
-                                  _shezhiItem,
-                                  btnEnergyLargess,
                                   btnPurchaseAchievement,
+                                  huodongItem,
+                                  qiandaoItem,
+                                  btnEnergyLargess,
 //                                  btnGashapon,
-                                  item_chat,
                                   btnGashapon,
+                                  item_lingdang,
                                   NULL);
-    menu->setPosition(CCPointZero);
-    this->addChild(menu);
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(ccp(0, huodongItem->getContentSize().height* 9));
+    
+    CCSprite* stencil = CCSprite::create();
+    stencil->setTextureRect(CCRect(0, 0, huodongItem->getContentSize().width, huodongItem->getContentSize().height* 10));
+    node = CCClippingNode::create(stencil);
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .54f));
+    node->setInverted(false);
+    node->addChild(menu);
+    this->addChild(node);
     
     // 通知信息
     Notice* notice = NOTICE->fetch_notice();
@@ -658,6 +700,33 @@ void MainScene::creat_view(){
         lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
         txt_bar->addChild(lab);
     }
+}
+
+void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
+    if (isOk) {
+        CCMoveTo* mt = NULL;
+        if (isOpen) {
+            mt = CCMoveTo::create(0.3, ccp(0, 90 * 9));
+            isOpen = false;
+        }else{
+            mt = CCMoveTo::create(0.3, ccp(0, 0));
+            isOpen = true;
+        }
+        
+        
+        menu->runAction(mt);
+    }
+}
+
+CCActionInterval* MainScene::getIntervalAction(){
+    CCFadeIn* fi = CCFadeIn::create(0.8f);
+    CCFadeOut* fo = CCFadeOut::create(0.8f);
+//    CCRotateBy* rb = CCRotateBy::create(2.0f, 200);
+    CCSequence* s = CCSequence::create(fi, CCDelayTime::create(0.2f), fo, CCDelayTime::create(0.2f), NULL);
+//    CCSpawn* sp = CCSpawn::create(s, rb, NULL);
+    CCRepeatForever* rep = CCRepeatForever::create(s);
+    
+    return rep;
 }
 
 CCArray* MainScene::rand_array(CCArray *arr) {

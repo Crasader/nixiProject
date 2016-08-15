@@ -59,14 +59,13 @@ void ChatPanel::initChatPanel(){
     this->addChild(_panel_bg);
     
     
-    
     _input_bg = CCSprite::create("res/pic/panel/chat/input.png");
-    _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .4f, 35));
+    _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .49f, 30));
     _panel_bg->addChild(_input_bg);
     
-    CCSprite* send_spr = CCSprite::create("res/pic/panel/chat/send_on.png");
-    CCSprite* send_spr2 = CCSprite::create("res/pic/panel/chat/send_on.png");
-    CCSprite* send_spr3 = CCSprite::create("res/pic/panel/chat/btn_send.png");
+    CCSprite* send_spr = CCSprite::create("res/pic/panel/chat/send.png");
+    CCSprite* send_spr2 = CCSprite::create("res/pic/panel/chat/send.png");
+    CCSprite* send_spr3 = CCSprite::create("res/pic/panel/chat/send.png");
     send_spr2->setScale(1.02f);
     send_spr3->setColor(ccGRAY);
     item_send = CCMenuItemSprite::create(send_spr, send_spr2, send_spr3, this, menu_selector(ChatPanel::btn_sendMessage));
@@ -74,7 +73,7 @@ void ChatPanel::initChatPanel(){
 //    send_mask = CCSprite::create("res/pic/panel/chat/btn_send.png");
 //    send_mask->setPosition(ccp(item_send->getContentSize().width* .5f, item_send->getContentSize().height* .5f));
     lab_time = CCLabelAtlas::create("00:00", "res/pic/baseScene/base_number3.png", 14, 20, '0');
-    lab_time->setPosition(ccp(item_send->getContentSize().width* .5f, item_send->getContentSize().height* .35f));
+    lab_time->setPosition(ccp(item_send->getContentSize().width* .5f, item_send->getContentSize().height* .5f));
     lab_time->setAnchorPoint(CCPoint(0.5, 0.5));
     lab_time->setVisible(false);
 //    send_mask->addChild(lab_time);
@@ -83,7 +82,7 @@ void ChatPanel::initChatPanel(){
     item_send->addChild(lab_time);
     
     CCMenu* menu_send = CCMenu::create(item_send, NULL);
-    menu_send->setPosition(ccp(_panel_bg->getContentSize().width* .87f, _input_bg->getPositionY()));
+    menu_send->setPosition(ccp(_panel_bg->getContentSize().width* .89f, _input_bg->getPositionY()));
     _panel_bg->addChild(menu_send);
     
     this->updateSendTime();
@@ -119,6 +118,7 @@ void ChatPanel::initChatPanel(){
     this->initTopMessage();
     
     ChatTableView* chatView = ChatTableView::create();
+//    chatView->pTableView->setContentOffset(ccp(0,this->getContentSize().height*0.05));
     chatView->setPosition(ccp(_panel_bg->getContentSize().width* .5f, _panel_bg->getContentSize().height* .12f));
     _panel_bg->addChild(chatView);
 }
@@ -179,18 +179,18 @@ void ChatPanel::initTopMessage(){
     CCLabelTTF* nickname = CCLabelTTF::create("昵称七个字:", DISPLAY->fangzhengFont(), 17);
     nickname->setColor(ccc3(248, 83, 18));
     nickname->setAnchorPoint(CCPointZero);
-    nickname->setPosition(ccp(bg->getContentSize().width* .05f, bg->getContentSize().height* .55f));
+    nickname->setPosition(ccp(bg->getContentSize().width* .1f, bg->getContentSize().height* .55f));
     
     CCSprite* nick_bg = CCSprite::create("res/pic/panel/chat/name_bg.png");
     nick_bg->setAnchorPoint(CCPointZero);
     nick_bg->setScaleX(nickname->getContentSize().width / nick_bg->getContentSize().width);
-    nick_bg->setPosition(ccp(bg->getContentSize().width* .05f, bg->getContentSize().height* .58f));
+    nick_bg->setPosition(ccp(bg->getContentSize().width* .1f, bg->getContentSize().height* .58f));
     
     bg->addChild(nick_bg);
     bg->addChild(nickname);
     
-    CCLabelTTF* message = CCLabelTTF::create("消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行", DISPLAY->fangzhengFont(), 14, CCSizeMake(bg->getContentSize().width* .9f - nickname->getContentSize().width - 5, 60), kCCTextAlignmentLeft);
-    message->setColor(ccc3(240, 88, 116));
+    CCLabelTTF* message = CCLabelTTF::create("消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行消息五十个字以内才行", DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .9f - nickname->getContentSize().width - 5, 60), kCCTextAlignmentLeft);
+    message->setColor(ccc3(178, 117, 254));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width + 5, bg->getContentSize().height* .39));
     bg->addChild(message);

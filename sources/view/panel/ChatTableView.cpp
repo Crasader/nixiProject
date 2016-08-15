@@ -26,12 +26,14 @@ bool ChatTableView::init(){
 
     pTableView = CCTableView::create(this, CCSizeMake(CELL_WIDTH, CELL_HEIGHT*7));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
+    pTableView->setDelegate(this);
     pTableView->setVerticalFillOrder(kCCTableViewFillBottomUp);
     pTableView->ignoreAnchorPointForPosition(false);
     pTableView->setAnchorPoint(CCPoint(0.5, 0));
     pTableView->setPosition(ccp(0, 0));
-    pTableView->setDelegate(this);
+    
     pTableView->reloadData();
+    
     
     this->addChild(pTableView);
     
