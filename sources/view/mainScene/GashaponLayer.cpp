@@ -13,6 +13,9 @@
 #include "AudioManager.h"
 #include "Shower.h"
 #include "QingjingScene.h"
+#include "Loading2.h"
+#include "NetManager.h"
+#include "RewardLayer.h"
 
 
 GashaponLayer::~GashaponLayer(){
@@ -40,6 +43,9 @@ bool GashaponLayer::init(){
 }
 void GashaponLayer::onEnter(){
     CCLayer::onEnter();
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&GashaponLayer::_307CallBack), "HTTP_FINISHED_307", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&GashaponLayer::_309CallBack), "HTTP_FINISHED_309", NULL);
     
     
     this->scheduleOnce(SEL_SCHEDULE(&GashaponLayer::keyBackStatus), .8f);
@@ -51,6 +57,7 @@ void GashaponLayer::keyBackStatus(float dt){
 void GashaponLayer::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
+    
     CCLayer::onExit();
 }
 
@@ -76,26 +83,35 @@ void GashaponLayer::creat_View(){
     _ManSpr = CCSprite::create();
     bgSpr->addChild(_ManSpr, 10);
     
+    CCSprite* shopSpr1 = CCSprite::create("res/pic/gashapon/gashapon_label1.png");
+    shopSpr1->setPosition(ccp(bgSpr->getContentSize().width* .1f, bgSpr->getContentSize().height* .7f));
+    bgSpr->addChild(shopSpr1, 10);
+    CCSprite* shopSpr2 = CCSprite::create("res/pic/gashapon/gashapon_label2.png");
+    shopSpr2->setAnchorPoint(ccp(.5f, 1));
+    shopSpr2->setPosition(ccp(bgSpr->getContentSize().width* .1f, bgSpr->getContentSize().height* .7f - shopSpr1->getContentSize().width* .5f));
+    bgSpr->addChild(shopSpr2, 10);
+    
+    
     myClothesTemp = (CCDictionary*)suitsArr->objectAtIndex(nowIndex);
     
     this->creat_Man();
     this->initClothes();
     
-    // 底1
-    CCSprite* diSpr1 = CCSprite::create("res/pic/gashapon/gashapon_di1.png");
-    diSpr1->setPosition(ccp(bgSpr->getContentSize().width* .5f, bgSpr->getContentSize().height* .2f));
-//    diSpr1->setColor(ccYELLOW);
-    bgSpr->addChild(diSpr1, 20);
-    CCString* labelStr1 = CCString::createWithFormat("这些漂亮的饰品都可以随机抽到的呦~!快来抽吧.10连抽获得整件饰品的概率更大呦~!");
-    CCLabelTTF* label1 = CCLabelTTF::create(labelStr1->getCString(), DISPLAY->fangzhengFont(), 15, CCSizeMake(diSpr1->getContentSize().width* .95f, diSpr1->getContentSize().height* .7f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
-    label1->setPosition(ccp(diSpr1->getContentSize().width* .5f, diSpr1->getContentSize().height* .45f));
-    label1->setColor(ccc3(157, 108, 151));
-    diSpr1->addChild(label1);
+//    // 底1
+//    CCSprite* diSpr1 = CCSprite::create("res/pic/gashapon/gashapon_di1.png");
+//    diSpr1->setPosition(ccp(bgSpr->getContentSize().width* .5f, bgSpr->getContentSize().height* .2f));
+////    diSpr1->setColor(ccYELLOW);
+//    bgSpr->addChild(diSpr1, 20);
+//    CCString* labelStr1 = CCString::createWithFormat("这些漂亮的饰品都可以随机抽到的呦~!快来抽吧.10连抽获得整件饰品的概率更大呦~!");
+//    CCLabelTTF* label1 = CCLabelTTF::create(labelStr1->getCString(), DISPLAY->fangzhengFont(), 15, CCSizeMake(diSpr1->getContentSize().width* .95f, diSpr1->getContentSize().height* .7f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+//    label1->setPosition(ccp(diSpr1->getContentSize().width* .5f, diSpr1->getContentSize().height* .45f));
+//    label1->setColor(ccc3(157, 108, 151));
+//    diSpr1->addChild(label1);
     
     // 底3
     CCSprite* diSpr3 = CCSprite::create("res/pic/gashapon/gashapon_di3.png");
-    diSpr3->setPosition(ccp(diSpr1->getContentSize().width* .5f, 0));
-    diSpr1->addChild(diSpr3, 10);
+    diSpr3->setPosition(ccp(bgSpr->getContentSize().width* .5f, bgSpr->getContentSize().height* .17f));
+    bgSpr->addChild(diSpr3, 10);
     CCString* labelStr2 = CCString::createWithFormat("%d/%d", nowIndex+1, suitsArr->count());
     label2 = CCLabelTTF::create(labelStr2->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(diSpr3->getContentSize().width* .95f, 18), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     label2->setPosition(ccp(diSpr3->getContentSize().width* .5f, diSpr3->getContentSize().height* .5f));
@@ -120,13 +136,13 @@ void GashaponLayer::creat_View(){
     CCSprite* oneSpr2 = CCSprite::create("res/pic/gashapon/gashapon_button1.png");
     oneSpr2->setScale(1.02f);
     oneItem = CCMenuItemSprite::create(oneSpr1, oneSpr2, this, menu_selector(GashaponLayer::oneCallBack));
-    oneItem->setPosition(ccp(bgSpr->getContentSize().width* .3f, bgSpr->getContentSize().height* .11f));
+    oneItem->setPosition(ccp(bgSpr->getContentSize().width* .3f, bgSpr->getContentSize().height* .12f));
     CCString* oneStr = CCString::createWithFormat("抽1次");
     oneLabel = CCLabelTTF::create(oneStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(oneSpr1->getContentSize().width* .95f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     oneLabel->setPosition(ccp(oneItem->getContentSize().width* .5f, oneItem->getContentSize().height* .5f));
     oneLabel->setColor(ccWHITE);
     oneItem->addChild(oneLabel);
-    CCString* goldStr = CCString::createWithFormat("10");
+    CCString* goldStr = CCString::createWithFormat("%d", DATA->getOperation()->getSignleCost());
     oneGoldLabel = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 14);
     oneGoldLabel->setPosition(ccp(oneItem->getContentSize().width* .65f, oneItem->getContentSize().height* .22f));
     oneGoldLabel->setColor(ccc3(255, 216, 228));
@@ -183,8 +199,8 @@ void GashaponLayer::creat_View(){
     CCSprite* tenSpr1 = CCSprite::create("res/pic/gashapon/gashapon_button2.png");
     CCSprite* tenSpr2 = CCSprite::create("res/pic/gashapon/gashapon_button2.png");
     tenSpr2->setScale(1.02f);
-    CCMenuItem* tenItem = CCMenuItemSprite::create(tenSpr1, tenSpr2, this, menu_selector(GashaponLayer::oneCallBack));
-    tenItem->setPosition(ccp(bgSpr->getContentSize().width* .7f, bgSpr->getContentSize().height* .11f));
+    CCMenuItem* tenItem = CCMenuItemSprite::create(tenSpr1, tenSpr2, this, menu_selector(GashaponLayer::tenCallBack));
+    tenItem->setPosition(ccp(bgSpr->getContentSize().width* .7f, bgSpr->getContentSize().height* .12f));
     CCString* tenStr = CCString::createWithFormat("10连抽");
     CCLabelTTF* tenLabel = CCLabelTTF::create(tenStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(tenSpr1->getContentSize().width* .95f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     tenLabel->setPosition(ccp(tenItem->getContentSize().width* .5f, tenItem->getContentSize().height* .5f));
@@ -200,13 +216,13 @@ void GashaponLayer::creat_View(){
 }
 void GashaponLayer::initTime(){
     long timeLong = DATA->getOperation()->getFreePoint();
-//    _hour = (int)timeLong/3600;//小时
-//    _minute = (int)(timeLong - _hour*3600)/60;//分钟
-//    _second = (int)(timeLong - _hour*3600 - _minute*60);//秒
+    _hour = (int)timeLong/3600;//小时
+    _minute = (int)(timeLong - _hour*3600)/60;//分钟
+    _second = (int)(timeLong - _hour*3600 - _minute*60);//秒
     
-    _hour = 0;//小时
-    _minute = 0;//分钟
-    _second = 5;//秒
+//    _hour = 0;//小时
+//    _minute = 0;//分钟
+//    _second = 5;//秒
 }
 void GashaponLayer::updateTime(float dt){
     _second--;
@@ -273,7 +289,7 @@ void GashaponLayer::creat_gold(CCMenuItem* item, int index){
     if (index == 1) {
         goldStr = CCString::createWithFormat("10");
     }else if (index == 10){
-        goldStr = CCString::createWithFormat("90");
+        goldStr = CCString::createWithFormat("%d", DATA->getOperation()->getTenCost());
     }
     CCLabelTTF* label = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 14);
     label->setPosition(ccp(item->getContentSize().width* .65f, item->getContentSize().height* .22f));
@@ -290,11 +306,17 @@ void GashaponLayer::suipianCallBack(CCObject* pSender){
     
 }
 void GashaponLayer::oneCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->single_lottery_307();
+}
+void GashaponLayer::_307CallBack(CCObject* pSender){
+    LOADING->remove();
     if (freeBool) {// 免费1次
         freeBool = false;
-        _hour = 8;//小时
-        _minute = 0;//分钟
-        _second = 0;//秒
+//        _hour = 8;//小时
+//        _minute = 0;//分钟
+//        _second = 0;//秒
+        this->initTime();
         diSpr2->setVisible(true);
         oneLabel->setString("抽1次");
         oneGoldLabel->setVisible(true);
@@ -324,12 +346,28 @@ void GashaponLayer::oneCallBack(CCObject* pSender){
         timeLabel->setString(timeStr->getCString());
         this->schedule(SEL_SCHEDULE(&GashaponLayer::updateTime), 1.f);
     }else{// 收费
-        
-        
     }
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    this->creat_Tishi((CCArray* )pSender);
 }
+
 void GashaponLayer::tenCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    NET->multiply_lottery_309();
+}
+void GashaponLayer::_309CallBack(CCObject* pSender){
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    this->creat_Tishi((CCArray* )pSender);
+}
+
+
+void GashaponLayer::creat_Tishi(CCObject* arr){
+//    RewardLayer* layer = RewardLayer::create_with_index(arr);
+//    this->addChild(layer, 100);
     
+    this->removeFromParentAndCleanup(true);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
 }
 
 
@@ -340,6 +378,8 @@ void GashaponLayer::updataClothes1(){
     }
     
     _ManSpr->removeAllChildren();
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    
     myClothesTemp = (CCDictionary*)suitsArr->objectAtIndex(nowIndex);
     
     CCString* labelStr2 = CCString::createWithFormat("%d/%d", nowIndex+1, suitsArr->count());

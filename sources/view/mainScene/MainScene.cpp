@@ -43,6 +43,9 @@
 
 #include <time.h>
 
+
+#include "RewardLayer.h"
+
 // --------------- test ----------------
 
 
@@ -141,6 +144,8 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::purchaseAchievementCallBack), "NEED_SHOW_RECHARTE", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::energyLargessCallBack), "NEED_SHOW_ENERGY_GARLESS", NULL);
     
+    
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::linshiMethod), "linshiMethod", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
@@ -1015,14 +1020,13 @@ void MainScene::renwuCallBack(CCObject* pSender){
 
 void MainScene::huanzhuangCallBack(CCObject* pSender){
     if (isOk) {
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->_huanzhuangCallBack(pSender);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
-        NET->single_lottery_307();
+        if (DATA->getClothes()->has_init_clothes == true) {
+            this->_huanzhuangCallBack(pSender);
+        }
+        else {
+            LOADING->show_loading();
+            NET->owned_clothes_400();
+        }
     }
 }
 
@@ -1656,5 +1660,15 @@ void MainScene::update_news_status() {
         haoyou_Item->addChild(spt2);
     }
 }
+
+
+void MainScene::linshiMethod(CCObject *pObj){
+    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )pObj);
+    this->addChild(layer, 100);
+}
+
+
+
+
 
 

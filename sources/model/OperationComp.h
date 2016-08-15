@@ -38,6 +38,8 @@ class OperationComp : public CCObject
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _gashaponUser, GashaponUser);
     // 玩家拥有碎片
     SYNTHESIZE_READONLY(int, _piece, Piece);
+    // 抽10次奖励
+    SYNTHESIZE_READONLY(int, _extra, Extra);
     // 玩家免费抽取倒计时
     SYNTHESIZE_READONLY(unsigned long, _freePoint, FreePoint);
     // 单次花费
@@ -60,6 +62,7 @@ public: // Inport
     
     void init_gashapon_template(Value json);
     void replace_gashapon_user(Value json);
+    void init_extra(Value json);
     
 public:
     ~OperationComp();

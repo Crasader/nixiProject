@@ -89,9 +89,13 @@ public:
     void updateTime(float dt);
     void creat_gold(CCMenuItem* item, int index);
     
+    void creat_Tishi(CCObject* arr);
+    
     void suipianCallBack(CCObject* pSender);
     void oneCallBack(CCObject* pSender);
     void tenCallBack(CCObject* pSender);
+    void _307CallBack(CCObject* pSender);
+    void _309CallBack(CCObject* pSender);
     
 };
 #endif /* defined(__tiegao__GashaponLayer__) */

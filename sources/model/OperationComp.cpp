@@ -192,6 +192,16 @@ void OperationComp::replace_gashapon_user(Value json) {
     this->setGashaponUser(AppUtil::array_with_json(json["owned"]));
 }
 
+void OperationComp::init_extra(Value json){
+    if (json.type() == nullValue) {
+        CCLOG("OperationComp::init_extra() json object error.");
+        return;
+    }
+    
+    this->setExtra(json.asInt());
+    CCLog("<><><><><> extra == %d", _extra);
+}
+
 #pragma mark - Supper
 
 OperationComp::~OperationComp() {
