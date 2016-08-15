@@ -8,8 +8,8 @@
 
 #include "OperationComp.h"
 #include "AppUtil.h"
-
 #include "Shower.h"
+#include "ConfigManager.h"
 
 #pragma mark - Export
 
@@ -76,6 +76,75 @@ void OperationComp::init_purchase_achievement_template(Value json) {
         arr->addObject(dic->objectForKey(key->getCString()));
     }
     this->setPurchaseAchievementTemplate(arr);
+    
+    int countGroup = arr->count();
+    CCArray* suits = CCArray::create();
+    for (int i = 0; i < countGroup; i++) {
+        CCDictionary* preDress = CCDictionary::create();
+        preDress->setObject(CCInteger::create(10000), "1");
+        preDress->setObject(CCInteger::create(20000), "2");
+        preDress->setObject(CCInteger::create(30000), "3");
+        preDress->setObject(CCInteger::create(40000), "4");
+        preDress->setObject(CCInteger::create(50000), "5");
+        preDress->setObject(CCInteger::create(60000), "6");
+        preDress->setObject(CCInteger::create(80000), "8");
+        preDress->setObject(CCInteger::create(90000), "9");
+        preDress->setObject(CCInteger::create(100000), "10");
+        
+        CCDictionary* part7 = CCDictionary::create();
+        preDress->setObject(part7, "7");
+        
+        part7->setObject(CCInteger::create(70000), "11");
+        part7->setObject(CCInteger::create(70000), "12");
+        part7->setObject(CCInteger::create(70000), "13");
+        part7->setObject(CCInteger::create(70000), "14");
+        part7->setObject(CCInteger::create(70000), "15");
+        part7->setObject(CCInteger::create(70000), "16");
+        part7->setObject(CCInteger::create(70000), "17");
+        part7->setObject(CCInteger::create(70000), "18");
+        part7->setObject(CCInteger::create(70000), "19");
+        part7->setObject(CCInteger::create(70000), "20");
+        
+        suits->addObject(preDress);
+    }
+    
+    CCDictionary* allClothes = CONFIG->clothes();
+    for (int i = 0; i < countGroup; i++) {
+        CCDictionary* item = (CCDictionary*)_purchaseAchievementTemplate->objectAtIndex(i);
+        CCDictionary* group = (CCDictionary*)suits->objectAtIndex(i);
+        
+        CCArray* clothes = (CCArray*)item->objectForKey("clothes");
+        int count = clothes->count();
+        for (int j = 0; j < count; j++) {
+            int clothesId = ((CCInteger*)clothes->objectAtIndex(j))->getValue();
+            int itemPart = clothesId / 10000;
+            
+            CCString* partKey = CCString::createWithFormat("%d", itemPart);
+            CCString* id = CCString::createWithFormat("%d", clothesId);
+            
+            CCArray* partClothes = (CCArray*)allClothes->objectForKey(itemPart);
+            CCObject* pObj2 = NULL;
+            CCARRAY_FOREACH(partClothes, pObj2) {
+                CCDictionary* clothesItem = (CCDictionary*)pObj2;
+                CCString* clothesItemId = (CCString*)clothesItem->objectForKey("id");
+                if (clothesItemId->compare(id->getCString()) == 0) {
+                    if (itemPart == 7) {
+                        CCDictionary* part7 = (CCDictionary*)group->objectForKey("7");
+                        part7->setObject(CCInteger::create(clothesId), partKey->getCString());
+                    }
+                    else {
+                        group->setObject(CCInteger::create(clothesId), partKey->getCString());
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    
+    this->setPASuits(suits);
+//    Shower* shower = Shower::create();
+//    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
+//    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
 void OperationComp::init_costs(Value json) {
@@ -174,11 +243,6 @@ void OperationComp::init_gashapon_template(Value json) {
     
     this->setSuits(suits);
     this->setGashaponTemplate(dic);
-    
-    //
-//    Shower* shower = Shower::create();
-//    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
-//    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
 void OperationComp::replace_gashapon_user(Value json) {

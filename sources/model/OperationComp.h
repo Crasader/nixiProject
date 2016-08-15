@@ -14,6 +14,7 @@
 #include "json_lib.h"
 #include "extend_define.h"
 
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace CSJson;
@@ -27,6 +28,8 @@ class OperationComp : public CCObject
     SYNTHESIZE_READONLY(int, _purchasedTotal, PurchasedTotal);
     // 累计充值模版数组
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementTemplate, PurchaseAchievementTemplate);
+    // 套装数组
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _paSuits, PASuits);
     // 累计充值玩家数据
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementUser, PurchaseAchievementUser);
     
