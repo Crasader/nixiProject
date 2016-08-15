@@ -181,7 +181,7 @@ void RewardLayer::init_with_index(CCArray* arr){
                 CCScaleTo* scaleTo = CCScaleTo::create(.5f, 1.f);
                 CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
                 dikuangSpr->runAction(CCSequence::create(CCDelayTime::create(0.2f*i), spawn, NULL));
-            }else{
+            }else {
                 CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width* (.12f + .19f * (i-5)), kuangSpr->getContentSize().height* .28f));
                 CCScaleTo* scaleTo = CCScaleTo::create(.5f, 1.f);
                 CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
