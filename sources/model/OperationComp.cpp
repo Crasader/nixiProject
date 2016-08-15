@@ -130,7 +130,8 @@ void OperationComp::init_purchase_achievement_template(Value json) {
                 if (clothesItemId->compare(id->getCString()) == 0) {
                     if (itemPart == 7) {
                         CCDictionary* part7 = (CCDictionary*)group->objectForKey("7");
-                        part7->setObject(CCInteger::create(clothesId), partKey->getCString());
+                        CCString* subPart = (CCString*)clothesItem->objectForKey("sub_part");
+                        part7->setObject(CCInteger::create(clothesId), subPart->getCString());
                     }
                     else {
                         group->setObject(CCInteger::create(clothesId), partKey->getCString());
