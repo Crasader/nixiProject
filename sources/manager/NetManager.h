@@ -85,6 +85,7 @@ public:
     void gashapon_info_306(bool full);
     void single_lottery_307();
     void multiply_lottery_309();
+    void exchange_clothes_311(string clothesId);
 
     
     void coffers_info_200();

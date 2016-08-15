@@ -282,6 +282,13 @@ void MainScene::creat_view(){
     CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
     btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
 
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    CCMenuItem* item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(MainScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .18f));
+    
 
     //设置
     CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
@@ -638,6 +645,8 @@ void MainScene::creat_view(){
                                   _shezhiItem,
                                   btnEnergyLargess,
                                   btnPurchaseAchievement,
+//                                  btnGashapon,
+                                  item_chat,
                                   btnGashapon,
                                   NULL);
     menu->setPosition(CCPointZero);
@@ -1007,6 +1016,10 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
+void MainScene::openChat(cocos2d::CCObject *pSender){
+    WS->connect();
+}
+
 void MainScene::social_info_callback_800(CCObject* pObj) {
     LOADING->remove();
     CCScene* scene = HaoyouScene::scene();
@@ -1038,6 +1051,7 @@ void MainScene::_huanzhuangCallBack(CCObject* pSender){
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void MainScene::paihangCallBack(CCObject* pSender){
     if (isOk) {
         LOADING->show_loading();
@@ -1087,6 +1101,7 @@ void MainScene::juqingCallBack(CCObject* pSender){
     }
     
 }
+
 void MainScene::_500CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     if (isrenwuBool) {
@@ -1098,6 +1113,7 @@ void MainScene::_500CallBack(CCObject* pSender){
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
+
 void MainScene::richangCallBack(CCObject* pSender){
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
@@ -1110,6 +1126,7 @@ void MainScene::richangCallBack(CCObject* pSender){
         }
     }
 }
+
 void MainScene::_600CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     LOADING->remove();
