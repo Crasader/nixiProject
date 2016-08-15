@@ -440,6 +440,15 @@ void NetManager::multiply_lottery_309() {
     this->post_data(309, data);
 }
 
+void NetManager::exchange_clothes_311(string clothesId) {
+    FastWriter writer;
+    Value root;
+    root["id"] = clothesId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(311, data);
+}
+
 
 void NetManager::coffers_info_200() {
     this->post_data(200, string(""));

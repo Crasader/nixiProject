@@ -405,6 +405,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
             
+        case 311: {
+            _clothes->init_with_json(content["clothes"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
+        } break;
+            
         case 200: {
             _coffers->init_with_json(content["coffers"]);
         } break;
