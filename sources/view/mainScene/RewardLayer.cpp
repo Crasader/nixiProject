@@ -59,19 +59,22 @@ void RewardLayer::init_with_index(CCArray* arr){
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr, 5);
     
-    for (int i = 0; i < arr->count(); i++) {
-        CCString* str = (CCString* )arr->objectAtIndex(i);
-        CCLog("%s", str->getCString());
-    }
+//    for (int i = 0; i < arr->count(); i++) {
+//        CCString* str = (CCString* )arr->objectAtIndex(i);
+//        CCLog("%s", str->getCString());
+//    }
     if (arr->count() == 1) {
         kuangSpr = CCSprite::create("res/pic/gashapon/gashapon_kuang.png");
         kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         kuangSpr->setTag(0x99999);
         this->addChild(kuangSpr, 100);
         
-        CCString* str = (CCString* )arr->objectAtIndex(0);
-        std::string indexStr = str->getCString();
-        int index = atoi(indexStr.c_str());
+//        CCString* str = (CCString* )arr->objectAtIndex(0);
+//        std::string indexStr = str->getCString();
+//        int index = atoi(indexStr.c_str());
+        int index = ((CCInteger*)arr->objectAtIndex(0))->getValue();
+        CCString* str = CCString::createWithFormat("%d", index);
+        
         CCString* iconStr;
         int z_oder = 0;
         if (index >= 10000) {
@@ -112,7 +115,6 @@ void RewardLayer::init_with_index(CCArray* arr){
             label->setColor(ccWHITE);
             kuangSpr->addChild(label);
         }else{
-            
             CCString* labelStr = CCString::createWithFormat("哇,新衣服耶.");
             CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
             label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .15f));
@@ -133,9 +135,12 @@ void RewardLayer::init_with_index(CCArray* arr){
         
         bool rewardBool;
         for (int i = 0; i < arr->count(); i++) {
-            CCString* str = (CCString* )arr->objectAtIndex(i);
-            std::string indexStr = str->getCString();
-            int index = atoi(indexStr.c_str());
+//            CCString* str = (CCString* )arr->objectAtIndex(i);
+//            std::string indexStr = str->getCString();
+//            int index = atoi(indexStr.c_str());
+            int index = ((CCInteger*)arr->objectAtIndex(i))->getValue();
+            CCString* str = CCString::createWithFormat("%d", index);
+            
             CCString* iconStr;
             const CCString* nameStr;
             bool iconBool = false;
