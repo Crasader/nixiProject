@@ -432,7 +432,7 @@ cocos2d::CCSize ClothesTableView::cellSizeForTable(cocos2d::extension::CCTableVi
 }
 
 //生成cell
-cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
+cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx) {
     CCTableViewCell* pCell = new CCTableViewCell();
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();

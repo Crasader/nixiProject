@@ -394,6 +394,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 307: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
+            _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
@@ -401,6 +402,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 309: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
+            _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             _operation->init_extra(content["extra"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
