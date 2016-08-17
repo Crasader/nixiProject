@@ -309,6 +309,7 @@ bool ClothesScene::isThereAClothes(){
     for (int i = Tag_GJ_TouFa; i <= Tag_GJ_ZhuangRong; i++) {
         CCInteger* clothesTemp_id;
         if (i != Tag_GJ_ShiPin) {
+            
             clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
             if (clothesTemp_id->getValue() != i* 10000) {
                 _bool = true;
@@ -757,7 +758,7 @@ void ClothesScene::creat_View(){
 void ClothesScene::openButtonMenu(){
     buttonMenu->setEnabled(true);
 }
-void ClothesScene::creat_ViewMethods(int index){
+void ClothesScene::creat_ViewMethods(int index) {
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
     CCArray* clothesArr = (CCArray* )dic->objectForKey(index);// 获得当前类型所有衣服
     CCArray* tempArr = CCArray::create();
@@ -775,7 +776,7 @@ void ClothesScene::creat_ViewMethods(int index){
     if (clothesStatus == 1) {// 任务
         shaixuanSpr->setVisible(true);
         yishaixuanSpr->setVisible(false);
-    }else if (clothesStatus == 2){// 换装
+    }else if (clothesStatus == 2) {// 换装
         
     }
     
@@ -1476,6 +1477,7 @@ void ClothesScene::initClothes(){//穿衣服
     float heightFloat = .5f;
     float scaleFloat = 1.f;
     bool flipxBool = false;
+    int sub_part = 0;
     
     CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     
@@ -1616,6 +1618,8 @@ void ClothesScene::initClothes(){//穿衣服
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == cloth_id->getValue()) {
+                        sub_part = clothDic->valueForKey("sub_part")->intValue();
+                        
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
@@ -1657,13 +1661,26 @@ void ClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 40000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
-                _kzSpr1 = CCSprite::create(str->getCString());
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _kzSpr1->setTag(Tag_GJ_KuZi1);
-                _kzSpr1->setScale(scaleFloat);
-                _kzSpr1->setFlipX(flipxBool);
-                _ManSpr->addChild(_kzSpr1, 290);
+                if (sub_part == 1) {
+                    kuziBool = true;
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_GJ_KuZi1);
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }else {
+                    kuziBool = false;
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_GJ_KuZi1);
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }
+                
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服

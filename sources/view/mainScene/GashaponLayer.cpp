@@ -16,6 +16,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "RewardLayer.h"
+#include "ExchangeLayer.h"
 
 
 GashaponLayer::~GashaponLayer(){
@@ -76,9 +77,13 @@ bool GashaponLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 }
 
 void GashaponLayer::creat_View(){
+    CCSprite* bgSpr2 = CCSprite::create("res/pic/gashapon/gashapon_bg2.png");
+    bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    this->addChild(bgSpr2);
+    
     bgSpr = CCSprite::create("res/pic/gashapon/gashapon_bg.png");
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(bgSpr);
+    this->addChild(bgSpr, 2);
     
     _ManSpr = CCSprite::create();
     bgSpr->addChild(_ManSpr, 10);
@@ -303,7 +308,9 @@ void GashaponLayer::creat_gold(CCMenuItem* item, int index){
     label->addChild(goldSpr);
 }
 void GashaponLayer::suipianCallBack(CCObject* pSender){
+    this->removeFromParentAndCleanup(true);
     
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_Exchange");
 }
 void GashaponLayer::oneCallBack(CCObject* pSender){
     LOADING->show_loading();
@@ -358,16 +365,16 @@ void GashaponLayer::tenCallBack(CCObject* pSender){
 void GashaponLayer::_309CallBack(CCObject* pSender){
     LOADING->remove();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
-    this->creat_Tishi((CCArray* )pSender);
+    this->creat_Tishi(pSender);
 }
 
 
 void GashaponLayer::creat_Tishi(CCObject* arr){
-//    RewardLayer* layer = RewardLayer::create_with_index(arr);
-//    this->addChild(layer, 100);
+    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )arr);
+    this->addChild(layer, 100);
     
-    this->removeFromParentAndCleanup(true);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
+//    this->removeFromParentAndCleanup(true);
+//    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
 }
 
 
@@ -397,9 +404,9 @@ void GashaponLayer::updataClothes2(){
 }
 
 void GashaponLayer::creat_Man(){
-    float widthFolt = .5f;
-    float heightFloat = .4f;
-    float scaleFloat = .6f;
+    float widthFolt = .53f;
+    float heightFloat = .38f;
+    float scaleFloat = .63f;
     bool flipxBool = false;
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
@@ -414,10 +421,11 @@ void GashaponLayer::creat_Man(){
     _ManSpr->addChild(_touSpr, 210);
 }
 void GashaponLayer::initClothes(){//穿衣服
-    float widthFolt = .5f;
-    float heightFloat = .4f;
-    float scaleFloat = .6f;
+    float widthFolt = .53f;
+    float heightFloat = .38f;
+    float scaleFloat = .63f;
     bool flipxBool = false;
+    int sub_part = 0;
     
     for (int i = Tag_QJ_TouFa; i <= Tag_QJ_ZhuangRong; i++) {
         if (i == Tag_QJ_TouFa) {
@@ -553,6 +561,8 @@ void GashaponLayer::initClothes(){//穿衣服
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == cloth_id->getValue()) {
+                        sub_part = clothDic->valueForKey("sub_part")->intValue();
+                        
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
@@ -594,13 +604,23 @@ void GashaponLayer::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 40000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
-                _kzSpr1 = CCSprite::create(str->getCString());
-                _kzSpr1->setScale(scaleFloat);
-                _kzSpr1->setFlipX(flipxBool);
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _kzSpr1->setTag(Tag_QJ_KuZi1);
-                _ManSpr->addChild(_kzSpr1, 290);
+                if (sub_part == 1) {
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_QJ_KuZi1);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }else{
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_QJ_KuZi1);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {

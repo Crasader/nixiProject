@@ -146,6 +146,7 @@ public:
     void nc_gashapon_info_306(CCObject *pObj);
     void nc_recharge_info_304(CCObject *pObj);
     
+    void creat_Exchange();
     void linshiMethod(CCObject *pObj);
     
 public:
