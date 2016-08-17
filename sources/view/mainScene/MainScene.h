@@ -111,6 +111,7 @@ public:
     void change_position(CCObject* pObj);
     void updateLayerPosition(float offset_x);
     void setIsEffective();
+    CCActionInterval* getIntervalAction();
     
     
     void huodongCallBack(CCObject* pSender);
@@ -129,6 +130,7 @@ public:
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
     void openChat(CCObject* pSender);
+    void lingdang_callback(CCObject* pSender);
     
     void juqing_vipCallBack(CCObject* pSender);
     void homeCallBack(CCObject* pSender);
@@ -193,6 +195,10 @@ private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;
     CCMenuItem*         _shezhiItem;
+    
+    CCClippingNode*     node;
+    CCMenu*             menu;
+    bool                isOpen;
     
     CCArray*            _arrGroup1;
     CCArray*            _arrGroup2;

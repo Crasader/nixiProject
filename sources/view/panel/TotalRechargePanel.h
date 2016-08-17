@@ -34,6 +34,7 @@ public:
     
 private:
     void remove();
+    void updatePanel();
     void btn_lingqu_callback();
     void btn_chongzhi_callback();
     void reward_callback_305(CCObject *obj);
@@ -41,7 +42,6 @@ private:
 private:
     CCLayer*            _content;
     CCSprite*           _panel;
-    CCArray*            _clothes;
     CCMenuItemSprite*   _item;
 };
 
