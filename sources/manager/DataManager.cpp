@@ -412,17 +412,18 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 200: {
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->init_company_template(content["template"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 201: {
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 203: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 100: {

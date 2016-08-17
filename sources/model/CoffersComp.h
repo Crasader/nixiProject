@@ -11,22 +11,30 @@
 
 #include "cocos2d.h"
 #include "json_lib.h"
+#include "extend_define.h"
 
 USING_NS_CC;
 using namespace CSJson;
 
 class CoffersComp : public CCObject
 {
+// Export
+    SYNTHESIZE_READONLY(bool, _hasInitTemplate, HasInitTemplate);
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _companyTemplate, CompanyTemplate);
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _companyRewardRecord, CompanyRewardRecord);
+public:
+//    bool could_prduce();
+    void produce();
+    void reset_collected();
+    
+public: // Inport
+    void init_company_template(Value json);
+    void replace_user_data(Value json);
+    
 public:
     ~CoffersComp();
     CREATE_FUNC(CoffersComp);
     bool init();
-    void init_with_json(Value json);
-    
-public:
-    bool could_prduce();
-    void produce();
-    void reset_collected();
     
 public:
     int         profit;
@@ -34,6 +42,7 @@ public:
     int         collected;
     
 private:
+    
 };
 
 #endif /* CoffersComp_hpp */
