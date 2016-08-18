@@ -404,25 +404,25 @@ void GashaponLayer::updataClothes2(){
 }
 
 void GashaponLayer::creat_Man(){
-    float widthFolt = .53f;
-    float heightFloat = .38f;
+    float widthFolt = .63f;
+    float heightFloat = .61f;
     float scaleFloat = .63f;
     bool flipxBool = false;
     
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
     manSpr->setScale(scaleFloat);
     manSpr->setFlipX(flipxBool);
-    manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    manSpr->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
     _ManSpr->addChild(manSpr, 200);
     _touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
     _touSpr->setScale(scaleFloat);
     _touSpr->setFlipX(flipxBool);
-    _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    _touSpr->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height * heightFloat));
     _ManSpr->addChild(_touSpr, 210);
 }
 void GashaponLayer::initClothes(){//穿衣服
-    float widthFolt = .53f;
-    float heightFloat = .38f;
+    float widthFolt = .63f;
+    float heightFloat = .61f;
     float scaleFloat = .63f;
     bool flipxBool = false;
     int sub_part = 0;
@@ -436,7 +436,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _tfSpr1 = CCSprite::create(str1->getCString());
                 _tfSpr1->setScale(scaleFloat);
                 _tfSpr1->setFlipX(flipxBool);
-                _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _tfSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _tfSpr1->setTag(Tag_QJ_TouFa1);
                 _ManSpr->addChild(_tfSpr1, 430);
                 
@@ -444,7 +444,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _tfSpr2 = CCSprite::create(str2->getCString());
                 _tfSpr2->setScale(scaleFloat);
                 _tfSpr2->setFlipX(flipxBool);
-                _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _tfSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _tfSpr2->setTag(Tag_QJ_TouFa2);
                 _ManSpr->addChild(_tfSpr2, 50);
             }else{
@@ -461,7 +461,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _tfSpr1 = CCSprite::create(str1->getCString());
                             _tfSpr1->setScale(scaleFloat);
                             _tfSpr1->setFlipX(flipxBool);
-                            _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _tfSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _tfSpr1->setTag(Tag_QJ_TouFa1);
                             _ManSpr->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -471,7 +471,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _tfSpr2 = CCSprite::create(str2->getCString());
                             _tfSpr2->setScale(scaleFloat);
                             _tfSpr2->setFlipX(flipxBool);
-                            _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _tfSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _tfSpr2->setTag(Tag_QJ_TouFa2);
                             _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -481,7 +481,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _tfSpr3 = CCSprite::create(str3->getCString());
                             _tfSpr3->setScale(scaleFloat);
                             _tfSpr3->setFlipX(flipxBool);
-                            _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _tfSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _tfSpr3->setTag(Tag_QJ_TouFa3);
                             _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -498,7 +498,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _wtSpr1 = CCSprite::create(str->getCString());
                 _wtSpr1->setScale(scaleFloat);
                 _wtSpr1->setFlipX(flipxBool);
-                _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _wtSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _wtSpr1->setTag(Tag_QJ_WaiTao1);
                 _ManSpr->addChild(_wtSpr1, 50);
             }else{
@@ -515,7 +515,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _wtSpr1 = CCSprite::create(str1->getCString());
                             _wtSpr1->setScale(scaleFloat);
                             _wtSpr1->setFlipX(flipxBool);
-                            _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _wtSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _wtSpr1->setTag(Tag_QJ_WaiTao1);
                             _ManSpr->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -525,7 +525,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _wtSpr2 = CCSprite::create(str2->getCString());
                             _wtSpr2->setScale(scaleFloat);
                             _wtSpr2->setFlipX(flipxBool);
-                            _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _wtSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _wtSpr2->setTag(Tag_QJ_WaiTao2);
                             _ManSpr->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -535,7 +535,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _wtSpr3 = CCSprite::create(str3->getCString());
                             _wtSpr3->setScale(scaleFloat);
                             _wtSpr3->setFlipX(flipxBool);
-                            _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _wtSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _wtSpr3->setTag(Tag_QJ_WaiTao3);
                             _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -552,7 +552,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _sySpr1 = CCSprite::create(str->getCString());
                 _sySpr1->setScale(scaleFloat);
                 _sySpr1->setFlipX(flipxBool);
-                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _sySpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _sySpr1->setTag(Tag_QJ_ShangYi1);
                 _ManSpr->addChild(_sySpr1, 350);
             }else{
@@ -571,7 +571,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _sySpr1 = CCSprite::create(str1->getCString());
                             _sySpr1->setScale(scaleFloat);
                             _sySpr1->setFlipX(flipxBool);
-                            _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _sySpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _sySpr1->setTag(Tag_QJ_ShangYi1);
                             _ManSpr->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -581,7 +581,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _sySpr2 = CCSprite::create(str2->getCString());
                             _sySpr2->setScale(scaleFloat);
                             _sySpr2->setFlipX(flipxBool);
-                            _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _sySpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _sySpr2->setTag(Tag_QJ_ShangYi2);
                             _ManSpr->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -591,7 +591,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _sySpr3 = CCSprite::create(str3->getCString());
                             _sySpr3->setScale(scaleFloat);
                             _sySpr3->setFlipX(flipxBool);
-                            _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _sySpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _sySpr3->setTag(Tag_QJ_ShangYi3);
                             _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -609,7 +609,7 @@ void GashaponLayer::initClothes(){//穿衣服
                     _kzSpr1 = CCSprite::create(str->getCString());
                     _kzSpr1->setScale(scaleFloat);
                     _kzSpr1->setFlipX(flipxBool);
-                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                     _kzSpr1->setTag(Tag_QJ_KuZi1);
                     _ManSpr->addChild(_kzSpr1, 290);
                 }else{
@@ -617,7 +617,7 @@ void GashaponLayer::initClothes(){//穿衣服
                     _kzSpr1 = CCSprite::create(str->getCString());
                     _kzSpr1->setScale(scaleFloat);
                     _kzSpr1->setFlipX(flipxBool);
-                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                     _kzSpr1->setTag(Tag_QJ_KuZi1);
                     _ManSpr->addChild(_kzSpr1, 290);
                 }
@@ -635,7 +635,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _kzSpr1 = CCSprite::create(str1->getCString());
                             _kzSpr1->setScale(scaleFloat);
                             _kzSpr1->setFlipX(flipxBool);
-                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _kzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _kzSpr1->setTag(Tag_QJ_KuZi1);
                             _ManSpr->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -645,7 +645,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _kzSpr2 = CCSprite::create(str2->getCString());
                             _kzSpr2->setScale(scaleFloat);
                             _kzSpr2->setFlipX(flipxBool);
-                            _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _kzSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _kzSpr2->setTag(Tag_QJ_KuZi2);
                             _ManSpr->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -655,7 +655,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _kzSpr3 = CCSprite::create(str3->getCString());
                             _kzSpr3->setScale(scaleFloat);
                             _kzSpr3->setFlipX(flipxBool);
-                            _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _kzSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _kzSpr3->setTag(Tag_QJ_KuZi3);
                             _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -672,7 +672,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _wzSpr1 = CCSprite::create(str->getCString());
                 _wzSpr1->setScale(scaleFloat);
                 _wzSpr1->setFlipX(flipxBool);
-                _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _wzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _wzSpr1->setTag(Tag_QJ_WaZi1);
                 _ManSpr->addChild(_wzSpr1, 50);
             }else{
@@ -689,7 +689,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _wzSpr1 = CCSprite::create(str1->getCString());
                             _wzSpr1->setScale(scaleFloat);
                             _wzSpr1->setFlipX(flipxBool);
-                            _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _wzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _wzSpr1->setTag(Tag_QJ_WaZi1);
                             _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -699,7 +699,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _wzSpr2 = CCSprite::create(str2->getCString());
                             _wzSpr2->setScale(scaleFloat);
                             _wzSpr2->setFlipX(flipxBool);
-                            _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _wzSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _wzSpr2->setTag(Tag_QJ_WaZi2);
                             _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -709,7 +709,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _wzSpr3 = CCSprite::create(str3->getCString());
                             _wzSpr3->setScale(scaleFloat);
                             _wzSpr3->setFlipX(flipxBool);
-                            _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _wzSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _wzSpr3->setTag(Tag_QJ_WaZi3);
                             _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -726,7 +726,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _xzSpr1 = CCSprite::create(str->getCString());
                 _xzSpr1->setScale(scaleFloat);
                 _xzSpr1->setFlipX(flipxBool);
-                _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _xzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _xzSpr1->setTag(Tag_QJ_XieZi1);
                 _ManSpr->addChild(_xzSpr1, 50);
             }else{
@@ -743,7 +743,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _xzSpr1 = CCSprite::create(str1->getCString());
                             _xzSpr1->setScale(scaleFloat);
                             _xzSpr1->setFlipX(flipxBool);
-                            _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _xzSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _xzSpr1->setTag(Tag_QJ_XieZi1);
                             _ManSpr->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -753,7 +753,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _xzSpr2 = CCSprite::create(str2->getCString());
                             _xzSpr2->setScale(scaleFloat);
                             _xzSpr2->setFlipX(flipxBool);
-                            _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _xzSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _xzSpr2->setTag(Tag_QJ_XieZi2);
                             _ManSpr->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -763,7 +763,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _xzSpr3 = CCSprite::create(str3->getCString());
                             _xzSpr3->setScale(scaleFloat);
                             _xzSpr3->setFlipX(flipxBool);
-                            _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _xzSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _xzSpr3->setTag(Tag_QJ_XieZi3);
                             _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -801,7 +801,7 @@ void GashaponLayer::initClothes(){//穿衣服
                                 CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
                                 _spSpr1->setScale(scaleFloat);
                                 _spSpr1->setFlipX(flipxBool);
-                                _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                                _spSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                                 _spSpr1->setTag(j + 1000);
                                 _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
                             }
@@ -811,7 +811,7 @@ void GashaponLayer::initClothes(){//穿衣服
                                 CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
                                 _spSpr2->setScale(scaleFloat);
                                 _spSpr2->setFlipX(flipxBool);
-                                _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                                _spSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                                 _spSpr2->setTag(j + 2000);
                                 _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
                             }
@@ -821,7 +821,7 @@ void GashaponLayer::initClothes(){//穿衣服
                                 CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
                                 _spSpr3->setScale(scaleFloat);
                                 _spSpr3->setFlipX(flipxBool);
-                                _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                                _spSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                                 _spSpr3->setTag(j + 3000);
                                 _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                             }
@@ -839,7 +839,7 @@ void GashaponLayer::initClothes(){//穿衣服
                 _bSpr1 = CCSprite::create(str->getCString());
                 _bSpr1->setScale(scaleFloat);
                 _bSpr1->setFlipX(flipxBool);
-                _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _bSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _bSpr1->setTag(Tag_QJ_Bao1);
                 _ManSpr->addChild(_bSpr1, 50);
             }else{
@@ -856,7 +856,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _bSpr1 = CCSprite::create(str1->getCString());
                             _bSpr1->setScale(scaleFloat);
                             _bSpr1->setFlipX(flipxBool);
-                            _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _bSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _bSpr1->setTag(Tag_QJ_Bao1);
                             _ManSpr->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
@@ -866,7 +866,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _bSpr2 = CCSprite::create(str2->getCString());
                             _bSpr2->setScale(scaleFloat);
                             _bSpr2->setFlipX(flipxBool);
-                            _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _bSpr2->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _bSpr2->setTag(Tag_QJ_Bao2);
                             _ManSpr->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
@@ -876,7 +876,7 @@ void GashaponLayer::initClothes(){//穿衣服
                             _bSpr3 = CCSprite::create(str3->getCString());
                             _bSpr3->setScale(scaleFloat);
                             _bSpr3->setFlipX(flipxBool);
-                            _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _bSpr3->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _bSpr3->setTag(Tag_QJ_Bao3);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
@@ -890,7 +890,7 @@ void GashaponLayer::initClothes(){//穿衣服
             if (cloth_id->getValue() == 90000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
                 _zrSpr1 = CCSprite::create(str->getCString());
-                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _zrSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                 _zrSpr1->setTag(Tag_QJ_ZhuangRong1);
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
@@ -906,7 +906,7 @@ void GashaponLayer::initClothes(){//穿衣服
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _zrSpr1 = CCSprite::create(str1->getCString());
-                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _zrSpr1->setPosition(ccp(bgSpr->getContentSize().width* widthFolt, bgSpr->getContentSize().height* heightFloat));
                             _zrSpr1->setTag(Tag_QJ_ZhuangRong1);
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);

@@ -192,10 +192,12 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
 //    CCLog("head_1 ==== %s", dialItem->getHead_1().c_str());
 //    CCLog("figure_1 ==== %d", dialItem->getFigure_1());
 //    CCLog("zishi_1 ==== %s", dialItem->getZishi_1().c_str());
+//    CCLog("biaoqing_1 ==== %d", dialItem->getBiaoqing_1());
 //
 //    CCLog("head_2 ==== %s", dialItem->getHead_2().c_str());
 //    CCLog("figure_2 ==== %d", dialItem->getFigure_2());
 //    CCLog("zishi_2 ==== %s", dialItem->getZishi_2().c_str());
+//    CCLog("biaoqing_2 ==== %d", dialItem->getBiaoqing_2());
 //
 //    CCLog("animation ==== %d", dialItem->getAnimation());
 ////    CCLog("achievenment ==== %d", dialItem->getAchievenment());
@@ -919,7 +921,7 @@ void StoryScene::logic(float dt){
         if (buttonBool1) {
             wordCount = getContentLength();
             saidLabel->setString(getContentByLength(wordCount).c_str());
-            
+            this->closeEyesAnimation();
             this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .1f);
         }
         
