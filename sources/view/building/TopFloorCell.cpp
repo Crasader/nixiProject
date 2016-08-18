@@ -120,7 +120,7 @@ void TopFloorCell::update_boxes() {
     
     CoffersComp* coffers = DATA->getCoffers();
     int curPhase = DATA->getPlayer()->phase;
-    int totalRatings = 40;//DATA->getPlayer()->total_ratings();
+    int totalRatings = DATA->getPlayer()->total_ratings();
     int start = coffers->phase_start(curPhase);
     
     CCArray* items = coffers->phase_goals(curPhase);
