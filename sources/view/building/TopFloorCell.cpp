@@ -96,7 +96,7 @@ bool TopFloorCell::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
             CCBool* availble = (CCBool*)spt->getUserObject();
             if (availble->getValue()) {
                 CCLOG("YES");
-                BuildingRewardPanel::show(this->getScene(), "coin", 54);
+                BuildingRewardPanel::show(this->getScene(), "diam", 54);
             }
             else {
                 CCLOG("NO");

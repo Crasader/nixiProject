@@ -50,13 +50,17 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
     if (! CCLayer::init()) {
         return false;
     }
+    
+    _type = string(type.c_str());
+    _value = value;
 
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
     
     _panel = CCSprite::create("pic/building/reward/panel.png");
-    _panel->setPosition(DISPLAY->center());
+    _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75));
+    _panel->setVisible(false);
     this->addChild(_panel);
     
     CCSize panelSize = _panel->boundingBox().size;
@@ -76,7 +80,7 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
     title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .88f));
     _panel->addChild(title);
     
-    if (type.compare("coin") == 0) {
+    if (_type.compare("coin") == 0) {
         CCSprite* plate = CCSprite::create("pic/building/reward/plate.png");
         plate->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
         _panel->addChild(plate);
@@ -85,14 +89,26 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
         coin->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
         _panel->addChild(coin);
         
-        CCString* str = CCString::createWithFormat("%d金币", value);
+        CCString* str = CCString::createWithFormat("%d 金币", _value);
         CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 24);
         lbl->setColor(ccc3(107, 143, 190));
-        lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.26));
+        lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.28));
         _panel->addChild(lbl);
     }
-    else if (type.compare("diam") == 0) {
+    else if (_type.compare("diam") == 0) {
+        CCSprite* plate = CCSprite::create("pic/building/reward/plate.png");
+        plate->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
+        _panel->addChild(plate);
         
+        CCSprite* diam = CCSprite::create("pic/common/diam2.png");
+        diam->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
+        _panel->addChild(diam);
+        
+        CCString* str = CCString::createWithFormat("%d 钻石", _value);
+        CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 24);
+        lbl->setColor(ccc3(107, 143, 190));
+        lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.28));
+        _panel->addChild(lbl);
     }
     
     return true;
@@ -104,6 +120,8 @@ void BuildingRewardPanel::onEnter() {
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
+    
+    this->do_enter();
     
     this->scheduleOnce(SEL_SCHEDULE(&BuildingRewardPanel::keyBackStatus), .8f);
 }
@@ -120,7 +138,7 @@ void BuildingRewardPanel::onExit() {
 bool BuildingRewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _panel->boundingBox().containsPoint(location)) {
-        this->removeFromParentAndCleanup(true);
+        this->remove();
     }
     
     return true;
@@ -129,16 +147,50 @@ bool BuildingRewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEven
 #pragma mark - Inner
 
 void BuildingRewardPanel::remove() {
+    this->do_exit();
     this->removeFromParentAndCleanup(true);
 }
 
 void BuildingRewardPanel::keyBackClicked(){
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
+    CCLOG("===== children_num: %d", num_child);
     if(num_child > 1)
     {
         return;
     }
     
     this->remove();
+}
+
+void BuildingRewardPanel::do_enter() {
+    _panel->setScale(0.1);
+    _panel->setVisible(true);
+    
+    float duration1 = 0.2f;
+    CCMoveTo* moveto1 = CCMoveTo::create(duration1, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.45));
+    CCScaleTo* scaleto1 = CCScaleTo::create(duration1, 1.1);
+    CCSpawn* spawn1 = CCSpawn::create(moveto1, scaleto1, NULL);
+    
+    float duration2 = 0.2f;
+    CCMoveTo* moveto2 = CCMoveTo::create(duration2, DISPLAY->center());
+    CCScaleTo* scaleto2 = CCScaleTo::create(duration2, 1);
+    CCSpawn* spawn2 = CCSpawn::create(moveto2, scaleto2, NULL);
+    
+    _panel->runAction(CCEaseSineIn::create(CCSequence::create(spawn1, spawn2, NULL)));
+}
+
+void BuildingRewardPanel::do_exit() {
+    CCPoint posFrom = DISPLAY->center();
+    CCDictionary* postData = CCDictionary::create();
+    postData->setObject(CCInteger::create(_value), "num");
+    CCString* from = CCString::createWithFormat("{%f,%f}", posFrom.x, posFrom.y);
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    
+    if (_type.compare("coin") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+    }
+    else if (_type.compare("diam") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+    }
 }

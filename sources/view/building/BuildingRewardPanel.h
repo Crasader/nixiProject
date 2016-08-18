@@ -32,10 +32,13 @@ public:
     
 private:
     void remove();
+    void do_enter();
+    void do_exit();
     
 private:
-    CCLayer*            _content;
     CCSprite*           _panel;
+    string              _type;
+    int                 _value;
 };
 
 #endif /* BuildingRewardPanel_hpp */
