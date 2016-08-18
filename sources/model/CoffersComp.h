@@ -18,10 +18,14 @@ using namespace CSJson;
 
 class CoffersComp : public CCObject
 {
-// Export
+ // Export
     SYNTHESIZE_READONLY(bool, _hasInitTemplate, HasInitTemplate);
-    SYNTHESIZE_RETAIN_READONLY(CCArray*, _companyTemplate, CompanyTemplate);
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _companyRewardRecord, CompanyRewardRecord);
+public:
+    int phase_start(int phase);
+    CCArray* phase_goals(int phase);
+    bool has_taken_reward(CCString* id);
+
 public:
 //    bool could_prduce();
     void produce();
@@ -42,7 +46,7 @@ public:
     int         collected;
     
 private:
-    
+    SYNTHESIZE_RETAIN_READONLY(CCArray*, _companyTemplate, CompanyTemplate);
 };
 
 #endif /* CoffersComp_hpp */

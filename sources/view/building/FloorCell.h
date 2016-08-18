@@ -22,7 +22,6 @@ typedef enum {
     FloorCellType_Office = 2,
     FloorCellType_Manager_Office = 3,
     FloorCellType_Leisure = 4,
-    FloorCellType_Roof = 5,
 } FloorCellType;
 
 class FloorCell : public CCTableViewCell

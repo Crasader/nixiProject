@@ -14,7 +14,7 @@
 #include "AudioManager.h"
 
 const float ROLE_SCALE = 0.25;
-const float STAND_HEIGHT = 3;
+const float STAND_HEIGHT = 6;
 
 FloorCell::~FloorCell() {
     CC_SAFE_DELETE(_roles);
@@ -290,34 +290,23 @@ bool FloorCell::init(FloorCellType type, int phase, int idx) {
         role->setScale(ROLE_SCALE);
         arrRoles->addObject(role);
     }
-    else  if (type == FloorCellType_Roof) {
-        if (phase == 1) {
-            _sptFloor = CCSprite::create("res/pic/building/roof_1.png");
-            _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
-            this->addChild(_sptFloor);
-        }
-        else if (phase == 2) {
-            _sptFloor = CCSprite::create("res/pic/building/roof_2.png");
-            _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
-            this->addChild(_sptFloor);
-        }
-        else {
-            _sptFloor = CCSprite::create("res/pic/building/roof_3.png");
-            _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
-            this->addChild(_sptFloor);
-        }
-        
-//        CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
-//        sptPromptBar->setContentSize(CCSizeMake(300, 40));
-//        sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, 10));
-//        _sptFloor->addChild(sptPromptBar);
-//        
-//        CCLabelTTF* label = CCLabelTTF::create("公司还差8颗星升级", DISPLAY->fangzhengFont(), 24.f);
-//        label->setColor(DISPLAY->defalutColor());
-//        label->setAnchorPoint(ccp(0.5, 0.5));
-//        label->setPosition(sptPromptBar->getPosition());
-//        _sptFloor->addChild(label);
-    }
+//    else  if (type == FloorCellType_Roof) {
+//        if (phase == 1) {
+//            _sptFloor = CCSprite::create("res/pic/building/roof_1.png");
+//            _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
+//            this->addChild(_sptFloor);
+//        }
+//        else if (phase == 2) {
+//            _sptFloor = CCSprite::create("res/pic/building/roof_2.png");
+//            _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
+//            this->addChild(_sptFloor);
+//        }
+//        else {
+//            _sptFloor = CCSprite::create("res/pic/building/roof_3.png");
+//            _sptFloor->setPosition(ccp(FLOOR_CELL_WIDTH * 0.5, FLOOR_CELL_HEIGHT * 0.5));
+//            this->addChild(_sptFloor);
+//        }
+//    }
     
     _roles = arrRoles;
     _roles->retain();
@@ -495,6 +484,7 @@ void FloorCell::collected_coin() {
         star2->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(52, 25)), CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
         
         node->stopAllActions();
+        node->setOpacity(255);
         node->runAction(CCSequence::create(CCMoveBy::create(starDuration, ccp(0, FLOOR_CELL_HEIGHT - 20)),CCCallFuncN::create(this, SEL_CallFuncN(&FloorCell::self_remove)), NULL));
     }
 }
