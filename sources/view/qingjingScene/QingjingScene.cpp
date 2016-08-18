@@ -81,6 +81,7 @@ void QingjingScene::onEnter(){
     
     this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::keyBackStatus), .8f);
 }
+
 void QingjingScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }

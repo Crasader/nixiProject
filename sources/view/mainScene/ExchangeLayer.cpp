@@ -177,8 +177,8 @@ void ExchangeLayer::creat_View(){
         
         
         for (int k = 0; k < userArr->count(); k++) {
-            CCString* userIdStr = (CCString* )userArr->objectAtIndex(k);
-            int userId = atoi(userIdStr->getCString());
+//            CCString* userIdStr = (CCString* )userArr->objectAtIndex(k);
+            int userId = ((CCInteger*)userArr->objectAtIndex(k))->getValue();
             if (userId == idIndex) {
                 exchangeItem->setEnabled(false);
                 
@@ -880,6 +880,7 @@ void ExchangeLayer::buttonCallBack(CCObject* pSender){
     LOADING->show_loading();
     NET->exchange_clothes_311(str->getCString());
 }
+
 void ExchangeLayer::_311CallBack(CCObject* pSender){
     LOADING->remove();
     
@@ -895,8 +896,4 @@ void ExchangeLayer::_311CallBack(CCObject* pSender){
     this->creat_Man();
     this->initClothes();
 }
-
-
-
-
 
