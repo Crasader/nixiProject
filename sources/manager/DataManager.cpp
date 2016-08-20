@@ -428,6 +428,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             _coffers->replace_user_data(content["coffers"]);
         } break;
             
+        case 205: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _coffers->replace_user_data(content["coffers"]);
+            pData = AppUtil::dictionary_with_json(content["result"]);
+        } break;
+            
         case 100: {
             _purchase->init_products(content);
         } break;

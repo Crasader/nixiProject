@@ -474,6 +474,15 @@ void NetManager::take_income_203() {
     this->post_data(203, data);
 }
 
+void NetManager::take_company_reward_205(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(205, data);
+}
+
 
 void NetManager::all_products_100() {
     this->post_data(100, string(""));

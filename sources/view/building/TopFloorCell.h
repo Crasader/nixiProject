@@ -27,6 +27,7 @@ public:
     
 private:
     void update_boxes();
+    void nc_take_company_reward_205(CCObject* pObj);
     
 private:
     CCSprite*           _sptFloor;

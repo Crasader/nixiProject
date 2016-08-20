@@ -10,9 +10,11 @@
 #include "DisplayManager.h"
 #include "SpecialManager.h"
 #include "DataManager.h"
+#include "NetManager.h"
 #include "AppUtil.h"
 #include "AudioManager.h"
 #include "BuildingRewardPanel.h"
+#include "Loading2.h"
 
 const float FLOOR_CELL_WIDTH = 558.f;
 const float FLOOR_CELL_HEIGHT = 197.f;
@@ -21,7 +23,6 @@ const float ROLE_SCALE = 0.25;
 const float STAND_HEIGHT = 3;
 
 TopFloorCell::~TopFloorCell() {
-
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
 }
 
@@ -81,6 +82,8 @@ bool TopFloorCell::init(int phase, int idx) {
     this->setBoxes(CCArray::create());
     this->update_boxes();
     
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TopFloorCell::nc_take_company_reward_205), "HTTP_FINISHED_205", NULL);
+    
     return true;
 }
 
@@ -96,7 +99,13 @@ bool TopFloorCell::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
             CCBool* availble = (CCBool*)spt->getUserObject();
             if (availble->getValue()) {
                 CCLOG("YES");
-                BuildingRewardPanel::show(this->getScene(), "diam", 54);
+                CoffersComp* coffers = DATA->getCoffers();
+                int curPhase = DATA->getPlayer()->phase;
+                CCArray* items = coffers->phase_goals(curPhase);
+                CCDictionary* item = (CCDictionary*)items->objectAtIndex(spt->getTag());
+                
+                LOADING->show_loading();
+                NET->take_company_reward_205(item->valueForKey("id")->getCString());
             }
             else {
                 CCLOG("NO");
@@ -181,7 +190,16 @@ void TopFloorCell::update_boxes() {
             box->setUserObject(CCBool::create(false));
             _topBar->addChild(box);
         }
-
+        
+        box->setTag(i);
         _boxes->addObject(box);
     }
+}
+
+void TopFloorCell::nc_take_company_reward_205(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* dic = (CCDictionary*)pObj;
+    const CCString* type = dic->valueForKey("type");
+    CCInteger* num = (CCInteger*)dic->objectForKey("num");
+    BuildingRewardPanel::show(this->getScene(), type->getCString(), num->getValue());
 }
