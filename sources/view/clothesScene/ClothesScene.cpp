@@ -199,14 +199,14 @@ void ClothesScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
         label->setColor(ccc3(80, 63, 68));
         tskSpr->addChild(label);
         
-        CCSprite* qdSpr1 = CCSprite::create("res/pic/common/btn_confirm.png");
-        CCSprite* qdSpr2 = CCSprite::create("res/pic/common/btn_confirm.png");
+        CCSprite* qdSpr1 = CCSprite::create("res/pic/common/btn_yes.png");
+        CCSprite* qdSpr2 = CCSprite::create("res/pic/common/btn_yes.png");
         qdSpr2->setScale(1.01f);
         CCMenuItem* quedingItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(ClothesScene::tuoguangConfirmCallBack));
         quedingItem->setPosition(ccp(tskSpr->boundingBox().size.width* .65, tskSpr->boundingBox().size.height* .2));
         
-        CCSprite* fhSpr1 = CCSprite::create("res/pic/common/btn_cancel.png");
-        CCSprite* fhSpr2 = CCSprite::create("res/pic/common/btn_cancel.png");
+        CCSprite* fhSpr1 = CCSprite::create("res/pic/common/btn_no.png");
+        CCSprite* fhSpr2 = CCSprite::create("res/pic/common/btn_no.png");
         fhSpr2->setScale(1.01f);
         CCMenuItem* fanhuiItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(ClothesScene::tuoguangCancelCallBack));
         fanhuiItem->setPosition(ccp(tskSpr->boundingBox().size.width* .35, tskSpr->boundingBox().size.height* .2));
@@ -766,8 +766,12 @@ void ClothesScene::creat_ViewMethods(int index) {
     for (int i = 0; i < clothesArr->count(); i++) {
         CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
         int sale = clothDic->valueForKey("sale")->intValue();
+        int type = clothDic->valueForKey("type")->intValue();
+        int id = clothDic->valueForKey("id")->intValue();
         if (sale != 0) {
-            tempArr->addObject(clothDic);
+            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+                tempArr->addObject(clothDic);
+            }
         }
     }
     DATA->setDataSource(tempArr);
@@ -947,23 +951,27 @@ void ClothesScene::renwukuangMethods(int index){
     
     for (int i = 0; i < clothesArr->count(); i++) {
         CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
-        int sale = clothDic->valueForKey("sale")->intValue();
         int clothTag1 = clothDic->valueForKey("tag1")->intValue();
         int clothTag2 = clothDic->valueForKey("tag2")->intValue();
         int clothTag3 = clothDic->valueForKey("tag3")->intValue();
+        int sale = clothDic->valueForKey("sale")->intValue();
+        int type = clothDic->valueForKey("type")->intValue();
+        int id = clothDic->valueForKey("id")->intValue();
         if (sale != 0) {
-            if (   (clothTag1 != 0 && clothTag1 == tag1)
-                || (clothTag1 != 0 && clothTag1 == tag2)
-                || (clothTag1 != 0 && clothTag1 == tag3)
-                || (clothTag2 != 0 && clothTag2 == tag1)
-                || (clothTag2 != 0 && clothTag2 == tag2)
-                || (clothTag2 != 0 && clothTag2 == tag3)
-                || (clothTag3 != 0 && clothTag3 == tag1)
-                || (clothTag3 != 0 && clothTag3 == tag2)
-                || (clothTag3 != 0 && clothTag3 == tag3)) {
-                tempArr->addObject(clothDic);
-            }else if (clothTag1 == 0){
-                tempArr->addObject(clothDic);
+            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+                if (   (clothTag1 != 0 && clothTag1 == tag1)
+                    || (clothTag1 != 0 && clothTag1 == tag2)
+                    || (clothTag1 != 0 && clothTag1 == tag3)
+                    || (clothTag2 != 0 && clothTag2 == tag1)
+                    || (clothTag2 != 0 && clothTag2 == tag2)
+                    || (clothTag2 != 0 && clothTag2 == tag3)
+                    || (clothTag3 != 0 && clothTag3 == tag1)
+                    || (clothTag3 != 0 && clothTag3 == tag2)
+                    || (clothTag3 != 0 && clothTag3 == tag3)) {
+                    tempArr->addObject(clothDic);
+                }else if (clothTag1 == 0){
+                    tempArr->addObject(clothDic);
+                }
             }
         }
     }

@@ -42,11 +42,13 @@ public:
     CC_SYNTHESIZE(std::string, _head_1, Head_1);// 头像
     CC_SYNTHESIZE(int, _figure_1, Figure_1);// 显示的是那个人
     CC_SYNTHESIZE(std::string, _zishi_1, Zishi_1);// 姿势
+    CC_SYNTHESIZE(int, _biaoqing_1, Biaoqing_1);// 表情
     
     //<><><>第二个要显示的人<><><>//
     CC_SYNTHESIZE(std::string, _head_2, Head_2);// 头像
     CC_SYNTHESIZE(int, _figure_2, Figure_2);// 显示的是那个人
     CC_SYNTHESIZE(std::string, _zishi_2, Zishi_2);// 姿势
+    CC_SYNTHESIZE(int, _biaoqing_2, Biaoqing_2);// 表情
     
     //<><><>所有选择数据保存在这个数组里<><><>//
     CC_SYNTHESIZE_RETAIN(CCArray*, _array, Array);
