@@ -57,6 +57,7 @@ public:
 //    int             meatshield_total;
 //    int             meatshield_hit;
     CC_SYNTHESIZE(int, _total_score, Total_score);
+    CC_SYNTHESIZE(int, _lostCount, LostCount);
     
 protected:
     GHOSTTYPE rand_ghosttype();

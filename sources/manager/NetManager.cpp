@@ -243,8 +243,19 @@ void NetManager::change_house_705(string id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(705, data);
+}
+
+void NetManager::commit_game_707(string gameId, int score) {
+    FastWriter writer;
+    Value root;
+    root["id"] = gameId;
+    root["score"] = score;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(707, data);
 }
 
 

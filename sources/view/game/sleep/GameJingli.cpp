@@ -9,9 +9,14 @@
 #include "GameJingli.h"
 #include "DisplayManager.h"
 #include "DataManager.h"
+#include "NetManager.h"
 #include "ConfigManager.h"
 #include "GhostSystem.h"
-#include "ColorLayer.h"
+#include "GameCheckoutPanel.h"
+#include "Loading2.h"
+
+const int LOST_LIMIT = 5;
+const char* GAME_ID = "3";
 
 GameJingli::~GameJingli() {
 
@@ -37,6 +42,9 @@ void GameJingli::onEnter() {
     CCLayer::onEnter();
     
 //    MMAudioManager::get_instance()->play_music(kMusic_BG_Lives, true);
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&GameJingli::nc_commit_game_707), "HTTP_FINISHED_707", NULL);
     
     this->init_UI();
     this->show_game_help();
@@ -79,6 +87,8 @@ void GameJingli::init_UI() {
     spt_sleep->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 273.f, DISPLAY->ScreenHeight()* .5f - 13.f));
     layer->addChild(spt_sleep);
     
+    CCDictionary* scores = DATA->getHome()->getScores();
+    
     //时间框
     CCSprite* timeSpr = CCSprite::create("res/pic/game/color/color_scorepanel.png");
     timeSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .85f));
@@ -97,13 +107,13 @@ void GameJingli::init_UI() {
     timeSpr->addChild(_lbl_score, 20);
     
     // 历史最高分
-    CCString* sco_str = CCString::createWithFormat("%d", 99);
+    CCString* sco_str = CCString::createWithFormat("%d", ((CCInteger*)scores->objectForKey("3"))->getValue());
     CCLabelTTF* label_score = CCLabelTTF::create(sco_str->getCString(), DISPLAY->fangzhengFont(), 25);
     label_score->setColor(ccWHITE);
     label_score->setPosition(ccp(timeSpr->getContentSize().width* .85f ,timeSpr->getContentSize().height* .72f));
     timeSpr->addChild(label_score, 20);
     
-    CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, def_maxNumber);
+    CCString* wrongStr = CCString::createWithFormat("%d/%d", 0, LOST_LIMIT);
     _Worng_word = CCLabelTTF::create(wrongStr->getCString(), DISPLAY->fangzhengFont(), 30);
     _Worng_word->setColor(ccWHITE);
     _Worng_word->setPosition(ccp(timeSpr->getContentSize().width* .2f ,timeSpr->getContentSize().height* .27f));
@@ -257,20 +267,21 @@ void GameJingli::update(float dt) {
         this->update_UI();
     }
     else if (_gamestate == e_gamestate_onend) {
+        this->update_UI();
         this->game_over();
     }
 }
 
 void GameJingli::check_end() {
-//    if (_timeleft <= 0) {
-//        _gamestate = e_gamestate_onend;
-//    }
+    if (_ghostlayer->getLostCount() >= 5) {
+        _gamestate = e_gamestate_onend;
+    }
 }
 
 void GameJingli::game_over() {
     this->unscheduleAllSelectors();
-    
-//    MMGameBaseScene::show_success(_ghostlayer->getTotal_score());
+    LOADING->show_loading();
+    NET->commit_game_707("3", _ghostlayer->getTotal_score());
 }
 
 
@@ -341,16 +352,11 @@ void GameJingli::create_ghost(float dt) {
 void GameJingli::update_UI() {
 //    int left_time = (int)_timeleft;
     _lbl_score->setString(CCString::createWithFormat("%d", _ghostlayer->getTotal_score())->getCString());
-//    if (left_time == 0)
-//    {
-//        CCString* str = CCString::createWithFormat("00:00");
-//        _lbl_time->setString(str->getCString());
-//    }
-//    else if (left_time < 10) {
-//        CCString* str1 = CCString::createWithFormat("00:0%d", left_time);
-//        _lbl_time->setString(str1->getCString());
-//    }else{
-//        CCString* str1 = CCString::createWithFormat("00:%d", left_time);
-//        _lbl_time->setString(str1->getCString());
-//    }
+    _Worng_word->setString(CCString::createWithFormat("%d/%d", _ghostlayer->getLostCount(), LOST_LIMIT)->getCString());
+}
+
+void GameJingli::nc_commit_game_707(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* first = (CCDictionary*)pObj;
+    GameCheckoutPanel::show(this->getScene(), "3", _ghostlayer->getTotal_score(), first);
 }

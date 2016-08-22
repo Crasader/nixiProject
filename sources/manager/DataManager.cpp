@@ -284,6 +284,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _home->replace_home_info(content["home"]);
         } break;
             
+        case 707: {
+            _home->replace_home_info(content["home"]);
+            pData = AppUtil::dictionary_with_json(content["first"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;
