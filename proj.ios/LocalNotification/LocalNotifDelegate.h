@@ -13,26 +13,26 @@
 
 USING_NS_CC;
 
-const NSString* NOTIFICATION_KEY_NAME = @"name";
 
 class LocalNotifDelegate : public CCObject
 {
 public: // Export
-    void addFreeGashaponLN();
-    void dropLocalNotification(UILocalNotification* notif);
+    void addFreeGashaponLN(time_t secondDelta);
+//    void dropLocalNotification(UILocalNotification* notif);
     void dropLocalNotificationByName(string name);
     void dropAllLocalNotifications();
     void resetIconBadgeNumber();
     
 public:
     ~LocalNotifDelegate();
-    CREATE_FUNC(LocalNotifDelegate);
-    bool init();
-    void notificationUpdateLocalNotification(CCObject* pObj);
+    static LocalNotifDelegate* Inst();
+    void init();
+    
+    CC_SYNTHESIZE_RETAIN(CCDictionary*, _temp, Temp);
     
 private:
-    NSDate* getLocalDateByNow();
-    int getWeekIndexFromDate(NSDate* date);
+    void nc_gashapon(CCObject* pObj);
+    void _nc_gashapon();
 };
 
 #endif /* defined(__mm3c__LocalNotifDelegate__) */

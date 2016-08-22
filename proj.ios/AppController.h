@@ -36,8 +36,6 @@
 
     int openGame;
     int appUpdateCheckResult;
-    
-     LocalNotifDelegate*       _lnd;
 }
 
 - (void) addLocalNotification;

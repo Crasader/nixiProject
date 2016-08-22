@@ -49,7 +49,10 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertAction message:notification.alertBody delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alert show];
     
-    _lnd->dropLocalNotification(notification);
+    NSDictionary* dic = notification.userInfo;
+    NSString* value = [dic objectForKey:@"name"];
+    const char* csValue = [value UTF8String];
+    LocalNotifDelegate::Inst()->dropLocalNotificationByName(csValue);
     //     application.applicationIconBadgeNumber -= 1;
 }
 
@@ -57,7 +60,6 @@
 
 - (void)addLocalNotification {
     // iOS 8.0 后需请求用户同意接收推送消息
-#ifdef __IPHONE_8_0
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         //如果已经获得发送通知的授权则创建本地通知，否则请求授权(注意：如果不请求授权在设置中是没有对应的通知设置项的，也就是说如果从来没有发送过请求，即使通过设置也打不开消息允许设置)
         if ([[UIApplication sharedApplication] currentUserNotificationSettings].types == UIUserNotificationTypeNone) {
@@ -68,14 +70,13 @@
             [self initLocalNotification];
         }
     }
-#else
-    [self initLocalNotification];
-#endif
+    else {
+        [self initLocalNotification];
+    }
 }
 
 - (void)initLocalNotification {
-    _lnd = LocalNotifDelegate::create();
-    _lnd->retain();
+    LocalNotifDelegate::Inst();
 }
 
 #pragma mark -
