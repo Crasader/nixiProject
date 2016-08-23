@@ -278,7 +278,7 @@ void HomeLayer::creat_View(){
 }
 void HomeLayer::gameCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    
+    CCScene* scene = NULL;
     if (item->getTag() == 1) {
         CCLog("点击睡觉");
     }else if (item->getTag() == 2){
@@ -286,6 +286,9 @@ void HomeLayer::gameCallBack(CCObject* pSender){
     }else if (item->getTag() == 3){
         CCLog("点击购物");
     }
+    
+    CCTransitionFade* trans = CCTransitionFade::create(0.6f, scene, ccWHITE);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
     qiehuanItem->setVisible(false);
