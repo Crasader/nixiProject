@@ -394,6 +394,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 307: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
+            _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
@@ -401,6 +402,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 309: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
+            _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             _operation->init_extra(content["extra"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
@@ -412,17 +414,25 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 200: {
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->init_company_template(content["template"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 201: {
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 203: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->replace_user_data(content["coffers"]);
+        } break;
+            
+        case 205: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _coffers->replace_user_data(content["coffers"]);
+            pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
             
         case 100: {

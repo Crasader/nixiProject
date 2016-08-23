@@ -13,6 +13,9 @@
 #include "HaoyouScene.h"
 #include "HomeTableView.h"
 #include "PromptLayer.h"
+#include "ColorLayer.h"
+#include "LiveAiXin.h"
+#include "GameJingli.h"
 
 #include "DataManager.h"
 #include "DisplayManager.h"
@@ -118,7 +121,7 @@ bool HomeLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     return true;
 }
 void HomeLayer::openButton(float dt){
-    qiehuanItem->setVisible(true);
+    qiehuanSpr->setVisible(true);
 }
 
 cocos2d::CCScene* HomeLayer::scene(){
@@ -174,32 +177,40 @@ void HomeLayer::creat_View(){
     this->addChild(buttonMenu, 20);
     
     // 切换
-    CCSprite* qhSpr1 = CCSprite::create("res/pic/house/house_qiehuan.png");
-    CCSprite* qhSpr2 = CCSprite::create("res/pic/house/house_qiehuan.png");
+    qiehuanSpr = CCSprite::create("res/pic/house/house_qiehuan2.png");
+    qiehuanSpr->setAnchorPoint(ccp(0, .5f));
+    qiehuanSpr->setPosition(ccp(20, DISPLAY->ScreenHeight()* .85f));
+    this->addChild(qiehuanSpr, 20);
+    
+    CCSprite* qhSpr1 = CCSprite::create("res/pic/house/house_qiehuan1.png");
+    CCSprite* qhSpr2 = CCSprite::create("res/pic/house/house_qiehuan1.png");
     qhSpr2->setScale(1.02f);
     qiehuanItem = CCMenuItemSprite::create(qhSpr1, qhSpr2, this, menu_selector(HomeLayer::qiehuanCallBack));
-    qiehuanItem->setPosition(ccp(qhSpr1->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .85f));
+    qiehuanItem->setAnchorPoint(ccp(.5f, .5f));
+    qiehuanItem->setPosition(ccp(qiehuanSpr->getContentSize().width* .5f, qiehuanSpr->getContentSize().height* .5f));
     CCMenu* qiehuanMenu = CCMenu::create(qiehuanItem, NULL);
     qiehuanMenu->setPosition(CCPointZero);
-    this->addChild(qiehuanMenu, 20);
+    qiehuanSpr->addChild(qiehuanMenu);
+    
+    
     
     // button
-    CCSprite* sleepSpr1 = CCSprite::create("res/pic/house/house_button1.png");
-    CCSprite* sleepSpr2 = CCSprite::create("res/pic/house/house_button1.png");
-    sleepSpr2->setScale(1.02f);
-    CCMenuItem* sleepItem = CCMenuItemSprite::create(sleepSpr1, sleepSpr2, this, menu_selector(HomeLayer::gameCallBack));
+    CCSprite* shopSpr1 = CCSprite::create("res/pic/house/house_button1.png");
+    CCSprite* shopSpr2 = CCSprite::create("res/pic/house/house_button1.png");
+    shopSpr2->setScale(1.02f);
+    CCMenuItem* shopItem = CCMenuItemSprite::create(shopSpr1, shopSpr2, this, menu_selector(HomeLayer::gameCallBack));
 //    sleepItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f + 500, DISPLAY->ScreenHeight()* .33f));
-    sleepItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f + 500, 0));
-    sleepItem->setTag(1);
-    sleepItem->setScale(.3f);
-    CCSprite* sleepSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
-    sleepSpr->setPosition(ccp(sleepItem->getContentSize().width* .5f, -sleepSpr->getContentSize().height* .2f));
-    sleepItem->addChild(sleepSpr);
-    CCString* sleepStr = CCString::createWithFormat("最高得分: %d", 999);
-    CCLabelTTF* sleepLabel = CCLabelTTF::create(sleepStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(sleepSpr->getContentSize().width* .88f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    sleepLabel->setPosition(ccp(sleepSpr->getContentSize().width* .5f, sleepSpr->getContentSize().height* .5f));
-    sleepLabel->setColor(ccWHITE);
-    sleepSpr->addChild(sleepLabel);
+    shopItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f + 500, 0));
+    shopItem->setTag(1);
+    shopItem->setScale(.3f);
+    CCSprite* shopSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
+    shopSpr->setPosition(ccp(shopItem->getContentSize().width* .5f, -shopSpr->getContentSize().height* .2f));
+    shopItem->addChild(shopSpr);
+    CCString* shopStr = CCString::createWithFormat("%d", 999);
+    CCLabelTTF* shopLabel = CCLabelTTF::create(shopStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(shopSpr->getContentSize().width* .4f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    shopLabel->setPosition(ccp(shopSpr->getContentSize().width* .82f, shopSpr->getContentSize().height* .46f));
+    shopLabel->setColor(ccWHITE);
+    shopSpr->addChild(shopLabel);
     
     CCSprite* colorSpr1 = CCSprite::create("res/pic/house/house_button2.png");
     CCSprite* colorSpr2 = CCSprite::create("res/pic/house/house_button2.png");
@@ -212,37 +223,37 @@ void HomeLayer::creat_View(){
     CCSprite* colorSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
     colorSpr->setPosition(ccp(colorItem->getContentSize().width* .5f, -colorSpr->getContentSize().height* .15f));
     colorItem->addChild(colorSpr);
-    CCString* colorStr = CCString::createWithFormat("最高得分: %d", 999);
-    CCLabelTTF* colorLabel = CCLabelTTF::create(colorStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(colorSpr->getContentSize().width* .88f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    colorLabel->setPosition(ccp(colorSpr->getContentSize().width* .5f, colorSpr->getContentSize().height* .5f));
+    CCString* colorStr = CCString::createWithFormat("%d", 999);
+    CCLabelTTF* colorLabel = CCLabelTTF::create(colorStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(colorSpr->getContentSize().width* .4f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    colorLabel->setPosition(ccp(colorSpr->getContentSize().width* .82f, colorSpr->getContentSize().height* .46f));
     colorLabel->setColor(ccWHITE);
     colorSpr->addChild(colorLabel);
     
-    CCSprite* shopSpr1 = CCSprite::create("res/pic/house/house_button3.png");
-    CCSprite* shopSpr2 = CCSprite::create("res/pic/house/house_button3.png");
-    shopSpr2->setScale(1.02f);
-    CCMenuItem* shopItem = CCMenuItemSprite::create(shopSpr1, shopSpr2, this, menu_selector(HomeLayer::gameCallBack));
+    CCSprite* sleepSpr1 = CCSprite::create("res/pic/house/house_button3.png");
+    CCSprite* sleepSpr2 = CCSprite::create("res/pic/house/house_button3.png");
+    sleepSpr2->setScale(1.02f);
+    CCMenuItem* sleepItem = CCMenuItemSprite::create(sleepSpr1, sleepSpr2, this, menu_selector(HomeLayer::gameCallBack));
 //    shopItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f + 500, DISPLAY->ScreenHeight()* .09f));
-    shopItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f + 500, 0));
-    shopItem->setTag(3);
-    shopItem->setScale(.3f);
-    CCSprite* shopSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
-    shopSpr->setPosition(ccp(shopItem->getContentSize().width* .5f, -shopSpr->getContentSize().height* .15f));
-    shopItem->addChild(shopSpr);
-    CCString* shopStr = CCString::createWithFormat("最高得分: %d", 999);
-    CCLabelTTF* shopLabel = CCLabelTTF::create(shopStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(shopSpr->getContentSize().width* .88f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    shopLabel->setPosition(ccp(shopSpr->getContentSize().width* .5f, shopSpr->getContentSize().height* .5f));
-    shopLabel->setColor(ccWHITE);
-    shopSpr->addChild(shopLabel);
+    sleepItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f + 500, 0));
+    sleepItem->setTag(3);
+    sleepItem->setScale(.3f);
+    CCSprite* sleepSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
+    sleepSpr->setPosition(ccp(sleepItem->getContentSize().width* .5f, -sleepSpr->getContentSize().height* .15f));
+    sleepItem->addChild(sleepSpr);
+    CCString* sleepStr = CCString::createWithFormat("%d", 999);
+    CCLabelTTF* sleepLabel = CCLabelTTF::create(sleepStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(sleepSpr->getContentSize().width* .4f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    sleepLabel->setPosition(ccp(sleepSpr->getContentSize().width* .82f, sleepSpr->getContentSize().height* .46f));
+    sleepLabel->setColor(ccWHITE);
+    sleepSpr->addChild(sleepLabel);
     
-    CCMenu* gameMenu = CCMenu::create(sleepItem, colorItem, shopItem, NULL);
+    CCMenu* gameMenu = CCMenu::create(shopItem, colorItem, sleepItem, NULL);
     gameMenu->setPosition(CCPointZero);
     this->addChild(gameMenu, 20);
     
     CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .88f, DISPLAY->ScreenHeight()* .33f));
     CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.f);
     CCSpawn* spawn1 = CCSpawn::create(moveTo1, scaleTo1, NULL);
-    sleepItem->runAction(CCSequence::create(CCDelayTime::create(.6f), spawn1, NULL));
+    shopItem->runAction(CCSequence::create(CCDelayTime::create(.6f), spawn1, NULL));
     
     CCMoveTo* moveTo2 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .85f, DISPLAY->ScreenHeight()* .18f));
     CCScaleTo* scaleTo2 = CCScaleTo::create(.5f, 1.f);
@@ -252,7 +263,7 @@ void HomeLayer::creat_View(){
     CCMoveTo* moveTo3 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .63f, DISPLAY->ScreenHeight()* .09f));
     CCScaleTo* scaleTo3 = CCScaleTo::create(.5f, 1.f);
     CCSpawn* spawn3 = CCSpawn::create(moveTo3, scaleTo3, NULL);
-    shopItem->runAction(CCSequence::create(CCDelayTime::create(1.2f), spawn3, NULL));
+    sleepItem->runAction(CCSequence::create(CCDelayTime::create(1.2f), spawn3, NULL));
     
     
     // 框
@@ -280,18 +291,33 @@ void HomeLayer::gameCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     CCScene* scene = NULL;
     if (item->getTag() == 1) {
-        CCLog("点击睡觉");
+        CCLog("点击购物");
+        CCScene* scene = CCScene::create();
+        LiveAiXin* layer = LiveAiXin::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
     }else if (item->getTag() == 2){
         CCLog("点击颜色");
+        CCScene* scene = CCScene::create();
+        ColorLayer* layer = ColorLayer::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
     }else if (item->getTag() == 3){
-        CCLog("点击购物");
+        CCLog("点击睡觉");
+        CCScene* scene = CCScene::create();
+        GameJingli* layer = GameJingli::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
     }
     
     CCTransitionFade* trans = CCTransitionFade::create(0.6f, scene, ccWHITE);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
-    qiehuanItem->setVisible(false);
+    qiehuanSpr->setVisible(false);
     
     this->setTouchEnabled(false);
     CCCallFuncN* callFuncN = CCCallFuncN::create(this,callfuncN_selector(HomeLayer::manAction1));
@@ -411,6 +437,7 @@ void HomeLayer::initClothes(){//穿衣服
     float heightFloat = .5f;
     float scaleFloat = 1.f;
     bool flipxBool = false;
+    int sub_part = 0;
     
     CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     
@@ -551,6 +578,8 @@ void HomeLayer::initClothes(){//穿衣服
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == cloth_id->getValue()) {
+                        sub_part = clothDic->valueForKey("sub_part")->intValue();
+                        
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
@@ -592,13 +621,24 @@ void HomeLayer::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 40000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
-                _kzSpr1 = CCSprite::create(str->getCString());
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _kzSpr1->setTag(Tag_GJ_KuZi1);
-                _kzSpr1->setScale(scaleFloat);
-                _kzSpr1->setFlipX(flipxBool);
-                _ManSpr->addChild(_kzSpr1, 290);
+                if (sub_part == 1) {
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_GJ_KuZi1);
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }else{
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_GJ_KuZi1);
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }
+                
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服

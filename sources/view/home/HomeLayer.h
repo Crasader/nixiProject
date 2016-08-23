@@ -81,6 +81,7 @@ public:
     
     
     CCMenuItem* backItem;
+    CCSprite* qiehuanSpr;
     CCMenuItem* qiehuanItem;
     
 public:

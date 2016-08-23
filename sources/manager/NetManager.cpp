@@ -450,8 +450,12 @@ void NetManager::exchange_clothes_311(string clothesId) {
 }
 
 
-void NetManager::coffers_info_200() {
-    this->post_data(200, string(""));
+void NetManager::coffers_info_200(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(200, data);
 }
 
 void NetManager::collect_coin_201() {
@@ -468,6 +472,15 @@ void NetManager::take_income_203() {
     root["id"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(203, data);
+}
+
+void NetManager::take_company_reward_205(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(205, data);
 }
 
 

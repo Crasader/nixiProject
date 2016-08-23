@@ -309,6 +309,7 @@ void StrangerScene::initClothes(){//穿衣服
     float heightFloat = .5f;
     float scaleFloat = 1.f;
     bool flipxBool = false;
+    int sub_part = 0;
     
     for (int i = Tag_STRANGER_TouFa; i <= Tag_STRANGER_ZhuangRong; i++) {
         if (i == Tag_STRANGER_TouFa) {
@@ -444,6 +445,8 @@ void StrangerScene::initClothes(){//穿衣服
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == cloth_id->getValue()) {
+                        sub_part = clothDic->valueForKey("sub_part")->intValue();
+                        
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
@@ -485,13 +488,24 @@ void StrangerScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 40000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
-                _kzSpr1 = CCSprite::create(str->getCString());
-                _kzSpr1->setScale(scaleFloat);
-                _kzSpr1->setFlipX(flipxBool);
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _kzSpr1->setTag(Tag_STRANGER_KuZi1);
-                _ManSpr->addChild(_kzSpr1, 290);
+                if (sub_part == 1) {
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_STRANGER_KuZi1);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }else{
+                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    _kzSpr1 = CCSprite::create(str->getCString());
+                    _kzSpr1->setScale(scaleFloat);
+                    _kzSpr1->setFlipX(flipxBool);
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                    _kzSpr1->setTag(Tag_STRANGER_KuZi1);
+                    _ManSpr->addChild(_kzSpr1, 290);
+                }
+                
             }else{
                 CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
                 for (int j = 0; j < clothesArr->count(); j++) {

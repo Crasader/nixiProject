@@ -88,9 +88,10 @@ public:
     void exchange_clothes_311(string clothesId);
 
     
-    void coffers_info_200();
+    void coffers_info_200(bool full);
     void collect_coin_201();
     void take_income_203();
+    void take_company_reward_205(string id);
     
     void all_products_100();
     void buy_energy_101();
