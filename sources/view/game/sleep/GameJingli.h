@@ -58,6 +58,7 @@ protected:
     CCLabelTTF*     _lbl_score;
     CCLabelTTF*     _Worng_word;
     float           _create_ghost_interval;
+    int             _history;
     
 private:
     void nc_commit_game_707(CCObject* pObj);    

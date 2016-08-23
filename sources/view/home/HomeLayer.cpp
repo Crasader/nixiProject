@@ -192,7 +192,10 @@ void HomeLayer::creat_View(){
     qiehuanMenu->setPosition(CCPointZero);
     qiehuanSpr->addChild(qiehuanMenu);
     
-    
+    CCDictionary* scores = DATA->getHome()->getScores();
+    int score1 = ((CCInteger*)scores->objectForKey("1"))->getValue();
+    int score2 = ((CCInteger*)scores->objectForKey("2"))->getValue();
+    int score3 = ((CCInteger*)scores->objectForKey("3"))->getValue();
     
     // button
     CCSprite* shopSpr1 = CCSprite::create("res/pic/house/house_button1.png");
@@ -206,7 +209,7 @@ void HomeLayer::creat_View(){
     CCSprite* shopSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
     shopSpr->setPosition(ccp(shopItem->getContentSize().width* .5f, -shopSpr->getContentSize().height* .2f));
     shopItem->addChild(shopSpr);
-    CCString* shopStr = CCString::createWithFormat("%d", 999);
+    CCString* shopStr = CCString::createWithFormat("%d", score1);
     CCLabelTTF* shopLabel = CCLabelTTF::create(shopStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(shopSpr->getContentSize().width* .4f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     shopLabel->setPosition(ccp(shopSpr->getContentSize().width* .82f, shopSpr->getContentSize().height* .46f));
     shopLabel->setColor(ccWHITE);
@@ -223,7 +226,7 @@ void HomeLayer::creat_View(){
     CCSprite* colorSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
     colorSpr->setPosition(ccp(colorItem->getContentSize().width* .5f, -colorSpr->getContentSize().height* .15f));
     colorItem->addChild(colorSpr);
-    CCString* colorStr = CCString::createWithFormat("%d", 999);
+    CCString* colorStr = CCString::createWithFormat("%d", score2);
     CCLabelTTF* colorLabel = CCLabelTTF::create(colorStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(colorSpr->getContentSize().width* .4f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     colorLabel->setPosition(ccp(colorSpr->getContentSize().width* .82f, colorSpr->getContentSize().height* .46f));
     colorLabel->setColor(ccWHITE);
@@ -240,7 +243,7 @@ void HomeLayer::creat_View(){
     CCSprite* sleepSpr = CCSprite::create("res/pic/house/house_buttonDi.png");
     sleepSpr->setPosition(ccp(sleepItem->getContentSize().width* .5f, -sleepSpr->getContentSize().height* .15f));
     sleepItem->addChild(sleepSpr);
-    CCString* sleepStr = CCString::createWithFormat("%d", 999);
+    CCString* sleepStr = CCString::createWithFormat("%d", score3);
     CCLabelTTF* sleepLabel = CCLabelTTF::create(sleepStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(sleepSpr->getContentSize().width* .4f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     sleepLabel->setPosition(ccp(sleepSpr->getContentSize().width* .82f, sleepSpr->getContentSize().height* .46f));
     sleepLabel->setColor(ccWHITE);

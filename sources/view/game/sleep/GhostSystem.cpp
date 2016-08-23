@@ -114,7 +114,7 @@ Ghost* GhostSystem::_create_ghost(GHOSTTYPE type) {
 
 CCSprite* GhostSystem::create_ghost_sprite(Ghost *ghost) {
     CCSprite* rtn = CCSprite::create("res/pic/game/sleep/sj_cat_flew.png");
-    rtn->setPosition(ccp(-100, -100));
+    rtn->setPosition(ccp(-200, -200));
     rtn->setScale(ghost->scale);
     return rtn;
 }

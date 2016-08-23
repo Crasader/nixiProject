@@ -9,7 +9,6 @@
 #ifndef __mm3c__ColorLayer__
 #define __mm3c__ColorLayer__
 
-#include <stdio.h>
 #include "cocos2d.h"
 
 USING_NS_CC;
@@ -19,8 +18,6 @@ USING_NS_CC;
 #define INFO_FILE3      "res/pic/game/color/colour3.plist"
 #define INFO_FILE4      "res/pic/game/color/colour4.plist"
 #define INFO_FILE5      "res/pic/game/color/colour5.plist"
-
-#define def_maxNumber 5
 
 typedef enum
 {
@@ -74,6 +71,7 @@ public:
     
     bool animationBool;
     void starAnimation();
+    void nc_commit_game_707(CCObject* pObj);
     
 public:
     int ciIndex;
@@ -85,21 +83,22 @@ public:
     CCString * m_CurrWord;
     CCLabelTTF* m_word;
     CCLabelTTF* m_Worng_word;
+    int             _history;
     
     int        m_CurrR;
     int        m_CurrG;
     int        m_CurrB;
     bool       m_IsConform;
-    float        m_speed;
+    float      m_speed;
     int        m_num;
     int        m_wrong;
-    bool     buttonBool;
+    bool       buttonBool;
     
     CCSprite*       spr_image;
     CCLabelTTF*     label_num;
     CCSprite*       m_right;
     CCSprite*       m_false;
-    float             m_time;
+    float           m_time;
     bool            m_time_going;
     CCMenu*         choose_menu;
     CCSprite*       tishikuang;

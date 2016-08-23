@@ -10,13 +10,12 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "NetManager.h"
-#include "ConfigManager.h"
-#include "GhostSystem.h"
 #include "GameCheckoutPanel.h"
 #include "Loading2.h"
+#include "GhostSystem.h"
 
-const int LOST_LIMIT = 5;
-const char* GAME_ID = "3";
+#define LOST_LIMIT  5
+#define GAME_ID     "3"
 
 GameJingli::~GameJingli() {
 
@@ -60,6 +59,8 @@ void GameJingli::onEnter() {
 }
 
 void GameJingli::onExit() {
+    this->unscheduleAllSelectors();
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     CCLayer::onExit();
 }
@@ -106,8 +107,9 @@ void GameJingli::init_UI() {
     _lbl_score->setColor(ccWHITE);
     timeSpr->addChild(_lbl_score, 20);
     
+    _history = ((CCInteger*)scores->objectForKey(GAME_ID))->getValue();
     // 历史最高分
-    CCString* sco_str = CCString::createWithFormat("%d", ((CCInteger*)scores->objectForKey("3"))->getValue());
+    CCString* sco_str = CCString::createWithFormat("%d", _history);
     CCLabelTTF* label_score = CCLabelTTF::create(sco_str->getCString(), DISPLAY->fangzhengFont(), 25);
     label_score->setColor(ccWHITE);
     label_score->setPosition(ccp(timeSpr->getContentSize().width* .85f ,timeSpr->getContentSize().height* .72f));
@@ -281,7 +283,7 @@ void GameJingli::check_end() {
 void GameJingli::game_over() {
     this->unscheduleAllSelectors();
     LOADING->show_loading();
-    NET->commit_game_707("3", _ghostlayer->getTotal_score());
+    NET->commit_game_707(GAME_ID, _ghostlayer->getTotal_score());
 }
 
 
@@ -358,5 +360,5 @@ void GameJingli::update_UI() {
 void GameJingli::nc_commit_game_707(CCObject *pObj) {
     LOADING->remove();
     CCDictionary* first = (CCDictionary*)pObj;
-    GameCheckoutPanel::show(this->getScene(), "3", _ghostlayer->getTotal_score(), first);
+    GameCheckoutPanel::show(this->getScene(), GAME_ID, _ghostlayer->getTotal_score(), _history, first);
 }

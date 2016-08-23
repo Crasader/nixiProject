@@ -16,12 +16,12 @@ USING_NS_CC;
 class GameCheckoutPanel : public CCLayer
 {
 public: // Export
-    static void show(CCNode* parent, string gameId, int score, CCDictionary* firstInfo);
+    static void show(CCNode* parent, string gameId, int score, int history, CCDictionary* firstInfo);
     
 public:
     ~GameCheckoutPanel();
-    static GameCheckoutPanel* createWithScore(string gameId, int score, CCDictionary* firstInfo);
-    bool initWithScore(string gameId, int score, CCDictionary* firstInfo);
+    static GameCheckoutPanel* createWithScore(string gameId, int score, int history, CCDictionary* firstInfo);
+    bool initWithScore(string gameId, int score, int history, CCDictionary* firstInfo);
     virtual void onEnter();
     virtual void onExit();
     
@@ -35,8 +35,11 @@ private:
     void do_enter();
     void do_exit();
     
+    void on_anim_finish();
+    
 private:
     CCSprite*           _panel;
+    bool                _couldRemove;
 };
 
 #endif /* GameCheckoutPanel_hpp */
