@@ -9,6 +9,7 @@
 #include "BuildingLayer.h"
 #include "DisplayManager.h"
 #include "SpecialManager.h"
+#include "DataManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
 #include "BuildingView.h"
@@ -140,7 +141,12 @@ void BuildingLayer::building_touch_callback() {
 
 void BuildingLayer::show_building() {
     LOADING->show_loading();
-    NET->coffers_info_200();
+    if (DATA->getCoffers()->getHasInitTemplate()) {
+        NET->coffers_info_200(false);
+    }
+    else {
+        NET->coffers_info_200(true);
+    }
 }
 
 void BuildingLayer::show_phase_up() {

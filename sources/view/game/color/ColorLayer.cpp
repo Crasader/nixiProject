@@ -9,15 +9,22 @@
 #include "ColorLayer.h"
 #include "DisplayManager.h"
 #include "DataManager.h"
-#include "ConfigManager.h"
+#include "NetManager.h"
+#include "GameCheckoutPanel.h"
+#include "Loading2.h"
 
+#define LOST_LIMIT  5
+#define GAME_ID     "2"
 
 void ColorLayer::onEnter(){
     CCLayer::onEnter();
     this->setKeypadEnabled(true);
     
 //    MMAudioManager::get_instance()->play_music(kMusic_BG_Lives, true);
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&ColorLayer::nc_commit_game_707), "HTTP_FINISHED_707", NULL);
 }
+
 void ColorLayer::onExit(){
     
     m_Colours->release();
@@ -25,13 +32,11 @@ void ColorLayer::onExit(){
     m_allColors->release();
     
     this->unscheduleAllSelectors();
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     CCLayer::onExit();
-    
 }
-//void ColorLayer::registerWithTouchDispatcher(){
-//    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -129, true);
-//}
+
 bool ColorLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
     if(this->getChildByTag(0x121))
@@ -126,7 +131,10 @@ void ColorLayer::initView(){
     m_false->setPosition(ccp(tishikuang->boundingBox().size.width* .85f, tishikuang->boundingBox().size.height* .2f));
     m_false->setVisible(false);
     tishikuang->addChild(m_false, 1);
-
+    
+    CCDictionary* scores = DATA->getHome()->getScores();
+    _history = ((CCInteger*)scores->objectForKey(GAME_ID))->getValue();
+    
     {
         //时间框
         CCSprite* timeSpr = CCSprite::create("res/pic/game/color/color_scorepanel.png");
@@ -139,13 +147,13 @@ void ColorLayer::initView(){
         label_num->setColor(ccWHITE);
         timeSpr->addChild(label_num, 20);
         
-        CCString* sco_str = CCString::createWithFormat("%d", 99);
+        CCString* sco_str = CCString::createWithFormat("%d", _history);
         CCLabelTTF* label_score = CCLabelTTF::create(sco_str->getCString(), DISPLAY->fangzhengFont(), 25);
         label_score->setColor(ccWHITE);
         label_score->setPosition(ccp(timeSpr->getContentSize().width* .85f ,timeSpr->getContentSize().height* .72f));
         timeSpr->addChild(label_score, 20);
         
-        CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, def_maxNumber);
+        CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, LOST_LIMIT);
         m_Worng_word = CCLabelTTF::create(wrongStr->getCString(), DISPLAY->fangzhengFont(), 30);
         m_Worng_word->setColor(ccWHITE);
         m_Worng_word->setPosition(ccp(timeSpr->getContentSize().width* .2f ,timeSpr->getContentSize().height* .27f));
@@ -195,12 +203,12 @@ void ColorLayer::initView(){
     
 //    {// 3 2 1 go + 提示
 //        CCActionInterval * delaytime = CCDelayTime::create(0.f);
-        CCSprite * tishi = CCSprite::create("res/pic/game/color/guide_prompt_plane.png");
-        tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .54f));
-        this->addChild(tishi, 20, 0x121);
-        CCSprite * tishi1 = CCSprite::create("res/pic/game/color/games_yd_color.png");
-        tishi1->setPosition(ccp(tishi->getContentSize().width* .5f, tishi->getContentSize().height* .5f));
-        tishi->addChild(tishi1,2);
+    CCSprite * tishi = CCSprite::create("res/pic/game/color/guide_prompt_plane.png");
+    tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .54f));
+    this->addChild(tishi, 20, 0x121);
+    CCSprite * tishi1 = CCSprite::create("res/pic/game/color/games_yd_color.png");
+    tishi1->setPosition(ccp(tishi->getContentSize().width* .5f, tishi->getContentSize().height* .5f));
+    tishi->addChild(tishi1,2);
     
     CCSprite* kSpr = CCSprite::create("res/pic/game/color/guide_kuang2.png");
     kSpr->setPosition(ccp(tishi->getContentSize().width* .65f, 0));
@@ -309,8 +317,6 @@ void ColorLayer::starAnimation(){
 }
 
 void ColorLayer::creat_Man(){
-    
-    
     this->init_Clothes();
 }
 void ColorLayer::init_Clothes(){
@@ -482,9 +488,9 @@ void ColorLayer::updateView()
         m_false->runAction(CCSequence::create(action, NULL));
         label_num->setString((CCString::createWithFormat("%d", m_num))->getCString());
         
-        if (m_wrong >= def_maxNumber) {
-            m_wrong = def_maxNumber;
-            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, def_maxNumber);
+        if (m_wrong >= LOST_LIMIT) {
+            m_wrong = LOST_LIMIT;
+            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, LOST_LIMIT);
             m_Worng_word->setString(wrongStr->getCString());
             
             gameOver();
@@ -503,7 +509,7 @@ void ColorLayer::updateView()
                 
                 this->schedule(SEL_SCHEDULE(&ColorLayer::updateView), m_speed);
             }
-            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, def_maxNumber);
+            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, LOST_LIMIT);
             m_Worng_word->setString(wrongStr->getCString());
         }
     }
@@ -550,13 +556,9 @@ void ColorLayer::menu_callBack(CCObject* pSender){
             m_false->setVisible(true);
             m_false->runAction(CCSequence::create(action, NULL));
         }
-        label_num->setString((CCString::createWithFormat("%d", m_num))->getCString());
-        updateView();
-        
     }else if(tag == AH_RIGHT_TAG)
     {
 //        MZLog("正确");
-
         if ( m_IsConform ) {
 //            if (MMAudioManager::get_instance()->is_effect_on()) {
 //                MMAudioManager::get_instance()->play_effect(kAudio_game_right, false);
@@ -580,12 +582,24 @@ void ColorLayer::menu_callBack(CCObject* pSender){
             m_false->setVisible(true);
             m_false->runAction(CCSequence::create(action, NULL));
         }
-        label_num->setString((CCString::createWithFormat("%d", m_num))->getCString());
-        updateView();
-        
     }
     //tishikuang->removeChildByTag(spr_image->getTag());
     
+    if (m_wrong >= LOST_LIMIT) {
+        m_wrong = LOST_LIMIT;
+        CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, LOST_LIMIT);
+        m_Worng_word->setString(wrongStr->getCString());
+        
+        gameOver();
+    }
+    else {
+        label_num->setString((CCString::createWithFormat("%d", m_num))->getCString());
+        
+        CCString* wrongStr = CCString::createWithFormat("%d/%d", m_wrong, LOST_LIMIT);
+        m_Worng_word->setString(wrongStr->getCString());
+        
+        updateView();
+    }
 }
 
 void ColorLayer::show_addone1(){
@@ -629,11 +643,19 @@ void ColorLayer::updateTime(float dt){
 //        this->updateView();
 //    }
 }
+
 void ColorLayer::gameOver()
 {
     this->unschedule(SEL_SCHEDULE(&ColorLayer::updateView));
     choose_menu->setEnabled(false);
     this->unscheduleAllSelectors();
+    
+    LOADING->show_loading();
+    NET->commit_game_707(GAME_ID, m_num);
 }
 
-
+void ColorLayer::nc_commit_game_707(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* first = (CCDictionary*)pObj;
+    GameCheckoutPanel::show(this->getScene(), GAME_ID, m_num, _history, first);
+}

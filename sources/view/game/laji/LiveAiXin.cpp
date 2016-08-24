@@ -9,9 +9,13 @@
 #include "LiveAiXin.h"
 #include "DisplayManager.h"
 #include "DataManager.h"
-#include "ConfigManager.h"
+#include "NetManager.h"
+#include "GameCheckoutPanel.h"
+#include "Loading2.h"
 #include "AppUtil.h"
 
+#define LOST_LIMIT  5
+#define GAME_ID     "1"
 
 Garbage * Garbage::create(int type)
 {
@@ -72,6 +76,7 @@ bool LiveAiXin::init()
     canRun = true;
     animationBool = false;
     m_score = 0;
+    m_lost = 0;
     ciIndex = 0;
     startFolat = .5f;
     timeFloat = 1.5f;
@@ -125,12 +130,15 @@ void LiveAiXin::onEnter()
     CCLayer::onEnter();
     
 //    MMAudioManager::get_instance()->play_music(kMusic_BG_Lives, true);
-    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&LiveAiXin::nc_commit_game_707), "HTTP_FINISHED_707", NULL);
 }
+
 void LiveAiXin::onExit()
 {
     this->unscheduleAllSelectors();
     CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
     CCLayer::onExit();
 }
@@ -156,11 +164,21 @@ void LiveAiXin::setupView()
     m_animationSprite->setPosition(ccp(m_box->getContentSize().width* .5f, m_box->getContentSize().height* .5f));
     m_box->addChild(m_animationSprite);
     
+    CCDictionary* scores = DATA->getHome()->getScores();
+    _history = ((CCInteger*)scores->objectForKey(GAME_ID))->getValue();
+    
     {
         //时间框
         CCSprite* timeSpr = CCSprite::create("res/pic/game/color/color_scorepanel.png");
         timeSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .85f));
         this->addChild(timeSpr, 15);
+        
+        {
+            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_lost, LOST_LIMIT);
+            lbl_lost = CCLabelTTF::create(wrongStr->getCString(), DISPLAY->fangzhengFont(), 30);
+            lbl_lost->setPosition(ccp(timeSpr->getContentSize().width * 0.2f , timeSpr->getContentSize().height * 0.27f));
+            timeSpr->addChild(lbl_lost, 20);
+        }
         
         //本次得分
         label_num = CCLabelTTF::create("0", DISPLAY->fangzhengFont(), 25);
@@ -169,7 +187,7 @@ void LiveAiXin::setupView()
         timeSpr->addChild(label_num, 20);
         
         //最高分
-        CCString* sco_str = CCString::createWithFormat("%d", 99);
+        CCString* sco_str = CCString::createWithFormat("%d", _history);
         CCLabelTTF* label_score = CCLabelTTF::create(sco_str->getCString(), DISPLAY->fangzhengFont(), 25);
         label_score->setPosition(ccp(timeSpr->getContentSize().width* .85f, timeSpr->getContentSize().height* .7f));
         label_score->setColor(ccWHITE);
@@ -473,7 +491,6 @@ void LiveAiXin::funCallback(CCNode * sender)
 
 void LiveAiXin::updateTime(float dt){
     
-    
 }
 
 void LiveAiXin::funCallback1(CCNode * sender)
@@ -489,16 +506,28 @@ void LiveAiXin::update(float dt)
 {
     CCObject * obj = NULL;
     
+    checkForCollision();
+    
     CCARRAY_FOREACH(garbages, obj)
     {
         Garbage * garbage = (Garbage *)obj;
         if (!garbage) {
             continue;
         }
-        if(garbage->getPositionY() < -1 * garbage->getContentSize().width/2)
-        { this->removeGarbage(garbage);}
+        
+        if(garbage->getPositionY() < -1 * garbage->getContentSize().width/2) {
+            m_lost++;
+            if (m_lost >= LOST_LIMIT) {
+                m_lost = LOST_LIMIT;
+                gameOver();
+            }
+            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_lost, LOST_LIMIT);
+            lbl_lost->setString(wrongStr->getCString());
+            //
+            this->removeGarbage(garbage);
+            break;
+        }
     }
-    checkForCollision();
 }
 
 void LiveAiXin::checkForCollision()
@@ -570,6 +599,20 @@ void LiveAiXin::checkForCollision()
             removeGarbage(garbage1);
         }
     }
+    
+//    label_num->setString((CCString::createWithFormat("%d", m_score))->getCString());
+//    
+//    if (m_lost >= LOST_LIMIT) {
+//        m_lost = LOST_LIMIT;
+//        CCString* wrongStr = CCString::createWithFormat("%d/%d", m_lost, LOST_LIMIT);
+//        lbl_lost->setString(wrongStr->getCString());
+//        
+//        gameOver();
+//    }
+//    else {
+//        CCString* wrongStr = CCString::createWithFormat("%d/%d", m_lost, LOST_LIMIT);
+//        lbl_lost->setString(wrongStr->getCString());
+//    }
 }
 
 void LiveAiXin::resume(float dt)
@@ -580,9 +623,10 @@ void LiveAiXin::resume(float dt)
 
 void LiveAiXin::gameOver()
 {
+    this->unscheduleAllSelectors();
     
-    
-    
+    LOADING->show_loading();
+    NET->commit_game_707(GAME_ID, m_score);
 }
 
 void LiveAiXin::runAnimate(CCObject* pSender)
@@ -601,4 +645,10 @@ void LiveAiXin::closeRun(){
 
 void LiveAiXin::openRun(){
     canRun = true;
+}
+
+void LiveAiXin::nc_commit_game_707(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* first = (CCDictionary*)pObj;
+    GameCheckoutPanel::show(this->getScene(), GAME_ID, m_score, _history, first);
 }

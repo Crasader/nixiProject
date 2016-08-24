@@ -10,7 +10,6 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "NetManager.h"
-#include "TransactionScene.h"
 #include "Loading2.h"
 
 const float CELL_WIDTH = 500;

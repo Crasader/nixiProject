@@ -13,7 +13,6 @@
 #include "AppUtil.h"
 #include "Loading2.h"
 #include "PromptLayer.h"
-
 #include "LoginScene.h"
 
 static DataManager* _instance = nullptr;
@@ -285,6 +284,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _home->replace_home_info(content["home"]);
         } break;
             
+        case 707: {
+            _home->replace_home_info(content["home"]);
+            pData = AppUtil::dictionary_with_json(content["first"]);
+        } break;
+            
         case 600: {
             _mission->init_with_json(content["mission"]);
         } break;
@@ -397,6 +401,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            CCDictionary* dic = CCDictionary::create();
+            dic->setObject(ccs("gashapon"), "name");
+            dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("FREE_GASHAPON", dic);
+#endif
         } break;
             
         case 309: {
@@ -414,17 +424,25 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 200: {
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->init_company_template(content["template"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 201: {
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 203: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
-            _coffers->init_with_json(content["coffers"]);
+            _coffers->replace_user_data(content["coffers"]);
+        } break;
+            
+        case 205: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _coffers->replace_user_data(content["coffers"]);
+            pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
             
         case 100: {

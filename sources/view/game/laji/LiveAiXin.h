@@ -83,6 +83,10 @@ public:
     bool animationBool;
     void starAnimation();
     
+    void on_lost();
+    
+    void nc_commit_game_707(CCObject* pObj);
+    
 protected:
     CCString* strName;
     bool m_Isbomb;
@@ -95,6 +99,9 @@ protected:
     CCSprite*       tishikuang;
     CCLabelTTF*     label_num;
     int             m_score;
+    CCLabelTTF*     lbl_lost;
+    int             m_lost;
+    int             _history;
 };
 
 #endif /* defined(__mm3c__LiveAiXin__) */

@@ -30,6 +30,7 @@ bool GhostSystem::init() {
     }
     
     _total_score = 0;
+    _lostCount = 0;
     
     arr_ghost = CCArray::create();
     arr_ghost->retain();
@@ -113,14 +114,14 @@ Ghost* GhostSystem::_create_ghost(GHOSTTYPE type) {
 
 CCSprite* GhostSystem::create_ghost_sprite(Ghost *ghost) {
     CCSprite* rtn = CCSprite::create("res/pic/game/sleep/sj_cat_flew.png");
-    rtn->setPosition(ccp(-100, -100));
+    rtn->setPosition(ccp(-200, -200));
     rtn->setScale(ghost->scale);
     return rtn;
 }
 
 CCSequence* GhostSystem::random_ghost_route()
 {
-    float start_x = DISPLAY->ScreenWidth() * (-0.2f);
+    float start_x = DISPLAY->ScreenWidth() * (-0.3f);
     float start_y = DISPLAY->ScreenHeight() * (0.1 + 0.7 * CCRANDOM_0_1());
     
     float ctl_1_x = DISPLAY->ScreenWidth() * .33f;;
@@ -129,7 +130,7 @@ CCSequence* GhostSystem::random_ghost_route()
     float ctl_2_x = DISPLAY->ScreenWidth() * .66f;
     float ctl_2_y = DISPLAY->ScreenHeight() * (0.1 + 0.7 * CCRANDOM_0_1());
     
-    float end_x = DISPLAY->ScreenWidth() * 1.2f;
+    float end_x = DISPLAY->ScreenWidth() * 1.3f;
     float end_y = DISPLAY->ScreenHeight() * (0.1 + 0.7 * CCRANDOM_0_1());
     
     float f = CCRANDOM_0_1();
@@ -220,6 +221,7 @@ void GhostSystem::purge_after_dyinganimation(CCNode* node) {
 }
 
 void GhostSystem::on_ghost_escape(cocos2d::CCNode *node) {
-    int new_score = _total_score - 1;
-    _total_score = MAX(0, new_score);
+//    int new_score = _total_score - 1;
+//    _total_score = MAX(0, new_score);
+    _lostCount++;
 }

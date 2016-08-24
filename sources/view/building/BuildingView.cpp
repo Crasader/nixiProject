@@ -8,6 +8,7 @@
 
 #include "BuildingView.h"
 #include "FloorCell.h"
+#include "TopFloorCell.h"
 #include "UnreusedTableView.h"
 #include "DisplayManager.h"
 #include "SpecialManager.h"
@@ -62,7 +63,7 @@ void BuildingView::onEnter() {
     CCLayer::onEnter();
     
     float viewHeight = MIN(DISPLAY->H() * 0.85, FLOOR_CELL_HEIGHT * (_phase + 3));
-    _tbView = UnreusedTableView::create(this, CCSizeMake(FLOOR_CELL_WIDTH, viewHeight));
+    _tbView = UnreusedTableView::create(this, CCSizeMake(FLOOR_CELL_WIDTH + 20, viewHeight));
     _tbView->setDirection(kCCScrollViewDirectionVertical);
     _tbView->setVerticalFillOrder(kCCTableViewFillBottomUp);
     _tbView->setPosition(ccp((DISPLAY->W() - FLOOR_CELL_WIDTH) * 0.5, DISPLAY->H() * (1 - 0.85) * 0.5));
@@ -185,7 +186,7 @@ CCSize BuildingView::tableCellSizeForIndex(CCTableView *table, unsigned int idx)
 
 CCTableViewCell* BuildingView::tableCellAtIndex(CCTableView *table, unsigned int idx) {
     CCLOG("cell index = %d", idx);
-    FloorCell* cell = (FloorCell*)table->dequeueCell();
+    CCTableViewCell* cell = (FloorCell*)table->dequeueCell();
     int floorCount = numberOfCellsInTableView(table);
     if (! cell) {
         CCLOG("NEW !!!");
@@ -193,7 +194,7 @@ CCTableViewCell* BuildingView::tableCellAtIndex(CCTableView *table, unsigned int
             cell = FloorCell::create(FloorCellType_Reception, _phase, idx);
         }
         else if (idx == floorCount - 1) { // 屋顶
-            cell = FloorCell::create(FloorCellType_Roof, _phase, idx);
+            cell = TopFloorCell::create(_phase, idx);
         }
         else if (idx == floorCount - 2) { // 总裁办
             cell = FloorCell::create(FloorCellType_Manager_Office, _phase, idx);
@@ -219,8 +220,11 @@ unsigned int BuildingView::numberOfCellsInTableView(CCTableView *table) {
 
 void BuildingView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
     AUDIO->common_effect();
-    FloorCell* floor = (FloorCell*)cell;
-    floor->collected_coin();
+    unsigned idx = cell->getIdx();
+    if (idx < this->numberOfCellsInTableView(table) - 1) {
+        FloorCell* floor = (FloorCell*)cell;
+        floor->collected_coin();
+    }
 }
 
 

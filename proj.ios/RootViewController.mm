@@ -50,7 +50,16 @@
 - (NSUInteger) supportedInterfaceOrientations
 {
 #ifdef __IPHONE_6_0
-    return UIInterfaceOrientationMaskPortrait;
+//    return UIInterfaceOrientationMaskPortrait;
+    // 为满足appstore对iPad的人机交互准则
+    NSString *deviceType = [[UIDevice currentDevice] model];
+    NSLog(@"%@", deviceType);
+    if ([deviceType  isEqual: @"iPad"]) {
+        return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
+    }
+    else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
 #endif
 }
 

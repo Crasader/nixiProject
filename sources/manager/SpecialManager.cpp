@@ -177,7 +177,7 @@ void SpecialManager::show_gold_reward(CCNode *parent, int num, CCPoint start, CC
     if (num > 0) {
         // num
         CCString* str_num = CCString::createWithFormat("%d", num);
-        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
+        lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
         parent->addChild(lbl, zOrder);
     }
     
@@ -198,7 +198,7 @@ void SpecialManager::show_energy_reward(CCNode *parent, int num, CCPoint start, 
     if (num > 0) {
         // num
         CCString* str_num = CCString::createWithFormat("%d", num);
-        CCLabelAtlas* lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
+        lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
         parent->addChild(lbl, zOrder);
     }
     
