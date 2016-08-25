@@ -35,6 +35,8 @@ public:
     
     void update_lighting_target(float dt);
     
+    void creat_guideBool();
+    
 //    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
 //    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 //    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
@@ -123,6 +125,7 @@ public:
     void paihangCallBack(CCObject* pSender);
     void juqingCallBack(CCObject* pSender);
     void richangCallBack(CCObject* pSender);
+    void richangMethods();
     void shezhiCallBack(CCObject* pSender);
 //    void shouchongCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
@@ -150,6 +153,7 @@ public:
     
     void creat_Exchange();
     void linshiMethod(CCObject *pObj);
+    
     
 public:
     CCDictionary* allClothesDic;

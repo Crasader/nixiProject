@@ -543,3 +543,16 @@ bool DataManager::could_prduce() {
 }
 
 
+int DataManager::current_guide_step(){
+    return getGuide();
+}
+void DataManager::setGuide(int index){
+    CCUserDefault::sharedUserDefault()->setIntegerForKey("GuideInteger", index);
+    CCUserDefault::sharedUserDefault()->flush();
+    
+}
+int DataManager::getGuide(){
+    _guide = CCUserDefault::sharedUserDefault()->getIntegerForKey("GuideInteger", 1);
+    return _guide;
+}
+

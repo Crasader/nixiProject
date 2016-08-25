@@ -26,6 +26,8 @@
 #include "PromptLayer.h"
 #include "BuildingLayer.h"
 
+#include "GuideLayer.h"
+
 TaskScene::~TaskScene(){
     
 }
@@ -78,6 +80,14 @@ bool TaskScene::init(bool isPhaseUP){
     this->initClothes();
      
     this->creat_phone();
+    
+    if (DATA->current_guide_step() == 0) {
+        
+    }else if (DATA->current_guide_step() == 2){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
     
     return true;
 }

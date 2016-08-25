@@ -48,6 +48,8 @@
 
 #include "RewardLayer.h"
 
+#include "GuideLayer.h"
+
 // --------------- test ----------------
 
 
@@ -68,6 +70,8 @@ bool MainScene::init(){
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
+    
+    this->creat_guideBool();
     
     _arrGroup1 = NULL;
     _arrGroup2 = NULL;
@@ -101,17 +105,27 @@ bool MainScene::init(){
     strftime(s, 80, "%Y-%m-%d %H:%M:%S", p);
     CCLog("<><><><>time == %d: %s\n", (int)t, s);
     
+    
+    if (DATA->current_guide_step() == 0) {
+        
+    }else if (DATA->current_guide_step() == 1){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
+    
     return true;
 }
 
 CCScene* MainScene::scene(){
     CCScene* scene = CCScene::create();
     MainScene* layer = MainScene::create();
-    
-    DragLayer* drag = DragLayer::create();
-    
     scene->addChild(layer);
-    scene->addChild(drag);
+    
+    if (DATA->current_guide_step() == 0) {
+        DragLayer* drag = DragLayer::create();
+        scene->addChild(drag);
+    }
     
     return scene;
 }
@@ -157,6 +171,10 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::setIsEffective), "EFFECTIVE", NULL);
     
+    
+    // guide
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::richangMethods), "RichangMethods", NULL);
+    
     this->update_news_status();
     
     
@@ -184,7 +202,7 @@ void MainScene::keyBackStatus(float dt){
 void MainScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
-    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+//    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     BaseScene::onExit();
 }
 
@@ -1184,34 +1202,48 @@ void MainScene::juqingCallBack(CCObject* pSender){
     
 }
 
-void MainScene::_500CallBack(CCObject* pSender){
+void MainScene::_500CallBack(CCObject* pSender) {
     AUDIO->comfirm_effect();
     if (isrenwuBool) {
         LOADING->show_loading();
         NET->completed_mission_600();
-    }else{
+    }else {
         CCScene* scene = QingjingScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
 
-void MainScene::richangCallBack(CCObject* pSender){
+void MainScene::richangCallBack(CCObject* pSender) {
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
             LOADING->show_loading();
             NET->completed_mission_600();
-        }else{
+        }else {
             isrenwuBool = true;
             LOADING->show_loading();
             NET->completed_story_500();
         }
     }
 }
+void MainScene::richangMethods() {
+    if (DATA->getStory()->has_init_story()) {
+        LOADING->show_loading();
+        NET->completed_mission_600();
+    }else {
+        isrenwuBool = true;
+        LOADING->show_loading();
+        NET->completed_story_500();
+    }
+}
 
 void MainScene::_600CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     LOADING->remove();
+    
+    if (DATA->getGuide() == 1) {
+        DATA->setGuide(2);
+    }
     
     DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
@@ -1227,7 +1259,6 @@ void MainScene::shezhiCallBack(CCObject* pSender){
         SettingPanel* panel = SettingPanel::create();
         panel->show_from(_shezhiItem->getPosition());
     }
-    
 }
 
 void MainScene::creat_Man(){
@@ -1779,6 +1810,48 @@ void MainScene::linshiMethod(CCObject *pObj){
     RewardLayer* layer = RewardLayer::create_with_index((CCArray* )pObj);
     this->addChild(layer, 100);
 }
+
+
+
+void MainScene::creat_guideBool(){
+    if (DATA->getGuide() == 1) {
+        for (int i = 0; i < 4; i++) {
+            DATA->_guideBool1[i] = false;
+        }
+    }
+    if (DATA->getGuide() == 2){
+        DATA->setGuide(1);
+        DATA->_guideBool1[0] = true;
+        DATA->_guideBool1[1] = true;
+        DATA->_guideBool1[2] = false;
+        DATA->_guideBool1[3] = false;
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool2[i] = false;
+        }
+    }
+    for (int i = 0; i < 3; i++) {
+        DATA->_guideBool3[i] = false;
+    }
+    for (int i = 0; i < 4; i++) {
+        DATA->_guideBool4[i] = false;
+    }
+    for (int i = 0; i < 17; i++) {
+        DATA->_guideBool5[i] = false;
+    }
+    for (int i = 0; i < 8; i++) {
+        DATA->_guideBool6[i] = false;
+    }
+    for (int i = 0; i < 8; i++) {
+        DATA->_guideBool7[i] = false;
+    }
+    for (int i = 0; i < 10; i++) {
+        DATA->_guideGameBool[i] = false;
+    }
+}
+
+
+
+
 
 
 

@@ -36,6 +36,7 @@ public:
     int             phase;              // 公司规模
     CCDictionary*   rating;             // 总任务评价(总星数)
     
+    
 public:
     int total_ratings();         // 所有阶段总星数
     int ratings(int phase);      // 某阶段星数
