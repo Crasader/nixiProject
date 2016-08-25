@@ -10,6 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "QingjingScene.h"
+#include "StoryScene.h"
 #include "VipQingjingScene.h"
 #include "TaskScene.h"
 #include "ClothesScene.h"
@@ -1170,14 +1171,19 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 }
 
 void MainScene::juqingCallBack(CCObject* pSender){
-    if (isOk) {
-        if (DATA->getStory()->has_init_story()) {
-            this->_500CallBack(NULL);
-        }else{
-            LOADING->show_loading();
-            NET->completed_story_500();
-        }
-    }
+//    if (isOk) {
+//        if (DATA->getStory()->has_init_story()) {
+//            this->_500CallBack(NULL);
+//        }else{
+//            LOADING->show_loading();
+//            NET->completed_story_500();
+//        }
+//    }
+    CCScene* pScene = CCScene::create();
+    StoryScene* layer = StoryScene::create_with_story_id(0);
+    pScene->addChild(layer);
+    CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
+    CCDirector::sharedDirector()->replaceScene(trans);
     
 }
 
@@ -1708,14 +1714,14 @@ void MainScene::initClothes(){//穿衣服
                     }
                 }
             }
-        }else if (i == Tag_GJ_ZhuangRong){
+        }else if (i == Tag_QJ_ZhuangRong){
             CCInteger* cloth_id = (CCInteger*)myClothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 90000) {
                 CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
                 _zrSpr1 = CCSprite::create(str->getCString());
                 _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                _zrSpr1->setTag(Tag_QJ_ZhuangRong1);
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_zrSpr1, 220);
@@ -1731,7 +1737,7 @@ void MainScene::initClothes(){//穿衣服
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _zrSpr1 = CCSprite::create(str1->getCString());
                             _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _zrSpr1->setTag(Tag_GJ_ZhuangRong1);
+                            _zrSpr1->setTag(Tag_QJ_ZhuangRong1);
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());

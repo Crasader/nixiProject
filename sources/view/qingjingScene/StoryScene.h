@@ -208,6 +208,31 @@ public:
     void LabelColorFhCallBack(CCObject* pSender);
     
     void _503CallBack(CCObject* pSender);
+    
+    
+    bool judge_biaoqing(DialogItem* dialItem, int index);
+    void init_biaoqing(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation20(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation21(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation22(DialogItem* dialItem, int index, CCSprite* spr);
+    CCSprite* _22Spr1;
+    void _22CallFunc();
+    void creat_Animation30(DialogItem* dialItem, int index, CCSprite* spr);
+    CCSprite* _30Spr2;
+    void _30CallFunc();
+    void creat_Animation50(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation60(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation70(DialogItem* dialItem, int index, CCSprite* spr);
+    void _70CallFunc();
+    void creat_Animation71(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation72(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation73(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation74(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation75(DialogItem* dialItem, int index, CCSprite* spr);
+    CCSprite* _75Spr1;
+    void _75CallFunc();
+    void creat_Animation76(DialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation77(DialogItem* dialItem, int index, CCSprite* spr);
 };
 
 #endif /* defined(__mm3c__StoryScene__) */
