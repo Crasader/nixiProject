@@ -45,7 +45,7 @@ void ChatPanel::onEnter(){
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::send_replay_callback), "CHAT_REPLY", NULL);
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::nc_on_emoticon), "ON_EMOTICON", NULL);
     
-    EmoticonPanel::show(this->getScene());
+//    EmoticonPanel::show(this->getScene());
     
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);

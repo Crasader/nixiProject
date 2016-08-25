@@ -141,6 +141,15 @@ void NetManager::save_nickname_904(const char *nickname) {
     this->post_data(904, data);
 }
 
+void NetManager::update_guide_905(int guide) {
+    FastWriter writer;
+    Value root;
+    root["guide"] = guide;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(905, data);
+}
+
 void NetManager::check_news_910() {
     this->post_data(910, string(""));
 }

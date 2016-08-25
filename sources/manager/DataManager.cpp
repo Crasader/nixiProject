@@ -199,6 +199,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
         } break;
             
+        case 905: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+        }
+            
         case 910: {
             _coffers->reset_collected();
             _news->init_with_json(content["news"]);
