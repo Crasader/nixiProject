@@ -11,14 +11,10 @@
 #include "AudioManager.h"
 #include "SpecialManager.h"
 #include "LogoScene.h"
-#include "TaskSettlementLayer.h"
 
 using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
-
-
-// -------------------- 4 test ---------------------
 
 
 AppDelegate::AppDelegate()
@@ -60,8 +56,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     CONFIG->config();
-//    CONFIG->test_mission_count();
-//    CONFIG->test_phase_up_required();
 
     //
     AUDIO->play_main_bgm();
