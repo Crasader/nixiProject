@@ -197,6 +197,9 @@ void ChatPanel::initTopMessage(){
 }
 
 void ChatPanel::closeChatPanel(){
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
+    
     if (_input_text->detachWithIME()) {
         
     }else{

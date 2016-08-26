@@ -33,9 +33,10 @@ public:
     virtual void onMessage(WebSocket* ws, const WebSocket::Data& data);
     virtual void onClose(WebSocket* ws);
     virtual void onError(WebSocket* ws, const WebSocket::ErrorCode& error);
-    
+    bool isConnected();
 private:
     WebSocket*          _ws;
+    bool                _isConnected;
 };
 
 #endif /* WSManager_hpp */

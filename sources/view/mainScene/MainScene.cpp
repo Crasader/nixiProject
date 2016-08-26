@@ -706,7 +706,7 @@ void MainScene::creat_view(){
         txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
         this->addChild(txt_bar);
         
-        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         lab->setColor(ccc3(155, 84, 46));
         lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
         txt_bar->addChild(lab);
@@ -1091,7 +1091,14 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
 }
 
 void MainScene::openChat(cocos2d::CCObject *pSender){
-    WS->connect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
+    
     CCMenuItem* item = (CCMenuItem*)pSender;
     item->setVisible(false);
 }
