@@ -92,7 +92,8 @@ void TotalRechargePanel::updatePanel(){
     CCArray* suits = DATA->getOperation()->getPASuits();
     Shower* shower = Shower::create();
     
-    int index = DATA->getOperation()->getPurchaseAchievementUser()->count() == 2 ? 1 : DATA->getOperation()->getPurchaseAchievementUser()->count();
+//    int index = DATA->getOperation()->getPurchaseAchievementUser()->count() == 2 ? 1 : DATA->getOperation()->getPurchaseAchievementUser()->count();
+    int index = DATA->getOperation()->cur_purchase_achievement_template_index();
     shower->ondress((CCDictionary*)suits->objectAtIndex(index));
     shower->setScale(0.6f);
     shower->setPosition(ccp(_panel->getContentSize().width* .0f, _panel->getContentSize().height* .1f));
@@ -127,7 +128,7 @@ void TotalRechargePanel::updatePanel(){
         _panel->addChild(menu);
         menu->setTag(300);
         
-        if (DATA->getOperation()->getPurchaseAchievementUser()->count() == 3) {
+        if (DATA->getOperation()->getPurchaseAchievementUser()->count() == DATA->getOperation()->getPurchaseAchievementTemplate()->count()) {
             _item->setEnabled(false);
         }
         
