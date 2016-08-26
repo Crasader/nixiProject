@@ -175,9 +175,6 @@ void MainScene::onEnter(){
         isOk = true;
         this->qiandaoCallBack(NULL);
     }
-    
-    
-    NET->update_guide_905(5);
 }
 
 void MainScene::keyBackStatus(float dt){
