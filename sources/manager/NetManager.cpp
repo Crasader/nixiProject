@@ -141,6 +141,15 @@ void NetManager::save_nickname_904(const char *nickname) {
     this->post_data(904, data);
 }
 
+void NetManager::update_guide_905(int guide) {
+    FastWriter writer;
+    Value root;
+    root["guide"] = guide;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(905, data);
+}
+
 void NetManager::check_news_910() {
     this->post_data(910, string(""));
 }
@@ -243,8 +252,19 @@ void NetManager::change_house_705(string id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(705, data);
+}
+
+void NetManager::commit_game_707(string gameId, int score) {
+    FastWriter writer;
+    Value root;
+    root["id"] = gameId;
+    root["score"] = score;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(707, data);
 }
 
 

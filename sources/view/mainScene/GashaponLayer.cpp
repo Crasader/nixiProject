@@ -353,6 +353,7 @@ void GashaponLayer::_307CallBack(CCObject* pSender){
         timeLabel->setString(timeStr->getCString());
         this->schedule(SEL_SCHEDULE(&GashaponLayer::updateTime), 1.f);
     }else{// 收费
+        
     }
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->creat_Tishi((CCArray* )pSender);

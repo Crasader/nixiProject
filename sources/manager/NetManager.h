@@ -41,6 +41,7 @@ public:
     void login_game_server_902();
     void account_regist_903(const char* account, const char* password, const char* recommender = "");
     void save_nickname_904(const char* nickname);
+    void update_guide_905(int guide);
     
     void check_news_910();
     
@@ -60,6 +61,7 @@ public:
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void home_info_704(bool full);
     void change_house_705(string id);
+    void commit_game_707(string gameId, int score);
     
     void completed_mission_600();
 //    void start_mission_601(int id);

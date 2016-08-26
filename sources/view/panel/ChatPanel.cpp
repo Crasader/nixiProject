@@ -12,8 +12,10 @@
 #include "WSManager.h"
 #include "DataManager.h"
 #include "json_lib.h"
-using namespace CSJson;
 
+#include "EmoticonPanel.h"
+
+using namespace CSJson;
 
 ChatPanel::~ChatPanel(){
     
@@ -40,7 +42,12 @@ bool ChatPanel::init(){
 void ChatPanel::onEnter(){
     CCLayer::onEnter();
     
+
 //    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::send_replay_callback), "CHAT_REPLY", NULL);
+    
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::nc_on_emoticon), "ON_EMOTICON", NULL);
+    
+//    EmoticonPanel::show(this->getScene());
     
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -166,6 +173,13 @@ void ChatPanel::initChatPanel(){
 //        lab_time->setVisible(false);
 //    }
 //}
+
+void ChatPanel::nc_on_emoticon(CCObject *pObj) {
+    CCString* emot = (CCString*)pObj;
+    string str = _input_text->getString();
+    str.append(emot->getCString());
+    _input_text->setString(str.c_str());
+}
 
 void ChatPanel::initTopMessage(){
     CCSprite* bg = CCSprite::create("res/pic/panel/chat/notice_bg.png");

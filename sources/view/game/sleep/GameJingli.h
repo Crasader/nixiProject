@@ -58,11 +58,10 @@ protected:
     CCLabelTTF*     _lbl_score;
     CCLabelTTF*     _Worng_word;
     float           _create_ghost_interval;
+    int             _history;
     
-public:
-    
-    int m_wrong;
-    
+private:
+    void nc_commit_game_707(CCObject* pObj);    
 };
 
 #endif /* defined(__mm3c__GameJingli__) */

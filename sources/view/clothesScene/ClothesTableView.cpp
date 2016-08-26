@@ -33,7 +33,7 @@ bool ClothesTableView::init(){
     clothesType = 0;
     now_CellIndex = 0;
     
-    this->clothesType = Tag_GJ_TouFa;
+    this->clothesType = Tag_CL_TouFa;
     
     kuangSpr = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
     kuangSpr->retain();
@@ -120,7 +120,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
     CCInteger* clothesTemp_id;
     CCDictionary* shipinDic;
     
-    if (clothesType != Tag_GJ_ShiPin) {
+    if (clothesType != Tag_CL_ShiPin) {
         clothesTemp_id = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString()); // 男宠当前所穿上衣
     }else{
         shipinDic = (CCDictionary* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString());// 获取所穿视频的字典
@@ -132,7 +132,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
         
         cloth_integer = CCInteger::create(cloth_id);
         CCString* keyStr;
-        if (clothesType != Tag_GJ_ShiPin) {
+        if (clothesType != Tag_CL_ShiPin) {
             keyStr = CCString::createWithFormat("%d", clothesType);
             clothesTemp->setObject(cloth_integer, keyStr->getCString());
         }else{
@@ -201,7 +201,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
         }
         
         
-        if (clothesType != Tag_GJ_ShiPin) {
+        if (clothesType != Tag_CL_ShiPin) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
         }else{
             CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangClothesIndex", (CCObject* )clothesTemp_id->getValue());
@@ -212,11 +212,11 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
     }else{
         cloth_integer = CCInteger::create(cloth_id);
         CCString* keyStr;
-        if (clothesType != Tag_GJ_ShiPin) {
-            if (clothesType == Tag_GJ_ShangYi) {
+        if (clothesType != Tag_CL_ShiPin) {
+            if (clothesType == Tag_CL_ShangYi) {
                 if (sub_part == 1) {
                     CCInteger* kuziInteger = CCInteger::create(40000);
-                    CCString* kuziStr = CCString::createWithFormat("%d", Tag_GJ_KuZi);
+                    CCString* kuziStr = CCString::createWithFormat("%d", Tag_CL_KuZi);
                     clothesTemp->setObject(kuziInteger, kuziStr->getCString());
                     
                     keyStr = CCString::createWithFormat("%d", clothesType);
@@ -225,11 +225,11 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
                     keyStr = CCString::createWithFormat("%d", clothesType);
                     clothesTemp->setObject(cloth_integer, keyStr->getCString());
                 }
-            }else if (clothesType == Tag_GJ_KuZi) {
-                CCInteger* shangyiInteger = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", Tag_GJ_ShangYi)->getCString());
+            }else if (clothesType == Tag_CL_KuZi) {
+                CCInteger* shangyiInteger = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", Tag_CL_ShangYi)->getCString());
                 int shangyi_sub_part = 0;
                 CCDictionary* shangyiDic = CONFIG->clothes();// 所有衣服
-                CCArray* shangyiArr = (CCArray* )shangyiDic->objectForKey(Tag_GJ_ShangYi);// 获得当前类型所有衣服
+                CCArray* shangyiArr = (CCArray* )shangyiDic->objectForKey(Tag_CL_ShangYi);// 获得当前类型所有衣服
                 for (int i = 0; i < shangyiArr->count(); i++) {
                     CCDictionary* syDic = (CCDictionary* )shangyiArr->objectAtIndex(i);
                     int shangyiId = syDic->valueForKey("id")->intValue();
@@ -240,7 +240,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
                 
                 if (shangyi_sub_part == 1) {
                     CCInteger* shangyiInteger = CCInteger::create(30000);
-                    CCString* shangyiStr = CCString::createWithFormat("%d", Tag_GJ_ShangYi);
+                    CCString* shangyiStr = CCString::createWithFormat("%d", Tag_CL_ShangYi);
                     clothesTemp->setObject(shangyiInteger, shangyiStr->getCString());
                     
                     keyStr = CCString::createWithFormat("%d", clothesType);
@@ -444,23 +444,23 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     int cloth_id = dic->valueForKey("id")->intValue(); // 男宠当前所穿上衣
     int sub_part = dic->valueForKey("sub_part")->intValue(); // 衣服的部位
     CCString* str;
-    if (clothesType == Tag_GJ_TouFa) {
+    if (clothesType == Tag_CL_TouFa) {
         str = CCString::createWithFormat("res/pic/clothesScene/icon/1toufa/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_WaiTao) {
+    }else if (clothesType == Tag_CL_WaiTao) {
         str = CCString::createWithFormat("res/pic/clothesScene/icon/2waitao/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_ShangYi){
+    }else if (clothesType == Tag_CL_ShangYi){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/3shangyi/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_KuZi){
+    }else if (clothesType == Tag_CL_KuZi){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/4kuzi/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_WaZi){
+    }else if (clothesType == Tag_CL_WaZi){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/5wazi/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_XieZi){
+    }else if (clothesType == Tag_CL_XieZi){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/6xiezi/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_ShiPin){
+    }else if (clothesType == Tag_CL_ShiPin){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/7shipin/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_Bao){
+    }else if (clothesType == Tag_CL_Bao){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/8bao/icon%d.png", cloth_id);
-    }else if (clothesType == Tag_GJ_ZhuangRong){
+    }else if (clothesType == Tag_CL_ZhuangRong){
         str = CCString::createWithFormat("res/pic/clothesScene/icon/9zhuangrong/icon%d.png", cloth_id);
     }
 //    str = CCString::createWithFormat("res/pic/clothesScene/111.png");
@@ -560,7 +560,7 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     
     
     CCInteger* clothesTemp_id;
-    if (clothesType != Tag_GJ_ShiPin) {
+    if (clothesType != Tag_CL_ShiPin) {
         clothesTemp_id = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString()); // 男宠当前所穿上衣
     }else{
         CCDictionary* shipinDic = (CCDictionary* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString());// 获取所穿视频的字典

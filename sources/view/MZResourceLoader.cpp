@@ -19,7 +19,6 @@ MZResourceLoader::~MZResourceLoader()
     }
 }
 
-
 MZResourceLoader* MZResourceLoader::get_instance()
 {
     if (!_shared_resource_loader) {
@@ -29,7 +28,6 @@ MZResourceLoader* MZResourceLoader::get_instance()
     
     return _shared_resource_loader;
 }
-
 
 void MZResourceLoader::purge()
 {

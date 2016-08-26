@@ -31,6 +31,54 @@
 
 @implementation AppController
 
+// -------------------------------- Notification --------------------------------
+
+#pragma mark iOS8.0 调用过用户注册通知方法之后执行（也就是调用完registerUserNotificationSettings:方法之后执行）
+#ifdef __IPHONE_8_0
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
+    // 2.
+    if (notificationSettings.types != UIUserNotificationTypeNone) {
+        [self initLocalNotification];
+    }
+}
+#endif
+
+- (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    NSLog(@"application:(UIApplication*)application didReceiveLocalNotification:");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertAction message:notification.alertBody delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alert show];
+    
+    NSDictionary* dic = notification.userInfo;
+    NSString* value = [dic objectForKey:@"name"];
+    const char* csValue = [value UTF8String];
+    LocalNotifDelegate::Inst()->dropLocalNotificationByName(csValue);
+    //     application.applicationIconBadgeNumber -= 1;
+}
+
+// --------------------------------------------------------------------
+
+- (void)addLocalNotification {
+    // iOS 8.0 后需请求用户同意接收推送消息
+//    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+//        //如果已经获得发送通知的授权则创建本地通知，否则请求授权(注意：如果不请求授权在设置中是没有对应的通知设置项的，也就是说如果从来没有发送过请求，即使通过设置也打不开消息允许设置)
+//        if ([[UIApplication sharedApplication] currentUserNotificationSettings].types == UIUserNotificationTypeNone) {
+//            // 1.
+//            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil]];
+//        }
+//        else {
+//            [self initLocalNotification];
+//        }
+//    }
+//    else {
+//        [self initLocalNotification];
+//    }
+}
+
+- (void)initLocalNotification {
+    LocalNotifDelegate::Inst();
+}
+
 #pragma mark -
 #pragma mark Application lifecycle
 
@@ -39,6 +87,7 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [self addLocalNotification];
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
@@ -100,6 +149,9 @@ static AppDelegate s_sharedApplication;
     NSError *err;
     [[AVAudioSession sharedInstance] setActive:true error:&err];
     cocos2d::CCApplication::sharedApplication()->applicationWillEnterForeground();
+    
+    //进入前台取消应用消息图标
+    [[UIApplication sharedApplication]setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

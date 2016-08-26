@@ -8,6 +8,7 @@
 
 #include "ConfigManager.h"
 #include "AppUtil.h"
+#include "FileManager.h"
 
 #define UD_ACCOUNT      "UDA"
 #define UD_PASSWORD     "UDP"
@@ -109,6 +110,14 @@ int ConfigManager::mission_count(int phase) {
 
 CCArray* ConfigManager::mission() {
     return _mission;
+}
+
+const vector<string> ConfigManager::emoticon() {
+    if (_emoticon.empty()) {
+        _emoticon = FILEM->fetch_file_contents("conf/emot");
+    }
+    
+    return _emoticon;
 }
 
 CCDictionary* ConfigManager::missionDialog() {

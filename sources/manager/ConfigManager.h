@@ -24,6 +24,9 @@ public: // Export
     int phase_up_required(int phase);       // 某公司阶段的升级总星要求
     CCArray* mission();
     
+    // 颜文字表
+    const vector<string> emoticon();
+    
     CCDictionary* missionDialog();
     CCArray* getMissionDialog(int phase, int taskID);
     // 衣服
@@ -67,6 +70,7 @@ private:
     CCArray*        _mission;
     CCDictionary*   _missionDialog;
     CCDictionary*   _clothes;
+    vector<string>  _emoticon;
 };
 
 #endif /* ConfigManager_hpp */

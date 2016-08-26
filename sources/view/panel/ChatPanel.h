@@ -60,6 +60,8 @@ private:
 //    void start_updatetime(int secondLeft);
 //    void schedule_count_down(float dt);
     
+    void nc_on_emoticon(CCObject* pObj);
+    
 private:
     CCSprite*           _panel_bg;
     CCSprite*           _input_bg;

@@ -13,7 +13,6 @@
 #include "AppUtil.h"
 #include "Loading2.h"
 #include "PromptLayer.h"
-
 #include "LoginScene.h"
 
 static DataManager* _instance = nullptr;
@@ -200,6 +199,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
         } break;
             
+        case 905: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+        }
+            
         case 910: {
             _coffers->reset_collected();
             _news->init_with_json(content["news"]);
@@ -283,6 +287,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 705: {
             _home->replace_home_info(content["home"]);
+        } break;
+            
+        case 707: {
+            _home->replace_home_info(content["home"]);
+            pData = AppUtil::dictionary_with_json(content["first"]);
         } break;
             
         case 600: {
@@ -397,6 +406,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            CCDictionary* dic = CCDictionary::create();
+            dic->setObject(ccs("gashapon"), "name");
+            dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("FREE_GASHAPON", dic);
+#endif
         } break;
             
         case 309: {
