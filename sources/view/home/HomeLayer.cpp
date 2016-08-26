@@ -315,10 +315,8 @@ void HomeLayer::gameCallBack(CCObject* pSender){
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
-    
-    CCTransitionFade* trans = CCTransitionFade::create(0.6f, scene, ccWHITE);
-    CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
     qiehuanSpr->setVisible(false);
     
