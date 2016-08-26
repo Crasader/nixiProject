@@ -127,7 +127,7 @@ void TotalRechargePanel::updatePanel(){
         _panel->addChild(menu);
         menu->setTag(300);
         
-        if (DATA->getOperation()->getPurchaseAchievementUser()->count() == 2) {
+        if (DATA->getOperation()->getPurchaseAchievementUser()->count() == 3) {
             _item->setEnabled(false);
         }
         
