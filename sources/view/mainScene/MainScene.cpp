@@ -91,7 +91,7 @@ bool MainScene::init(){
     isEffective = true;
     move_x = 0;
     
-    isOpen = false;
+    isOpen = true;
     
     time_t t;
     struct tm *p;
@@ -156,6 +156,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::setIsEffective), "EFFECTIVE", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
     
     this->update_news_status();
     
@@ -292,8 +293,8 @@ void MainScene::creat_view(){
     CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
     CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
     qipao2->setScale(1.02f);
-    CCMenuItem* item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(MainScene::openChat));
-    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .18f));
+    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(MainScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
     
 
     //设置
@@ -688,7 +689,7 @@ void MainScene::creat_view(){
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
-    menu->setPosition(ccp(0, huodongItem->getContentSize().height* 9));
+    menu->setPosition(ccp(0, 0));
     
     CCSprite* stencil = CCSprite::create();
     stencil->setTextureRect(CCRect(0, 0, huodongItem->getContentSize().width, huodongItem->getContentSize().height* 10));
@@ -698,6 +699,7 @@ void MainScene::creat_view(){
     node->addChild(menu);
     this->addChild(node);
     
+    
     // 通知信息
     Notice* notice = NOTICE->fetch_notice();
     if (notice) {
@@ -705,7 +707,7 @@ void MainScene::creat_view(){
         txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
         this->addChild(txt_bar);
         
-        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         lab->setColor(ccc3(155, 84, 46));
         lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
         txt_bar->addChild(lab);
@@ -1090,7 +1092,20 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
 }
 
 void MainScene::openChat(cocos2d::CCObject *pSender){
-    WS->connect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
+    
+    CCMenuItem* item = (CCMenuItem*)pSender;
+    item->setVisible(false);
+}
+
+void MainScene::displayChatItem(){
+    item_chat->setVisible(true);
 }
 
 void MainScene::social_info_callback_800(CCObject* pObj) {
