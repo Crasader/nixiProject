@@ -367,6 +367,9 @@ void LiveAiXin::setplayerPositionX(float x)
 
 void LiveAiXin::crecteGarbage(float dt)
 {
+    this->unschedule(SEL_SCHEDULE(&LiveAiXin::crecteGarbage));
+    int interval = CCRANDOM_0_1() + 0.6;
+    this->schedule(SEL_SCHEDULE(&LiveAiXin::crecteGarbage), interval);
     int type = (int)(CCRANDOM_0_1() * 10) % 8 + 1;
     Garbage * garbage = Garbage::create(type);
     
@@ -410,10 +413,7 @@ void LiveAiXin::crecteGarbage(float dt)
         }
     }
     
-    
-    
-    float duration = CCRANDOM_0_1() * startFolat + timeFloat;
-    
+    float duration = CCRANDOM_0_1() * startFolat + timeFloat + 1;
     garbage->runAction(CCMoveTo::create(duration, ccp(x, -garbage->getContentSize().height)));
     garbages->addObject(garbage);
     this->addChild(garbage, 10);
@@ -516,16 +516,18 @@ void LiveAiXin::update(float dt)
         }
         
         if(garbage->getPositionY() < -1 * garbage->getContentSize().width/2) {
-            m_lost++;
-            if (m_lost >= LOST_LIMIT) {
-                m_lost = LOST_LIMIT;
-                gameOver();
+            if (garbage->result != -3) {
+                m_lost++;
+                if (m_lost >= LOST_LIMIT) {
+                    m_lost = LOST_LIMIT;
+                    gameOver();
+                }
+                CCString* wrongStr = CCString::createWithFormat("%d/%d", m_lost, LOST_LIMIT);
+                lbl_lost->setString(wrongStr->getCString());
+                //
+                this->removeGarbage(garbage);
+                break;
             }
-            CCString* wrongStr = CCString::createWithFormat("%d/%d", m_lost, LOST_LIMIT);
-            lbl_lost->setString(wrongStr->getCString());
-            //
-            this->removeGarbage(garbage);
-            break;
         }
     }
 }
