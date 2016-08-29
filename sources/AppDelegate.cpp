@@ -11,14 +11,10 @@
 #include "AudioManager.h"
 #include "SpecialManager.h"
 #include "LogoScene.h"
-#include "TaskSettlementLayer.h"
 
 using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
-
-
-// -------------------- 4 test ---------------------
 
 
 AppDelegate::AppDelegate()
@@ -60,8 +56,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     CONFIG->config();
-//    CONFIG->test_mission_count();
-//    CONFIG->test_phase_up_required();
 
     //
     AUDIO->play_main_bgm();
@@ -148,6 +142,7 @@ void AppDelegate::applicationDidEnterBackground()
     AUDIO->pause_music();
     AUDIO->pause_effects();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_BACKGROUND_EVENT");
+    DATA->setChatOut(false);
 }
 
 // this function will be called when the app is active again
@@ -160,6 +155,7 @@ void AppDelegate::applicationWillEnterForeground()
     AUDIO->resume_music();
     AUDIO->resume_all_effects();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_FOREGROUND_EVENT");
+    DATA->setChatOut(true);
 }
 
 void AppDelegate::setProjectConfig(const ProjectConfig& config)

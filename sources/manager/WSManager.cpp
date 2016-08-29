@@ -28,6 +28,11 @@ void WSManager::connect() {
     _ws = new WebSocket();
     CCLOG("WS start connect to chat server addr: %s", CONFIG->chator_addr.c_str());
     _ws->init(*_instance, CONFIG->chator_addr);
+    _isConnected = true;
+}
+
+bool WSManager::isConnected() {
+    return _isConnected;
 }
 
 void WSManager::send(const string& msg) {
@@ -66,6 +71,10 @@ void WSManager::onOpen(WebSocket* ws) {
 }
 
 void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
+    if(DATA->getChatOut()){
+        return;
+    }
+    
     if (data.isBinary) {
         std::string binaryStr = "response bin msg: ";
         for (int i = 0; i < data.len; ++i) {

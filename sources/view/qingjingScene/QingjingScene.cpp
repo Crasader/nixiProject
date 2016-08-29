@@ -99,7 +99,9 @@ void QingjingScene::keyBackClicked(){
         return;
     }
     
-    this->backCallBack(NULL);
+    if (DATA->current_guide_step() == 0) {
+        this->backCallBack(NULL);
+    }
 }
 
 void QingjingScene::creat_view(){

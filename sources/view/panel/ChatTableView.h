@@ -32,7 +32,7 @@ public:
     virtual cocos2d::extension::CCTableViewCell* tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx);
     
     virtual unsigned int numberOfCellsInTableView(cocos2d::extension::CCTableView *table);
-//    virtual CCSize tableCellSizeForIndex(CCTableView* table,unsigned int idx);
+    virtual CCSize tableCellSizeForIndex(CCTableView* table,unsigned int idx);
     virtual void scrollViewDidScroll(cocos2d::extension::CCScrollView* view);
     virtual void scrollViewDidZoom(cocos2d::extension::CCScrollView* view);
     
@@ -43,10 +43,12 @@ private:
 public:
     CCTableView* pTableView;
     
-//    int cell_num;
+    void updateCellPosition();
     
-//    const char* insert_name;
-//    const char* insert_chat;
+    const char* insert_name;
+    const char* insert_chat;
+    
+    float cell_height;
     
 };
 

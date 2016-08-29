@@ -12,7 +12,7 @@
 #include "DataManager.h"
 
 const float CELL_WIDTH = 401;
-const float CELL_HEIGHT = 55;
+const float CELL_HEIGHT = 60;
 
 ChatTableView::~ChatTableView(){
     
@@ -22,17 +22,20 @@ bool ChatTableView::init(){
     if (!CCLayer::init()) {
         return false;
     }
-        
+    
+    cell_height = CELL_HEIGHT;
 
-    pTableView = CCTableView::create(this, CCSizeMake(CELL_WIDTH, CELL_HEIGHT*7));
+    pTableView = CCTableView::create(this, CCSizeMake(CELL_WIDTH, CELL_HEIGHT*6.5));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setDelegate(this);
-    pTableView->setVerticalFillOrder(kCCTableViewFillBottomUp);
+//    pTableView->setBounceable(false);
+    pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
     pTableView->ignoreAnchorPointForPosition(false);
     pTableView->setAnchorPoint(CCPoint(0.5, 0));
     pTableView->setPosition(ccp(0, 0));
     
     pTableView->reloadData();
+    pTableView->setContentOffset(ccp(0, 0));
     
     
     this->addChild(pTableView);
@@ -56,13 +59,32 @@ void ChatTableView::insertMessage(CCObject *pObj){
 //    ChatItem* chat = (ChatItem*)pObj;
 //    insert_name = chat->name.c_str();
 //    insert_chat = chat->chat.c_str();
-//    
-//    pTableView->insertCellAtIndex(DATA->getChat()->getItems()->count());
-//    pTableView->setContentOffset(CCPoint(0, -73));
-//    pTableView->_updateCellPositions();
-    pTableView->reloadData();
+
 //    this->updateCellPosition();
-//    CCLOG("NUM = %d", DATA->getChat()->getItems()->count());
+//    pTableView->insertCellAtIndex(DATA->getChat()->getItems()->count());
+//    pTableView->insertCellAtIndex(0);
+//    pTableView->setContentOffset(CCPoint(0, -73));
+    pTableView->reloadData();
+    pTableView->setContentOffset(ccp(0, 0));
+    if (DATA->getChat()->getItems()->count() <= 6) {
+        pTableView->setTouchEnabled(false);
+    }else{
+        pTableView->setTouchEnabled(true);
+    }
+//    if (DATA->getChat()->getItems()->count() == 1) {
+//        pTableView->reloadData();
+//        pTableView->setContentOffset(ccp(0, 0));
+//    }else{
+//        pTableView->insertCellAtIndex(0);
+//    }
+}
+
+void ChatTableView::updateCellPosition(){
+    for (int i = 0; i < DATA->getChat()->getItems()->count() - 1; i++) {
+        CCTableViewCell* cell = pTableView->cellAtIndex(i);
+        cell->setPosition(ccp(0, CELL_HEIGHT));
+    }
+    pTableView->insertCellAtIndex(0);
 }
 
 CCTableViewCell* ChatTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
@@ -87,6 +109,10 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     nickname->setPosition(ccp(CELL_WIDTH* .025f, CELL_HEIGHT* .50f));
     pCell->addChild(nickname);
     
+    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
+    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 2));
+    pCell->addChild(line_spr);
+    
     
     const char* insert_chat = chat->chat.c_str();
     CCLabelTTF* text = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18);
@@ -95,12 +121,15 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     if (text->getContentSize().width > CELL_WIDTH* .95f - nickname->getContentSize().width - 16) {
         lab_size_height = 40;
         lab_size_width = CELL_WIDTH* .95f - nickname->getContentSize().width - 16;
+        cell_height = CELL_HEIGHT;
     }else if(text->getContentSize().width < 21){
         lab_size_height = 20;
         lab_size_width = 21;
+        cell_height = 40;
     }else{
         lab_size_height = 20;
         lab_size_width = text->getContentSize().width;
+        cell_height = 40;
     }
     
     
@@ -132,9 +161,9 @@ unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
     return DATA->getChat()->getItems()->count();
 }
 
-//CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
-//    return this->cellSizeForTable(table);
-//}
+CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
+    return this->cellSizeForTable(table);
+}
 
 void ChatTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView *view){
     

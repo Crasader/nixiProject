@@ -139,6 +139,10 @@ void TopFloorCell::update_boxes() {
     CCLOG("curPrecent = %f", curPrecent);
     _progress->setPercentage(curPrecent);
     
+    CCSprite* star = CCSprite::create("pic/building/progress/star.png");
+    star->setPosition(ccp(barSize.width * curPrecent, barSize.height * 0.5));
+    _progress->addChild(star);
+    
     int count = items->count();
     for (int i = 0; i < count; i++) {
         CCDictionary* item = (CCDictionary*)items->objectAtIndex(i);

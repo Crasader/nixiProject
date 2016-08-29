@@ -42,14 +42,15 @@ void LocalNotifDelegate::addFreeGashaponLN(time_t secondDelta) {
 //    NSDate* fireDate = [dFormatter dateFromString:strToDate];
     NSLog(@"fireDate = %@", fireDate);
     NSString* alterBody = [NSString stringWithCString:"可以免费抽奖啦~!" encoding:NSUTF8StringEncoding];
-    NSString* alterAction = [NSString stringWithCString:"我是标题党" encoding:NSUTF8StringEncoding];
+//    NSString* alterAction = [NSString stringWithCString:"我是标题党" encoding:NSUTF8StringEncoding];
 
     UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
     [ln setFireDate:fireDate];
     [ln setTimeZone:[NSTimeZone defaultTimeZone]];
-    [ln setRepeatInterval:NSDayCalendarUnit];
+    [ln setRepeatInterval:NSCalendarUnitEra];
+    [ln setSoundName:UILocalNotificationDefaultSoundName];
     [ln setAlertBody:alterBody];
-    [ln setAlertAction:alterAction];
+//    [ln setAlertAction:alterAction];
     [ln setApplicationIconBadgeNumber:1];
     [ln setAlertLaunchImage:@"29x29.png"];
     

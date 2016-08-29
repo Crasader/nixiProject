@@ -1160,6 +1160,8 @@ void ClothesScene::backCallBack(CCObject* pSender){
                 LOADING->show_loading();
                 DATA->getPlayer()->setGuide(7);
                 NET->update_guide_905(DATA->getPlayer()->getGuide());
+            }else if (DATA->current_guide_step() == 4){
+                
             }else{
                 CCScene* scene = MainScene::scene();
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

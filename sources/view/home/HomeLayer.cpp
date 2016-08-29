@@ -292,7 +292,7 @@ void HomeLayer::creat_View(){
 }
 void HomeLayer::gameCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    
+    CCScene* scene = NULL;
     if (item->getTag() == 1) {
         CCLog("点击购物");
         CCScene* scene = CCScene::create();
@@ -316,6 +316,7 @@ void HomeLayer::gameCallBack(CCObject* pSender){
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
+
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
     qiehuanSpr->setVisible(false);
     

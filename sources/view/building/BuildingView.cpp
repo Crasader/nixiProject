@@ -245,7 +245,9 @@ void BuildingView::keyBackClicked(){
         return;
     }
     
-    this->go_back();
+    if (DATA->current_guide_step() == 0) {
+        this->go_back();
+    }
 }
 
 

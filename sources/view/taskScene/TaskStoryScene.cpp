@@ -240,7 +240,9 @@ void TaskStoryScene::keyBackClicked(){
         return;
     }
     
-    this->backCallBack(NULL);
+    if (DATA->current_guide_step() == 0) {
+        this->backCallBack(NULL);
+    }
 }
 
 void TaskStoryScene::creat_view(){
