@@ -33,18 +33,16 @@ void PlayerComp::init_with_json(Value json) {
     mission = json["mission"].asInt();
     phase = json["phase"].asInt();
     left = json["left"].asInt();
+    _guide = json["guide"].asInt();
     
-//    this->setGuide(value["guide"].asInt());
-//    if (this->getGuide() > 10) {
-//        this->setGuide(0);
-//    }
+    _guide = 6;
     
     
     CC_SAFE_RELEASE(rating);
     rating = AppUtil::dictionary_with_json(json["rating"]);
     rating->retain();
     
-    this->test();
+//    this->test();
 }
 
 int PlayerComp::total_ratings() {

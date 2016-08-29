@@ -48,7 +48,10 @@ public:
     void creat_Man();
     void initClothes();
     
+    void init_phone();
     void creat_phone();
+    void creat_phone2();
+    void creat_phone3();
     
     CCString* getTaskName(int index);
     CCString* getTaskDescription(int index);
@@ -58,6 +61,10 @@ public:
     void startCallBack(CCObject* pSender);
     void _startCallBack(CCObject* pSender);
     void phoneCallBack(CCObject* pSender);
+    
+    bool _905Bool;
+    void _905status();
+    void _905CallBack(CCObject* pSender);
     
 public:
     

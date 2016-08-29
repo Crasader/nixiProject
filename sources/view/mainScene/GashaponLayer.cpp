@@ -371,11 +371,11 @@ void GashaponLayer::_309CallBack(CCObject* pSender){
 
 
 void GashaponLayer::creat_Tishi(CCObject* arr){
-    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )arr);
-    this->addChild(layer, 100);
+//    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )arr);
+//    this->addChild(layer, 100);
     
-//    this->removeFromParentAndCleanup(true);
-//    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
+    this->removeFromParentAndCleanup(true);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
 }
 
 

@@ -418,6 +418,10 @@ CCPoint FloorCell::randomEdge() {
 
 void FloorCell::on_take_rewards(CCMenuItem *btn) {
     CCLOG("BuildingView::on_take_rewards()");
+    if (DATA->current_guide_step() == 5) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
+    }
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("TAKE_INCOME");
 }
 

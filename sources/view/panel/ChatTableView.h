@@ -36,21 +36,10 @@ public:
     virtual void scrollViewDidScroll(cocos2d::extension::CCScrollView* view);
     virtual void scrollViewDidZoom(cocos2d::extension::CCScrollView* view);
     
-    //高亮显示。选中效果
-//    virtual void tableCellHighlight(CCTableView* table, CCTableViewCell* cell);
-    
-    /**
-     * Delegate to respond a table cell release event
-     *
-     * @param table table contains the given cell
-     * @param cell  cell that is pressed
-     */
-//    virtual void tableCellUnhighlight(CCTableView* table, CCTableViewCell* cell);
-    
 private:
     void config_cell(CCTableViewCell* pCell, int index);
     void insertMessage(CCObject* pObj);
-    
+
 public:
     CCTableView* pTableView;
     

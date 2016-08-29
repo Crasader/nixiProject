@@ -17,6 +17,11 @@
 #include "Loading2.h"
 #include "TaskLabelColorLayer.h"
 #include "AudioManager.h"
+#include "GuideLayer.h"
+#include "ColorLayer.h"
+#include "GameJingli.h"
+#include "LiveAiXin.h"
+
 
 TaskStoryScene::TaskStoryScene(){
     
@@ -102,6 +107,11 @@ bool TaskStoryScene::init(){
     CCMenu* menu = CCMenu::create(backItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu, 100);
+    
+    if (DATA->current_guide_step() == 3) {
+        backItem->setEnabled(false);
+        backItem->setColor(ccGRAY);
+    }
     
     DATA->setDiKuangSize(kuangSpr->boundingBox().size);
     
@@ -207,6 +217,8 @@ void TaskStoryScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_400CallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_603CallBack), "HTTP_FINISHED_603", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_905CallBack), "HTTP_FINISHED_905", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskStoryScene::keyBackStatus), .8f);
@@ -1121,10 +1133,12 @@ void TaskStoryScene::kuaijinCallBack(CCObject* pSender){
         
         kuaijinToggleItem->setSelectedIndex(1);
         
-        wordCount = getContentLength();
-        this->unschedule(schedule_selector(TaskStoryScene::logic));
-        this->schedule(schedule_selector(TaskStoryScene::logic), .1f);
-        
+        index = missionDic->valueForKey("next")->intValue();
+        if (index != -1 || index != -2 || index != -3) {
+            wordCount = getContentLength();
+            this->unschedule(schedule_selector(TaskStoryScene::logic));
+            this->schedule(schedule_selector(TaskStoryScene::logic), .1f);
+        }
     }else{
         buttonBool = false;
         
@@ -1178,6 +1192,10 @@ void TaskStoryScene::logic(float dt){
         
         if (missionDic->valueForKey("next")->intValue() == -1 || missionDic->valueForKey("next")->intValue() == -2 || missionDic->valueForKey("next")->intValue() == -3) {
             startItem->setVisible(true);
+            
+            if (DATA->current_guide_step() == 4) {
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("GuideQuan");
+            }
         }
         
         if (!quanBool) {
@@ -1320,20 +1338,41 @@ void TaskStoryScene::getIndex(float dt){
         this->dialogueControl(0);
     }
 }
+
+void TaskStoryScene::_905CallBack(CCObject* pSender){
+    if (DATA->getClothes()->has_init_clothes == true) {
+        this->_400CallBack(NULL);
+    }
+    else {
+        LOADING->show_loading();
+        NET->owned_clothes_400();
+    }
+}
 void TaskStoryScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     item->setEnabled(false);
     
     index = missionDic->valueForKey("next")->intValue();
     if (index == -1) {
-        if (DATA->getClothes()->has_init_clothes == true) {
-            this->_400CallBack(NULL);
-        }
-        else {
+        if (DATA->current_guide_step() == 3) {
+            PlayerComp* _player = DATA->getPlayer();
+            if (_player->getGuide() == 3) {
+                _player->setGuide(4);
+            }
+            
             LOADING->show_loading();
-            NET->owned_clothes_400();
+            NET->update_guide_905(_player->getGuide());
+        }else{
+            if (DATA->getClothes()->has_init_clothes == true) {
+                this->_400CallBack(NULL);
+            }
+            else {
+                LOADING->show_loading();
+                NET->owned_clothes_400();
+            }
         }
-    }else if (index == -2 || index == -3){
+        
+    }else {
         openStory = true;
         startBool = true;
         
@@ -1343,7 +1382,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
         banSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
         banSpr->setTag(0x22222);
         this->addChild(banSpr, 110);
-        CCLabelTTF* label = CCLabelTTF::create("小游戏暂未开放,期待中.....", DISPLAY->fangzhengFont(), 25, CCSizeMake(banSpr->getContentSize().width* .8f, banSpr->getContentSize().height* .5f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+        CCLabelTTF* label = CCLabelTTF::create("暂未开放,期待中.....", DISPLAY->fangzhengFont(), 25, CCSizeMake(banSpr->getContentSize().width* .8f, banSpr->getContentSize().height* .5f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
         label->setPosition(ccp(banSpr->getContentSize().width* .5f, banSpr->getContentSize().height* .6f));
         label->setColor(ccc3(80, 63, 68));
         banSpr->addChild(label);
@@ -1352,6 +1391,45 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
         label2->setPosition(ccp(banSpr->getContentSize().width* .75f, banSpr->getContentSize().height* .1f));
         label2->setColor(ccc3(80, 63, 68));
         banSpr->addChild(label2);
+        
+        
+//        if (index == -2){// 睡觉游戏
+//            CCLog("睡觉游戏");
+//            CCScene* scene = CCScene::create();
+//            GameJingli* layer = GameJingli::create();
+//            scene->addChild(layer);
+//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//            CCDirector::sharedDirector()->replaceScene(trans);
+//        }else if (index == -3){// 颜色游戏
+//            CCLog("颜色游戏");
+//            CCScene* scene = CCScene::create();
+//            ColorLayer* layer = ColorLayer::create();
+//            scene->addChild(layer);
+//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//            CCDirector::sharedDirector()->replaceScene(trans);
+//        }else if (index == -4){// 去社交
+//            int tili = DATA->getPlayer()->energy;
+//            int tili_AllIndex = 12;
+//            if (tili >= tili_AllIndex) {
+//                this->setTouchEnabled(false);
+//                LOADING->show_loading();
+//                NET->commit_mission_603(missionDic->valueForKey("taskID")->intValue());
+//            }else{
+//                LOADING->remove();
+//                AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+//                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+//                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+//            }
+//        }else if (index == -5){// 去垃圾游戏
+//            CCLog("垃圾游戏");
+//            CCScene* scene = CCScene::create();
+//            LiveAiXin* layer = LiveAiXin::create();
+//            scene->addChild(layer);
+//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//            CCDirector::sharedDirector()->replaceScene(trans);
+//        }else if (index == -6){// 买钻石衣服
+//            
+//        }
     }
 }
 void TaskStoryScene::_400CallBack(CCObject* pSender){

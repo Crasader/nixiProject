@@ -41,6 +41,7 @@ public:
     void login_game_server_902();
     void account_regist_903(const char* account, const char* password, const char* recommender = "");
     void save_nickname_904(const char* nickname);
+    void update_guide_905(int guide);
     
     void check_news_910();
     

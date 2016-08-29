@@ -16,6 +16,9 @@
 #include "NetManager.h"
 #include "Loading2.h"
 #include "AudioManager.h"
+#include "GuideLayer.h"
+
+
 
 BuildingView::~BuildingView() {
     CCLOG("BuildingView::~BuildingView() ");
@@ -55,6 +58,12 @@ bool BuildingView::init(int phase) {
     CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
     txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.06));
     this->addChild(txt_close);
+    
+    if (DATA->current_guide_step() == 5){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
     
     return true;
 }

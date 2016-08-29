@@ -64,8 +64,45 @@ public:
     int getContentLength();
     
     
+    void guideQuan();
+    void creatClothes4_1_1();
+    void creatClothes4_1_2();
+    void creatClothes4_1_3();
+    void creatClothes4_2_1();
+    void creatClothes4_2_2();
+    void creatClothes4_2_3();
+    void creatClothes6_1_1();
+    void creatClothes6_1_2();
+    void creatClothes6_1_3();
+    void guideTime(float dt);
+    void closeSwallowEnabled();
+    
+    void _905CallBack(CCObject* pSender);
+    
     CCRect isRect1_1();
     bool isContainTouchPoint1_1(CCTouch* touch);
+    CCRect isRect2_1();
+    bool isContainTouchPoint2_1(CCTouch* touch);
+    CCRect isRect4_1();
+    bool isContainTouchPoint4_1(CCTouch* touch);
+    CCRect isRect4_2();
+    bool isContainTouchPoint4_2(CCTouch* touch);
+    CCRect isRect4_3();
+    bool isContainTouchPoint4_3(CCTouch* touch);
+    CCRect isRect4_4();
+    bool isContainTouchPoint4_4(CCTouch* touch);
+    CCRect isRect5_1();
+    bool isContainTouchPoint5_1(CCTouch* touch);
+    CCRect isRect5_2();
+    bool isContainTouchPoint5_2(CCTouch* touch);
+    CCRect isRect6_1();
+    bool isContainTouchPoint6_1(CCTouch* touch);
+    CCRect isRect6_2();
+    bool isContainTouchPoint6_2(CCTouch* touch);
+    CCRect isRect6_3();
+    bool isContainTouchPoint6_3(CCTouch* touch);
+    
+    
     
 public:
     
