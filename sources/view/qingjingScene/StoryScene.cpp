@@ -2030,6 +2030,7 @@ void StoryScene::getIndex(float dt){
     
     if (dialogItem->getArray() == NULL) {
         index = dialogItem->getNext();
+        CCLOG("StoryScene::getIndex -- %d", index);
         
         CCString* _achievement = CCString::createWithFormat("%s",dialogItem->getAchievement().c_str());
         if (index == -1) {

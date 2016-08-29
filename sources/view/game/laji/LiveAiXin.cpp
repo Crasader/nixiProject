@@ -195,13 +195,9 @@ void LiveAiXin::setupView()
     }
     
     {
-        CCSprite * tishi = CCSprite::create("res/pic/game/color/guide_prompt_plane.png");
+        CCSprite * tishi = CCSprite::create("res/pic/game/color/games_yd_color.png");
         tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .54f));
         this->addChild(tishi, 20, 0x121);
-        CCSprite * tishi1 = CCSprite::create("res/pic/game/laji/games_yd_housework.png");
-        tishi1->setPosition(ccp(tishi->getContentSize().width* .5f, tishi->getContentSize().height* .5f));
-        tishi->addChild(tishi1,2);
-        
         
         CCSprite* kSpr = CCSprite::create("res/pic/game/color/guide_kuang2.png");
         kSpr->setPosition(ccp(tishi->getContentSize().width* .65f, 0));
