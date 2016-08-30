@@ -95,7 +95,12 @@ bool MainScene::init(){
     isEffective = true;
     move_x = 0;
     
-    isOpen = true;
+    if (DATA->current_guide_step() == 6) {
+        isOpen = false;
+    }else{
+        isOpen = true;
+    }
+    
     
     time_t t;
     struct tm *p;
@@ -723,7 +728,12 @@ void MainScene::creat_view(){
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
-    menu->setPosition(ccp(0, 0));
+    if (DATA->current_guide_step() == 6){
+        menu->setPosition(ccp(0, 90 * 9));
+    }else{
+        menu->setPosition(ccp(0, 0));
+    }
+    
     
     CCSprite* stencil = CCSprite::create();
     stencil->setTextureRect(CCRect(0, 0, huodongItem->getContentSize().width, huodongItem->getContentSize().height* 10));
@@ -1235,19 +1245,19 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 }
 
 void MainScene::juqingCallBack(CCObject* pSender){
-//    if (isOk) {
-//        if (DATA->getStory()->has_init_story()) {
-//            this->_500CallBack(NULL);
-//        }else{
-//            LOADING->show_loading();
-//            NET->completed_story_500();
-//        }
-//    }
-    CCScene* pScene = CCScene::create();
-    StoryScene* layer = StoryScene::create_with_story_id(0);
-    pScene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (isOk) {
+        if (DATA->getStory()->has_init_story()) {
+            this->_500CallBack(NULL);
+        }else{
+            LOADING->show_loading();
+            NET->completed_story_500();
+        }
+    }
+//    CCScene* pScene = CCScene::create();
+//    StoryScene* layer = StoryScene::create_with_story_id(0);
+//    pScene->addChild(layer);
+//    CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
     
 }
 
@@ -1899,13 +1909,18 @@ void MainScene::creat_guideBool(){
         }
     }
     if (_player->getGuide() == 6) {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 10; i++) {
             DATA->_guideBool6[i] = false;
         }
     }
     if (_player->getGuide() == 7) {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 10; i++) {
             DATA->_guideBool7[i] = false;
+        }
+    }
+    if (_player->getGuide() == 8) {
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool8[i] = false;
         }
     }
     

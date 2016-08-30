@@ -114,6 +114,7 @@ public:
     bool _guideBool5[5];
     bool _guideBool6[10];
     bool _guideBool7[10];
+    bool _guideBool8[10];
     int current_guide_step();
     
     // 陌生人刷新计时

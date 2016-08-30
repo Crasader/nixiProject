@@ -78,6 +78,7 @@ public:
     void closeSwallowEnabled();
     
     void _905CallBack(CCObject* pSender);
+    void removeThisLayer();
     
     CCRect isRect1_1();
     bool isContainTouchPoint1_1(CCTouch* touch);
@@ -101,7 +102,14 @@ public:
     bool isContainTouchPoint6_2(CCTouch* touch);
     CCRect isRect6_3();
     bool isContainTouchPoint6_3(CCTouch* touch);
-    
+    CCRect isRect8_1();
+    bool isContainTouchPoint8_1(CCTouch* touch);
+    CCRect isRect8_2();
+    bool isContainTouchPoint8_2(CCTouch* touch);
+    CCRect isRect8_3();
+    bool isContainTouchPoint8_3(CCTouch* touch);
+    CCRect isRect8_4();
+    bool isContainTouchPoint8_4(CCTouch* touch);
     
     
 public:

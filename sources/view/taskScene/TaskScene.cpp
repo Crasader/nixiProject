@@ -95,6 +95,13 @@ bool TaskScene::init(bool isPhaseUP){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
+    }else if (DATA->current_guide_step() == 8){
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool8[i] = true;
+        }
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
     }
     
     return true;
@@ -114,6 +121,7 @@ void TaskScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::_905status), "Guide_905status", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::phoneCallBack), "Guide_phoneCallBack", NULL);
     
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
@@ -1417,6 +1425,16 @@ void TaskScene::creat_phone3(){
     CCMoveTo* moveTo1 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f + 5));
     CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f));
     phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.1f), NULL)));
+    
+    for (int i = 0; i < 10; i++) {
+        DATA->_guideBool8[i] = false;
+    }
+    if (this->getChildByTag(0x445566) != NULL) {
+        this->removeChildByTag(0x445566);
+    }
+    GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+    layer->setTag(0x445566);
+    this->addChild(layer, 500);
 }
 
 void TaskScene::phoneCallBack(CCObject* pSender){

@@ -160,6 +160,24 @@ void GuideLayer::init_with_guide(int _index){
             this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::creatLabel), 1.f);
             this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), 1.f);
         }
+    }else if (guideIndex == 8){
+        if (!DATA->_guideBool8[0]) {
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::creatLabel), 1.f);
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), 1.f);
+        }else if (DATA->_guideBool8[1] && !DATA->_guideBool8[2]){
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::creatShou), 1.f);
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), 1.f);
+        }else if (DATA->_guideBool8[2] && !DATA->_guideBool8[3]){
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::creatLabel), 1.f);
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), 1.f);
+        }else if (DATA->_guideBool8[4] && !DATA->_guideBool8[5]){
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::creatShou), .5f);
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
+        }else if (DATA->_guideBool8[5] && !DATA->_guideBool8[6]){
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::creatLabel), 1.f);
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), 1.f);
+        }
+        
     }
     
     else if (guideIndex == 100){
@@ -529,7 +547,66 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                     this->setTouchSwallowEnabled(true);
                 }
             }
-            
+        }else if (guideIndex == 8){
+            if (!DATA->_guideBool8[0]){
+                if (wordCount < contentLength) {
+                    wordCount = getContentLength();
+                }else {
+                    this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::getIndex), .5f);
+                }
+            }else if (DATA->_guideBool8[0] && !DATA->_guideBool8[1]){
+                if (isContainTouchPoint8_1(pTouch)) {
+                    DATA->_guideBool8[1] = true;
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("Guide_phoneCallBack");
+                    this->setTouchSwallowEnabled(true);
+                }else {
+                    this->openTouch(0);
+                    this->setTouchSwallowEnabled(true);
+                }
+            }else if (DATA->_guideBool8[1] && !DATA->_guideBool8[2]){
+                if (isContainTouchPoint8_2(pTouch)) {
+                    DATA->_guideBool8[2] = true;
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("Guide_quCallBack");
+                    this->setTouchSwallowEnabled(true);
+                }else {
+                    this->openTouch(0);
+                    this->setTouchSwallowEnabled(true);
+                }
+            }else if (DATA->_guideBool8[2] && !DATA->_guideBool8[3]){
+                if (wordCount < contentLength) {
+                    wordCount = getContentLength();
+                }else {
+                    this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::getIndex), .5f);
+                }
+            }else if (DATA->_guideBool8[3] && !DATA->_guideBool8[4]){
+                if (isContainTouchPoint8_3(pTouch)) {
+                    DATA->_guideBool8[4] = true;
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("Guide_StartCallBack");
+                    this->setTouchSwallowEnabled(true);
+                }else {
+                    this->openTouch(0);
+                    this->setTouchSwallowEnabled(true);
+                }
+            }else if (DATA->_guideBool8[4] && !DATA->_guideBool8[5]){
+                if (isContainTouchPoint8_4(pTouch)) {
+                    this->setTouchSwallowEnabled(false);
+                    
+                    DATA->_guideBool8[5] = true;
+                    if (this->getChildByTag(0x77777) != NULL) {
+                        this->removeChildByTag(0x77777);
+                    }
+                    
+                    this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::removeThisLayer), .5f);
+                }else {
+                    this->openTouch(0);
+                    this->setTouchSwallowEnabled(false);
+                }
+            }else if (DATA->_guideBool8[5] && !DATA->_guideBool8[6]){
+                DATA->getPlayer()->setGuide(0);
+                
+                LOADING->show_loading();
+                NET->update_guide_905(DATA->getPlayer()->getGuide());
+            }
         }
         
         else if (guideIndex == 100){
@@ -548,6 +625,9 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     }
     
     return true;
+}
+void GuideLayer::removeThisLayer(){
+    this->removeFromParentAndCleanup(true);
 }
 
 void GuideLayer::openTouch(float dt){
@@ -745,6 +825,15 @@ void GuideLayer::getIndex(float dt){
             this->creatLabel(1);
             this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
         }
+    }else if (guideIndex == 8){
+        if (!DATA->_guideBool8[0]) {
+            DATA->_guideBool8[0] = true;
+            if (guideSpr) {
+                guideSpr->removeAllChildren();
+            }
+            this->creatShou();
+            this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
+        }
         
     }
     
@@ -792,6 +881,16 @@ void GuideLayer::creatShou(){
     }else if (guideIndex == 7){
         if (DATA->_guideBool7[0] && !DATA->_guideBool7[1]){
             quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .15f, DISPLAY->ScreenHeight()* .65f));
+        }
+    }else if (guideIndex == 8){
+        if (DATA->_guideBool8[0] && !DATA->_guideBool8[1]) {
+            quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f - 51.5));
+        }else if (DATA->_guideBool8[1] && !DATA->_guideBool8[2]){
+            quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 115, DISPLAY->ScreenHeight()* .115f));
+        }else if (DATA->_guideBool8[3] && !DATA->_guideBool8[4]){
+            quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 190, DISPLAY->ScreenHeight()* .13f));
+        }else if (DATA->_guideBool8[4] && !DATA->_guideBool8[5]){
+            quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 190, DISPLAY->ScreenHeight()* .485f));
         }
     }
     
@@ -962,11 +1061,24 @@ void GuideLayer::creatLabel(float dt){
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }
-        
-        
+    }else if (guideIndex == 8){
+        if (!DATA->_guideBool8[0]){
+            this->creatDiKuang(6);
+            str = CCString::createWithFormat("咦~!手机响了.快去接电话吧.");
+            this->creat_ContentLength(str->getCString());
+            this->creatView();
+        }else if (DATA->_guideBool8[2] && !DATA->_guideBool8[3]){
+            this->creatDiKuang(6);
+            str = CCString::createWithFormat("当企业达到一定星级就可以开启剧情啦.");
+            this->creat_ContentLength(str->getCString());
+            this->creatView();
+        }else if (DATA->_guideBool8[5] && !DATA->_guideBool8[6]){
+            this->creatDiKuang(6);
+            str = CCString::createWithFormat("不同的选项可以获得成就,或者是通关.\n再来一次争取通关吧.");
+            this->creat_ContentLength(str->getCString());
+            this->creatView();
+        }
     }
-    
-    
     
 }
 void GuideLayer::logic(float dt){
@@ -1103,7 +1215,16 @@ void GuideLayer::logic(float dt){
             }else if (DATA->_guideBool7[1] && !DATA->_guideBool7[2]){
                 this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
             }
-            
+        }else if (guideIndex == 8){
+            if (!DATA->_guideBool8[0]){
+                this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
+            }else if (DATA->_guideBool8[2] && !DATA->_guideBool8[3]){
+                DATA->_guideBool8[3] = true;
+                this->creatShou();
+                this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
+            }else if (DATA->_guideBool8[5] && !DATA->_guideBool8[6]){
+                this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
+            }
         }
         
         
@@ -1377,7 +1498,30 @@ CCRect GuideLayer::isRect6_3(){
 bool GuideLayer::isContainTouchPoint6_3(CCTouch* touch){
     return isRect6_3().containsPoint(convertTouchToNodeSpace(touch));
 }
-
+CCRect GuideLayer::isRect8_1(){
+    return CCRectMake(DISPLAY->ScreenWidth()* .542f - 29, DISPLAY->ScreenHeight()* .26f - 51.5, 58, 103);
+}
+bool GuideLayer::isContainTouchPoint8_1(CCTouch* touch){
+    return isRect8_1().containsPoint(convertTouchToNodeSpace(touch));
+}
+CCRect GuideLayer::isRect8_2(){
+    return CCRectMake(DISPLAY->ScreenWidth()* .5f + 37, DISPLAY->ScreenHeight()* .113f, 105, 60);
+}
+bool GuideLayer::isContainTouchPoint8_2(CCTouch* touch){
+    return isRect8_2().containsPoint(convertTouchToNodeSpace(touch));
+}
+CCRect GuideLayer::isRect8_3(){
+    return CCRectMake(DISPLAY->ScreenWidth()* .5f + 100, DISPLAY->ScreenHeight()* .125f, 110, 62);
+}
+bool GuideLayer::isContainTouchPoint8_3(CCTouch* touch){
+    return isRect8_3().containsPoint(convertTouchToNodeSpace(touch));
+}
+CCRect GuideLayer::isRect8_4(){
+    return CCRectMake(0, DISPLAY->ScreenHeight()* .5f - 32, DISPLAY->ScreenWidth(), 67);
+}
+bool GuideLayer::isContainTouchPoint8_4(CCTouch* touch){
+    return isRect8_4().containsPoint(convertTouchToNodeSpace(touch));
+}
 
 
 
@@ -1390,7 +1534,7 @@ void GuideLayer::beforeDraw()
 }
 
 void GuideLayer::creat_testRect(){
-    _testRect = CCRectMake(DISPLAY->ScreenWidth() - 160, 10, 145, 65);
+    _testRect = CCRectMake(0, DISPLAY->ScreenHeight()* .5f - 32, DISPLAY->ScreenWidth(), 67);
 }
 
 void GuideLayer::afterDraw()

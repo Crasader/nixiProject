@@ -88,6 +88,32 @@ void GashaponLayer::creat_View(){
     _ManSpr = CCSprite::create();
     bgSpr->addChild(_ManSpr, 10);
     
+    CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_1->setFlipX(true);
+    CCSprite* jiantouSpr1_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_2->setFlipX(true);
+    jiantouSpr1_2->setScale(1.02f);
+    jiantouItem1 = CCMenuItemSprite::create(jiantouSpr1_1, jiantouSpr1_2, this, menu_selector(GashaponLayer::jiantou1CallBack));
+    jiantouItem1->setPosition(ccp(bgSpr->getContentSize().width* .3f, bgSpr->getContentSize().height* .61f));
+    CCMoveTo* moveTo1_1 = CCMoveTo::create(.5f, ccp(bgSpr->getContentSize().width* .3f - 15, bgSpr->getContentSize().height* .61f));
+    CCMoveTo* moveTo1_2 = CCMoveTo::create(.8f, ccp(bgSpr->getContentSize().width* .3f, bgSpr->getContentSize().height* .61f));
+    CCSequence* seq1 = CCSequence::create(moveTo1_1, moveTo1_2, NULL);
+    jiantouItem1->runAction(CCRepeatForever::create(seq1));
+    
+    CCSprite* jiantouSpr2_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    CCSprite* jiantouSpr2_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr2_2->setScale(1.02f);
+    jiantouItem2 = CCMenuItemSprite::create(jiantouSpr2_1, jiantouSpr2_2, this, menu_selector(GashaponLayer::jiantou2CallBack));
+    jiantouItem2->setPosition(ccp(bgSpr->getContentSize().width* .7f, bgSpr->getContentSize().height* .61f));
+    CCMoveTo* moveTo2_1 = CCMoveTo::create(.5f, ccp(bgSpr->getContentSize().width* .7f + 15, bgSpr->getContentSize().height* .61f));
+    CCMoveTo* moveTo2_2 = CCMoveTo::create(.8f, ccp(bgSpr->getContentSize().width* .7f, bgSpr->getContentSize().height* .61f));
+    CCSequence* seq2 = CCSequence::create(moveTo2_1, moveTo2_2, NULL);
+    jiantouItem2->runAction(CCRepeatForever::create(seq2));
+    
+    CCMenu* jiantouMenu = CCMenu::create(jiantouItem1, jiantouItem2, NULL);
+    jiantouMenu->setPosition(CCPointZero);
+    bgSpr->addChild(jiantouMenu, 20);
+    
     CCSprite* shopSpr1 = CCSprite::create("res/pic/gashapon/gashapon_label1.png");
     shopSpr1->setPosition(ccp(bgSpr->getContentSize().width* .1f, bgSpr->getContentSize().height* .7f));
     bgSpr->addChild(shopSpr1, 10);
@@ -95,6 +121,23 @@ void GashaponLayer::creat_View(){
     shopSpr2->setAnchorPoint(ccp(.5f, 1));
     shopSpr2->setPosition(ccp(bgSpr->getContentSize().width* .1f, bgSpr->getContentSize().height* .7f - shopSpr1->getContentSize().width* .5f));
     bgSpr->addChild(shopSpr2, 10);
+    
+    if (nowIndex == suitsArr->count() - 1) {
+        jiantouItem2->setColor(ccGRAY);
+        jiantouItem2->setEnabled(true);
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+    }else if (nowIndex == 0){
+        jiantouItem1->setColor(ccGRAY);
+        jiantouItem1->setEnabled(false);
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }else{
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }
     
     
     myClothesTemp = (CCDictionary*)suitsArr->objectAtIndex(nowIndex);
@@ -217,8 +260,80 @@ void GashaponLayer::creat_View(){
     menu->setPosition(CCPointZero);
     bgSpr->addChild(menu, 30);
     
-    this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes1), 5.f);
+    this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);
 }
+void GashaponLayer::jiantou1CallBack(CCObject* pSender){
+    jiantouItem1->setEnabled(false);
+    jiantouItem2->setEnabled(false);
+    nowIndex--;
+    
+    if (nowIndex >= 0) {
+        this->unschedule(SEL_SCHEDULE(&GashaponLayer::updataClothes));
+        
+        _ManSpr->removeAllChildren();
+        CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+        
+        myClothesTemp = (CCDictionary*)suitsArr->objectAtIndex(nowIndex);
+        
+        CCString* labelStr2 = CCString::createWithFormat("%d/%d", nowIndex+1, suitsArr->count());
+        label2->setString(labelStr2->getCString());
+        
+        this->creat_Man();
+        this->initClothes();
+        
+        this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);
+    }else{
+        nowIndex = 0;
+    }
+    this->scheduleOnce(SEL_SCHEDULE(&GashaponLayer::updataButton), .3f);
+}
+void GashaponLayer::jiantou2CallBack(CCObject* pSender){
+    jiantouItem1->setEnabled(false);
+    jiantouItem2->setEnabled(false);
+    
+    nowIndex++;
+    if (nowIndex < suitsArr->count()) {
+        this->unschedule(SEL_SCHEDULE(&GashaponLayer::updataClothes));
+        
+        _ManSpr->removeAllChildren();
+        CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+        
+        myClothesTemp = (CCDictionary*)suitsArr->objectAtIndex(nowIndex);
+        
+        CCString* labelStr2 = CCString::createWithFormat("%d/%d", nowIndex+1, suitsArr->count());
+        label2->setString(labelStr2->getCString());
+        
+        this->creat_Man();
+        this->initClothes();
+        
+        this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);
+    }else{
+        nowIndex = suitsArr->count() - 1;
+    }
+    this->scheduleOnce(SEL_SCHEDULE(&GashaponLayer::updataButton), .3f);
+}
+void GashaponLayer::updataButton(){
+    if (nowIndex == suitsArr->count() - 1) {
+        jiantouItem2->setColor(ccGRAY);
+        jiantouItem2->setEnabled(true);
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+    }else if (nowIndex == 0){
+        jiantouItem1->setColor(ccGRAY);
+        jiantouItem1->setEnabled(false);
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }else{
+        jiantouItem1->setColor(ccWHITE);
+        jiantouItem1->setEnabled(true);
+        jiantouItem2->setColor(ccWHITE);
+        jiantouItem2->setEnabled(true);
+    }
+}
+
+
+
+
 void GashaponLayer::initTime(){
     long timeLong = DATA->getOperation()->getFreePoint();
     _hour = (int)timeLong/3600;//小时
@@ -371,15 +486,15 @@ void GashaponLayer::_309CallBack(CCObject* pSender){
 
 
 void GashaponLayer::creat_Tishi(CCObject* arr){
-//    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )arr);
-//    this->addChild(layer, 100);
+    RewardLayer* layer = RewardLayer::create_with_index((CCArray* )arr);
+    this->addChild(layer, 100);
     
-    this->removeFromParentAndCleanup(true);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
+//    this->removeFromParentAndCleanup(true);
+//    CCNotificationCenter::sharedNotificationCenter()->postNotification("linshiMethod", arr);
 }
 
 
-void GashaponLayer::updataClothes1(){
+void GashaponLayer::updataClothes(){
     nowIndex++;
     if (nowIndex >= suitsArr->count()) {
         nowIndex = 0;
@@ -396,12 +511,7 @@ void GashaponLayer::updataClothes1(){
     this->creat_Man();
     this->initClothes();
     
-    CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&GashaponLayer::updataClothes2));
-    _ManSpr->runAction(CCSequence::create(CCDelayTime::create(.3f), callFunc, NULL));
-}
-void GashaponLayer::updataClothes2(){
-    
-    
+    this->scheduleOnce(SEL_SCHEDULE(&GashaponLayer::updataButton), .3f);
 }
 
 void GashaponLayer::creat_Man(){

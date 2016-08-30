@@ -130,13 +130,8 @@ void GameJingli::show_game_help() {
     this->addChild(tishi, 20, 0x121);
     
     CCSprite* kSpr = CCSprite::create("res/pic/game/color/guide_kuang2.png");
-    kSpr->setPosition(ccp(tishi->getContentSize().width* .65f, 0));
+    kSpr->setPosition(ccp(tishi->getContentSize().width* .5f, -40));
     tishi->addChild(kSpr, 3);
-    
-    CCLabelTTF* label = CCLabelTTF::create("点击任意处继续", DISPLAY->fangzhengFont(), 35);
-    label->setPosition(ccp(kSpr->getContentSize().width* .5f, kSpr->getContentSize().height* .5f));
-    label->setColor(ccc3(24, 21, 70));
-    kSpr->addChild(label, 4);
 }
 
 void GameJingli::starAnimation() {
