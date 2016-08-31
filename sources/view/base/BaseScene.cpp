@@ -274,6 +274,9 @@ void BaseScene::openBaseScene(){
     barMenu->setVisible(true);
     _phaseStar->setVisible(true);
 }
+void BaseScene::closeBaseMenu(){
+    barMenu->setEnabled(false);
+}
 
 void BaseScene::tiliCallBack(CCObject* pSender){
     this->show_energybuy_panel();

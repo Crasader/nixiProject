@@ -16,6 +16,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "QingjingScene.h"
+#include "GuideLayer.h"
 
 
 PhoneLayer2::PhoneLayer2(){
@@ -29,6 +30,7 @@ void PhoneLayer2::onEnter(){
     BaseScene::onEnter();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&PhoneLayer2::_500CallBack), "HTTP_FINISHED_500", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&PhoneLayer2::quCallBack), "Guide_quCallBack", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&PhoneLayer2::keyBackStatus), .8f);
 }
@@ -66,6 +68,13 @@ bool PhoneLayer2::init(){
     
     this->creat_view();
     this->creat_man();
+    
+    
+    if (DATA->current_guide_step() == 8) {
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
     
     return true;
 }
@@ -140,6 +149,14 @@ void PhoneLayer2::creat_view(){
     CCMenu* buttonMenu = CCMenu::create(buquItem, quItem, NULL);
     buttonMenu->setPosition(CCPointZero);
     kuangSpr->addChild(buttonMenu);
+    
+    
+    if (DATA->current_guide_step() == 8) {
+        backItem->setColor(ccGRAY);
+        backItem->setEnabled(false);
+        buquItem->setColor(ccGRAY);
+        buquItem->setEnabled(false);
+    }
 }
 void PhoneLayer2::creat_man(){
     // 显示的任务的结局
@@ -339,6 +356,8 @@ void PhoneLayer2::keyBackClicked(){
         return;
     }
     
-    this->backCallBack(NULL);
+    if (DATA->current_guide_step() != 8) {
+        this->backCallBack(NULL);
+    }
 }
 

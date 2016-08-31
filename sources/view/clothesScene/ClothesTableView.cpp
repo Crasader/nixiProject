@@ -107,6 +107,15 @@ void ClothesTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vie
 //点击哪个cell
 void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
+    if (DATA->current_guide_step() == 4) {
+        if (DATA->_guideBool4[3] && !DATA->_guideBool4[4]){
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
+        }
+    }else if (DATA->current_guide_step() == 6){
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
+    }
+    
+    
     now_CellIndex = cell->getIdx();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataSaveItemStatus");
     

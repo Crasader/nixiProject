@@ -21,6 +21,7 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "GuideLayer.h"
 
 ClothesScene::ClothesScene(){
     
@@ -88,6 +89,19 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
         this->addChild(menu, 15);
     }
     
+    if (DATA->current_guide_step() == 0) {
+        
+    }else if (DATA->current_guide_step() == 4){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }else if (DATA->current_guide_step() == 6){
+        BaseScene::closeBaseMenu();
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
+    
     
     this->crate_Tishi();
     this->creat_View();
@@ -120,9 +134,15 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::ChangeClothes), "ChangeClothes", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::ChangClothesIndex), "ChangClothesIndex", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::updataSaveItemStatus), "UpdataSaveItemStatus", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::backCallBack), "GuideBackCallBack", NULL);
     
     nc->addObserver(this, menu_selector(ClothesScene::buttonStatus), "ButtonStatus", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::creat_money), "Creat_money", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::renwukuangCallBack), "GuideRenwukuangCallBack", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::guideButtonCallBack), "GuideButtonCallBack", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::startCallBack), "GuideStartCallBack", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::removeAnimation), "GuideRemoveAnimation", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
@@ -1052,6 +1072,68 @@ void ClothesScene::buttonCallBack(CCObject* pSender){
         }
     }
 }
+void ClothesScene::guideButtonCallBack(){
+    if (animationBool) {
+        animationBool = false;
+        
+        this->removeAllSpr();
+    }
+    
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    buttonTag = Tag_CL_XieZi;
+    CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(ClothesScene::openButtonMenu));
+    
+    if (buttonTag != Tag_CL_ZhuangRong && buttonTag != Tag_CL_TeXiao) {
+        if (clothKuangSpr->getChildren() != NULL) {
+            clothKuangSpr->removeAllChildren();
+        }
+        
+        this->creat_View();
+        
+        if (zhuangrongBool) {
+            zhuangrongBool = false;
+            buttonMenu->setEnabled(false);
+            
+            CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
+            CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
+            _ManSpr->runAction(CCSequence::create(spawn, CCDelayTime::create(.1f), callFuncN, NULL));
+        }
+        
+    }else if (buttonTag == Tag_CL_ZhuangRong){
+        if (clothKuangSpr->getChildren() != NULL) {
+            clothKuangSpr->removeAllChildren();
+        }
+        
+        this->creat_View();
+        
+        if (!zhuangrongBool) {
+            zhuangrongBool = true;
+            buttonMenu->setEnabled(false);
+            
+            CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(-DISPLAY->ScreenWidth()* .15f, -DISPLAY->ScreenHeight()* .5f));
+            CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.5f);
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
+            _ManSpr->runAction(CCSequence::create(spawn, CCDelayTime::create(.1f), callFuncN, NULL));
+        }
+    }else if (buttonTag == Tag_CL_TeXiao){
+        if (clothKuangSpr->getChildren() != NULL) {
+            clothKuangSpr->removeAllChildren();
+        }
+        
+        this->creat_View();
+        
+        if (zhuangrongBool) {
+            zhuangrongBool = false;
+            buttonMenu->setEnabled(false);
+            
+            CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
+            CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
+            CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
+            _ManSpr->runAction(CCSequence::create(spawn, CCDelayTime::create(.1f), callFuncN, NULL));
+        }
+    }
+}
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
@@ -1074,12 +1156,35 @@ void ClothesScene::backCallBack(CCObject* pSender){
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);
         }else if (clothesStatus == 2){// 换装
-            CCScene* scene = MainScene::scene();
-            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-            CCDirector::sharedDirector()->replaceScene(trans);
+            if (DATA->current_guide_step() == 6) {
+                LOADING->show_loading();
+                DATA->getPlayer()->setGuide(7);
+                NET->update_guide_905(DATA->getPlayer()->getGuide());
+            }else if (DATA->current_guide_step() == 4){
+                
+            }else{
+                CCScene* scene = MainScene::scene();
+                CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+                CCDirector::sharedDirector()->replaceScene(trans);
+            }
         }
     }
 }
+void ClothesScene::_905CallBack(CCObject* pObj){
+    LOADING->remove();
+    
+    CCScene* scene = MainScene::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+void ClothesScene::removeAnimation(){
+    if (animationBool) {
+        animationBool = false;
+        
+        this->removeAllSpr();
+    }
+}
+
 void ClothesScene::startCallBack(CCObject* pSender){
     if (animationBool) {
         animationBool = false;
@@ -1250,6 +1355,10 @@ void ClothesScene::buyCallBack(CCObject* pSender){
         animationBool = false;
         
         this->removeAllSpr();
+    }
+    
+    if (DATA->current_guide_step() == 6){
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
     }
     
     bool buyBool = false;// 为true表示有未购买衣服

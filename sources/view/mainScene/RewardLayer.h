@@ -40,11 +40,21 @@ public:
     
     CCSprite* bgSpr;
     CCSprite* kuangSpr;
+    CCArray* rewardArr;
     
+    int tenIndex;
+    bool tenBool;
+    bool rewardBool;
     bool touchBool;
+    bool iconBool;
     
 public:
     
+    void drawOnce();
+    void drawTen();
+    void drawTen2();
+    void drawTen3();
+    void openDraw();
     void openTouch();
     
 };

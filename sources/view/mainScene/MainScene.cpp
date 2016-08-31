@@ -48,6 +48,8 @@
 
 #include "RewardLayer.h"
 
+#include "GuideLayer.h"
+
 // --------------- test ----------------
 
 
@@ -68,6 +70,8 @@ bool MainScene::init(){
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
+    
+    this->creat_guideBool();
     
     _arrGroup1 = NULL;
     _arrGroup2 = NULL;
@@ -91,7 +95,12 @@ bool MainScene::init(){
     isEffective = true;
     move_x = 0;
     
-    isOpen = true;
+    if (DATA->current_guide_step() == 6) {
+        isOpen = false;
+    }else{
+        isOpen = true;
+    }
+    
     
     time_t t;
     struct tm *p;
@@ -101,17 +110,40 @@ bool MainScene::init(){
     strftime(s, 80, "%Y-%m-%d %H:%M:%S", p);
     CCLog("<><><><>time == %d: %s\n", (int)t, s);
     
+    
+    if (DATA->current_guide_step() == 0) {
+        
+    }else if (DATA->current_guide_step() == 1){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }else if (DATA->current_guide_step() == 5){
+        DATA->getPlayer()->setGuide(100);
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->getPlayer()->getGuide());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }else if (DATA->current_guide_step() == 6){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->getPlayer()->getGuide());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }else if (DATA->current_guide_step() == 7){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->getPlayer()->getGuide());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
+    
     return true;
 }
 
 CCScene* MainScene::scene(){
     CCScene* scene = CCScene::create();
     MainScene* layer = MainScene::create();
-    
-    DragLayer* drag = DragLayer::create();
-    
     scene->addChild(layer);
-    scene->addChild(drag);
+    
+    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() == 8) {
+        DragLayer* drag = DragLayer::create();
+        scene->addChild(drag);
+    }
     
     return scene;
 }
@@ -140,6 +172,8 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_recharge_info_304), "HTTP_FINISHED_304", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
+    
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
@@ -157,6 +191,11 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::setIsEffective), "EFFECTIVE", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
+    
+    
+    // guide
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::richangMethods), "GuideRichangMethods", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::isTxt_Bar), "GuideIsTxt_Bar", NULL);
     
     this->update_news_status();
     
@@ -185,7 +224,7 @@ void MainScene::keyBackStatus(float dt){
 void MainScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
-    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+//    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     BaseScene::onExit();
 }
 
@@ -689,7 +728,12 @@ void MainScene::creat_view(){
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
-    menu->setPosition(ccp(0, 0));
+    if (DATA->current_guide_step() == 6){
+        menu->setPosition(ccp(0, 90 * 9));
+    }else{
+        menu->setPosition(ccp(0, 0));
+    }
+    
     
     CCSprite* stencil = CCSprite::create();
     stencil->setTextureRect(CCRect(0, 0, huodongItem->getContentSize().width, huodongItem->getContentSize().height* 10));
@@ -705,12 +749,27 @@ void MainScene::creat_view(){
     if (notice) {
         CCSprite* txt_bar = CCSprite::create("res/pic/mainScene/txt_bar.png");
         txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
+        txt_bar->setTag(0x456777);
         this->addChild(txt_bar);
         
         CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         lab->setColor(ccc3(155, 84, 46));
         lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
         txt_bar->addChild(lab);
+    }
+}
+void MainScene::isTxt_Bar(){
+    if (DATA->current_guide_step() == 7) {
+        if (this->getChildByTag(0x456777) != NULL) {
+            CCNode* node = this->getChildByTag(0x456777);
+            
+            CCScaleTo* scaleTo1 = CCScaleTo::create(.2f, 1.02f);
+            CCScaleTo* scaleTo2 = CCScaleTo::create(.1f, 1.f);
+            CCScaleTo* scaleTo3 = CCScaleTo::create(.2f, 1.02f);
+            CCScaleTo* scaleTo4 = CCScaleTo::create(.1f, 1.f);
+            CCSequence* seq = CCSequence::create(scaleTo1, scaleTo2, scaleTo3, scaleTo4, CCDelayTime::create(.6f), NULL);
+            node->runAction(CCRepeatForever::create(seq));
+        }
     }
 }
 
@@ -721,6 +780,9 @@ void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
             mt = CCMoveTo::create(0.3, ccp(0, 90 * 9));
             isOpen = false;
         }else{
+            if (DATA->current_guide_step() == 6) {
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
+            }
             mt = CCMoveTo::create(0.3, ccp(0, 0));
             isOpen = true;
         }
@@ -1165,7 +1227,7 @@ void MainScene::nc_gashapon_info_306(CCObject *pObj) {
     LOADING->remove();
     
     GashaponLayer* layer = GashaponLayer::create();
-    this->addChild(layer, 500);
+    this->getScene()->addChild(layer);
 }
 void MainScene::creat_Exchange(){
     ExchangeLayer* layer = ExchangeLayer::create();
@@ -1183,44 +1245,66 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 }
 
 void MainScene::juqingCallBack(CCObject* pSender){
-//    if (isOk) {
-//        if (DATA->getStory()->has_init_story()) {
-//            this->_500CallBack(NULL);
-//        }else{
-//            LOADING->show_loading();
-//            NET->completed_story_500();
-//        }
-//    }
-    CCScene* pScene = CCScene::create();
-    StoryScene* layer = StoryScene::create_with_story_id(0);
-    pScene->addChild(layer);
-    CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (isOk) {
+        if (DATA->getStory()->has_init_story()) {
+            this->_500CallBack(NULL);
+        }else{
+            LOADING->show_loading();
+            NET->completed_story_500();
+        }
+    }
+//    CCScene* pScene = CCScene::create();
+//    StoryScene* layer = StoryScene::create_with_story_id(0);
+//    pScene->addChild(layer);
+//    CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
     
 }
 
-void MainScene::_500CallBack(CCObject* pSender){
+void MainScene::_500CallBack(CCObject* pSender) {
     AUDIO->comfirm_effect();
     if (isrenwuBool) {
         LOADING->show_loading();
         NET->completed_mission_600();
-    }else{
+    }else {
         CCScene* scene = QingjingScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
 
-void MainScene::richangCallBack(CCObject* pSender){
+void MainScene::richangCallBack(CCObject* pSender) {
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
             LOADING->show_loading();
             NET->completed_mission_600();
-        }else{
+        }else {
             isrenwuBool = true;
             LOADING->show_loading();
             NET->completed_story_500();
         }
+    }
+}
+void MainScene::richangMethods() {
+    PlayerComp* _player = DATA->getPlayer();
+    if (_player->getGuide() == 1) {
+        _player->setGuide(2);
+    }else if (_player->getGuide() == 7){
+        _player->setGuide(7);
+    }else if (_player->getGuide() == 100){
+        _player->setGuide(5);
+    }
+    
+    LOADING->show_loading();
+    NET->update_guide_905(_player->getGuide());
+}
+void MainScene::_905CallBack(CCObject *pObj){
+    
+    if (DATA->getStory()->has_init_story()) {
+        NET->completed_mission_600();
+    }else {
+        isrenwuBool = true;
+        NET->completed_story_500();
     }
 }
 
@@ -1242,7 +1326,6 @@ void MainScene::shezhiCallBack(CCObject* pSender){
         SettingPanel* panel = SettingPanel::create();
         panel->show_from(_shezhiItem->getPosition());
     }
-    
 }
 
 void MainScene::creat_Man(){
@@ -1794,6 +1877,58 @@ void MainScene::linshiMethod(CCObject *pObj){
     RewardLayer* layer = RewardLayer::create_with_index((CCArray* )pObj);
     this->addChild(layer, 100);
 }
+
+
+
+void MainScene::creat_guideBool(){
+    PlayerComp* _player = DATA->getPlayer();
+    if (_player->getGuide() == 1) {
+        for (int i = 0; i < 4; i++) {
+            DATA->_guideBool1[i] = false;
+        }
+    }
+    if (_player->getGuide() > 1 && _player->getGuide() <= 4){
+        _player->setGuide(1);
+        DATA->_guideBool1[0] = true;
+        DATA->_guideBool1[1] = true;
+        DATA->_guideBool1[2] = false;
+        DATA->_guideBool1[3] = false;
+        for (int i = 0; i < 6; i++) {
+            DATA->_guideBool2[i] = false;
+        }
+        for (int i = 0; i < 3; i++) {
+            DATA->_guideBool3[i] = false;
+        }
+        for (int i = 0; i < 8; i++) {
+            DATA->_guideBool4[i] = false;
+        }
+    }
+    if (_player->getGuide() == 5) {
+        for (int i = 0; i < 5; i++) {
+            DATA->_guideBool5[i] = false;
+        }
+    }
+    if (_player->getGuide() == 6) {
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool6[i] = false;
+        }
+    }
+    if (_player->getGuide() == 7) {
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool7[i] = false;
+        }
+    }
+    if (_player->getGuide() == 8) {
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool8[i] = false;
+        }
+    }
+    
+}
+
+
+
+
 
 
 

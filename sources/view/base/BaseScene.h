@@ -32,6 +32,7 @@ public:
     void init_UI();
     void hideBaseScene();
     void openBaseScene();
+    void closeBaseMenu();
     
     virtual void onEnter();
     virtual void onExit();

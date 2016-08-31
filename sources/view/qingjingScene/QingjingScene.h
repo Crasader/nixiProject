@@ -90,6 +90,7 @@ public:
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
+    void guide_StartCallBack();
     void _501CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);

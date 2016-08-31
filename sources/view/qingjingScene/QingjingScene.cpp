@@ -18,6 +18,7 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "GuideLayer.h"
 
 
 QingjingScene::QingjingScene(){
@@ -54,6 +55,13 @@ bool QingjingScene::init(){
 //    this->creat_Tishi();
 //    this->EnterTheTishi();
     
+    
+    if (DATA->current_guide_step() == 8){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
+    
     return true;
 }
 CCScene* QingjingScene::scene(){
@@ -79,6 +87,9 @@ void QingjingScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::ExitTishi), "Qingjing_ExitTishi", NULL);
     
+    
+    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::guide_StartCallBack), "Guide_StartCallBack", NULL);
+    
     this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::keyBackStatus), .8f);
 }
 
@@ -99,7 +110,9 @@ void QingjingScene::keyBackClicked(){
         return;
     }
     
-    this->backCallBack(NULL);
+    if (DATA->current_guide_step() == 0) {
+        this->backCallBack(NULL);
+    }
 }
 
 void QingjingScene::creat_view(){
@@ -697,6 +710,11 @@ void QingjingScene::startCallBack(CCObject* pSender){
             CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
         }
     }
+}
+void QingjingScene::guide_StartCallBack(){
+    LOADING->show_loading();
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    NET->start_story_501(indexStr->getCString());
 }
 void QingjingScene::_501CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();

@@ -98,6 +98,12 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
     CCRect rect = _building->boundingBox();
     CCRect check = CCRectMake(rect.origin.x, rect.origin.y, (DISPLAY->W() - 200), rect.size.height);
     if (check.containsPoint(location)) {
+        if (DATA->current_guide_step() == 5) {
+            if (!DATA->_guideBool5[0]){
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
+            }
+        }
+        
         AUDIO->comfirm_effect();
         this->building_touch_callback();
         return true;

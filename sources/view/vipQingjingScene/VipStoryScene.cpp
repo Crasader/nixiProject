@@ -155,7 +155,7 @@ void VipStoryScene::init_with_story_id(int _index){
     float heiSize = kuangSpr->getContentSize().height;
     
     nameKuang = CCSprite::create("res/pic/qingjingScene/storyscene/qj_namekuang.png");
-    nameKuang->setPosition(ccp(kuangSpr->getContentSize().width* .2f, kuangSpr->getContentSize().height - 10));
+    nameKuang->setPosition(ccp(kuangSpr->getContentSize().width* .15f, kuangSpr->getContentSize().height - 10));
     kuangSpr->addChild(nameKuang);
     nameKuang->setVisible(false);
     
@@ -976,7 +976,7 @@ void VipStoryScene::addButton(){
     CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_huikan.png");
     hgSpr2->setColor(ccGRAY);
     CCMenuItem* hkButton = CCMenuItemSprite::create(hgSpr1, hgSpr2, this, menu_selector(VipStoryScene::button2CallBack));
-    hkButton->setPosition(ccp(kuangSpr->boundingBox().size.width* .58, kuangSpr->boundingBox().size.height + 80 - 500));
+    hkButton->setPosition(ccp(kuangSpr->getContentSize().width* .61, kuangSpr->getContentSize().height + 80 - 500));
     
     
     // 自动
@@ -989,7 +989,7 @@ void VipStoryScene::addButton(){
     CCMenuItem* zidongItemOn = CCMenuItemSprite::create(zdSpr1, zdSpr1);
     CCMenuItem* zidongItemOff = CCMenuItemSprite::create(ztSpr1, ztSpr2);
     zidongToggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(VipStoryScene::button3CallBack), zidongItemOn,zidongItemOff,NULL);
-    zidongToggleItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .73, kuangSpr->boundingBox().size.height + 80 - 500));
+    zidongToggleItem->setPosition(ccp(kuangSpr->getContentSize().width* .76, kuangSpr->getContentSize().height + 80 - 500));
     zidongToggleItem->setTag(Tag_zidong);
     m_bIsZDSelect = recordBool3;
     if (m_bIsZDSelect) {
@@ -1008,9 +1008,9 @@ void VipStoryScene::addButton(){
     CCMenuItem* kuaijinItemOn = CCMenuItemSprite::create(kjSpr1, kjSpr2);
     CCMenuItem* kuaijinItemOff = CCMenuItemSprite::create(ztSpr3, ztSpr4);
     kuaijinToggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(VipStoryScene::button1CallBack), kuaijinItemOn,kuaijinItemOff,NULL);
-    kuaijinToggleItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .88, kuangSpr->boundingBox().size.height + 80 - 500));
+    kuaijinToggleItem->setPosition(ccp(kuangSpr->getContentSize().width* .91, kuangSpr->getContentSize().height + 80 - 500));
     CCPoint pos = ccp(kuaijinToggleItem->getPosition().x, kuaijinToggleItem->getPosition().y);
-
+    
     m_bIsKJSelect = recordBool1;
     if (DATA->getFastForward()) {
         if (m_bIsKJSelect) {

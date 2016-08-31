@@ -548,3 +548,7 @@ bool DataManager::could_prduce() {
 }
 
 
+int DataManager::current_guide_step(){
+    return _player->getGuide();
+}
+

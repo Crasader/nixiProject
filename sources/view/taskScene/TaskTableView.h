@@ -90,6 +90,7 @@ public:
     CCString* getTaskName(int index);
     int getTaskIcon(int index);
     int getTaskPhase(int index);
+    
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */
