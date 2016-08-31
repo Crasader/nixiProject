@@ -60,7 +60,7 @@ bool TaskStoryScene::init(){
     
 #warning 这里 老周 你来看看 这里是假的 没有3阶段的表
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
-    CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
+    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
     subscriptIndex = missionDic->valueForKey("id")->intValue();
     

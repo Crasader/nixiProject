@@ -204,7 +204,7 @@ void ColorLayer::initView(){
 //    {// 3 2 1 go + 提示
 //        CCActionInterval * delaytime = CCDelayTime::create(0.f);
     CCSprite * tishi = CCSprite::create("res/pic/game/color/games_yd_color.png");
-    tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .54f));
+    tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
     this->addChild(tishi, 20, 0x121);
     
     CCSprite* kSpr = CCSprite::create("res/pic/game/color/guide_kuang2.png");
