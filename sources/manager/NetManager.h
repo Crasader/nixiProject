@@ -66,6 +66,7 @@ public:
     void completed_mission_600();
 //    void start_mission_601(int id);
     void commit_mission_603(int id);
+    void commit_extra_mission_605(int id, int type, int flag);
     
     void completed_story_500();
     void start_story_501(const char* id);

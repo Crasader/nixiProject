@@ -215,6 +215,10 @@ void MainScene::onEnter(){
         isOk = true;
         this->qiandaoCallBack(NULL);
     }
+    
+    
+#warning Test
+    NET->commit_extra_mission_605(1, 2, 100);
 }
 
 void MainScene::keyBackStatus(float dt){
