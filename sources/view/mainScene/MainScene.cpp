@@ -92,6 +92,8 @@ bool MainScene::init(){
     move_x = 0;
     
     isOpen = true;
+    opacity = 200;
+    sp = 1.0;
     
     time_t t;
     struct tm *p;
@@ -486,6 +488,25 @@ void MainScene::creat_view(){
     _layer_3->addChild(menu_richang);
     company_bar1->setUserObject(ccs("res/pic/mainScene/company_bar.png"));
     _arrGroup1->addObject(company_bar1);
+    
+    
+    //---樱花树---
+    tree = CCSprite::create("res/pic/mainScene/tree_1.png");
+    tree->setPosition(ccp(_layer_3->getContentSize().width* .76f, _layer_3->getContentSize().height* .66f));
+    _layer_3->addChild(tree);
+    
+    CCAnimation* amt = CCAnimation::create();
+    for (int i = 0; i < 6; i++) {
+        CCString* str = CCString::createWithFormat("res/pic/mainScene/tree_%d.png", i + 1);
+        amt->addSpriteFrameWithFileName(str->getCString());
+    }
+    amt->setDelayPerUnit(0.5f);
+    amt->setRestoreOriginalFrame(true);
+    CCAnimate* animate_tree = CCAnimate::create(amt);
+    
+    CCRepeatForever* rep_tree = CCRepeatForever::create(CCSequence::create(animate_tree, animate_tree->reverse(), NULL));
+    
+    tree->runAction(rep_tree);
     
     
     //---社交btn(咖啡厅)---
@@ -923,6 +944,16 @@ void MainScene::update(float dt){
         car_3->setPositionX(car_3->getPositionX() + 70 * dt);
     }
     
+    if(opacity <= 150) {
+        sp = 20.0;
+    }
+    if(opacity >= 255) {
+        sp = -20.0;
+    }
+    opacity += sp * dt;
+    opacity = opacity > 255 ? 255 : opacity;
+    tree->setOpacity((GLubyte)opacity);
+    CCLog("Opacity: %d, opc: %f", tree->getOpacity(), opacity);
     if (isEffective) {
         isOk = true;
     }

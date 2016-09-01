@@ -77,7 +77,9 @@ public:
     CCSprite* _bird_6;
     CCSprite* _bird_7;
     
-    
+    CCSprite*  tree;
+    float    opacity;
+    float      sp;
     
     CCSprite* car_1;
     CCSprite* car_2;
