@@ -66,6 +66,7 @@ public:
     void completed_mission_600();
 //    void start_mission_601(int id);
     void commit_mission_603(int id);
+    // id: 任务index; type: 对应next 有效值(2,3,4,5,6); flag: 附加结果，比如小游戏分数。
     void commit_extra_mission_605(int id, int type, int flag);
     
     void completed_story_500();
