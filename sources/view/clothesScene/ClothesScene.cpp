@@ -1139,33 +1139,41 @@ void ClothesScene::backCallBack(CCObject* pSender){
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
-    if (DATA->getHomeBool()) {
-        DATA->setHomeBool(false);
+    if (DATA->getTaskGameBool6()) {
         
-        CCScene* scene = HomeLayer::scene();
+//        NET->commit_extra_mission_605
+        
+        CCLayer* layer = TaskScene::create(false);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else{
-        if (clothesStatus == 1) {// 任务
-//            CCScene* scene = TaskScene::scene();
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-            CCLayer* layer = TaskScene::create(false);
-            CCScene* scene = CCScene::create();
-            scene->addChild(layer);
+        if (DATA->getHomeBool()) {
+            DATA->setHomeBool(false);
+            
+            CCScene* scene = HomeLayer::scene();
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);
-        }else if (clothesStatus == 2){// 换装
-            if (DATA->current_guide_step() == 6) {
-                LOADING->show_loading();
-                DATA->getPlayer()->setGuide(7);
-                NET->update_guide_905(DATA->getPlayer()->getGuide());
-            }else if (DATA->current_guide_step() == 4){
-                
-            }else{
-                CCScene* scene = MainScene::scene();
+        }else{
+            if (clothesStatus == 1) {// 任务
+                CCLayer* layer = TaskScene::create(false);
+                CCScene* scene = CCScene::create();
+                scene->addChild(layer);
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                 CCDirector::sharedDirector()->replaceScene(trans);
+            }else if (clothesStatus == 2){// 换装
+                if (DATA->current_guide_step() >= 6 && DATA->current_guide_step() < 8) {
+                    LOADING->show_loading();
+                    DATA->getPlayer()->setGuide(8);
+                    NET->update_guide_905(DATA->getPlayer()->getGuide());
+                }else if (DATA->current_guide_step() == 4){
+                    
+                }else{
+                    CCScene* scene = MainScene::scene();
+                    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+                    CCDirector::sharedDirector()->replaceScene(trans);
+                }
             }
         }
     }
@@ -1173,9 +1181,11 @@ void ClothesScene::backCallBack(CCObject* pSender){
 void ClothesScene::_905CallBack(CCObject* pObj){
     LOADING->remove();
     
-    CCScene* scene = MainScene::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (DATA->current_guide_step() == 8) {
+        CCScene* scene = MainScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 void ClothesScene::removeAnimation(){
     if (animationBool) {

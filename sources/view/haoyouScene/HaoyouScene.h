@@ -94,6 +94,7 @@ public:
     void all_friends_callback_806(CCObject* pObj);
     void all_paper_callback_808(CCObject* pObj);
     void rank_list_callback_300(CCObject* pObj);
+    void _600CallBack(CCObject* pObj);
 
 public:
     

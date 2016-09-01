@@ -127,8 +127,8 @@ void StoryScene::init_with_story_id(int _index){
     
     dialog = Dialogs::create();
     dialog->retain();
-    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
-//    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 5);
+//    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
+    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 0);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
     dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
@@ -1062,7 +1062,7 @@ void StoryScene::addButton(){
     menu->setTag(0x88888);
     _dkSpr->addChild(menu, 15);
     
-    if (DATA->current_guide_step() == 8){
+    if (DATA->current_guide_step() == 9){
         fhItem->setColor(ccGRAY);
         fhItem->setEnabled(false);
     }
@@ -1204,7 +1204,7 @@ void StoryScene::button3CallBack(CCObject* pSender){
 }
 
 void StoryScene::initButton(){
-    if (DATA->current_guide_step() == 8){
+    if (DATA->current_guide_step() == 9){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
@@ -1252,7 +1252,7 @@ void StoryScene::creatButton(int dex){
         menu1->setVisible(true);
         this->addChild(menu1, 20);
         
-        if (DATA->current_guide_step() == 8){
+        if (DATA->current_guide_step() == 9){
             item1->setEnabled(false);
         }
         
@@ -1280,7 +1280,7 @@ void StoryScene::creatButton(int dex){
         menu3->setVisible(true);
         this->addChild(menu3, 20);
         
-        if (DATA->current_guide_step() == 8){
+        if (DATA->current_guide_step() == 9){
             item3->setEnabled(false);
         }
     }

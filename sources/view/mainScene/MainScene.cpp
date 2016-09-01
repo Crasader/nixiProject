@@ -77,6 +77,7 @@ bool MainScene::init(){
     _arrGroup2 = NULL;
     _arrPlay = NULL;
     isrenwuBool = false;
+    ishomeBool = false;
     
     
 //    _ManSpr = CCSprite::create();
@@ -126,7 +127,7 @@ bool MainScene::init(){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->getPlayer()->getGuide());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
-    }else if (DATA->current_guide_step() == 7){
+    }else if (DATA->current_guide_step() == 8){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->getPlayer()->getGuide());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
@@ -140,7 +141,7 @@ CCScene* MainScene::scene(){
     MainScene* layer = MainScene::create();
     scene->addChild(layer);
     
-    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() == 8) {
+    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() == 9) {
         DragLayer* drag = DragLayer::create();
         scene->addChild(drag);
     }
@@ -759,7 +760,7 @@ void MainScene::creat_view(){
     }
 }
 void MainScene::isTxt_Bar(){
-    if (DATA->current_guide_step() == 7) {
+    if (DATA->current_guide_step() == 8) {
         if (this->getChildByTag(0x456777) != NULL) {
             CCNode* node = this->getChildByTag(0x456777);
             
@@ -1062,9 +1063,15 @@ void MainScene::homeCallBack(CCObject *pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 //    }
     if (isOk) {
-        AUDIO->comfirm_effect();
-        LOADING->show_loading();
-        NET->home_info_704(true);
+        if (DATA->getStory()->has_init_story()) {
+            ishomeBool = true;
+            LOADING->show_loading();
+            NET->completed_mission_600();
+        }else {
+            AUDIO->comfirm_effect();
+            LOADING->show_loading();
+            NET->home_info_704(true);
+        }
     }
 }
 void MainScene::_704CallBack(CCObject* pSender){
@@ -1289,8 +1296,8 @@ void MainScene::richangMethods() {
     PlayerComp* _player = DATA->getPlayer();
     if (_player->getGuide() == 1) {
         _player->setGuide(2);
-    }else if (_player->getGuide() == 7){
-        _player->setGuide(7);
+    }else if (_player->getGuide() == 8){
+        _player->setGuide(8);
     }else if (_player->getGuide() == 100){
         _player->setGuide(5);
     }
@@ -1312,12 +1319,18 @@ void MainScene::_600CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     LOADING->remove();
     
-    DATA->setTaskPhase(DATA->getPlayer()->phase);
-    CCLayer* layer = TaskScene::create(false);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (ishomeBool) {
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        NET->home_info_704(true);
+    }else{
+        DATA->setTaskPhase(DATA->getPlayer()->phase);
+        CCLayer* layer = TaskScene::create(false);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void MainScene::shezhiCallBack(CCObject* pSender){
@@ -1921,6 +1934,11 @@ void MainScene::creat_guideBool(){
     if (_player->getGuide() == 8) {
         for (int i = 0; i < 10; i++) {
             DATA->_guideBool8[i] = false;
+        }
+    }
+    if (_player->getGuide() == 9) {
+        for (int i = 0; i < 10; i++) {
+            DATA->_guideBool9[i] = false;
         }
     }
     

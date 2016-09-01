@@ -79,9 +79,6 @@ public:
 public:
     
     void creat_view();
-    void creat_Tishi();
-    void EnterTheTishi();
-    void ExitTishi();
     
     void creat_Man();
     void initClothes();
@@ -110,7 +107,6 @@ public:
     int storyIndex;
     int renwuIndex;
     int phaseIndex;
-    int OpenToWhichOne;
     int allNumber;
     int selectedIndex;
     

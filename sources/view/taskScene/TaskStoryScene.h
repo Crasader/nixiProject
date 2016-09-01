@@ -158,8 +158,11 @@ public:
     void _400CallBack(CCObject* pSender);
     void _603CallBack(CCObject* pSender);
     void _905CallBack(CCObject* pSender);
+    void _800CallBack(CCObject* pObj);
     void goTaskScene();
     void LabelColorFhCallBack(CCObject* pSender);
+    
+    void clothesCallBack(CCObject* pSender);
     
 public:
     bool openStory;

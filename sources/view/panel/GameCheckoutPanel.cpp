@@ -22,6 +22,7 @@
 #include "Loading2.h"
 #include "PromptLayer.h"
 #include "HomeLayer.h"
+#include "TaskScene.h"
 
 #pragma mark - Export
 
@@ -221,9 +222,18 @@ bool GameCheckoutPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent 
 void GameCheckoutPanel::remove() {
 //    this->do_exit();
 //    this->removeFromParentAndCleanup(true);
-    CCScene* scene = HomeLayer::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (DATA->getTaskGameBool2() || DATA->getTaskGameBool3() || DATA->getTaskGameBool5()) {
+        DATA->setTaskPhase(DATA->getPlayer()->phase);
+        CCLayer* layer = TaskScene::create(false);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCScene* scene = HomeLayer::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void GameCheckoutPanel::keyBackClicked(){

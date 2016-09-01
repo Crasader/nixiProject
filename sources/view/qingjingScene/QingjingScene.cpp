@@ -10,7 +10,6 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "MainScene.h"
-#include "QingjingTableView.h"
 #include "StoryScene.h"
 #include "ConfigManager.h"
 #include "Loading2.h"
@@ -39,9 +38,12 @@ bool QingjingScene::init(){
     theEndBool = false;
     
     selectedIndex = DATA->getChapterNumber();
-    OpenToWhichOne = getStoryIndexStatus();
     
     DATA->setChapterNumber(0);
+    
+    CSJson::Value taskNumberData = AppUtil::read_json_file("res/story/storyNumber");
+    CCDictionary* taskNumberDic = AppUtil::dictionary_with_json(taskNumberData);
+    allNumber = taskNumberDic->count();
     
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
@@ -51,15 +53,18 @@ bool QingjingScene::init(){
     this->creat_view();
 //    this->creat_Man();
 //    this->initClothes();
-//    
-//    this->creat_Tishi();
-//    this->EnterTheTishi();
     
     
-    if (DATA->current_guide_step() == 8){
-        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-        layer->setTag(0x445566);
-        this->addChild(layer, 500);
+    if (DATA->current_guide_step() == 9){
+        if (DATA->_guideBool9[2] && !DATA->_guideBool9[3]){
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }else if (DATA->_guideBool9[5] && !DATA->_guideBool9[6]){
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }
     }
     
     return true;
@@ -82,10 +87,6 @@ void QingjingScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::updataButton), "Qingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::updataMan), "Qingjing_UpdataMan", NULL);
-    
-    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::creat_Tishi), "Qingjing_Creat_Tishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::ExitTishi), "Qingjing_ExitTishi", NULL);
     
     
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::guide_StartCallBack), "Guide_StartCallBack", NULL);
@@ -479,192 +480,6 @@ void QingjingScene::backCallBack(CCObject* pSender){
 }
 
 
-void QingjingScene::creat_Tishi(){
-    
-    if (this->getChildByTag(0x88888) != NULL) {
-        this->removeChildByTag(0x88888);
-        kuangSpr = NULL;
-    }
-    
-    if (this->getChildByTag(0x99999) != NULL) {
-        this->removeChildByTag(0x99999);
-    }
-    
-    bool tempBool = false;
-    int index = DATA->getChapterNumber();
-    
-    // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
-    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", index);
-    CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-    
-    std::string renwuStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(0))->getCString();
-    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
-    std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
-    renwuIndex = atoi(renwuIndexStr.c_str());
-    
-    int tiliIndex = 9;
-    CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
-    roomSpr = CCSprite::create(roomStr->getCString());
-    roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    roomSpr->setTag(0x99999);
-    this->addChild(roomSpr);
-    
-    kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_kuang2.png");
-    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .155f));
-    kuangSpr->setTag(0x88888);
-    this->addChild(kuangSpr, 20);
-    
-    CCSprite* xianSpr1 = CCSprite::create("res/pic/qingjingScene/qj_xian.png");
-    xianSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
-    kuangSpr->addChild(xianSpr1);
-    
-    // 标题
-    CCLabelTTF* btLabel1 = CCLabelTTF::create(DISPLAY->GetOffTheName(index)->getCString(), DISPLAY->fangzhengFont(), 25);
-    btLabel1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .91f));
-    btLabel1->setColor(ccWHITE);
-//    btLabel1->enableStroke(ccWHITE, .4f);
-    kuangSpr->addChild(btLabel1, 2);
-    
-    CCLabelTTF* btLabel2 = CCLabelTTF::create(DISPLAY->GetOffTheName(index)->getCString(), DISPLAY->fangzhengFont(), 25);
-    btLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 2, kuangSpr->getContentSize().height* .91f - 2));
-    btLabel2->setColor(ccGRAY);
-//    btLabel2->enableStroke(ccGRAY, .4f);
-    kuangSpr->addChild(btLabel2);
-    
-    // 解锁条件
-    CCLabelTTF* titleLabel2 = CCLabelTTF::create("解锁条件", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    titleLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .75f));
-    titleLabel2->setColor(ccc3(80, 63, 68));
-//    titleLabel2->enableStroke(ccc3(80, 63, 68), .4f);
-    kuangSpr->addChild(titleLabel2);
-    
-    // 解锁条件内容
-    CCLabelTTF* label1 = CCLabelTTF::create("日常: ", DISPLAY->fangzhengFont(), 20);
-    label1->setAnchorPoint(CCPointZero);
-    label1->setPosition(ccp(kuangSpr->getContentSize().width* .117f, kuangSpr->getContentSize().height* .565f));
-    label1->setColor(ccc3(102, 103, 125));
-//    label1->enableStroke(ccc3(102, 103, 125), .4f);
-    kuangSpr->addChild(label1);
-    // 任务名
-    CCString* labStr2 = CCString::createWithFormat("%s", renwuStr.c_str());
-    CCLabelTTF* label2 = CCLabelTTF::create(labStr2->getCString(), DISPLAY->fangzhengFont(), 20);
-    label2->setAnchorPoint(CCPointZero);
-    label2->setPosition(ccp(kuangSpr->getContentSize().width* .117f + label1->getContentSize().width, kuangSpr->getContentSize().height* .565f));
-    label2->setColor(ccc3(137, 211, 117));
-//    label2->enableStroke(ccc3(137, 211, 117), .4f);
-    kuangSpr->addChild(label2);
-    // 任务数
-    CCString* labStr3 = CCString::createWithFormat(" (%d)  达成", renwuIndex);
-    CCLabelTTF* label3 = CCLabelTTF::create(labStr3->getCString(), DISPLAY->fangzhengFont(), 20);
-    label3->setAnchorPoint(CCPointZero);
-    label3->setPosition(ccp(kuangSpr->getContentSize().width* .117f + label1->getContentSize().width + label2->getContentSize().width, kuangSpr->getContentSize().height* .565f));
-    label3->setColor(ccc3(102, 103, 125));
-//    label3->enableStroke(ccc3(102, 103, 125), .4f);
-    kuangSpr->addChild(label3);
-    // 勾
-    if (renwuIndex < DATA->getPlayer()->mission) {
-        CCSprite* rightSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-        rightSpr->setPosition(ccp(label3->getContentSize().width* .9f, label3->getContentSize().height* .15f));
-        label3->addChild(rightSpr);
-    }
-    
-    
-    // 结局成就
-    CCLabelTTF* titleLabel3 = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-    titleLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .48f));
-    titleLabel3->setColor(ccc3(80, 63, 68));
-//    titleLabel3->enableStroke(ccc3(80, 63, 68), .4f);
-    kuangSpr->addChild(titleLabel3);
-    
-    // 显示的结局
-    CSJson::Value data = AppUtil::read_json_file("res/story/storyAchievementArr");
-    CCDictionary* dic = AppUtil::dictionary_with_json(data);
-    CCString* keyStr = CCString::createWithFormat("101_80100_%d", index);
-    CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
-
-    CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
-    CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
-    if (!tempBool) {// 需要判断 如果获得的结局等于0
-        for (int i = 0; i < achievemArr->count(); i++) {
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .38f - (28 * i)));
-            label->setColor(ccc3(139, 140, 164));
-//            label->enableStroke(ccc3(139, 140, 164), .4f);
-            kuangSpr->addChild(label);
-        }
-        
-    }else{
-        for (int i = 0; i < achievemArr->count(); i++) {
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
-            bool achiBool = false;// 需要判断是否与获得的结局相等
-            
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(385, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            label->setPosition(ccp(kuangSpr->getContentSize().width* .54f, kuangSpr->getContentSize().height* .38f - (28 * i)));
-            if (achiBool) {
-                label->setColor(ccc3(102, 103, 125));
-//                label->enableStroke(ccc3(102, 103, 125), .4f);
-            }else{
-                label->setColor(ccc3(139, 140, 164));
-//                label->enableStroke(ccc3(139, 140, 164), .4f);
-            }
-            kuangSpr->addChild(label);
-            
-            if (achiBool) {
-                CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-                gouSpr1->setScale(.3f);
-                gouSpr1->setPosition(ccp(label->getContentSize().width, kuangSpr->getContentSize().height* .38f - (28 * i)));
-                kuangSpr->addChild(gouSpr1, 1);
-            }
-        }
-    }
-    
-    // 开始故事
-    CCSprite* startSpr1;
-    CCSprite* startSpr2;
-    CCMenuItem* startItem;
-    if (renwuIndex < DATA->getPlayer()->mission) {
-        startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startSpr2->setScale(1.02f);
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
-        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-        startItem->setTag(index);
-    }else{
-        startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
-        startItem->setColor(ccGRAY);
-        startItem->setTag(index);
-    }
-    CCMenu* menu = CCMenu::create(startItem, NULL);
-    menu->setPosition(CCPointZero);
-    kuangSpr->addChild(menu);
-    
-    
-    // 消耗体力
-    CCSprite* tiliSpr = CCSprite::create("res/pic/qingjingScene/qj_tili_bar.png");
-    tiliSpr->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .1f));
-    kuangSpr->addChild(tiliSpr);
-    // 体力数
-    CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
-    CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
-    tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
-    tiliLabel->setColor(ccWHITE);
-//    tiliLabel->enableStroke(ccWHITE, .4f);
-    tiliSpr->addChild(tiliLabel);
-    // 心
-    CCSprite* xinSpr = CCSprite::create("res/pic/qingjingScene/qj_tili.png");
-    xinSpr->setScale(.9f);
-    xinSpr->setPosition(ccp(tiliSpr->getContentSize().width* .85f, tiliSpr->getContentSize().height* .49f));
-    tiliSpr->addChild(xinSpr);
-}
-
 void QingjingScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
@@ -722,18 +537,6 @@ void QingjingScene::_501CallBack(CCObject* pSender){
     pScene->addChild(layer);
     CCTransitionScene* trans = CCTransitionFade::create(.3f, pScene);
     CCDirector::sharedDirector()->replaceScene(trans);
-}
-
-void QingjingScene::EnterTheTishi(){    
-    CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() - kuangSpr->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .155f));
-    kuangSpr->runAction(moveTo);
-}
-void QingjingScene::ExitTishi(){
-    if (this->getChildByTag(0x88888) != NULL) {
-        kuangSpr->removeAllChildren();
-        this->removeChildByTag(0x88888);
-        kuangSpr = NULL;
-    }
 }
 
 void QingjingScene::creat_Man(){
@@ -1255,35 +1058,7 @@ void QingjingScene::initClothes(){//穿衣服
     }
 }
 
-int QingjingScene::getStoryIndexStatus(){
-    // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
-    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    allNumber = taskConditionsDic->count();
-    int index = 0;
-    for (int i = 1; i < taskConditionsDic->count(); i++) {
-        CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
-        CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(1))->getCString();
-        int renwuIndex = atoi(renwuIndexStr.c_str());
-        if (renwuIndex >= DATA->getPlayer()->mission) {
-            index = i;
-            break;
-        }
-    }
-    
-    if (DATA->getStory()->has_passed(CCString::createWithFormat("%d", index)->getCString())) {
-        if (index >= taskConditionsDic->count()) {
-            index = taskConditionsDic->count() - 1;
-            return index;
-        }else{
-            return index + 1;
-        }
-        
-    }else{
-        return index;
-    }
-}
+
 void QingjingScene::jiantou1CallBack(CCObject* pSender){
     jiantouItem1->setEnabled(false);
     jiantouItem2->setEnabled(false);

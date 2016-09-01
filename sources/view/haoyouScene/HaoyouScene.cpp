@@ -12,6 +12,7 @@
 #include "MainScene.h"
 #include "HomeLayer.h"
 #include "ConfigManager.h"
+#include "TaskScene.h"
 
 //#include "HaoyouRankLayer.h"
 #include "FriendsScene.h"
@@ -67,6 +68,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::rank_list_callback_300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -143,17 +145,40 @@ void HaoyouScene::creat_view(){
 void HaoyouScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
-    if (DATA->getHomeBool()) {
-        DATA->setHomeBool(false);
-        
-        CCScene* scene = HomeLayer::scene();
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+    if (DATA->getTaskGameBool4()) {
+        if (DATA->getStory()->has_init_story()) {
+            LOADING->show_loading();
+            NET->completed_mission_600();
+        }else {
+            DATA->setTaskPhase(DATA->getPlayer()->phase);
+            CCLayer* layer = TaskScene::create(false);
+            CCScene* scene = CCScene::create();
+            scene->addChild(layer);
+            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+            CCDirector::sharedDirector()->replaceScene(trans);
+        }
     }else{
-        CCScene* scene = MainScene::scene();
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        if (DATA->getHomeBool()) {
+            DATA->setHomeBool(false);
+            
+            CCScene* scene = HomeLayer::scene();
+            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+            CCDirector::sharedDirector()->replaceScene(trans);
+        }else{
+            CCScene* scene = MainScene::scene();
+            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+            CCDirector::sharedDirector()->replaceScene(trans);
+        }
     }
+}
+void HaoyouScene::_600CallBack(CCObject* pObj){
+    LOADING->remove();
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
     LOADING->show_loading();

@@ -60,20 +60,23 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
     this->creat_Man();
     this->initClothes();
     
-    DATA->_guideBool4[0] = true;
-    DATA->_guideBool4[1] = true;
-    DATA->_guideBool4[2] = true;
-    DATA->_guideBool4[3] = true;
-    DATA->_guideBool4[4] = true;
-    DATA->_guideBool4[5] = true;
-    DATA->_guideBool4[6] = true;
-    DATA->_guideBool4[7] = false;
-    DATA->getPlayer()->setGuide(4);
-    if (DATA->current_guide_step() == 4){
-        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-        layer->setTag(0x445566);
-        this->addChild(layer, 500);
+    if (DATA->current_guide_step() != 0 && DATA->current_guide_step() < 6) {
+        DATA->_guideBool4[0] = true;
+        DATA->_guideBool4[1] = true;
+        DATA->_guideBool4[2] = true;
+        DATA->_guideBool4[3] = true;
+        DATA->_guideBool4[4] = true;
+        DATA->_guideBool4[5] = true;
+        DATA->_guideBool4[6] = true;
+        DATA->_guideBool4[7] = false;
+        DATA->getPlayer()->setGuide(4);
+        if (DATA->current_guide_step() == 4){
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }
     }
+    
     
     return true;
 }

@@ -23,6 +23,7 @@
 #include "ConfigManager.h"
 #include "NetManager.h"
 #include "AudioManager.h"
+#include "AppUtil.h"
 
 
 HomeLayer::HomeLayer(){
@@ -289,10 +290,54 @@ void HomeLayer::creat_View(){
     tabLayer->setPosition(ccp(-2, 90));
     tabLayer->setTag(0x77777);
     kuangSpr->addChild(tabLayer, 5);
+    
+    
+    
+    CSJson::Value missionData = AppUtil::read_json_file("res/mission/mission");
+    CCDictionary* missionDic = AppUtil::dictionary_with_json(missionData);
+    for (int i = 0; i < missionDic->count(); i++) {
+        CCString* keyStr = CCString::createWithFormat("%d", i);
+        CCArray* missionArr = (CCArray* )missionDic->objectForKey(keyStr->getCString());
+        std::string taskIdStd = ((CCString* )missionArr->objectAtIndex(0))->getCString();
+        std::string phaseStd = ((CCString* )missionArr->objectAtIndex(1))->getCString();
+        int taskIdIndex = atoi(taskIdStd.c_str());
+        int phaseStdIndex = atoi(phaseStd.c_str());
+        if (i == 0) {
+            if (phaseStdIndex <= DATA->getTaskPhase()) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    shopItem->setEnabled(false);
+                    shopItem->setColor(ccGRAY);
+                }
+            }else{
+                shopItem->setEnabled(false);
+                shopItem->setColor(ccGRAY);
+            }
+        }else if (i == 1){
+            if (phaseStdIndex <= DATA->getTaskPhase()) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    colorItem->setEnabled(false);
+                    colorItem->setColor(ccGRAY);
+                }
+            }else{
+                colorItem->setEnabled(false);
+                colorItem->setColor(ccGRAY);
+            }
+        }else if (i == 2){
+            if (phaseStdIndex <= DATA->getTaskPhase()) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    sleepItem->setEnabled(false);
+                    sleepItem->setColor(ccGRAY);
+                }
+            }else{
+                sleepItem->setEnabled(false);
+                sleepItem->setColor(ccGRAY);
+            }
+        }
+    }    
+    
 }
 void HomeLayer::gameCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
-    CCScene* scene = NULL;
     if (item->getTag() == 1) {
         CCLog("点击购物");
         CCScene* scene = CCScene::create();
@@ -300,14 +345,14 @@ void HomeLayer::gameCallBack(CCObject* pSender){
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
-    }else if (item->getTag() == 2){
+    }else if (item->getTag() == 2) {
         CCLog("点击颜色");
         CCScene* scene = CCScene::create();
         ColorLayer* layer = ColorLayer::create();
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
-    }else if (item->getTag() == 3){
+    }else if (item->getTag() == 3) {
         CCLog("点击睡觉");
         CCScene* scene = CCScene::create();
         GameJingli* layer = GameJingli::create();

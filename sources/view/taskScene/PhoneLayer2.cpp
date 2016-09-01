@@ -70,7 +70,7 @@ bool PhoneLayer2::init(){
     this->creat_man();
     
     
-    if (DATA->current_guide_step() == 8) {
+    if (DATA->current_guide_step() == 9) {
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
@@ -151,7 +151,7 @@ void PhoneLayer2::creat_view(){
     kuangSpr->addChild(buttonMenu);
     
     
-    if (DATA->current_guide_step() == 8) {
+    if (DATA->current_guide_step() == 9) {
         backItem->setColor(ccGRAY);
         backItem->setEnabled(false);
         buquItem->setColor(ccGRAY);
@@ -222,9 +222,9 @@ void PhoneLayer2::creat_man(){
 int PhoneLayer2::qingjingStatus(){
     int now_task_index = -1;
     // 显示的任务的结局
-    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
-    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    int allTask = taskConditionsDic->count();
+    CSJson::Value taskNumberData = AppUtil::read_json_file("res/story/storyNumber");
+    CCDictionary* taskNumberDic = AppUtil::dictionary_with_json(taskNumberData);
+    int allTask = taskNumberDic->count();
     
     for (int i = 0; i < allTask; i++) {
         CCString* story_index = CCString::createWithFormat("%d", i);

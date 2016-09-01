@@ -14,7 +14,6 @@
 #include "MainScene.h"
 #include "Loading2.h"
 #include "TaskStoryScene.h"
-#include "PhoneLayer.h"
 #include "PhoneLayer2.h"
 #include "HomeLayer.h"
 
@@ -91,13 +90,13 @@ bool TaskScene::init(bool isPhaseUP){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
-    }else if (DATA->current_guide_step() == 7){
+    }else if (DATA->current_guide_step() == 8){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
-    }else if (DATA->current_guide_step() == 8){
+    }else if (DATA->current_guide_step() == 9){
         for (int i = 0; i < 10; i++) {
-            DATA->_guideBool8[i] = true;
+            DATA->_guideBool9[i] = true;
         }
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
@@ -736,7 +735,7 @@ void TaskScene::exitView(){
 }
 void TaskScene::openTaskStoryScene(){
     
-    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() == 8) {
+    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() == 9) {
         CCScene* scene = TaskStoryScene::scene();
         CCDirector::sharedDirector()->replaceScene(scene);
     }else{
@@ -1310,7 +1309,7 @@ void TaskScene::init_phone(){
             if (storyArr == NULL) {
                 now_task_index = i;
                 
-                if (DATA->current_guide_step() == 8) {
+                if (DATA->current_guide_step() == 9) {
                     this->creat_phone2();
                 }else{
                     this->creat_phone();
@@ -1340,6 +1339,9 @@ void TaskScene::creat_phone(){
     CCMoveTo* moveTo2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .26f));
     phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.1f), NULL)));
     
+    if (DATA->current_guide_step() == 5) {
+        phoneItem->setEnabled(false);
+    }
     
     
     CCArray* phoneAnimations = CCArray::createWithCapacity(5);
@@ -1427,7 +1429,7 @@ void TaskScene::creat_phone3(){
     phoneItem->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.1f), NULL)));
     
     for (int i = 0; i < 10; i++) {
-        DATA->_guideBool8[i] = false;
+        DATA->_guideBool9[i] = false;
     }
     if (this->getChildByTag(0x445566) != NULL) {
         this->removeChildByTag(0x445566);
@@ -1441,7 +1443,6 @@ void TaskScene::phoneCallBack(CCObject* pSender){
     AUDIO->shop_effect();
     CCLog("phoneCallBack");
     
-//    CCLayer* layer = PhoneLayer::create();
     CCLayer* layer = PhoneLayer2::create();
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

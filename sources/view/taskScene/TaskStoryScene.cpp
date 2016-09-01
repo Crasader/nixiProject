@@ -21,6 +21,7 @@
 #include "ColorLayer.h"
 #include "GameJingli.h"
 #include "LiveAiXin.h"
+#include "HaoyouScene.h"
 
 
 TaskStoryScene::TaskStoryScene(){
@@ -50,6 +51,13 @@ bool TaskStoryScene::init(){
     m_bIsKJSelect = false;
     buttonBool = false;
     startBool = false;
+    
+    DATA->setTaskGameBool2(false);
+    DATA->setTaskGameBool3(false);
+    DATA->setTaskGameBool4(false);
+    DATA->setTaskGameBool5(false);
+    DATA->setTaskGameBool6(false);
+    
     
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -218,6 +226,7 @@ void TaskStoryScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_400CallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_603CallBack), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_905CallBack), "HTTP_FINISHED_905", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_800CallBack), "HTTP_FINISHED_800", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
     
@@ -1295,42 +1304,46 @@ void TaskStoryScene::getIndex(float dt){
         }
         
         this->setTouchEnabled(false);
-        
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->startCallBack(NULL);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
     }else if (index == -2){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
             return;
         }
-        
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->startCallBack(NULL);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
+        DATA->setTaskGameBool2(true);
+        this->setTouchEnabled(false);
     }else if (index == -3){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
             return;
         }
-        
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->startCallBack(NULL);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
+        DATA->setTaskGameBool3(true);
+        this->setTouchEnabled(false);
+    }else if (index == -4){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+            return;
+        }
+        DATA->setTaskGameBool4(true);
+        this->setTouchEnabled(false);
+    }else if (index == -5){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+            return;
+        }
+        DATA->setTaskGameBool5(true);
+        this->setTouchEnabled(false);
+    }else if (index == -6){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+            return;
+        }
+        DATA->setTaskGameBool6(true);
+        this->setTouchEnabled(false);
     }else{
         index = missionDic->valueForKey("next")->intValue() - subscriptIndex;
         CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
@@ -1355,6 +1368,9 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     item->setEnabled(false);
     
     index = missionDic->valueForKey("next")->intValue();
+    int taskTempID = missionDic->valueForKey("taskID")->intValue();
+    DATA->setTaskTempID(taskTempID);
+    
     if (index == -1) {
         if (DATA->current_guide_step() == 3) {
             PlayerComp* _player = DATA->getPlayer();
@@ -1373,7 +1389,36 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
                 NET->owned_clothes_400();
             }
         }
-        
+    }else if (index == -2){// 睡觉
+        CCScene* scene = CCScene::create();
+        GameJingli* layer = GameJingli::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -3){// 颜色
+        CCScene* scene = CCScene::create();
+        ColorLayer* layer = ColorLayer::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -4){// 社交
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        NET->social_info_800();
+    }else if (index == -5){// 垃圾
+        CCScene* scene = CCScene::create();
+        LiveAiXin* layer = LiveAiXin::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -6){// 衣服
+        if (DATA->getClothes()->has_init_clothes == true) {
+            this->clothesCallBack(NULL);
+        }
+        else {
+            LOADING->show_loading();
+            NET->owned_clothes_400();
+        }
     }else {
         openStory = true;
         startBool = true;
@@ -1393,56 +1438,38 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
         label2->setPosition(ccp(banSpr->getContentSize().width* .75f, banSpr->getContentSize().height* .1f));
         label2->setColor(ccc3(80, 63, 68));
         banSpr->addChild(label2);
-        
-        
-//        if (index == -2){// 睡觉游戏
-//            CCLog("睡觉游戏");
-//            CCScene* scene = CCScene::create();
-//            GameJingli* layer = GameJingli::create();
-//            scene->addChild(layer);
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-//        }else if (index == -3){// 颜色游戏
-//            CCLog("颜色游戏");
-//            CCScene* scene = CCScene::create();
-//            ColorLayer* layer = ColorLayer::create();
-//            scene->addChild(layer);
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-//        }else if (index == -4){// 去社交
-//            int tili = DATA->getPlayer()->energy;
-//            int tili_AllIndex = 12;
-//            if (tili >= tili_AllIndex) {
-//                this->setTouchEnabled(false);
-//                LOADING->show_loading();
-//                NET->commit_mission_603(missionDic->valueForKey("taskID")->intValue());
-//            }else{
-//                LOADING->remove();
-//                AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-//                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-//                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-//            }
-//        }else if (index == -5){// 去垃圾游戏
-//            CCLog("垃圾游戏");
-//            CCScene* scene = CCScene::create();
-//            LiveAiXin* layer = LiveAiXin::create();
-//            scene->addChild(layer);
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-//        }else if (index == -6){// 买钻石衣服
-//            
-//        }
     }
 }
-void TaskStoryScene::_400CallBack(CCObject* pSender){
-    LOADING->remove();
-    CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
+void TaskStoryScene::clothesCallBack(CCObject* pSender){
+    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
-
+void TaskStoryScene::_400CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    if (DATA->getTaskGameBool6()) {
+        CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
+}
+void TaskStoryScene::_800CallBack(CCObject* pObj) {
+    LOADING->remove();
+    CCScene* scene = HaoyouScene::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 void TaskStoryScene::LabelColorFhCallBack(CCObject* pSender){
     if (this->getChildByTag(0x999999) != NULL) {
         this->removeChildByTag(0x999999);

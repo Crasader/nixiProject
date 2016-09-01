@@ -264,9 +264,9 @@ int QingjingCoverView::getCurCardIndex()
     if (DATA->getChapterNumberBool()) {
         DATA->setChapterNumberBool(false);
     }else{
-        CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
-        CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-        int allNumber = taskConditionsDic->count();
+        CSJson::Value taskNumberData = AppUtil::read_json_file("res/story/storyNumber");
+        CCDictionary* taskNumberDic = AppUtil::dictionary_with_json(taskNumberData);
+        int allNumber = taskNumberDic->count();
         
         if (index >= allNumber-1) {
             index = allNumber-1;
