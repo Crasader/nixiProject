@@ -30,6 +30,8 @@ void UpgradeLayer::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
 void UpgradeLayer::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    this->unscheduleAllSelectors();
     
     CCLayer::onExit();
 }
@@ -39,13 +41,17 @@ void UpgradeLayer::keyBackClicked(){
 }
 
 bool UpgradeLayer::init(){
-    if (!CCLayer::init()) {
-        return false;
-    }
+    bool bRet = false;
+    
+    do {
+        CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(250, 250, 250, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
+        
+        
+        bRet = true;
+    } while (0);
     
     
-    
-    return true;
+    return bRet;
 }
 
 bool UpgradeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
@@ -82,8 +88,17 @@ void UpgradeLayer::creat_view1(){
     
     
     diaocheSpr2 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_diaoche2.png");
-    diaocheSpr2->setPosition(ccp(diaocheSpr1->getContentSize().width* .35f, diaocheSpr1->getContentSize().height* .7f));
-    diaocheSpr1->addChild(diaocheSpr2);
+    CCSprite* stencil = CCSprite::create();
+    stencil->setTextureRect(CCRect(0, 0, diaocheSpr2->getContentSize().width, diaocheSpr2->getContentSize().height));
+    CCClippingNode* node = CCClippingNode::create(stencil);
+    node->setPosition(ccp(diaocheSpr1->getContentSize().width* .326f, diaocheSpr1->getContentSize().height* .655f));
+    node->setInverted(false);
+    node->addChild(diaocheSpr2);
+    diaocheSpr1->addChild(node);
+    
+    CCMoveTo* moveTo1 = CCMoveTo::create(1.8f, ccp(0, 255.6));
+    CCMoveTo* moveTo2 = CCMoveTo::create(1.8f, ccp(0, 0));
+    diaocheSpr2->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, CCDelayTime::create(.4f), moveTo2, NULL)));
     
     
     CCSprite* weilanSpr1 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_weilan1.png");
@@ -98,7 +113,7 @@ void UpgradeLayer::creat_view1(){
     
     CCSprite* paiziSpr = CCSprite::create("res/pic/taskScene/upgrade/upgrade_paizi.png");
     paiziSpr->setAnchorPoint(ccp(.5f, 1));
-    paiziSpr->setPosition(ccp(weilanSpr1->getContentSize().width* .42f, weilanSpr1->getContentSize().height* .44f));
+    paiziSpr->setPosition(ccp(weilanSpr1->getContentSize().width* .41f, weilanSpr1->getContentSize().height* .55f));
     weilanSpr1->addChild(paiziSpr);
     
     
@@ -109,12 +124,11 @@ void UpgradeLayer::creat_view1(){
     CCSequence* seq = CCSequence::create(rotateTo1, rotateTo2, rotateTo3, rotateTo4, NULL);
     paiziSpr->runAction(CCRepeatForever::create(seq));
     
+    this->scheduleOnce(SEL_SCHEDULE(&UpgradeLayer::closeLayer), 6.f);
 }
-void UpgradeLayer::updateDiaoche(float dt){
+void UpgradeLayer::closeLayer(float dt){
     
 }
-
-
 
 void UpgradeLayer::creat_view2(){
     

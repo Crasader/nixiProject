@@ -16,7 +16,7 @@
 USING_NS_CC;
 
 
-class UpgradeLayer : public CCLayer
+class UpgradeLayer : public CCLayerColor
 {
 public:
     UpgradeLayer();
@@ -48,7 +48,7 @@ public:
 public:
     
     void creat_view1();
-    void updateDiaoche(float dt);
+    void closeLayer(float dt);
     void creat_view2();
     
 };
