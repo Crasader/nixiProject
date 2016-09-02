@@ -50,18 +50,13 @@ bool UpgradeLayer::init(){
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchEnabled(true);
         
-        
         bRet = true;
     } while (0);
-    
     
     return bRet;
 }
 
 bool UpgradeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-    
-    this->removeFromParentAndCleanup(true);
-    
     return true;
 }
 
@@ -71,6 +66,7 @@ UpgradeLayer* UpgradeLayer::create_with_index(int index){
     
     return rtn;
 }
+
 void UpgradeLayer::init_with_index(int index){
     
     if (index == 1) {

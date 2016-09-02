@@ -115,6 +115,8 @@ public:
     bool historyBool;
     
 private:
+    void init_contents();
+    void nc_phase_up_finished(CCObject* pObj);
     
 private:
     BuildingLayer*      _buildingLayer;
