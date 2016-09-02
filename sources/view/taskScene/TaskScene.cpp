@@ -24,7 +24,7 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "BuildingLayer.h"
-
+#include "UpgradeLayer.h"
 #include "GuideLayer.h"
 
 TaskScene::~TaskScene(){
@@ -124,7 +124,12 @@ void TaskScene::onEnter(){
     
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
+    
+    CCLayer* layer1 = UpgradeLayer::create_with_index(1);
+    this->addChild(layer1);
+    
 }
+
 void TaskScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }

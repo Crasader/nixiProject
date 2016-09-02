@@ -517,6 +517,7 @@ void DataManager::creat_Energy_Time(){
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this, 1, false);
     }
 }
+
 void DataManager::updataTiliTime(float dt){
     
     _tili_second--;
@@ -555,8 +556,8 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
-
 int DataManager::current_guide_step(){
-    return _player->getGuide();
+//    return _player->getGuide();
+    return 0;
 }
 

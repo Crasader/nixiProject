@@ -130,6 +130,7 @@ void UpgradeLayer::creat_view1(){
     
     this->scheduleOnce(SEL_SCHEDULE(&UpgradeLayer::closeLayer), 6.f);
 }
+
 void UpgradeLayer::closeLayer(float dt){
     
 }
