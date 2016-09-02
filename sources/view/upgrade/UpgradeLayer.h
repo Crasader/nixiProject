@@ -42,6 +42,8 @@ public:
 public:
     
     CCSprite* diaocheSpr2;
+    CCSprite* huaSpr;
+    CCSprite* manSpr;
     
     bool diaocheBool;
     
@@ -50,6 +52,9 @@ public:
     void creat_view1();
     void closeLayer(float dt);
     void creat_view2();
-    
+    void creat_hua1();
+    void creat_hua2();
+    void creat_hua3();
+    void creat_hua4();
 };
 #endif /* defined(__tiegao__UpgradeLayer__) */
