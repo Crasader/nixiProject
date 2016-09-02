@@ -42,10 +42,6 @@ public:
 public:
     
     CCSprite* diaocheSpr2;
-    float diaocheFolat;
-    float diaochePositionX;
-    float diaochePositionY;
-    CCSprite* diaocheSpr3;
     
     bool diaocheBool;
     

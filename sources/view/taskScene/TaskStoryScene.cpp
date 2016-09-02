@@ -1310,7 +1310,6 @@ void TaskStoryScene::getIndex(float dt){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
         DATA->setTaskGameBool2(true);
         this->setTouchEnabled(false);
@@ -1318,7 +1317,6 @@ void TaskStoryScene::getIndex(float dt){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
         DATA->setTaskGameBool3(true);
         this->setTouchEnabled(false);
@@ -1326,7 +1324,6 @@ void TaskStoryScene::getIndex(float dt){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
         DATA->setTaskGameBool4(true);
         this->setTouchEnabled(false);
@@ -1334,7 +1331,6 @@ void TaskStoryScene::getIndex(float dt){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
         DATA->setTaskGameBool5(true);
         this->setTouchEnabled(false);
@@ -1342,7 +1338,6 @@ void TaskStoryScene::getIndex(float dt){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
         DATA->setTaskGameBool6(true);
         this->setTouchEnabled(false);

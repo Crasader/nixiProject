@@ -78,27 +78,29 @@ void UpgradeLayer::creat_view1(){
     
     CCSprite* diaocheSpr1 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_diaoche1.png");
     diaocheSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(diaocheSpr1, 1);
+    this->addChild(diaocheSpr1, 5);
+    
     
     diaocheSpr2 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_diaoche2.png");
-    diaocheSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(diaocheSpr2, 2);
-    diaocheFolat = 1.f;
-    diaochePositionX = diaocheSpr2->getPosition().x;
-    diaochePositionY = diaocheSpr2->getPosition().y;
+    diaocheSpr2->setPosition(ccp(diaocheSpr1->getContentSize().width* .35f, diaocheSpr1->getContentSize().height* .7f));
+    diaocheSpr1->addChild(diaocheSpr2);
     
-    diaocheSpr3 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_diaoche3.png");
-    diaocheSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(diaocheSpr3);
     
-    CCSprite* weilanSpr = CCSprite::create("res/pic/taskScene/upgrade/upgrade_weilan.png");
-    weilanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(weilanSpr, 2);
+    CCSprite* weilanSpr1 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_weilan1.png");
+    weilanSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    this->addChild(weilanSpr1, 10);
+    
+    
+    CCSprite* weilanSpr2 = CCSprite::create("res/pic/taskScene/upgrade/upgrade_weilan2.png");
+    weilanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    this->addChild(weilanSpr2, 2);
+    
     
     CCSprite* paiziSpr = CCSprite::create("res/pic/taskScene/upgrade/upgrade_paizi.png");
     paiziSpr->setAnchorPoint(ccp(.5f, 1));
-    paiziSpr->setPosition(ccp(weilanSpr->getContentSize().width* .42f, weilanSpr->getContentSize().height* .44f));
-    weilanSpr->addChild(paiziSpr, 3);
+    paiziSpr->setPosition(ccp(weilanSpr1->getContentSize().width* .42f, weilanSpr1->getContentSize().height* .44f));
+    weilanSpr1->addChild(paiziSpr);
+    
     
     CCRotateTo* rotateTo1 = CCRotateTo::create(.4f, -30);
     CCRotateTo* rotateTo2 = CCRotateTo::create(.4f, 0);
@@ -107,28 +109,8 @@ void UpgradeLayer::creat_view1(){
     CCSequence* seq = CCSequence::create(rotateTo1, rotateTo2, rotateTo3, rotateTo4, NULL);
     paiziSpr->runAction(CCRepeatForever::create(seq));
     
-    this->schedule(SEL_SCHEDULE(&UpgradeLayer::updateDiaoche), .2f);
 }
 void UpgradeLayer::updateDiaoche(float dt){
-    if (diaocheFolat == 2.5f) {
-        diaocheBool = true;
-    }else if (diaocheFolat == 1.f) {
-        diaocheBool = false;
-    }
-    
-    if (diaocheBool) {
-        diaocheFolat -= .1f;
-        diaocheSpr2->setScaleY(diaocheFolat);
-        diaochePositionY += diaocheSpr2->getContentSize().height* .1f;
-        diaocheSpr2->runAction(CCMoveTo::create(.1f, ccp(diaochePositionX, diaochePositionY)));
-    }else{
-        diaocheFolat += .1f;
-        diaocheSpr2->setScaleY(diaocheFolat);
-        diaochePositionY -= diaocheSpr2->getContentSize().height* .1f;
-        diaocheSpr2->runAction(CCMoveTo::create(.1f, ccp(diaochePositionX, diaochePositionY)));
-    }
-    
-    
     
 }
 
