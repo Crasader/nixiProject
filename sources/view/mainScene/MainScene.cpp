@@ -1327,15 +1327,15 @@ void MainScene::_600CallBack(CCObject* pSender){
         LOADING->show_loading();
         NET->home_info_704(true);
     }else{
-//        DATA->setTaskPhase(DATA->getPlayer()->phase);
-//        CCLayer* layer = TaskScene::create(false);
-//        CCScene* scene = CCScene::create();
-//        scene->addChild(layer);
-//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//        CCDirector::sharedDirector()->replaceScene(trans);
+        DATA->setTaskPhase(DATA->getPlayer()->phase);
+        CCLayer* layer = TaskScene::create(false);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
         
-        CCLayer* layer = UpgradeLayer::create_with_index(1);
-        this->addChild(layer, 1000);
+//        CCLayer* layer = UpgradeLayer::create_with_index(1);
+//        this->addChild(layer, 1000);
     }
 }
 
