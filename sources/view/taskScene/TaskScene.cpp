@@ -124,10 +124,6 @@ void TaskScene::onEnter(){
     
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
-    
-    CCLayer* layer1 = UpgradeLayer::create_with_index(1);
-    this->addChild(layer1);
-    
 }
 
 void TaskScene::keyBackStatus(float dt){
