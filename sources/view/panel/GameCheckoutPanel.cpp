@@ -23,6 +23,7 @@
 #include "PromptLayer.h"
 #include "HomeLayer.h"
 #include "TaskScene.h"
+#include "NetManager.h"
 
 #pragma mark - Export
 
@@ -53,6 +54,9 @@ bool GameCheckoutPanel::initWithScore(string gameId, int score, int history, CCD
     if (! CCLayer::init()) {
         return false;
     }
+    
+    gameScore = 0;
+    gameScore = score;
     
     _couldRemove = false;
 
@@ -187,6 +191,9 @@ bool GameCheckoutPanel::initWithScore(string gameId, int score, int history, CCD
 void GameCheckoutPanel::onEnter() {
     CCLayer::onEnter();
     
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, menu_selector(GameCheckoutPanel::_605CallBack), "HTTP_FINISHED_605", NULL);
+    
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
@@ -223,17 +230,29 @@ void GameCheckoutPanel::remove() {
 //    this->do_exit();
 //    this->removeFromParentAndCleanup(true);
     if (DATA->getTaskGameBool2() || DATA->getTaskGameBool3() || DATA->getTaskGameBool5()) {
-        DATA->setTaskPhase(DATA->getPlayer()->phase);
-        CCLayer* layer = TaskScene::create(false);
-        CCScene* scene = CCScene::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        LOADING->show_loading();
+        if (DATA->getTaskGameBool2()) {
+            NET->commit_extra_mission_605(DATA->getTaskTempID(), 2, gameScore);
+        }else if (DATA->getTaskGameBool3()){
+            NET->commit_extra_mission_605(DATA->getTaskTempID(), 3, gameScore);
+        }else if (DATA->getTaskGameBool5()){
+            NET->commit_extra_mission_605(DATA->getTaskTempID(), 5, gameScore);
+        }
     }else{
         CCScene* scene = HomeLayer::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
+}
+void GameCheckoutPanel::_605CallBack(CCObject* pObj){
+    LOADING->remove();
+    
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void GameCheckoutPanel::keyBackClicked(){

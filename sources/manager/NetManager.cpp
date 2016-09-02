@@ -288,6 +288,17 @@ void NetManager::commit_mission_603(int id) {
     this->post_data(603, data);
 }
 
+void NetManager::commit_extra_mission_605(int id, int type, int flag) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["type"] = type;
+    root["flag"] = flag;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(605, data);
+}
+
 
 void NetManager::completed_story_500() {
     this->post_data(500, string(""));

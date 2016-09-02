@@ -147,6 +147,7 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
 }
@@ -1134,20 +1135,23 @@ void ClothesScene::guideButtonCallBack(){
         }
     }
 }
+void ClothesScene::_605CallBack(CCObject* pObj){
+    LOADING->remove();
+    
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
     if (DATA->getTaskGameBool6()) {
-        
-//        NET->commit_extra_mission_605
-        
-        CCLayer* layer = TaskScene::create(false);
-        CCScene* scene = CCScene::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        LOADING->show_loading();
+        NET->commit_extra_mission_605(DATA->getTaskTempID(), 6, 0);
     }else{
         if (DATA->getHomeBool()) {
             DATA->setHomeBool(false);

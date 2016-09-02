@@ -69,6 +69,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::rank_list_callback_300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_600CallBack), "HTTP_FINISHED_600", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -142,21 +143,22 @@ void HaoyouScene::creat_view(){
     this->addChild(hidMenu, 5);
     
 }
+void HaoyouScene::_605CallBack(CCObject* pObj){
+    LOADING->remove();
+    
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 void HaoyouScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
     if (DATA->getTaskGameBool4()) {
-        if (DATA->getStory()->has_init_story()) {
-            LOADING->show_loading();
-            NET->completed_mission_600();
-        }else {
-            DATA->setTaskPhase(DATA->getPlayer()->phase);
-            CCLayer* layer = TaskScene::create(false);
-            CCScene* scene = CCScene::create();
-            scene->addChild(layer);
-            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-            CCDirector::sharedDirector()->replaceScene(trans);
-        }
+        LOADING->show_loading();
+        NET->commit_extra_mission_605(DATA->getTaskTempID(), 4, 0);
     }else{
         if (DATA->getHomeBool()) {
             DATA->setHomeBool(false);
