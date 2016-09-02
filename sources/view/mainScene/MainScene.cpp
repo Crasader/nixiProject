@@ -50,6 +50,9 @@
 
 #include "GuideLayer.h"
 
+
+#include "UpgradeLayer.h"
+
 // --------------- test ----------------
 
 
@@ -1330,6 +1333,12 @@ void MainScene::_600CallBack(CCObject* pSender){
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
+        
+//        CCLayer* layer = UpgradeLayer::create_with_index(1);
+//        CCScene* scene = CCScene::create();
+//        scene->addChild(layer);
+//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//        CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
 

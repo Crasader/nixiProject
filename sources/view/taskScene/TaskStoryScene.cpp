@@ -227,6 +227,8 @@ void TaskStoryScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_603CallBack), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_800CallBack), "HTTP_FINISHED_800", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_704CallBack), "HTTP_FINISHED_704", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
     
@@ -1390,27 +1392,36 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
             }
         }
     }else if (index == -2){// 睡觉
-        CCScene* scene = CCScene::create();
-        GameJingli* layer = GameJingli::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        if (DATA->getStory()->has_init_story()) {
+            LOADING->show_loading();
+            NET->completed_mission_600();
+        }else {
+            AUDIO->comfirm_effect();
+            LOADING->show_loading();
+            NET->home_info_704(true);
+        }
     }else if (index == -3){// 颜色
-        CCScene* scene = CCScene::create();
-        ColorLayer* layer = ColorLayer::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        if (DATA->getStory()->has_init_story()) {
+            LOADING->show_loading();
+            NET->completed_mission_600();
+        }else {
+            AUDIO->comfirm_effect();
+            LOADING->show_loading();
+            NET->home_info_704(true);
+        }
     }else if (index == -4){// 社交
         AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->social_info_800();
     }else if (index == -5){// 垃圾
-        CCScene* scene = CCScene::create();
-        LiveAiXin* layer = LiveAiXin::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+        if (DATA->getStory()->has_init_story()) {
+            LOADING->show_loading();
+            NET->completed_mission_600();
+        }else {
+            AUDIO->comfirm_effect();
+            LOADING->show_loading();
+            NET->home_info_704(true);
+        }
     }else if (index == -6){// 衣服
         if (DATA->getClothes()->has_init_clothes == true) {
             this->clothesCallBack(NULL);
@@ -1440,6 +1451,36 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
         banSpr->addChild(label2);
     }
 }
+void TaskStoryScene::_600CallBack(CCObject* pSender){
+    AUDIO->comfirm_effect();
+    LOADING->show_loading();
+    NET->home_info_704(true);
+}
+void TaskStoryScene::_704CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    if (index == -2){// 睡觉
+        CCScene* scene = CCScene::create();
+        GameJingli* layer = GameJingli::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -3){// 颜色
+        CCScene* scene = CCScene::create();
+        ColorLayer* layer = ColorLayer::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -5){// 垃圾
+        CCScene* scene = CCScene::create();
+        LiveAiXin* layer = LiveAiXin::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
+}
+
+
 void TaskStoryScene::clothesCallBack(CCObject* pSender){
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();

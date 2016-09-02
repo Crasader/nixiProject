@@ -159,6 +159,8 @@ public:
     void _603CallBack(CCObject* pSender);
     void _905CallBack(CCObject* pSender);
     void _800CallBack(CCObject* pObj);
+    void _704CallBack(CCObject* pObj);
+    void _600CallBack(CCObject* pObj);
     void goTaskScene();
     void LabelColorFhCallBack(CCObject* pSender);
     
