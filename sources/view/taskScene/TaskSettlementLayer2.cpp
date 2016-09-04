@@ -140,6 +140,7 @@ void TaskSettlementLayer2::keyBackClicked(){
     
     
 }
+
 bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     if (logic_open_bool) {
         if (!logic_end_Bool) {
@@ -168,6 +169,7 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
 
     return true;
 }
+
 void TaskSettlementLayer2::nextAnimation1(){
     CCSprite* tiliSpr = CCSprite::create("res/pic/taskSettlement/ts_tili.png");
     tiliSpr->setScale(.3f);
@@ -181,11 +183,11 @@ void TaskSettlementLayer2::nextAnimation1(){
     CCSpawn* spawn = CCSpawn::create(CCShow::create(), moveTo, scaleTo, NULL);
     tiliSpr->runAction(CCSequence::create(spawn, callFuncN, NULL));
 }
+
 void TaskSettlementLayer2::nextAnimation2(){
     SPECIAL->show_energy_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
     logic_open_bool = true;
 }
-
 
 void TaskSettlementLayer2::exit() {
     CCLayer* layer = TaskScene::create(_isPhaseUP);
@@ -364,6 +366,7 @@ void TaskSettlementLayer2::creat_view(){
     bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr2, 20);
 }
+
 void TaskSettlementLayer2::updataNumber(){
     SPECIAL->showPetal2At(this, DISPLAY->center(), 15);
     
@@ -388,6 +391,7 @@ void TaskSettlementLayer2::updataNumber(){
     
     renSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), moveTo1, moveTo2, moveTo3, CCDelayTime::create(.5f), callFunc, NULL));
 }
+
 void TaskSettlementLayer2::creatXingXing(){
 //    _rating = 5;
     

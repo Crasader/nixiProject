@@ -1360,6 +1360,7 @@ void TaskStoryScene::_905CallBack(CCObject* pSender){
         NET->owned_clothes_400();
     }
 }
+
 void TaskStoryScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     item->setEnabled(false);
@@ -1368,64 +1369,74 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     int taskTempID = missionDic->valueForKey("taskID")->intValue();
     DATA->setTaskTempID(taskTempID);
     
-    if (index == -1) {
-        if (DATA->current_guide_step() == 3) {
-            PlayerComp* _player = DATA->getPlayer();
-            if (_player->getGuide() == 3) {
-                _player->setGuide(4);
+    if (-1 == index || -2 == index || -3 == index || -4 == index || -5 == index || -6 == index) {
+        if (DATA->getPlayer()->energy < 12) {
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "没有足够的体力~!");
+            return;
+        }
+        
+        
+        if (index == -1) {
+            if (DATA->current_guide_step() == 3) {
+                PlayerComp* _player = DATA->getPlayer();
+                if (_player->getGuide() == 3) {
+                    _player->setGuide(4);
+                }
+                
+                LOADING->show_loading();
+                NET->update_guide_905(_player->getGuide());
+            }else{
+                if (DATA->getClothes()->has_init_clothes == true) {
+                    this->_400CallBack(NULL);
+                }
+                else {
+                    LOADING->show_loading();
+                    NET->owned_clothes_400();
+                }
             }
-            
+        }else if (index == -2){// 睡觉
+            if (DATA->getStory()->has_init_story()) {
+                LOADING->show_loading();
+                NET->completed_mission_600();
+            }else {
+                AUDIO->comfirm_effect();
+                LOADING->show_loading();
+                NET->home_info_704(true);
+            }
+        }else if (index == -3){// 颜色
+            if (DATA->getStory()->has_init_story()) {
+                LOADING->show_loading();
+                NET->completed_mission_600();
+            }else {
+                AUDIO->comfirm_effect();
+                LOADING->show_loading();
+                NET->home_info_704(true);
+            }
+        }else if (index == -4){// 社交
+            AUDIO->comfirm_effect();
             LOADING->show_loading();
-            NET->update_guide_905(_player->getGuide());
-        }else{
+            NET->social_info_800();
+        }else if (index == -5){// 垃圾
+            if (DATA->getStory()->has_init_story()) {
+                LOADING->show_loading();
+                NET->completed_mission_600();
+            }else {
+                AUDIO->comfirm_effect();
+                LOADING->show_loading();
+                NET->home_info_704(true);
+            }
+        }else if (index == -6){// 衣服
             if (DATA->getClothes()->has_init_clothes == true) {
-                this->_400CallBack(NULL);
+                this->clothesCallBack(NULL);
             }
             else {
                 LOADING->show_loading();
                 NET->owned_clothes_400();
             }
         }
-    }else if (index == -2){// 睡觉
-        if (DATA->getStory()->has_init_story()) {
-            LOADING->show_loading();
-            NET->completed_mission_600();
-        }else {
-            AUDIO->comfirm_effect();
-            LOADING->show_loading();
-            NET->home_info_704(true);
-        }
-    }else if (index == -3){// 颜色
-        if (DATA->getStory()->has_init_story()) {
-            LOADING->show_loading();
-            NET->completed_mission_600();
-        }else {
-            AUDIO->comfirm_effect();
-            LOADING->show_loading();
-            NET->home_info_704(true);
-        }
-    }else if (index == -4){// 社交
-        AUDIO->comfirm_effect();
-        LOADING->show_loading();
-        NET->social_info_800();
-    }else if (index == -5){// 垃圾
-        if (DATA->getStory()->has_init_story()) {
-            LOADING->show_loading();
-            NET->completed_mission_600();
-        }else {
-            AUDIO->comfirm_effect();
-            LOADING->show_loading();
-            NET->home_info_704(true);
-        }
-    }else if (index == -6){// 衣服
-        if (DATA->getClothes()->has_init_clothes == true) {
-            this->clothesCallBack(NULL);
-        }
-        else {
-            LOADING->show_loading();
-            NET->owned_clothes_400();
-        }
-    }else {
+    }
+    else {
         openStory = true;
         startBool = true;
         
