@@ -127,20 +127,31 @@ void TopFloorCell::update_boxes() {
     
     CCSize barSize = _topBar->getContentSize();
     
+//    CoffersComp* coffers = DATA->getCoffers();
+//    int curPhase = DATA->getPlayer()->phase;
+//    int totalRatings = DATA->getPlayer()->total_ratings();
+//    int start = coffers->phase_start(curPhase);
+//    
+//    CCArray* items = coffers->phase_goals(curPhase);
+//    CCDictionary* lastItem = (CCDictionary*)items->lastObject();
+//    int end = ((CCInteger*)lastItem->objectForKey("goal"))->getValue();
+//    float curPrecent = (totalRatings - start) / (float)(end - start) * 100;
+//    CCLOG("curPrecent = %f", curPrecent);
+//    _progress->setPercentage(curPrecent);
+    
     CoffersComp* coffers = DATA->getCoffers();
     int curPhase = DATA->getPlayer()->phase;
-    int totalRatings = DATA->getPlayer()->total_ratings();
-    int start = coffers->phase_start(curPhase);
+    int totalRatings = DATA->getPlayer()->ratings(curPhase);
     
     CCArray* items = coffers->phase_goals(curPhase);
     CCDictionary* lastItem = (CCDictionary*)items->lastObject();
     int end = ((CCInteger*)lastItem->objectForKey("goal"))->getValue();
-    float curPrecent = (totalRatings - start) / (float)(end - start) * 100;
+    float curPrecent = totalRatings / (float)end * 100;
     CCLOG("curPrecent = %f", curPrecent);
     _progress->setPercentage(curPrecent);
     
     CCSprite* star = CCSprite::create("pic/building/progress/star.png");
-    star->setPosition(ccp(barSize.width * curPrecent, barSize.height * 0.5));
+    star->setPosition(ccp(barSize.width * curPrecent / 100, barSize.height * 0.5));
     _progress->addChild(star);
     
     int count = items->count();
@@ -148,7 +159,8 @@ void TopFloorCell::update_boxes() {
         CCDictionary* item = (CCDictionary*)items->objectAtIndex(i);
         int itemGoal = ((CCInteger*)item->objectForKey("goal"))->getValue();
         CCLOG("itemGoal = %d", itemGoal);
-        float precent = (itemGoal - start) / (float)(end - start);
+//        float precent = (itemGoal - start) / (float)(end - start);
+        float precent = itemGoal / (float)end;
 
         CCSprite* box = NULL;
         float baseHeight = barSize.height * 0.5 + 5;
@@ -206,4 +218,5 @@ void TopFloorCell::nc_take_company_reward_205(CCObject *pObj) {
     const CCString* type = dic->valueForKey("type");
     CCInteger* num = (CCInteger*)dic->objectForKey("num");
     BuildingRewardPanel::show(this->getScene(), type->getCString(), num->getValue());
+    this->update_boxes();
 }
