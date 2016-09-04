@@ -336,11 +336,10 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     
     CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
     int taskId = dic->valueForKey("id")->intValue();
-    
     OpenToWhichOne = taskId;
     
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne < unlockCondition) {
+    if (OpenToWhichOne <= unlockCondition) {
         
         CCString* buttonStr;
         if (selectedIndex == idx) {
@@ -365,7 +364,7 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         }
         renSpr->setTag(idx + 10000);
         button->addChild(renSpr, 5);
-        
+
         // 星星
         this->buttonStatus(taskId, button);
         
