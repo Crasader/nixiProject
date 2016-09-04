@@ -385,7 +385,7 @@
   },
   {
     "id" : "16",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "",
     "nameID" : "",
     "states" : "2",
@@ -601,7 +601,7 @@
   },
   {
     "id" : "25",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "",
     "nameID" : "",
     "states" : "2",

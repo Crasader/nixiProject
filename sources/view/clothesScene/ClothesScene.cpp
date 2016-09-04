@@ -679,7 +679,6 @@ void ClothesScene::creat_View(){
     tabLayer->setTag(0x77777);
     clothKuangSpr->addChild(tabLayer, 5);
     
-    
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
     
     if (buttonTag == Tag_CL_TouFa){
@@ -1296,7 +1295,7 @@ void ClothesScene::startMethods(){
                 if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                     int phase = dic->valueForKey("phase")->intValue();
                     int cloth_type = dic->valueForKey("type")->intValue();
-                    if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                    if (phase > DATA->getPlayer()->phase) {
                         phaseBool = true;
                         
                         CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -1315,7 +1314,7 @@ void ClothesScene::startMethods(){
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int phase = dic->valueForKey("phase")->intValue();
                         int cloth_type = dic->valueForKey("type")->intValue();
-                        if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                        if (phase > DATA->getPlayer()->phase) {
                             phaseBool = true;
                             
                             CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -1455,7 +1454,7 @@ void ClothesScene::saveClothesMethods(){
                 if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                     int phase = dic->valueForKey("phase")->intValue();
                     int cloth_type = dic->valueForKey("type")->intValue();
-                    if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                    if (phase > DATA->getPlayer()->phase) {
                         phaseBool = true;
                         
                         CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -1476,7 +1475,7 @@ void ClothesScene::saveClothesMethods(){
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int phase = dic->valueForKey("phase")->intValue();
                         int cloth_type = dic->valueForKey("type")->intValue();
-                        if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                        if (phase > DATA->getPlayer()->phase) {
                             phaseBool = true;
                             
                             CCInteger* cloth_integer = CCInteger::create(updataClothes(i));

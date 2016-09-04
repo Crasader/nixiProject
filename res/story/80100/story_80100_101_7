@@ -145,7 +145,7 @@
   },
   {
     "id" : "6",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "云诗彤",
     "nameID" : "101",
     "states" : "2",
@@ -409,7 +409,7 @@
   },
   {
     "id" : "17",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "",
     "nameID" : "",
     "states" : "2",
@@ -985,7 +985,7 @@
   },
   {
     "id" : "41",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "",
     "nameID" : "",
     "states" : "2",
@@ -1129,7 +1129,7 @@
   },
   {
     "id" : "47",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "",
     "nameID" : "",
     "states" : "2",

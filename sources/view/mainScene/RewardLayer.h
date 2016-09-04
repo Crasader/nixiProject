@@ -41,6 +41,7 @@ public:
     CCSprite* bgSpr;
     CCSprite* kuangSpr;
     CCArray* rewardArr;
+    CCSprite* renyiSpr;
     
     int tenIndex;
     bool tenBool;

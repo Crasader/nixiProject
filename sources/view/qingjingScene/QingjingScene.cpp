@@ -260,13 +260,18 @@ void QingjingScene::creat_view(){
         CCString* story_index = CCString::createWithFormat("%d", i);
         CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
         bool tongguanBool = false;
-        for (int i = 0; i < achievemArr->count(); i++) {
+        for (int j = 0; j < achievemArr->count(); j++) {
             bool achiBool = false;
-            CCString* str = (CCString* )achievemArr->objectAtIndex(i);
+            CCString* str = (CCString* )achievemArr->objectAtIndex(j);
             if (storyArr != NULL) {
                 for (int k = 0; k < storyArr->count(); k++) {
                     CCString* storyStr = (CCString* )storyArr->objectAtIndex(k);
                     CCString* tongguanStr1 = CCString::createWithFormat("-1");
+                    CCLog("j == %d", j);
+                    CCLog("k == %d", k);
+                    CCLog("keyStr == %s", keyStr->getCString());
+                    CCLog("storyStr == %s", storyStr->getCString());
+                    CCLog("str == %s", str->getCString());
                     if (strcmp(str->getCString(), storyStr->getCString()) == 0) {
                         achiBool = true;
                         CCLog("11111");
@@ -286,13 +291,13 @@ void QingjingScene::creat_view(){
             
             CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
             CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(200, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            if (i == 0){
+            if (j == 0){
                 label->setPosition(ccp(166, kuangSpr->getContentSize().height* .36f));
-            }else if (i == 1){
+            }else if (j == 1){
                 label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .36f));
-            }else if (i == 2){
+            }else if (j == 2){
                 label->setPosition(ccp(166, kuangSpr->getContentSize().height* .23f));
-            }else if (i == 3){
+            }else if (j == 3){
                 label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .23f));
             }
             if (achiBool) {
@@ -306,16 +311,16 @@ void QingjingScene::creat_view(){
             if (achiBool) {
                 CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
                 gouSpr1->setScale(1.f);
-                if (i == 0){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .36f));
-                }else if (i == 1){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .36f));
-                }else if (i == 2){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .23f));
-                }else if (i == 3){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .9f, kuangSpr->getContentSize().height* .23f));
+                if (j == 0){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                }else if (j == 1){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                }else if (j == 2){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                }else if (j == 3){
+                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
                 }
-                kuangSpr->addChild(gouSpr1, 1);
+                label->addChild(gouSpr1, 1);
             }
         }
         
@@ -342,7 +347,7 @@ void QingjingScene::creat_view(){
             startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
             startSpr2->setScale(1.02f);
             startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
-            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .86f, kuangSpr->getContentSize().height* .26f));
             startItem->setTag(i);
         }else{
             if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
@@ -356,7 +361,7 @@ void QingjingScene::creat_view(){
                 startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
                 startSpr2->setScale(1.02f);
                 startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
-                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .86f, kuangSpr->getContentSize().height* .26f));
                 startItem->setTag(i);
             }else{
                 CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_weijiesuo.png");
@@ -368,7 +373,7 @@ void QingjingScene::creat_view(){
                 startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
                 startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
                 startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
-                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .8f, kuangSpr->getContentSize().height* .27f));
+                startItem->setPosition(ccp(kuangSpr->getContentSize().width* .86f, kuangSpr->getContentSize().height* .26f));
                 startItem->setColor(ccGRAY);
                 startItem->setTag(i);
             }

@@ -232,6 +232,7 @@ public:
     CCSprite* _75Spr1;
     void _75CallFunc();
     void creat_Animation76(DialogItem* dialItem, int index, CCSprite* spr);
+    int animation77Index;
     void creat_Animation77(DialogItem* dialItem, int index, CCSprite* spr);
 };
 

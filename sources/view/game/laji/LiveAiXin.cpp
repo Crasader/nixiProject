@@ -195,7 +195,7 @@ void LiveAiXin::setupView()
     }
     
     {
-        CCSprite * tishi = CCSprite::create("res/pic/game/color/games_yd_housework.png");
+        CCSprite * tishi = CCSprite::create("res/pic/game/laji/games_yd_housework.png");
         tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
         this->addChild(tishi, 20, 0x121);
         

@@ -673,7 +673,7 @@
   },
   {
     "id" : "28",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "",
     "nameID" : "",
     "states" : "1",
@@ -937,7 +937,7 @@
   },
   {
     "id" : "39",
-    "bg" : "10.png",
+    "bg" : "keep",
     "name" : "云鼎",
     "nameID" : "1007",
     "states" : "2",

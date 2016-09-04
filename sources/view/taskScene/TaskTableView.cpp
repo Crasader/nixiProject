@@ -334,7 +334,10 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    OpenToWhichOne = idx;
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
+    int taskId = dic->valueForKey("id")->intValue();
+    
+    OpenToWhichOne = taskId;
     
     int unlockCondition = DATA->getPlayer()->mission;
     if (OpenToWhichOne < unlockCondition) {
@@ -362,9 +365,6 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         }
         renSpr->setTag(idx + 10000);
         button->addChild(renSpr, 5);
-    
-        CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
-        int taskId = dic->valueForKey("id")->intValue();
         
         // 星星
         this->buttonStatus(taskId, button);

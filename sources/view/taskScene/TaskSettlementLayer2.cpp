@@ -209,8 +209,19 @@ void TaskSettlementLayer2::creat_view(){
     done_text->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .63f));
     tiaoSpr->addChild(done_text);
     
-    
-    CCString* renStr = CCString::createWithFormat("res/pic/taskSettlement/ts_ren%d.png", 1);
+    int renIndex = 1;
+    if (_rating == 1) {
+        renIndex = 1;
+    }else if (_rating == 2){
+        renIndex = 2;
+    }else if (_rating == 3){
+        renIndex = 3;
+    }else if (_rating == 4){
+        renIndex = 4;
+    }else if (_rating == 5){
+        renIndex = 5;
+    }
+    CCString* renStr = CCString::createWithFormat("res/pic/taskSettlement/ts_ren%d.png", renIndex);
     renSpr = CCSprite::create(renStr->getCString());
 //    renSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .19f, DISPLAY->ScreenHeight()* .13f));
     renSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .19f, DISPLAY->ScreenHeight()* .83f));
@@ -257,7 +268,7 @@ void TaskSettlementLayer2::creat_view(){
         randIndex2 = 20 + rand()%20;
         randIndex3 = 20 + rand()%20;
         randIndex4 = 20 + rand()%20;
-        tishiStr = CCString::createWithFormat("你这样,还处的去门嘛.");
+        tishiStr = CCString::createWithFormat("你这样,还出的去门嘛.");
         tishiStr->retain();
     }else if (_rating == 1) {
         randIndex1 = 2 + rand()%20;

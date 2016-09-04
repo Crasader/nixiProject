@@ -303,7 +303,7 @@ void HomeLayer::creat_View(){
         int taskIdIndex = atoi(taskIdStd.c_str());
         int phaseStdIndex = atoi(phaseStd.c_str());
         if (i == 0) {
-            if (phaseStdIndex <= DATA->getTaskPhase()) {
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
                 if (taskIdIndex > DATA->getPlayer()->mission) {
                     shopItem->setEnabled(false);
                     shopItem->setColor(ccGRAY);
@@ -313,7 +313,7 @@ void HomeLayer::creat_View(){
                 shopItem->setColor(ccGRAY);
             }
         }else if (i == 1){
-            if (phaseStdIndex <= DATA->getTaskPhase()) {
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
                 if (taskIdIndex > DATA->getPlayer()->mission) {
                     colorItem->setEnabled(false);
                     colorItem->setColor(ccGRAY);
@@ -323,7 +323,7 @@ void HomeLayer::creat_View(){
                 colorItem->setColor(ccGRAY);
             }
         }else if (i == 2){
-            if (phaseStdIndex <= DATA->getTaskPhase()) {
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
                 if (taskIdIndex > DATA->getPlayer()->mission) {
                     sleepItem->setEnabled(false);
                     sleepItem->setColor(ccGRAY);
