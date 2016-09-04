@@ -76,6 +76,8 @@ public:
     void buy_story2_505(const char* id);
     void commit_story2_507(const char* id, const char* flag);
     void start_story2_509(const char* id);
+    // 发表弹幕：storyId-剧情ID, lineId-第几句的id, words-发表内容
+    void submit_story_danmaku_511(string& storyId, string& lineId, string& words);
     
     void owned_clothes_400();
     void save_dressed_401(CCDictionary* dressed);
