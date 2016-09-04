@@ -112,8 +112,8 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
                 CCNotificationCenter::sharedNotificationCenter()->postNotification("CloseSwallowEnabled");
             }
         }
-        AUDIO->comfirm_effect();
         
+        AUDIO->comfirm_effect();
         if (_phase == DATA->getPlayer()->phase) {
             this->building_touch_callback();
             return true;
