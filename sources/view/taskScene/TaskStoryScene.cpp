@@ -1373,8 +1373,9 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     
     if (-1 == index || -2 == index || -3 == index || -4 == index || -5 == index || -6 == index) {
         if (DATA->getPlayer()->energy < 12) {
-            PromptLayer* prompt = PromptLayer::create();
-            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "没有足够的体力~!");
+            AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
             return;
         }
         
