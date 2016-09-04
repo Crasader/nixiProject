@@ -82,8 +82,10 @@ void BuildingLayer::onEnter() {
         scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_phase_up), 1.0);
     }
     else {
-        this->show_arrow();
-        schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+        if (_phase == DATA->getPlayer()->phase) {
+            this->show_arrow();
+            schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+        }
     }
 }
 
@@ -111,8 +113,11 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
             }
         }
         AUDIO->comfirm_effect();
-        this->building_touch_callback();
-        return true;
+        
+        if (_phase == DATA->getPlayer()->phase) {
+            this->building_touch_callback();
+            return true;
+        }
     }
     
     return false;
