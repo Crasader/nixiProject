@@ -48,10 +48,75 @@ bool TaskScene::init(bool isPhaseUP){
         return false;
     }
     
-    _isPhaseUP = isPhaseUP;
+    _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
+    _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
+    _buildingLayer->setTag(0x55555);
+    this->addChild(_buildingLayer);
+    
+    if (_isPhaseUP == true) {
+        CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TaskScene::nc_phase_up_finished), "Phase_Up_Finished", NULL);
+    }
+    else {
+        this->init_contents();
+    }
+
+    return true;
+}
+
+void TaskScene::onEnter(){
+    BaseScene::onEnter();
+    
+    AUDIO->play_company_bgm();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::creat_Tishi), "Task_Creat_Tishi", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::EnterTheTishi), "Task_EnterTheTishi", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::ExitTishi), "Task_ExitTishi", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::exitView), "Task_ExitView", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_startCallBack), "HTTP_FINISHED_400", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_905CallBack), "HTTP_FINISHED_905", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_905status), "Guide_905status", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskScene::phoneCallBack), "Guide_phoneCallBack", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
+}
+
+void TaskScene::keyBackStatus(float dt){
+    this->setKeypadEnabled(true);
+}
+
+void TaskScene::onExit(){
+    this->unscheduleAllSelectors();
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    BaseScene::onExit();
+}
+
+void TaskScene::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1) {
+        return;
+    }
+    
+    if (DATA->current_guide_step() == 0) {
+        this->backCallBack(NULL);
+    }
+}
+
+void TaskScene::nc_phase_up_finished(CCObject *pObj) {
+    this->init_contents();
+}
+
+void TaskScene::init_contents() {
     OpenToWhichOne = 0;
     taskPhase = 0;
     taskIndex = 0;
+    
+    _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
+    _buildingLayer->setTag(0x55555);
+    this->addChild(_buildingLayer);
     
     CCDictionary* ratingDic =  DATA->getPlayer()->rating;
     CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
@@ -77,7 +142,7 @@ bool TaskScene::init(bool isPhaseUP){
     this->creat_view();
     this->creat_Man();
     this->initClothes();
-     
+    
     this->init_phone();
     
     if (DATA->current_guide_step() == 0) {
@@ -102,50 +167,6 @@ bool TaskScene::init(bool isPhaseUP){
         layer->setTag(0x445566);
         this->addChild(layer, 500);
     }
-    
-    return true;
-}
-
-void TaskScene::onEnter(){
-    BaseScene::onEnter();
-    
-    AUDIO->play_company_bgm();
-    
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::creat_Tishi), "Task_Creat_Tishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::EnterTheTishi), "Task_EnterTheTishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::ExitTishi), "Task_ExitTishi", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::exitView), "Task_ExitView", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_startCallBack), "HTTP_FINISHED_400", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_905CallBack), "HTTP_FINISHED_905", NULL);
-    
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::_905status), "Guide_905status", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&TaskScene::phoneCallBack), "Guide_phoneCallBack", NULL);
-    
-    
-    this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
-}
-void TaskScene::keyBackStatus(float dt){
-    this->setKeypadEnabled(true);
-}
-
-void TaskScene::onExit(){
-    this->unscheduleAllSelectors();
-    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-    BaseScene::onExit();
-}
-
-void TaskScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
-        return;
-    }
-    
-    if (DATA->current_guide_step() == 0) {
-        this->backCallBack(NULL);
-    }
 }
 
 void TaskScene::creat_view(){
@@ -169,11 +190,6 @@ void TaskScene::creat_view(){
         }
     }
     DATA->setTaskSource(tempArr);
-    
-    // _isPhaseUP 要不要显示升级动画 false不显示
-    _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
-    _buildingLayer->setTag(0x55555);
-    this->addChild(_buildingLayer);
     
     if (taskPhase >= DATA->getPlayer()->phase) {
         
@@ -303,6 +319,7 @@ void TaskScene::creat_view(){
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::enterTheKuang), .1f);
 }
+
 void TaskScene::enterTheKuang(float dt){
     CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth() + 7, DISPLAY->ScreenHeight()* .49f));
     CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.f);

@@ -102,7 +102,7 @@ void LoginScene::onEnter() {
         this->addChild(logo);
         
         LOADING->show_loading();
-        DATA->setLoginType(2);
+        DATA->setLoginType(1);
         NET->fast_login_900(CONFIG->saved_uuid().c_str());
     }
     else if (autoLogin && CONFIG->has_saved_account()) {
