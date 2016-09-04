@@ -1202,7 +1202,12 @@ void TaskStoryScene::logic(float dt){
         
         saidLabel->setString(getContentByLength(wordCount).c_str());
         
-        if (missionDic->valueForKey("next")->intValue() == -1 || missionDic->valueForKey("next")->intValue() == -2 || missionDic->valueForKey("next")->intValue() == -3) {
+        if (missionDic->valueForKey("next")->intValue() == -1 ||
+            missionDic->valueForKey("next")->intValue() == -2 ||
+            missionDic->valueForKey("next")->intValue() == -3 ||
+            missionDic->valueForKey("next")->intValue() == -4 ||
+            missionDic->valueForKey("next")->intValue() == -5 ||
+            missionDic->valueForKey("next")->intValue() == -6) {
             startItem->setVisible(true);
             
             if (DATA->current_guide_step() == 4) {
@@ -1365,8 +1370,6 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     item->setEnabled(false);
     
     index = missionDic->valueForKey("next")->intValue();
-    int taskTempID = missionDic->valueForKey("taskID")->intValue();
-    DATA->setTaskTempID(taskTempID);
     
     if (-1 == index || -2 == index || -3 == index || -4 == index || -5 == index || -6 == index) {
         if (DATA->getPlayer()->energy < 12) {
