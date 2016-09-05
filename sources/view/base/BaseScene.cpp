@@ -11,6 +11,7 @@
 #include "DisplayManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "ResetNicknamePanel.h"
 #include "PurchasePanel.h"
 #include "EnergyBuyPanel.h"
 #include "CoinExchangePanel.h"
@@ -82,7 +83,7 @@ void BaseScene::init_UI(){
     // 姓名框
     CCSprite* nameSpr1 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
     CCSprite* nameSpr2 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
-    nameItem = CCMenuItemSprite::create(nameSpr1, nameSpr2);
+    nameItem = CCMenuItemSprite::create(nameSpr1, nameSpr2, this, menu_selector(BaseScene::nicknameCallBack));
     nameItem->setAnchorPoint(ccp(0, 1));
     nameItem->setPosition(ccp(-DISPLAY->ScreenWidth()* .5f + 2, DISPLAY->ScreenHeight()* .5f - 5));
     CCString* nameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
@@ -274,8 +275,13 @@ void BaseScene::openBaseScene(){
     barMenu->setVisible(true);
     _phaseStar->setVisible(true);
 }
+
 void BaseScene::closeBaseMenu(){
     barMenu->setEnabled(false);
+}
+
+void BaseScene::nicknameCallBack(CCObject* pSender) {
+    ResetNicknamePanel::show(this->getScene());
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){

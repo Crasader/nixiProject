@@ -16,6 +16,7 @@
 VipStorySettlementOfTheAnimationLayer::VipStorySettlementOfTheAnimationLayer(){
     
 }
+
 VipStorySettlementOfTheAnimationLayer::~VipStorySettlementOfTheAnimationLayer(){
     
 }
@@ -56,9 +57,9 @@ VipStorySettlementOfTheAnimationLayer* VipStorySettlementOfTheAnimationLayer::cr
 }
 void VipStorySettlementOfTheAnimationLayer::init_with_index(int index, std::string ending){
     
-    CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
-    mask->setPosition(DISPLAY->center());
-    this->addChild(mask, 10);
+//    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//    mask->setPosition(DISPLAY->center());
+//    this->addChild(mask, 10);
     
     if (index == 1) {
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/animation/qj_wan.png");

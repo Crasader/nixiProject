@@ -91,10 +91,10 @@ void PhoneLayer2::creat_view(){
     fzSpr->setPosition(ccp(0, DISPLAY->H() * 0.22));
     this->addChild(fzSpr, 2);
     
-    CCSprite* maskSpr = CCSprite::create("res/pic/white_mask.png");
-    maskSpr->setOpacity(150);
-    maskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(maskSpr, 5);
+//    CCSprite* maskSpr = CCSprite::create("res/pic/mask.png");
+//    maskSpr->setOpacity(150);
+//    maskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+//    this->addChild(maskSpr, 5);
     
     CCSprite* backSpr1 = CCSprite::create("pic/common/btn_goback2.png");
     CCSprite* backSpr2 = CCSprite::create("pic/common/btn_goback2.png");

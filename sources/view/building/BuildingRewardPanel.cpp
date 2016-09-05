@@ -54,9 +54,9 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
     _type = string(type.c_str());
     _value = value;
 
-    CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
-    mask->setPosition(DISPLAY->center());
-    this->addChild(mask);
+//    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//    mask->setPosition(DISPLAY->center());
+//    this->addChild(mask);
     
     _panel = CCSprite::create("pic/building/reward/panel.png");
     _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75));

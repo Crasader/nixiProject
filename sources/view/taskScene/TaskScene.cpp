@@ -47,8 +47,8 @@ bool TaskScene::init(bool isPhaseUP){
     if (!BaseScene::init()) {
         return false;
     }
-    _isPhaseUP = true;
-//    _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
+    
+    _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
     _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);

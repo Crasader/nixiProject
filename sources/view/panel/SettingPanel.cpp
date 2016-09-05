@@ -84,7 +84,7 @@ void SettingPanel::onExit() {
 bool SettingPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _panel->boundingBox().containsPoint(location)) {
-        this->removeFromParentAndCleanup(true);
+        this->remove();
     }
     
     return true;

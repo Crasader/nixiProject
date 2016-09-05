@@ -42,6 +42,7 @@ public:
     void account_regist_903(const char* account, const char* password, const char* recommender = "");
     void save_nickname_904(const char* nickname);
     void update_guide_905(int guide);
+    void reset_nickname_907(const char* nickname);
     
     void check_news_910();
     

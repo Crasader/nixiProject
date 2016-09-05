@@ -40,7 +40,7 @@ BarrageView::~BarrageView() {
 
 bool BarrageView::init() {
     if (CCLayer::init()) {
-        CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
+        CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         

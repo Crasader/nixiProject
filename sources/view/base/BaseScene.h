@@ -48,7 +48,7 @@ public:
     virtual void will_number_scroll3();
     virtual void did_number_stoped3();
     
-    
+    void nicknameCallBack(CCObject* pSender);
     void tiliCallBack(CCObject* pSender);
     void goldCallBack(CCObject* pSender);
     void coinCallBack(CCObject* pSender);

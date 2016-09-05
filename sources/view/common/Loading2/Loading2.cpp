@@ -92,7 +92,7 @@ void Loading2::remove() {
 #pragma mark - inner
 
 void Loading2::init_content() {
-    CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
+    CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
     
