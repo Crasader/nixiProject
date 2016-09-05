@@ -114,10 +114,6 @@ void TaskScene::init_contents() {
     taskPhase = 0;
     taskIndex = 0;
     
-    _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
-    _buildingLayer->setTag(0x55555);
-    this->addChild(_buildingLayer);
-    
     CCDictionary* ratingDic =  DATA->getPlayer()->rating;
     CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
     OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
@@ -188,7 +184,11 @@ void TaskScene::creat_view(){
     if (this->getChildByTag(0x66666) != NULL) {
         this->removeChildByTag(0x66666);
     }
-    DATA->setTaskPhase(6);
+    
+    _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), false);
+    _buildingLayer->setTag(0x55555);
+    this->addChild(_buildingLayer);
+    
     taskPhase = DATA->getTaskPhase();
     CCArray* tempArr = CCArray::create();
     for (int i = 0; i < taskArr->count(); i++) {
