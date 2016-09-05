@@ -44,8 +44,6 @@ bool Shower::init() {
 
 void Shower::onEnter() {
     CCSprite::onEnter();
-    
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 }
 
 void Shower::onExit() {

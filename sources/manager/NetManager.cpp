@@ -353,7 +353,7 @@ void NetManager::start_story2_509(const char *id) {
     this->post_data(509, data);
 }
 
-void NetManager::submit_story_danmaku_511(string &storyId, string &lineId, string &words) {
+void NetManager::submit_story_danmaku_511(const char* storyId, const char* lineId, const char* words) {
     FastWriter writer;
     Value root;
     root["id"] = storyId;
@@ -361,7 +361,7 @@ void NetManager::submit_story_danmaku_511(string &storyId, string &lineId, strin
     root["words"] = words;
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
-    this->post_data(509, data);
+    this->post_data(511, data);
 }
 
 
