@@ -88,7 +88,7 @@ bool GashaponLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 }
 
 void GashaponLayer::creat_View(){
-    CCSprite* bgSpr2 = CCSprite::create("res/pic/gashapon/gashapon_bg2.png");
+    CCSprite* bgSpr2 = CCSprite::create("res/pic/mask.png");
     bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr2);
     

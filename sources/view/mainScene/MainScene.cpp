@@ -45,7 +45,6 @@
 
 #include <time.h>
 
-
 #include "RewardLayer.h"
 
 #include "GuideLayer.h"

@@ -29,9 +29,9 @@ bool FindPanel::init(){
 }
 
 void FindPanel::initView(){
-    CCSprite* mask = CCSprite::create("res/pic/mask.png");
-    mask->setPosition(DISPLAY->center());
-    this->addChild(mask);
+//    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//    mask->setPosition(DISPLAY->center());
+//    this->addChild(mask);
     
     find_panel = CCSprite::create("res/pic/haoyoupaihang/find_kuang.png");
     find_panel->setPosition(DISPLAY->center());

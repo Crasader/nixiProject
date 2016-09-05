@@ -32,6 +32,7 @@ void ShowComp::init_with_json(Value json) {
     _id = json["id"].asString();
     _collected = json["collected"].asInt();
     _ranking = json["ranking"].asInt();
+    _reset = json["reset"].asInt();
     
     {
         CC_SAFE_RELEASE(_ondress);
@@ -77,4 +78,7 @@ string ShowComp::getShowID(){
     return _id;
 }
 
+int ShowComp::resetCost(){
+    return _reset;
+}
 

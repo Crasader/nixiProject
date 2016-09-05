@@ -27,9 +27,9 @@ PurchasePanel::~PurchasePanel() {
 
 bool PurchasePanel::init() {
     if (CCLayer::init()) {
-        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-        mask->setPosition(DISPLAY->center());
-        this->addChild(mask);
+//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//        mask->setPosition(DISPLAY->center());
+//        this->addChild(mask);
         
         _content = CCLayer::create();
 //        _content->setScale(0.1);

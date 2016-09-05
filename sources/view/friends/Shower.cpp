@@ -22,6 +22,7 @@ const bool flipxBool = false;
 #pragma mark - Super API
 
 Shower::~Shower() {
+    
 }
 
 bool Shower::init() {

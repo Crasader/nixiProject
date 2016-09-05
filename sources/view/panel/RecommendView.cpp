@@ -29,9 +29,9 @@ bool RecommendView::init() {
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);
         
-        CCSprite* mask = CCSprite::create("res/pic/mask.png");
-        mask->setPosition(DISPLAY->center());
-        this->addChild(mask);
+//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//        mask->setPosition(DISPLAY->center());
+//        this->addChild(mask);
         
         _panel = CCSprite::create("res/pic/panel/energybuy/eb_panel.png");
         _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.55));

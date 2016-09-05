@@ -30,6 +30,7 @@ public:
     int ranking();              // 名次
     string getShowID();
     CCDictionary* ondress();    // 着装
+    int resetCost();            // 改名花费
     
     int             isadd;
     int             issend;
@@ -41,6 +42,7 @@ public:
     int             _ranking;
     CCDictionary*   _ondress;
     CCDictionary*   _ornaments;
+    int             _reset;
 };
 
 #endif /* ShowComp_hpp */

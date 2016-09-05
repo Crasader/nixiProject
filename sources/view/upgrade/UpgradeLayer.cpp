@@ -46,9 +46,9 @@ bool UpgradeLayer::init(){
     do {
         CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(250, 250, 250, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
         
-        this->setTouchSwallowEnabled(true);
-        this->setTouchMode(kCCTouchesOneByOne);
-        this->setTouchEnabled(true);
+//        this->setTouchSwallowEnabled(true);
+//        this->setTouchMode(kCCTouchesOneByOne);
+//        this->setTouchEnabled(true);
         
         bRet = true;
     } while (0);
@@ -56,9 +56,10 @@ bool UpgradeLayer::init(){
     return bRet;
 }
 
-bool UpgradeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-    return true;
-}
+//bool UpgradeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
+//    
+//    return true;
+//}
 
 UpgradeLayer* UpgradeLayer::create_with_index(int index){
     UpgradeLayer* rtn = UpgradeLayer::create();
@@ -77,15 +78,18 @@ void UpgradeLayer::init_with_index(int index){
 }
 
 void UpgradeLayer::creat_view1(){
+    content = CCLayer::create();
+    this->addChild(content);
+    content->setPosition(ccp(-DISPLAY->halfW() * 0.5, 0));
+    content->runAction(CCMoveTo::create(0.5, CCPointZero));
     
     CCSprite* louSpr = CCSprite::create("res/pic/taskScene/upgrade1/upgrade_lou.png");
     louSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(louSpr);
+    content->addChild(louSpr);
     
     CCSprite* diaocheSpr1 = CCSprite::create("res/pic/taskScene/upgrade1/upgrade_diaoche1.png");
     diaocheSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(diaocheSpr1, 5);
-    
+    content->addChild(diaocheSpr1, 5);
     
     diaocheSpr2 = CCSprite::create("res/pic/taskScene/upgrade1/upgrade_diaoche2.png");
     CCSprite* stencil = CCSprite::create();
@@ -100,22 +104,18 @@ void UpgradeLayer::creat_view1(){
     CCMoveTo* moveTo2 = CCMoveTo::create(1.8f, ccp(0, 0));
     diaocheSpr2->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, CCDelayTime::create(.4f), moveTo2, NULL)));
     
-    
     CCSprite* weilanSpr1 = CCSprite::create("res/pic/taskScene/upgrade1/upgrade_weilan1.png");
     weilanSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(weilanSpr1, 10);
-    
+    content->addChild(weilanSpr1, 10);
     
     CCSprite* weilanSpr2 = CCSprite::create("res/pic/taskScene/upgrade1/upgrade_weilan2.png");
     weilanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(weilanSpr2, 2);
-    
+    content->addChild(weilanSpr2, 2);
     
     CCSprite* paiziSpr = CCSprite::create("res/pic/taskScene/upgrade1/upgrade_paizi.png");
     paiziSpr->setAnchorPoint(ccp(.5f, 1));
     paiziSpr->setPosition(ccp(weilanSpr1->getContentSize().width* .41f, weilanSpr1->getContentSize().height* .55f));
     weilanSpr1->addChild(paiziSpr);
-    
     
     CCRotateTo* rotateTo1 = CCRotateTo::create(.4f, -30);
     CCRotateTo* rotateTo2 = CCRotateTo::create(.4f, 0);
@@ -124,26 +124,44 @@ void UpgradeLayer::creat_view1(){
     CCSequence* seq = CCSequence::create(rotateTo1, rotateTo2, rotateTo3, rotateTo4, NULL);
     paiziSpr->runAction(CCRepeatForever::create(seq));
     
-    this->scheduleOnce(SEL_SCHEDULE(&UpgradeLayer::closeLayer), 6.f);
+//    this->scheduleOnce(SEL_SCHEDULE(&UpgradeLayer::closeLayer), 6.f);
 }
 
-void UpgradeLayer::closeLayer(float dt){
-    
+void UpgradeLayer::closeLayer(){
+    CCSequence* seq = CCSequence::create(CCMoveTo::create(0.5, ccp(-DISPLAY->halfW() * 0.5, 0)), CCRemoveSelf::create(), NULL);
+    content->runAction(seq);
 }
 
 void UpgradeLayer::creat_view2(){
-    CCSprite* bgSpr = CCSprite::create("res/pic/mask.png");
-    bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(bgSpr);
+    this->show_roles();
+    this->creat_hua1();
+    this->show_title();
+}
+
+void UpgradeLayer::show_roles() {
+    CCSprite* shadow1 = CCSprite::create("res/pic/taskScene/upgrade2/shadow1.png");
+    shadow1->setPosition(ccp(DISPLAY->halfW() - 140, DISPLAY->H() * 0.255));
+    this->addChild(shadow1, 4);
     
-    CCSprite* titleSpr = CCSprite::create("res/pic/taskScene/upgrade2/upgrade_title.png");
-    titleSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .7f));
-    this->addChild(titleSpr);
+    CCSprite* shadow2 = CCSprite::create("res/pic/taskScene/upgrade2/shadow2.png");
+    shadow2->setPosition(ccp(DISPLAY->halfW() + 125, DISPLAY->H() * 0.255));
+    this->addChild(shadow2, 4);
     
-    // 人
     manSpr = CCSprite::create("res/pic/taskScene/upgrade2/upgrade_man1.png");
     manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
     this->addChild(manSpr, 5);
+    
+    CCCallFunc* anim = CCCallFunc::create(this, SEL_CallFunc(&UpgradeLayer::role_animation));
+    manSpr->runAction(CCSequence::create(CCFadeIn::create(1.5), CCDelayTime::create(0.3), anim, NULL));
+}
+
+void UpgradeLayer::role_animation() {
+    {
+        CCSprite* caidai = CCSprite::create("res/pic/taskScene/upgrade2/caidai.png");
+        caidai->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.35));
+        this->addChild(caidai);
+    }
+    
     CCArray* manAnimations = CCArray::createWithCapacity(3);
     char manStr[100] = {};
     for (int i = 1; i <= 2; i++) {
@@ -156,8 +174,46 @@ void UpgradeLayer::creat_view2(){
     CCAnimate* animate = CCAnimate::create(animation);
     CCRepeatForever* rep = CCRepeatForever::create(animate);
     CCDirector::sharedDirector()->getActionManager()->addAction(rep, manSpr, false);
+}
+
+void UpgradeLayer::show_title() {
+    float originScale = 0.2f;
+    float duration = 0.6f;
     
-    this->creat_hua1();
+    CCSprite* titleSpr = CCSprite::create("res/pic/taskScene/upgrade2/upgrade_title.png");
+    titleSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .7f));
+    titleSpr->setScale(originScale);
+    this->addChild(titleSpr, 100);
+
+    CCCallFunc* done = CCCallFunc::create(this, SEL_CallFunc(&UpgradeLayer::show_stars));
+    CCSequence* seq = CCSequence::create(CCEaseExponentialIn::create(CCScaleTo::create(duration, 1)), done, NULL);
+    titleSpr->runAction(seq);
+}
+
+void UpgradeLayer::show_stars() {
+    float originScale = 0.2f;
+    float duration = 0.6f;
+    
+    CCSprite* stars = CCSprite::create("res/pic/taskScene/upgrade2/stars.png");
+    stars->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .7f));
+    stars->setAnchorPoint(ccp(0.5, 0));
+    stars->setScale(originScale);
+    this->addChild(stars);
+    
+    CCCallFunc* done = CCCallFunc::create(this, SEL_CallFunc(&UpgradeLayer::show_stars_done));
+    CCSequence* seq = CCSequence::create(CCEaseExponentialIn::create(CCScaleTo::create(duration, 1)), done, NULL);
+    stars->runAction(seq);
+}
+
+void UpgradeLayer::show_stars_done() {
+    CCSprite* balabala = CCSprite::create("res/pic/taskScene/upgrade2/hua0.png");
+    balabala->setPosition(ccp(DISPLAY->halfW(), DISPLAY->halfH()));
+    this->addChild(balabala);
+    
+    CCSprite* hoodle = CCSprite::create("res/pic/taskScene/upgrade2/hua0.png");
+    hoodle->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.45));
+    this->addChild(hoodle);
+    
 }
 
 void UpgradeLayer::creat_hua1(){

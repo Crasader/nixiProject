@@ -73,6 +73,24 @@ bool CoffersComp::has_taken_reward(CCString* id) {
     return rtn;
 }
 
+bool CoffersComp::is_coffers_full() {
+    return (profit >= top);
+}
+
+bool CoffersComp::have_untake_reward(int phase) {
+    CCArray* items = this->phase_goals(phase);
+    int count = items->count();
+    for (int i = 0; i < count; i++) {
+        CCDictionary* item = (CCDictionary*)items->objectAtIndex(i);
+        CCString* itemId = (CCString*)item->objectForKey("id");
+        if (this->has_taken_reward(itemId)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 void CoffersComp::produce() {
     collected += 1;
 }
