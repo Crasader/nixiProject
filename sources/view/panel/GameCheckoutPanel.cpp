@@ -60,7 +60,7 @@ bool GameCheckoutPanel::initWithScore(string gameId, int score, int history, CCD
     
     _couldRemove = false;
 
-    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+    CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
     

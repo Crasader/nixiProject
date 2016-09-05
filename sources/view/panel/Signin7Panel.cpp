@@ -39,7 +39,7 @@ Signin7Panel::~Signin7Panel() {
 
 bool Signin7Panel::init() {
     if (CCLayer::init()) {
-        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+        CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
@@ -156,7 +156,7 @@ void Signin7Panel::config_siginInfo(){
         switch (cur_state) {
             case e_SigninState_Locked:{
                 // 锁定
-                //                state_spr = CCSprite::create("res/pic/mask.png");
+                //                state_spr = CCSprite::create("res/pic/white_mask.png");
                 //                state_spr->CCNode::setScale(icon_bg->getContentSize().width / state_spr->getContentSize().width, icon_bg->getContentSize().height / state_spr->getContentSize().height);
                 //                state_spr->setPosition(ccp(icon_bg->getContentSize().width* .5f, icon_bg->getContentSize().height* .5f));
                 //                icon_bg->addChild(state_spr);

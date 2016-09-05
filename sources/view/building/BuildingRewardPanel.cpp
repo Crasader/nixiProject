@@ -54,7 +54,7 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
     _type = string(type.c_str());
     _value = value;
 
-    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+    CCSprite* mask = CCSprite::create("res/pic/white_mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
     

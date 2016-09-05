@@ -32,15 +32,15 @@ public:
     void keyBackStatus(float dt);
     virtual void keyBackClicked();
     
-    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {}
-    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {}
+//    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+//    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
+//    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {}
+//    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {}
     
     CREATE_FUNC(UpgradeLayer);
     
 public:
-    
+    CCLayer* content;
     CCSprite* diaocheSpr2;
     CCSprite* huaSpr;
     CCSprite* manSpr;
@@ -50,11 +50,17 @@ public:
 public:
     
     void creat_view1();
-    void closeLayer(float dt);
+    void closeLayer();
     void creat_view2();
     void creat_hua1();
     void creat_hua2();
     void creat_hua3();
     void creat_hua4();
+    
+    void show_roles();
+    void role_animation();
+    void show_title();
+    void show_stars();
+    void show_stars_done();
 };
 #endif /* defined(__tiegao__UpgradeLayer__) */

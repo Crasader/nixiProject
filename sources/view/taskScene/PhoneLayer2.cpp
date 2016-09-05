@@ -91,7 +91,7 @@ void PhoneLayer2::creat_view(){
     fzSpr->setPosition(ccp(0, DISPLAY->H() * 0.22));
     this->addChild(fzSpr, 2);
     
-    CCSprite* maskSpr = CCSprite::create("res/pic/mask.png");
+    CCSprite* maskSpr = CCSprite::create("res/pic/white_mask.png");
     maskSpr->setOpacity(150);
     maskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(maskSpr, 5);

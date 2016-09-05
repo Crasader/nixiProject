@@ -165,6 +165,9 @@ void BuildingLayer::show_building() {
 
 void BuildingLayer::show_phase_up() {
     CCLOG("BuildingLayer::show_phase_up()");
+    CCSequence* seqBuilding = CCSequence::create(CCMoveTo::create(0.5, ccp(-DISPLAY->halfW() * 0.5, this->_building->getPositionY())), CCFadeOut::create(0.1), NULL);
+    this->_building->runAction(seqBuilding);
+    
     UpgradeLayer* layer = UpgradeLayer::create_with_index(1);
     this->addChild(layer);
     
@@ -174,7 +177,8 @@ void BuildingLayer::show_phase_up() {
 }
 
 void BuildingLayer::on_construction_finish(CCNode* node) {
-    node->removeFromParentAndCleanup(true);
+//    node->removeFromParentAndCleanup(true);
+    ((UpgradeLayer*)node)->closeLayer();
     
     CCString* str = NULL;
     if (_phase < 3) {
@@ -183,6 +187,8 @@ void BuildingLayer::on_construction_finish(CCNode* node) {
     else {
         str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
     }
+    
+    this->_building->setVisible(true);
     CCSprite* newBuilding = CCSprite::create(str->getCString());
     newBuilding->setAnchorPoint(CCPointZero);
     _building->addChild(newBuilding);
@@ -192,7 +198,7 @@ void BuildingLayer::on_construction_finish(CCNode* node) {
     CCLOG("layer = %p", layer);
 
     CCCallFuncN* done = CCCallFuncN::create(this, SEL_CallFuncN(&BuildingLayer::on_phaseup_finish));
-    CCSequence* seq = CCSequence::create(CCDelayTime::create(3), done, NULL);
+    CCSequence* seq = CCSequence::create(CCDelayTime::create(5), done, NULL);
     layer->runAction(seq);
 }
 
