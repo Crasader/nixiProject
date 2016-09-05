@@ -156,7 +156,7 @@ void NetManager::reset_nickname_907(const char *nickname) {
     root["nickname"] = nickname;
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
-    this->post_data(905, data);
+    this->post_data(907, data);
 }
 
 void NetManager::check_news_910() {

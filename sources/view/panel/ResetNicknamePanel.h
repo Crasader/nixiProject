@@ -22,8 +22,8 @@ public: // Export
     
 public:
     ~ResetNicknamePanel();
-    CREATE_FUNC(ResetNicknamePanel);
-    virtual bool init();
+    static ResetNicknamePanel* create(const char* cost);
+    virtual bool init(const char* cost);
     virtual void onEnter();
     virtual void onExit();
     
@@ -41,6 +41,7 @@ private:
     void do_enter();
     void do_exit();
     void remove();
+    void onBtnCommit(CCMenuItem* btn);
     
 private:
     CCLayer*            _content;

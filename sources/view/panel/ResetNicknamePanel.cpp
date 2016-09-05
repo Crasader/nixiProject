@@ -19,21 +19,36 @@
 #include "DisplayManager.h"
 #include "AudioManager.h"
 #include "DataManager.h"
+#include "FileManager.h"
+#include "PromptLayer.h"
 
 #pragma mark - Export
 
-void ResetNicknamePanel::show(CCNode* parent) {
-    CCLayer* layer = ResetNicknamePanel::create();
-    parent->addChild(layer);
-}
 
 #pragma mark - Inherit
 
 ResetNicknamePanel::~ResetNicknamePanel() {
+    
 }
 
-bool ResetNicknamePanel::init() {
+ResetNicknamePanel* ResetNicknamePanel::create(const char *cost) {
+    ResetNicknamePanel* rtn = new ResetNicknamePanel();
+    if (rtn && rtn->init(cost)) {
+        rtn->autorelease();
+        return rtn;
+    }
+    else {
+        delete rtn;
+        return NULL;
+    }
+}
+
+bool ResetNicknamePanel::init(const char* cost) {
     if (CCLayer::init()) {
+//        CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//        mask->setPosition(DISPLAY->center());
+//        this->addChild(mask);
+        
         _content = CCLayer::create();
         this->addChild(_content);
         
@@ -41,18 +56,33 @@ bool ResetNicknamePanel::init() {
         _panel->setPosition(DISPLAY->center());
         _content->addChild(_panel);
         
+        
         CCSize panelSize = _panel->getContentSize();
         
         CCSize size_bar = CCSizeMake(262, 40);
         _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/nickname_reset/nnr_bar.png"));
         _eb->setMaxLength(30);
         _eb->setFontColor(DISPLAY->defalutColor());
-        _eb->setPlaceHolder("请输入昵称");
+        _eb->setPlaceHolder("点此输入昵称");
         _eb->setFontName(DISPLAY->fangzhengFont());
         _eb->setInputMode(kEditBoxInputModeAny);
         _eb->setReturnType(kKeyboardReturnTypeDone);
-        _eb->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.45));
+        _eb->setPosition(ccp(panelSize.width * 0.38, panelSize.height * 0.5));
         _panel->addChild(_eb);
+        
+        CCSprite* spt1 = CCSprite::create("pic/panel/nickname_reset/nnr_commit.png");
+        CCSprite* spt2 = CCSprite::create("pic/panel/nickname_reset/nnr_commit.png");
+        spt2->setScale(DISPLAY->btn_scale());
+        CCMenuItem* btnCommit = CCMenuItemSprite::create(spt1, spt2, this, SEL_MenuHandler(&ResetNicknamePanel::onBtnCommit));
+        CCMenu* menu = CCMenu::createWithItem(btnCommit);
+        menu->ignoreAnchorPointForPosition(true);
+        menu->setPosition(ccp(panelSize.width * 0.83, panelSize.height * 0.5));
+        _panel->addChild(menu);
+        
+        CCLabelTTF* lblCost = CCLabelTTF::create(cost, DISPLAY->fangzhengFont(), 20);
+        lblCost->setAnchorPoint(ccp(0.5, 0.5));
+        lblCost->setPosition(ccp(spt1->getContentSize().width * 0.5, spt1->getContentSize().height * 0.5));
+        btnCommit->addChild(lblCost);
         
         return true;
     }
@@ -128,4 +158,16 @@ void ResetNicknamePanel::keyBackClicked(){
     }
     
     this->remove();
+}
+
+void ResetNicknamePanel::onBtnCommit(CCMenuItem *btn) {
+    string text = _eb->getText();
+    if (FILEM->is_illegal(text.c_str()) == true) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), "名称中包含非法字符~!");
+    }else{
+        CCString* str = CCString::create(text);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ON_RESET_NICKNAME", str);
+        this->remove();
+    }
 }

@@ -17,6 +17,7 @@
 #include "CoinExchangePanel.h"
 #include "ConfigManager.h"
 #include "SpecialManager.h"
+#include "PromptLayer.h"
 
 BaseScene::~BaseScene(){
     
@@ -50,6 +51,11 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updataMoney), "UpdataMoney", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::updatePhaseProgress), "UpdatePhaseProgress", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_purchase_panel), "HTTP_FINISHED_100", NULL);
+    
+    //
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::on_reset_nickname), "ON_RESET_NICKNAME", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_reset_nickname_907), "HTTP_FINISHED_907", NULL);
+    
     // 从外部调用，打开充值面板
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::goldCallBack), "NEED_SHOW_PURCHASEPANEL", NULL);
     // 从外部调用，打开金币兑换面板
@@ -87,10 +93,10 @@ void BaseScene::init_UI(){
     nameItem->setAnchorPoint(ccp(0, 1));
     nameItem->setPosition(ccp(-DISPLAY->ScreenWidth()* .5f + 2, DISPLAY->ScreenHeight()* .5f - 5));
     CCString* nameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
-    CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
-    nameLabel->setPosition(ccp(nameItem->getContentSize().width* .545f, nameItem->getContentSize().height* .5f));
-    nameLabel->setColor(ccc3(113, 89, 102));
-    nameItem->addChild(nameLabel);
+    _nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(130, 18), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+    _nameLabel->setPosition(ccp(nameItem->getContentSize().width* .545f, nameItem->getContentSize().height* .5f));
+    _nameLabel->setColor(ccc3(113, 89, 102));
+    nameItem->addChild(_nameLabel);
     
     
     // 体力框
@@ -281,7 +287,19 @@ void BaseScene::closeBaseMenu(){
 }
 
 void BaseScene::nicknameCallBack(CCObject* pSender) {
-    ResetNicknamePanel::show(this->getScene());
+    int resetCost = DATA->getShow()->resetCost();
+    ResetNicknamePanel* panel = NULL;
+    if (0 == resetCost) {
+        panel = ResetNicknamePanel::create("首次免费");
+    }
+    else {
+        CCString* strCost = CCString::createWithFormat("%d钻石", resetCost);
+        panel = ResetNicknamePanel::create(strCost->getCString());
+    }
+    
+    if (NULL != panel) {
+        this->getScene()->addChild(panel);
+    }
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){
@@ -368,6 +386,21 @@ void BaseScene::updatePhaseProgress() {
     int phaseTotalMissionCount = CONFIG->mission_count(phase);
     int percent = floor(100 * curMissionIndex / phaseTotalMissionCount);
     _progress->setPercentage(percent);
+}
+
+void BaseScene::on_reset_nickname(CCObject *pObje) {
+    LOADING->show_loading();
+    NET->reset_nickname_907(((CCString*)pObje)->getCString());
+}
+
+void BaseScene::nc_reset_nickname_907(CCObject *pObje) {
+    LOADING->remove();
+    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getParent(), "改名成功~!");
+    
+    _nameLabel->setString(DATA->getShow()->nickname());
+    this->updataMoney();
 }
 
 void BaseScene::nc_need_coin_fly(CCObject *pObj) {
