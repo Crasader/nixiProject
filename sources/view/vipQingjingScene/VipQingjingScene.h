@@ -104,8 +104,6 @@ public:
     CCMenuItem* jiantouItem1, *jiantouItem2, *tempItem;
     
     int storyIndex;
-    int renwuIndex;
-    int phaseIndex;
     int allNumber;
     int selectedIndex;
     

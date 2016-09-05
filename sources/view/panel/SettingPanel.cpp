@@ -121,6 +121,8 @@ void SettingPanel::do_exit() {
 }
 
 void SettingPanel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

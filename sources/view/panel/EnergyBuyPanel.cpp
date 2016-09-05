@@ -161,7 +161,8 @@ void EnergyBuyPanel::do_exit() {
 }
 
 void EnergyBuyPanel::remove() {
-    AUDIO->common_effect();
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

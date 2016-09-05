@@ -17,6 +17,7 @@
 #include "NetManager.h"
 #include "QingjingScene.h"
 #include "GuideLayer.h"
+#include "AudioManager.h"
 
 
 PhoneLayer2::PhoneLayer2(){
@@ -267,6 +268,8 @@ void PhoneLayer2::logic(float dt){
 }
 
 void PhoneLayer2::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
+    
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

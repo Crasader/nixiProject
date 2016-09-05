@@ -64,10 +64,12 @@ bool TaskStoryScene::init(){
     this->setTouchEnabled(true);
     
     taskIndex = DATA->getTaskNumber() + 1;
+//    taskIndex = 25;
     DATA->setStoryLabelArr(CCArray::create());
     
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
     CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+//    CCArray* missionArr = CONFIG->getMissionDialog(3, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
     subscriptIndex = missionDic->valueForKey("id")->intValue();
     
@@ -291,6 +293,7 @@ void TaskStoryScene::creat_view(){
 }
 void TaskStoryScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
     if (missionDic->valueForKey("states")->intValue() == 1){// ==1 一个人
         if (_touSpr->getChildByTag(0x44444) != NULL) {
             _touSpr->removeChildByTag(0x44444);
@@ -1133,11 +1136,15 @@ void TaskStoryScene::addButton(){
 }
 
 void TaskStoryScene::huikanCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     TaskLabelColorLayer* layer = TaskLabelColorLayer::create_with_index(labStr.c_str());
     layer->setTag(0x999999);
     this->addChild(layer, 100);
 }
 void TaskStoryScene::kuaijinCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (!buttonBool) {
         buttonBool = true;
         
@@ -1213,12 +1220,12 @@ void TaskStoryScene::logic(float dt){
             if (DATA->current_guide_step() == 4) {
                 CCNotificationCenter::sharedNotificationCenter()->postNotification("GuideQuan");
             }
-        }
-        
-        if (!quanBool) {
-            quanBool = true;
-            
-            quanSpr->setVisible(true);
+        }else{
+            if (!quanBool) {
+                quanBool = true;
+                
+                quanSpr->setVisible(true);
+            }
         }
         
         return;
@@ -1300,6 +1307,11 @@ void TaskStoryScene::openTouch(float dt){
     this->setTouchEnabled(true);
 }
 void TaskStoryScene::getIndex(float dt){
+    if (quanSpr != NULL) {
+        quanBool = false;
+        quanSpr->setVisible(false);
+    }
+    
     index = missionDic->valueForKey("next")->intValue();
     
     if (index == -1) {
@@ -1348,7 +1360,8 @@ void TaskStoryScene::getIndex(float dt){
     }else{
         index = missionDic->valueForKey("next")->intValue() - subscriptIndex;
         CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
-        missionDic = (CCDictionary* )missionArr->objectAtIndex(index);        
+//        CCArray* missionArr = CONFIG->getMissionDialog(3, taskIndex);
+        missionDic = (CCDictionary* )missionArr->objectAtIndex(index);
         this->init(missionDic);
         wordCount = 0;
         this->dialogueControl(0);
@@ -1366,6 +1379,8 @@ void TaskStoryScene::_905CallBack(CCObject* pSender){
 }
 
 void TaskStoryScene::startCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     item->setEnabled(false);
     
@@ -1373,6 +1388,8 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
     
     if (-1 == index || -2 == index || -3 == index || -4 == index || -5 == index || -6 == index) {
         if (DATA->getPlayer()->energy < 12) {
+            item->setEnabled(true);
+            
             AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
             mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
             CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);

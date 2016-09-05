@@ -105,7 +105,8 @@ bool RecommendView::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
 #pragma mark - inner
 
 void RecommendView::remove() {
-    AUDIO->common_effect();
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

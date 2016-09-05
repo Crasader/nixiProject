@@ -20,7 +20,7 @@
 #include "PromptLayer.h"
 #include "StringUtil.h"
 #include "GuideLayer.h"
-//#include "MMAudioManager.h"
+#include "AudioManager.h"
 
 
 StoryScene::StoryScene(){
@@ -2175,7 +2175,7 @@ void StoryScene::keyBackClicked(){
 }
 
 void StoryScene::fhCallBack(CCObject* pSender){
-    
+    AUDIO->goback_effect();
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_audio_AHMessageBox, false);
 //    }

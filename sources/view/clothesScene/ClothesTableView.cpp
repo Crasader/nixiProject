@@ -484,7 +484,7 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     spr->addChild(clothSpr, 3);
     // 名字
     CCSprite* namekuang = CCSprite::create("res/pic/clothesScene/gj_dikuang1.png");
-    namekuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .1f));
+    namekuang->setPosition(ccp(clothSpr->getContentSize().width* .54f, clothSpr->getContentSize().height* .1f));
     clothSpr->addChild(namekuang);
     const CCString* nameStr = dic->valueForKey("name");
     CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(132, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
@@ -690,6 +690,10 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
         spr->addChild(phaseSpr, 100);
     }
     
+    CCString* labelStr = CCString::createWithFormat("res/pic/clothesScene/label/%d.png", phase);
+    CCSprite* labelSpr = CCSprite::create(labelStr->getCString());
+    labelSpr->setPosition(ccp(-15, 15));
+    namekuang->addChild(labelSpr, 100);
     
     spr->setTag(idx);
     pCell->addChild(spr);

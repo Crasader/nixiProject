@@ -9,7 +9,7 @@
 #include "TaskLabelColorLayer.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
-//#include "MMAudioManager.h"
+#include "AudioManager.h"
 
 
 TaskLabelColorLayer::TaskLabelColorLayer(){
@@ -73,6 +73,7 @@ bool TaskLabelColorLayer::init(){
 
 void TaskLabelColorLayer::fhCallBack(CCObject* pSender){
     this->setTouchEnabled(false);
+    AUDIO->goback_effect();
     
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_Button_Back, false);

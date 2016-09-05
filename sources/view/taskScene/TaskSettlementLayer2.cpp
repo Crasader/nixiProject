@@ -16,6 +16,7 @@
 #include "QingjingScene.h"
 #include "PromptLayer.h"
 #include "GuideLayer.h"
+#include "AudioManager.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
@@ -136,9 +137,7 @@ void TaskSettlementLayer2::keyBackClicked(){
         return;
     }
     
-    
-    
-    
+    this->exit();
 }
 
 bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
@@ -190,6 +189,8 @@ void TaskSettlementLayer2::nextAnimation2(){
 }
 
 void TaskSettlementLayer2::exit() {
+    AUDIO->goback_effect();
+    
     CCLayer* layer = TaskScene::create(_isPhaseUP);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

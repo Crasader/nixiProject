@@ -82,6 +82,8 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_705CallBack), "HTTP_FINISHED_705", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::keyBackStatus), .8f);
 }
 
 void HomeLayer::onExit(){
@@ -97,10 +99,17 @@ void HomeLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
 }
 
 void HomeLayer::keyBackStatus(float dt){
-    
+    this->setKeypadEnabled(true);
 }
 void HomeLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLOG("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 bool HomeLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
@@ -337,6 +346,8 @@ void HomeLayer::creat_View(){
     
 }
 void HomeLayer::gameCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     if (item->getTag() == 1) {
         CCLog("点击购物");
@@ -363,6 +374,8 @@ void HomeLayer::gameCallBack(CCObject* pSender){
 }
 
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     qiehuanSpr->setVisible(false);
     
     this->setTouchEnabled(false);
@@ -386,6 +399,8 @@ void HomeLayer::manAction2(){
     _ManSpr->runAction(moveTo);
 }
 void HomeLayer::saveCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     LOADING->show_loading();
     CCString* str = CCString::createWithFormat("%d", DATA->getHouseIndex());
     NET->change_house_705(str->getCString());
@@ -397,11 +412,15 @@ void HomeLayer::_705CallBack(CCObject* pSender){
 }
 
 void HomeLayer::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::gongsiCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (DATA->getStory()->has_init_story()) {
         LOADING->show_loading();
         NET->completed_mission_600();
@@ -414,7 +433,7 @@ void HomeLayer::_500CallBack(CCObject* pSender){
     NET->completed_mission_600();
 }
 void HomeLayer::_600CallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
     LOADING->remove();
     
     DATA->setHomeBool(true);
@@ -426,6 +445,8 @@ void HomeLayer::_600CallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::huanzhuangCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (DATA->getClothes()->has_init_clothes == true) {
         this->_huanzhuangCallBack(pSender);
     }
@@ -435,7 +456,7 @@ void HomeLayer::huanzhuangCallBack(CCObject* pSender){
     }
 }
 void HomeLayer::_huanzhuangCallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
     
     DATA->setHomeBool(true);
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
@@ -445,7 +466,8 @@ void HomeLayer::_huanzhuangCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::haoyouCallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
+    
     LOADING->show_loading();
     NET->social_info_800();
 }
