@@ -185,6 +185,7 @@ void TaskScene::creat_view(){
         this->removeChildByTag(0x66666);
     }
     
+    
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), false);
     _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);
