@@ -10,7 +10,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
-
+#include "AudioManager.h"
 #include "Reward.h"
 #include "Loading2.h"
 
@@ -130,6 +130,8 @@ void MailPanel::do_exit() {
 }
 
 void MailPanel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

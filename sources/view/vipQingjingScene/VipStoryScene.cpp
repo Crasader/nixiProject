@@ -16,7 +16,7 @@
 #include "NetManager.h"
 #include "VipStorySettlementOfTheAnimationLayer.h"
 #include "PromptLayer.h"
-//#include "MMAudioManager.h"
+#include "AudioManager.h"
 
 
 VipStoryScene::VipStoryScene(){
@@ -1030,6 +1030,7 @@ void VipStoryScene::addButton(){
 }
 
 void VipStoryScene::button1CallBack(CCObject* pSender){
+    AUDIO->common_effect();
     
     if (DATA->getFastForward()) {
 //        if (MMAudioManager::get_instance()->is_effect_on()) {
@@ -1087,7 +1088,7 @@ void VipStoryScene::button1CallBack(CCObject* pSender){
     
 }
 void VipStoryScene::button2CallBack(CCObject* pSender){
-    
+    AUDIO->common_effect();
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
 //    }
@@ -1130,7 +1131,7 @@ void VipStoryScene::button2CallBack(CCObject* pSender){
 
 
 void VipStoryScene::button3CallBack(CCObject* pSender){
-    
+    AUDIO->common_effect();
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
 //    }
@@ -2081,7 +2082,7 @@ void VipStoryScene::keyBackClicked(){
 }
 
 void VipStoryScene::fhCallBack(CCObject* pSender){
-    
+    AUDIO->goback_effect();
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_audio_AHMessageBox, false);
 //    }

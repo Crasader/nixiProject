@@ -14,6 +14,7 @@
 #include "NetManager.h"
 #include "PromptLayer.h"
 #include "Shower.h"
+#include "AudioManager.h"
 
 
 #pragma mark - Export
@@ -178,6 +179,8 @@ bool TotalRechargePanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent
 #pragma mark - Inner
 
 void TotalRechargePanel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

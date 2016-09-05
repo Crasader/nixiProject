@@ -227,6 +227,8 @@ bool GameCheckoutPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent 
 #pragma mark - Inner
 
 void GameCheckoutPanel::remove() {
+    AUDIO->goback_effect();
+    
 //    this->do_exit();
 //    this->removeFromParentAndCleanup(true);
     if (DATA->getTaskGameBool2() || DATA->getTaskGameBool3() || DATA->getTaskGameBool5()) {

@@ -83,6 +83,7 @@ public:
     
     int allNumber;
     int selectedIndex;
+    int stopIndex;
     
 public:
         
@@ -91,6 +92,8 @@ public:
     int getTaskIcon(int index);
     int getTaskPhase(int index);
     
+    void creatStopStatus();
+    void showCellOfIndex(unsigned int index);
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */

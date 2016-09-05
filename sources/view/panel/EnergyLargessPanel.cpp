@@ -125,6 +125,8 @@ void EnergyLargessPanel::update_state() {
 }
 
 void EnergyLargessPanel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

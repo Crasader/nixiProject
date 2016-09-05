@@ -1145,6 +1145,7 @@ void ClothesScene::_605CallBack(CCObject* pObj){
 }
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     

@@ -33,6 +33,7 @@ bool TaskTableView::init(){
     
     allNumber = taskMission->count();
     selectedIndex = -1;
+    stopIndex = 0;
     
     pTableView = CCTableView::create(this, CCSizeMake(177, 110*def_Page_Index));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -46,8 +47,66 @@ bool TaskTableView::init(){
     pTableView->reloadData();
     
 //    pTableView->setContentOffset(pTableView->maxContainerOffset());
+    this->creatStopStatus();
+    this->showCellOfIndex(stopIndex+6);
     
     return true;
+}
+void TaskTableView::creatStopStatus(){
+    for (int i = 0; i < taskMission->count(); i++) {
+        CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(i);
+        int taskId = dic->valueForKey("id")->intValue();
+        int unlockCondition = DATA->getPlayer()->mission;
+        if (taskId <= unlockCondition) {
+            stopIndex = i;
+        }else{
+            return;
+        }
+    }
+}
+void TaskTableView::showCellOfIndex(unsigned int index)
+{
+    do
+    {
+        //条件不符合, 索引物品已经在当前页并已经渲染出来,不需要寻找[根据自己实际情况来定]
+        //这里的_listNum是tableView总共有的cell，numberOfCellsInTableView函数返回的
+//        if (index < 5 || index > allNumber)
+//        {
+//            return;
+//        }
+        
+        if (index >= allNumber) {
+            pTableView->setContentOffset(pTableView->maxContainerOffset());
+            return;
+        }
+        
+        
+        CCTableView* tableView = static_cast<CCTableView*>(getChildByTag(0));
+        CC_BREAK_IF(!tableView);
+        CCSize cellSize = CCSizeMake(177, 110);
+        float offsetX = 0;
+        float offsetY = 0;
+        if (tableView->getDirection() == kCCScrollViewDirectionVertical)
+        {
+            if (tableView->getVerticalFillOrder() == kCCTableViewFillTopDown)
+            {
+                offsetY = -cellSize.height * (allNumber - index-1);
+            }else
+            {
+                offsetY = -cellSize.height * index-1;
+            }
+        }else
+        {
+            if (tableView->getVerticalFillOrder() == kCCTableViewFillTopDown)
+            {
+                offsetX = -cellSize.width * (allNumber - index);
+            }else
+            {
+                offsetX = -cellSize.width * index;
+            }
+        }
+        tableView->setContentOffset(ccp(offsetX, offsetY));
+    } while (0);
 }
 
 

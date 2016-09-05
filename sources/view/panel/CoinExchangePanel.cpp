@@ -148,7 +148,8 @@ void CoinExchangePanel::do_exit() {
 }
 
 void CoinExchangePanel::remove() {
-    AUDIO->common_effect();
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

@@ -132,12 +132,21 @@ void TaskScene::init_contents() {
     CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
-    backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(TaskScene::backCallBack));
-    backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
+    backItem1 = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(TaskScene::backCallBack));
+    backItem1->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     
-    CCMenu* menu = CCMenu::create(backItem, NULL);
+    CCSprite* huiSpr1 = CCSprite::create("res/pic/taskScene/task_hui.png");
+    CCSprite* huiSpr2 = CCSprite::create("res/pic/taskScene/task_hui.png");
+    huiSpr2->setScale(1.02f);
+    backItem2 = CCMenuItemSprite::create(huiSpr1, huiSpr2, this, menu_selector(TaskScene::backCallBack));
+    backItem2->setPosition(ccp(DISPLAY->ScreenWidth()* .1f, DISPLAY->ScreenHeight()* .04f));
+    
+    CCMenu* menu = CCMenu::create(backItem1, backItem2, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu, 20);
+    
+    backItem1->setVisible(true);
+    backItem2->setVisible(false);
     
     this->creat_view();
     this->creat_Man();
@@ -179,7 +188,7 @@ void TaskScene::creat_view(){
     if (this->getChildByTag(0x66666) != NULL) {
         this->removeChildByTag(0x66666);
     }
-    
+    DATA->setTaskPhase(6);
     taskPhase = DATA->getTaskPhase();
     CCArray* tempArr = CCArray::create();
     for (int i = 0; i < taskArr->count(); i++) {
@@ -192,78 +201,133 @@ void TaskScene::creat_view(){
     DATA->setTaskSource(tempArr);
     
     if (taskPhase >= DATA->getPlayer()->phase) {
-        
+        //
         CCSprite* historySpr1_1 = CCSprite::create("res/pic/taskScene/task_paopao1.png");
         CCSprite* historySpr1_2 = CCSprite::create("res/pic/taskScene/task_paopao1.png");
         historySpr1_2->setScale(1.02f);
         historyItem1 = CCMenuItemSprite::create(historySpr1_1, historySpr1_2, this, menu_selector(TaskScene::historyCallBack));
         historyItem1->setTag(1);
         historyItem1->setVisible(false);
+//        CCSprite* historykuang1 = CCSprite::create("res/pic/taskScene/task_kuang.png");
+//        historykuang1->setPosition(ccp(historyItem1->getContentSize().width* .5f, 8));
+//        historyItem1->addChild(historykuang1);
+//        CCSprite* historyLabelSpr1 = CCSprite::create("res/pic/taskScene/task_label1.png");
+//        historyLabelSpr1->setPosition(ccp(historykuang1->getContentSize().width* .12f, historykuang1->getContentSize().height* .7f));
+//        historykuang1->addChild(historyLabelSpr1, 2);
+//        CCLabelTTF* historyLabel1 = CCLabelTTF::create("弘鼎企业", DISPLAY->fangzhengFont(), 15, CCSizeMake(100, 15), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//        historyLabel1->setPosition(ccp(historykuang1->getContentSize().width* .5f, historykuang1->getContentSize().height* .34f));
+//        historyLabel1->setColor(ccc3(141, 169, 235));
+//        historykuang1->addChild(historyLabel1);
         
+        //
         CCSprite* historySpr2_1 = CCSprite::create("res/pic/taskScene/task_paopao2.png");
         CCSprite* historySpr2_2 = CCSprite::create("res/pic/taskScene/task_paopao2.png");
         historySpr2_2->setScale(1.02f);
         historyItem2 = CCMenuItemSprite::create(historySpr2_1, historySpr2_2, this, menu_selector(TaskScene::historyCallBack));
         historyItem2->setTag(2);
         historyItem2->setVisible(false);
+//        CCSprite* historykuang2 = CCSprite::create("res/pic/taskScene/task_kuang.png");
+//        historykuang2->setPosition(ccp(historyItem2->getContentSize().width* .5f, 8));
+//        historyItem2->addChild(historykuang2);
+//        CCSprite* historyLabelSpr2 = CCSprite::create("res/pic/taskScene/task_label2.png");
+//        historyLabelSpr2->setPosition(ccp(historykuang2->getContentSize().width* .14f, historykuang2->getContentSize().height* .7f));
+//        historykuang2->addChild(historyLabelSpr2, 2);
+//        CCLabelTTF* historyLabel2 = CCLabelTTF::create("弘鼎有限公司", DISPLAY->fangzhengFont(), 15, CCSizeMake(100, 15), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//        historyLabel2->setPosition(ccp(historykuang2->getContentSize().width* .5f, historykuang2->getContentSize().height* .34f));
+//        historyLabel2->setColor(ccc3(141, 169, 235));
+//        historykuang2->addChild(historyLabel2);
         
+        //
         CCSprite* historySpr3_1 = CCSprite::create("res/pic/taskScene/task_paopao3.png");
         CCSprite* historySpr3_2 = CCSprite::create("res/pic/taskScene/task_paopao3.png");
         historySpr3_2->setScale(1.02f);
         historyItem3 = CCMenuItemSprite::create(historySpr3_1, historySpr3_2, this, menu_selector(TaskScene::historyCallBack));
         historyItem3->setTag(3);
         historyItem3->setVisible(false);
+//        CCSprite* historykuang3 = CCSprite::create("res/pic/taskScene/task_kuang.png");
+//        historykuang3->setPosition(ccp(historyItem3->getContentSize().width* .5f, 8));
+//        historyItem3->addChild(historykuang3);
+//        CCSprite* historyLabelSpr3 = CCSprite::create("res/pic/taskScene/task_label3.png");
+//        historyLabelSpr3->setPosition(ccp(historykuang3->getContentSize().width* .12f, historykuang3->getContentSize().height* .7f));
+//        historykuang3->addChild(historyLabelSpr3, 2);
+//        CCLabelTTF* historyLabel3 = CCLabelTTF::create("弘鼎集团", DISPLAY->fangzhengFont(), 15, CCSizeMake(100, 15), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//        historyLabel3->setPosition(ccp(historykuang3->getContentSize().width* .5f, historykuang3->getContentSize().height* .34f));
+//        historyLabel3->setColor(ccc3(141, 169, 235));
+//        historykuang3->addChild(historyLabel3);
         
+        //
         CCSprite* historySpr4_1 = CCSprite::create("res/pic/taskScene/task_paopao4.png");
         CCSprite* historySpr4_2 = CCSprite::create("res/pic/taskScene/task_paopao4.png");
         historySpr4_2->setScale(1.02f);
         historyItem4 = CCMenuItemSprite::create(historySpr4_1, historySpr4_2, this, menu_selector(TaskScene::historyCallBack));
         historyItem4->setTag(4);
         historyItem4->setVisible(false);
+//        CCSprite* historykuang4 = CCSprite::create("res/pic/taskScene/task_kuang.png");
+//        historykuang4->setPosition(ccp(historyItem4->getContentSize().width* .5f, 8));
+//        historyItem4->addChild(historykuang4);
+//        CCSprite* historyLabelSpr4 = CCSprite::create("res/pic/taskScene/task_label4.png");
+//        historyLabelSpr4->setPosition(ccp(historykuang4->getContentSize().width* .12f, historykuang4->getContentSize().height* .7f));
+//        historykuang4->addChild(historyLabelSpr4, 2);
+//        CCLabelTTF* historyLabel4 = CCLabelTTF::create("弘鼎国际", DISPLAY->fangzhengFont(), 15, CCSizeMake(100, 15), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//        historyLabel4->setPosition(ccp(historykuang4->getContentSize().width* .5f, historykuang4->getContentSize().height* .34f));
+//        historyLabel4->setColor(ccc3(141, 169, 235));
+//        historykuang4->addChild(historyLabel4);
         
+        //
         CCSprite* historySpr5_1 = CCSprite::create("res/pic/taskScene/task_paopao5.png");
         CCSprite* historySpr5_2 = CCSprite::create("res/pic/taskScene/task_paopao5.png");
         historySpr5_2->setScale(1.02f);
         historyItem5 = CCMenuItemSprite::create(historySpr5_1, historySpr5_2, this, menu_selector(TaskScene::historyCallBack));
         historyItem5->setTag(5);
         historyItem5->setVisible(false);
+//        CCSprite* historykuang5 = CCSprite::create("res/pic/taskScene/task_kuang.png");
+//        historykuang5->setPosition(ccp(historyItem5->getContentSize().width* .5f, 8));
+//        historyItem5->addChild(historykuang5);
+//        CCSprite* historyLabelSpr5 = CCSprite::create("res/pic/taskScene/task_label5.png");
+//        historyLabelSpr5->setPosition(ccp(historykuang5->getContentSize().width* .12f, historykuang5->getContentSize().height* .7f));
+//        historykuang5->addChild(historyLabelSpr5, 2);
+//        CCLabelTTF* historyLabel5 = CCLabelTTF::create("弘鼎全球集团", DISPLAY->fangzhengFont(), 15, CCSizeMake(100, 15), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//        historyLabel5->setPosition(ccp(historykuang5->getContentSize().width* .5f, historykuang5->getContentSize().height* .34f));
+//        historyLabel5->setColor(ccc3(141, 169, 235));
+//        historykuang5->addChild(historyLabel5);
+        
         
         int menuIndex = 0;
         CCMenu* historyMenu;
         if (DATA->getTaskPhase() > 1 && DATA->getTaskPhase() <= 2) {
             menuIndex = 1;
             historyMenu = CCMenu::create(historyItem1, NULL);
-            historyMenu->alignItemsHorizontallyWithPadding(5);
+            historyMenu->alignItemsHorizontallyWithPadding(10);
             historyMenu->setAnchorPoint(ccp(1, 0));
-            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .06f));
             this->addChild(historyMenu, 20);
         }else if (DATA->getTaskPhase() > 2 && DATA->getTaskPhase() <= 3){
             menuIndex = 2;
             historyMenu = CCMenu::create(historyItem1, historyItem2, NULL);
-            historyMenu->alignItemsHorizontallyWithPadding(5);
+            historyMenu->alignItemsHorizontallyWithPadding(10);
             historyMenu->setAnchorPoint(ccp(1, 0));
-            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .06f));
             this->addChild(historyMenu, 20);
         }else if (DATA->getTaskPhase() > 3 && DATA->getTaskPhase() <= 4){
             menuIndex = 3;
             historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, NULL);
-            historyMenu->alignItemsHorizontallyWithPadding(5);
+            historyMenu->alignItemsHorizontallyWithPadding(10);
             historyMenu->setAnchorPoint(ccp(1, 0));
-            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .06f));
             this->addChild(historyMenu, 20);
         }else if (DATA->getTaskPhase() > 4 && DATA->getTaskPhase() <= 5){
             menuIndex = 4;
             historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, historyItem4, NULL);
-            historyMenu->alignItemsHorizontallyWithPadding(5);
+            historyMenu->alignItemsHorizontallyWithPadding(10);
             historyMenu->setAnchorPoint(ccp(1, 0));
-            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .06f));
             this->addChild(historyMenu, 20);
         }else if (DATA->getTaskPhase() > 5){
             menuIndex = 5;
             historyMenu = CCMenu::create(historyItem1, historyItem2, historyItem3, historyItem4, historyItem5, NULL);
-            historyMenu->alignItemsHorizontallyWithPadding(5);
+            historyMenu->alignItemsHorizontallyWithPadding(10);
             historyMenu->setAnchorPoint(ccp(1, 0));
-            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .05f));
+            historyMenu->setPosition(ccp(DISPLAY->ScreenWidth() - ((historySpr1_1->getContentSize().width* menuIndex + 5* menuIndex)/ 2), DISPLAY->ScreenHeight()* .06f));
             historyMenu->setTag(0x66666);
             this->addChild(historyMenu, 20);
         }
@@ -372,8 +436,16 @@ void TaskScene::backCallBack(CCObject* pSender){
         CCDirector::sharedDirector()->replaceScene(trans);
     }else{
         if (historyBool) {
+            backItem1->setVisible(true);
+            backItem2->setVisible(false);
             historyBool = false;
             DATA->setTaskPhase(DATA->getPlayer()->phase);
+            
+            // _isPhaseUP 要不要显示升级动画 false不显示
+            _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), false);
+            _buildingLayer->setTag(0x55555);
+            this->addChild(_buildingLayer);
+            
             CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::creat_view));
             CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));
             CCScaleBy* scaleBy = CCScaleBy::create(.5f, .5f);
@@ -388,6 +460,8 @@ void TaskScene::backCallBack(CCObject* pSender){
 }
 
 void TaskScene::historyCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     CCLog("房子是%d", item->getTag());
     historyIndex = item->getTag();
@@ -457,6 +531,9 @@ void TaskScene::creat_historyview(){
     if (this->getChildByTag(0x66666) != NULL) {
         this->removeChildByTag(0x66666);
     }
+    
+    backItem1->setVisible(false);
+    backItem2->setVisible(true);
     
     taskPhase = historyIndex;
     DATA->setTaskPhase(taskPhase);

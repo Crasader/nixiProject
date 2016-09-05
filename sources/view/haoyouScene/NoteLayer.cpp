@@ -74,6 +74,7 @@ void NoteLayer::create_view(){
 }
 void NoteLayer::backCallback(CCObject* pSender){
     AUDIO->goback_effect();
+    
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

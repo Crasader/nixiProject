@@ -180,6 +180,8 @@ void BuildingRewardPanel::do_enter() {
 }
 
 void BuildingRewardPanel::do_exit() {
+    AUDIO->goback_effect();
+    
     CCPoint posFrom = DISPLAY->center();
     CCDictionary* postData = CCDictionary::create();
     postData->setObject(CCInteger::create(_value), "num");

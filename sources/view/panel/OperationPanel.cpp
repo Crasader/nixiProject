@@ -11,6 +11,7 @@
 #include "DataManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 
 const float CELL_WIDTH = 500;
 const float CELL_HEIGHT = 200;
@@ -97,6 +98,8 @@ bool OperationPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pE
 #pragma mark - inner
 
 void OperationPanel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

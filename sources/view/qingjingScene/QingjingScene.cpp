@@ -479,6 +479,7 @@ void QingjingScene::qingjingStatus(){
 
 void QingjingScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
