@@ -303,6 +303,9 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 600: {
             _mission->init_with_json(content["mission"]);
+            
+            _coffers->init_company_template(content["template"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 601: {

@@ -87,8 +87,11 @@ void BuildingLayer::onEnter() {
     }
     else {
         if (_phase == DATA->getPlayer()->phase) {
-            this->show_arrow();
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+            CoffersComp* coffers = DATA->getCoffers();
+            if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+                this->show_arrow();
+            }
         }
     }
 }
@@ -308,7 +311,12 @@ void BuildingLayer::on_phaseup_finish(CCNode* node) {
     node->removeFromParentAndCleanup(true);
     
     this->_isAction = false;
-    this->show_arrow();
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+        this->show_arrow();
+    }
+
     schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Phase_Up_Finished");
