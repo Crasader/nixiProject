@@ -11,7 +11,6 @@
 #include "MainScene.h"
 #include "TaskScene.h"
 #include "HaoyouScene.h"
-#include "HomeTableView.h"
 #include "PromptLayer.h"
 #include "ColorLayer.h"
 #include "LiveAiXin.h"
@@ -67,7 +66,11 @@ void HomeLayer::updataBg(){
         this->removeChildByTag(0x88888);
     }
     
-    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", DATA->getHouseIndex());
+    CCArray* allHomeArr = DATA->getHome()->getHouseTemplate();
+    CCDictionary* dic = (CCDictionary* )allHomeArr->objectAtIndex(DATA->getHouseIndex());
+    int id = dic->valueForKey("id")->intValue();
+    
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", id);
     bgSpr = CCSprite::create(bgStr->getCString());
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     bgSpr->setTag(0x88888);
@@ -98,7 +101,17 @@ void HomeLayer::onExit(){
 }
 
 void HomeLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
+    box->animation_out();
     
+    if (button_type == AH_BUTTON_TYPE_YESNO2){
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
+        }
+    }else if (button_type == AH_BUTTON_TYPE_YESNO3){
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_COIN_EXCHANGE");
+        }
+    }
 }
 
 void HomeLayer::keyBackStatus(float dt){
@@ -159,9 +172,19 @@ void HomeLayer::creat_View(){
     CCSprite* titleDiSpr = CCSprite::create("res/pic/house/house_titleDi.png");
     titleDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .93f));
     this->addChild(titleDiSpr, 15);
-    CCString* labelStr = CCString::createWithFormat("云诗彤的房间.布拉格广场");
+    
+    CCString* labelStr;// 云诗彤的房间.
+    if (DATA->getHouseIndex() == 1) {
+        labelStr = CCString::createWithFormat("欧式风情");
+    }else if (DATA->getHouseIndex() == 2){
+        labelStr = CCString::createWithFormat("换装空间");
+    }else if (DATA->getHouseIndex() == 3){
+        labelStr = CCString::createWithFormat("田园风光");
+    }else if (DATA->getHouseIndex() == 4){
+        labelStr = CCString::createWithFormat("罗马假日");
+    }
     CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    label->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .48f));
+    label->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .47f));
     label->setColor(ccWHITE);
     titleDiSpr->addChild(label);
     
@@ -308,7 +331,7 @@ void HomeLayer::creat_View(){
     saveMenu->setPosition(CCPointZero);
     kuangSpr->addChild(saveMenu, 15);
     
-    HomeTableView* tabLayer = HomeTableView::create();
+    tabLayer = HomeTableView::create();
     tabLayer->setPosition(ccp(-2, 90));
     tabLayer->setTag(0x77777);
     kuangSpr->addChild(tabLayer, 5);
@@ -435,12 +458,56 @@ void HomeLayer::manAction2(){
 void HomeLayer::saveCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
-    LOADING->show_loading();
-    CCString* str = CCString::createWithFormat("%d", DATA->getHouseIndex());
-    NET->change_house_705(str->getCString());
+    CCArray* allHomeArr = DATA->getHome()->getHouseTemplate();
+    CCDictionary* dic = (CCDictionary* )allHomeArr->objectAtIndex(DATA->getHouseIndex());
+    int id = dic->valueForKey("id")->intValue();
+    CCString* str = CCString::createWithFormat("%d", id);
+    
+    bool haveHomeBool = false;
+    CCArray* haveHomeArr = DATA->getHome()->getHouseUser();
+    for (int i = 0; i < haveHomeArr->count(); i++) {
+        CCString* haveHomeStr = (CCString* )haveHomeArr->objectAtIndex(i);
+        int haveHomeId = atoi(haveHomeStr->getCString());
+        if (haveHomeId == id) {
+            haveHomeBool = true;
+            break;
+        }
+    }
+    
+    CCInteger* cloth_type = (CCInteger*)dic->objectForKey("cost_type");
+    if (haveHomeBool) {// 拥有
+        LOADING->show_loading();
+        NET->change_house_705(str->getCString());
+    }else{
+        if (cloth_type->getValue() == 1) {// 金币
+            CCInteger* cost = (CCInteger*)dic->objectForKey("cost_value");
+            if (DATA->getPlayer()->coin >= cost->getValue()) {
+                LOADING->show_loading();
+                NET->change_house_705(str->getCString());
+            }else{
+                AHMessageBox* mb = AHMessageBox::create_with_message("金币不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO3, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
+        }else if (cloth_type->getValue() == 2){// 钻石
+            CCInteger* cost = (CCInteger*)dic->objectForKey("cost_value");
+            if (DATA->getPlayer()->diam >= cost->getValue()) {
+                LOADING->show_loading();
+                NET->change_house_705(str->getCString());
+            }else{
+                AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
+                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            }
+        }
+    }
 }
 void HomeLayer::_705CallBack(CCObject* pSender){
     LOADING->remove();
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    tabLayer->updateTableView();
+    
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "保存成功.");
 }

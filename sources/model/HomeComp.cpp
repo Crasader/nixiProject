@@ -42,7 +42,7 @@ void HomeComp::replace_home_info(Value json) {
     }
     
     this->setCurHouse(json["cur_house"].asString());
-    this->setHouseUser(AppUtil::array_with_json(json["house"]));
+    this->setHouseUser(AppUtil::array_with_json(json["houses"]));
     this->setScores(AppUtil::dictionary_with_json(json["scores"]));
 }
 

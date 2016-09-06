@@ -29,7 +29,6 @@ bool HomeTableView::init(){
     allHomeArr = DATA->getHome()->getHouseTemplate();
     allNumber = allHomeArr->count();
     nowHouse = DATA->getHome()->getCurHouse().c_str();
-    haveHomeArr = DATA->getHome()->getHouseUser();
     
     kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
     kuangSpr->retain();
@@ -63,13 +62,15 @@ void HomeTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 
 //点击哪个cell
 void HomeTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
-    touchHouse = cell->getIdx() + 1;
+    touchHouse = cell->getIdx();
     DATA->setHouseIndex(touchHouse);
     
     if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
-        kuangSpr->removeFromParent();
+        kuangSpr->removeFromParentAndCleanup(true);
+        kuangSpr = NULL;
     }
     CCSprite* spr = CCSprite::create("res/pic/house/house_kuang.png");
+    kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
     kuangSpr->setPosition(ccp(spr->getContentSize().width* .8f, spr->getContentSize().height* .9f));
     kuangSpr->setTag(cell->getIdx());
     cell->addChild(kuangSpr, 5);
@@ -89,24 +90,93 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    CCString* bgStr = CCString::createWithFormat("res/pic/house/icon_%d.png", idx + 1);
+    CCDictionary* dic = (CCDictionary* )allHomeArr->objectAtIndex(idx);
+    int id = dic->valueForKey("id")->intValue();
+    
+    CCString* bgStr = CCString::createWithFormat("res/pic/house/icon_%d.png", id);
     CCSprite* bgKuangSpr = CCSprite::create(bgStr->getCString());
     bgKuangSpr->setAnchorPoint(CCPointZero);
     bgKuangSpr->setPosition(CCPointZero);
     bgKuangSpr->setTag(idx);
     spr->addChild(bgKuangSpr);
     
-    if (atoi(nowHouse.c_str()) == idx + 1) {
+    
+    if (atoi(nowHouse.c_str()) == id) {
         if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
-            kuangSpr->removeFromParent();
+            kuangSpr->removeFromParentAndCleanup(true);
+            kuangSpr = NULL;
         }
         CCSprite* spr = CCSprite::create("res/pic/house/house_kuang.png");
+        kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
         kuangSpr->setPosition(ccp(spr->getContentSize().width* .8f, spr->getContentSize().height* .9f));
         kuangSpr->setTag(idx);
         pCell->addChild(kuangSpr, 5);
     }
     
+    bool haveHomeBool = false;
+    haveHomeArr = DATA->getHome()->getHouseUser();
+    for (int i = 0; i < haveHomeArr->count(); i++) {
+        CCString* haveHomeStr = (CCString* )haveHomeArr->objectAtIndex(i);
+        int haveHomeId = atoi(haveHomeStr->getCString());
+        CCLog("haveHomeId == %d", haveHomeId);
+        CCLog("id == %d", id);
+        if (haveHomeId == id) {
+            haveHomeBool = true;
+            break;
+        }
+    }
     
+    CCSprite* namekuang = CCSprite::create("res/pic/clothesScene/gj_dikuang1.png");
+    namekuang->setPosition(ccp(bgKuangSpr->getContentSize().width* .5f, bgKuangSpr->getContentSize().height* .18f));
+    bgKuangSpr->addChild(namekuang);
+    CCString* nameStr;
+    if (id == 1) {
+        nameStr = CCString::createWithFormat("欧式风情");
+    }else if (id == 2){
+        nameStr = CCString::createWithFormat("换装空间");
+    }else if (id == 3){
+        nameStr = CCString::createWithFormat("田园风光");
+    }else if (id == 4){
+        nameStr = CCString::createWithFormat("罗马假日");
+    }
+    CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(132, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    nameLabel->setPosition(ccp(namekuang->getContentSize().width* .5f, namekuang->getContentSize().height* .5f));
+    nameLabel->setColor(ccc3(113, 89, 102));
+    namekuang->addChild(nameLabel);
+    
+    
+    if (haveHomeBool) {// 拥有
+    }else{
+        CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
+        jgkuang->setPosition(ccp(bgKuangSpr->getContentSize().width* .5f, bgKuangSpr->getContentSize().height* .3f));
+        bgKuangSpr->addChild(jgkuang);
+        CCInteger* cloth_type = (CCInteger*)dic->objectForKey("cost_type");
+        if (cloth_type->getValue() == 1) {
+            CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
+            costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
+            costSpr->setScale(.75f);
+            jgkuang->addChild(costSpr, 10);
+            CCInteger* cost = (CCInteger*)dic->objectForKey("cost_value");
+            CCString* costStr = CCString::createWithFormat("%d", cost->getValue());
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
+            
+        }else if (cloth_type->getValue() == 2){
+            CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
+            costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
+            costSpr->setScale(.75f);
+            jgkuang->addChild(costSpr, 10);
+            CCInteger* cost = (CCInteger*)dic->objectForKey("cost_value");
+            CCString* costStr = CCString::createWithFormat("%d", cost->getValue());
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
+            
+        }
+    }
     
     pCell->addChild(spr);
     
@@ -140,6 +210,14 @@ void HomeTableView::onExit(){
     CCLayer::onExit();
 }
 
+void HomeTableView::updateTableView(){
+    if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
+        kuangSpr->removeFromParentAndCleanup(true);
+        kuangSpr = NULL;
+    }
+    nowHouse = DATA->getHome()->getCurHouse().c_str();
+    pTableView->reloadData();
+}
 
 
 

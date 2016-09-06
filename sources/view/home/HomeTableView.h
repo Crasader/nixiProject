@@ -62,6 +62,8 @@ public:
     
     void onExit();
     
+    void updateTableView();
+
 public:
     
     CCTableView* pTableView;

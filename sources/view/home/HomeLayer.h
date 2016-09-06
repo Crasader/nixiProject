@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "AHMessageBox.h"
+#include "HomeTableView.h"
 
 USING_NS_CC;
 
@@ -79,6 +80,8 @@ public:
     CCSprite* _bSpr4;
     CCSprite* _zrSpr1; // 妆容
     
+    
+    HomeTableView* tabLayer;
     
     CCMenuItem* backItem;
     CCSprite* qiehuanSpr;
