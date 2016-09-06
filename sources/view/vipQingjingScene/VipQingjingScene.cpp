@@ -414,9 +414,8 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             quedingItem->setPosition(ccp(tskSpr->boundingBox().size.width* .7f, tskSpr->boundingBox().size.height* .25f));
             
             CCSprite* fhSpr1 = CCSprite::create("res/pic/common/btn_no2.png");
-            fhSpr1->setScale(1.5f);
             CCSprite* fhSpr2 = CCSprite::create("res/pic/common/btn_no2.png");
-            fhSpr2->setScale(1.51f);
+            fhSpr2->setScale(1.01f);
             CCMenuItem* fanhuiItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(VipQingjingScene::quxiaoCallBack));
             fanhuiItem->setPosition(ccp(tskSpr->boundingBox().size.width* .3f, tskSpr->boundingBox().size.height* .25f));
             
