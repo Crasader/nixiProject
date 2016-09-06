@@ -59,9 +59,9 @@ void NotePanel::onExit(){
 }
 
 void NotePanel::initView(){
-    CCSprite* mask = CCSprite::create("res/pic/mask.png");
-    mask->setPosition(DISPLAY->center());
-    this->addChild(mask);
+//    CCSprite* mask = CCSprite::create("res/pic/mask.png");
+//    mask->setPosition(DISPLAY->center());
+//    this->addChild(mask);
     
     note_panel = CCSprite::create("res/pic/haoyoupaihang/note_panel.png");
     note_panel->setPosition(DISPLAY->center());

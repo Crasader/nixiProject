@@ -25,6 +25,9 @@ public:
     int phase_start(int phase);
     CCArray* phase_goals(int phase);
     bool has_taken_reward(CCString* id);
+    
+    bool is_coffers_full();
+    bool have_untake_reward(int phase);
 
 public:
 //    bool could_prduce();

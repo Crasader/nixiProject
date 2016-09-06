@@ -62,7 +62,7 @@ void RewardLayer::init_with_index(CCArray* arr){
     rewardArr = arr;
     rewardArr->retain();
     
-    bgSpr = CCSprite::create("res/pic/gashapon/gashapon_bg2.png");
+    bgSpr = CCSprite::create("res/pic/mask.png");
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr, 5);
     

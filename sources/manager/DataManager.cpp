@@ -205,6 +205,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
         }
             
+        case 907: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _show->init_with_json(content["show"]);
+        }
+            
         case 910: {
             _coffers->reset_collected();
             _news->init_with_json(content["news"]);
@@ -558,7 +564,7 @@ bool DataManager::could_prduce() {
 }
 
 int DataManager::current_guide_step(){
-    return _player->getGuide();
-//    return 0;
+//    return _player->getGuide();
+    return 0;
 }
 

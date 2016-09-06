@@ -42,6 +42,7 @@ public:
     void account_regist_903(const char* account, const char* password, const char* recommender = "");
     void save_nickname_904(const char* nickname);
     void update_guide_905(int guide);
+    void reset_nickname_907(const char* nickname);
     
     void check_news_910();
     
@@ -77,7 +78,7 @@ public:
     void commit_story2_507(const char* id, const char* flag);
     void start_story2_509(const char* id);
     // 发表弹幕：storyId-剧情ID, lineId-第几句的id, words-发表内容
-    void submit_story_danmaku_511(string& storyId, string& lineId, string& words);
+    void submit_story_danmaku_511(const char* storyId, const char* lineId, const char* words);
     
     void owned_clothes_400();
     void save_dressed_401(CCDictionary* dressed);

@@ -83,6 +83,9 @@ public:
     CCMenuItem* backItem;
     CCSprite* qiehuanSpr;
     CCMenuItem* qiehuanItem;
+    CCMenuItemSprite* item_chat;
+    void openChat(CCObject* pSender);
+    void displayChatItem();
     
 public:
     

@@ -37,14 +37,14 @@ void LocalNotifDelegate::addFreeGashaponLN(time_t secondDelta) {
 //    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
 //    [dFormatter setTimeZone:timeZone];
 //    NSString* strToDate = [dFormatter stringFromDate:toDate];
-
-    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta];
+    NSLog(@"secondDelta = %ld", secondDelta);
+    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta + 28800];
 //    NSDate* fireDate = [dFormatter dateFromString:strToDate];
     NSLog(@"fireDate = %@", fireDate);
     NSString* alterBody = [NSString stringWithCString:"可以免费抽奖啦~!" encoding:NSUTF8StringEncoding];
 //    NSString* alterAction = [NSString stringWithCString:"我是标题党" encoding:NSUTF8StringEncoding];
 
-    UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
+    UILocalNotification* ln = [[UILocalNotification alloc] init];
     [ln setFireDate:fireDate];
     [ln setTimeZone:[NSTimeZone defaultTimeZone]];
     [ln setRepeatInterval:NSCalendarUnitEra];

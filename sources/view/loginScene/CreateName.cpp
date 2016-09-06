@@ -89,6 +89,12 @@ void CreateName::create_baes_view()
     _tf_nickname->setText(rand_name->getCString());
     spt_inputbox->addChild(_tf_nickname);
     
+    CCLabelTTF* warning = CCLabelTTF::create("游戏中有一次免费改名的机会!", DISPLAY->fangzhengFont(), 24);
+    warning->setAnchorPoint(ccp(0.5, 0.5));
+    warning->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.32));
+    warning->setColor(DISPLAY->defalutColor());
+    spt_inputbox->addChild(warning);
+    
     // rand
     /*
     CCSprite* randNormal = CCSprite::create("res/pic/loginScene/btn_random.png");

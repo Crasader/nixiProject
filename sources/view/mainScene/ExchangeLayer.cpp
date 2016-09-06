@@ -57,7 +57,7 @@ bool ExchangeLayer::init(){
         bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         this->addChild(bgSpr);
         
-        dikuangSpr = CCSprite::create("res/pic/gashapon/exchange/exchange_bg.png");
+        dikuangSpr = CCSprite::create("res/pic/panel/operation/operation_bg.png");
         dikuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         this->addChild(dikuangSpr, 10);
         
