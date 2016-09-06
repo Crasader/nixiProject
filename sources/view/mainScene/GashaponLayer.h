@@ -38,6 +38,8 @@ public:
     CCLabelTTF* oneLabel;
     CCLabelTTF* oneGoldLabel;
     
+    CCMenuItem* jiantouItem1,* jiantouItem2;
+    
     CCMenuItem* oneItem;
     
     int nowIndex;
@@ -83,13 +85,16 @@ public:
     void creat_View();
     void creat_Man();
     void initClothes();
-    void updataClothes1();
-    void updataClothes2();
+    void updataClothes();
     void initTime();
     void updateTime(float dt);
     void creat_gold(CCMenuItem* item, int index);
     
     void creat_Tishi(CCObject* arr);
+    
+    void jiantou1CallBack(CCObject* pSender);
+    void jiantou2CallBack(CCObject* pSender);
+    void updataButton();
     
     void suipianCallBack(CCObject* pSender);
     void oneCallBack(CCObject* pSender);

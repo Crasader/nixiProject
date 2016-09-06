@@ -23,6 +23,8 @@
 #include "MessageLayer.h"
 #include "NoteLayer.h"
 #include "AudioManager.h"
+#include "WSManager.h"
+#include "ChatPanel.h"
 
 HaoyouScene::HaoyouScene(){
     
@@ -67,6 +69,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::rank_list_callback_300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -98,13 +101,13 @@ void HaoyouScene::creat_view(){
     CCSprite* xiaoxiSpr2 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
     xiaoxiSpr2->setScale(1.02f);
     _xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
-    _xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .32f));
+    _xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .42f));
     
     CCSprite* zhitiaoSpr1 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
     CCSprite* zhitiaoSpr2 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
     zhitiaoSpr2->setScale(1.02f);
     _zhitiaoItem = CCMenuItemSprite::create(zhitiaoSpr1, zhitiaoSpr2, this, menu_selector(HaoyouScene::zhitiaoCallBack));
-    _zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
+    _zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .30f));
     
     CCSprite* haoyouSpr1 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
     CCSprite* haoyouSpr2 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
@@ -128,6 +131,17 @@ void HaoyouScene::creat_view(){
     allMenu->setPosition(CCPointZero);
     this->addChild(allMenu, 20);
     
+    
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HaoyouScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+    menu_chat->setPosition(CCPointZero);
+    this->addChild(menu_chat, 20);
+    
     CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
     CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
     hidSpr2->setScale(1.02f);
@@ -140,6 +154,26 @@ void HaoyouScene::creat_view(){
     this->addChild(hidMenu, 5);
     
 }
+
+void HaoyouScene::openChat() {
+    AUDIO->comfirm_effect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
+}
+
+void HaoyouScene::displayChatItem() {
+    if (item_chat->isVisible()) {
+        item_chat->setVisible(false);
+    }else{
+        item_chat->setVisible(true);
+    }
+}
+
 void HaoyouScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     

@@ -19,6 +19,7 @@
 #include "StorySettlementOfTheAnimationLayer.h"
 #include "PromptLayer.h"
 #include "StringUtil.h"
+#include "GuideLayer.h"
 //#include "MMAudioManager.h"
 
 
@@ -158,11 +159,11 @@ void StoryScene::init_with_story_id(int _index){
     float heiSize = kuangSpr->getContentSize().height;
     
     nameKuang = CCSprite::create("res/pic/qingjingScene/storyscene/qj_namekuang.png");
-    nameKuang->setPosition(ccp(kuangSpr->getContentSize().width* .2f, kuangSpr->getContentSize().height - 10));
+    nameKuang->setPosition(ccp(kuangSpr->getContentSize().width* .15f, kuangSpr->getContentSize().height - 10));
     kuangSpr->addChild(nameKuang);
     nameKuang->setVisible(false);
     
-    saidLabel = CCLabelTTF::create("", DISPLAY->fangzhengFont(), 25, CCSizeMake(widSize* .8f, heiSize* .6f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    saidLabel = CCLabelTTF::create("", DISPLAY->fangzhengFont(), 25, CCSizeMake(widSize* .85f, heiSize* .6f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     saidLabel->setAnchorPoint(CCPointZero);
     saidLabel->setPosition(ccp(widSize* .11, 25));
     saidLabel->setTag(0x222);
@@ -1009,7 +1010,7 @@ void StoryScene::addButton(){
     CCSprite* hgSpr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_huikan.png");
     hgSpr2->setColor(ccGRAY);
     CCMenuItem* hkButton = CCMenuItemSprite::create(hgSpr1, hgSpr2, this, menu_selector(StoryScene::button2CallBack));
-    hkButton->setPosition(ccp(kuangSpr->boundingBox().size.width* .58, kuangSpr->boundingBox().size.height + 80 - 500));
+    hkButton->setPosition(ccp(kuangSpr->getContentSize().width* .61, kuangSpr->getContentSize().height + 80 - 500));
     
     
     // 自动
@@ -1022,7 +1023,7 @@ void StoryScene::addButton(){
     CCMenuItem* zidongItemOn = CCMenuItemSprite::create(zdSpr1, zdSpr1);
     CCMenuItem* zidongItemOff = CCMenuItemSprite::create(ztSpr1, ztSpr2);
     zidongToggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(StoryScene::button3CallBack), zidongItemOn,zidongItemOff,NULL);
-    zidongToggleItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .73, kuangSpr->boundingBox().size.height + 80 - 500));
+    zidongToggleItem->setPosition(ccp(kuangSpr->getContentSize().width* .76, kuangSpr->getContentSize().height + 80 - 500));
     zidongToggleItem->setTag(Tag_zidong);
     m_bIsZDSelect = recordBool3;
     if (m_bIsZDSelect) {
@@ -1041,7 +1042,7 @@ void StoryScene::addButton(){
     CCMenuItem* kuaijinItemOn = CCMenuItemSprite::create(kjSpr1, kjSpr2);
     CCMenuItem* kuaijinItemOff = CCMenuItemSprite::create(ztSpr3, ztSpr4);
     kuaijinToggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(StoryScene::button1CallBack), kuaijinItemOn,kuaijinItemOff,NULL);
-    kuaijinToggleItem->setPosition(ccp(kuangSpr->boundingBox().size.width* .88, kuangSpr->boundingBox().size.height + 80 - 500));
+    kuaijinToggleItem->setPosition(ccp(kuangSpr->getContentSize().width* .91, kuangSpr->getContentSize().height + 80 - 500));
     CCPoint pos = ccp(kuaijinToggleItem->getPosition().x, kuaijinToggleItem->getPosition().y);
 
     m_bIsKJSelect = recordBool1;
@@ -1060,6 +1061,11 @@ void StoryScene::addButton(){
     menu->setPosition(CCPointZero);
     menu->setTag(0x88888);
     _dkSpr->addChild(menu, 15);
+    
+    if (DATA->current_guide_step() == 8){
+        fhItem->setColor(ccGRAY);
+        fhItem->setEnabled(false);
+    }
 }
 
 void StoryScene::button1CallBack(CCObject* pSender){
@@ -1198,6 +1204,12 @@ void StoryScene::button3CallBack(CCObject* pSender){
 }
 
 void StoryScene::initButton(){
+    if (DATA->current_guide_step() == 8){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
+    
     CCArray* arr = dialogItem->getArray();
     int nextIndex;
     CCString* str;
@@ -1240,6 +1252,10 @@ void StoryScene::creatButton(int dex){
         menu1->setVisible(true);
         this->addChild(menu1, 20);
         
+        if (DATA->current_guide_step() == 8){
+            item1->setEnabled(false);
+        }
+        
     }else if (dex == 1){
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
         CCSprite* spr2 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
@@ -1263,6 +1279,10 @@ void StoryScene::creatButton(int dex){
         menu3->setTag(Tag_Menu_2);
         menu3->setVisible(true);
         this->addChild(menu3, 20);
+        
+        if (DATA->current_guide_step() == 8){
+            item3->setEnabled(false);
+        }
     }
 }
 void StoryScene::initLabel(int dex){
@@ -2030,6 +2050,7 @@ void StoryScene::getIndex(float dt){
     
     if (dialogItem->getArray() == NULL) {
         index = dialogItem->getNext();
+        CCLOG("StoryScene::getIndex -- %d", index);
         
         CCString* _achievement = CCString::createWithFormat("%s",dialogItem->getAchievement().c_str());
         if (index == -1) {
@@ -2135,6 +2156,7 @@ void StoryScene::keyBackClicked(){
         return;
     }
     
+    
     this->setKeypadEnabled(false);
     this->fhCallBack(this);
 }
@@ -2149,8 +2171,10 @@ void StoryScene::fhCallBack(CCObject* pSender){
 //    mb->setPosition(Center);
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3010);
     
-    CCScene* scene = QingjingScene::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
+    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() != 8) {
+        CCScene* scene = QingjingScene::scene();
+        CCDirector::sharedDirector()->replaceScene(scene);
+    }
 }
 
 void StoryScene::LabelColorFhCallBack(CCObject* pSender){

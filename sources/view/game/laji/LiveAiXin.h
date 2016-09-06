@@ -14,7 +14,7 @@
 USING_NS_CC;
 
 class Garbage : public CCSprite {
-    
+public:
     int result;
 public:
     static   Garbage*  create( int type);

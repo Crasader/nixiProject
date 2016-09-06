@@ -35,6 +35,8 @@ public:
     
     void update_lighting_target(float dt);
     
+    void creat_guideBool();
+    
 //    virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);
 //    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 //    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent){}
@@ -104,6 +106,8 @@ public:
     CCSprite* coffee_bar1;
     CCSprite* huodong_bar1;
     CCSprite* paihang_bar1;
+    CCSprite* home_bar1;
+    CCSprite* unknow_bar1;
     
     CCMenuItem* haoyou_Item;
     CCMenuItem* item_chat;
@@ -126,6 +130,7 @@ public:
     void paihangCallBack(CCObject* pSender);
     void juqingCallBack(CCObject* pSender);
     void richangCallBack(CCObject* pSender);
+    void richangMethods();
     void shezhiCallBack(CCObject* pSender);
 //    void shouchongCallBack(CCObject* pSender);
     void haoyouCallBack(CCObject* pSender);
@@ -135,6 +140,7 @@ public:
     void openChat(CCObject* pSender);
     void displayChatItem();
     void lingdang_callback(CCObject* pSender);
+    void blankCallback();
     
     void juqing_vipCallBack(CCObject* pSender);
     void homeCallBack(CCObject* pSender);
@@ -152,8 +158,12 @@ public:
     void nc_gashapon_info_306(CCObject *pObj);
     void nc_recharge_info_304(CCObject *pObj);
     
+    void _905CallBack(CCObject *pObj);
+    void isTxt_Bar();
+    
     void creat_Exchange();
     void linshiMethod(CCObject *pObj);
+    
     
 public:
     CCDictionary* allClothesDic;

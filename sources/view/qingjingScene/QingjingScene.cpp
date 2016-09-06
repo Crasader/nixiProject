@@ -18,6 +18,10 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "GuideLayer.h"
+#include "WSManager.h"
+#include "ChatPanel.h"
+
 
 
 QingjingScene::QingjingScene(){
@@ -54,6 +58,13 @@ bool QingjingScene::init(){
 //    this->creat_Tishi();
 //    this->EnterTheTishi();
     
+    
+    if (DATA->current_guide_step() == 8){
+        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+        layer->setTag(0x445566);
+        this->addChild(layer, 500);
+    }
+    
     return true;
 }
 CCScene* QingjingScene::scene(){
@@ -79,6 +90,11 @@ void QingjingScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::EnterTheTishi), "Qingjing_EnterTheTishi", NULL);
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::ExitTishi), "Qingjing_ExitTishi", NULL);
     
+    
+    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::guide_StartCallBack), "Guide_StartCallBack", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
+    
     this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::keyBackStatus), .8f);
 }
 
@@ -99,7 +115,9 @@ void QingjingScene::keyBackClicked(){
         return;
     }
     
-    this->backCallBack(NULL);
+    if (DATA->current_guide_step() == 0) {
+        this->backCallBack(NULL);
+    }
 }
 
 void QingjingScene::creat_view(){
@@ -113,6 +131,16 @@ void QingjingScene::creat_view(){
     CCMenu* menu = CCMenu::create(backItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu, 20);
+    
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(QingjingScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .32f));
+    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+    menu_chat->setPosition(CCPointZero);
+    this->addChild(menu_chat, 20);
     
     
 //    qingjingKuang = CCSprite::create("res/pic/qingjingScene/qj_kuang1.png");
@@ -465,6 +493,26 @@ void QingjingScene::backCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
+void QingjingScene::openChat() {
+    AUDIO->comfirm_effect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
+}
+
+void QingjingScene::displayChatItem(){
+    if (item_chat->isVisible()) {
+        item_chat->setVisible(false);
+    }else{
+        item_chat->setVisible(true);
+    }
+    
+}
+
 
 void QingjingScene::creat_Tishi(){
     
@@ -697,6 +745,11 @@ void QingjingScene::startCallBack(CCObject* pSender){
             CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
         }
     }
+}
+void QingjingScene::guide_StartCallBack(){
+    LOADING->show_loading();
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    NET->start_story_501(indexStr->getCString());
 }
 void QingjingScene::_501CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();

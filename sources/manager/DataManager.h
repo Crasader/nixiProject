@@ -106,6 +106,17 @@ public:
     void updataTiliTime(float dt);
     void closeTiliTime();
     
+    // guide
+    bool _guideBool1[4];
+    bool _guideBool2[6];
+    bool _guideBool3[10];
+    bool _guideBool4[8];
+    bool _guideBool5[5];
+    bool _guideBool6[10];
+    bool _guideBool7[10];
+    bool _guideBool8[10];
+    int current_guide_step();
+    
     // 陌生人刷新计时
     CC_SYNTHESIZE(time_t, _refreshTimeStampe, RefreshTimeStampe);
     //

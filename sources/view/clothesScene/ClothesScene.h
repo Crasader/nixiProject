@@ -213,6 +213,7 @@ public:
     void startCallBack(CCObject* pSender);
     void startMethods();
     void buttonCallBack(CCObject* pSender);
+    void guideButtonCallBack();
     void buyCallBack(CCObject* pSender);
     void saveCallBack(CCObject* pSender);
     void renwukuangCallBack(CCObject* pSender);
@@ -239,6 +240,9 @@ private:
     void Http_Finished_401(CCObject* pObj);
 //    void Http_Finished_601(CCObject* pObj);
     void Http_Finished_603(CCObject* pObj);
+    void _905CallBack(CCObject* pObj);
+    void removeAnimation();
+    
 };
 
 

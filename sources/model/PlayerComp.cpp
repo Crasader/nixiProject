@@ -33,7 +33,10 @@ void PlayerComp::init_with_json(Value json) {
     mission = json["mission"].asInt();
     phase = json["phase"].asInt();
     left = json["left"].asInt();
-    guide = json["guide"].asInt();
+    _guide = json["guide"].asInt();
+    
+//    _guide = 0;
+    
     
     CC_SAFE_RELEASE(rating);
     rating = AppUtil::dictionary_with_json(json["rating"]);

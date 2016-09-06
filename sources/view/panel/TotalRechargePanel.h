@@ -39,10 +39,16 @@ private:
     void btn_chongzhi_callback();
     void reward_callback_305(CCObject *obj);
     
+    void btn_left_callback();
+    void btn_right_callback();
+    
 private:
     CCLayer*            _content;
     CCSprite*           _panel;
     CCMenuItemSprite*   _item;
+    int                 _curIndex;
+    CCMenuItemSprite*   _item_left;
+    CCMenuItemSprite*   _item_right;
 };
 
 #endif /* TotalRechargePanel_hpp */

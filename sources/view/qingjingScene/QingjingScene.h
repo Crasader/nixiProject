@@ -90,6 +90,7 @@ public:
     
     void backCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
+    void guide_StartCallBack();
     void _501CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);
@@ -99,12 +100,17 @@ public:
     
     void qingjingStatus();
     
+    void openChat();
+    void displayChatItem();
+    
 public:
     
     CCDictionary* allClothesDic;
     
     QingjingCoverView* qingjingCoverView;
     CCMenuItem* jiantouItem1,* jiantouItem2;
+    
+    CCMenuItemSprite*   item_chat;
     
     int storyIndex;
     int renwuIndex;

@@ -48,14 +48,14 @@ void ChatPanel::onEnter(){
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::nc_on_emoticon), "ON_EMOTICON", NULL);
     
 //    EmoticonPanel::show(this->getScene());
-    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("CLOSE_CHATPANEL");
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
 }
 
 void ChatPanel::onExit(){
-//    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     CCLayer::onExit();
 }
 
