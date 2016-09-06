@@ -17,6 +17,8 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "WSManager.h"
+#include "ChatPanel.h"
 
 
 VipQingjingScene::VipQingjingScene(){
@@ -76,6 +78,7 @@ void VipQingjingScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "VipQingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::keyBackStatus), .8f);
 }
@@ -110,6 +113,17 @@ void VipQingjingScene::creat_view(){
     CCMenu* menu = CCMenu::create(backItem, NULL);
     menu->setPosition(CCPointZero);
     this->addChild(menu, 20);
+    
+    
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(VipQingjingScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .32f));
+    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+    menu_chat->setPosition(CCPointZero);
+    this->addChild(menu_chat, 20);
     
     CCSprite* tempKuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
     CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
@@ -341,6 +355,26 @@ void VipQingjingScene::backCallBack(CCObject* pSender){
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
+}
+
+void VipQingjingScene::openChat() {
+    AUDIO->comfirm_effect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
+}
+
+void VipQingjingScene::displayChatItem(){
+    if (item_chat->isVisible()) {
+        item_chat->setVisible(false);
+    }else{
+        item_chat->setVisible(true);
+    }
+    
 }
 
 void VipQingjingScene::buyCallBack(CCObject* pSender){

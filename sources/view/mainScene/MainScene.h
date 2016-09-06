@@ -80,7 +80,9 @@ public:
     CCSprite* _bird_6;
     CCSprite* _bird_7;
     
-    
+    CCSprite*  tree;
+    float    opacity;
+    float      sp;
     
     CCSprite* car_1;
     CCSprite* car_2;
@@ -105,6 +107,8 @@ public:
     CCSprite* coffee_bar1;
     CCSprite* huodong_bar1;
     CCSprite* paihang_bar1;
+    CCSprite* home_bar1;
+    CCSprite* unknow_bar1;
     
     CCMenuItem* haoyou_Item;
     CCMenuItem* item_chat;
@@ -137,6 +141,7 @@ public:
     void openChat(CCObject* pSender);
     void displayChatItem();
     void lingdang_callback(CCObject* pSender);
+    void blankCallback();
     
     void juqing_vipCallBack(CCObject* pSender);
     void homeCallBack(CCObject* pSender);

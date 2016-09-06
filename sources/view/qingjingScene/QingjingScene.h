@@ -97,12 +97,17 @@ public:
     
     void qingjingStatus();
     
+    void openChat();
+    void displayChatItem();
+    
 public:
     
     CCDictionary* allClothesDic;
     
     QingjingCoverView* qingjingCoverView;
     CCMenuItem* jiantouItem1,* jiantouItem2;
+    
+    CCMenuItemSprite*   item_chat;
     
     int storyIndex;
     int renwuIndex;

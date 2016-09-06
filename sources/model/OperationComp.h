@@ -30,7 +30,7 @@ class OperationComp : public CCObject
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementTemplate, PurchaseAchievementTemplate);
     // 套装数组
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _paSuits, PASuits);
-    // 累计充值玩家数据
+    // 累计充值玩家数据 record[]
     SYNTHESIZE_RETAIN_READONLY(CCArray*, _purchaseAchievementUser, PurchaseAchievementUser);
     
     // 套装数组

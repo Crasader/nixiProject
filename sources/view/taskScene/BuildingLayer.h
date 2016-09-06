@@ -39,10 +39,21 @@ private:
     void nc_building_disappear(CCObject* pObj);
     void nc_coffers_info_200(CCObject* pObj);
     
+    void addAction();
+    void update(float dt);
+    
 private:
     int                 _phase;
     bool                _isPhaseUp;
     CCSprite*           _building;
+    
+    CCSprite*           _cloud_1;
+    CCSprite*           _cloud_2;
+    
+    CCSprite*           _bird_1;
+    CCSprite*           _bird_2;
+    CCSprite*           _bird_3;
+    CCSprite*           _bird_4;
     bool                _isAction;
 };
 

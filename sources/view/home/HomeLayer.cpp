@@ -23,6 +23,8 @@
 #include "ConfigManager.h"
 #include "NetManager.h"
 #include "AudioManager.h"
+#include "ChatPanel.h"
+#include "WSManager.h"
 #include "AppUtil.h"
 
 
@@ -82,6 +84,7 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_705CallBack), "HTTP_FINISHED_705", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::displayChatItem), "CLOSE_CHATPANEL", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::keyBackStatus), .8f);
 }
@@ -185,6 +188,16 @@ void HomeLayer::creat_View(){
     buttonMenu->setAnchorPoint(ccp(.5f, .5f));
     buttonMenu->setPosition(ccp(DISPLAY->ScreenWidth() - gongsiSpr1->getContentSize().width* .5f - 5.f, DISPLAY->ScreenHeight()* .7f));
     this->addChild(buttonMenu, 20);
+    
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HomeLayer::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+    menu_chat->setPosition(CCPointZero);
+    this->addChild(menu_chat);
     
     // 切换
     qiehuanSpr = CCSprite::create("res/pic/house/house_qiehuan2.png");
@@ -345,6 +358,27 @@ void HomeLayer::creat_View(){
     }    
     
 }
+
+void HomeLayer::openChat(CCObject* pSender) {
+    AUDIO->comfirm_effect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
+}
+
+void HomeLayer::displayChatItem(){
+    if (item_chat->isVisible()) {
+        item_chat->setVisible(false);
+    }else{
+        item_chat->setVisible(true);
+    }
+    
+}
+
 void HomeLayer::gameCallBack(CCObject* pSender){
     AUDIO->common_effect();
     

@@ -35,6 +35,8 @@ bool TotalRechargePanel::init(){
         return false;
     }
     
+    _curIndex = DATA->getOperation()->cur_purchase_achievement_template_index();;
+    
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());
     this->addChild(mask);
@@ -48,6 +50,8 @@ bool TotalRechargePanel::init(){
     
     this->updatePanel();
     
+    
+    
     return true;
 }
 
@@ -55,10 +59,9 @@ void TotalRechargePanel::updatePanel(){
     _panel->removeAllChildrenWithCleanup(true);
     
     CCArray* _template = DATA->getOperation()->getPurchaseAchievementTemplate();
-    CCDictionary* temp = (CCDictionary*)_template->objectAtIndex(DATA->getOperation()->cur_purchase_achievement_template_index());
+    CCDictionary* temp = (CCDictionary*)_template->objectAtIndex(_curIndex);
     CCArray* clothes = (CCArray*)temp->objectForKey("clothes");
     
-    CCLOG("index = %d", DATA->getOperation()->cur_purchase_achievement_template_index());
     
     CCSize panelSize = _panel->boundingBox().size;
     int count = clothes->count();
@@ -86,18 +89,13 @@ void TotalRechargePanel::updatePanel(){
         
     }
     
-//    CCSprite* girl = CCSprite::create("pic/panel/totalRecharge/gril.png");
-//    girl->setPosition(ccp(_panel->getContentSize().width* .25f, _panel->getContentSize().height* .52f));
-//    _panel->addChild(girl);
-    
     CCArray* suits = DATA->getOperation()->getPASuits();
     Shower* shower = Shower::create();
     
-//    int index = DATA->getOperation()->getPurchaseAchievementUser()->count() == 2 ? 1 : DATA->getOperation()->getPurchaseAchievementUser()->count();
-    int index = DATA->getOperation()->cur_purchase_achievement_template_index();
-    shower->ondress((CCDictionary*)suits->objectAtIndex(index));
+    shower->ondress((CCDictionary*)suits->objectAtIndex(_curIndex));
     shower->setScale(0.6f);
-    shower->setPosition(ccp(_panel->getContentSize().width* .0f, _panel->getContentSize().height* .1f));
+//    shower->setPosition(ccp((1 - DISPLAY->H() / 1136)* DISPLAY->halfW() * 0.6f, _panel->getContentSize().height* .1f));
+    shower->setPosition(ccp((320 - DISPLAY->halfW()) * 0.6f, _panel->getContentSize().height* .1f));
     _panel->addChild(shower);
     
     CCSprite* red_bg = CCSprite::create("pic/panel/totalRecharge/red_bg.png");
@@ -129,8 +127,13 @@ void TotalRechargePanel::updatePanel(){
         _panel->addChild(menu);
         menu->setTag(300);
         
-        if (DATA->getOperation()->getPurchaseAchievementUser()->count() == DATA->getOperation()->getPurchaseAchievementTemplate()->count()) {
-            _item->setEnabled(false);
+        
+        CCArray* arr = DATA->getOperation()->getPurchaseAchievementUser();
+        int count = arr->count();
+        for(int i = 0; i < count; i++) {
+            if (temp->valueForKey("id")->compare(((CCString*)arr->objectAtIndex(i))->getCString()) == 0) {
+                _item->setEnabled(false);
+            }
         }
         
     }else{
@@ -144,6 +147,48 @@ void TotalRechargePanel::updatePanel(){
         menu->setPosition(ccp(0, 0));
         _panel->addChild(menu);
     }
+    
+    CCSprite* left_1 = CCSprite::create("pic/qingjingScene/gj_jiantou.png");
+    left_1->setFlipX(true);
+    CCSprite* left_2 = CCSprite::create("pic/qingjingScene/gj_jiantou.png");
+    left_2->setFlipX(true);
+    left_2->setScale(1.02f);
+    CCSprite* left_3 = CCSprite::create("pic/qingjingScene/gj_jiantou.png");
+    left_3->setFlipX(true);
+    left_3->setColor(ccGRAY);
+    _item_left = CCMenuItemSprite::create(left_1, left_2, left_3, this, menu_selector(TotalRechargePanel::btn_left_callback));
+    _item_left->setPosition(ccp(_panel->getContentSize().width* .08f, _panel->getContentSize().height * .5f));
+    
+    CCSprite* right_1 = CCSprite::create("pic/qingjingScene/gj_jiantou.png");
+    CCSprite* right_2 = CCSprite::create("pic/qingjingScene/gj_jiantou.png");
+    right_2->setScale(1.02f);
+    CCSprite* right_3 = CCSprite::create("pic/qingjingScene/gj_jiantou.png");
+    right_3->setColor(ccGRAY);
+    _item_right = CCMenuItemSprite::create(right_1, right_2, right_3, this, menu_selector(TotalRechargePanel::btn_right_callback));
+    _item_right->setPosition(ccp(_panel->getContentSize().width* .92f, _panel->getContentSize().height * .5f));
+    
+    CCMenu* menu = CCMenu::create(_item_left, _item_right, NULL);
+    menu->setPosition(CCPointZero);
+    _panel->addChild(menu);
+    
+    if (_curIndex == 0) {
+        _item_left->setEnabled(false);
+    }
+    if (_curIndex == DATA->getOperation()->getPurchaseAchievementTemplate()->count() - 1) {
+        _item_right->setEnabled(false);
+    }
+}
+
+void TotalRechargePanel::btn_left_callback() {
+    AUDIO->comfirm_effect();
+    _curIndex -= 1;
+    this->updatePanel();
+}
+
+void TotalRechargePanel::btn_right_callback() {
+    AUDIO->comfirm_effect();
+    _curIndex += 1;
+    this->updatePanel();
 }
 
 void TotalRechargePanel::onEnter() {
@@ -196,14 +241,16 @@ void TotalRechargePanel::keyBackClicked(){
 }
 
 void TotalRechargePanel::btn_lingqu_callback(){
+    AUDIO->comfirm_effect();
     LOADING->show_loading();
     CCArray* _template = DATA->getOperation()->getPurchaseAchievementTemplate();
-    CCDictionary* temp = (CCDictionary*)_template->objectAtIndex(DATA->getOperation()->cur_purchase_achievement_template_index());
+    CCDictionary* temp = (CCDictionary*)_template->objectAtIndex(_curIndex);
     string id = temp->valueForKey("id")->getCString();
     NET->take_purchase_achievement_305(id);
 }
 
 void TotalRechargePanel::btn_chongzhi_callback(){
+    AUDIO->comfirm_effect();
     this->removeFromParentAndCleanup(true);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
 }
@@ -214,9 +261,5 @@ void TotalRechargePanel::reward_callback_305(cocos2d::CCObject *obj){
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "领取成功");
     
-//    if (DATA->getOperation()->getPurchaseAchievementUser()->count() == 3) {
-//        _item->setEnabled(false);
-//    }
-    
-    this->updatePanel();
+    _item->setEnabled(false);
 }
