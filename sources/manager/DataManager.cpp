@@ -293,6 +293,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 705: {
+            _player->init_with_json(content["player"]);
             _home->replace_home_info(content["home"]);
         } break;
             

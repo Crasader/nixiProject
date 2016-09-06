@@ -118,8 +118,8 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
     for (int i = 0; i < haveHomeArr->count(); i++) {
         CCString* haveHomeStr = (CCString* )haveHomeArr->objectAtIndex(i);
         int haveHomeId = atoi(haveHomeStr->getCString());
-        CCLog("haveHomeId == %d", haveHomeId);
-        CCLog("id == %d", id);
+//        CCLog("haveHomeId == %d", haveHomeId);
+//        CCLog("id == %d", id);
         if (haveHomeId == id) {
             haveHomeBool = true;
             break;
