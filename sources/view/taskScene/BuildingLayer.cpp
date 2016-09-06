@@ -80,6 +80,7 @@ void BuildingLayer::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_building_disappear), "BUILDING_DISAPPEAR", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_coffers_info_200), "HTTP_FINISHED_200", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_take_company_reward_205), "HTTP_FINISHED_205", NULL);
     
     if (_isPhaseUp) {
         this->_isAction = true;
@@ -87,8 +88,11 @@ void BuildingLayer::onEnter() {
     }
     else {
         if (_phase == DATA->getPlayer()->phase) {
-            this->show_arrow();
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+            CoffersComp* coffers = DATA->getCoffers();
+            if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+                this->show_arrow();
+            }
         }
     }
 }
@@ -238,6 +242,7 @@ void BuildingLayer::building_shaking() {
 void BuildingLayer::show_arrow() {
     CCSprite* sptArrow = CCSprite::create("pic/building/arrow.png");
     sptArrow->setPosition(ccp(DISPLAY->W() * 0.22, DISPLAY->H() * 0.81));
+    sptArrow->setTag(7451);
     this->addChild(sptArrow);
     sptArrow->runAction(CCRepeatForever::create(CCSequence::create(CCMoveBy::create(0.5, ccp(0, -60)), CCMoveBy::create(0.5, ccp(0, 60)), NULL)));
     
@@ -308,7 +313,12 @@ void BuildingLayer::on_phaseup_finish(CCNode* node) {
     node->removeFromParentAndCleanup(true);
     
     this->_isAction = false;
-    this->show_arrow();
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+        this->show_arrow();
+    }
+
     schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Phase_Up_Finished");
@@ -325,4 +335,11 @@ void BuildingLayer::nc_coffers_info_200(CCObject *pObj) {
     this->setTouchEnabled(true);
     BuildingView* building = BuildingView::create(_phase);
     this->getScene()->addChild(building);
+}
+
+void BuildingLayer::nc_take_company_reward_205(CCObject *pObj) {
+    CCNode* node = this->getChildByTag(7451);
+    if (node && node->getParent()) {
+        node->removeAllChildrenWithCleanup(true);
+    }
 }

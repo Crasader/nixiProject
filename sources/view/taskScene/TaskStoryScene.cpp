@@ -1422,7 +1422,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
             }else {
                 AUDIO->comfirm_effect();
                 LOADING->show_loading();
-                NET->home_info_704(true);
+                NET->home_info_704(! DATA->getHome()->has_init_house_template());
             }
         }else if (index == -3){// 颜色
             if (DATA->getStory()->has_init_story()) {
@@ -1431,7 +1431,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
             }else {
                 AUDIO->comfirm_effect();
                 LOADING->show_loading();
-                NET->home_info_704(true);
+                NET->home_info_704(! DATA->getHome()->has_init_house_template());
             }
         }else if (index == -4){// 社交
             AUDIO->comfirm_effect();
@@ -1444,7 +1444,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
             }else {
                 AUDIO->comfirm_effect();
                 LOADING->show_loading();
-                NET->home_info_704(true);
+                NET->home_info_704(! DATA->getHome()->has_init_house_template());
             }
         }else if (index == -6){// 衣服
             if (DATA->getClothes()->has_init_clothes == true) {
@@ -1480,7 +1480,7 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
 void TaskStoryScene::_600CallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
     LOADING->show_loading();
-    NET->home_info_704(true);
+    NET->home_info_704(! DATA->getHome()->has_init_house_template());
 }
 void TaskStoryScene::_704CallBack(CCObject* pSender){
     LOADING->remove();
