@@ -159,7 +159,7 @@ void RewardLayer::drawOnce(){
     }else{
         CCString* labelStr = CCString::createWithFormat("哇,新衣服耶.");
         CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-        label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .18f));
+        label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .1f));
         label->setColor(ccWHITE);
         kuangSpr->addChild(label);
     }
