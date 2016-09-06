@@ -68,25 +68,25 @@ void GameJingli::onExit() {
 void GameJingli::init_UI() {
     CCLayer* layer = CCLayer::create();
     
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/game/sleep/sj_sleep_pack.plist");
-    
-    // 睡觉动画
-    CCArray* arr_frame = CCArray::create();
-    for (int i = 0; i < 4; ++i) {
-        CCString* str = CCString::createWithFormat("sj_sleep_%d.png", i);
-        CCSpriteFrame* fm = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(str->getCString());
-        arr_frame->addObject(fm);
-    }
-    
-    CCAnimation* animation = CCAnimation::createWithSpriteFrames(arr_frame, .3f);
-    CCActionInterval* act_up = CCAnimate::create(animation);
-    CCActionInterval* act_down = act_up->reverse();
-    CCSequence* seq = CCSequence::create(act_up, CCDelayTime::create(.3f), act_down, NULL);
-    CCAction* action = CCRepeatForever::create(seq);
-    CCSprite* spt_sleep = CCSprite::createWithSpriteFrameName("sj_sleep_0.png");
-    spt_sleep->runAction(action);
-    spt_sleep->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 273.f, DISPLAY->ScreenHeight()* .5f - 13.f));
-    layer->addChild(spt_sleep);
+//    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/game/sleep/sj_sleep_pack.plist");
+//    
+//    // 睡觉动画
+//    CCArray* arr_frame = CCArray::create();
+//    for (int i = 0; i < 4; ++i) {
+//        CCString* str = CCString::createWithFormat("sj_sleep_%d.png", i);
+//        CCSpriteFrame* fm = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(str->getCString());
+//        arr_frame->addObject(fm);
+//    }
+//    
+//    CCAnimation* animation = CCAnimation::createWithSpriteFrames(arr_frame, .3f);
+//    CCActionInterval* act_up = CCAnimate::create(animation);
+//    CCActionInterval* act_down = act_up->reverse();
+//    CCSequence* seq = CCSequence::create(act_up, CCDelayTime::create(.3f), act_down, NULL);
+//    CCAction* action = CCRepeatForever::create(seq);
+//    CCSprite* spt_sleep = CCSprite::createWithSpriteFrameName("sj_sleep_0.png");
+//    spt_sleep->runAction(action);
+//    spt_sleep->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 273.f, DISPLAY->ScreenHeight()* .5f - 13.f));
+//    layer->addChild(spt_sleep);
     
     CCDictionary* scores = DATA->getHome()->getScores();
     

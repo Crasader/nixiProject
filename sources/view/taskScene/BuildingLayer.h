@@ -38,6 +38,7 @@ private:
     
     void nc_building_disappear(CCObject* pObj);
     void nc_coffers_info_200(CCObject* pObj);
+    void nc_take_company_reward_205(CCObject* pObj);
     
     void addAction();
     void update(float dt);
