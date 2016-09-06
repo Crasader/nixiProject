@@ -96,6 +96,9 @@ public:
     
     void qingjingStatus();
     
+    void quedingCallBack(CCObject* pSender);
+    void quxiaoCallBack(CCObject* pSender);
+    
 public:
     
     CCDictionary* allClothesDic;
@@ -106,6 +109,7 @@ public:
     int storyIndex;
     int allNumber;
     int selectedIndex;
+    int buyIndex;
     
     bool  theEndBool;
     

@@ -720,14 +720,18 @@ void ClothesTableView::tableCellUnhighlight(cocos2d::extension::CCTableView* tab
 }
 
 void ClothesTableView::onEnter(){
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, menu_selector(ClothesTableView::clothesCallback), "ClothesCallback", NULL);
+    
     
     CCLayer::onEnter();
 }
 
 void ClothesTableView::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    this->unscheduleAllSelectors();
+    
     CCLayer::onExit();
-    
-    
 }
 
 void ClothesTableView::updateTableView(int type){
@@ -802,4 +806,335 @@ void ClothesTableView::clothesUpdateTableCell(){
         pTableView->updateCellAtIndex(now_CellIndex+1);
     }
 }
+
+
+
+
+void ClothesTableView::clothesCallback(CCObject* pSender){
+    CCTableViewCell* pCell = pTableView->cellAtIndex(0);
+    
+    now_CellIndex = pCell->getIdx();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataSaveItemStatus");
+    
+    CCArray* arr = DATA->getDataSource();
+    CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
+    
+    CCDictionary* dic = (CCDictionary* )arr->objectAtIndex(pCell->getIdx());
+    int cloth_id = dic->valueForKey("id")->intValue(); // 点击的衣服
+    int sub_part = dic->valueForKey("sub_part")->intValue(); // 衣服的部位
+    CCInteger* cloth_integer;
+    CCInteger* clothesTemp_id;
+    CCDictionary* shipinDic;
+    
+    if (clothesType != Tag_CL_ShiPin) {
+        clothesTemp_id = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString()); // 男宠当前所穿上衣
+    }else{
+        shipinDic = (CCDictionary* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString());// 获取所穿视频的字典
+        clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", sub_part)->getCString());
+    }
+    
+    if (cloth_id == clothesTemp_id->getValue()) {
+        cloth_id = updataClothes(clothesType);
+        
+        cloth_integer = CCInteger::create(cloth_id);
+        CCString* keyStr;
+        if (clothesType != Tag_CL_ShiPin) {
+            keyStr = CCString::createWithFormat("%d", clothesType);
+            clothesTemp->setObject(cloth_integer, keyStr->getCString());
+        }else{
+            keyStr = CCString::createWithFormat("%d", clothesType);
+            CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+            shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+            clothesTemp->setObject(shipinDic, keyStr->getCString());
+        }
+        
+        if (sub_part == 11) {
+            if (kuangSpr1 != NULL && kuangSpr1->getParent() != NULL) {
+                kuangSpr1->removeFromParentAndCleanup(true);
+                kuangSpr1 = NULL;
+            }
+        }else if (sub_part == 12){
+            if (kuangSpr2 != NULL && kuangSpr2->getParent() != NULL) {
+                kuangSpr2->removeFromParentAndCleanup(true);
+                kuangSpr2 = NULL;
+            }
+        }else if (sub_part == 13){
+            if (kuangSpr3 != NULL && kuangSpr3->getParent() != NULL) {
+                kuangSpr3->removeFromParentAndCleanup(true);
+                kuangSpr3 = NULL;
+            }
+        }else if (sub_part == 14){
+            if (kuangSpr4 != NULL && kuangSpr4->getParent() != NULL) {
+                kuangSpr4->removeFromParentAndCleanup(true);
+                kuangSpr4 = NULL;
+            }
+        }else if (sub_part == 15){
+            if (kuangSpr5 != NULL && kuangSpr5->getParent() != NULL) {
+                kuangSpr5->removeFromParentAndCleanup(true);
+                kuangSpr5 = NULL;
+            }
+        }else if (sub_part == 16){
+            if (kuangSpr6 != NULL && kuangSpr6->getParent() != NULL) {
+                kuangSpr6->removeFromParentAndCleanup(true);
+                kuangSpr6 = NULL;
+            }
+        }else if (sub_part == 17){
+            if (kuangSpr7 != NULL && kuangSpr7->getParent() != NULL) {
+                kuangSpr7->removeFromParentAndCleanup(true);
+                kuangSpr7 = NULL;
+            }
+        }else if (sub_part == 18){
+            if (kuangSpr8 != NULL && kuangSpr8->getParent() != NULL) {
+                kuangSpr8->removeFromParentAndCleanup(true);
+                kuangSpr8 = NULL;
+            }
+        }else if (sub_part == 19){
+            if (kuangSpr9 != NULL && kuangSpr9->getParent() != NULL) {
+                kuangSpr9->removeFromParentAndCleanup(true);
+                kuangSpr9 = NULL;
+            }
+        }else if (sub_part == 20){
+            if (kuangSpr10 != NULL && kuangSpr9->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
+        }
+        else{
+            if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
+                kuangSpr->removeFromParentAndCleanup(true);
+                kuangSpr = NULL;
+            }
+        }
+        
+        
+        if (clothesType != Tag_CL_ShiPin) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
+        }else{
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangClothesIndex", (CCObject* )clothesTemp_id->getValue());
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
+        }
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
+    }else{
+        cloth_integer = CCInteger::create(cloth_id);
+        CCString* keyStr;
+        if (clothesType != Tag_CL_ShiPin) {
+            if (clothesType == Tag_CL_ShangYi) {
+                if (sub_part == 1) {
+                    CCInteger* kuziInteger = CCInteger::create(40000);
+                    CCString* kuziStr = CCString::createWithFormat("%d", Tag_CL_KuZi);
+                    clothesTemp->setObject(kuziInteger, kuziStr->getCString());
+                    
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }else{
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }
+            }else if (clothesType == Tag_CL_KuZi) {
+                CCInteger* shangyiInteger = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", Tag_CL_ShangYi)->getCString());
+                int shangyi_sub_part = 0;
+                CCDictionary* shangyiDic = CONFIG->clothes();// 所有衣服
+                CCArray* shangyiArr = (CCArray* )shangyiDic->objectForKey(Tag_CL_ShangYi);// 获得当前类型所有衣服
+                for (int i = 0; i < shangyiArr->count(); i++) {
+                    CCDictionary* syDic = (CCDictionary* )shangyiArr->objectAtIndex(i);
+                    int shangyiId = syDic->valueForKey("id")->intValue();
+                    if (shangyiId == shangyiInteger->getValue()) {
+                        shangyi_sub_part = syDic->valueForKey("sub_part")->intValue();
+                    }
+                }
+                
+                if (shangyi_sub_part == 1) {
+                    CCInteger* shangyiInteger = CCInteger::create(30000);
+                    CCString* shangyiStr = CCString::createWithFormat("%d", Tag_CL_ShangYi);
+                    clothesTemp->setObject(shangyiInteger, shangyiStr->getCString());
+                    
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }else{
+                    keyStr = CCString::createWithFormat("%d", clothesType);
+                    clothesTemp->setObject(cloth_integer, keyStr->getCString());
+                }
+                
+            }else{
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                clothesTemp->setObject(cloth_integer, keyStr->getCString());
+            }
+        }else{
+            if (sub_part == 13 || sub_part == 14) {
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                CCString* _20_keyStr = CCString::createWithFormat("%d", 20);
+                CCInteger* _20Integer = CCInteger::create(70000);
+                shipinDic->setObject(_20Integer, _20_keyStr->getCString());
+                
+                CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+                shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                clothesTemp->setObject(shipinDic, keyStr->getCString());
+            }else if (sub_part == 20){
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                CCString* _13_keyStr = CCString::createWithFormat("%d", 13);
+                CCInteger* _13Integer = CCInteger::create(70000);
+                shipinDic->setObject(_13Integer, _13_keyStr->getCString());
+                
+                CCString* _14_keyStr = CCString::createWithFormat("%d", 14);
+                CCInteger* _14Integer = CCInteger::create(70000);
+                shipinDic->setObject(_14Integer, _14_keyStr->getCString());
+                
+                CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+                shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                clothesTemp->setObject(shipinDic, keyStr->getCString());
+            }else{
+                keyStr = CCString::createWithFormat("%d", clothesType);
+                CCString* sub_part_keyStr = CCString::createWithFormat("%d", sub_part);
+                shipinDic->setObject(cloth_integer, sub_part_keyStr->getCString());
+                clothesTemp->setObject(shipinDic, keyStr->getCString());
+            }
+        }
+        
+        if (sub_part == 11) {
+            if (kuangSpr1 != NULL && kuangSpr1->getParent() != NULL) {
+                kuangSpr1->removeFromParentAndCleanup(true);
+                kuangSpr1 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr1->setPosition(ccp(18, 170));
+            kuangSpr1->setTag(pCell->getIdx());
+            node->addChild(kuangSpr1, 5);
+        }else if (sub_part == 12){
+            if (kuangSpr2 != NULL && kuangSpr2->getParent() != NULL) {
+                kuangSpr2->removeFromParentAndCleanup(true);
+                kuangSpr2 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr2->setPosition(ccp(18, 170));
+            kuangSpr2->setTag(pCell->getIdx());
+            node->addChild(kuangSpr2, 5);
+        }else if (sub_part == 13){
+            if (kuangSpr3 != NULL && kuangSpr3->getParent() != NULL) {
+                kuangSpr3->removeFromParentAndCleanup(true);
+                kuangSpr3 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr3 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr3->setPosition(ccp(18, 170));
+            kuangSpr3->setTag(pCell->getIdx());
+            node->addChild(kuangSpr3, 5);
+            
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
+        }else if (sub_part == 14){
+            if (kuangSpr4 != NULL && kuangSpr4->getParent() != NULL) {
+                kuangSpr4->removeFromParentAndCleanup(true);
+                kuangSpr4 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr4 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr4->setPosition(ccp(18, 170));
+            kuangSpr4->setTag(pCell->getIdx());
+            node->addChild(kuangSpr4, 5);
+            
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
+        }else if (sub_part == 15){
+            if (kuangSpr5 != NULL && kuangSpr5->getParent() != NULL) {
+                kuangSpr5->removeFromParentAndCleanup(true);
+                kuangSpr5 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr5 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr5->setPosition(ccp(18, 170));
+            kuangSpr5->setTag(pCell->getIdx());
+            node->addChild(kuangSpr5, 5);
+        }else if (sub_part == 16){
+            if (kuangSpr6 != NULL && kuangSpr6->getParent() != NULL) {
+                kuangSpr6->removeFromParentAndCleanup(true);
+                kuangSpr6 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr6 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr6->setPosition(ccp(18, 170));
+            kuangSpr6->setTag(pCell->getIdx());
+            node->addChild(kuangSpr6, 5);
+        }else if (sub_part == 17){
+            if (kuangSpr7 != NULL && kuangSpr7->getParent() != NULL) {
+                kuangSpr7->removeFromParentAndCleanup(true);
+                kuangSpr7 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr7 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr7->setPosition(ccp(18, 170));
+            kuangSpr7->setTag(pCell->getIdx());
+            node->addChild(kuangSpr7, 5);
+        }else if (sub_part == 18){
+            if (kuangSpr8 != NULL && kuangSpr8->getParent() != NULL) {
+                kuangSpr8->removeFromParentAndCleanup(true);
+                kuangSpr8 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr8 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr8->setPosition(ccp(18, 170));
+            kuangSpr8->setTag(pCell->getIdx());
+            node->addChild(kuangSpr8, 5);
+        }else if (sub_part == 19){
+            if (kuangSpr9 != NULL && kuangSpr9->getParent() != NULL) {
+                kuangSpr9->removeFromParentAndCleanup(true);
+                kuangSpr9 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr9 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr9->setPosition(ccp(18, 170));
+            kuangSpr9->setTag(pCell->getIdx());
+            node->addChild(kuangSpr9, 5);
+        }else if (sub_part == 20){
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
+                kuangSpr10->removeFromParentAndCleanup(true);
+                kuangSpr10 = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr10 = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr10->setPosition(ccp(18, 170));
+            kuangSpr10->setTag(pCell->getIdx());
+            node->addChild(kuangSpr10, 5);
+            
+            if (kuangSpr3 != NULL && kuangSpr3->getParent() != NULL) {
+                kuangSpr3->removeFromParentAndCleanup(true);
+                kuangSpr3 = NULL;
+            }
+            if (kuangSpr4 != NULL && kuangSpr4->getParent() != NULL) {
+                kuangSpr4->removeFromParentAndCleanup(true);
+                kuangSpr4 = NULL;
+            }
+        }
+        else{
+            if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
+                kuangSpr->removeFromParentAndCleanup(true);
+                kuangSpr = NULL;
+            }
+            CCNode* node = pCell->getChildByTag(pCell->getIdx());
+            kuangSpr = CCSprite::create("res/pic/clothesScene/gj_yichuan1.png");
+            kuangSpr->setPosition(ccp(18, 170));
+            kuangSpr->setTag(pCell->getIdx());
+            node->addChild(kuangSpr, 5);
+        }
+        
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangClothesIndex", (CCObject* )0);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ChangeClothes", (CCObject* )cloth_id);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
+    }
+    sliderV = pTableView->getContentOffset().y;
+    this->updateTableCell();
+}
+
+
+
+
+
+
 

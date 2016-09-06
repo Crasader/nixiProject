@@ -14,7 +14,6 @@
 #include "BaseScene.h"
 #include "VipDialogs.h"
 #include "VipDialogItem.h"
-#include "BaseScene.h"
 
 
 USING_NS_CC;
@@ -140,9 +139,8 @@ public:
     CCSpriteFrameCache* cache;
     
     
-    VipDialogs* dialog;
-    VipDialogItem* dialogItem;
-    VipDialogItem* storyItem;
+    VipDialogs* vipDialog;
+    VipDialogItem* vipDialogItem;
     
     CCSprite* nameKuang;
     CCLabelTTF* nameLab;

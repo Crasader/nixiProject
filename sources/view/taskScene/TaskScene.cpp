@@ -1407,7 +1407,9 @@ void TaskScene::init_phone(){
                 if (DATA->current_guide_step() == 9) {
                     this->creat_phone2();
                 }else{
-                    this->creat_phone();
+                    if (DATA->current_guide_step() == 0) {
+                        this->creat_phone();
+                    }
                 }
                 
                 break;

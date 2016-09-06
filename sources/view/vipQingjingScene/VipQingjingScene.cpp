@@ -345,11 +345,74 @@ void VipQingjingScene::backCallBack(CCObject* pSender){
 
 void VipQingjingScene::buyCallBack(CCObject* pSender){
     tempItem = (CCMenuItem* )pSender;
+    tempItem->setEnabled(false);
+    storyIndex = tempItem->getTag() - 1000;
     
+    if (storyIndex > 0) {
+        bool tongguanBool = false;
+        CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+        
+        if (tempIndex == -1) {
+            tongguanBool = true;
+        }
+        if (tongguanBool) {
+            AUDIO->comfirm_effect();
+            LOADING->show_loading();
+            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+            NET->buy_story2_505(indexStr->getCString());
+        }else {
+            CCSprite* tskSpr = CCSprite::create("res/pic/common/ah_box_message.png");
+            tskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
+            tskSpr->setTag(0x8888);
+            this->addChild(tskSpr, 1000);
+            
+            CCLabelTTF* label = CCLabelTTF::create("前置剧情未解锁,购买后暂时不可阅读.", DISPLAY->fangzhengFont(), 35);
+            label->setPosition(ccp(tskSpr->boundingBox().size.width/2, tskSpr->boundingBox().size.height* .65));
+            label->setColor(ccc3(80, 63, 68));
+            tskSpr->addChild(label);
+            
+            CCSprite* qdSpr1 = CCSprite::create("res/pic/common/btn_yes2.png");
+            CCSprite* qdSpr2 = CCSprite::create("res/pic/common/btn_yes2.png");
+            qdSpr2->setScale(1.01f);
+            CCMenuItem* quedingItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(VipQingjingScene::quedingCallBack));
+            quedingItem->setPosition(ccp(tskSpr->boundingBox().size.width* .7f, tskSpr->boundingBox().size.height* .25f));
+            
+            CCSprite* fhSpr1 = CCSprite::create("res/pic/common/btn_no2.png");
+            fhSpr1->setScale(1.5f);
+            CCSprite* fhSpr2 = CCSprite::create("res/pic/common/btn_no2.png");
+            fhSpr2->setScale(1.51f);
+            CCMenuItem* fanhuiItem = CCMenuItemSprite::create(fhSpr1, fhSpr2, this, menu_selector(VipQingjingScene::quxiaoCallBack));
+            fanhuiItem->setPosition(ccp(tskSpr->boundingBox().size.width* .3f, tskSpr->boundingBox().size.height* .25f));
+            
+            CCMenu* menu = CCMenu::create(quedingItem, fanhuiItem, NULL);
+            menu->setPosition(CCPointZero);
+            tskSpr->addChild(menu);
+        }
+    }else{
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+        NET->buy_story2_505(indexStr->getCString());
+    }
+}
+void VipQingjingScene::quedingCallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
+    tempItem->setEnabled(true);
+    if (this->getChildByTag(0x8888) != NULL) {
+        this->removeChildByTag(0x8888);
+    }
+    
     LOADING->show_loading();
-    CCString* indexStr = CCString::createWithFormat("%d", tempItem->getTag()-1000);
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
     NET->buy_story2_505(indexStr->getCString());
+}
+void VipQingjingScene::quxiaoCallBack(CCObject* pSender){
+    if (this->getChildByTag(0x8888) != NULL) {
+        this->removeChildByTag(0x8888);
+    }
+    tempItem->setEnabled(true);
 }
 void VipQingjingScene::_505CallBack(CCObject* pSender){
     LOADING->remove();

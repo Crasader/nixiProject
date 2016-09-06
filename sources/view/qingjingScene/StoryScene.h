@@ -14,7 +14,6 @@
 #include "BaseScene.h"
 #include "Dialogs.h"
 #include "DialogItem.h"
-#include "BaseScene.h"
 
 
 USING_NS_CC;

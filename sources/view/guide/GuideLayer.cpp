@@ -252,7 +252,8 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                 }
             }else if (DATA->_guideBool2[3] && !DATA->_guideBool2[4]){
                 if (isContainTouchPoint2_1(pTouch)) {
-                    this->setTouchSwallowEnabled(false);
+                    this->setTouchSwallowEnabled(true);
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("TaskTableCallBack");
                     this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::getIndex), .5f);
                 }else {
                     this->openTouch(0);
@@ -266,7 +267,8 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                     if (guideSpr) {
                         guideSpr->removeAllChildren();
                     }
-                    this->setTouchSwallowEnabled(false);
+                    this->setTouchSwallowEnabled(true);
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("TaskTableCallBack");
                 }else {
                     this->openTouch(0);
                     this->setTouchSwallowEnabled(true);
@@ -301,7 +303,8 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                     wordCount = getContentLength();
                 }else {
                     if (isContainTouchPoint4_2(pTouch)) {
-                        this->setTouchSwallowEnabled(false);
+                        this->setTouchSwallowEnabled(true);
+                        CCNotificationCenter::sharedNotificationCenter()->postNotification("ClothesCallback");
                         if (this->getChildByTag(0x77777) != NULL) {
                             this->removeChildByTag(0x77777);
                         }
@@ -325,7 +328,8 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                 }
             }else if (DATA->_guideBool4[3] && !DATA->_guideBool4[4]){
                 if (isContainTouchPoint4_2(pTouch)) {
-                    this->setTouchSwallowEnabled(false);
+                    this->setTouchSwallowEnabled(true);
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("ClothesCallback");
                     if (this->getChildByTag(0x77777) != NULL) {
                         this->removeChildByTag(0x77777);
                     }
@@ -485,7 +489,8 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                     wordCount = getContentLength();
                 }else {
                     if (isContainTouchPoint4_2(pTouch)) {
-                        this->setTouchSwallowEnabled(false);
+                        this->setTouchSwallowEnabled(true);
+                        CCNotificationCenter::sharedNotificationCenter()->postNotification("ClothesCallback");
                         this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::getIndex), .5f);
                     }else {
                         this->openTouch(0);
@@ -494,7 +499,8 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                 }
             }else if (DATA->_guideBool6[2] && !DATA->_guideBool6[3]){
                 if (isContainTouchPoint6_3(pTouch)) {
-                    this->setTouchSwallowEnabled(false);
+                    this->setTouchSwallowEnabled(true);
+                    CCNotificationCenter::sharedNotificationCenter()->postNotification("GuideBuyCallBack");
                     this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::getIndex), .5f);
                 }else {
                     this->openTouch(0);
@@ -948,38 +954,38 @@ void GuideLayer::creatLabel(float dt){
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool1[0] && !DATA->_guideBool1[1]){
-            str = CCString::createWithFormat("剧里各种飘字就是我干的.");
+            str = CCString::createWithFormat("往上看~~~~~~~~~~~~\n看灰机~!\n咔咔咔~!剧里的各种自带弹幕就是本大人的杰作.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool1[1] && !DATA->_guideBool1[2]){
             this->creatDiKuang(4);
-            str = CCString::createWithFormat("开始游戏的第一步,让我们建立一家公司吧.");
+            str = CCString::createWithFormat("言归正传,让我带大家开始游戏的第一步吧.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }
     }else if (guideIndex == 2){
         if (!DATA->_guideBool2[0]) {
             this->creatDiKuang(6);
-            str = CCString::createWithFormat("右侧的列表,就是云总的日常事务了.");
+            str = CCString::createWithFormat("(=@__@=)哪~!\n这里就是我们女总的日常事务啦!\n帮助女总完成日常\n会根据您的“能力”给予丰厚的奖励");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool2[0] && !DATA->_guideBool2[1]){
-            str = CCString::createWithFormat("每个任务最高可获得5颗星星.");
+            str = CCString::createWithFormat("完美的完成日常事务\n我就会在小本本上发你一朵小红花.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool2[1] && !DATA->_guideBool2[2]){
-            str = CCString::createWithFormat("第一个公司阶段累计达到88颗星星,诗彤的公司就可以升级.\n可以去更广阔的空间发展.");
+            str = CCString::createWithFormat("星级达标,公司就可以升级啦.\n我们女总就有更广阔的发展空间喽~!");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool2[2] && !DATA->_guideBool2[3]){
-            str = CCString::createWithFormat("那么先让我们去注册第一间公司吧.");
+            str = CCString::createWithFormat("来吧~!骚年们,让我们开始.\n首先,去注册一家公司吧.\n提示：双击进入日常.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }
     }else if (guideIndex == 4){
         if (!DATA->_guideBool4[0]) {
             this->creatDiKuang(3);
-            str = CCString::createWithFormat("好多衣服~!让我们女总穿什么去才好呢?");
+            str = CCString::createWithFormat("额~!注册公司穿什么衣服好呢?\n让我看看哈.\n哦职场类的衣服啊.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool4[0] && !DATA->_guideBool4[1]){
@@ -1065,7 +1071,7 @@ void GuideLayer::creatLabel(float dt){
             this->creatView();
         }else if (DATA->_guideBool8[1] && !DATA->_guideBool8[2]){
             this->creatDiKuang(1);
-            str = CCString::createWithFormat("初步的知道就到这里.先帮助女总继续公司日常吧.");
+            str = CCString::createWithFormat("初步的指导就到这里.先帮助女总继续公司日常吧.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }
