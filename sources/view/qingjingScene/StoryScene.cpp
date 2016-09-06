@@ -3186,8 +3186,10 @@ void StoryScene::creat_Animation60(DialogItem* dialItem, int index, CCSprite* sp
 void StoryScene::creat_Animation70(DialogItem* dialItem, int index, CCSprite* spr){
     CCArray* strList;
     if (index == 1) {
+        animation77Index = 1;
         strList = StringUtil::sharedStrUtil()->split(dialItem->getHead_1().c_str(), "_");
     }else if (index == 2){
+        animation77Index = 2;
         strList = StringUtil::sharedStrUtil()->split(dialItem->getHead_2().c_str(), "_");
     }
     CCString* str = (CCString* )strList->objectAtIndex(0);
@@ -3274,7 +3276,6 @@ void StoryScene::creat_Animation70(DialogItem* dialItem, int index, CCSprite* sp
         _70Progress->setMidpoint(ccp(0, 1));
         //设置进度条的ID
         _70Progress->setTag(100);
-        spr->setTag(100);
         
         //创建一个定时器
         this->schedule(SEL_SCHEDULE(&StoryScene::_70CallFunc), .01f);
