@@ -53,6 +53,7 @@ public:
     bool isOk;
     bool isCanMove;
     bool isrenwuBool;
+    bool ishomeBool;
     
 public:
     

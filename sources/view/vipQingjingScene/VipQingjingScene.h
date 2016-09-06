@@ -109,8 +109,6 @@ public:
     CCMenuItemSprite* item_chat;
     
     int storyIndex;
-    int renwuIndex;
-    int phaseIndex;
     int allNumber;
     int selectedIndex;
     

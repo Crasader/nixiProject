@@ -78,7 +78,7 @@ public:
     
     //
     CC_SYNTHESIZE(int, _autoLogin, AutoLogin);
-    CC_SYNTHESIZE(int, _loginType, LoginType);
+    CC_SYNTHESIZE(int, _loginType, LoginType); // 1游客；2账号
     // 剧情选中数
     CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
     CC_SYNTHESIZE(bool, chapterNumberBool, ChapterNumberBool);
@@ -98,6 +98,13 @@ public:
     CC_SYNTHESIZE(bool, homeBool, HomeBool);
     // 房间记录状态
     CC_SYNTHESIZE(int, _houseIndex, HouseIndex);
+    // 小游戏状态
+    CC_SYNTHESIZE(bool, _taskGameBool2, TaskGameBool2);
+    CC_SYNTHESIZE(bool, _taskGameBool3, TaskGameBool3);
+    CC_SYNTHESIZE(bool, _taskGameBool4, TaskGameBool4);
+    CC_SYNTHESIZE(bool, _taskGameBool5, TaskGameBool5);
+    CC_SYNTHESIZE(bool, _taskGameBool6, TaskGameBool6);
+    CC_SYNTHESIZE(int, _taskTempID, TaskTempID);
     
     // 体力时间
     CC_SYNTHESIZE(int, _tili_Minute, TiliMinute);
@@ -115,6 +122,7 @@ public:
     bool _guideBool6[10];
     bool _guideBool7[10];
     bool _guideBool8[10];
+    bool _guideBool9[10];
     int current_guide_step();
     
     // 陌生人刷新计时

@@ -13,6 +13,7 @@
 #include "ClothesScene.h"
 #include "DisplayManager.h"
 #include "SpecialManager.h"
+#include "AudioManager.h"
 
 
 TaskSettlementLayer::~TaskSettlementLayer(){
@@ -81,7 +82,13 @@ void TaskSettlementLayer::onExit(){
 }
 
 void TaskSettlementLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLog("===== children_num: %d", num_child);
+    if(num_child > 1) {
+        return;
+    }
     
+    this->exit();
 }
 
 bool TaskSettlementLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
@@ -793,6 +800,8 @@ void TaskSettlementLayer::initClothes(){//穿衣服
 }
 
 void TaskSettlementLayer::exit() {
+    AUDIO->goback_effect();
+    
     CCLayer* layer = TaskScene::create(1);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

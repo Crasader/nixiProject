@@ -6,15 +6,18 @@
 //
 //
 
-#include "BuildingLayer.h"
 #include "DisplayManager.h"
 #include "SpecialManager.h"
 #include "DataManager.h"
-#include "Loading2.h"
 #include "NetManager.h"
-#include "BuildingView.h"
 #include "AudioManager.h"
+
 #include "AppUtil.h"
+#include "Loading2.h"
+
+#include "BuildingLayer.h"
+#include "BuildingView.h"
+#include "UpgradeLayer.h"
 
 BuildingLayer::~BuildingLayer() {
 }
@@ -58,6 +61,7 @@ bool BuildingLayer::init(int phase, bool isPhaseUp) {
     else {
         str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
     }
+    
     _building = CCSprite::create(str->getCString());
     _building->setAnchorPoint(CCPointZero);
     _building->setPosition(ccp(0, DISPLAY->H() * 0.22));
@@ -75,18 +79,18 @@ void BuildingLayer::onEnter() {
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_building_disappear), "BUILDING_DISAPPEAR", NULL);
-    
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_coffers_info_200), "HTTP_FINISHED_200", NULL);
     
-    
     if (_isPhaseUp) {
+        this->_isAction = true;
         scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_phase_up), 1.0);
     }
     else {
-        schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+        if (_phase == DATA->getPlayer()->phase) {
+            this->show_arrow();
+            schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+        }
     }
-    
-    this->show_arrow();
 }
 
 void BuildingLayer::onExit() {
@@ -198,6 +202,11 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
     SPECIAL->showSpotAt(this->getScene(), location, 100);
     CCRect rect = _building->boundingBox();
     CCRect check = CCRectMake(rect.origin.x, rect.origin.y, (DISPLAY->W() - 200), rect.size.height);
+    
+    if (true == this->_isAction) {
+        return false;
+    }
+    
     if (check.containsPoint(location)) {
         if (DATA->current_guide_step() == 5) {
             if (!DATA->_guideBool5[0]){
@@ -206,15 +215,14 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
         }
         
         AUDIO->comfirm_effect();
-        this->building_touch_callback();
-        return true;
+        if (_phase == DATA->getPlayer()->phase) {
+            this->building_touch_callback();
+            return true;
+        }
     }
     
     return false;
 }
-
-#pragma mark - export
-
 
 #pragma mark - inner
 
@@ -258,12 +266,48 @@ void BuildingLayer::show_building() {
 
 void BuildingLayer::show_phase_up() {
     CCLOG("BuildingLayer::show_phase_up()");
-    CCAnimation* anim = AppUtil::animationWithPics("res/pic/special/gradeup/gradeup_%d.png", 72, 1, 0.03);
-    CCSprite* spt = CCSprite::create("res/pic/special/gradeup/gradeup_1.png");
-    spt->setPosition(DISPLAY->center());
-    this->getScene()->addChild(spt);
-    spt->runAction(CCAnimate::create(anim));
+    UpgradeLayer* layer = UpgradeLayer::create_with_index(1);
+    this->addChild(layer);
+    
+    CCCallFuncN* done = CCCallFuncN::create(this, SEL_CallFuncN(&BuildingLayer::on_construction_finish));
+    CCSequence* seq = CCSequence::create(CCDelayTime::create(6), done, NULL);
+    layer->runAction(seq);
 }
+
+void BuildingLayer::on_construction_finish(CCNode* node) {
+    node->removeFromParentAndCleanup(true);
+    
+    CCString* str = NULL;
+    if (_phase < 3) {
+        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", _phase);
+    }
+    else {
+        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
+    }
+    CCSprite* newBuilding = CCSprite::create(str->getCString());
+    newBuilding->setAnchorPoint(CCPointZero);
+    _building->addChild(newBuilding);
+    
+    UpgradeLayer* layer = UpgradeLayer::create_with_index(2);
+    this->addChild(layer);
+    CCLOG("layer = %p", layer);
+
+    CCCallFuncN* done = CCCallFuncN::create(this, SEL_CallFuncN(&BuildingLayer::on_phaseup_finish));
+    CCSequence* seq = CCSequence::create(CCDelayTime::create(3), done, NULL);
+    layer->runAction(seq);
+}
+
+void BuildingLayer::on_phaseup_finish(CCNode* node) {
+    CCLOG("layer = %p", node);
+    node->removeFromParentAndCleanup(true);
+    
+    this->_isAction = false;
+    this->show_arrow();
+    schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("Phase_Up_Finished");
+}
+
 
 void BuildingLayer::nc_building_disappear(CCObject *pObj) {
     schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);

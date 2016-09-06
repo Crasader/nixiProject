@@ -11,6 +11,7 @@
 #include "FileManager.h"
 #include "NetManager.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 
 #include "PromptLayer.h"
 #include "ShowComp.h"
@@ -87,6 +88,8 @@ void FindPanel::find_callback_801(CCObject* obj){
 }
 
 void FindPanel::btn_back_callback(){
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

@@ -147,6 +147,7 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
 }
@@ -678,7 +679,6 @@ void ClothesScene::creat_View(){
     tabLayer->setTag(0x77777);
     clothKuangSpr->addChild(tabLayer, 5);
     
-    
     CCDictionary* dic = CONFIG->clothes();// 所有衣服
     
     if (buttonTag == Tag_CL_TouFa){
@@ -1134,38 +1134,50 @@ void ClothesScene::guideButtonCallBack(){
         }
     }
 }
+void ClothesScene::_605CallBack(CCObject* pObj){
+    LOADING->remove();
+    
+    CCLayer* layer = TaskScene::create(false);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
-    if (DATA->getHomeBool()) {
-        DATA->setHomeBool(false);
-        
-        CCScene* scene = HomeLayer::scene();
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
+    if (DATA->getTaskGameBool6()) {
+        LOADING->show_loading();
+        NET->commit_extra_mission_605(DATA->getTaskTempID(), 6, 0);
     }else{
-        if (clothesStatus == 1) {// 任务
-//            CCScene* scene = TaskScene::scene();
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-            CCLayer* layer = TaskScene::create(false);
-            CCScene* scene = CCScene::create();
-            scene->addChild(layer);
+        if (DATA->getHomeBool()) {
+            DATA->setHomeBool(false);
+            
+            CCScene* scene = HomeLayer::scene();
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);
-        }else if (clothesStatus == 2){// 换装
-            if (DATA->current_guide_step() == 6) {
-                LOADING->show_loading();
-                DATA->getPlayer()->setGuide(7);
-                NET->update_guide_905(DATA->getPlayer()->getGuide());
-            }else if (DATA->current_guide_step() == 4){
-                
-            }else{
-                CCScene* scene = MainScene::scene();
+        }else{
+            if (clothesStatus == 1) {// 任务
+                CCLayer* layer = TaskScene::create(false);
+                CCScene* scene = CCScene::create();
+                scene->addChild(layer);
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                 CCDirector::sharedDirector()->replaceScene(trans);
+            }else if (clothesStatus == 2){// 换装
+                if (DATA->current_guide_step() >= 6 && DATA->current_guide_step() < 8) {
+                    LOADING->show_loading();
+                    DATA->getPlayer()->setGuide(8);
+                    NET->update_guide_905(DATA->getPlayer()->getGuide());
+                }else if (DATA->current_guide_step() == 4){
+                    
+                }else{
+                    CCScene* scene = MainScene::scene();
+                    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+                    CCDirector::sharedDirector()->replaceScene(trans);
+                }
             }
         }
     }
@@ -1173,9 +1185,11 @@ void ClothesScene::backCallBack(CCObject* pSender){
 void ClothesScene::_905CallBack(CCObject* pObj){
     LOADING->remove();
     
-    CCScene* scene = MainScene::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (DATA->current_guide_step() == 8) {
+        CCScene* scene = MainScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 void ClothesScene::removeAnimation(){
     if (animationBool) {
@@ -1282,7 +1296,7 @@ void ClothesScene::startMethods(){
                 if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                     int phase = dic->valueForKey("phase")->intValue();
                     int cloth_type = dic->valueForKey("type")->intValue();
-                    if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                    if (phase > DATA->getPlayer()->phase) {
                         phaseBool = true;
                         
                         CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -1301,7 +1315,7 @@ void ClothesScene::startMethods(){
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int phase = dic->valueForKey("phase")->intValue();
                         int cloth_type = dic->valueForKey("type")->intValue();
-                        if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                        if (phase > DATA->getPlayer()->phase) {
                             phaseBool = true;
                             
                             CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -1441,7 +1455,7 @@ void ClothesScene::saveClothesMethods(){
                 if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                     int phase = dic->valueForKey("phase")->intValue();
                     int cloth_type = dic->valueForKey("type")->intValue();
-                    if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                    if (phase > DATA->getPlayer()->phase) {
                         phaseBool = true;
                         
                         CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -1462,7 +1476,7 @@ void ClothesScene::saveClothesMethods(){
                     if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
                         int phase = dic->valueForKey("phase")->intValue();
                         int cloth_type = dic->valueForKey("type")->intValue();
-                        if (phase > DATA->getPlayer()->phase || cloth_type == 10) {
+                        if (phase > DATA->getPlayer()->phase) {
                             phaseBool = true;
                             
                             CCInteger* cloth_integer = CCInteger::create(updataClothes(i));

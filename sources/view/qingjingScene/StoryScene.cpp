@@ -20,7 +20,7 @@
 #include "PromptLayer.h"
 #include "StringUtil.h"
 #include "GuideLayer.h"
-//#include "MMAudioManager.h"
+#include "AudioManager.h"
 
 
 StoryScene::StoryScene(){
@@ -41,6 +41,7 @@ bool StoryScene::init(){
     
     m_current_story_index_id = 0;
     storyIndex = 0;
+    animation77Index = 0;
     openStory = false;
     m_bIsKJSelect = false;
     m_bIsZDSelect = false;
@@ -56,6 +57,9 @@ bool StoryScene::init(){
     
     oneBool = false;
     twoBool = false;
+    
+    headSpr1 = NULL;
+    headSpr2 = NULL;
     
     _dkSpr = CCSprite::create();
     this->addChild(_dkSpr, 10);
@@ -128,7 +132,7 @@ void StoryScene::init_with_story_id(int _index){
     dialog = Dialogs::create();
     dialog->retain();
     CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
-//    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 5);
+//    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 14);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
     dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
@@ -262,6 +266,7 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         
         this->recordLabel(dialItem);
         
+        this->unschedule(SEL_SCHEDULE(&StoryScene::creatManEyesAnimation));
         this->unschedule(schedule_selector(StoryScene::logic));
         openStory = true;
         passersbyBool1 = false;
@@ -306,6 +311,7 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
         this->removeMan();
         this->recordLabel(dialItem);
         
+        this->unschedule(SEL_SCHEDULE(&StoryScene::creatManEyesAnimation));
         this->unschedule(schedule_selector(StoryScene::logic));
         
         openStory = true;
@@ -1062,7 +1068,7 @@ void StoryScene::addButton(){
     menu->setTag(0x88888);
     _dkSpr->addChild(menu, 15);
     
-    if (DATA->current_guide_step() == 8){
+    if (DATA->current_guide_step() == 9){
         fhItem->setColor(ccGRAY);
         fhItem->setEnabled(false);
     }
@@ -1204,7 +1210,7 @@ void StoryScene::button3CallBack(CCObject* pSender){
 }
 
 void StoryScene::initButton(){
-    if (DATA->current_guide_step() == 8){
+    if (DATA->current_guide_step() == 9){
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
@@ -1252,7 +1258,7 @@ void StoryScene::creatButton(int dex){
         menu1->setVisible(true);
         this->addChild(menu1, 20);
         
-        if (DATA->current_guide_step() == 8){
+        if (DATA->current_guide_step() == 9){
             item1->setEnabled(false);
         }
         
@@ -1280,7 +1286,7 @@ void StoryScene::creatButton(int dex){
         menu3->setVisible(true);
         this->addChild(menu3, 20);
         
-        if (DATA->current_guide_step() == 8){
+        if (DATA->current_guide_step() == 9){
             item3->setEnabled(false);
         }
     }
@@ -1732,6 +1738,13 @@ void StoryScene::removeButton(){
 void StoryScene::removeMan(){
     this->unschedule(SEL_SCHEDULE(&StoryScene::_70CallFunc));
     
+    if (headSpr1 != NULL) {
+        headSpr1->removeAllChildren();
+    }
+    if (headSpr2 != NULL) {
+        headSpr2->removeAllChildren();
+    }
+    
     if (this->getChildByTag(Tag_GJ_man1) != NULL) {
         this->removeChildByTag(Tag_GJ_man1);
     }
@@ -2162,7 +2175,7 @@ void StoryScene::keyBackClicked(){
 }
 
 void StoryScene::fhCallBack(CCObject* pSender){
-    
+    AUDIO->goback_effect();
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_audio_AHMessageBox, false);
 //    }
@@ -3268,7 +3281,13 @@ void StoryScene::creat_Animation70(DialogItem* dialItem, int index, CCSprite* sp
     }
 }
 void StoryScene::_70CallFunc(){
-    CCNode* node = this->getChildByTag(100);
+    CCNode* node;
+    if (animation77Index == 1) {
+        node = this->getChildByTag(Tag_GJ_head1);
+    }else if (animation77Index == 2){
+        node = this->getChildByTag(Tag_GJ_head2);
+    }
+    
     //通过进度条的ID得到进度条
     CCProgressTimer* progress = (CCProgressTimer*)node->getChildByTag(100);
     
@@ -4161,8 +4180,10 @@ void StoryScene::creat_Animation76(DialogItem* dialItem, int index, CCSprite* sp
 void StoryScene::creat_Animation77(DialogItem* dialItem, int index, CCSprite* spr){
     CCArray* strList;
     if (index == 1) {
+        animation77Index = 1;
         strList = StringUtil::sharedStrUtil()->split(dialItem->getHead_1().c_str(), "_");
     }else if (index == 2){
+        animation77Index = 2;
         strList = StringUtil::sharedStrUtil()->split(dialItem->getHead_2().c_str(), "_");
     }
     CCString* str = (CCString* )strList->objectAtIndex(0);
@@ -4201,6 +4222,7 @@ void StoryScene::creat_Animation77(DialogItem* dialItem, int index, CCSprite* sp
     }else if (manIndex == 1102){
         _77Progress->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .83f));
     }
+    _77Progress->setTag(77);
     spr->addChild(_77Progress);
     
     if (buttonBool1) {// 快进中
@@ -4217,7 +4239,6 @@ void StoryScene::creat_Animation77(DialogItem* dialItem, int index, CCSprite* sp
         _77Progress->setMidpoint(ccp(0, 1));
         //设置进度条的ID
         _77Progress->setTag(100);
-        spr->setTag(100);
         
         //创建一个定时器
         this->schedule(SEL_SCHEDULE(&StoryScene::_70CallFunc), .01f);

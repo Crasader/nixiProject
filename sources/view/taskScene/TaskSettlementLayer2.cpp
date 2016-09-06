@@ -16,6 +16,7 @@
 #include "QingjingScene.h"
 #include "PromptLayer.h"
 #include "GuideLayer.h"
+#include "AudioManager.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
@@ -60,20 +61,23 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
     this->creat_Man();
     this->initClothes();
     
-    DATA->_guideBool4[0] = true;
-    DATA->_guideBool4[1] = true;
-    DATA->_guideBool4[2] = true;
-    DATA->_guideBool4[3] = true;
-    DATA->_guideBool4[4] = true;
-    DATA->_guideBool4[5] = true;
-    DATA->_guideBool4[6] = true;
-    DATA->_guideBool4[7] = false;
-    DATA->getPlayer()->setGuide(4);
-    if (DATA->current_guide_step() == 4){
-        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-        layer->setTag(0x445566);
-        this->addChild(layer, 500);
+    if (DATA->current_guide_step() != 0 && DATA->current_guide_step() < 6) {
+        DATA->_guideBool4[0] = true;
+        DATA->_guideBool4[1] = true;
+        DATA->_guideBool4[2] = true;
+        DATA->_guideBool4[3] = true;
+        DATA->_guideBool4[4] = true;
+        DATA->_guideBool4[5] = true;
+        DATA->_guideBool4[6] = true;
+        DATA->_guideBool4[7] = false;
+        DATA->getPlayer()->setGuide(4);
+        if (DATA->current_guide_step() == 4){
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }
     }
+    
     
     return true;
 }
@@ -133,10 +137,9 @@ void TaskSettlementLayer2::keyBackClicked(){
         return;
     }
     
-    
-    
-    
+    this->exit();
 }
+
 bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
     if (logic_open_bool) {
         if (!logic_end_Bool) {
@@ -165,6 +168,7 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
 
     return true;
 }
+
 void TaskSettlementLayer2::nextAnimation1(){
     CCSprite* tiliSpr = CCSprite::create("res/pic/taskSettlement/ts_tili.png");
     tiliSpr->setScale(.3f);
@@ -178,13 +182,15 @@ void TaskSettlementLayer2::nextAnimation1(){
     CCSpawn* spawn = CCSpawn::create(CCShow::create(), moveTo, scaleTo, NULL);
     tiliSpr->runAction(CCSequence::create(spawn, callFuncN, NULL));
 }
+
 void TaskSettlementLayer2::nextAnimation2(){
     SPECIAL->show_energy_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
     logic_open_bool = true;
 }
 
-
 void TaskSettlementLayer2::exit() {
+    AUDIO->goback_effect();
+    
     CCLayer* layer = TaskScene::create(_isPhaseUP);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -206,8 +212,19 @@ void TaskSettlementLayer2::creat_view(){
     done_text->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .63f));
     tiaoSpr->addChild(done_text);
     
-    
-    CCString* renStr = CCString::createWithFormat("res/pic/taskSettlement/ts_ren%d.png", 1);
+    int renIndex = 1;
+    if (_rating == 1) {
+        renIndex = 1;
+    }else if (_rating == 2){
+        renIndex = 2;
+    }else if (_rating == 3){
+        renIndex = 3;
+    }else if (_rating == 4){
+        renIndex = 4;
+    }else if (_rating == 5){
+        renIndex = 5;
+    }
+    CCString* renStr = CCString::createWithFormat("res/pic/taskSettlement/ts_ren%d.png", renIndex);
     renSpr = CCSprite::create(renStr->getCString());
 //    renSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .19f, DISPLAY->ScreenHeight()* .13f));
     renSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .19f, DISPLAY->ScreenHeight()* .83f));
@@ -254,7 +271,7 @@ void TaskSettlementLayer2::creat_view(){
         randIndex2 = 20 + rand()%20;
         randIndex3 = 20 + rand()%20;
         randIndex4 = 20 + rand()%20;
-        tishiStr = CCString::createWithFormat("你这样,还处的去门嘛.");
+        tishiStr = CCString::createWithFormat("你这样,还出的去门嘛.");
         tishiStr->retain();
     }else if (_rating == 1) {
         randIndex1 = 2 + rand()%20;
@@ -361,6 +378,7 @@ void TaskSettlementLayer2::creat_view(){
     bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr2, 20);
 }
+
 void TaskSettlementLayer2::updataNumber(){
     SPECIAL->showPetal2At(this, DISPLAY->center(), 15);
     
@@ -385,6 +403,7 @@ void TaskSettlementLayer2::updataNumber(){
     
     renSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), moveTo1, moveTo2, moveTo3, CCDelayTime::create(.5f), callFunc, NULL));
 }
+
 void TaskSettlementLayer2::creatXingXing(){
 //    _rating = 5;
     

@@ -144,6 +144,8 @@ void BuildingView::start() {
 }
 
 void BuildingView::go_back() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

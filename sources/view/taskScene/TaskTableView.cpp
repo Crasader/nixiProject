@@ -33,6 +33,7 @@ bool TaskTableView::init(){
     
     allNumber = taskMission->count();
     selectedIndex = -1;
+    stopIndex = 0;
     
     pTableView = CCTableView::create(this, CCSizeMake(177, 110*def_Page_Index));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
@@ -45,7 +46,67 @@ bool TaskTableView::init(){
     pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
     pTableView->reloadData();
     
+//    pTableView->setContentOffset(pTableView->maxContainerOffset());
+    this->creatStopStatus();
+    this->showCellOfIndex(stopIndex+6);
+    
     return true;
+}
+void TaskTableView::creatStopStatus(){
+    for (int i = 0; i < taskMission->count(); i++) {
+        CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(i);
+        int taskId = dic->valueForKey("id")->intValue();
+        int unlockCondition = DATA->getPlayer()->mission;
+        if (taskId <= unlockCondition) {
+            stopIndex = i;
+        }else{
+            return;
+        }
+    }
+}
+void TaskTableView::showCellOfIndex(unsigned int index)
+{
+    do
+    {
+        //条件不符合, 索引物品已经在当前页并已经渲染出来,不需要寻找[根据自己实际情况来定]
+        //这里的_listNum是tableView总共有的cell，numberOfCellsInTableView函数返回的
+//        if (index < 5 || index > allNumber)
+//        {
+//            return;
+//        }
+        
+        if (index >= allNumber) {
+            pTableView->setContentOffset(pTableView->maxContainerOffset());
+            return;
+        }
+        
+        
+        CCTableView* tableView = static_cast<CCTableView*>(getChildByTag(0));
+        CC_BREAK_IF(!tableView);
+        CCSize cellSize = CCSizeMake(177, 110);
+        float offsetX = 0;
+        float offsetY = 0;
+        if (tableView->getDirection() == kCCScrollViewDirectionVertical)
+        {
+            if (tableView->getVerticalFillOrder() == kCCTableViewFillTopDown)
+            {
+                offsetY = -cellSize.height * (allNumber - index-1);
+            }else
+            {
+                offsetY = -cellSize.height * index-1;
+            }
+        }else
+        {
+            if (tableView->getVerticalFillOrder() == kCCTableViewFillTopDown)
+            {
+                offsetX = -cellSize.width * (allNumber - index);
+            }else
+            {
+                offsetX = -cellSize.width * index;
+            }
+        }
+        tableView->setContentOffset(ccp(offsetX, offsetY));
+    } while (0);
 }
 
 
@@ -66,9 +127,11 @@ void TaskTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     AUDIO->common_effect();
     
-    OpenToWhichOne = cell->getIdx();
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(cell->getIdx());
+    OpenToWhichOne = dic->valueForKey("id")->intValue();
+    
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne < unlockCondition) {
+    if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             selectedIndex = cell->getIdx();
             
@@ -148,6 +211,7 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             DATA->setTaskNumber(selectedIndex);
         }else if (selectedIndex == cell->getIdx()){
             CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitView");
+            DATA->setTaskTempID(OpenToWhichOne);
             pTableView->setTouchEnabled(false);
         }else{
             CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
@@ -334,10 +398,12 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     pCell->autorelease();
     CCSprite* spr = CCSprite::create();
     
-    OpenToWhichOne = idx;
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
+    int taskId = dic->valueForKey("id")->intValue();
+    OpenToWhichOne = taskId;
     
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne < unlockCondition) {
+    if (OpenToWhichOne <= unlockCondition) {
         
         CCString* buttonStr;
         if (selectedIndex == idx) {
@@ -362,10 +428,7 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         }
         renSpr->setTag(idx + 10000);
         button->addChild(renSpr, 5);
-    
-        CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
-        int taskId = dic->valueForKey("id")->intValue();
-        
+
         // 星星
         this->buttonStatus(taskId, button);
         
@@ -456,9 +519,11 @@ unsigned int TaskTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
 //按下去的时候，就是高亮显示，这里可以设置高亮状态
 void TaskTableView::tableCellHighlight(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     
-    OpenToWhichOne = cell->getIdx();
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(cell->getIdx());
+    OpenToWhichOne = dic->valueForKey("id")->intValue();
+    
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne < unlockCondition) {
+    if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             sprNode = cell->getChildByTag(cell->getIdx());
             CCSprite* kuang = (CCSprite* )sprNode->getChildByTag(cell->getIdx());
@@ -514,9 +579,11 @@ void TaskTableView::tableCellHighlight(cocos2d::extension::CCTableView* table, c
 //松开的时候，取消高亮状态
 void TaskTableView::tableCellUnhighlight(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
 
-    OpenToWhichOne = cell->getIdx();
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(cell->getIdx());
+    OpenToWhichOne = dic->valueForKey("id")->intValue();
+    
     int unlockCondition = DATA->getPlayer()->mission;
-    if (OpenToWhichOne < unlockCondition) {
+    if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             sprNode = cell->getChildByTag(cell->getIdx());
             CCSprite* kuang = (CCSprite* )sprNode->getChildByTag(cell->getIdx());

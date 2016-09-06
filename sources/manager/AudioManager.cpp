@@ -70,6 +70,11 @@ void AudioManager::preload_audios()
     this->preloadEffect("audio/wav/audio_button_buy.wav");
     // 商城 音效
     this->preloadEffect("audio/wav/audio_button_shop.wav");
+    // right 音效
+    this->preloadEffect("audio/wav/audio_game_right.wav");
+    // wrong 音效
+    this->preloadEffect("audio/wav/audio_game_wrong.wav");
+    
 }
 
 
@@ -226,5 +231,12 @@ void AudioManager::shop_effect() {
 
 void AudioManager::clothes_effect() {
     this->play_effect("audio/wav/audio_button_clothes.wav", false);
+}
+
+void AudioManager::right_effect(){
+    this->play_effect("audio/wav/audio_game_right.wav", false);
+}
+void AudioManager::wrong_effect(){
+    this->play_effect("audio/wav/audio_game_wrong.wav", false);
 }
 

@@ -11,6 +11,7 @@
 #include "DataManager.h"
 #include "ConfigManager.h"
 #include "AppUtil.h"
+#include "AudioManager.h"
 
 
 GhostSystem::~GhostSystem() {
@@ -190,6 +191,7 @@ bool GhostSystem::hit_ghost(int idx, Ghost* ghost, CCSprite* spt) {
 //        if (MMAudioManager::get_instance()->is_effect_on()) {
 //            MMAudioManager::get_instance()->play_effect(kAudio_game_wrong, false);
 //        }
+        AUDIO->wrong_effect();
         
         CCSprite* spt_dying = CCSprite::create("res/pic/game/sleep/sj_cat_catched.png");
         spt_dying->setFlipX(spt->isFlipX());

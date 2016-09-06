@@ -64,12 +64,23 @@ void GashaponLayer::onExit(){
 
 
 void GashaponLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLOG("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    AUDIO->goback_effect();
+    
+    this->removeFromParentAndCleanup(true);
 }
 
 bool GashaponLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     CCPoint location = pTouch->getLocation();
     if (! bgSpr->boundingBox().containsPoint(location)) {
+        AUDIO->goback_effect();
+        
         this->removeFromParentAndCleanup(true);
     }
     

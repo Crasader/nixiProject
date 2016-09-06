@@ -97,6 +97,8 @@ public:
     
     void openChat();
     void displayChatItem();
+    void _600CallBack(CCObject* pObj);
+    void _605CallBack(CCObject* pObj);
 
 public:
     

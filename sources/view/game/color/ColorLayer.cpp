@@ -12,6 +12,7 @@
 #include "NetManager.h"
 #include "GameCheckoutPanel.h"
 #include "Loading2.h"
+#include "AudioManager.h"
 
 #define LOST_LIMIT  5
 #define GAME_ID     "2"
@@ -529,6 +530,7 @@ void ColorLayer::menu_callBack(CCObject* pSender){
 //            if (MMAudioManager::get_instance()->is_effect_on()) {
 //                MMAudioManager::get_instance()->play_effect(kAudio_game_right, false);
 //            }
+            AUDIO->right_effect();
             
             m_num ++;
             spr_add->runAction(CCSequence::create(display1, _actMove1, setPos1, _actMove3, NULL));
@@ -538,6 +540,8 @@ void ColorLayer::menu_callBack(CCObject* pSender){
 //            if (MMAudioManager::get_instance()->is_effect_on()) {
 //                MMAudioManager::get_instance()->play_effect(kAudio_game_wrong, false);
 //            }
+            AUDIO->wrong_effect();
+            
             m_wrong++;
             if (m_num > 0) {
                 m_num--;
@@ -555,6 +559,7 @@ void ColorLayer::menu_callBack(CCObject* pSender){
 //            if (MMAudioManager::get_instance()->is_effect_on()) {
 //                MMAudioManager::get_instance()->play_effect(kAudio_game_right, false);
 //            }
+            AUDIO->right_effect();
             
             m_num ++;
             spr_add->runAction(CCSequence::create(display1, _actMove1, setPos1, _actMove3, NULL));
@@ -564,6 +569,8 @@ void ColorLayer::menu_callBack(CCObject* pSender){
 //            if (MMAudioManager::get_instance()->is_effect_on()) {
 //                MMAudioManager::get_instance()->play_effect(kAudio_game_wrong, false);
 //            }
+            AUDIO->wrong_effect();
+            
             m_wrong++;
             if (m_num > 0) {
                 m_num--;

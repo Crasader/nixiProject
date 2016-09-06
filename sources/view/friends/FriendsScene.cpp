@@ -297,6 +297,7 @@ void FriendsScene::update_self_panel(ShowComp* self) {
 
 void FriendsScene::on_btn_back_to_social(CCMenuItem *menuItem) {
     AUDIO->goback_effect();
+    
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

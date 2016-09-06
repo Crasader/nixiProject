@@ -15,6 +15,8 @@
 //#include "HaoyouRankLayer.h"
 #include "DataManager.h"
 #include "PromptLayer.h"
+#include "AudioManager.h"
+
 
 NotePanel::~NotePanel(){
     
@@ -254,6 +256,8 @@ bool NotePanel::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent){
 }
 
 void NotePanel::closeNotePanel(){
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

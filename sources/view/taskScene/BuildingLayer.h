@@ -33,6 +33,9 @@ private:
     void show_building();
     void show_phase_up();
     
+    void on_construction_finish(CCNode* node);
+    void on_phaseup_finish(CCNode* node);
+    
     void nc_building_disappear(CCObject* pObj);
     void nc_coffers_info_200(CCObject* pObj);
     
@@ -51,6 +54,7 @@ private:
     CCSprite*           _bird_2;
     CCSprite*           _bird_3;
     CCSprite*           _bird_4;
+    bool                _isAction;
 };
 
 #endif /* BuildingLayer_hpp */

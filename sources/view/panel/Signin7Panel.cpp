@@ -259,6 +259,8 @@ void Signin7Panel::signin_callback_303(){
 #pragma mark - Inner
 
 void Signin7Panel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

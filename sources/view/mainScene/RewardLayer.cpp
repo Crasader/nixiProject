@@ -78,6 +78,11 @@ void RewardLayer::init_with_index(CCArray* arr){
         kuangSpr->setTag(0x99999);
         this->addChild(kuangSpr, 100);
         
+        renyiSpr = CCSprite::create("res/pic/game/color/guide_kuang2.png");
+        renyiSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -20));
+        kuangSpr->addChild(renyiSpr, 3);
+        renyiSpr->setVisible(false);
+        
         CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title.png");
         titleSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .99f));
         kuangSpr->addChild(titleSpr, 100);
@@ -258,6 +263,8 @@ void RewardLayer::drawTen(){
         iconSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .5f, dikuangSpr->getContentSize().height* .55f));
         
         nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 14, CCSizeMake(kuangSpr->getContentSize().width* .9f, 14), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        
+        renyiSpr->setVisible(true);
     }else {
         iconSpr->setScale(.7f);
         iconSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .55f, dikuangSpr->getContentSize().height* .55f));
@@ -420,6 +427,7 @@ bool RewardLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     if (touchBool) {
         if (tenBool) {
             tenBool = false;
+            renyiSpr->setVisible(false);
             
             this->drawTen2();
         }else{

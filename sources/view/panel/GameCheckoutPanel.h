@@ -30,6 +30,8 @@ public:
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
+    void _605CallBack(CCObject* pObj);
+    
 private:
     void remove();
     void do_enter();
@@ -38,6 +40,7 @@ private:
     void on_anim_finish();
     
 private:
+    int gameScore;
     CCSprite*           _panel;
     bool                _couldRemove;
 };

@@ -21,6 +21,7 @@
 #include "ColorLayer.h"
 #include "GameJingli.h"
 #include "LiveAiXin.h"
+#include "HaoyouScene.h"
 
 
 TaskStoryScene::TaskStoryScene(){
@@ -51,16 +52,24 @@ bool TaskStoryScene::init(){
     buttonBool = false;
     startBool = false;
     
+    DATA->setTaskGameBool2(false);
+    DATA->setTaskGameBool3(false);
+    DATA->setTaskGameBool4(false);
+    DATA->setTaskGameBool5(false);
+    DATA->setTaskGameBool6(false);
+    
+    
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
     
     taskIndex = DATA->getTaskNumber() + 1;
+//    taskIndex = 25;
     DATA->setStoryLabelArr(CCArray::create());
     
-#warning 这里 老周 你来看看 这里是假的 没有3阶段的表
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
     CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+//    CCArray* missionArr = CONFIG->getMissionDialog(3, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
     subscriptIndex = missionDic->valueForKey("id")->intValue();
     
@@ -218,6 +227,9 @@ void TaskStoryScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_400CallBack), "HTTP_FINISHED_400", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_603CallBack), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_905CallBack), "HTTP_FINISHED_905", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_800CallBack), "HTTP_FINISHED_800", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_704CallBack), "HTTP_FINISHED_704", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
     
@@ -281,6 +293,7 @@ void TaskStoryScene::creat_view(){
 }
 void TaskStoryScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
     if (missionDic->valueForKey("states")->intValue() == 1){// ==1 一个人
         if (_touSpr->getChildByTag(0x44444) != NULL) {
             _touSpr->removeChildByTag(0x44444);
@@ -1123,11 +1136,15 @@ void TaskStoryScene::addButton(){
 }
 
 void TaskStoryScene::huikanCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     TaskLabelColorLayer* layer = TaskLabelColorLayer::create_with_index(labStr.c_str());
     layer->setTag(0x999999);
     this->addChild(layer, 100);
 }
 void TaskStoryScene::kuaijinCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (!buttonBool) {
         buttonBool = true;
         
@@ -1192,18 +1209,23 @@ void TaskStoryScene::logic(float dt){
         
         saidLabel->setString(getContentByLength(wordCount).c_str());
         
-        if (missionDic->valueForKey("next")->intValue() == -1 || missionDic->valueForKey("next")->intValue() == -2 || missionDic->valueForKey("next")->intValue() == -3) {
+        if (missionDic->valueForKey("next")->intValue() == -1 ||
+            missionDic->valueForKey("next")->intValue() == -2 ||
+            missionDic->valueForKey("next")->intValue() == -3 ||
+            missionDic->valueForKey("next")->intValue() == -4 ||
+            missionDic->valueForKey("next")->intValue() == -5 ||
+            missionDic->valueForKey("next")->intValue() == -6) {
             startItem->setVisible(true);
             
             if (DATA->current_guide_step() == 4) {
                 CCNotificationCenter::sharedNotificationCenter()->postNotification("GuideQuan");
             }
-        }
-        
-        if (!quanBool) {
-            quanBool = true;
-            
-            quanSpr->setVisible(true);
+        }else{
+            if (!quanBool) {
+                quanBool = true;
+                
+                quanSpr->setVisible(true);
+            }
         }
         
         return;
@@ -1285,6 +1307,11 @@ void TaskStoryScene::openTouch(float dt){
     this->setTouchEnabled(true);
 }
 void TaskStoryScene::getIndex(float dt){
+    if (quanSpr != NULL) {
+        quanBool = false;
+        quanSpr->setVisible(false);
+    }
+    
     index = missionDic->valueForKey("next")->intValue();
     
     if (index == -1) {
@@ -1295,46 +1322,46 @@ void TaskStoryScene::getIndex(float dt){
         }
         
         this->setTouchEnabled(false);
-        
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->startCallBack(NULL);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
     }else if (index == -2){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
-        
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->startCallBack(NULL);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
+        DATA->setTaskGameBool2(true);
+        this->setTouchEnabled(false);
     }else if (index == -3){
         if (buttonBool) {
             buttonBool = false;
             logIndex = 0;
-            return;
         }
-        
-//        if (DATA->getClothes()->has_init_clothes == true) {
-//            this->startCallBack(NULL);
-//        }
-//        else {
-//            LOADING->show_loading();
-//            NET->owned_clothes_400();
-//        }
+        DATA->setTaskGameBool3(true);
+        this->setTouchEnabled(false);
+    }else if (index == -4){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+        }
+        DATA->setTaskGameBool4(true);
+        this->setTouchEnabled(false);
+    }else if (index == -5){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+        }
+        DATA->setTaskGameBool5(true);
+        this->setTouchEnabled(false);
+    }else if (index == -6){
+        if (buttonBool) {
+            buttonBool = false;
+            logIndex = 0;
+        }
+        DATA->setTaskGameBool6(true);
+        this->setTouchEnabled(false);
     }else{
         index = missionDic->valueForKey("next")->intValue() - subscriptIndex;
-        CCArray* missionArr = CONFIG->getMissionDialog(1, taskIndex);
-        missionDic = (CCDictionary* )missionArr->objectAtIndex(index);        
+        CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+//        CCArray* missionArr = CONFIG->getMissionDialog(3, taskIndex);
+        missionDic = (CCDictionary* )missionArr->objectAtIndex(index);
         this->init(missionDic);
         wordCount = 0;
         this->dialogueControl(0);
@@ -1350,31 +1377,86 @@ void TaskStoryScene::_905CallBack(CCObject* pSender){
         NET->owned_clothes_400();
     }
 }
+
 void TaskStoryScene::startCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     item->setEnabled(false);
     
     index = missionDic->valueForKey("next")->intValue();
-    if (index == -1) {
-        if (DATA->current_guide_step() == 3) {
-            PlayerComp* _player = DATA->getPlayer();
-            if (_player->getGuide() == 3) {
-                _player->setGuide(4);
-            }
+    
+    if (-1 == index || -2 == index || -3 == index || -4 == index || -5 == index || -6 == index) {
+        if (DATA->getPlayer()->energy < 12) {
+            item->setEnabled(true);
             
+            AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+            return;
+        }
+        
+        
+        if (index == -1) {
+            if (DATA->current_guide_step() == 3) {
+                PlayerComp* _player = DATA->getPlayer();
+                if (_player->getGuide() == 3) {
+                    _player->setGuide(4);
+                }
+                
+                LOADING->show_loading();
+                NET->update_guide_905(_player->getGuide());
+            }else{
+                if (DATA->getClothes()->has_init_clothes == true) {
+                    this->_400CallBack(NULL);
+                }
+                else {
+                    LOADING->show_loading();
+                    NET->owned_clothes_400();
+                }
+            }
+        }else if (index == -2){// 睡觉
+            if (DATA->getStory()->has_init_story()) {
+                LOADING->show_loading();
+                NET->completed_mission_600();
+            }else {
+                AUDIO->comfirm_effect();
+                LOADING->show_loading();
+                NET->home_info_704(true);
+            }
+        }else if (index == -3){// 颜色
+            if (DATA->getStory()->has_init_story()) {
+                LOADING->show_loading();
+                NET->completed_mission_600();
+            }else {
+                AUDIO->comfirm_effect();
+                LOADING->show_loading();
+                NET->home_info_704(true);
+            }
+        }else if (index == -4){// 社交
+            AUDIO->comfirm_effect();
             LOADING->show_loading();
-            NET->update_guide_905(_player->getGuide());
-        }else{
+            NET->social_info_800();
+        }else if (index == -5){// 垃圾
+            if (DATA->getStory()->has_init_story()) {
+                LOADING->show_loading();
+                NET->completed_mission_600();
+            }else {
+                AUDIO->comfirm_effect();
+                LOADING->show_loading();
+                NET->home_info_704(true);
+            }
+        }else if (index == -6){// 衣服
             if (DATA->getClothes()->has_init_clothes == true) {
-                this->_400CallBack(NULL);
+                this->clothesCallBack(NULL);
             }
             else {
                 LOADING->show_loading();
                 NET->owned_clothes_400();
             }
         }
-        
-    }else {
+    }
+    else {
         openStory = true;
         startBool = true;
         
@@ -1393,56 +1475,68 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
         label2->setPosition(ccp(banSpr->getContentSize().width* .75f, banSpr->getContentSize().height* .1f));
         label2->setColor(ccc3(80, 63, 68));
         banSpr->addChild(label2);
-        
-        
-//        if (index == -2){// 睡觉游戏
-//            CCLog("睡觉游戏");
-//            CCScene* scene = CCScene::create();
-//            GameJingli* layer = GameJingli::create();
-//            scene->addChild(layer);
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-//        }else if (index == -3){// 颜色游戏
-//            CCLog("颜色游戏");
-//            CCScene* scene = CCScene::create();
-//            ColorLayer* layer = ColorLayer::create();
-//            scene->addChild(layer);
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-//        }else if (index == -4){// 去社交
-//            int tili = DATA->getPlayer()->energy;
-//            int tili_AllIndex = 12;
-//            if (tili >= tili_AllIndex) {
-//                this->setTouchEnabled(false);
-//                LOADING->show_loading();
-//                NET->commit_mission_603(missionDic->valueForKey("taskID")->intValue());
-//            }else{
-//                LOADING->remove();
-//                AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-//                mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-//                CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-//            }
-//        }else if (index == -5){// 去垃圾游戏
-//            CCLog("垃圾游戏");
-//            CCScene* scene = CCScene::create();
-//            LiveAiXin* layer = LiveAiXin::create();
-//            scene->addChild(layer);
-//            CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//            CCDirector::sharedDirector()->replaceScene(trans);
-//        }else if (index == -6){// 买钻石衣服
-//            
-//        }
     }
 }
-void TaskStoryScene::_400CallBack(CCObject* pSender){
+void TaskStoryScene::_600CallBack(CCObject* pSender){
+    AUDIO->comfirm_effect();
+    LOADING->show_loading();
+    NET->home_info_704(true);
+}
+void TaskStoryScene::_704CallBack(CCObject* pSender){
     LOADING->remove();
-    CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
+    
+    if (index == -2){// 睡觉
+        CCScene* scene = CCScene::create();
+        GameJingli* layer = GameJingli::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -3){// 颜色
+        CCScene* scene = CCScene::create();
+        ColorLayer* layer = ColorLayer::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else if (index == -5){// 垃圾
+        CCScene* scene = CCScene::create();
+        LiveAiXin* layer = LiveAiXin::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
+}
+
+
+void TaskStoryScene::clothesCallBack(CCObject* pSender){
+    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
-
+void TaskStoryScene::_400CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    if (DATA->getTaskGameBool6()) {
+        CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
+}
+void TaskStoryScene::_800CallBack(CCObject* pObj) {
+    LOADING->remove();
+    CCScene* scene = HaoyouScene::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 void TaskStoryScene::LabelColorFhCallBack(CCObject* pSender){
     if (this->getChildByTag(0x999999) != NULL) {
         this->removeChildByTag(0x999999);

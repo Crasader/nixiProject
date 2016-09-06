@@ -153,10 +153,11 @@ void DataManager::http_response_handle(int resp_code, string response) {
         const char* msg = root["content"].asCString();
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), msg);
-        //
+        // 账号登入失败
         if (cid == 901 && this->getLoginType() == 2){
-            CONFIG->save_account("");
-            CONFIG->save_password("");
+//            CONFIG->save_account("");
+//            CONFIG->save_password("");
+            this->setAutoLogin(false);
             CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
         }
     }
@@ -304,6 +305,14 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 603: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _mission->init_with_json(content["mission"]);
+            // 形如：{"rating":5,"levelup":0,"coin":50,"energy":6}.
+            pData = AppUtil::dictionary_with_json(content["result"]);
+        } break;
+            
+        case 605: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
@@ -509,6 +518,7 @@ void DataManager::creat_Energy_Time(){
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updataTiliTime), this, 1, false);
     }
 }
+
 void DataManager::updataTiliTime(float dt){
     
     _tili_second--;
@@ -547,8 +557,8 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
-
 int DataManager::current_guide_step(){
     return _player->getGuide();
+//    return 0;
 }
 

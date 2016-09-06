@@ -288,6 +288,17 @@ void NetManager::commit_mission_603(int id) {
     this->post_data(603, data);
 }
 
+void NetManager::commit_extra_mission_605(int id, int type, int flag) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["type"] = type;
+    root["flag"] = flag;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(605, data);
+}
+
 
 void NetManager::completed_story_500() {
     this->post_data(500, string(""));
@@ -337,6 +348,17 @@ void NetManager::start_story2_509(const char *id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(509, data);
+}
+
+void NetManager::submit_story_danmaku_511(string &storyId, string &lineId, string &words) {
+    FastWriter writer;
+    Value root;
+    root["id"] = storyId;
+    root["line"] = lineId;
+    root["words"] = words;
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(509, data);

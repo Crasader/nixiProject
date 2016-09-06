@@ -25,6 +25,7 @@
 #include "AudioManager.h"
 #include "ChatPanel.h"
 #include "WSManager.h"
+#include "AppUtil.h"
 
 
 HomeLayer::HomeLayer(){
@@ -84,6 +85,8 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::displayChatItem), "CLOSE_CHATPANEL", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::keyBackStatus), .8f);
 }
 
 void HomeLayer::onExit(){
@@ -99,10 +102,17 @@ void HomeLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
 }
 
 void HomeLayer::keyBackStatus(float dt){
-    
+    this->setKeypadEnabled(true);
 }
 void HomeLayer::keyBackClicked(){
+    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+    CCLOG("===== children_num: %d", num_child);
+    if(num_child > 1)
+    {
+        return;
+    }
     
+    this->backCallBack(NULL);
 }
 
 bool HomeLayer::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
@@ -302,6 +312,51 @@ void HomeLayer::creat_View(){
     tabLayer->setPosition(ccp(-2, 90));
     tabLayer->setTag(0x77777);
     kuangSpr->addChild(tabLayer, 5);
+    
+    
+    
+    CSJson::Value missionData = AppUtil::read_json_file("res/mission/mission");
+    CCDictionary* missionDic = AppUtil::dictionary_with_json(missionData);
+    for (int i = 0; i < missionDic->count(); i++) {
+        CCString* keyStr = CCString::createWithFormat("%d", i);
+        CCArray* missionArr = (CCArray* )missionDic->objectForKey(keyStr->getCString());
+        std::string taskIdStd = ((CCString* )missionArr->objectAtIndex(0))->getCString();
+        std::string phaseStd = ((CCString* )missionArr->objectAtIndex(1))->getCString();
+        int taskIdIndex = atoi(taskIdStd.c_str());
+        int phaseStdIndex = atoi(phaseStd.c_str());
+        if (i == 0) {
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    shopItem->setEnabled(false);
+                    shopItem->setColor(ccGRAY);
+                }
+            }else{
+                shopItem->setEnabled(false);
+                shopItem->setColor(ccGRAY);
+            }
+        }else if (i == 1){
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    colorItem->setEnabled(false);
+                    colorItem->setColor(ccGRAY);
+                }
+            }else{
+                colorItem->setEnabled(false);
+                colorItem->setColor(ccGRAY);
+            }
+        }else if (i == 2){
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    sleepItem->setEnabled(false);
+                    sleepItem->setColor(ccGRAY);
+                }
+            }else{
+                sleepItem->setEnabled(false);
+                sleepItem->setColor(ccGRAY);
+            }
+        }
+    }    
+    
 }
 
 void HomeLayer::openChat(CCObject* pSender) {
@@ -325,8 +380,9 @@ void HomeLayer::displayChatItem(){
 }
 
 void HomeLayer::gameCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
-    CCScene* scene = NULL;
     if (item->getTag() == 1) {
         CCLog("点击购物");
         CCScene* scene = CCScene::create();
@@ -334,14 +390,14 @@ void HomeLayer::gameCallBack(CCObject* pSender){
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
-    }else if (item->getTag() == 2){
+    }else if (item->getTag() == 2) {
         CCLog("点击颜色");
         CCScene* scene = CCScene::create();
         ColorLayer* layer = ColorLayer::create();
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
-    }else if (item->getTag() == 3){
+    }else if (item->getTag() == 3) {
         CCLog("点击睡觉");
         CCScene* scene = CCScene::create();
         GameJingli* layer = GameJingli::create();
@@ -352,6 +408,8 @@ void HomeLayer::gameCallBack(CCObject* pSender){
 }
 
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     qiehuanSpr->setVisible(false);
     
     this->setTouchEnabled(false);
@@ -375,6 +433,8 @@ void HomeLayer::manAction2(){
     _ManSpr->runAction(moveTo);
 }
 void HomeLayer::saveCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     LOADING->show_loading();
     CCString* str = CCString::createWithFormat("%d", DATA->getHouseIndex());
     NET->change_house_705(str->getCString());
@@ -386,11 +446,15 @@ void HomeLayer::_705CallBack(CCObject* pSender){
 }
 
 void HomeLayer::backCallBack(CCObject* pSender){
+    AUDIO->goback_effect();
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::gongsiCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (DATA->getStory()->has_init_story()) {
         LOADING->show_loading();
         NET->completed_mission_600();
@@ -403,7 +467,7 @@ void HomeLayer::_500CallBack(CCObject* pSender){
     NET->completed_mission_600();
 }
 void HomeLayer::_600CallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
     LOADING->remove();
     
     DATA->setHomeBool(true);
@@ -415,6 +479,8 @@ void HomeLayer::_600CallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::huanzhuangCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (DATA->getClothes()->has_init_clothes == true) {
         this->_huanzhuangCallBack(pSender);
     }
@@ -424,7 +490,7 @@ void HomeLayer::huanzhuangCallBack(CCObject* pSender){
     }
 }
 void HomeLayer::_huanzhuangCallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
     
     DATA->setHomeBool(true);
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
@@ -434,7 +500,8 @@ void HomeLayer::_huanzhuangCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::haoyouCallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
+    
     LOADING->show_loading();
     NET->social_info_800();
 }

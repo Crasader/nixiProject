@@ -70,7 +70,7 @@ public:
     
     CCDictionary* allClothesDic;
     
-    CCMenuItem* historyItem1, * historyItem2, * historyItem3, * historyItem4, * historyItem5, * backItem;
+    CCMenuItem* historyItem1, * historyItem2, * historyItem3, * historyItem4, * historyItem5, * backItem1, * backItem2;
     
 //    CCSprite* roomSpr;
     CCSprite* barSpr;
@@ -115,6 +115,8 @@ public:
     bool historyBool;
     
 private:
+    void init_contents();
+    void nc_phase_up_finished(CCObject* pObj);
     
 private:
     BuildingLayer*      _buildingLayer;

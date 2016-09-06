@@ -11,6 +11,7 @@
 #include "DisplayManager.h"
 #include "NetManager.h"
 #include "PromptLayer.h"
+#include "AudioManager.h"
 //#include "Reward.h"
 #include "Loading2.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -202,6 +203,8 @@ void PurchasePanel::do_exit() {
 }
 
 void PurchasePanel::remove() {
+    AUDIO->goback_effect();
+    
     this->removeFromParentAndCleanup(true);
 }
 

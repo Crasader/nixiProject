@@ -11,25 +11,39 @@
 
 #pragma mark - Export
 
-int CoffersComp::phase_start(int phase) {
-    int count = _companyTemplate->count();
-    for (int i = 0; i < count; i++) {
-        CCDictionary* item = (CCDictionary*)_companyTemplate->objectAtIndex(i);
-        CCInteger* itemPhase = (CCInteger*)item->objectForKey("phase");
-        if (itemPhase->getValue() == phase) {
-            if (i == 0) {
-                return 0;
-            }
-            else {
-                CCDictionary* prevItem = (CCDictionary*)_companyTemplate->objectAtIndex(i - 1);
-                CCInteger* prevItemGoal = (CCInteger*)prevItem->objectForKey("goal");
-                return prevItemGoal->getValue();
-            }
-        }
-    }
-    
-    return 0;
-}
+//int CoffersComp::phase_start(int phase) {
+//    int count = _companyTemplate->count();
+//    for (int i = 0; i < count; i++) {
+//        CCDictionary* item = (CCDictionary*)_companyTemplate->objectAtIndex(i);
+//        CCInteger* itemPhase = (CCInteger*)item->objectForKey("phase");
+//        if (itemPhase->getValue() == phase) {
+//            if (i == 0) {
+//                return 0;
+//            }
+//            else {
+//                CCDictionary* prevItem = (CCDictionary*)_companyTemplate->objectAtIndex(i - 1);
+//                CCInteger* prevItemGoal = (CCInteger*)prevItem->objectForKey("goal");
+//                return prevItemGoal->getValue();
+//            }
+//        }
+//    }
+//    
+//    return 0;
+//}
+//
+//CCArray* CoffersComp::phase_goals(int phase) {
+//    CCArray* rtn = CCArray::create();
+//    int count = _companyTemplate->count();
+//    for (int i = 0; i < count; i++) {
+//        CCDictionary* item = (CCDictionary*)_companyTemplate->objectAtIndex(i);
+//        CCInteger* itemPhase = (CCInteger*)item->objectForKey("phase");
+//        if (itemPhase->getValue() == phase) {
+//            rtn->addObject(item);
+//        }
+//    }
+//    CCLOG("phase: %d ------ goals = %d", phase, rtn->count());
+//    return rtn;
+//}
 
 CCArray* CoffersComp::phase_goals(int phase) {
     CCArray* rtn = CCArray::create();

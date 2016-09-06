@@ -35,7 +35,6 @@ bool VipQingjingScene::init(){
 //    // 0为未购买 非0已购买 -1通关
 //    int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
     storyIndex = 0;
-    renwuIndex = 0;
     allNumber = 0;
     theEndBool = false;
     
@@ -174,8 +173,6 @@ void VipQingjingScene::creat_view(){
     CCString* taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", 0);
     CCArray* taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
     std::string bgStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(3))->getCString();
-    std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
-    renwuIndex = atoi(renwuIndexStr.c_str());
     
     
     CCString* roomStr = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", bgStr.c_str());
@@ -209,10 +206,6 @@ void VipQingjingScene::creat_view(){
         //
         taskConditionsKeyStr = CCString::createWithFormat("101_80100_%d", i);
         taskConditionsAchievemArr = (CCArray* )taskConditionsDic->objectForKey(taskConditionsKeyStr->getCString());
-        std::string renwuIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(2))->getCString();
-        renwuIndex = atoi(renwuIndexStr.c_str());
-        std::string phaseIndexStr = ((CCString* )taskConditionsAchievemArr->objectAtIndex(5))->getCString();
-        phaseIndex = atoi(phaseIndexStr.c_str());
         
         CCSprite* kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
         kuangSpr->setPosition(CCPointZero);
@@ -358,6 +351,7 @@ void VipQingjingScene::qingjingStatus(){
 
 void VipQingjingScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
@@ -405,6 +399,8 @@ void VipQingjingScene::_505CallBack(CCObject* pSender){
 }
 
 void VipQingjingScene::startCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
     
@@ -971,6 +967,8 @@ void VipQingjingScene::initClothes(){//穿衣服
 }
 
 void VipQingjingScene::jiantou1CallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     jiantouItem1->setEnabled(false);
     jiantouItem2->setEnabled(false);
     
@@ -989,6 +987,8 @@ void VipQingjingScene::jiantou1CallBack(CCObject* pSender){
     this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::updataButton), .3f);
 }
 void VipQingjingScene::jiantou2CallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     if (!theEndBool) {
         jiantouItem1->setEnabled(false);
         jiantouItem2->setEnabled(false);

@@ -13,6 +13,7 @@
 #include "GameCheckoutPanel.h"
 #include "Loading2.h"
 #include "AppUtil.h"
+#include "AudioManager.h"
 
 #define LOST_LIMIT  5
 #define GAME_ID     "1"
@@ -195,7 +196,7 @@ void LiveAiXin::setupView()
     }
     
     {
-        CCSprite * tishi = CCSprite::create("res/pic/game/color/games_yd_color.png");
+        CCSprite * tishi = CCSprite::create("res/pic/game/laji/games_yd_housework.png");
         tishi->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
         this->addChild(tishi, 20, 0x121);
         
@@ -560,6 +561,7 @@ void LiveAiXin::checkForCollision()
 //                if (MMAudioManager::get_instance()->is_effect_on()) {
 //                    MMAudioManager::get_instance()->play_effect(kAudio_game_right, false);
 //                }
+                AUDIO->right_effect();
                 
                 if (canRun) {
                     this->scheduleOnce(SEL_SCHEDULE(&LiveAiXin::runAnimate), 0.f);
@@ -572,6 +574,7 @@ void LiveAiXin::checkForCollision()
 //                if (MMAudioManager::get_instance()->is_effect_on()) {
 //                    MMAudioManager::get_instance()->play_effect(kAudio_game_wrong, false);
 //                }
+                AUDIO->wrong_effect();
                 
                 m_animationSprite->stopAllActions();
                 m_animationSprite->runAction(m_bombAction);
