@@ -80,7 +80,7 @@ void BuildingLayer::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_building_disappear), "BUILDING_DISAPPEAR", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_coffers_info_200), "HTTP_FINISHED_200", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_take_company_reward_205), "HTTP_FINISHED_205", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_take_income_203), "HTTP_FINISHED_203", NULL);
     
     if (_isPhaseUp) {
         this->_isAction = true;
@@ -337,7 +337,7 @@ void BuildingLayer::nc_coffers_info_200(CCObject *pObj) {
     this->getScene()->addChild(building);
 }
 
-void BuildingLayer::nc_take_company_reward_205(CCObject *pObj) {
+void BuildingLayer::nc_take_income_203(CCObject *pObj) {
     CCNode* node = this->getChildByTag(7451);
     if (node && node->getParent()) {
         node->removeAllChildrenWithCleanup(true);
