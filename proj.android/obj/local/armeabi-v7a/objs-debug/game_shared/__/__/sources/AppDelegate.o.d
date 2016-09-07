@@ -275,8 +275,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/view/loginScene/LogoScene.h \
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
- jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/taskScene/TaskSettlementLayer.h
+ jni/../../sources/view/common/Number/FlashNumberLabel2.h
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -841,5 +840,3 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
-
-jni/../../sources/view/taskScene/TaskSettlementLayer.h:

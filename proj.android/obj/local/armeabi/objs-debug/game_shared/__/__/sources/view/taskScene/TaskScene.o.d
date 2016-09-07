@@ -277,9 +277,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskScene.
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/taskScene/TaskStoryScene.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
- jni/../../sources/view/taskScene/PhoneLayer.h \
  jni/../../sources/view/taskScene/PhoneLayer2.h \
  jni/../../sources/view/home/HomeLayer.h \
+ jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/taskScene/TaskTableView.h \
@@ -289,7 +289,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskScene.
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/utils/AppUtil.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
- jni/../../sources/view/taskScene/BuildingLayer.h
+ jni/../../sources/view/taskScene/BuildingLayer.h \
+ jni/../../sources/view/guide/GuideLayer.h
 
 jni/../../sources/view/taskScene/TaskScene.h:
 
@@ -857,11 +858,11 @@ jni/../../sources/view/taskScene/TaskStoryScene.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
-jni/../../sources/view/taskScene/PhoneLayer.h:
-
 jni/../../sources/view/taskScene/PhoneLayer2.h:
 
 jni/../../sources/view/home/HomeLayer.h:
+
+jni/../../sources/view/home/HomeTableView.h:
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
@@ -882,3 +883,5 @@ jni/../../sources/utils/AppUtil.h:
 jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/taskScene/BuildingLayer.h:
+
+jni/../../sources/view/guide/GuideLayer.h:

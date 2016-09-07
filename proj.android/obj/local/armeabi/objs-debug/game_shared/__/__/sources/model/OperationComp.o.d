@@ -244,7 +244,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/model/OperationComp.o: \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/extend_define.h jni/../../sources/utils/AppUtil.h
+ jni/../../sources/extend_define.h jni/../../sources/utils/AppUtil.h \
+ jni/../../sources/view/friends/Shower.h \
+ jni/../../sources/manager/ConfigManager.h
 
 jni/../../sources/model/OperationComp.h:
 
@@ -737,3 +739,7 @@ jni/../../sources/third/Json/lib_json/writer.h:
 jni/../../sources/extend_define.h:
 
 jni/../../sources/utils/AppUtil.h:
+
+jni/../../sources/view/friends/Shower.h:
+
+jni/../../sources/manager/ConfigManager.h:

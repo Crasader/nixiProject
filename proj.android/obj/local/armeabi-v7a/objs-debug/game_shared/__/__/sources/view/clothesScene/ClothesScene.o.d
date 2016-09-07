@@ -270,6 +270,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/home/HomeLayer.h \
+ jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
@@ -288,7 +289,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/view/guide/GuideLayer.h
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
@@ -842,6 +844,8 @@ jni/../../sources/view/taskScene/TaskScene.h:
 
 jni/../../sources/view/home/HomeLayer.h:
 
+jni/../../sources/view/home/HomeTableView.h:
+
 jni/../../sources/view/common/Loading2/Loading2.h:
 
 jni/../../sources/manager/NetManager.h:
@@ -879,3 +883,5 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/view/guide/GuideLayer.h:

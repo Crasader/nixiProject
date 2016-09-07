@@ -266,6 +266,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/qingjingScene/StoryScene.h \
+ jni/../../sources/view/qingjingScene/Dialogs.h \
+ jni/../../sources/view/qingjingScene/DialogItem.h \
  jni/../../sources/view/vipQingjingScene/VipQingjingScene.h \
  jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h \
  jni/../../sources/view/taskScene/TaskScene.h \
@@ -284,7 +287,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
  jni/../../sources/view/panel/Signin7Panel.h \
  jni/../../sources/view/home/HomeLayer.h \
+ jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/panel/EnergyLargessPanel.h \
+ jni/../../sources/view/mainScene/GashaponLayer.h \
+ jni/../../sources/view/mainScene/ExchangeLayer.h \
  jni/../../sources/view/friends/Shower.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
@@ -311,8 +317,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/view/panel/OperationPanel.h \
  jni/../../sources/view/panel/SettingPanel.h \
  jni/../../sources/view/panel/ChatPanel.h \
- jni/../../sources/view/panel/GashaponPanel.h \
- jni/../../sources/view/panel/TotalRechargePanel.h
+ jni/../../sources/view/panel/TotalRechargePanel.h \
+ jni/../../sources/view/mainScene/RewardLayer.h \
+ jni/../../sources/view/guide/GuideLayer.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/mainScene/MainScene.h:
 
@@ -858,6 +866,12 @@ jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
+jni/../../sources/view/qingjingScene/StoryScene.h:
+
+jni/../../sources/view/qingjingScene/Dialogs.h:
+
+jni/../../sources/view/qingjingScene/DialogItem.h:
+
 jni/../../sources/view/vipQingjingScene/VipQingjingScene.h:
 
 jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h:
@@ -894,7 +908,13 @@ jni/../../sources/view/panel/Signin7Panel.h:
 
 jni/../../sources/view/home/HomeLayer.h:
 
+jni/../../sources/view/home/HomeTableView.h:
+
 jni/../../sources/view/panel/EnergyLargessPanel.h:
+
+jni/../../sources/view/mainScene/GashaponLayer.h:
+
+jni/../../sources/view/mainScene/ExchangeLayer.h:
 
 jni/../../sources/view/friends/Shower.h:
 
@@ -948,6 +968,10 @@ jni/../../sources/view/panel/SettingPanel.h:
 
 jni/../../sources/view/panel/ChatPanel.h:
 
-jni/../../sources/view/panel/GashaponPanel.h:
-
 jni/../../sources/view/panel/TotalRechargePanel.h:
+
+jni/../../sources/view/mainScene/RewardLayer.h:
+
+jni/../../sources/view/guide/GuideLayer.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

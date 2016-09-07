@@ -278,6 +278,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/loginScene/Login
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/loginScene/LoginView.h \
  jni/../../sources/view/loginScene/RegisterView.h \
+ jni/../../sources/view/panel/RecommendView.h \
  jni/../../sources/view/loginScene/CreateName.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/view/base/BaseScene.h \
@@ -851,6 +852,8 @@ jni/../../sources/view/mainScene/PromptLayer.h:
 jni/../../sources/view/loginScene/LoginView.h:
 
 jni/../../sources/view/loginScene/RegisterView.h:
+
+jni/../../sources/view/panel/RecommendView.h:
 
 jni/../../sources/view/loginScene/CreateName.h:
 

@@ -281,7 +281,12 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/StoryS
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h \
- jni/../../sources/view/mainScene/PromptLayer.h
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/qingjingScene/StringUtil.h \
+ jni/../../sources/view/guide/GuideLayer.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/qingjingScene/StoryScene.h:
 
@@ -858,3 +863,13 @@ jni/../../sources/manager/NetManager.h:
 jni/../../sources/view/qingjingScene/StorySettlementOfTheAnimationLayer.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/qingjingScene/StringUtil.h:
+
+jni/../../sources/view/guide/GuideLayer.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

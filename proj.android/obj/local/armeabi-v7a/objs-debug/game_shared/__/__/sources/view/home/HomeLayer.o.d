@@ -237,13 +237,16 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/home/HomeLayer.o
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/haoyouScene/HaoyouScene.h \
- jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/game/color/ColorLayer.h \
+ jni/../../sources/view/game/laji/LiveAiXin.h \
+ jni/../../sources/view/game/sleep/GameJingli.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -284,7 +287,16 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/home/HomeLayer.o
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/view/panel/ChatPanel.h \
+ jni/../../sources/manager/WSManager.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
+ jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/view/home/HomeLayer.h:
 
@@ -760,6 +772,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
+jni/../../sources/view/home/HomeTableView.h:
+
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
@@ -770,9 +784,13 @@ jni/../../sources/view/taskScene/TaskScene.h:
 
 jni/../../sources/view/haoyouScene/HaoyouScene.h:
 
-jni/../../sources/view/home/HomeTableView.h:
-
 jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/game/color/ColorLayer.h:
+
+jni/../../sources/view/game/laji/LiveAiXin.h:
+
+jni/../../sources/view/game/sleep/GameJingli.h:
 
 jni/../../sources/manager/DataManager.h:
 
@@ -867,3 +885,21 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/view/panel/ChatPanel.h:
+
+jni/../../sources/manager/WSManager.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
+
+jni/../../sources/utils/AppUtil.h:
