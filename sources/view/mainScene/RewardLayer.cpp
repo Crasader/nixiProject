@@ -120,6 +120,18 @@ void RewardLayer::drawOnce(){
     CCString* iconStr;
     int z_oder = 0;
     if (index >= 10000) {
+        std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
+        if (stdStr.empty()) {
+            CCString* saveStr = CCString::createWithFormat("%d;", index);
+            stdStr.append(saveStr->getCString());
+            CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+        }else{
+            CCString* saveStr = CCString::createWithFormat("%d;", index);
+            stdStr.append(saveStr->getCString());
+            CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+        }
+        CCUserDefault::sharedUserDefault()->flush();
+        
         z_oder = 1;
         if (index >= 10000 && index < 20000){
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/1toufa/icon%s.png", str->getCString());
@@ -206,6 +218,22 @@ void RewardLayer::drawTen(){
 //    }
     if (index >= 10000) {
         this->unschedule(SEL_SCHEDULE(&RewardLayer::drawTen));
+        
+        std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
+        if (stdStr.empty()) {
+            CCString* saveStr = CCString::createWithFormat("%d;", index);
+            stdStr.append(saveStr->getCString());
+            CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+        }else{
+            CCString* saveStr = CCString::createWithFormat("%d;", index);
+            stdStr.append(saveStr->getCString());
+            CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+        }
+        CCUserDefault::sharedUserDefault()->flush();
+        
+        
+        
+        
         iconBool = true;
         rewardBool = true;
         CCDictionary* dic = CONFIG->clothes();// 所有衣服

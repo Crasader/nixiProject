@@ -235,6 +235,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/building/Buildin
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/building/FloorCell.h \
+ jni/../../sources/view/building/TopFloorCell.h \
  jni/../../sources/view/common/UnreusedTableView/UnreusedTableView.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h \
@@ -276,7 +277,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/building/Buildin
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/view/guide/GuideLayer.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/building/BuildingView.h:
 
@@ -748,6 +751,8 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 
 jni/../../sources/view/building/FloorCell.h:
 
+jni/../../sources/view/building/TopFloorCell.h:
+
 jni/../../sources/view/common/UnreusedTableView/UnreusedTableView.h:
 
 jni/../../sources/manager/DisplayManager.h:
@@ -843,3 +848,7 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/view/guide/GuideLayer.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

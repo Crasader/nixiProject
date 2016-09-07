@@ -272,7 +272,11 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSettle
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/mainScene/PromptLayer.h
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/guide/GuideLayer.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
 
@@ -831,3 +835,11 @@ jni/../../sources/view/qingjingScene/QingjingScene.h:
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/guide/GuideLayer.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:

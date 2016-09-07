@@ -50,6 +50,8 @@ bool HaoyouScene::init(){
     this->creat_Man();
     this->initClothes();
     
+    this->setTouchEnabled(false);
+    
     return true;
 }
 CCScene* HaoyouScene::scene(){
@@ -78,6 +80,7 @@ void HaoyouScene::onEnter(){
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
     
     this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::keyBackStatus), .8f);
+    this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::openChat), 1.0f);
 }
 void HaoyouScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
@@ -130,20 +133,27 @@ void HaoyouScene::creat_view(){
     CCMenuItem* paihangItem = CCMenuItemSprite::create(paihangSpr1, paihangSpr2, this, menu_selector(HaoyouScene::paihangCallBack));
     paihangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .07f));
     
-    allMenu = CCMenu::create(backItem, _xiaoxiItem, _zhitiaoItem, haoyouItem, strangerItem, paihangItem, NULL);
-    allMenu->setPosition(CCPointZero);
-    this->addChild(allMenu, 20);
-    
-    
     // 聊天
     CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
     CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
     qipao2->setScale(1.02f);
     item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HaoyouScene::openChat));
     item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
-    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
-    menu_chat->setPosition(CCPointZero);
-    this->addChild(menu_chat, 20);
+    
+    allMenu = CCMenu::create(backItem, _xiaoxiItem, _zhitiaoItem, haoyouItem, strangerItem, paihangItem, item_chat, NULL);
+    allMenu->setPosition(CCPointZero);
+    this->addChild(allMenu, 20);
+    
+    
+    // 聊天
+//    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    qipao2->setScale(1.02f);
+//    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HaoyouScene::openChat));
+//    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+//    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+//    menu_chat->setPosition(CCPointZero);
+//    this->addChild(menu_chat, 20);
     
     CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
     CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
@@ -163,7 +173,8 @@ void HaoyouScene::openChat() {
     DATA->setChatOut(false);
     if (WS->isConnected()) {
         ChatPanel* panel = ChatPanel::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+        this->addChild(panel, 100000);
     }else{
         WS->connect();
     }

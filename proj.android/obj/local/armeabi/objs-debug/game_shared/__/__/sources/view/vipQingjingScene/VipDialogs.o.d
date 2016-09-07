@@ -233,7 +233,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/vipQingjingScene/Vip
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
- jni/../../sources/view/qingjingScene/DialogItem.h \
+ jni/../../sources/view/vipQingjingScene/VipDialogItem.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
  jni/../../sources/third/Json/lib_json/config.h \
@@ -712,7 +712,7 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
 
-jni/../../sources/view/qingjingScene/DialogItem.h:
+jni/../../sources/view/vipQingjingScene/VipDialogItem.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
 

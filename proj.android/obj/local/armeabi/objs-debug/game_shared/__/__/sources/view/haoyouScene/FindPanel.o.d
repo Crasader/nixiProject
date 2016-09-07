@@ -247,6 +247,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/FindPane
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/model/ShowComp.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
@@ -753,6 +756,12 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
 
