@@ -97,18 +97,18 @@ void LoginScene::onEnter() {
     
     bool autoLogin = DATA->getAutoLogin();
     if (autoLogin && CONFIG->has_saved_uuid()) {
-        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
-        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
-        this->addChild(logo);
+//        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+//        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
+//        this->addChild(logo);
         
         LOADING->show_loading();
         DATA->setLoginType(1);
         NET->fast_login_900(CONFIG->saved_uuid().c_str());
     }
     else if (autoLogin && CONFIG->has_saved_account()) {
-        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
-        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
-        this->addChild(logo);
+//        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+//        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
+//        this->addChild(logo);
         
         LOADING->show_loading();
         DATA->setLoginType(2);
@@ -119,7 +119,7 @@ void LoginScene::onEnter() {
         this->show_registview();
         this->show_loginview();
         
-        this->slide_in_logo();
+//        this->slide_in_logo();
     }
     
     CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
@@ -145,13 +145,13 @@ bool LoginScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 
 #pragma - inner API
 
-void LoginScene::slide_in_logo() {
-    CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
-    logo->setPosition(ccp(DISPLAY->halfW(), -100));
-    this->addChild(logo);
-    
-    logo->runAction(CCEaseExponentialIn::create(CCMoveTo::create(0.6f, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f))));
-}
+//void LoginScene::slide_in_logo() {
+//    CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+//    logo->setPosition(ccp(DISPLAY->halfW(), -100));
+//    this->addChild(logo);
+//    
+//    logo->runAction(CCEaseExponentialIn::create(CCMoveTo::create(0.6f, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f))));
+//}
 
 void LoginScene::create_views() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

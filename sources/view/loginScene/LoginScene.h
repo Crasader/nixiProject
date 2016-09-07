@@ -29,7 +29,7 @@ private:
     void show_loginview();
     void show_registview();
     void show_nicknameview();
-    void slide_in_logo();
+//    void slide_in_logo();
     
     void fast_login(CCMenuItem* pObj);
     void start_login(CCObject* pObj);

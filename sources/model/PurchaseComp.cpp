@@ -9,6 +9,39 @@
 #include "PurchaseComp.h"
 #include "AppUtil.h"
 
+#pragma mark - Export
+
+bool PurchaseComp::has_init_products() {
+    return (_products != NULL);
+}
+
+CCArray* PurchaseComp::products() {
+    return _products;
+}
+
+bool PurchaseComp::has_purchased(const char *product_id) {
+    bool rtn = false;
+    CCObject* pObj = _deals->objectForKey(product_id);
+    if (pObj != NULL) {
+        CCInteger* value = (CCInteger* )pObj;
+        if (value->getValue() > 0) {
+            rtn = true;
+        }
+    }
+    
+    return rtn;
+}
+
+void PurchaseComp::print_all_products() {
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(_products, pObj) {
+        ProductItem* item = (ProductItem* )pObj;
+        item->print_self();
+    }
+}
+
+#pragma mark - Inherit
+
 ProductItem::~ProductItem() {
 }
 
@@ -100,36 +133,12 @@ void PurchaseComp::init_purchase(CSJson::Value json) {
     setCoinExchangedTimes(json["ce_times"].asInt());
     setCoinExchangeLimit(json["ce_limit"].asInt());
     
+    setEnergyBoughtCost(json["energy_cost"].asInt());
+    setEnergyBoughtGain(json["energy_gain"].asInt());
+    setCoinExchangeCost(json["coin_cost"].asInt());
+    setCoinExchangeGain(json["coin_gain"].asInt());
+    
     CCDictionary* deals = AppUtil::dictionary_with_json(json["deals"]);
     setDeals(deals);
-}
-
-bool PurchaseComp::has_init_products() {
-    return (_products != NULL);
-}
-
-CCArray* PurchaseComp::products() {
-    return _products;
-}
-
-bool PurchaseComp::has_purchased(const char *product_id) {
-    bool rtn = false;
-    CCObject* pObj = _deals->objectForKey(product_id);
-    if (pObj != NULL) {
-        CCInteger* value = (CCInteger* )pObj;
-        if (value->getValue() > 0) {
-            rtn = true;
-        }
-    }
-    
-    return rtn;
-}
-
-void PurchaseComp::print_all_products() {
-    CCObject* pObj = NULL;
-    CCARRAY_FOREACH(_products, pObj) {
-        ProductItem* item = (ProductItem* )pObj;
-        item->print_self();
-    }
 }
 
