@@ -290,7 +290,7 @@ bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
 bool ChatPanel::onTextFieldInsertText(cocos2d::CCTextFieldTTF *sender, const char *text, int nLen){
     CCString* str = CCString::createWithFormat("%s%s", sender->getString(), text);
     
-    if (str->length() > 150) {
+    if (str->length() > 60) {
         return true;
     }else{
         CCLabelTTF* lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 26);
