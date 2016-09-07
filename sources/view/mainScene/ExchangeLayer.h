@@ -49,6 +49,7 @@ public:
     CCLabelTTF* exchangeLabel;
     
     int nowIndex;
+    int exchangeIndex;
     
     bool touchBool;
     
