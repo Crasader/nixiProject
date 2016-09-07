@@ -45,15 +45,8 @@
 
 - (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    NSLog(@"application:(UIApplication*)application didReceiveLocalNotification:");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertAction message:notification.alertBody delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [alert show];
-    
-    NSDictionary* dic = notification.userInfo;
-    NSString* value = [dic objectForKey:@"name"];
-    const char* csValue = [value UTF8String];
-    LocalNotifDelegate::Inst()->dropLocalNotificationByName(csValue);
-    //     application.applicationIconBadgeNumber -= 1;
+    [[UIApplication sharedApplication] cancelLocalNotification:notification];
+//         application.applicationIconBadgeNumber -= 1;
 }
 
 // --------------------------------------------------------------------
@@ -88,6 +81,7 @@ static AppDelegate s_sharedApplication;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 //    [self addLocalNotification];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
@@ -151,7 +145,7 @@ static AppDelegate s_sharedApplication;
     cocos2d::CCApplication::sharedApplication()->applicationWillEnterForeground();
     
     //进入前台取消应用消息图标
-    [[UIApplication sharedApplication]setApplicationIconBadgeNumber:0];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

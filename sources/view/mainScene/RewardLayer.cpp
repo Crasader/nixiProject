@@ -62,7 +62,7 @@ void RewardLayer::init_with_index(CCArray* arr){
     rewardArr = arr;
     rewardArr->retain();
     
-    bgSpr = CCSprite::create("res/pic/gashapon/gashapon_bg2.png");
+    bgSpr = CCSprite::create("res/pic/mask.png");
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr, 5);
     
@@ -159,7 +159,7 @@ void RewardLayer::drawOnce(){
     }else{
         CCString* labelStr = CCString::createWithFormat("哇,新衣服耶.");
         CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-        label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .18f));
+        label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .1f));
         label->setColor(ccWHITE);
         kuangSpr->addChild(label);
     }

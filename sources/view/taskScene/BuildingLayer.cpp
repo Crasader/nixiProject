@@ -80,6 +80,7 @@ void BuildingLayer::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_building_disappear), "BUILDING_DISAPPEAR", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_coffers_info_200), "HTTP_FINISHED_200", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_take_company_reward_205), "HTTP_FINISHED_205", NULL);
     
     if (_isPhaseUp) {
         this->_isAction = true;
@@ -87,8 +88,11 @@ void BuildingLayer::onEnter() {
     }
     else {
         if (_phase == DATA->getPlayer()->phase) {
-            this->show_arrow();
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+            CoffersComp* coffers = DATA->getCoffers();
+            if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+                this->show_arrow();
+            }
         }
     }
 }
@@ -238,6 +242,7 @@ void BuildingLayer::building_shaking() {
 void BuildingLayer::show_arrow() {
     CCSprite* sptArrow = CCSprite::create("pic/building/arrow.png");
     sptArrow->setPosition(ccp(DISPLAY->W() * 0.22, DISPLAY->H() * 0.81));
+    sptArrow->setTag(7451);
     this->addChild(sptArrow);
     sptArrow->runAction(CCRepeatForever::create(CCSequence::create(CCMoveBy::create(0.5, ccp(0, -60)), CCMoveBy::create(0.5, ccp(0, 60)), NULL)));
     
@@ -266,6 +271,9 @@ void BuildingLayer::show_building() {
 
 void BuildingLayer::show_phase_up() {
     CCLOG("BuildingLayer::show_phase_up()");
+    CCSequence* seqBuilding = CCSequence::create(CCMoveTo::create(0.5, ccp(-DISPLAY->halfW() * 0.5, this->_building->getPositionY())), CCFadeOut::create(0.1), NULL);
+    this->_building->runAction(seqBuilding);
+    
     UpgradeLayer* layer = UpgradeLayer::create_with_index(1);
     this->addChild(layer);
     
@@ -275,7 +283,8 @@ void BuildingLayer::show_phase_up() {
 }
 
 void BuildingLayer::on_construction_finish(CCNode* node) {
-    node->removeFromParentAndCleanup(true);
+//    node->removeFromParentAndCleanup(true);
+    ((UpgradeLayer*)node)->closeLayer();
     
     CCString* str = NULL;
     if (_phase < 3) {
@@ -284,6 +293,8 @@ void BuildingLayer::on_construction_finish(CCNode* node) {
     else {
         str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
     }
+    
+    this->_building->setVisible(true);
     CCSprite* newBuilding = CCSprite::create(str->getCString());
     newBuilding->setAnchorPoint(CCPointZero);
     _building->addChild(newBuilding);
@@ -293,7 +304,7 @@ void BuildingLayer::on_construction_finish(CCNode* node) {
     CCLOG("layer = %p", layer);
 
     CCCallFuncN* done = CCCallFuncN::create(this, SEL_CallFuncN(&BuildingLayer::on_phaseup_finish));
-    CCSequence* seq = CCSequence::create(CCDelayTime::create(3), done, NULL);
+    CCSequence* seq = CCSequence::create(CCDelayTime::create(5), done, NULL);
     layer->runAction(seq);
 }
 
@@ -302,7 +313,12 @@ void BuildingLayer::on_phaseup_finish(CCNode* node) {
     node->removeFromParentAndCleanup(true);
     
     this->_isAction = false;
-    this->show_arrow();
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+        this->show_arrow();
+    }
+
     schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Phase_Up_Finished");
@@ -319,4 +335,11 @@ void BuildingLayer::nc_coffers_info_200(CCObject *pObj) {
     this->setTouchEnabled(true);
     BuildingView* building = BuildingView::create(_phase);
     this->getScene()->addChild(building);
+}
+
+void BuildingLayer::nc_take_company_reward_205(CCObject *pObj) {
+    CCNode* node = this->getChildByTag(7451);
+    if (node && node->getParent()) {
+        node->removeAllChildrenWithCleanup(true);
+    }
 }

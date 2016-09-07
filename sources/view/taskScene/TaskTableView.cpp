@@ -48,7 +48,8 @@ bool TaskTableView::init(){
     
 //    pTableView->setContentOffset(pTableView->maxContainerOffset());
     this->creatStopStatus();
-    this->showCellOfIndex(stopIndex+6);
+    // +6显示最新1个，+5显示2个。
+    this->showCellOfIndex(stopIndex+ 4);
     
     return true;
 }
@@ -637,10 +638,16 @@ void TaskTableView::tableCellUnhighlight(cocos2d::extension::CCTableView* table,
 }
 
 void TaskTableView::onEnter(){
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, menu_selector(TaskTableView::taskTableCallBack), "TaskTableCallBack", NULL);
+    
     CCLayer::onEnter();
 }
 
 void TaskTableView::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    this->unscheduleAllSelectors();
+    
     CCLayer::onExit();
 }
 
@@ -746,5 +753,267 @@ int TaskTableView::getTaskPhase(int index){
 }
 
 
-
+void TaskTableView::taskTableCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    CCTableViewCell* pCell = pTableView->cellAtIndex(0);
+    
+    CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(pCell->getIdx());
+    OpenToWhichOne = dic->valueForKey("id")->intValue();
+    
+    int unlockCondition = DATA->getPlayer()->mission;
+    if (OpenToWhichOne <= unlockCondition) {
+        if (selectedIndex == -1) {
+            selectedIndex = pCell->getIdx();
+            
+            CCString* buttonStr;
+            CCSprite* renSpr;
+            if (getTaskIcon(pCell->getIdx()) == 1) {
+                buttonStr = CCString::createWithFormat("task_button_1_2.png");
+                renSpr = CCSprite::create("res/pic/taskScene/task_ren1.png");
+            }else if (getTaskIcon(pCell->getIdx()) == 2){
+                buttonStr = CCString::createWithFormat("task_button_2_2.png");
+                renSpr = CCSprite::create("res/pic/taskScene/task_ren2.png");
+            }else if (getTaskIcon(pCell->getIdx()) == 3){
+                buttonStr = CCString::createWithFormat("task_button_3_2.png");
+                renSpr = CCSprite::create("res/pic/taskScene/task_ren3.png");
+            }else if (getTaskIcon(pCell->getIdx()) == 4){
+                buttonStr = CCString::createWithFormat("task_button_4_2.png");
+                renSpr = CCSprite::create("res/pic/taskScene/task_ren4.png");
+            }else if (getTaskIcon(pCell->getIdx()) == 5){
+                buttonStr = CCString::createWithFormat("task_button_5_2.png");
+                renSpr = CCSprite::create("res/pic/taskScene/task_ren5.png");
+            }
+            sprNode = pCell->getChildByTag(pCell->getIdx());
+            CCSprite* button = (CCSprite* )sprNode->getChildByTag(pCell->getIdx());
+            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr->getCString());
+            button->setDisplayFrame(frame);
+            
+            
+            CCSprite* tiliSpr = (CCSprite* )button->getChildByTag(pCell->getIdx() + 30000);
+            tiliSpr->setVisible(true);
+            CCSprite* startSpr = (CCSprite* )button->getChildByTag(pCell->getIdx() + 40000);
+            startSpr->setVisible(true);
+            
+            if (button->getChildByTag(pCell->getIdx() + 10000) != NULL) {
+                button->removeChildByTag(pCell->getIdx() + 10000);
+            }
+            if (button->getChildByTag(pCell->getIdx() + 20000) != NULL) {
+                button->removeChildByTag(pCell->getIdx() + 20000);
+            }
+            renSpr->setTag(pCell->getIdx() + 10000);
+            renSpr->setScale(1.1f);
+            renSpr->setPosition(ccp(button->getContentSize().width* .19f, button->getContentSize().height* .62f));
+            button->addChild(renSpr, 5);
+            
+            CCDictionary* dic2 = (CCDictionary* )taskMission->objectAtIndex(pCell->getIdx());
+            CCLabelTTF* titleLabel = CCLabelTTF::create(((CCString*)dic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button->getContentSize().width* .9f, button->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            titleLabel->setPosition(ccp(button->getContentSize().width* .64f, button->getContentSize().height* .63f));
+            titleLabel->setScale(1.1f);
+            titleLabel->setColor(ccWHITE);
+            titleLabel->setTag(pCell->getIdx() + 20000);
+            button->addChild(titleLabel, 10);
+            
+            CCNode* xingNode1 = button->getChildByTag(Tag_Task_Xing1);
+            if (xingNode1 != NULL) {
+                xingNode1->setVisible(false);
+            }
+            
+            CCNode* xingNode2 = button->getChildByTag(Tag_Task_Xing2);
+            if (xingNode2 != NULL) {
+                xingNode2->setVisible(false);
+            }
+            
+            CCNode* xingNode3 = button->getChildByTag(Tag_Task_Xing3);
+            if (xingNode3 != NULL) {
+                xingNode3->setVisible(false);
+            }
+            
+            CCNode* xingNode4 = button->getChildByTag(Tag_Task_Xing4);
+            if (xingNode4 != NULL) {
+                xingNode4->setVisible(false);
+            }
+            
+            CCNode* xingNode5 = button->getChildByTag(Tag_Task_Xing5);
+            if (xingNode5 != NULL) {
+                xingNode5->setVisible(false);
+            }
+            
+            DATA->setTaskNumber(selectedIndex);
+        }else if (selectedIndex == pCell->getIdx()){
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Task_ExitView");
+            DATA->setTaskTempID(OpenToWhichOne);
+            pTableView->setTouchEnabled(false);
+        }else{
+            CCSprite* button1 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
+            CCString* buttonStr1;
+            CCSprite* renSpr1;
+            if (getTaskIcon(selectedIndex) == 1) {
+                buttonStr1 = CCString::createWithFormat("task_button_1_1.png");
+                renSpr1 = CCSprite::create("res/pic/taskScene/task_ren1.png");
+            }else if (getTaskIcon(selectedIndex) == 2){
+                buttonStr1 = CCString::createWithFormat("task_button_2_1.png");
+                renSpr1 = CCSprite::create("res/pic/taskScene/task_ren2.png");
+            }else if (getTaskIcon(selectedIndex) == 3){
+                buttonStr1 = CCString::createWithFormat("task_button_3_1.png");
+                renSpr1 = CCSprite::create("res/pic/taskScene/task_ren3.png");
+            }else if (getTaskIcon(selectedIndex) == 4){
+                buttonStr1 = CCString::createWithFormat("task_button_4_1.png");
+                renSpr1 = CCSprite::create("res/pic/taskScene/task_ren4.png");
+            }else if (getTaskIcon(selectedIndex) == 5){
+                buttonStr1 = CCString::createWithFormat("task_button_5_1.png");
+                renSpr1 = CCSprite::create("res/pic/taskScene/task_ren5.png");
+            }
+            CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr1->getCString());
+            button1->setDisplayFrame(frame);
+            
+            CCSprite* tiliSpr1 = (CCSprite* )button1->getChildByTag(selectedIndex + 30000);
+            tiliSpr1->setVisible(false);
+            CCSprite* startSpr1 = (CCSprite* )button1->getChildByTag(selectedIndex + 40000);
+            startSpr1->setVisible(false);
+            
+            if (button1->getChildByTag(selectedIndex + 10000) != NULL) {
+                button1->removeChildByTag(selectedIndex + 10000);
+            }
+            if (button1->getChildByTag(selectedIndex + 20000) != NULL) {
+                button1->removeChildByTag(selectedIndex + 20000);
+            }
+            renSpr1->setTag(selectedIndex + 10000);
+            renSpr1->setScale(1.f);
+            renSpr1->setPosition(ccp(button1->getContentSize().width* .22f, button1->getContentSize().height* .62f));
+            button1->addChild(renSpr1, 5);
+            
+            CCDictionary* titleDic1 = (CCDictionary* )taskMission->objectAtIndex(selectedIndex);
+            CCLabelTTF* titleLabel1 = CCLabelTTF::create(((CCString*)titleDic1->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button1->getContentSize().width* .9f, button1->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            titleLabel1->setPosition(ccp(button1->getContentSize().width* .63f, button1->getContentSize().height* .63f));
+            titleLabel1->setScale(1.f);
+            titleLabel1->setColor(ccWHITE);
+            titleLabel1->setTag(selectedIndex + 20000);
+            button1->addChild(titleLabel1, 10);
+            
+            CCString* selectedIndexStr = CCString::createWithFormat("%d", selectedIndex+1);
+            int num = DATA->getMission()->mission_rating(selectedIndexStr->getCString());
+            //            num = 5;
+            if (num == 5) {
+                CCNode* xingNode1 = button1->getChildByTag(Tag_Task_Xing1);
+                if (xingNode1 != NULL) {
+                    xingNode1->setScale(.8f);
+                    xingNode1->setPosition(ccp(button1->getContentSize().width* .5f, button1->getContentSize().height* .4f));
+                    xingNode1->setVisible(true);
+                }
+            }else{
+                CCNode* xingNode1 = button1->getChildByTag(Tag_Task_Xing1);
+                if (xingNode1 != NULL) {
+                    xingNode1->setScale(.8f);
+                    xingNode1->setPosition(ccp(button1->getContentSize().width* .28f, button1->getContentSize().height* .34f));
+                    xingNode1->setVisible(true);
+                }
+                
+                CCNode* xingNode2 = button1->getChildByTag(Tag_Task_Xing2);
+                if (xingNode2 != NULL) {
+                    xingNode2->setScale(.8f);
+                    xingNode2->setPosition(ccp(button1->getContentSize().width* .41f, button1->getContentSize().height* .34f));
+                    xingNode2->setVisible(true);
+                }
+                
+                CCNode* xingNode3 = button1->getChildByTag(Tag_Task_Xing3);
+                if (xingNode3 != NULL) {
+                    xingNode3->setScale(.8f);
+                    xingNode3->setPosition(ccp(button1->getContentSize().width* .54f, button1->getContentSize().height* .34f));
+                    xingNode3->setVisible(true);
+                }
+                
+                CCNode* xingNode4 = button1->getChildByTag(Tag_Task_Xing4);
+                if (xingNode4 != NULL) {
+                    xingNode4->setScale(.8f);
+                    xingNode4->setPosition(ccp(button1->getContentSize().width* .67f, button1->getContentSize().height* .34f));
+                    xingNode4->setVisible(true);
+                }
+                
+                CCNode* xingNode5 = button1->getChildByTag(Tag_Task_Xing5);
+                if (xingNode5 != NULL) {
+                    xingNode5->setScale(.8f);
+                    xingNode5->setPosition(ccp(button1->getContentSize().width* .8f, button1->getContentSize().height* .34f));
+                    xingNode5->setVisible(true);
+                }
+            }
+            
+            selectedIndex = pCell->getIdx();
+            
+            sprNode = pCell->getChildByTag(selectedIndex);
+            CCString* buttonStr2;
+            CCSprite* renSpr2;
+            if (getTaskIcon(selectedIndex) == 1) {
+                buttonStr2 = CCString::createWithFormat("task_button_1_2.png");
+                renSpr2 = CCSprite::create("res/pic/taskScene/task_ren1.png");
+            }else if (getTaskIcon(selectedIndex) == 2){
+                buttonStr2 = CCString::createWithFormat("task_button_2_2.png");
+                renSpr2 = CCSprite::create("res/pic/taskScene/task_ren2.png");
+            }else if (getTaskIcon(selectedIndex) == 3){
+                buttonStr2 = CCString::createWithFormat("task_button_3_2.png");
+                renSpr2 = CCSprite::create("res/pic/taskScene/task_ren3.png");
+            }else if (getTaskIcon(selectedIndex) == 4){
+                buttonStr2 = CCString::createWithFormat("task_button_4_2.png");
+                renSpr2 = CCSprite::create("res/pic/taskScene/task_ren4.png");
+            }else if (getTaskIcon(selectedIndex) == 5){
+                buttonStr2 = CCString::createWithFormat("task_button_5_2.png");
+                renSpr2 = CCSprite::create("res/pic/taskScene/task_ren5.png");
+            }
+            CCSprite* button2 = (CCSprite* )sprNode->getChildByTag(selectedIndex);
+            CCSpriteFrame* frame2 = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buttonStr2->getCString());
+            button2->setDisplayFrame(frame2);
+            
+            CCSprite* tiliSpr2 = (CCSprite* )button2->getChildByTag(selectedIndex + 30000);
+            tiliSpr2->setVisible(true);
+            CCSprite* startSpr2 = (CCSprite* )button2->getChildByTag(selectedIndex + 40000);
+            startSpr2->setVisible(true);
+            
+            if (button2->getChildByTag(selectedIndex + 10000) != NULL) {
+                button2->removeChildByTag(selectedIndex + 10000);
+            }
+            if (button2->getChildByTag(selectedIndex + 20000) != NULL) {
+                button2->removeChildByTag(selectedIndex + 20000);
+            }
+            renSpr2->setTag(selectedIndex + 10000);
+            renSpr2->setScale(1.1f);
+            renSpr2->setPosition(ccp(button1->getContentSize().width* .19f, button1->getContentSize().height* .62f));
+            button2->addChild(renSpr2, 5);
+            
+            CCDictionary* titleDic2 = (CCDictionary* )taskMission->objectAtIndex(selectedIndex);
+            CCLabelTTF* titleLabel2 = CCLabelTTF::create(((CCString*)titleDic2->valueForKey("name"))->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(button1->getContentSize().width* .9f, button1->getContentSize().height* .8f), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            titleLabel2->setPosition(ccp(button1->getContentSize().width* .64f, button1->getContentSize().height* .63f));
+            titleLabel2->setScale(1.1f);
+            titleLabel2->setColor(ccWHITE);
+            titleLabel2->setTag(selectedIndex + 20000);
+            button2->addChild(titleLabel2, 10);
+            
+            
+            CCNode* xingNode11 = button2->getChildByTag(Tag_Task_Xing1);
+            if (xingNode11 != NULL) {
+                xingNode11->setVisible(false);
+            }
+            
+            CCNode* xingNode22 = button2->getChildByTag(Tag_Task_Xing2);
+            if (xingNode22 != NULL) {
+                xingNode22->setVisible(false);
+            }
+            
+            CCNode* xingNode33 = button2->getChildByTag(Tag_Task_Xing3);
+            if (xingNode33 != NULL) {
+                xingNode33->setVisible(false);
+            }
+            
+            CCNode* xingNode44 = button2->getChildByTag(Tag_Task_Xing4);
+            if (xingNode44 != NULL) {
+                xingNode44->setVisible(false);
+            }
+            
+            CCNode* xingNode55 = button2->getChildByTag(Tag_Task_Xing5);
+            if (xingNode55 != NULL) {
+                xingNode55->setVisible(false);
+            }
+            
+            DATA->setTaskNumber(selectedIndex);
+        }
+    }
+}
 

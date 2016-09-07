@@ -48,7 +48,7 @@ public:
     virtual void will_number_scroll3();
     virtual void did_number_stoped3();
     
-    
+    void nicknameCallBack(CCObject* pSender);
     void tiliCallBack(CCObject* pSender);
     void goldCallBack(CCObject* pSender);
     void coinCallBack(CCObject* pSender);
@@ -68,11 +68,13 @@ public:
     FlashNumberLabel2* m_lbl_gold;
     void updataMoney();
     
-private:    
+private:
     void show_purchase_panel();
     void show_energybuy_panel();
     void updatePhaseProgress();
     
+    void on_reset_nickname(CCObject* pObje);
+    void nc_reset_nickname_907(CCObject* pObje);
     void nc_need_coin_fly(CCObject* pObj);
     void nc_need_gold_fly(CCObject* pObj);
     void nc_need_energy_fly(CCObject* pObj);
@@ -83,6 +85,7 @@ private:
 private:
     CCSprite*                   _phaseStar;
     CCProgressTimer*            _progress;
+    CCLabelTTF*                 _nameLabel;
 };
 
 #endif /* defined(__tiegao__BaseScene__) */

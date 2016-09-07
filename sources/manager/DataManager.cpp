@@ -205,6 +205,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
         }
             
+        case 907: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _show->init_with_json(content["show"]);
+        }
+            
         case 910: {
             _coffers->reset_collected();
             _news->init_with_json(content["news"]);
@@ -287,6 +293,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 705: {
+            _player->init_with_json(content["player"]);
             _home->replace_home_info(content["home"]);
         } break;
             
@@ -297,6 +304,9 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 600: {
             _mission->init_with_json(content["mission"]);
+            
+            _coffers->init_company_template(content["template"]);
+            _coffers->replace_user_data(content["coffers"]);
         } break;
             
         case 601: {
@@ -558,7 +568,7 @@ bool DataManager::could_prduce() {
 }
 
 int DataManager::current_guide_step(){
-    return _player->getGuide();
-//    return 0;
+//    return _player->getGuide();
+    return 0;
 }
 

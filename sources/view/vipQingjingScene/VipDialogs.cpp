@@ -7,7 +7,7 @@
 //
 
 #include "VipDialogs.h"
-#include "DialogItem.h"
+#include "VipDialogItem.h"
 #include "MZResourceLoader.h"
 
 
@@ -44,7 +44,7 @@ void VipDialogs::config_with_file(const char *file)
         this->setVipDialogs(CCArray::create());
         for (int i = 0; i < count; i++) {
             CSJson::Value value = root[i];
-            DialogItem* item = DialogItem::create();
+            VipDialogItem* item = VipDialogItem::create();
             item->config_static_with_json(value);
             _VipDialogs->addObject(item);
         }
@@ -72,7 +72,7 @@ void VipDialogs::clues_config_with_file(const char* file){
         this->setCluesVipDialogs(CCArray::create());
         for (int i = 0; i < count; i++) {
             CSJson::Value value = root[i];
-            DialogItem* item = DialogItem::create();
+            VipDialogItem* item = VipDialogItem::create();
             item->clues_config_static_with_json(value);
             _cluesVipDialogs->addObject(item);
         }

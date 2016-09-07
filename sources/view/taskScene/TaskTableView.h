@@ -94,6 +94,8 @@ public:
     
     void creatStopStatus();
     void showCellOfIndex(unsigned int index);
+    
+    void taskTableCallBack(CCObject* pSender);
 };
 
 #endif /* defined(__tiegao__TaskTableView__) */

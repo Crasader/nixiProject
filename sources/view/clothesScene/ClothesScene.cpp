@@ -142,7 +142,11 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::guideButtonCallBack), "GuideButtonCallBack", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::startCallBack), "GuideStartCallBack", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::removeAnimation), "GuideRemoveAnimation", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::buyCallBack), "GuideBuyCallBack", NULL);
+    
+    
     nc->addObserver(this, menu_selector(ClothesScene::_905CallBack), "HTTP_FINISHED_905", NULL);
+    
     
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);

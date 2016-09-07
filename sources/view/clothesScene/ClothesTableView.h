@@ -77,6 +77,10 @@ public:
     void isOpenTouchBool();
     void setOpenTouchBool();
     void changeClothesTouch(int cloth_id, CCInteger* clothesTemp_id, CCDictionary* clothesTemp, cocos2d::extension::CCTableViewCell* cell);
+    
+    
+    void clothesCallback(CCObject* pSender);
+    
         
     int clothesType;
     int clothesPage;

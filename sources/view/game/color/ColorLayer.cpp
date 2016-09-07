@@ -76,6 +76,7 @@ bool ColorLayer::init(){
     CCSprite * bg = CCSprite::create("res/pic/game/color/color_bg.png");
     bg->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bg);
+    
     CCSprite * bg2 = CCSprite::create("res/pic/mask.png");
     bg2->setPosition(ccp(bg->getContentSize().width* .5f, bg->getContentSize().height* .5f));
     bg->addChild(bg2);

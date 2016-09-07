@@ -96,8 +96,13 @@ public:
     
     void qingjingStatus();
     
+
+    void quedingCallBack(CCObject* pSender);
+    void quxiaoCallBack(CCObject* pSender);
+
     void openChat();
     void displayChatItem();
+
     
 public:
     
@@ -111,6 +116,7 @@ public:
     int storyIndex;
     int allNumber;
     int selectedIndex;
+    int buyIndex;
     
     bool  theEndBool;
     

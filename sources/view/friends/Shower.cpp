@@ -22,6 +22,7 @@ const bool flipxBool = false;
 #pragma mark - Super API
 
 Shower::~Shower() {
+    
 }
 
 bool Shower::init() {
@@ -44,8 +45,6 @@ bool Shower::init() {
 
 void Shower::onEnter() {
     CCSprite::onEnter();
-    
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 }
 
 void Shower::onExit() {

@@ -127,7 +127,6 @@ public:
     
     // 陌生人刷新计时
     CC_SYNTHESIZE(time_t, _refreshTimeStampe, RefreshTimeStampe);
-    //
     
     // 聊天计时
     CC_SYNTHESIZE(time_t, _beginTime, BeginTime);

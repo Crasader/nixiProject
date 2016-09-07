@@ -53,11 +53,11 @@ bool ExchangeLayer::init(){
         userArr = DATA->getOperation()->getGashaponUser();
         myClothesTemp = (CCDictionary*)suitsArr->objectAtIndex(nowIndex);
         
-        bgSpr = CCSprite::create("res/pic/gashapon/gashapon_bg2.png");
+        bgSpr = CCSprite::create("res/pic/mask.png");
         bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         this->addChild(bgSpr);
         
-        dikuangSpr = CCSprite::create("res/pic/gashapon/exchange/exchange_bg.png");
+        dikuangSpr = CCSprite::create("res/pic/panel/operation/operation_bg.png");
         dikuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         this->addChild(dikuangSpr, 10);
         

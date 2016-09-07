@@ -121,15 +121,15 @@ void VipStoryScene::init_with_story_id(int _index){
     shangLabel->setColor(ccWHITE);
     shangkuangSpr->addChild(shangLabel);
     
-    dialog = VipDialogs::create();
-    dialog->retain();
+    vipDialog = VipDialogs::create();
+    vipDialog->retain();
     CCString* fileStr = CCString::createWithFormat("res/vipStory/80100/%s", DISPLAY->GetOffTheNumber2(m_current_story_index_id)->getCString());
 //    CCString* fileStr = CCString::createWithFormat("res/vipStory/80100/story_80100_101_%d", 5);
 //    MZLog("fileStr === %s", fileStr->getCString());
-    dialog->config_with_file((char* )fileStr->getCString());
-    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(index);
+    vipDialog->config_with_file((char* )fileStr->getCString());
+    vipDialogItem = (VipDialogItem* )vipDialog->getVipDialogs()->objectAtIndex(index);
     
-    this->init(dialogItem);
+    this->init(vipDialogItem);
     
     kuangSpr = CCSprite::create("res/pic/qingjingScene/storyscene/qj_di.png");
     kuangSpr->setAnchorPoint(ccp(.5f, 0));
@@ -173,42 +173,42 @@ void VipStoryScene::init_with_story_id(int _index){
     nameLab->enableStroke(ccWHITE, .4f);
     nameKuang->addChild(nameLab, 8);
     
-    this->dialogueControl(dialogItem);
+    this->dialogueControl(vipDialogItem);
     
     this->schedule(schedule_selector(VipStoryScene::gengxin), .1f);
 }
 
 void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
-//    CCLog("index ==== %d", dialItem->getIndex());
-//    CCLog("states ==== %d", dialItem->getStates());
-//    CCLog("passersby ==== %d", dialItem->getPassersby());
-//    CCLog("name ==== %s", dialItem->getName().c_str());
-//    CCLog("said ==== %s", dialItem->getSaid().c_str());
-//    CCLog("bg ==== %s", dialItem->getBg().c_str());
-//    CCLog("bust ==== %d", dialItem->getBust());
+//    CCLog("index ==== %d", dialItem->getVipIndex());
+//    CCLog("states ==== %d", dialItem->getVipStates());
+//    CCLog("passersby ==== %d", dialItem->getVipPassersby());
+//    CCLog("name ==== %s", dialItem->getVipName().c_str());
+//    CCLog("said ==== %s", dialItem->getVipSaid().c_str());
+//    CCLog("bg ==== %s", dialItem->getVipBg().c_str());
+//    CCLog("bust ==== %d", dialItem->getVipBust());
 //
-//    CCLog("head_1 ==== %s", dialItem->getHead_1().c_str());
-//    CCLog("figure_1 ==== %d", dialItem->getFigure_1());
-//    CCLog("zishi_1 ==== %s", dialItem->getZishi_1().c_str());
+//    CCLog("head_1 ==== %s", dialItem->getVipHead_1().c_str());
+//    CCLog("figure_1 ==== %d", dialItem->getVipFigure_1());
+//    CCLog("zishi_1 ==== %s", dialItem->getVipZishi_1().c_str());
 //
-//    CCLog("head_2 ==== %s", dialItem->getHead_2().c_str());
-//    CCLog("figure_2 ==== %d", dialItem->getFigure_2());
-//    CCLog("zishi_2 ==== %s", dialItem->getZishi_2().c_str());
+//    CCLog("head_2 ==== %s", dialItem->getVipHead_2().c_str());
+//    CCLog("figure_2 ==== %d", dialItem->getVipFigure_2());
+//    CCLog("zishi_2 ==== %s", dialItem->getVipZishi_2().c_str());
 //
-//    CCLog("animation ==== %d", dialItem->getAnimation());
-////    CCLog("achievenment ==== %d", dialItem->getAchievenment());
-//    CCLog("next ==== %d", dialItem->getNext());
+//    CCLog("animation ==== %d", dialItem->getVipAnimation());
+////    CCLog("achievenment ==== %d", dialItem->getVipAchievenment());
+//    CCLog("next ==== %d", dialItem->getVipNext());
     
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
     this->setTouchEnabled(false);
     logIndex = 0;
     
-    if (dialItem->getNext() == -2) {
-        chengjiuStr = dialItem->getSaid().c_str();
+    if (dialItem->getVipNext() == -2) {
+        chengjiuStr = dialItem->getVipSaid().c_str();
     }
     
-    if (dialItem->getStates() == 0) {// ==0 没有人
+    if (dialItem->getVipStates() == 0) {// ==0 没有人
         
         this->recordLabel(dialItem);
         
@@ -224,7 +224,7 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
         oneBool = false;
         twoBool = false;
         
-        if (dialItem->getBg() != "keep") {
+        if (dialItem->getVipBg() != "keep") {
 //            if (this->getChildByTag(Tag_GJ_kuang) != NULL) {
 //                this->removeChildByTag(Tag_GJ_kuang);
 //            }
@@ -252,7 +252,7 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
             
         }
         
-    }else if (dialItem->getStates() == 1){// ==1 一个人
+    }else if (dialItem->getVipStates() == 1){// ==1 一个人
         
         this->recordLabel(dialItem);
         
@@ -264,7 +264,7 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
         oneBool = true;
         twoBool = false;
         
-        if (dialItem->getBg() != "keep") {
+        if (dialItem->getVipBg() != "keep") {
             
 //            if (this->getChildByTag(Tag_GJ_kuang) != NULL) {
 //                this->removeChildByTag(Tag_GJ_kuang);
@@ -295,7 +295,7 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
             this->schedule(schedule_selector(VipStoryScene::logic), .1f);
         }
         
-    }else if (dialItem->getStates() == 2){// ==2 两个人
+    }else if (dialItem->getVipStates() == 2){// ==2 两个人
         
         this->removeMan();
         this->recordLabel(dialItem);
@@ -308,7 +308,7 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
         oneBool = false;
         twoBool = true;
         
-        if (dialItem->getBg() != "keep") {
+        if (dialItem->getVipBg() != "keep") {
             
 //            if (this->getChildByTag(Tag_GJ_kuang) != NULL) {
 //                this->removeChildByTag(Tag_GJ_kuang);
@@ -335,13 +335,13 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
             this->schedule(schedule_selector(VipStoryScene::logic), .1f);
         }
         
-    }else if (dialItem->getStates() == 3){// ==3 保持之前状态
+    }else if (dialItem->getVipStates() == 3){// ==3 保持之前状态
         
         this->recordLabel(dialItem);
         
         openStory = true;
         
-        if (dialItem->getBg() != "keep") {
+        if (dialItem->getVipBg() != "keep") {
             this->emptyLabel();
             
             this->creatBg();
@@ -374,7 +374,7 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
                 this->scheduleOnce(SEL_SCHEDULE(&VipStoryScene::toPassersbyEyesAnimation), .1f);
             }
         }
-    }else if (dialItem->getStates() == 4){// ==4 只有背景图片
+    }else if (dialItem->getVipStates() == 4){// ==4 只有背景图片
 //        if (this->getChildByTag(Tag_GJ_kuang) != NULL) {
 //            this->removeChildByTag(Tag_GJ_kuang);
 //        }
@@ -402,12 +402,12 @@ void VipStoryScene::dialogueControl(VipDialogItem* dialItem){
 }
 
 void VipStoryScene::recordLabel(VipDialogItem* dialItem){
-    if (dialItem->getName().length() != 0) {
-        labStr.append(dialItem->getName().c_str());
+    if (dialItem->getVipName().length() != 0) {
+        labStr.append(dialItem->getVipName().c_str());
         labStr.append("\n\t");
     }
-    if (dialItem->getSaid().length() != 0) {
-        labStr.append(dialogItem->getSaid().c_str());
+    if (dialItem->getVipSaid().length() != 0) {
+        labStr.append(dialItem->getVipSaid().c_str());
         labStr.append("\n");
     }
     
@@ -431,12 +431,12 @@ void VipStoryScene::creatMan(float dt){
         this->removeChildByTag(Tag_GJ_head1);
     }
     
-    std::string str1 = dialogItem->getZishi_1();
-    std::string str2 = dialogItem->getHead_1();
+    std::string str1 = vipDialogItem->getVipZishi_1();
+    std::string str2 = vipDialogItem->getVipHead_1();
     
     if (!str1.empty() && !str2.empty()) {
         //缩小状态坐标
-        CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_1().c_str());
+        CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", vipDialogItem->getVipZishi_1().c_str());
         manSpr1 = CCSprite::create(zsStr1->getCString());
         manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         manSpr1->setTag(Tag_GJ_man1);
@@ -444,7 +444,7 @@ void VipStoryScene::creatMan(float dt){
         manSpr1->setVisible(false);
         this->addChild(manSpr1, 5);
         
-        CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
+        CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_1().c_str());
         headSpr1 = CCSprite::create(tStr1->getCString());
         headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         headSpr1->setTag(Tag_GJ_head1);
@@ -454,7 +454,7 @@ void VipStoryScene::creatMan(float dt){
         
         if (manString2.empty()) {
             if (manString1.empty()) {
-                manString1 = dialogItem->getZishi_1();
+                manString1 = vipDialogItem->getVipZishi_1();
                 
                 CCFadeIn* fadeIn1 = CCFadeIn::create(inTime);
                 CCFadeIn* fadeIn2 = CCFadeIn::create(inTime);
@@ -463,13 +463,13 @@ void VipStoryScene::creatMan(float dt){
                 
                 this->scheduleOnce(SEL_SCHEDULE(&VipStoryScene::creatManEyesAnimation), inTime);
             }else{
-                if (manString1 == dialogItem->getZishi_1()) {
+                if (manString1 == vipDialogItem->getVipZishi_1()) {
                     manSpr1->setVisible(true);
                     headSpr1->setVisible(true);
                     
                     this->creatManEyesAnimation();
                 }else{
-                    manString1 = dialogItem->getZishi_1();
+                    manString1 = vipDialogItem->getVipZishi_1();
                     
                     CCFadeIn* fadeIn1 = CCFadeIn::create(inTime);
                     CCFadeIn* fadeIn2 = CCFadeIn::create(inTime);
@@ -482,7 +482,7 @@ void VipStoryScene::creatMan(float dt){
         }else{
             manString1 = "";
             manString2 = "";
-            manString1 = dialogItem->getZishi_1();
+            manString1 = vipDialogItem->getVipZishi_1();
             
             CCFadeIn* fadeIn1 = CCFadeIn::create(inTime);
             CCFadeIn* fadeIn2 = CCFadeIn::create(inTime);
@@ -498,15 +498,15 @@ void VipStoryScene::creatPassersbyMan(float dt){
     
     this->removeMan();
     
-    if (dialogItem->getPassersby() == 1) {
+    if (vipDialogItem->getVipPassersby() == 1) {
         
-        std::string str1 = dialogItem->getZishi_1();
-        std::string str2 = dialogItem->getHead_1();
-        std::string str3 = dialogItem->getZishi_2();
-        std::string str4 = dialogItem->getHead_2();
+        std::string str1 = vipDialogItem->getVipZishi_1();
+        std::string str2 = vipDialogItem->getVipHead_1();
+        std::string str3 = vipDialogItem->getVipZishi_2();
+        std::string str4 = vipDialogItem->getVipHead_2();
         if (!str1.empty() && !str2.empty() && !str3.empty() && !str4.empty()) {
             //1号 一般大的
-            CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_1().c_str());
+            CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", vipDialogItem->getVipZishi_1().c_str());
             manSpr1 = CCSprite::create(zsStr1->getCString());
             manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
 //            manSpr1->setScale(.7f);
@@ -514,7 +514,7 @@ void VipStoryScene::creatPassersbyMan(float dt){
             manSpr1->setVisible(false);
             this->addChild(manSpr1, 6);
             
-            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
+            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_1().c_str());
             headSpr1 = CCSprite::create(tStr1->getCString());
             headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
 //            headSpr1->setScale(.7f);
@@ -523,7 +523,7 @@ void VipStoryScene::creatPassersbyMan(float dt){
             this->addChild(headSpr1, 7);
             
             //2号 一般大的
-            CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_2().c_str());
+            CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", vipDialogItem->getVipZishi_2().c_str());
             manSpr2 = CCSprite::create(zsStr2->getCString());
             manSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
 //            manSpr2->setScale(.7f);
@@ -531,7 +531,7 @@ void VipStoryScene::creatPassersbyMan(float dt){
             manSpr2->setVisible(false);
             this->addChild(manSpr2, 6);
             
-            CCString* tStr2 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_2().c_str());
+            CCString* tStr2 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_2().c_str());
             headSpr2 = CCSprite::create(tStr2->getCString());
             headSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
 //            headSpr2->setScale(.7f);
@@ -540,8 +540,8 @@ void VipStoryScene::creatPassersbyMan(float dt){
             this->addChild(headSpr2, 7);
             
             if (manString2.empty()) {
-                manString1 = dialogItem->getZishi_1();
-                manString2 = dialogItem->getZishi_2();
+                manString1 = vipDialogItem->getVipZishi_1();
+                manString2 = vipDialogItem->getVipZishi_2();
                 
                 CCFadeIn* fadeIn1 = CCFadeIn::create(inTime);
                 CCFadeIn* fadeIn2 = CCFadeIn::create(inTime);
@@ -557,13 +557,13 @@ void VipStoryScene::creatPassersbyMan(float dt){
                 
             }else{
                 
-                if (manString1 == dialogItem->getZishi_1()) {
+                if (manString1 == vipDialogItem->getVipZishi_1()) {
                     manSpr1->setVisible(true);
                     headSpr1->setVisible(true);
                     
                     this->creatPassersbyEyesAnimation(1);
                 }else{
-                    manString1 = dialogItem->getZishi_1();
+                    manString1 = vipDialogItem->getVipZishi_1();
                     
                     CCFadeIn* fadeIn1 = CCFadeIn::create(inTime);
                     CCFadeIn* fadeIn2 = CCFadeIn::create(inTime);
@@ -573,13 +573,13 @@ void VipStoryScene::creatPassersbyMan(float dt){
                     this->scheduleOnce(SEL_SCHEDULE(&VipStoryScene::toPassersbyEyesAnimation1), inTime);
                 }
                 
-                if (manString2 == dialogItem->getZishi_2()) {
+                if (manString2 == vipDialogItem->getVipZishi_2()) {
                     manSpr2->setVisible(true);
                     headSpr2->setVisible(true);
                     
                     this->creatPassersbyEyesAnimation(2);
                 }else{
-                    manString2 = dialogItem->getZishi_2();
+                    manString2 = vipDialogItem->getVipZishi_2();
                     
                     CCFadeIn* fadeIn3 = CCFadeIn::create(inTime);
                     CCFadeIn* fadeIn4 = CCFadeIn::create(inTime);
@@ -590,13 +590,13 @@ void VipStoryScene::creatPassersbyMan(float dt){
                 }
             }
         }
-    }else if (dialogItem->getPassersby() == 0){
+    }else if (vipDialogItem->getVipPassersby() == 0){
         
-        if (dialogItem->getHead_1().size() > 1) {
-            std::string str1 = dialogItem->getZishi_1();
-            std::string str2 = dialogItem->getHead_1();
+        if (vipDialogItem->getVipHead_1().size() > 1) {
+            std::string str1 = vipDialogItem->getVipZishi_1();
+            std::string str2 = vipDialogItem->getVipHead_1();
             if (!str1.empty() && !str2.empty()) {
-                CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_1().c_str());
+                CCString* zsStr1 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", vipDialogItem->getVipZishi_1().c_str());
                 manSpr1 = CCSprite::create(zsStr1->getCString());
                 manSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
 //                manSpr1->setScale(.7f);
@@ -604,7 +604,7 @@ void VipStoryScene::creatPassersbyMan(float dt){
                 manSpr1->setVisible(false);
                 this->addChild(manSpr1, 5);
                 
-                CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
+                CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_1().c_str());
                 headSpr1 = CCSprite::create(tStr1->getCString());
                 headSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 - 150, DISPLAY->ScreenHeight()* .5f));
 //                headSpr1->setScale(.7f);
@@ -612,13 +612,13 @@ void VipStoryScene::creatPassersbyMan(float dt){
                 headSpr1->setVisible(false);
                 this->addChild(headSpr1, 6);
                 
-                if (manString1 == dialogItem->getZishi_1()) {
+                if (manString1 == vipDialogItem->getVipZishi_1()) {
                     manSpr1->setVisible(true);
                     headSpr1->setVisible(true);
                     
                     this->creatPassersbyEyesAnimation(1);
                 }else{
-                    manString1 = dialogItem->getZishi_1();
+                    manString1 = vipDialogItem->getVipZishi_1();
                     
                     CCFadeIn* fadeIn1 = CCFadeIn::create(inTime);
                     CCFadeIn* fadeIn2 = CCFadeIn::create(inTime);
@@ -632,11 +632,11 @@ void VipStoryScene::creatPassersbyMan(float dt){
             manString1 = "";
         }
         
-        if (dialogItem->getHead_2().size() > 1) {
-            std::string str3 = dialogItem->getZishi_2();
-            std::string str4 = dialogItem->getHead_2();
+        if (vipDialogItem->getVipHead_2().size() > 1) {
+            std::string str3 = vipDialogItem->getVipZishi_2();
+            std::string str4 = vipDialogItem->getVipHead_2();
             if (!str3.empty() && !str4.empty()) {
-                CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", dialogItem->getZishi_2().c_str());
+                CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", vipDialogItem->getVipZishi_2().c_str());
                 manSpr2 = CCSprite::create(zsStr2->getCString());
                 manSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
 //                manSpr2->setScale(.7f);
@@ -644,7 +644,7 @@ void VipStoryScene::creatPassersbyMan(float dt){
                 manSpr2->setVisible(false);
                 this->addChild(manSpr2, 5);
                 
-                CCString* tStr2 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_2().c_str());
+                CCString* tStr2 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_2().c_str());
                 headSpr2 = CCSprite::create(tStr2->getCString());
                 headSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* 0.5 + 200, DISPLAY->ScreenHeight()* .5f));
 //                headSpr2->setScale(.7f);
@@ -652,13 +652,13 @@ void VipStoryScene::creatPassersbyMan(float dt){
                 headSpr2->setVisible(false);
                 this->addChild(headSpr2, 6);
                 
-                if (manString2 == dialogItem->getZishi_2()) {
+                if (manString2 == vipDialogItem->getVipZishi_2()) {
                     manSpr2->setVisible(true);
                     headSpr2->setVisible(true);
                     
                     this->creatPassersbyEyesAnimation(2);
                 }else{
-                    manString2 = dialogItem->getZishi_2();
+                    manString2 = vipDialogItem->getVipZishi_2();
                     
                     CCFadeIn* fadeIn3 = CCFadeIn::create(inTime);
                     CCFadeIn* fadeIn4 = CCFadeIn::create(inTime);
@@ -675,11 +675,11 @@ void VipStoryScene::creatPassersbyMan(float dt){
 }
 void VipStoryScene::creatManEyesAnimation(){
     
-    if (ccs(dialogItem->getNameId())->intValue() != 0) {
-        std::string::size_type idx = dialogItem->getZishi_1().find(dialogItem->getNameId());
+    if (ccs(vipDialogItem->getVipNameId())->intValue() != 0) {
+        std::string::size_type idx = vipDialogItem->getVipZishi_1().find(vipDialogItem->getVipNameId());
         if (idx != string::npos) {
 //            CCLog("字符串含有");
-            std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
+            std::string::size_type idx1 = vipDialogItem->getVipHead_1().find("_1");
             if (idx1 != string::npos) {
                 manBool = true;
                 
@@ -687,7 +687,7 @@ void VipStoryScene::creatManEyesAnimation(){
                 char strPei[100] = {};
                 for (int i = 1; i <= 2; i++) {
                     
-                    sprintf(strPei, "res/pic/qingjingScene/eyes/%d_%d.png", ccs(dialogItem->getNameId())->intValue(), i);
+                    sprintf(strPei, "res/pic/qingjingScene/eyes/%d_%d.png", ccs(vipDialogItem->getVipNameId())->intValue(), i);
                     CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 900, 1136));
                     animations->addObject(frame);
                 }
@@ -720,12 +720,12 @@ void VipStoryScene::toPassersbyEyesAnimation2(){
 }
 void VipStoryScene::creatPassersbyEyesAnimation(int nameIndex){
     
-    if (ccs(dialogItem->getNameId())->intValue() != 0) {
+    if (ccs(vipDialogItem->getVipNameId())->intValue() != 0) {
         std::string::size_type idx;
         if (nameIndex == 1) {
-            idx = dialogItem->getZishi_1().find(dialogItem->getNameId());
+            idx = vipDialogItem->getVipZishi_1().find(vipDialogItem->getVipNameId());
             if (idx != string::npos) {
-                std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
+                std::string::size_type idx1 = vipDialogItem->getVipHead_1().find("_1");
                 if (idx1 != string::npos) {
                     passersbyBool1 = true;
                 }else{
@@ -733,9 +733,9 @@ void VipStoryScene::creatPassersbyEyesAnimation(int nameIndex){
                 }
             }
         }else if (nameIndex == 2){
-            idx = dialogItem->getZishi_2().find(dialogItem->getNameId());
+            idx = vipDialogItem->getVipZishi_2().find(vipDialogItem->getVipNameId());
             if (idx != string::npos) {
-                std::string::size_type idx1 = dialogItem->getHead_2().find("_1");
+                std::string::size_type idx1 = vipDialogItem->getVipHead_2().find("_1");
                 if (idx1 != string::npos) {
                     passersbyBool2 = true;
                 }else{
@@ -747,7 +747,7 @@ void VipStoryScene::creatPassersbyEyesAnimation(int nameIndex){
         char strPei[100] = {};
         for (int i = 1; i <= 2; i++) {
             
-            sprintf(strPei, "res/pic/qingjingScene/eyes/%d_%d.png", ccs(dialogItem->getNameId())->intValue(), i);
+            sprintf(strPei, "res/pic/qingjingScene/eyes/%d_%d.png", ccs(vipDialogItem->getVipNameId())->intValue(), i);
             CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 900, 1136));
             animations->addObject(frame);
         }
@@ -770,9 +770,9 @@ void VipStoryScene::creatPassersbyBlinkEyes(){
         CCRepeatForever* rep = CCRepeatForever::create(animate);
         
         if (headSpr1 != NULL) {
-            std::string::size_type idx = dialogItem->getZishi_1().find(dialogItem->getNameId());
+            std::string::size_type idx = vipDialogItem->getVipZishi_1().find(vipDialogItem->getVipNameId());
             if (idx != string::npos) {
-                std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
+                std::string::size_type idx1 = vipDialogItem->getVipHead_1().find("_1");
                 if (idx1 != string::npos) {
                     CCDirector::sharedDirector()->getActionManager()->addAction(rep, headSpr1, false);
                 }
@@ -786,9 +786,9 @@ void VipStoryScene::creatPassersbyBlinkEyes(){
         CCRepeatForever* rep = CCRepeatForever::create(animate);
         
         if (headSpr2 != NULL) {
-            std::string::size_type idx = dialogItem->getZishi_2().find(dialogItem->getNameId());
+            std::string::size_type idx = vipDialogItem->getVipZishi_2().find(vipDialogItem->getVipNameId());
             if (idx != string::npos) {
-                std::string::size_type idx1 = dialogItem->getHead_2().find("_1");
+                std::string::size_type idx1 = vipDialogItem->getVipHead_2().find("_1");
                 if (idx1 != string::npos) {
                     CCDirector::sharedDirector()->getActionManager()->addAction(rep, headSpr2, false);
                 }
@@ -805,7 +805,7 @@ void VipStoryScene::closeEyesAnimation(){
         if (headSpr1 != NULL) {
             CCDirector::sharedDirector()->getActionManager()->removeAllActionsFromTarget(headSpr1);
             
-            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
+            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_1().c_str());
             CCTexture2D* aTexture = CCTextureCache::sharedTextureCache()->addImage(tStr1->getCString());
             CCRect rect = CCRectZero;
             rect.size = aTexture->getContentSize();
@@ -820,7 +820,7 @@ void VipStoryScene::closeEyesAnimation(){
         if (headSpr1 != NULL) {
             CCDirector::sharedDirector()->getActionManager()->removeAllActionsFromTarget(headSpr1);
             
-            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_1().c_str());
+            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_1().c_str());
             CCTexture2D* aTexture = CCTextureCache::sharedTextureCache()->addImage(tStr1->getCString());
             CCRect rect = CCRectZero;
             rect.size = aTexture->getContentSize();
@@ -835,7 +835,7 @@ void VipStoryScene::closeEyesAnimation(){
         if (headSpr2 != NULL) {
             CCDirector::sharedDirector()->getActionManager()->removeAllActionsFromTarget(headSpr2);
             
-            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", dialogItem->getHead_2().c_str());
+            CCString* tStr1 = CCString::createWithFormat("res/pic/qingjingScene/head/%s.png", vipDialogItem->getVipHead_2().c_str());
             CCTexture2D* aTexture = CCTextureCache::sharedTextureCache()->addImage(tStr1->getCString());
             CCRect rect = CCRectZero;
             rect.size = aTexture->getContentSize();
@@ -882,12 +882,12 @@ void VipStoryScene::logic(float dt){
         this->openTouch(0);
     }
     
-    if (dialogItem->getName().length() <= 0) {
+    if (vipDialogItem->getVipName().length() <= 0) {
         nameKuang->setVisible(false);
     }else{
         nameKuang->setVisible(true);
     }
-    nameLab->setString(dialogItem->getName().c_str());
+    nameLab->setString(vipDialogItem->getVipName().c_str());
     
     if (wordCount > contentLength) {
         wordCount++;
@@ -932,16 +932,16 @@ void VipStoryScene::creatBg(){
         this->removeChildByTag(Tag_GJ_bg);
     }
     
-    std::string str = dialogItem->getBg();
+    std::string str = vipDialogItem->getVipBg();
     if (!str.empty()) {
-        CCString * CBg = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", dialogItem->getBg().c_str());
+        CCString * CBg = CCString::createWithFormat("res/pic/qingjingScene/bgimage/%s", vipDialogItem->getVipBg().c_str());
         bgSpr = CCSprite::create(CBg->getCString());
         bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         bgSpr->setTag(Tag_GJ_bg);
         bgSpr->setOpacity(0);
         this->addChild(bgSpr, 3);
         
-        if (dialogItem->getStates() != 4) {
+        if (vipDialogItem->getVipStates() != 4) {
             //淡入
             CCFiniteTimeAction* _bgAction = CCFadeIn::create(1.5f);
             bgSpr->runAction(CCSequence::create(_bgAction, NULL));
@@ -1166,7 +1166,7 @@ void VipStoryScene::button3CallBack(CCObject* pSender){
 }
 
 void VipStoryScene::initButton(){
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     int nextIndex;
     CCString* str;
     
@@ -1237,7 +1237,7 @@ void VipStoryScene::initLabel(int dex){
 //    CCArray* arr = dialogItem->getArray();
 //    CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(dex);
 //    dialogItem = (MMDialogItem* )dialog->getDialogs()->objectAtIndex(index);
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(dex);
     int nextIndex = dic->valueForKey("next")->intValue();
     CCString* str = (CCString* )dic->objectForKey("dialog");
@@ -1330,7 +1330,7 @@ void VipStoryScene::goCallBackMethods(){
     
     CCNode* node;
     CCMenuItem* menuItem;
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     int numIndex = arr->count();
 //    MZLog("numIndex ==== %d", numIndex);
     
@@ -1449,7 +1449,7 @@ void VipStoryScene::callBackMethods(CCObject* pSender){
     }
     
     CCMenuItemImage* menuItem = (CCMenuItemImage* )pSender;
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     int numIndex = arr->count();
 //    MZLog("numIndex ==== %d", numIndex);
     
@@ -1617,7 +1617,7 @@ void VipStoryScene::buttonOut(float dt){
 }
 
 void VipStoryScene::removeButton(){
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     int nextindex = 0;
     CCDictionary* dic;
     
@@ -1699,7 +1699,7 @@ void VipStoryScene::removeMan(){
 
 void VipStoryScene::callBack1(){
     
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(0);
     
 //    buttonBool1 = recordBool1;
@@ -1721,13 +1721,13 @@ void VipStoryScene::callBack1(){
     buttonBool3 = recordBool3;
 //    MZLog("VipStoryScene::callBack1 ******* buttonBool3 === %d", buttonBool3);
     
-    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
+    vipDialogItem = (VipDialogItem* )vipDialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
     wordCount = 0;
-    this->init(dialogItem);
-    this->dialogueControl(dialogItem);
+    this->init(vipDialogItem);
+    this->dialogueControl(vipDialogItem);
 }
 void VipStoryScene::callBack2(){
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(1);
     
 //    buttonBool1 = recordBool1;
@@ -1749,13 +1749,13 @@ void VipStoryScene::callBack2(){
     buttonBool3 = recordBool3;
 //    MZLog("VipStoryScene::callBack2 ******* buttonBool3 === %d", buttonBool3);
     
-    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
+    vipDialogItem = (VipDialogItem* )vipDialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
     wordCount = 0;
-    this->init(dialogItem);
-    this->dialogueControl(dialogItem);
+    this->init(vipDialogItem);
+    this->dialogueControl(vipDialogItem);
 }
 void VipStoryScene::callBack3(){
-    CCArray* arr = dialogItem->getArray();
+    CCArray* arr = vipDialogItem->getVipArray();
     CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(2);
     
 //    buttonBool1 = recordBool1;
@@ -1777,10 +1777,10 @@ void VipStoryScene::callBack3(){
     buttonBool3 = recordBool3;
 //    MZLog("VipStoryScene::callBack3 ******* buttonBool3 === %d", buttonBool3);
     
-    dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
+    vipDialogItem = (VipDialogItem* )vipDialog->getVipDialogs()->objectAtIndex(dic->valueForKey("next")->intValue());
     wordCount = 0;
-    this->init(dialogItem);
-    this->dialogueControl(dialogItem);
+    this->init(vipDialogItem);
+    this->dialogueControl(vipDialogItem);
 }
 
 void VipStoryScene::gengxin(float dt){
@@ -1814,7 +1814,7 @@ void VipStoryScene::gengxin(float dt){
 }
 
 void VipStoryScene::init(VipDialogItem* item){
-    content = item->getSaid();
+    content = item->getVipSaid();
     contentLength = 0;
     
     int length = content.length();
@@ -1929,7 +1929,7 @@ bool VipStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
                 
                 this->unschedule(SEL_SCHEDULE(&VipStoryScene::getIndex));
                 
-                if (dialogItem->getStates() != 4) {
+                if (vipDialogItem->getVipStates() != 4) {
                     if (wordCount < contentLength) {
                         wordCount = getContentLength();
                         this->setTouchEnabled(false);
@@ -1955,7 +1955,7 @@ bool VipStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
             if (logIndex == 1) {
                 this->unschedule(SEL_SCHEDULE(&VipStoryScene::getIndex));
                 
-                if (dialogItem->getStates() != 4) {
+                if (vipDialogItem->getVipStates() != 4) {
                     if (wordCount < contentLength) {
                         wordCount = getContentLength();
                         this->setTouchEnabled(false);
@@ -1994,10 +1994,10 @@ void VipStoryScene::getIndex(float dt){
         quanSpr->setVisible(false);
     }
     
-    if (dialogItem->getArray() == NULL) {
-        index = dialogItem->getNext();
+    if (vipDialogItem->getVipArray() == NULL) {
+        index = vipDialogItem->getVipNext();
         
-        CCString* _achievement = CCString::createWithFormat("%s",dialogItem->getAchievement().c_str());
+        CCString* _achievement = CCString::createWithFormat("%s",vipDialogItem->getVipAchievement().c_str());
         if (index == -1) {
             buttonBool1 = false;
             buttonBool2 = false;
@@ -2023,10 +2023,10 @@ void VipStoryScene::getIndex(float dt){
             NET->commit_story2_507(indexStr->getCString(), endingStr->getCString());
             
         }else{
-            dialogItem = (VipDialogItem* )dialog->getVipDialogs()->objectAtIndex(index);
-            this->init(dialogItem);
+            vipDialogItem = (VipDialogItem* )vipDialog->getVipDialogs()->objectAtIndex(index);
+            this->init(vipDialogItem);
             wordCount = 0;
-            this->dialogueControl(dialogItem);
+            this->dialogueControl(vipDialogItem);
         }
         
     }else{

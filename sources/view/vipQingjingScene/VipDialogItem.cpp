@@ -104,7 +104,7 @@ void VipDialogItem::config_static_with_json(CSJson::Value value)
     if (_array1.length() == 0) {
         _next = ccs(value["next"].asString())->intValue();
     }else{
-        this->setArray(CCArray::create());
+        this->setVipArray(CCArray::create());
         if (_array1.length() != 0) {
             CCDictionary* dic = CCDictionary::create();
             dic->setObject(CCString::create(_array1), "dialog");
@@ -148,7 +148,7 @@ void VipDialogItem::clues_config_static_with_json(CSJson::Value value){
     
     CSJson::Value array = value["array"];
     if (array.isArray()) {
-        this->setCluesArr(CCArray::create());
+        this->setVipCluesArr(CCArray::create());
         int count = array.size();
 //        CCLog("count ==== %d", count);
         for (int i = 0; i < count; i++) {

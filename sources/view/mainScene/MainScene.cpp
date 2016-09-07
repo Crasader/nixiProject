@@ -45,7 +45,6 @@
 
 #include <time.h>
 
-
 #include "RewardLayer.h"
 
 #include "GuideLayer.h"
@@ -215,9 +214,11 @@ void MainScene::onEnter(){
 
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
     
-    if (DATA->getNews()->signin7 == 1) {
-        isOk = true;
-        this->qiandaoCallBack(NULL);
+    if (DATA->current_guide_step() == 0) {
+        if (DATA->getNews()->signin7 == 1) {
+            isOk = true;
+            this->qiandaoCallBack(NULL);
+        }
     }
 }
 
@@ -1114,7 +1115,7 @@ void MainScene::homeCallBack(CCObject *pSender){
         }else {
             AUDIO->comfirm_effect();
             LOADING->show_loading();
-            NET->home_info_704(true);
+            NET->home_info_704(! DATA->getHome()->has_init_house_template());
         }
     }
 }
@@ -1372,7 +1373,7 @@ void MainScene::_600CallBack(CCObject* pSender){
     if (ishomeBool) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
-        NET->home_info_704(true);
+        NET->home_info_704(! DATA->getHome()->has_init_house_template());
     }else{
         DATA->setTaskPhase(DATA->getPlayer()->phase);
         CCLayer* layer = TaskScene::create(false);

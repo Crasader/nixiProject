@@ -34,7 +34,7 @@ void PlayerComp::init_with_json(Value json) {
     phase = json["phase"].asInt();
     left = json["left"].asInt();
     _guide = json["guide"].asInt();
-        
+    
     
     CC_SAFE_RELEASE(rating);
     rating = AppUtil::dictionary_with_json(json["rating"]);
