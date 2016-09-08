@@ -96,6 +96,7 @@ void LoginScene::onEnter() {
     CCLOG("%s", env_info.c_str());
     
     bool autoLogin = DATA->getAutoLogin();
+    bool hasSavedAccount = CONFIG->has_saved_account();
     if (autoLogin && CONFIG->has_saved_uuid()) {
 //        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
 //        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
@@ -105,7 +106,7 @@ void LoginScene::onEnter() {
         DATA->setLoginType(1);
         NET->fast_login_900(CONFIG->saved_uuid().c_str());
     }
-    else if (autoLogin && CONFIG->has_saved_account()) {
+    else if (autoLogin && hasSavedAccount) {
 //        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
 //        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
 //        this->addChild(logo);
@@ -243,10 +244,14 @@ void LoginScene::fast_login_callback_900(CCObject *pObj) {
 }
 
 void LoginScene::account_login_callback_901(CCObject *pObj) {
-    if (! CONFIG->has_saved_account()) {
-        CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
-        CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
-    }
+//    if (! CONFIG->has_saved_account()) {
+//        CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
+//        CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
+//    }
+    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
+    CONFIG->save_account(account);
+    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
+    CONFIG->save_password(password);
     
     NET->login_game_server_902();
 }
@@ -274,8 +279,10 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
 void LoginScene::account_regist_callback_903(CCObject *pObj) {
     LOADING->remove();
     
-    CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
-    CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
+//    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
+//    CONFIG->save_account(account);
+//    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
+//    CONFIG->save_password(password);
 #warning "计划添加帐号密码谨记提示!"
     
     LOADING->show_loading();

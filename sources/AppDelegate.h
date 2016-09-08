@@ -42,6 +42,7 @@ private:
 
     void init_lua_env();
     void rand_seed();
+    void write_debug_info();
 };
 
 #endif // _APP_DELEGATE_H_

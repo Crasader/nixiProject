@@ -318,7 +318,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
-            // 形如：{"rating":5,"levelup":0,"coin":50,"energy":6}.
+            // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
             
@@ -326,7 +326,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
-            // 形如：{"rating":5,"levelup":0,"coin":50,"energy":6}.
+            // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
         
@@ -425,17 +425,21 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
+
+            bool isFree = content["free"].asBool();
+            if (isFree) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            CCDictionary* dic = CCDictionary::create();
-            dic->setObject(ccs("gashapon"), "name");
-            dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("FREE_GASHAPON", dic);
+                CCDictionary* dic = CCDictionary::create();
+                dic->setObject(ccs("gashapon"), "name");
+                dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("FREE_GASHAPON", dic);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-            CCDictionary* dic = CCDictionary::create();
-            dic->setObject(ccs("gashapon"), "name");
-            dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
-            CCNotificationCenter::sharedNotificationCenter()->postNotification("Push_Android", dic);
+                CCDictionary* dic = CCDictionary::create();
+                dic->setObject(ccs("gashapon"), "name");
+                dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("Push_Android", dic);
 #endif
+            }
         } break;
         
         case 309: {
@@ -450,6 +454,11 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 311: {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
+        } break;
+            
+        case 333: {
+            _player->init_with_json(content["player"]);
+            pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
             
         case 200: {

@@ -3100,7 +3100,7 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
     int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
     int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
-    bool levelup = ((CCInteger*)result->objectForKey("levelup"))->getValue() != 0;
+    bool levelup = ((CCBool*)result->objectForKey("levelup"))->getValue();
     
 //    CCScene* scene = CCScene::create();
 //    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
