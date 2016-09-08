@@ -1368,11 +1368,11 @@ void MainScene::juqingCallBack(CCObject* pSender){
 }
 
 void MainScene::_500CallBack(CCObject* pSender) {
-    AUDIO->comfirm_effect();
     if (isrenwuBool) {
         LOADING->show_loading();
         NET->completed_mission_600();
     }else {
+        AUDIO->comfirm_effect();
         CCScene* scene = QingjingScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -1453,14 +1453,12 @@ void MainScene::nc_take_gift_333(CCObject *pObj) {
 }
 
 void MainScene::_600CallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
     LOADING->remove();
-    
     if (ishomeBool) {
-        AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->home_info_704(! DATA->getHome()->has_init_house_template());
     }else{
+        AUDIO->comfirm_effect();
         DATA->setTaskPhase(DATA->getPlayer()->phase);
         CCLayer* layer = TaskScene::create(false);
         CCScene* scene = CCScene::create();

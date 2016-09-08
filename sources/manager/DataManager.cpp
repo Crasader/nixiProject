@@ -146,6 +146,7 @@ void DataManager::http_response_handle(int resp_code, string response) {
         this->handle_protocol(cid, content);
     }
     else if (11000 == code) {
+        this->setAutoLogin(true);
         relogin();
     }
     else {
