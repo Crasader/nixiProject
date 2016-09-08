@@ -49,6 +49,7 @@ bool TaskScene::init(bool isPhaseUP){
     }
     
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
+    CCLOG("_isPhaseUP = %d", _isPhaseUP);
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
     _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);
