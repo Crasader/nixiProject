@@ -1,6 +1,6 @@
 obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/BuildingLayer.o: \
  jni/../../sources/view/taskScene/BuildingLayer.cpp \
- jni/../../sources/view/taskScene/BuildingLayer.h \
+ jni/../../sources/manager/DisplayManager.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
@@ -208,20 +208,30 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/BuildingLa
  jni/../../../../lib/cocos2d-x/cocos2dx/support/data_support/uthash.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
- jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h \
- jni/../../sources/view/common/Loading2/Loading2.h \
- jni/../../sources/manager/NetManager.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequestDelegate.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
- /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/view/building/BuildingView.h \
+ jni/../../sources/manager/DataManager.h \
+ jni/../../sources/third/Json/lib_json/json_lib.h \
+ jni/../../sources/third/Json/lib_json/autolink.h \
+ jni/../../sources/third/Json/lib_json/config.h \
+ jni/../../sources/third/Json/lib_json/value.h \
+ jni/../../sources/third/Json/lib_json/forwards.h \
+ jni/../../sources/third/Json/lib_json/reader.h \
+ jni/../../sources/third/Json/lib_json/features.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
+ jni/../../sources/third/Json/lib_json/writer.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
+ jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
+ jni/../../sources/model/MessageComp.h \
+ jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
+ jni/../../sources/model/NoticeComp.h \
+ jni/../../sources/model/PlayerComp.h \
+ jni/../../sources/model/RankingComp.h jni/../../sources/model/ShowComp.h \
+ jni/../../sources/model/SigninComp.h \
+ jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
+ jni/../../sources/model/PaperComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
@@ -248,22 +258,28 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/BuildingLa
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/model/OperationComp.h \
+ jni/../../sources/model/HomeComp.h \
+ jni/../../sources/manager/NetManager.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequestDelegate.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/utils/AppUtil.h \
- jni/../../sources/third/Json/lib_json/json_lib.h \
- jni/../../sources/third/Json/lib_json/autolink.h \
- jni/../../sources/third/Json/lib_json/config.h \
- jni/../../sources/third/Json/lib_json/value.h \
- jni/../../sources/third/Json/lib_json/forwards.h \
- jni/../../sources/third/Json/lib_json/reader.h \
- jni/../../sources/third/Json/lib_json/features.h \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
- jni/../../sources/third/Json/lib_json/writer.h
+ jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/view/taskScene/BuildingLayer.h \
+ jni/../../sources/view/building/BuildingView.h \
+ jni/../../sources/view/upgrade/UpgradeLayer.h
 
-jni/../../sources/view/taskScene/BuildingLayer.h:
+jni/../../sources/manager/DisplayManager.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -679,33 +695,65 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
-jni/../../sources/manager/DisplayManager.h:
-
 jni/../../sources/manager/SpecialManager.h:
 
-jni/../../sources/view/common/Loading2/Loading2.h:
+jni/../../sources/manager/DataManager.h:
 
-jni/../../sources/manager/NetManager.h:
+jni/../../sources/third/Json/lib_json/json_lib.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h:
+jni/../../sources/third/Json/lib_json/autolink.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h:
+jni/../../sources/third/Json/lib_json/config.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequestDelegate.h:
+jni/../../sources/third/Json/lib_json/value.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h:
+jni/../../sources/third/Json/lib_json/forwards.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h:
+jni/../../sources/third/Json/lib_json/reader.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h:
+jni/../../sources/third/Json/lib_json/features.h:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h:
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque:
 
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
 
-/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+jni/../../sources/third/Json/lib_json/writer.h:
 
-jni/../../sources/view/building/BuildingView.h:
+jni/../../sources/model/ClothesComp.h:
+
+jni/../../sources/model/PurchaseComp.h:
+
+jni/../../sources/extend_define.h:
+
+jni/../../sources/model/LoginComp.h:
+
+jni/../../sources/model/MailComp.h:
+
+jni/../../sources/model/MessageComp.h:
+
+jni/../../sources/model/MissionComp.h:
+
+jni/../../sources/model/NewsComp.h:
+
+jni/../../sources/model/NoticeComp.h:
+
+jni/../../sources/model/PlayerComp.h:
+
+jni/../../sources/model/RankingComp.h:
+
+jni/../../sources/model/ShowComp.h:
+
+jni/../../sources/model/SigninComp.h:
+
+jni/../../sources/model/SocialComp.h:
+
+jni/../../sources/model/StoryComp.h:
+
+jni/../../sources/model/PaperComp.h:
+
+jni/../../sources/model/CoffersComp.h:
+
+jni/../../sources/model/ChatComp.h:
 
 jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
 
@@ -759,6 +807,30 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
 
+jni/../../sources/model/OperationComp.h:
+
+jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/manager/NetManager.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequestDelegate.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+
 jni/../../sources/manager/AudioManager.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
@@ -767,22 +839,10 @@ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/utils/AppUtil.h:
 
-jni/../../sources/third/Json/lib_json/json_lib.h:
+jni/../../sources/view/common/Loading2/Loading2.h:
 
-jni/../../sources/third/Json/lib_json/autolink.h:
+jni/../../sources/view/taskScene/BuildingLayer.h:
 
-jni/../../sources/third/Json/lib_json/config.h:
+jni/../../sources/view/building/BuildingView.h:
 
-jni/../../sources/third/Json/lib_json/value.h:
-
-jni/../../sources/third/Json/lib_json/forwards.h:
-
-jni/../../sources/third/Json/lib_json/reader.h:
-
-jni/../../sources/third/Json/lib_json/features.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque:
-
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
-
-jni/../../sources/third/Json/lib_json/writer.h:
+jni/../../sources/view/upgrade/UpgradeLayer.h:

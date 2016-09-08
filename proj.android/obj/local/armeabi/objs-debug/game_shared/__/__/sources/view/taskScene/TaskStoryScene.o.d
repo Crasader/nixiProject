@@ -282,7 +282,13 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskStoryS
  jni/../../sources/view/taskScene/TaskLabelColorLayer.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/view/guide/GuideLayer.h \
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/game/color/ColorLayer.h \
+ jni/../../sources/view/game/sleep/GameJingli.h \
+ jni/../../sources/view/game/laji/LiveAiXin.h \
+ jni/../../sources/view/haoyouScene/HaoyouScene.h
 
 jni/../../sources/view/taskScene/TaskStoryScene.h:
 
@@ -861,3 +867,15 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/view/guide/GuideLayer.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/game/color/ColorLayer.h:
+
+jni/../../sources/view/game/sleep/GameJingli.h:
+
+jni/../../sources/view/game/laji/LiveAiXin.h:
+
+jni/../../sources/view/haoyouScene/HaoyouScene.h:

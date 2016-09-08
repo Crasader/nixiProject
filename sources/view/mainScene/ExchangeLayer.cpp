@@ -876,6 +876,7 @@ void ExchangeLayer::initClothes(){//穿衣服
 void ExchangeLayer::buttonCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     CCString* str = CCString::createWithFormat("%d", item->getTag());
+    exchangeIndex = item->getTag();
     
     LOADING->show_loading();
     NET->exchange_clothes_311(str->getCString());
@@ -883,6 +884,20 @@ void ExchangeLayer::buttonCallBack(CCObject* pSender){
 
 void ExchangeLayer::_311CallBack(CCObject* pSender){
     LOADING->remove();
+    
+    
+    std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
+    if (stdStr.empty()) {
+        CCString* saveStr = CCString::createWithFormat("%d;", exchangeIndex);
+        stdStr.append(saveStr->getCString());
+        CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+    }else{
+        CCString* saveStr = CCString::createWithFormat("%d;", exchangeIndex);
+        stdStr.append(saveStr->getCString());
+        CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+    }
+    CCUserDefault::sharedUserDefault()->flush();
+    
     
     dikuangSpr->removeAllChildrenWithCleanup(true);
     userArr = DATA->getOperation()->getGashaponUser();

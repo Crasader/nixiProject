@@ -113,9 +113,11 @@ void WSManager::onClose(WebSocket* ws) {
     // Delete websocket instance.
     CC_SAFE_DELETE(ws);
     ws = NULL;
+    _isConnected = false;
 }
 
 void WSManager::onError(WebSocket* ws, const WebSocket::ErrorCode& error) {
     CCLOG("WSManager::onError(), error code: %d", error);
+    
 }
 

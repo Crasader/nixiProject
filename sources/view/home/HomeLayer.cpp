@@ -238,6 +238,31 @@ void HomeLayer::creat_View(){
     qiehuanMenu->setPosition(CCPointZero);
     qiehuanSpr->addChild(qiehuanMenu);
     
+    
+    // 框
+    kuangSpr = CCSprite::create("res/pic/house/house_di.png");
+    kuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f - 200, DISPLAY->ScreenHeight()* .475f));
+    this->addChild(kuangSpr, 20);
+    
+    // 保存
+    CCSprite* saveSpr1 = CCSprite::create("res/pic/common/btn_save.png");
+    CCSprite* saveSpr2 = CCSprite::create("res/pic/common/btn_save.png");
+    saveSpr2->setScale(1.02f);
+    CCMenuItem* saveItem = CCMenuItemSprite::create(saveSpr1, saveSpr2, this, menu_selector(HomeLayer::saveCallBack));
+    saveItem->setAnchorPoint(ccp(.5f, .5f));
+    saveItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f - 2, kuangSpr->getContentSize().height* .04f));
+    CCMenu* saveMenu = CCMenu::create(saveItem, NULL);
+    saveMenu->setPosition(CCPointZero);
+    kuangSpr->addChild(saveMenu, 15);
+    
+    tabLayer = HomeTableView::create();
+    tabLayer->setPosition(ccp(-2, 90));
+    tabLayer->setTag(0x77777);
+    kuangSpr->addChild(tabLayer, 5);
+    
+    
+    
+    
     CCDictionary* scores = DATA->getHome()->getScores();
     int score1 = ((CCInteger*)scores->objectForKey("1"))->getValue();
     int score2 = ((CCInteger*)scores->objectForKey("2"))->getValue();
@@ -247,8 +272,66 @@ void HomeLayer::creat_View(){
     CCSprite* shopSpr1 = CCSprite::create("res/pic/house/house_button1.png");
     CCSprite* shopSpr2 = CCSprite::create("res/pic/house/house_button1.png");
     shopSpr2->setScale(1.02f);
-    CCMenuItem* shopItem = CCMenuItemSprite::create(shopSpr1, shopSpr2, this, menu_selector(HomeLayer::gameCallBack));
-//    sleepItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f + 500, DISPLAY->ScreenHeight()* .33f));
+    CCMenuItem* shopItem;
+    
+    CCSprite* colorSpr1 = CCSprite::create("res/pic/house/house_button2.png");
+    CCSprite* colorSpr2 = CCSprite::create("res/pic/house/house_button2.png");
+    colorSpr2->setScale(1.02f);
+    CCMenuItem* colorItem;
+    
+    CCSprite* sleepSpr1 = CCSprite::create("res/pic/house/house_button3.png");
+    CCSprite* sleepSpr2 = CCSprite::create("res/pic/house/house_button3.png");
+    sleepSpr2->setScale(1.02f);
+    CCMenuItem* sleepItem;
+    
+    CSJson::Value missionData = AppUtil::read_json_file("res/mission/mission");
+    CCDictionary* missionDic = AppUtil::dictionary_with_json(missionData);
+    for (int i = 0; i < missionDic->count(); i++) {
+        CCString* keyStr = CCString::createWithFormat("%d", i);
+        CCArray* missionArr = (CCArray* )missionDic->objectForKey(keyStr->getCString());
+        std::string taskIdStd = ((CCString* )missionArr->objectAtIndex(0))->getCString();
+        std::string phaseStd = ((CCString* )missionArr->objectAtIndex(1))->getCString();
+        int taskIdIndex = atoi(taskIdStd.c_str());
+        int phaseStdIndex = atoi(phaseStd.c_str());
+        if (i == 0) {
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    shopItem = CCMenuItemSprite::create(shopSpr1, shopSpr2, this, menu_selector(HomeLayer::gameCallBack2));
+                    shopItem->setColor(ccGRAY);
+                }else{
+                    shopItem = CCMenuItemSprite::create(shopSpr1, shopSpr2, this, menu_selector(HomeLayer::gameCallBack));
+                }
+            }else{
+                shopItem = CCMenuItemSprite::create(shopSpr1, shopSpr2, this, menu_selector(HomeLayer::gameCallBack2));
+                shopItem->setColor(ccGRAY);
+            }
+        }else if (i == 1){
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    colorItem = CCMenuItemSprite::create(colorSpr1, colorSpr2, this, menu_selector(HomeLayer::gameCallBack2));
+                    colorItem->setColor(ccGRAY);
+                }else{
+                    colorItem = CCMenuItemSprite::create(colorSpr1, colorSpr2, this, menu_selector(HomeLayer::gameCallBack));
+                }
+            }else{
+                colorItem = CCMenuItemSprite::create(colorSpr1, colorSpr2, this, menu_selector(HomeLayer::gameCallBack2));
+                colorItem->setColor(ccGRAY);
+            }
+        }else if (i == 2){
+            if (phaseStdIndex <= DATA->getPlayer()->phase) {
+                if (taskIdIndex > DATA->getPlayer()->mission) {
+                    sleepItem = CCMenuItemSprite::create(sleepSpr1, sleepSpr2, this, menu_selector(HomeLayer::gameCallBack2));
+                    sleepItem->setColor(ccGRAY);
+                }else{
+                    sleepItem = CCMenuItemSprite::create(sleepSpr1, sleepSpr2, this, menu_selector(HomeLayer::gameCallBack));
+                }
+            }else{
+                sleepItem = CCMenuItemSprite::create(sleepSpr1, sleepSpr2, this, menu_selector(HomeLayer::gameCallBack2));
+                sleepItem->setColor(ccGRAY);
+            }
+        }
+    }
+    
     shopItem->setPosition(ccp(DISPLAY->ScreenWidth()* .88f + 500, 0));
     shopItem->setTag(1);
     shopItem->setScale(.3f);
@@ -261,11 +344,6 @@ void HomeLayer::creat_View(){
     shopLabel->setColor(ccWHITE);
     shopSpr->addChild(shopLabel);
     
-    CCSprite* colorSpr1 = CCSprite::create("res/pic/house/house_button2.png");
-    CCSprite* colorSpr2 = CCSprite::create("res/pic/house/house_button2.png");
-    colorSpr2->setScale(1.02f);
-    CCMenuItem* colorItem = CCMenuItemSprite::create(colorSpr1, colorSpr2, this, menu_selector(HomeLayer::gameCallBack));
-//    colorItem->setPosition(ccp(DISPLAY->ScreenWidth()* .85f + 500, DISPLAY->ScreenHeight()* .18f));
     colorItem->setPosition(ccp(DISPLAY->ScreenWidth()* .85f + 500, 0));
     colorItem->setTag(2);
     colorItem->setScale(.3f);
@@ -278,11 +356,6 @@ void HomeLayer::creat_View(){
     colorLabel->setColor(ccWHITE);
     colorSpr->addChild(colorLabel);
     
-    CCSprite* sleepSpr1 = CCSprite::create("res/pic/house/house_button3.png");
-    CCSprite* sleepSpr2 = CCSprite::create("res/pic/house/house_button3.png");
-    sleepSpr2->setScale(1.02f);
-    CCMenuItem* sleepItem = CCMenuItemSprite::create(sleepSpr1, sleepSpr2, this, menu_selector(HomeLayer::gameCallBack));
-//    shopItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f + 500, DISPLAY->ScreenHeight()* .09f));
     sleepItem->setPosition(ccp(DISPLAY->ScreenWidth()* .63f + 500, 0));
     sleepItem->setTag(3);
     sleepItem->setScale(.3f);
@@ -313,73 +386,6 @@ void HomeLayer::creat_View(){
     CCScaleTo* scaleTo3 = CCScaleTo::create(.5f, 1.f);
     CCSpawn* spawn3 = CCSpawn::create(moveTo3, scaleTo3, NULL);
     sleepItem->runAction(CCSequence::create(CCDelayTime::create(1.2f), spawn3, NULL));
-    
-    
-    // 框
-    kuangSpr = CCSprite::create("res/pic/house/house_di.png");
-    kuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f - 200, DISPLAY->ScreenHeight()* .475f));
-    this->addChild(kuangSpr, 20);
-    
-    // 保存
-    CCSprite* saveSpr1 = CCSprite::create("res/pic/common/btn_save.png");
-    CCSprite* saveSpr2 = CCSprite::create("res/pic/common/btn_save.png");
-    saveSpr2->setScale(1.02f);
-    CCMenuItem* saveItem = CCMenuItemSprite::create(saveSpr1, saveSpr2, this, menu_selector(HomeLayer::saveCallBack));
-    saveItem->setAnchorPoint(ccp(.5f, .5f));
-    saveItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f - 2, kuangSpr->getContentSize().height* .04f));
-    CCMenu* saveMenu = CCMenu::create(saveItem, NULL);
-    saveMenu->setPosition(CCPointZero);
-    kuangSpr->addChild(saveMenu, 15);
-    
-    tabLayer = HomeTableView::create();
-    tabLayer->setPosition(ccp(-2, 90));
-    tabLayer->setTag(0x77777);
-    kuangSpr->addChild(tabLayer, 5);
-    
-    
-    
-    CSJson::Value missionData = AppUtil::read_json_file("res/mission/mission");
-    CCDictionary* missionDic = AppUtil::dictionary_with_json(missionData);
-    for (int i = 0; i < missionDic->count(); i++) {
-        CCString* keyStr = CCString::createWithFormat("%d", i);
-        CCArray* missionArr = (CCArray* )missionDic->objectForKey(keyStr->getCString());
-        std::string taskIdStd = ((CCString* )missionArr->objectAtIndex(0))->getCString();
-        std::string phaseStd = ((CCString* )missionArr->objectAtIndex(1))->getCString();
-        int taskIdIndex = atoi(taskIdStd.c_str());
-        int phaseStdIndex = atoi(phaseStd.c_str());
-        if (i == 0) {
-            if (phaseStdIndex <= DATA->getPlayer()->phase) {
-                if (taskIdIndex > DATA->getPlayer()->mission) {
-                    shopItem->setEnabled(false);
-                    shopItem->setColor(ccGRAY);
-                }
-            }else{
-                shopItem->setEnabled(false);
-                shopItem->setColor(ccGRAY);
-            }
-        }else if (i == 1){
-            if (phaseStdIndex <= DATA->getPlayer()->phase) {
-                if (taskIdIndex > DATA->getPlayer()->mission) {
-                    colorItem->setEnabled(false);
-                    colorItem->setColor(ccGRAY);
-                }
-            }else{
-                colorItem->setEnabled(false);
-                colorItem->setColor(ccGRAY);
-            }
-        }else if (i == 2){
-            if (phaseStdIndex <= DATA->getPlayer()->phase) {
-                if (taskIdIndex > DATA->getPlayer()->mission) {
-                    sleepItem->setEnabled(false);
-                    sleepItem->setColor(ccGRAY);
-                }
-            }else{
-                sleepItem->setEnabled(false);
-                sleepItem->setColor(ccGRAY);
-            }
-        }
-    }    
-    
 }
 
 void HomeLayer::openChat(CCObject* pSender) {
@@ -428,6 +434,12 @@ void HomeLayer::gameCallBack(CCObject* pSender){
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
+}
+void HomeLayer::gameCallBack2(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "公司星级未达标,无法开启游戏!");
 }
 
 void HomeLayer::qiehuanCallBack(CCObject* pSender){

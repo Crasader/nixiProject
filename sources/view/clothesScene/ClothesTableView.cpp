@@ -11,6 +11,7 @@
 #include "ClothesScene.h"
 #include "ConfigManager.h"
 #include "DisplayManager.h"
+#include "StringUtil.h"
 
 
 ClothesTableView::ClothesTableView(){
@@ -128,6 +129,30 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
     CCInteger* cloth_integer;
     CCInteger* clothesTemp_id;
     CCDictionary* shipinDic;
+    
+    std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
+    std::string saveString;
+    if (stdStr.empty()) {
+        
+    }else{
+        CCArray* strList = StringUtil::sharedStrUtil()->split(stdStr.c_str(), ";");
+        for (int i = 0; i < strList->count(); i++) {
+            CCString* listStr = (CCString* )strList->objectAtIndex(i);
+            int saveClothes = atoi(listStr->getCString());
+            if (cloth_id == saveClothes) {
+                CCNode* node = cell->getChildByTag(cell->getIdx());
+                if (node->getChildByTag(0x12345) != NULL) {
+                    node->removeChildByTag(0x12345);
+                }
+            }else{
+                CCString* saveStr = CCString::createWithFormat("%d;", saveClothes);
+                saveString.append(saveStr->getCString());
+            }
+        }
+    }
+    CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", saveString.c_str());
+    CCUserDefault::sharedUserDefault()->flush();
+    
     
     if (clothesType != Tag_CL_ShiPin) {
         clothesTemp_id = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", clothesType)->getCString()); // 男宠当前所穿上衣
@@ -680,7 +705,34 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             kuangSpr->setTag(idx);
             spr->addChild(kuangSpr, 5);
         }
+    }else{
+        
     }
+    
+    std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
+    if (stdStr.empty()) {
+        
+    }else{
+        CCArray* strList = StringUtil::sharedStrUtil()->split(stdStr.c_str(), ";");
+        for (int i = 0; i < strList->count(); i++) {
+            CCString* listStr = (CCString* )strList->objectAtIndex(0);
+            int saveClothes = atoi(listStr->getCString());
+            if (cloth_id == saveClothes) {
+                CCSprite* newSpr1 = CCSprite::create("res/pic/clothesScene/gj_new1.png");
+                newSpr1->setPosition(ccp(18, 170));
+                newSpr1->setTag(0x12345);
+                spr->addChild(newSpr1, 101);
+                
+                CCSprite* newSpr2 = CCSprite::create("res/pic/clothesScene/gj_new2.png");
+                newSpr2->setAnchorPoint(CCPointZero);
+                newSpr2->setPosition(CCPointZero);
+                newSpr1->addChild(newSpr2);
+                
+                break;
+            }
+        }
+    }
+    
     
     int phase = dic->valueForKey("phase")->intValue();
     if (phase > DATA->getPlayer()->phase) {

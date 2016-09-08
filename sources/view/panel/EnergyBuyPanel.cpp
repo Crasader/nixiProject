@@ -10,8 +10,10 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "NetManager.h"
-#include "Loading2.h"
 #include "AudioManager.h"
+
+#include "PromptLayer.h"
+#include "Loading2.h"
 #include <math.h>
 
 EnergyBuyPanel::~EnergyBuyPanel() {
@@ -71,7 +73,7 @@ bool EnergyBuyPanel::init() {
             _content->addChild(lbl);
         }
         else {
-            CCString* str = CCString::createWithFormat("使用%d钻石兑换100点体力", 10 * int(pow(2, boughtTimes)));
+            CCString* str = CCString::createWithFormat("使用%d钻石兑换%d点体力", DATA->getPurchase()->getEnergyBoughtCost(), DATA->getPurchase()->getEnergyBoughtGain());
             CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
             lbl->setColor(DISPLAY->dullBlueColor());
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
@@ -172,7 +174,12 @@ void EnergyBuyPanel::buy() {
 }
 
 void EnergyBuyPanel::buy_energy_callback_101(CCObject *pObj) {
+    AUDIO->comfirm_effect();
     LOADING->remove();
+    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "成功兑换体力~!");
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->remove();
 }

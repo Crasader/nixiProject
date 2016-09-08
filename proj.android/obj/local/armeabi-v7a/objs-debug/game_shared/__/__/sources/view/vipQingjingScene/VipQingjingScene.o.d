@@ -284,7 +284,15 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/vipQingjingScene
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/manager/WSManager.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
+ jni/../../sources/view/panel/ChatPanel.h
 
 jni/../../sources/view/vipQingjingScene/VipQingjingScene.h:
 
@@ -867,3 +875,19 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/manager/WSManager.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
+
+jni/../../sources/view/panel/ChatPanel.h:

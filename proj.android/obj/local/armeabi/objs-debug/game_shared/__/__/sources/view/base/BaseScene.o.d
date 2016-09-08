@@ -272,11 +272,13 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/base/BaseScene.o: \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/view/panel/ResetNicknamePanel.h \
  jni/../../sources/view/panel/PurchasePanel.h \
  jni/../../sources/view/panel/EnergyBuyPanel.h \
  jni/../../sources/view/panel/CoinExchangePanel.h \
  jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/manager/SpecialManager.h
+ jni/../../sources/manager/SpecialManager.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/base/BaseScene.h:
 
@@ -834,6 +836,8 @@ jni/../../sources/manager/NetManager.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
 
+jni/../../sources/view/panel/ResetNicknamePanel.h:
+
 jni/../../sources/view/panel/PurchasePanel.h:
 
 jni/../../sources/view/panel/EnergyBuyPanel.h:
@@ -843,3 +847,5 @@ jni/../../sources/view/panel/CoinExchangePanel.h:
 jni/../../sources/manager/ConfigManager.h:
 
 jni/../../sources/manager/SpecialManager.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:
