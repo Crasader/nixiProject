@@ -38,6 +38,7 @@ private:
     void on_music(CCMenuItem* btn);
     void on_effect(CCMenuItem* btn);
     void on_back(CCMenuItem* btn);
+    void on_take_gift(CCMenuItem* btn);
     
 private:
     CCLayer*            _content;

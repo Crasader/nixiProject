@@ -178,6 +178,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
@@ -1413,6 +1414,41 @@ void MainScene::_905CallBack(CCObject *pObj){
     }else {
         isrenwuBool = true;
         NET->completed_story_500();
+    }
+}
+
+void MainScene::nc_take_gift_333(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
+        int diam = ((CCInteger*)dic->objectForKey("diam"))->getValue();
+        int energy = ((CCInteger*)dic->objectForKey("energy"))->getValue();
+        CCString* str = NULL;
+        if (coin > 0) {
+            if (diam > 0) {
+                if (energy > 0) {
+                    str = CCString::createWithFormat("成功领取 %d金币、%d钻石、%d体力~!", coin, diam, energy);
+                }
+                else {
+                    str = CCString::createWithFormat("成功领取 %d金币、%d钻石~!", coin, diam);
+                }
+            }
+            else {
+                str = CCString::createWithFormat("成功领取 %d金币~!", coin);
+            }
+        }
+        else if (diam > 0) {
+            if (energy > 0) {
+                str = CCString::createWithFormat("成功领取 %d钻石、%d体力~!", diam, energy);
+            }
+            else {
+                str = CCString::createWithFormat("成功领取 %d钻石~!", diam);
+            }
+        }
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), str->getCString());
     }
 }
 

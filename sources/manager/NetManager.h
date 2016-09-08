@@ -93,6 +93,7 @@ public:
     void single_lottery_307();
     void multiply_lottery_309();
     void exchange_clothes_311(string clothesId);
+    void take_gift_333(int ChannelId, const char* code);
 
     
     void coffers_info_200(bool full);
