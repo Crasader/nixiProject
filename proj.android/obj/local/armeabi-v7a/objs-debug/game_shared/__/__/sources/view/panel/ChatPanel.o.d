@@ -268,7 +268,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/panel/ChatPanel.
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h \
- jni/../../sources/view/panel/EmoticonPanel.h
+ jni/../../sources/view/panel/EmoticonPanel.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
 
 jni/../../sources/view/panel/ChatPanel.h:
 
@@ -819,3 +822,9 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/view/panel/EmoticonPanel.h:
+
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
