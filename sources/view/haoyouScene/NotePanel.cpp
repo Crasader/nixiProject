@@ -28,6 +28,7 @@ bool NotePanel::init(){
     }
     
     erase_pos = 1000000;
+    _word_count = 0;
     
     return true;
 }
@@ -91,7 +92,7 @@ void NotePanel::initView(){
     }
     CCLOG("NickName: %s", nickname);
     CCString* title_str = CCString::createWithFormat("发给 %s 的纸条:", nickname);
-    CCLabelTTF* title = CCLabelTTF::create(title_str->getCString(), DISPLAY->fangzhengFont(), 30, CCSizeMake(380, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* title = CCLabelTTF::create(title_str->getCString(), DISPLAY->fangzhengFont(), 24, CCSizeMake(450, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     title->setPosition(ccp(note_panel->getContentSize().width/2, note_panel->getContentSize().height*.9 + 15));
     title->setColor(ccc3(110, 92, 118));
     note_panel->addChild(title);
@@ -114,10 +115,11 @@ void NotePanel::initView(){
     max_word->setColor(ccc3(135, 108, 123));
     note_panel->addChild(max_word);
     
-    _word_count = CCLabelTTF::create("0", DISPLAY->fangzhengFont(), 19);
-    _word_count->setPosition(ccp(note_panel->getContentSize().width*.75f, note_panel->getContentSize().height*.2f));
-    _word_count->setColor(ccc3(135, 108, 123));
-    note_panel->addChild(_word_count);
+    CCString* num_str = CCString::createWithFormat("%d", _word_count);
+    _wordNum_lab = CCLabelTTF::create(num_str->getCString(), DISPLAY->fangzhengFont(), 19);
+    _wordNum_lab->setPosition(ccp(note_panel->getContentSize().width*.75f, note_panel->getContentSize().height*.2f));
+    _wordNum_lab->setColor(ccc3(135, 108, 123));
+    note_panel->addChild(_wordNum_lab);
     
     CCSprite* send_spr = CCSprite::create("res/pic/common/btn_send.png");
     CCSprite* send_spr2 = CCSprite::create("res/pic/common/btn_send.png");
@@ -136,34 +138,34 @@ void NotePanel::initView(){
 }
 
 void NotePanel::update(float dt){
-    if(_word_count){
-        _word_count->removeFromParentAndCleanup(true);
-    }
-    unsigned long length = m_text->getText().length();
-    const char* str = m_text->getText().c_str();
-    int chs_count = 0;
-    int eng_count = 0;
-    int cur_count = 0;
-    for(int i = 0; i < length; i++){
-        if (('0' <= str[i] && str[i] <= '9') || ('A' <= str[i] && str[i] <= 'Z') || ('a' <= str[i] && str[i] <= 'z')  || (32 <= str[i] && str[i] <= 47) || (58 <= str[i] && str[i] <= 64) || (91 <= str[i] && str[i] <= 96) || (123 <= str[i] && str[i] <= 126)) {
-            eng_count++;
-        }else{
-            chs_count++;
-        }
-        cur_count = (int)ceil(chs_count/3) + eng_count;
-        if(cur_count == 50){
-            m_text->setMaxTextBytes(i);
-//            m_text->setText(m_text->getText().erase(i).c_str());
-            break;
-        }
-        
-    }
+//    if(_wordNum_lab){
+//        _wordNum_lab->removeFromParentAndCleanup(true);
+//    }
+//    unsigned long length = m_text->getText().length();
+//    const char* str = m_text->getText().c_str();
+//    int chs_count = 0;
+//    int eng_count = 0;
+//    int cur_count = 0;
+//    for(int i = 0; i < length; i++){
+//        if (('0' <= str[i] && str[i] <= '9') || ('A' <= str[i] && str[i] <= 'Z') || ('a' <= str[i] && str[i] <= 'z')  || (32 <= str[i] && str[i] <= 47) || (58 <= str[i] && str[i] <= 64) || (91 <= str[i] && str[i] <= 96) || (123 <= str[i] && str[i] <= 126)) {
+//            eng_count++;
+//        }else{
+//            chs_count++;
+//        }
+//        cur_count = (int)ceil(chs_count/3) + eng_count;
+//        if(cur_count == 50){
+//            m_text->setMaxTextBytes(i);
+////            m_text->setText(m_text->getText().erase(i).c_str());
+//            break;
+//        }
+//        
+//    }
     
-    CCString* count_str = CCString::createWithFormat("%d", cur_count);
-    _word_count = CCLabelTTF::create(count_str->getCString(), DISPLAY->fangzhengFont(), 19);
-    _word_count->setPosition(ccp(note_panel->getContentSize().width*.75f + 10, note_panel->getContentSize().height*.2f));
-    _word_count->setColor(ccc3(135, 108, 123));
-    note_panel->addChild(_word_count);
+//    CCString* count_str = CCString::createWithFormat("%d", cur_count);
+//    _wordNum_lab = CCLabelTTF::create(count_str->getCString(), DISPLAY->fangzhengFont(), 19);
+//    _wordNum_lab->setPosition(ccp(note_panel->getContentSize().width*.75f + 10, note_panel->getContentSize().height*.2f));
+//    _wordNum_lab->setColor(ccc3(135, 108, 123));
+//    note_panel->addChild(_wordNum_lab);
 }
 
 void NotePanel::btn_send_callback(){
@@ -239,6 +241,67 @@ void NotePanel::note_callback_809(){
 }
 
 bool NotePanel::onCursorTextFieldInsertText(CursorTextField* sender, const char* newText, int newTextByte) {
+//    unsigned long length = m_text->getText().length();
+//    const char* str = m_text->getText().c_str();
+    std::string str = newText;
+    unsigned long length = str.length();
+    int chs_count = 0;
+    int eng_count = 0;
+    int cur_count = 0;
+    for(int i = 0; i < length; i++){
+        if (('0' <= str[i] && str[i] <= '9') || ('A' <= str[i] && str[i] <= 'Z') || ('a' <= str[i] && str[i] <= 'z')  || (32 <= str[i] && str[i] <= 47) || (58 <= str[i] && str[i] <= 64) || (91 <= str[i] && str[i] <= 96) || (123 <= str[i] && str[i] <= 126)) {
+            
+            eng_count++;
+            if (_word_count + eng_count + (int)ceil(chs_count/3) > 50) {
+                str = str.erase(i);
+                break;
+            }
+        }else{
+            chs_count++;
+            CCLOG("ceil_num = %d", (int)ceil(chs_count/3));
+            if (_word_count + (int)ceil(chs_count/3) + eng_count > 50) {
+                str = str.erase(i - 2 <=0 ? 0 : i - 2);
+                break;
+            }
+        }
+        cur_count = (int)ceil(chs_count/3) + eng_count;
+    }
+    
+
+    CCLOG("str: %s", str.c_str());
+    
+    CCString* text = CCString::createWithFormat("%s%s", m_text->getText().c_str(), str.c_str());
+    m_text->setText(text->getCString());
+    
+    _word_count += cur_count;
+    int num = _word_count > 50 ? 50 : _word_count;
+    
+    CCString* num_str = CCString::createWithFormat("%d", num);
+    _wordNum_lab->setString(num_str->getCString());
+    return true;
+}
+
+bool NotePanel::onCursorTextFieldDeleteBackward(CursorTextField *sender, const char *delText, int nLen) {
+    const char* str = delText;
+    unsigned long length = strlen(str);
+    int chs_count = 0;
+    int eng_count = 0;
+    int cur_count = 0;
+    for(int i = 0; i < length; i++){
+        if (('0' <= str[i] && str[i] <= '9') || ('A' <= str[i] && str[i] <= 'Z') || ('a' <= str[i] && str[i] <= 'z')  || (32 <= str[i] && str[i] <= 47) || (58 <= str[i] && str[i] <= 64) || (91 <= str[i] && str[i] <= 96) || (123 <= str[i] && str[i] <= 126)) {
+            eng_count++;
+        }else{
+            chs_count++;
+        }
+        cur_count = (int)ceil(chs_count/3) + eng_count;
+    }
+    
+    _word_count -= cur_count;
+    int num = _word_count <= 0 ? 0 : _word_count;
+    num = _word_count > 50 ? 50 : _word_count;
+    
+    CCString* num_str = CCString::createWithFormat("%d", num);
+    _wordNum_lab->setString(num_str->getCString());
     
     return false;
 }

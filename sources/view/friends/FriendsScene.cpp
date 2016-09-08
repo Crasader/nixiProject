@@ -229,7 +229,7 @@ void FriendsScene::update_self_panel(ShowComp* self) {
     
     if (_nodeNormal) {
         _nodeNormal->removeAllChildrenWithCleanup(true);
-        CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
         name->setPosition(ccp(plateSize.width* .68f, plateSize.height* .68f));
         name->setColor(ccc3(234, 106, 106));
         _nodeNormal->addChild(name);
@@ -255,7 +255,7 @@ void FriendsScene::update_self_panel(ShowComp* self) {
     if (_nodeSelected) {
         _nodeSelected->removeAllChildrenWithCleanup(true);
         float scaleRate = 1.2f;
-        CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
         name->setPosition(ccp(_selfPanelSelected->getContentSize().width* .68f, _selfPanelSelected->getContentSize().height* .68f));
         name->setColor(ccc3(234, 106, 106));
         name->setScale(scaleRate);

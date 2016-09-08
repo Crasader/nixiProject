@@ -66,6 +66,7 @@ public:
     
     virtual void onEnter();
     virtual void onExit();
+    void onEnterTransitionDidFinish();
     
     void keyBackStatus(float dt);
     virtual void keyBackClicked();

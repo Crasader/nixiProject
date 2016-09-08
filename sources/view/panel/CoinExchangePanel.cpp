@@ -10,8 +10,10 @@
 #include "DisplayManager.h"
 #include "DataManager.h"
 #include "NetManager.h"
-#include "Loading2.h"
 #include "AudioManager.h"
+
+#include "PromptLayer.h"
+#include "Loading2.h"
 #include <math.h>
 
 CoinExchangePanel::~CoinExchangePanel() {
@@ -62,7 +64,7 @@ bool CoinExchangePanel::init() {
             _content->addChild(lbl);
         }
         else {
-            CCString* str = CCString::createWithFormat("使用%d钻石兑换%d金币", 10 * int(pow(2, exchangeTimes)),  1000);
+            CCString* str = CCString::createWithFormat("使用%d钻石兑换%d金币", DATA->getPurchase()->getCoinExchangeCost(), DATA->getPurchase()->getCoinExchangeGain());
             CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
             lbl->setColor(DISPLAY->dullBlueColor());
             lbl->setPosition(DISPLAY->center() + ccp(0, 150));
@@ -161,6 +163,10 @@ void CoinExchangePanel::buy() {
 void CoinExchangePanel::nc_exchange_coin_103(CCObject *pObj) {
     AUDIO->comfirm_effect();
     LOADING->remove();
+    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "成功兑换金币~!");
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->remove();
 }

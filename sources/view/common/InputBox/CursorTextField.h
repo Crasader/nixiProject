@@ -25,6 +25,7 @@ public:
      @brief    If the sender doesn't want to insert the text, return true;
      */
     virtual bool onCursorTextFieldInsertText(CursorTextField* sender, const char* newText, int newTextByte)=0;
+    virtual bool onCursorTextFieldDeleteBackward(CursorTextField * sender, const char * delText, int nLen)=0;
     virtual void onCursorTextFieldAttachWithIME(CursorTextField * sender) = 0;
     virtual void onCursorTextFieldDetachWithIME(CursorTextField * sender) = 0;
 };
