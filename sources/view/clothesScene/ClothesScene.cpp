@@ -46,6 +46,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     tag1 = 0;
     tag2 = 0;
     tag3 = 0;
+    DATA->setTaskGameIndex6(0);
     
     _animLayer = CCLayer::create();
     this->addChild(_animLayer, 9);
@@ -865,6 +866,11 @@ void ClothesScene::crate_Tishi(){
     }
 }
 void ClothesScene::renwukuangCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "换装界面", "点击筛选");
+    
     if (buttonTag == Tag_CL_TouFa){
         
         isClothesType = Tag_CL_TouFa;
@@ -1010,6 +1016,11 @@ void ClothesScene::renwukuangMethods(int index){
 }
 
 void ClothesScene::buttonCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "换装界面", "点击选择类型");
+    
     if (animationBool) {
         animationBool = false;
         
@@ -1150,12 +1161,16 @@ void ClothesScene::_605CallBack(CCObject* pObj){
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "换装界面", "点击退出");
+    
     DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
     if (DATA->getTaskGameBool6()) {
         LOADING->show_loading();
-        NET->commit_extra_mission_605(DATA->getTaskTempID(), 6, 0);
+        
+        NET->commit_extra_mission_605(DATA->getTaskTempID(), 6, DATA->getTaskGameIndex6());
     }else{
         if (DATA->getHomeBool()) {
             DATA->setHomeBool(false);
@@ -1204,6 +1219,11 @@ void ClothesScene::removeAnimation(){
 }
 
 void ClothesScene::startCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "换装界面", "点击开始任务");
+    
     if (animationBool) {
         animationBool = false;
         
@@ -1369,6 +1389,11 @@ void ClothesScene::startMethods(){
 }
 
 void ClothesScene::buyCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "换装界面", "点击购买");
+    
     if (animationBool) {
         animationBool = false;
         
@@ -1419,6 +1444,11 @@ void ClothesScene::buyCallBack(CCObject* pSender){
     
 }
 void ClothesScene::saveCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "换装界面", "点击保存");
+    
     if (animationBool) {
         animationBool = false;
         
@@ -3092,14 +3122,28 @@ void ClothesScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "据说体力藏在活动里~!去看看活动吧.");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "加入官方QQ群315157598可获得钻石奖励呦!");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_COIN_EXCHANGE");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            int randIndex = rand()%2 + 1;
+            if (randIndex == 1) {
+                layer->show_prompt(this->getScene(), "公司的工资亲你领了吗~!可获得金币呦~!");
+            }else if (randIndex == 2){
+                layer->show_prompt(this->getScene(), "金币还可以去重复做其他日常任务获得呦~!");
+            }
         }
     }
 }
@@ -3183,6 +3227,10 @@ int ClothesScene::haveEnoughGold(){
                     if (cloth_type == 2) {
                         if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
                             gold += dic->valueForKey("cost")->intValue();
+                            
+                            int goldIndex = DATA->getTaskGameIndex6();
+                            goldIndex++;
+                            DATA->setTaskGameIndex6(goldIndex);
                         }
                     }
                 }
@@ -3196,6 +3244,10 @@ int ClothesScene::haveEnoughGold(){
                         if (cloth_type == 2) {
                             if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
                                 gold += dic->valueForKey("cost")->intValue();
+                                
+                                int goldIndex = DATA->getTaskGameIndex6();
+                                goldIndex++;
+                                DATA->setTaskGameIndex6(goldIndex);
                             }
                         }
                     }

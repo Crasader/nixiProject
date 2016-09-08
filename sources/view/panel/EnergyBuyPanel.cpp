@@ -80,7 +80,7 @@ bool EnergyBuyPanel::init() {
         
         CCString* str = CCString::createWithFormat("今日已购买%d/%d次", boughtTimes, limit);
         CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 28.f);
-        lbl->setColor(ccGRAY);
+        lbl->setColor(ccc3(159, 82, 121));
         lbl->setPosition(DISPLAY->center() + ccp(0, 110));
         _content->addChild(lbl);
         

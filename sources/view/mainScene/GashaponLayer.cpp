@@ -274,6 +274,9 @@ void GashaponLayer::creat_View(){
     this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);
 }
 void GashaponLayer::jiantou1CallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "扭蛋界面", "点击左箭头");
+    
     jiantouItem1->setEnabled(false);
     jiantouItem2->setEnabled(false);
     nowIndex--;
@@ -299,6 +302,9 @@ void GashaponLayer::jiantou1CallBack(CCObject* pSender){
     this->scheduleOnce(SEL_SCHEDULE(&GashaponLayer::updataButton), .3f);
 }
 void GashaponLayer::jiantou2CallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "扭蛋界面", "点击右箭头");
+    
     jiantouItem1->setEnabled(false);
     jiantouItem2->setEnabled(false);
     
@@ -436,9 +442,15 @@ void GashaponLayer::creat_gold(CCMenuItem* item, int index){
 void GashaponLayer::suipianCallBack(CCObject* pSender){
     this->removeFromParentAndCleanup(true);
     
+    // talkingData
+    DATA->onEvent("点击事件", "扭蛋界面", "点击碎片兑换");
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_Exchange");
 }
 void GashaponLayer::oneCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "扭蛋界面", "点击单次");
+    
     LOADING->show_loading();
     NET->single_lottery_307();
 }
@@ -486,6 +498,9 @@ void GashaponLayer::_307CallBack(CCObject* pSender){
 }
 
 void GashaponLayer::tenCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "扭蛋界面", "点击十次");
+    
     LOADING->show_loading();
     NET->multiply_lottery_309();
 }

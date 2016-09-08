@@ -76,8 +76,11 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
     CCSequence* seq = CCSequence::create(CCFadeIn::create(0.6), CCDelayTime::create(0.3), CCFadeOut::create(0.6), CCDelayTime::create(0.5), NULL);
     spots->runAction(CCRepeatForever::create(seq));
     
-    CCSprite* title = CCSprite::create("pic/building/reward/title.png");
-    title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .88f));
+//    CCSprite* title = CCSprite::create("pic/building/reward/title.png");
+//    title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .88f));
+//    _panel->addChild(title);
+    CCSprite* title = CCSprite::create("pic/building/reward/title2.png");
+    title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .92f));
     _panel->addChild(title);
     
     if (_type.compare("coin") == 0) {

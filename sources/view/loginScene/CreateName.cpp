@@ -67,7 +67,7 @@ void CreateName::create_baes_view()
     ccColor3B yanse = ccWHITE;
     
     //
-    CCLabelTTF* lbl_content = CCLabelTTF::create("魅力与智慧并存的总裁大人，我该如何称呼您?", DISPLAY->fangzhengFont(), 26, CCSizeMake(340, 80), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* lbl_content = CCLabelTTF::create("魅力与智慧并存的总裁大人,我该如何称呼您?", DISPLAY->fangzhengFont(), 26, CCSizeMake(340, 80), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     lbl_content->setColor(ccc3(128, 128, 155));
     lbl_content->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.68));
     spt_inputbox->addChild(lbl_content);

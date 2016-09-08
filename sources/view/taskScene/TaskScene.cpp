@@ -463,6 +463,9 @@ void TaskScene::backCallBack(CCObject* pSender){
 void TaskScene::historyCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "日常界面", "点击回顾");
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     CCLog("房子是%d", item->getTag());
     historyIndex = item->getTag();
@@ -715,6 +718,9 @@ void TaskScene::creat_Tishi(){
 void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     taskIndex = item->getTag();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "日常界面", "点击开始");
     
     if (DATA->getClothes()->has_init_clothes == true) {
         this->_startCallBack(NULL);
@@ -1539,6 +1545,9 @@ void TaskScene::creat_phone3(){
 void TaskScene::phoneCallBack(CCObject* pSender){
     AUDIO->shop_effect();
     CCLog("phoneCallBack");
+    
+    // talkingData
+    DATA->onEvent("点击事件", "日常界面", "点击phone");
     
     CCLayer* layer = PhoneLayer2::create();
     CCScene* scene = CCScene::create();

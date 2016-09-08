@@ -501,6 +501,9 @@ void QingjingScene::backCallBack(CCObject* pSender){
 }
 
 void QingjingScene::openChat() {
+    // talkingData
+    DATA->onEvent("点击事件", "情景界面", "点击聊天");
+    
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
@@ -522,6 +525,9 @@ void QingjingScene::displayChatItem(){
 
 
 void QingjingScene::startCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "情景界面", "点击开始");
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
     
@@ -1216,6 +1222,9 @@ void QingjingScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "据说体力藏在活动里~!去看看活动吧.");
         }
     }
 }

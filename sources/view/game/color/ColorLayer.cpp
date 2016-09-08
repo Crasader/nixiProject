@@ -574,7 +574,7 @@ void ColorLayer::menu_callBack(CCObject* pSender){
             
             m_wrong++;
             if (m_num > 0) {
-                m_num--;
+//                m_num--;
             }else{
                 m_num = 0;
             }

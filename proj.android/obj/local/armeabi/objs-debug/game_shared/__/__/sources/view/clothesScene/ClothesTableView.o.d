@@ -264,7 +264,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/clothesScene/Clothes
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/manager/DisplayManager.h
+ jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/view/qingjingScene/StringUtil.h
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 
@@ -807,3 +808,5 @@ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 jni/../../sources/manager/ConfigManager.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/view/qingjingScene/StringUtil.h:

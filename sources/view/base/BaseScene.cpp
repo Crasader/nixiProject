@@ -18,6 +18,8 @@
 #include "ConfigManager.h"
 #include "SpecialManager.h"
 #include "PromptLayer.h"
+#include "JNIController.h"
+
 
 BaseScene::~BaseScene(){
     
@@ -69,6 +71,9 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_gold_fly_completed), "GOLD_FLY_COMPLETED", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_energy_fly_completed), "ENERGY_FLY_COMPLETED", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::push_Android), "Push_Android", NULL);
+    
 }
 
 void BaseScene::onExit(){
@@ -287,6 +292,9 @@ void BaseScene::closeBaseMenu(){
 }
 
 void BaseScene::nicknameCallBack(CCObject* pSender) {
+    // talkingData
+    DATA->onEvent("点击事件", "上导航", "点击名字");
+    
     int resetCost = DATA->getShow()->resetCost();
     ResetNicknamePanel* panel = NULL;
     if (0 == resetCost) {
@@ -303,10 +311,16 @@ void BaseScene::nicknameCallBack(CCObject* pSender) {
 }
 
 void BaseScene::tiliCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "上导航", "点击体力");
+    
     this->show_energybuy_panel();
 }
 
 void BaseScene::goldCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "上导航", "点击钻石");
+    
     if (DATA->getPurchase()->has_init_products()) {
         this->show_purchase_panel();
     }
@@ -317,6 +331,9 @@ void BaseScene::goldCallBack(CCObject* pSender){
 }
 
 void BaseScene::coinCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "上导航", "点击金币");
+    
     CoinExchangePanel* panel = CoinExchangePanel::create();
     panel->show();
 }
@@ -444,4 +461,25 @@ void BaseScene::nc_gold_fly_completed(CCObject *pObj) {
 void BaseScene::nc_energy_fly_completed(CCObject *pObj) {
     updataMoney();
 }
+
+
+
+
+void BaseScene::push_Android(CCObject* pObj){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JNIController::closePush_Android(1);
+    
+    CCDictionary* dic = (CCDictionary* )pObj;
+    const CCString* name = (CCString*)dic->valueForKey("name");
+    CCInteger* num = (CCInteger*)dic->objectForKey("num");
+    CCInteger* index = CCInteger::create(1);
+    
+    CCLog("str == %s, num == %d", name->getCString(), num->getValue());
+    
+    JNIController::push_Android(name->getCString(), num->getValue(), index->getValue());
+#endif
+}
+
+
+
 

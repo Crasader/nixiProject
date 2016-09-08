@@ -270,6 +270,9 @@ void PhoneLayer2::logic(float dt){
 void PhoneLayer2::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "phone界面", "点击退出");
+    
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -277,9 +280,15 @@ void PhoneLayer2::backCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void PhoneLayer2::buquCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "phone界面", "点击不去");
+    
     this->backCallBack(NULL);
 }
 void PhoneLayer2::quCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "phone界面", "点击去");
+    
     if (DATA->getStory()->has_init_story()) {
         this->_500CallBack(NULL);
     }else{

@@ -82,10 +82,13 @@ void RewardLayer::init_with_index(CCArray* arr){
         renyiSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -20));
         kuangSpr->addChild(renyiSpr, 3);
         renyiSpr->setVisible(false);
-        
-        CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title.png");
-        titleSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .99f));
+
+        CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title2.png");
+        titleSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* 1.02f));
         kuangSpr->addChild(titleSpr, 100);
+//        CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title.png");
+//        titleSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .99f));
+//        kuangSpr->addChild(titleSpr, 100);
         
         CCSprite* guangSpr = CCSprite::create("res/pic/gashapon/gashapon_1.png");
         guangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .65f));
@@ -183,9 +186,12 @@ void RewardLayer::drawOnce(){
     iconSpr->runAction(CCSequence::create(spawn, callFunc, NULL));
     
     
-    CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title.png");
+    CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title2.png");
     titleSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .99f));
     kuangSpr->addChild(titleSpr, 100);
+//    CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title.png");
+//    titleSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .99f));
+//    kuangSpr->addChild(titleSpr, 100);
     
     CCSprite* guangSpr = CCSprite::create("res/pic/gashapon/gashapon_1.png");
     guangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .65f));
@@ -441,7 +447,7 @@ void RewardLayer::drawTen3(){
         CCSpawn* spawn2 = CCSpawn::create(moveTo2, scaleTo2, NULL);
         CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&RewardLayer::openTouch));
         
-        CCSequence* seq = CCSequence::create(CCDelayTime::create(2.f), spawn1, CCDelayTime::create(.6f), spawn2, callFunc, NULL);
+        CCSequence* seq = CCSequence::create(CCDelayTime::create(1.6f), spawn1, CCDelayTime::create(.6f), spawn2, callFunc, NULL);
         reward->runAction(seq);
     }else{
         this->openTouch();
@@ -455,8 +461,8 @@ bool RewardLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     if (touchBool) {
         if (tenBool) {
             tenBool = false;
+            touchBool = false;
             renyiSpr->setVisible(false);
-            
             this->drawTen2();
         }else{
             CCPoint location = pTouch->getLocation();

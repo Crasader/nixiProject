@@ -294,6 +294,9 @@ void TaskStoryScene::creat_view(){
 void TaskStoryScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "日常对话界面", "点击退出");
+    
     if (missionDic->valueForKey("states")->intValue() == 1){// ==1 一个人
         if (_touSpr->getChildByTag(0x44444) != NULL) {
             _touSpr->removeChildByTag(0x44444);
@@ -1138,12 +1141,18 @@ void TaskStoryScene::addButton(){
 void TaskStoryScene::huikanCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "日常对话界面", "点击回顾");
+    
     TaskLabelColorLayer* layer = TaskLabelColorLayer::create_with_index(labStr.c_str());
     layer->setTag(0x999999);
     this->addChild(layer, 100);
 }
 void TaskStoryScene::kuaijinCallBack(CCObject* pSender){
     AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "日常对话界面", "点击快进");
     
     if (!buttonBool) {
         buttonBool = true;
@@ -1299,6 +1308,9 @@ void TaskStoryScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTO
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "据说体力藏在活动里~!去看看活动吧.");
         }
     }
 }

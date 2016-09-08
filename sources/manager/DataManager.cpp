@@ -430,9 +430,14 @@ void DataManager::handle_protocol(int cid, Value content) {
             dic->setObject(ccs("gashapon"), "name");
             dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
             CCNotificationCenter::sharedNotificationCenter()->postNotification("FREE_GASHAPON", dic);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+            CCDictionary* dic = CCDictionary::create();
+            dic->setObject(ccs("gashapon"), "name");
+            dic->setObject(CCInteger::create(content["gashapon"]["free_point"].asInt()), "num");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Push_Android", dic);
 #endif
         } break;
-            
+        
         case 309: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -441,7 +446,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _operation->init_extra(content["extra"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
+        
         case 311: {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
@@ -571,4 +576,38 @@ int DataManager::current_guide_step(){
 //    return _player->getGuide();
     return 0;
 }
+
+
+
+
+
+
+// talkingData自定义事件
+void DataManager::onEvent(std::string eventStr, std::string pageStr, std::string contentStr){
+//    EventParamMap paramMap;
+//    paramMap.insert(EventParamPair(pageStr, contentStr));
+//    TDCCTalkingDataGA::onEvent(eventStr.c_str(), &paramMap);
+}
+
+/*
+ *  orderId 订单ID, iapId 充值内容, currencyAmount 金额
+ *  virtualCurrencyAmount 虚拟币金额
+ */
+void DataManager::onChargeRequest(std::string orderId, std::string iapId, double currencyAmount, double virtualCurrencyAmount){
+//    CCString* typeStr = CCString::createWithFormat("%d", CARRIER_ID);
+//    TDCCVirtualCurrency::onChargeRequest(orderId.c_str(), iapId.c_str(), currencyAmount, "CNY", virtualCurrencyAmount, typeStr->getCString());
+}
+
+void DataManager::onChargeSuccess(std::string orderId){
+//    TDCCVirtualCurrency::onChargeSuccess(orderId.c_str());
+}
+
+
+
+
+
+
+
+
+
 

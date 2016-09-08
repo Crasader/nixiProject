@@ -64,15 +64,22 @@ bool GameCheckoutPanel::initWithScore(string gameId, int score, int history, CCD
 //    mask->setPosition(DISPLAY->center());
 //    this->addChild(mask);
     
-    _panel = CCSprite::create("pic/panel/game_checkout/panel.png");
-    _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75));
+//    _panel = CCSprite::create("pic/panel/game_checkout/panel.png");
+//    _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75));
+//    _panel->setVisible(false);
+//    this->addChild(_panel);
+    _panel = CCSprite::create("pic/panel/game_checkout/panel2.png");
+    _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.68));
     _panel->setVisible(false);
     this->addChild(_panel);
     
     CCSize panelSize = _panel->boundingBox().size;
     
-    CCSprite* title = CCSprite::create("pic/panel/game_checkout/title_plate.png");
-    title->setPosition(ccp(panelSize.width* .5f, panelSize.height));
+//    CCSprite* title = CCSprite::create("pic/panel/game_checkout/title_plate.png");
+//    title->setPosition(ccp(panelSize.width* .5f, panelSize.height));
+//    _panel->addChild(title);
+    CCSprite* title = CCSprite::create("pic/panel/game_checkout/title_plate2.png");
+    title->setPosition(ccp(panelSize.width* .5f, panelSize.height+ 10));
     _panel->addChild(title);
     
     int scorePadding = 70;
@@ -82,16 +89,19 @@ bool GameCheckoutPanel::initWithScore(string gameId, int score, int history, CCD
     if (score <= history) {
         CCLabelTTF* lblTitle = CCLabelTTF::create("通 关", DISPLAY->fangzhengFont(), 42);
         lblTitle->setPosition(title->getPosition() + ccp(0, 3));
+        lblTitle->setColor(ccc3(161, 105, 108));
         _panel->addChild(lblTitle);
     }
     else if (score >= firstScore) {
         CCLabelTTF* lblTitle = CCLabelTTF::create("人生巅峰", DISPLAY->fangzhengFont(), 40);
         lblTitle->setPosition(title->getPosition() + ccp(0, 3));
+        lblTitle->setColor(ccc3(161, 105, 108));
         _panel->addChild(lblTitle);
     }
     else {
         CCLabelTTF* lblTitle = CCLabelTTF::create("超越自己", DISPLAY->fangzhengFont(), 40);
         lblTitle->setPosition(title->getPosition() + ccp(0, 3));
+        lblTitle->setColor(ccc3(161, 105, 108));
         _panel->addChild(lblTitle);
     }
     

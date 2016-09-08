@@ -278,7 +278,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/base/BaseScene.o: \
  jni/../../sources/view/panel/CoinExchangePanel.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/SpecialManager.h \
- jni/../../sources/view/mainScene/PromptLayer.h
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
 jni/../../sources/view/base/BaseScene.h:
 
@@ -849,3 +851,7 @@ jni/../../sources/manager/ConfigManager.h:
 jni/../../sources/manager/SpecialManager.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
