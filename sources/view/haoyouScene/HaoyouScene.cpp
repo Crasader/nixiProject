@@ -39,6 +39,9 @@ bool HaoyouScene::init(){
         return false;
     }
     
+    _layer = CCLayer::create();
+    this->addChild(_layer);
+    
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     _ManSpr = CCSprite::create();
@@ -80,8 +83,15 @@ void HaoyouScene::onEnter(){
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
     
     this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::keyBackStatus), .8f);
-    this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::openChat), 1.0f);
+//    this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::openChat), 1.2f);
+    CCLOG("ONENTER");
 }
+
+void HaoyouScene::onEnterTransitionDidFinish() {
+    CCLog("onEnterTransitionDidFinish");
+    this->openChat();
+}
+
 void HaoyouScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }

@@ -36,6 +36,7 @@ public:
     virtual bool ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent);
     
     virtual bool onCursorTextFieldInsertText(CursorTextField* sender, const char* newText, int newTextByte);
+    virtual bool onCursorTextFieldDeleteBackward(CursorTextField * sender, const char * delText, int nLen);
     virtual void onCursorTextFieldAttachWithIME(CursorTextField * sender);
     virtual void onCursorTextFieldDetachWithIME(CursorTextField * sender);
 //
@@ -89,7 +90,8 @@ public:
     
     int erase_pos;
     
-    CCLabelTTF* _word_count;
+    CCLabelTTF* _wordNum_lab;
+    int         _word_count;
     
 public:
     

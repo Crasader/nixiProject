@@ -66,6 +66,7 @@ public:
     
     virtual void onEnter();
     virtual void onExit();
+    void onEnterTransitionDidFinish();
     
     void keyBackStatus(float dt);
     virtual void keyBackClicked();
@@ -144,6 +145,7 @@ private:
     CCMenuItem*         _xiaoxiItem;
     CCMenuItem*         _zhitiaoItem;
     CCMenuItemSprite*   item_chat;
+    CCLayer*            _layer;
     bool hasFriends;
 };
 #endif /* defined(__tiegao__HaoyouScene__) */

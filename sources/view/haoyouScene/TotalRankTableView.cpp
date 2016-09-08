@@ -119,7 +119,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->removeChildByTag(0X10500, true);
         }
         
-        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
         name2->setPosition(ccp(bg2->getContentSize().width* .6f, bg2->getContentSize().height* .68));
         name2->setColor(ccc3(234, 106, 106));
         name2->setTag(0x10500);
@@ -203,7 +203,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg1->removeChildByTag(0X10500, true);
         }
         
-            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+            CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(bg1->getContentSize().width* .68f, bg1->getContentSize().height* .68));
             name1->setColor(ccc3(234, 106, 106));
             name1->setTag(0x10500);
@@ -285,7 +285,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->removeChildByTag(0X10500, true);
         }
         
-        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
         name2->setPosition(ccp(bg2->getContentSize().width* .60f, bg2->getContentSize().height* .68));
         name2->setColor(ccc3(234, 106, 106));
         name2->setTag(0x10500);
@@ -447,7 +447,7 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     int collected = show->collected();
     
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(bg->getContentSize().width* .6f, bg->getContentSize().height* .68));
     name->setColor(ccc3(234, 106, 106));
     name->setTag(0x10500);
@@ -558,7 +558,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     int collect = show->collected();
     
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(bg->getContentSize().width* .68f, bg->getContentSize().height* .68));
     name->setColor(ccc3(234, 106, 106));
     name->setTag(0x10500);

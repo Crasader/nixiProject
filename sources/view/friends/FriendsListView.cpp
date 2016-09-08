@@ -227,7 +227,7 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
 
 void FriendsListView::add_name(CCSprite *plate, const char *nickname, bool selected) {
     CCSize plateSize = plate->getContentSize();
-    CCLabelTTF* labelName = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* labelName = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     labelName->setAnchorPoint(ccp(0, 0.5));
     labelName->setColor(ccc3(234, 106, 106));
     if (selected) {

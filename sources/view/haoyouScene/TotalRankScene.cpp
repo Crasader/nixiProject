@@ -177,7 +177,7 @@ void TotalRankScene::create_self(){
     
     
     const char* nickname_self = DATA->getShow()->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(item_self->getContentSize().width* .68f, item_self->getContentSize().height* .68f));
     name->setColor(ccc3(234, 106, 106));
     item_self->addChild(name);
@@ -238,7 +238,7 @@ void TotalRankScene::create_first(){
     num_fst_item->setPosition(ccp(item_first->getContentSize().width* .25f, item_first->getContentSize().height* .5f));
     item_first->addChild(num_fst_item);
     
-    CCLabelTTF* name_first_item = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name_first_item = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name_first_item->setPosition(ccp(item_first->getContentSize().width* .68f, item_first->getContentSize().height* .68));
     name_first_item->setColor(ccc3(234, 106, 106));
     item_first->addChild(name_first_item);
@@ -259,7 +259,7 @@ void TotalRankScene::create_first(){
     num_fst->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
     bg->addChild(num_fst);
     
-    CCLabelTTF* name_first = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name_first = CCLabelTTF::create(nickname_first, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name_first->setPosition(ccp(bg->getContentSize().width* .6f, bg->getContentSize().height* .68));
     name_first->setColor(ccc3(234, 106, 106));
     bg->addChild(name_first);
@@ -319,7 +319,7 @@ void TotalRankScene::create_second(){
     num_sed->setPosition(ccp(item_second->getContentSize().width* .25f, item_second->getContentSize().height* .5f));
     item_second->addChild(num_sed);
     
-    CCLabelTTF* name_second = CCLabelTTF::create(nickname_second, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name_second = CCLabelTTF::create(nickname_second, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name_second->setPosition(ccp(item_second->getContentSize().width* .68f, item_second->getContentSize().height* .68));
     name_second->setColor(ccc3(234, 106, 106));
     //    name_second->setTag(0x2002);
@@ -353,7 +353,7 @@ void TotalRankScene::create_third(){
     num_thd->setPosition(ccp(item_third->getContentSize().width* .25f, item_third->getContentSize().height* .5f));
     item_third->addChild(num_thd);
     
-    CCLabelTTF* name_third = CCLabelTTF::create(nickname_third, DISPLAY->fangzhengFont(), 22, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name_third = CCLabelTTF::create(nickname_third, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name_third->setPosition(ccp(item_third->getContentSize().width* .68f, item_third->getContentSize().height* .68f));
     name_third->setColor(ccc3(234, 106, 106));
     item_third->addChild(name_third);
@@ -616,7 +616,7 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
     }
     
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(160, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(item->getContentSize().width* .6f, item->getContentSize().height* .68f));
     name->setColor(ccc3(234, 106, 106));
     bg->addChild(name);

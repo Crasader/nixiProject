@@ -234,11 +234,11 @@ bool CursorTextField::onTextFieldInsertText(CCTextFieldTTF * sender, const char 
 //        return true;
 //    }
 //    
-//    if (_delegate != NULL) {
-//        if (_delegate->onCursorTextFieldInsertText(this, text, nLen)) {
-//            return true;
-//        }
-//    }
+    if (_delegate != NULL) {
+        if (_delegate->onCursorTextFieldInsertText(this, text, nLen)) {
+            return true;
+        }
+    }
     
     _oldText.append(text);
     _nCurTextBytes += nLen;
@@ -257,6 +257,11 @@ bool CursorTextField::onTextFieldDeleteBackward(CCTextFieldTTF * sender, const c
     
     _oldText = _oldText.erase(_oldText.length() - nLen);
     _nCurTextBytes -= nLen;
+    
+    if (_delegate != NULL) {
+        _delegate->onCursorTextFieldDeleteBackward(this, delText, nLen);
+    }
+    
     return false;
 }
 

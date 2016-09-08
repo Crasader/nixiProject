@@ -14,6 +14,7 @@
 #include "json_lib.h"
 
 #include "EmoticonPanel.h"
+#include "AudioManager.h"
 
 using namespace CSJson;
 
@@ -98,7 +99,7 @@ void ChatPanel::initChatPanel(){
 //    this->updateSendTime();
     
 
-    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("请输入...", DISPLAY->fangzhengFont(), 24);
+    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("每条最多20个汉字", DISPLAY->fangzhengFont(), 24);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
     _input_text->setColor(ccBLACK);
     _input_text->setDelegate(this);
@@ -203,7 +204,7 @@ void ChatPanel::initTopMessage(){
 //    bg->addChild(nick_bg);
 //    bg->addChild(nickname);
     
-    CCLabelTTF* message = CCLabelTTF::create("欢迎来到女总裁的世界，请大家文明发言，希望大家能在游戏里发现各种乐趣，享受游戏，享受生活！", DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* message = CCLabelTTF::create("欢迎来到女总的贴身高手，请小伙伴们文明发言。共同营造和谐氛围。", DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     message->setColor(ccc3(178, 117, 254));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5));
@@ -224,6 +225,8 @@ void ChatPanel::closeChatPanel(){
 }
 
 void ChatPanel::btn_sendMessage(CCMenuItem *item){
+    AUDIO->comfirm_effect();
+    
     FastWriter writer;
     Value root;
     
