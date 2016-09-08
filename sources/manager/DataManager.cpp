@@ -448,6 +448,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _operation->replace_gashapon_user(content["gashapon"]);
         } break;
             
+        case 333: {
+            _player->init_with_json(content["player"]);
+            pData = AppUtil::dictionary_with_json(content["result"]);
+        } break;
+            
         case 200: {
             _coffers->init_company_template(content["template"]);
             _coffers->replace_user_data(content["coffers"]);

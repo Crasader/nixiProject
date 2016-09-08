@@ -11,6 +11,8 @@
 #include "AudioManager.h"
 #include "DataManager.h"
 
+#include "GiftPanel.h"
+
 SettingPanel::~SettingPanel() {
 }
 
@@ -48,9 +50,19 @@ bool SettingPanel::init() {
         CCSprite* back_sel = CCSprite::create("res/pic/panel/setting/relogin.png");
         back_sel->setScale(1.02f);
         CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_nor, back_sel, this, menu_selector(SettingPanel::on_back));
-        item_back->setPosition(ccp(panelSize.width * 0.8, panelSize.height * 0.18));
-        CCMenu* menu_back = CCMenu::create(item_back, NULL);
-        menu_back->setPosition(CCPointZero);
+//        item_back->setPosition(ccp(panelSize.width * 0.8, panelSize.height * 0.18));
+        
+        
+        CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
+        CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
+        gift2->setScale(1.02f);
+        CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+        
+        
+        CCMenu* menu_back = CCMenu::create(btnGift, item_back, NULL);
+        menu_back->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
+//        menu_back->setPosition(CCPointZero);
+        menu_back->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.18));
         _panel->addChild(menu_back);
         
         return true;
@@ -144,6 +156,12 @@ void SettingPanel::on_effect(cocos2d::CCMenuItem *btn) {
 void SettingPanel::on_back(CCMenuItem *btn){
     DATA->setAutoLogin(false);
     DATA->relogin();
+}
+
+void SettingPanel::on_take_gift(CCMenuItem *btn) {
+    GiftPanel* giftPanel = GiftPanel::create();
+    this->getScene()->addChild(giftPanel);
+    this->remove();
 }
 
 void SettingPanel::keyBackClicked(){
