@@ -39,8 +39,6 @@ bool HaoyouScene::init(){
         return false;
     }
     
-    _layer = CCLayer::create();
-    this->addChild(_layer);
     
     allClothesDic = CONFIG->clothes();// 所有衣服
     
@@ -83,8 +81,6 @@ void HaoyouScene::onEnter(){
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
     
     this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::keyBackStatus), .8f);
-//    this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::openChat), 1.2f);
-    CCLOG("ONENTER");
 }
 
 void HaoyouScene::onEnterTransitionDidFinish() {
@@ -155,15 +151,6 @@ void HaoyouScene::creat_view(){
     this->addChild(allMenu, 20);
     
     
-    // 聊天
-//    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
-//    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
-//    qipao2->setScale(1.02f);
-//    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HaoyouScene::openChat));
-//    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
-//    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
-//    menu_chat->setPosition(CCPointZero);
-//    this->addChild(menu_chat, 20);
     
     CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
     CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");

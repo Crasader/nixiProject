@@ -145,7 +145,6 @@ private:
     CCMenuItem*         _xiaoxiItem;
     CCMenuItem*         _zhitiaoItem;
     CCMenuItemSprite*   item_chat;
-    CCLayer*            _layer;
     bool hasFriends;
 };
 #endif /* defined(__tiegao__HaoyouScene__) */
