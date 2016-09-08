@@ -244,10 +244,14 @@ void LoginScene::fast_login_callback_900(CCObject *pObj) {
 }
 
 void LoginScene::account_login_callback_901(CCObject *pObj) {
-    if (! CONFIG->has_saved_account()) {
-        CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
-        CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
-    }
+//    if (! CONFIG->has_saved_account()) {
+//        CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
+//        CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
+//    }
+    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
+    CONFIG->save_account(account);
+    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
+    CONFIG->save_password(password);
     
     NET->login_game_server_902();
 }
@@ -275,8 +279,10 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
 void LoginScene::account_regist_callback_903(CCObject *pObj) {
     LOADING->remove();
     
-    CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
-    CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
+//    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
+//    CONFIG->save_account(account);
+//    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
+//    CONFIG->save_password(password);
 #warning "计划添加帐号密码谨记提示!"
     
     LOADING->show_loading();
