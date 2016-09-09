@@ -29,7 +29,8 @@ private:
     void create_views();
     void show_nicknameview();
     
-    void nc_yijie_login_909(CCObject* pObj);
+    void fast_login_callback_900(CCObject* pObj);   // 开始登录游戏工程
+    void game_login_callback_902(CCObject* pObj);
     void save_nickname_callback_904(CCObject* pObj);
 };
 

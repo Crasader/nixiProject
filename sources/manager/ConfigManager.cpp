@@ -43,6 +43,14 @@ void ConfigManager::config() {
     
     version = config["version"].asString();
     
+    this->channelId = config["can"].asInt();
+    if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) {
+        CCAssert(this->channelId == 0, "Channel ID is wrong!");
+    }
+    else if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) {
+        CCAssert(this->channelId != 0, "Channel ID is wrong!");
+    }
+    
     netId = config["net"].asInt();
     this->conf_login_addr(netId);
     

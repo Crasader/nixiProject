@@ -104,7 +104,7 @@ void LoginScene::onEnter() {
         
         LOADING->show_loading();
         DATA->setLoginType(1);
-        NET->fast_login_900(CONFIG->saved_uuid().c_str());
+        NET->fast_login_900(CONFIG->saved_uuid().c_str(), CONFIG->channelId);
     }
     else if (autoLogin && hasSavedAccount) {
 //        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
@@ -206,7 +206,7 @@ void LoginScene::fast_login(CCMenuItem *pObj) {
     
     LOADING->show_loading();
     DATA->setLoginType(1);
-    NET->fast_login_900(DATA->getLogin()->obtain_UUID());
+    NET->fast_login_900(DATA->getLogin()->obtain_UUID(), CONFIG->channelId);
 }
 
 void LoginScene::start_login(CCObject *pObj) {
@@ -231,7 +231,7 @@ void LoginScene::start_regist(CCObject *pObj) {
     _temp_account_pwd->retain();
     
     LOADING->show_loading();
-    NET->account_regist_903(account->getCString(), password->getCString());
+    NET->account_regist_903(account->getCString(), password->getCString(), CONFIG->channelId);
 }
 
 void LoginScene::fast_login_callback_900(CCObject *pObj) {
@@ -278,11 +278,10 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
 
 void LoginScene::account_regist_callback_903(CCObject *pObj) {
     LOADING->remove();
-    
-//    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
-//    CONFIG->save_account(account);
-//    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
-//    CONFIG->save_password(password);
+    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
+    CONFIG->save_account(account);
+    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
+    CONFIG->save_password(password);
 #warning "计划添加帐号密码谨记提示!"
     
     LOADING->show_loading();

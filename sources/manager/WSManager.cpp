@@ -40,7 +40,7 @@ void WSManager::send(const string& msg) {
 }
 
 void WSManager::disconnect() {
-    if (_ws->getReadyState() == cocos2d::extension::WebSocket::kStateOpen) {
+    if (_ws && _ws->getReadyState() == cocos2d::extension::WebSocket::kStateOpen) {
         _ws->close();
     }
 }

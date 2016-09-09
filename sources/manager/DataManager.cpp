@@ -189,13 +189,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 903: {
-            _player->init_with_json(content["player"]);
-            this->creat_Energy_Time();
-            _show->init_with_json(content["show"]);
-            _clothes->init_dressed(content["show"]);
-            _news->init_with_json(content["news"]);
-            _purchase->init_purchase(content["purchase"]);
-            this->start_check_news();
+            _login->init_with_json(content);
         } break;
             
         case 904: {
