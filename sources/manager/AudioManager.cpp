@@ -74,7 +74,8 @@ void AudioManager::preload_audios()
     this->preloadEffect("audio/wav/audio_game_right.wav");
     // wrong 音效
     this->preloadEffect("audio/wav/audio_game_wrong.wav");
-    
+    // 手机音
+    this->preloadEffect("audio/wav/audio_phone.wav");
 }
 
 
@@ -236,7 +237,14 @@ void AudioManager::clothes_effect() {
 void AudioManager::right_effect(){
     this->play_effect("audio/wav/audio_game_right.wav", false);
 }
+
 void AudioManager::wrong_effect(){
     this->play_effect("audio/wav/audio_game_wrong.wav", false);
 }
+
+void AudioManager::phone_effect() {
+    this->play_effect("audio/wav/audio_phone.wav", false);
+}
+
+
 

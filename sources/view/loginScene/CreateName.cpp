@@ -67,15 +67,15 @@ void CreateName::create_baes_view()
     ccColor3B yanse = ccWHITE;
     
     //
-    CCLabelTTF* lbl_content = CCLabelTTF::create("魅力与智慧并存的总裁大人，我该如何称呼您?", DISPLAY->fangzhengFont(), 26, CCSizeMake(340, 80), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* lbl_content = CCLabelTTF::create("魅力与智慧并存的总裁大人,我该如何称呼您?", DISPLAY->fangzhengFont(), 26, CCSizeMake(340, 80), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     lbl_content->setColor(ccc3(128, 128, 155));
     lbl_content->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.68));
     spt_inputbox->addChild(lbl_content);
     
     //
-    CCSize size_bar = CCSizeMake(380, 40);
+    CCSize size_bar = CCSizeMake(380, 44);
     _tf_nickname = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
-    _tf_nickname->setMaxLength(30);
+    _tf_nickname->setMaxLength(12);
     _tf_nickname->setFontColor(yanse);
     _tf_nickname->setPlaceHolder("请输入昵称");
     _tf_nickname->setFontName(DISPLAY->fangzhengFont());
@@ -179,7 +179,7 @@ bool CreateName::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 中文不能超过六个汉字~!");
                 return false;
             }
         }
@@ -194,7 +194,7 @@ bool CreateName::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 中文不能超过六个汉字~!");
                 return false;
             }
         }else if (zhongBool && yingBool){ // 混合英文、数字和中文
@@ -208,7 +208,7 @@ bool CreateName::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 中文不能超过六个汉字~!");
                 return false;
             }
         }

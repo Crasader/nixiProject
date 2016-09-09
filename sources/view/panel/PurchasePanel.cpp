@@ -246,6 +246,6 @@ void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
     this->update_content();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "💎购买成功~!");
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "钻石购买成功~!");
 }
 

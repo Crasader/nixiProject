@@ -68,6 +68,10 @@ public:
     FlashNumberLabel2* m_lbl_gold;
     void updataMoney();
     
+    
+    // 推送
+    void push_Android(CCObject* pObj);
+    
 private:
     void show_purchase_panel();
     void show_energybuy_panel();

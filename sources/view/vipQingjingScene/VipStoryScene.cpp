@@ -1032,10 +1032,10 @@ void VipStoryScene::addButton(){
 void VipStoryScene::button1CallBack(CCObject* pSender){
     AUDIO->common_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "vip情景界面", "点击快进");
+    
     if (DATA->getFastForward()) {
-//        if (MMAudioManager::get_instance()->is_effect_on()) {
-//            MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
-//        }
         
         if (!buttonBool1) {
             buttonBool1 = true;
@@ -1089,9 +1089,9 @@ void VipStoryScene::button1CallBack(CCObject* pSender){
 }
 void VipStoryScene::button2CallBack(CCObject* pSender){
     AUDIO->common_effect();
-//    if (MMAudioManager::get_instance()->is_effect_on()) {
-//        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
-//    }
+    
+    // talkingData
+    DATA->onEvent("点击事件", "vip情景界面", "点击回顾");
     
     if (!buttonBool2) {
         buttonBool2 = true;
@@ -1132,9 +1132,9 @@ void VipStoryScene::button2CallBack(CCObject* pSender){
 
 void VipStoryScene::button3CallBack(CCObject* pSender){
     AUDIO->common_effect();
-//    if (MMAudioManager::get_instance()->is_effect_on()) {
-//        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
-//    }
+    
+    // talkingData
+    DATA->onEvent("点击事件", "vip情景界面", "点击自动");
     
     if (!buttonBool3) {
         buttonBool3 = true;
@@ -2082,6 +2082,10 @@ void VipStoryScene::keyBackClicked(){
 }
 
 void VipStoryScene::fhCallBack(CCObject* pSender){
+    
+    // talkingData
+    DATA->onEvent("点击事件", "vip情景界面", "点击退出");
+    
     AUDIO->goback_effect();
 //    if (MMAudioManager::get_instance()->is_effect_on()) {
 //        MMAudioManager::get_instance()->play_effect(kAudio_audio_AHMessageBox, false);

@@ -380,11 +380,19 @@ void TotalRankScene::initTotalRank(){
 }
 
 void TotalRankScene::btn_share_callback(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "排行界面", "点击分享");
+    
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "排行界面", "点击纸条");
+    
     CCArray* arr = DATA->getRanking()->ranking();
     if (arr->count() == 0) {
         
@@ -404,6 +412,8 @@ void TotalRankScene::btn_note_callback(CCObject* pSender){
 
 void TotalRankScene::btn_back_callback(CCObject* pSender){
     AUDIO->goback_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "排行界面", "点击返回");
     
     if (_type == 1) {
         CCScene* scene = MainScene::scene();

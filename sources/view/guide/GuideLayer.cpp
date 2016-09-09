@@ -1050,7 +1050,7 @@ void GuideLayer::creatLabel(float dt){
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool6[3] && !DATA->_guideBool6[4]){
-            str = CCString::createWithFormat("钻石累的衣服,让女总处理日常事务,更有自信呦.");
+            str = CCString::createWithFormat("钻石类的衣服,让女总处理日常事务,更有自信呦.");
             this->creat_ContentLength(str->getCString());
             this->creatView();
         }else if (DATA->_guideBool6[4] && !DATA->_guideBool6[5]){
@@ -1197,7 +1197,7 @@ void GuideLayer::logic(float dt){
                 coin->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
                 _panel->addChild(coin);
                 
-                CCString* str = CCString::createWithFormat("%d 金币", 100);
+                CCString* str = CCString::createWithFormat("%d 金币", 1000);
                 CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 24);
                 lbl->setColor(ccc3(107, 143, 190));
                 lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.28));

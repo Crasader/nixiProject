@@ -178,11 +178,19 @@ void StrangerScene::initStranger(){
 }
 
 void StrangerScene::btn_share_callback(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "陌生人界面", "点击分享");
+    
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void StrangerScene::btn_refresh_callback(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "陌生人界面", "点击刷新");
+    
     LOADING->show_loading();
     NET->recommend_stranger_802();
 }
@@ -211,11 +219,19 @@ void StrangerScene::refresh_callback_802(){
 
 
 void StrangerScene::btn_find_callback(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "陌生人界面", "点击查找");
+    
     FindPanel* find_panel = FindPanel::create();
     this->addChild(find_panel, 20000);
 }
 
 void StrangerScene::btn_note_callback(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "陌生人界面", "点击纸条");
+    
     if(DATA->getSocial()->getSelectedStranger() == -1){
         
     }else{
@@ -227,6 +243,8 @@ void StrangerScene::btn_note_callback(CCObject* pSender){
 
 void StrangerScene::btn_back_callback(CCObject* pSender){
     AUDIO->goback_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "陌生人界面", "点击返回");
     
     if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
         CCScene* scene = HaoyouScene::scene();

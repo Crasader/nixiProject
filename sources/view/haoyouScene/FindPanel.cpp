@@ -169,7 +169,7 @@ bool FindPanel::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 中文不能超过六个汉字~!");
                 return false;
             }
         }
@@ -184,7 +184,7 @@ bool FindPanel::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 中文不能超过六个汉字~!");
                 return false;
             }
         }else if (zhongBool && yingBool){ // 混合英文、数字和中文
@@ -198,7 +198,7 @@ bool FindPanel::check_nickname(std::string str)
                 }
             }else{
                 PromptLayer* prompt = PromptLayer::create();
-                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 不能超过10位英文或汉字");
+                prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "昵称过长, 中文不能超过六个汉字~!");
                 return false;
             }
         }

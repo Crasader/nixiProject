@@ -874,6 +874,9 @@ void ExchangeLayer::initClothes(){//穿衣服
 }
 
 void ExchangeLayer::buttonCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "碎片界面", "点击兑换");
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     CCString* str = CCString::createWithFormat("%d", item->getTag());
     exchangeIndex = item->getTag();

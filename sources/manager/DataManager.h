@@ -104,6 +104,7 @@ public:
     CC_SYNTHESIZE(bool, _taskGameBool4, TaskGameBool4);
     CC_SYNTHESIZE(bool, _taskGameBool5, TaskGameBool5);
     CC_SYNTHESIZE(bool, _taskGameBool6, TaskGameBool6);
+    CC_SYNTHESIZE(int, _taskGameIndex6, TaskGameIndex6);
     CC_SYNTHESIZE(int, _taskTempID, TaskTempID);
     
     // 体力时间
@@ -135,6 +136,14 @@ public:
     CC_SYNTHESIZE(bool, _chatOut, ChatOut);
     
     bool could_prduce();
+    
+    
+    // talkingData自定义事件
+    void onEvent(std::string eventStr, std::string pageStr, std::string contentStr);
+    void onChargeRequest(std::string orderId, std::string iapId, double currencyAmount, double virtualCurrencyAmount);
+    void onChargeSuccess(std::string orderId);
+    
+    
     
 private:
 

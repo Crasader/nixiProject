@@ -38,11 +38,14 @@ public:
     
     void fast_login_900(const char* uuid, const char* recommender = "");
     void account_login_901(const char* account, const char* password);
-    void login_game_server_902();
     void account_regist_903(const char* account, const char* password, const char* recommender = "");
+    
+    void login_game_server_902();
     void save_nickname_904(const char* nickname);
     void update_guide_905(int guide);
     void reset_nickname_907(const char* nickname);
+    
+    void yijie_login_909(); // 易接专用
     
     void check_news_910();
     
@@ -93,6 +96,7 @@ public:
     void single_lottery_307();
     void multiply_lottery_309();
     void exchange_clothes_311(string clothesId);
+    void take_gift_333(int ChannelId, const char* code);
 
     
     void coffers_info_200(bool full);

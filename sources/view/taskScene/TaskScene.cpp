@@ -49,6 +49,7 @@ bool TaskScene::init(bool isPhaseUP){
     }
     
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
+    CCLOG("_isPhaseUP = %d", _isPhaseUP);
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
     _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);
@@ -463,6 +464,9 @@ void TaskScene::backCallBack(CCObject* pSender){
 void TaskScene::historyCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "日常界面", "点击回顾");
+    
     CCMenuItem* item = (CCMenuItem* )pSender;
     CCLog("房子是%d", item->getTag());
     historyIndex = item->getTag();
@@ -715,6 +719,9 @@ void TaskScene::creat_Tishi(){
 void TaskScene::startCallBack(CCObject* pSender){
     CCMenuItem* item = (CCMenuItem* )pSender;
     taskIndex = item->getTag();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "日常界面", "点击开始");
     
     if (DATA->getClothes()->has_init_clothes == true) {
         this->_startCallBack(NULL);
@@ -1403,7 +1410,7 @@ void TaskScene::init_phone(){
             CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
             if (storyArr == NULL) {
                 now_task_index = i;
-                
+                AUDIO->phone_effect();
                 if (DATA->current_guide_step() == 9) {
                     this->creat_phone2();
                 }else{
@@ -1461,6 +1468,7 @@ void TaskScene::creat_phone(){
     CCDirector::sharedDirector()->getActionManager()->addAction(rep, phoneSpr, false);
 }
 void TaskScene::creat_phone2(){
+    
     CCSprite* phoneDiSpr = CCSprite::create("res/pic/taskScene/animation/task_phoneDi.png");
     phoneDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .22f));
     phoneDiSpr->setTag(0x7788);
@@ -1539,6 +1547,9 @@ void TaskScene::creat_phone3(){
 void TaskScene::phoneCallBack(CCObject* pSender){
     AUDIO->shop_effect();
     CCLog("phoneCallBack");
+    
+    // talkingData
+    DATA->onEvent("点击事件", "日常界面", "点击phone");
     
     CCLayer* layer = PhoneLayer2::create();
     CCScene* scene = CCScene::create();

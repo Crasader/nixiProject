@@ -159,6 +159,14 @@ void NetManager::reset_nickname_907(const char *nickname) {
     this->post_data(907, data);
 }
 
+void NetManager::yijie_login_909() {
+    FastWriter writer;
+    Value root;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(909, data);
+}
+
 void NetManager::check_news_910() {
     this->post_data(910, string(""));
 }
@@ -498,6 +506,16 @@ void NetManager::exchange_clothes_311(string clothesId) {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(311, data);
+}
+
+void NetManager::take_gift_333(int ChannelId, const char *code) {
+    FastWriter writer;
+    Value root;
+    root["channel"] = ChannelId;
+    root["code"] = code;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(333, data);
 }
 
 

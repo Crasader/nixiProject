@@ -270,6 +270,9 @@ void PhoneLayer2::logic(float dt){
 void PhoneLayer2::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "phone界面", "点击退出");
+    
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -277,9 +280,15 @@ void PhoneLayer2::backCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void PhoneLayer2::buquCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "phone界面", "点击不去");
+    
     this->backCallBack(NULL);
 }
 void PhoneLayer2::quCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "phone界面", "点击去");
+    
     if (DATA->getStory()->has_init_story()) {
         this->_500CallBack(NULL);
     }else{
@@ -310,7 +319,7 @@ bool PhoneLayer2::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 
 void PhoneLayer2::init(std::string str){
     content = str;
-    CCLog("content == %s", content.c_str());
+    CCLOG("content == %s", content.c_str());
     contentLength = 0;
     
     int length = content.length();
@@ -353,7 +362,7 @@ int PhoneLayer2::getContentLength(){
 
 void PhoneLayer2::keyBackClicked(){
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
+    CCLOG("===== children_num: %d", num_child);
     if(num_child > 1)
     {
         return;

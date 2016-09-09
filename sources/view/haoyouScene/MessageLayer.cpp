@@ -77,6 +77,8 @@ void MessageLayer::creat_View(){
 }
 void MessageLayer::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "消息界面", "点击返回");
     
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

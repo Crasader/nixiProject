@@ -204,13 +204,17 @@ void TaskSettlementLayer2::creat_view(){
     this->addChild(bgSpr1);
     
     // 上条
-    tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao.png");
-    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .86f));
+    tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao2.png");
+    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .9f));
     this->addChild(tiaoSpr, 15);
     
-    CCSprite* done_text = CCSprite::create("res/pic/taskSettlement/ts_done_text.png");
-    done_text->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .63f));
-    tiaoSpr->addChild(done_text);
+//    tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao.png");
+//    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .86f));
+//    this->addChild(tiaoSpr, 15);
+//    
+//    CCSprite* done_text = CCSprite::create("res/pic/taskSettlement/ts_done_text.png");
+//    done_text->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .63f));
+//    tiaoSpr->addChild(done_text);
     
     int renIndex = 1;
     if (_rating == 1) {
@@ -411,31 +415,31 @@ void TaskSettlementLayer2::creatXingXing(){
     
     if (_rating == 5) {
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .2f, tiaoSpr->getContentSize().height* .87f));
-        xingSpr1->setRotation(-15.f);
+        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .26f, tiaoSpr->getContentSize().height* .67f));
+//        xingSpr1->setRotation(-15.f);
         xingSpr1->setScale(.5f);
         tiaoSpr->addChild(xingSpr1);
         
         xingSpr2 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .35f, tiaoSpr->getContentSize().height* .94f));
-        xingSpr2->setRotation(-8.f);
+        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .38f, tiaoSpr->getContentSize().height* .74f));
+//        xingSpr2->setRotation(-8.f);
         xingSpr2->setScale(.5f);
         tiaoSpr->addChild(xingSpr2);
         
         xingSpr3 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
-        xingSpr3->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .99f));
+        xingSpr3->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .77f));
         xingSpr3->setScale(.5f);
         tiaoSpr->addChild(xingSpr3);
         
         xingSpr4 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr4->setPosition(ccp(tiaoSpr->getContentSize().width* .65f, tiaoSpr->getContentSize().height* .94f));
-        xingSpr4->setRotation(8.f);
+        xingSpr4->setPosition(ccp(tiaoSpr->getContentSize().width* .62f, tiaoSpr->getContentSize().height* .74f));
+//        xingSpr4->setRotation(8.f);
         xingSpr4->setScale(.5f);
         tiaoSpr->addChild(xingSpr4);
         
         xingSpr5 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr5->setPosition(ccp(tiaoSpr->getContentSize().width* .8f, tiaoSpr->getContentSize().height* .87f));
-        xingSpr5->setRotation(15.f);
+        xingSpr5->setPosition(ccp(tiaoSpr->getContentSize().width* .74f, tiaoSpr->getContentSize().height* .67f));
+//        xingSpr5->setRotation(15.f);
         xingSpr5->setScale(.5f);
         tiaoSpr->addChild(xingSpr5);
         
@@ -464,25 +468,25 @@ void TaskSettlementLayer2::creatXingXing(){
         }
     }else if (_rating == 4){
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .275f, tiaoSpr->getContentSize().height* .92f));
+        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .275f, tiaoSpr->getContentSize().height* .69f));
         xingSpr1->setRotation(-13.f);
         xingSpr1->setScale(.5f);
         tiaoSpr->addChild(xingSpr1);
         
         xingSpr2 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
-        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .425f, tiaoSpr->getContentSize().height* .985f));
+        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .425f, tiaoSpr->getContentSize().height* .755f));
         xingSpr2->setRotation(-3.f);
         xingSpr2->setScale(.5f);
         tiaoSpr->addChild(xingSpr2);
         
         xingSpr3 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
-        xingSpr3->setPosition(ccp(tiaoSpr->getContentSize().width* .575f, tiaoSpr->getContentSize().height* .985f));
+        xingSpr3->setPosition(ccp(tiaoSpr->getContentSize().width* .575f, tiaoSpr->getContentSize().height* .755f));
         xingSpr3->setRotation(3.f);
         xingSpr3->setScale(.5f);
         tiaoSpr->addChild(xingSpr3);
         
         xingSpr4 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr4->setPosition(ccp(tiaoSpr->getContentSize().width* .725f, tiaoSpr->getContentSize().height* .92f));
+        xingSpr4->setPosition(ccp(tiaoSpr->getContentSize().width* .725f, tiaoSpr->getContentSize().height* .69f));
         xingSpr4->setRotation(13.f);
         xingSpr4->setScale(.5f);
         tiaoSpr->addChild(xingSpr4);
@@ -509,18 +513,18 @@ void TaskSettlementLayer2::creatXingXing(){
         }
     }else if (_rating == 3){
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .35f, tiaoSpr->getContentSize().height* .94f));
+        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .35f, tiaoSpr->getContentSize().height* .71f));
         xingSpr1->setRotation(-8.f);
         xingSpr1->setScale(.5f);
         tiaoSpr->addChild(xingSpr1);
         
         xingSpr2 = CCSprite::create("res/pic/taskSettlement/ts_xing1.png");
-        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .99f));
+        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .76f));
         xingSpr2->setScale(.5f);
         tiaoSpr->addChild(xingSpr2);
         
         xingSpr3 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr3->setPosition(ccp(tiaoSpr->getContentSize().width* .65f, tiaoSpr->getContentSize().height* .94f));
+        xingSpr3->setPosition(ccp(tiaoSpr->getContentSize().width* .65f, tiaoSpr->getContentSize().height* .71f));
         xingSpr3->setRotation(8.f);
         xingSpr3->setScale(.5f);
         tiaoSpr->addChild(xingSpr3);
@@ -544,13 +548,13 @@ void TaskSettlementLayer2::creatXingXing(){
         }
     }else if (_rating == 2){
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .425f, tiaoSpr->getContentSize().height* .97f));
+        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .425f, tiaoSpr->getContentSize().height* .74f));
         xingSpr1->setRotation(-3.f);
         xingSpr1->setScale(.5f);
         tiaoSpr->addChild(xingSpr1);
         
         xingSpr2 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .575f, tiaoSpr->getContentSize().height* .97f));
+        xingSpr2->setPosition(ccp(tiaoSpr->getContentSize().width* .575f, tiaoSpr->getContentSize().height* .74f));
         xingSpr2->setRotation(3.f);
         xingSpr2->setScale(.5f);
         tiaoSpr->addChild(xingSpr2);
@@ -571,7 +575,7 @@ void TaskSettlementLayer2::creatXingXing(){
         }
     }else if (_rating == 1){
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .975f));
+        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .745f));
         xingSpr1->setScale(.5f);
         tiaoSpr->addChild(xingSpr1);
         
@@ -585,7 +589,7 @@ void TaskSettlementLayer2::creatXingXing(){
     }else{
         _rating = 1;
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
-        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .975f));
+        xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .925f));
         xingSpr1->setScale(.5f);
         tiaoSpr->addChild(xingSpr1);
         

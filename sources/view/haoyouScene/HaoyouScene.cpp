@@ -177,6 +177,9 @@ void HaoyouScene::creat_view(){
 }
 
 void HaoyouScene::openChat() {
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击聊天");
+    
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
@@ -211,6 +214,9 @@ void HaoyouScene::_605CallBack(CCObject* pObj){
 void HaoyouScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击返回");
+    
     if (DATA->getTaskGameBool4()) {
         LOADING->show_loading();
         NET->commit_extra_mission_605(DATA->getTaskTempID(), 4, 0);
@@ -238,12 +244,21 @@ void HaoyouScene::_600CallBack(CCObject* pObj){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HaoyouScene::xiaoxiCallBack(CCObject* pSender){
+    
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击消息");
+    
     LOADING->show_loading();
     
     NET->all_messages_804();
 }
 
 void HaoyouScene::zhitiaoCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击纸条");
+    
     LOADING->show_loading();
     
     NET->all_paper_808();
@@ -263,6 +278,10 @@ void HaoyouScene::all_message_callback_804(CCObject* pSender){
 }
 
 void HaoyouScene::haoyouCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击好友");
+    
     LOADING->show_loading();
     NET->all_friends_806();
 }
@@ -288,11 +307,19 @@ void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
 }
 
 void HaoyouScene::strangerCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击陌生人");
+    
     LOADING->show_loading();
     NET->recommend_stranger_802();
 }
 
 void HaoyouScene::paihangCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击排行");
+    
     LOADING->show_loading();
     NET->ranking_list_300();
 }

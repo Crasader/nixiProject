@@ -38,6 +38,16 @@ void AppDelegate::rand_seed() {
     }
 }
 
+void AppDelegate::write_debug_info()
+{
+//#if (0 == TARGET_IPHONE_SIMULATOR) //&& (defined DEBUG))
+    CCLog("write debug info to file ....");
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("debuginfo.txt");
+    freopen(path.c_str(), "a+", stdout);
+//#endif
+}
+
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
@@ -56,7 +66,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
     CONFIG->config();
-
+    //
+//    write_debug_info();
     //
     AUDIO->play_main_bgm();
     //
@@ -69,12 +80,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCScene* pScene = LogoScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
     
-//    CCScene* scene = CCScene::create();
-//    TaskSettlementLayer* layer = TaskSettlementLayer::create(2, 100, false);
-//    scene->addChild(layer);
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->runWithScene(trans);
-    //
     return true;
 }
 

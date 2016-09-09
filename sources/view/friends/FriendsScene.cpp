@@ -298,12 +298,20 @@ void FriendsScene::update_self_panel(ShowComp* self) {
 void FriendsScene::on_btn_back_to_social(CCMenuItem *menuItem) {
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击返回");
+    
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void FriendsScene::on_btn_self_panel(CCMenuItemToggle *menuItem) {
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击自己");
+    
     int selectedIndex = menuItem->getSelectedIndex();
     if (selectedIndex == 1) {
         _btnSelfPanel->setEnabled(false);       // 关闭按钮
@@ -322,16 +330,31 @@ void FriendsScene::on_btn_self_panel(CCMenuItemToggle *menuItem) {
 }
 
 void FriendsScene::on_btn_goto_starngers(CCMenuItem* menuItem) {
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击陌生人");
+    
     LOADING->show_loading();
     NET->recommend_stranger_802();
 }
 
 void FriendsScene::on_btn_take_energy(CCMenuItem *menuItem) {
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击收体力");
+    
     LOADING->show_loading();
     NET->take_energy_807();
 }
 
 void FriendsScene::on_btn_send_paper(CCMenuItem *menuItem) {
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击纸条");
+    
     DATA->getSocial()->setSelectedFriend(_curIndex);
     NotePanel* panel = NotePanel::create();
     panel->setEntranceType("friend");
@@ -391,6 +414,11 @@ void FriendsScene::nc_take_energy_807(CCObject *pObj) {
 }
 
 void FriendsScene::btn_no_realize(CCMenuItem* menuItem) {
+    AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "好友界面", "点击分享");
+    
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放，敬请期待~");
 }

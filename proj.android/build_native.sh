@@ -37,6 +37,8 @@ echo "- copy scripts"
 cp -rf "$APP_ROOT"/scripts "$APP_ANDROID_ROOT"/assets/
 echo "- copy resources"
 cp -rf "$APP_ROOT"/res "$APP_ANDROID_ROOT"/assets/
+echo "- copy ShareSDK.xml"
+cp "$APP_ROOT"/otherSdk/ShareSDK.xml "$APP_ANDROID_ROOT"/assets/
 
 # build
 echo "Using prebuilt externals"

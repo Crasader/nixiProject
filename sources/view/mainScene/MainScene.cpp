@@ -22,6 +22,7 @@
 #include "EnergyLargessPanel.h"
 #include "GashaponLayer.h"
 #include "ExchangeLayer.h"
+#include "JNIController.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -177,6 +178,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
@@ -811,6 +813,9 @@ void MainScene::isTxt_Bar(){
 }
 
 void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击铃铛");
+    
     if (isOk) {
         CCMoveTo* mt = NULL;
         if (isOpen) {
@@ -1082,6 +1087,9 @@ void MainScene::setIsEffective(){
 }
 
 void MainScene::juqing_vipCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击vip剧情");
+    
     if (isOk) {
 //        PromptLayer* layer = PromptLayer::create();
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
@@ -1103,6 +1111,9 @@ void MainScene::_504CallBack(CCObject* pSender){
 }
 
 void MainScene::homeCallBack(CCObject *pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击home");
+    
 //    if (isOk) {
 //        PromptLayer* layer = PromptLayer::create();
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
@@ -1134,6 +1145,9 @@ void MainScene::_704CallBack(CCObject* pSender){
 //}
 
 void MainScene::huodongCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击活动");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         OperationPanel::show();
@@ -1141,6 +1155,9 @@ void MainScene::huodongCallBack(CCObject* pSender){
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击签到");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
@@ -1154,6 +1171,9 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
 }
 
 void MainScene::youjianCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击邮件");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
@@ -1162,6 +1182,9 @@ void MainScene::youjianCallBack(CCObject* pSender){
 }
 
 void MainScene::haoyouCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击好友");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
@@ -1170,12 +1193,18 @@ void MainScene::haoyouCallBack(CCObject* pSender){
 }
 
 void MainScene::energyLargessCallBack(CCObject *pSender) {
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击体力福利");
+    
     if (isOk) {
         EnergyLargessPanel::show(this->getScene());
     }
 }
 
 void MainScene::purchaseAchievementCallBack(CCObject *pSender) {
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击充值成就");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
@@ -1189,6 +1218,9 @@ void MainScene::purchaseAchievementCallBack(CCObject *pSender) {
 }
 
 void MainScene::gashaponCallBack(CCObject *pSender) {
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击扭蛋");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
@@ -1206,6 +1238,9 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
 }
 
 void MainScene::openChat(cocos2d::CCObject *pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击聊天");
+    
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
@@ -1214,6 +1249,10 @@ void MainScene::openChat(cocos2d::CCObject *pSender){
     }else{
         WS->connect();
     }
+//    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+//    path.append("/share.png");
+//    JNIController::setShareImage(path.c_str());
+//    JNIController::showShare();
 }
 
 void MainScene::displayChatItem(){
@@ -1236,6 +1275,9 @@ void MainScene::renwuCallBack(CCObject* pSender){
 }
 
 void MainScene::huanzhuangCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击换装");
+    
     if (isOk) {
         if (DATA->getClothes()->has_init_clothes == true) {
             this->_huanzhuangCallBack(pSender);
@@ -1261,6 +1303,9 @@ void MainScene::blankCallback() {
 }
 
 void MainScene::paihangCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击排行");
+    
     if (isOk) {
         LOADING->show_loading();
         NET->ranking_list_300();
@@ -1289,7 +1334,7 @@ void MainScene::nc_gashapon_info_306(CCObject *pObj) {
 }
 void MainScene::creat_Exchange(){
     ExchangeLayer* layer = ExchangeLayer::create();
-    this->addChild(layer, 500);
+    this->getScene()->addChild(layer);
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){
@@ -1303,6 +1348,9 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 }
 
 void MainScene::juqingCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击剧情");
+    
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
             this->_500CallBack(NULL);
@@ -1320,11 +1368,11 @@ void MainScene::juqingCallBack(CCObject* pSender){
 }
 
 void MainScene::_500CallBack(CCObject* pSender) {
-    AUDIO->comfirm_effect();
     if (isrenwuBool) {
         LOADING->show_loading();
         NET->completed_mission_600();
     }else {
+        AUDIO->comfirm_effect();
         CCScene* scene = QingjingScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -1332,6 +1380,9 @@ void MainScene::_500CallBack(CCObject* pSender) {
 }
 
 void MainScene::richangCallBack(CCObject* pSender) {
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击日常");
+    
     if (isOk) {
         if (DATA->getStory()->has_init_story()) {
             LOADING->show_loading();
@@ -1366,15 +1417,49 @@ void MainScene::_905CallBack(CCObject *pObj){
     }
 }
 
-void MainScene::_600CallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
+void MainScene::nc_take_gift_333(CCObject *pObj) {
     LOADING->remove();
-    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
+        int diam = ((CCInteger*)dic->objectForKey("diam"))->getValue();
+        int energy = ((CCInteger*)dic->objectForKey("energy"))->getValue();
+        CCString* str = NULL;
+        if (coin > 0) {
+            if (diam > 0) {
+                if (energy > 0) {
+                    str = CCString::createWithFormat("成功领取 %d金币、%d钻石、%d体力~!", coin, diam, energy);
+                }
+                else {
+                    str = CCString::createWithFormat("成功领取 %d金币、%d钻石~!", coin, diam);
+                }
+            }
+            else {
+                str = CCString::createWithFormat("成功领取 %d金币~!", coin);
+            }
+        }
+        else if (diam > 0) {
+            if (energy > 0) {
+                str = CCString::createWithFormat("成功领取 %d钻石、%d体力~!", diam, energy);
+            }
+            else {
+                str = CCString::createWithFormat("成功领取 %d钻石~!", diam);
+            }
+        }
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), str->getCString());
+    }
+}
+
+void MainScene::_600CallBack(CCObject* pSender){
+    LOADING->remove();
     if (ishomeBool) {
-        AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->home_info_704(! DATA->getHome()->has_init_house_template());
     }else{
+        AUDIO->comfirm_effect();
         DATA->setTaskPhase(DATA->getPlayer()->phase);
         CCLayer* layer = TaskScene::create(false);
         CCScene* scene = CCScene::create();
@@ -1385,6 +1470,9 @@ void MainScene::_600CallBack(CCObject* pSender){
 }
 
 void MainScene::shezhiCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击设置");
+    
     if (isOk) {
         AUDIO->comfirm_effect();
         SettingPanel* panel = SettingPanel::create();

@@ -106,10 +106,21 @@ void HomeLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
     if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "加入官方QQ群315157598可获得钻石奖励呦!");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_COIN_EXCHANGE");
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            PromptLayer* layer = PromptLayer::create();
+            int randIndex = rand()%2 + 1;
+            if (randIndex == 1) {
+                layer->show_prompt(this->getScene(), "公司的工资亲你领了吗~!可获得金币呦~!");
+            }else if (randIndex == 2){
+                layer->show_prompt(this->getScene(), "还可以去重复做其他日常任务获得呦~!");
+            }
         }
     }
 }
@@ -389,6 +400,9 @@ void HomeLayer::creat_View(){
 }
 
 void HomeLayer::openChat(CCObject* pSender) {
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击聊天");
+    
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
@@ -413,21 +427,27 @@ void HomeLayer::gameCallBack(CCObject* pSender){
     
     CCMenuItem* item = (CCMenuItem* )pSender;
     if (item->getTag() == 1) {
-        CCLog("点击购物");
+        // talkingData
+        DATA->onEvent("点击事件", "home界面", "点击接不住");
+        CCLog("点击接不住");
         CCScene* scene = CCScene::create();
         LiveAiXin* layer = LiveAiXin::create();
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (item->getTag() == 2) {
-        CCLog("点击颜色");
+        // talkingData
+        DATA->onEvent("点击事件", "home界面", "点击猜不到");
+        CCLog("点击猜不到");
         CCScene* scene = CCScene::create();
         ColorLayer* layer = ColorLayer::create();
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else if (item->getTag() == 3) {
-        CCLog("点击睡觉");
+        // talkingData
+        DATA->onEvent("点击事件", "home界面", "点击你奏凯");
+        CCLog("点击你奏凯");
         CCScene* scene = CCScene::create();
         GameJingli* layer = GameJingli::create();
         scene->addChild(layer);
@@ -444,6 +464,9 @@ void HomeLayer::gameCallBack2(CCObject* pSender){
 
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
     AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击切换");
     
     qiehuanSpr->setVisible(false);
     
@@ -469,6 +492,9 @@ void HomeLayer::manAction2(){
 }
 void HomeLayer::saveCallBack(CCObject* pSender){
     AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击保存");
     
     CCArray* allHomeArr = DATA->getHome()->getHouseTemplate();
     CCDictionary* dic = (CCDictionary* )allHomeArr->objectAtIndex(DATA->getHouseIndex());
@@ -527,12 +553,18 @@ void HomeLayer::_705CallBack(CCObject* pSender){
 void HomeLayer::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击返回");
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void HomeLayer::gongsiCallBack(CCObject* pSender){
     AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击日常");
     
     if (DATA->getStory()->has_init_story()) {
         LOADING->show_loading();
@@ -560,6 +592,9 @@ void HomeLayer::_600CallBack(CCObject* pSender){
 void HomeLayer::huanzhuangCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击换装");
+    
     if (DATA->getClothes()->has_init_clothes == true) {
         this->_huanzhuangCallBack(pSender);
     }
@@ -580,6 +615,9 @@ void HomeLayer::_huanzhuangCallBack(CCObject* pSender){
 }
 void HomeLayer::haoyouCallBack(CCObject* pSender){
     AUDIO->common_effect();
+    
+    // talkingData
+    DATA->onEvent("点击事件", "home界面", "点击好友");
     
     LOADING->show_loading();
     NET->social_info_800();
