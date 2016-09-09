@@ -48,6 +48,8 @@ bool TaskScene::init(bool isPhaseUP){
         return false;
     }
     
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
+    
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
     CCLOG("_isPhaseUP = %d", _isPhaseUP);
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
@@ -1410,7 +1412,7 @@ void TaskScene::init_phone(){
             CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
             if (storyArr == NULL) {
                 now_task_index = i;
-                
+                AUDIO->phone_effect();
                 if (DATA->current_guide_step() == 9) {
                     this->creat_phone2();
                 }else{
@@ -1468,6 +1470,7 @@ void TaskScene::creat_phone(){
     CCDirector::sharedDirector()->getActionManager()->addAction(rep, phoneSpr, false);
 }
 void TaskScene::creat_phone2(){
+    
     CCSprite* phoneDiSpr = CCSprite::create("res/pic/taskScene/animation/task_phoneDi.png");
     phoneDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .22f));
     phoneDiSpr->setTag(0x7788);

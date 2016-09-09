@@ -40,6 +40,8 @@ private:
     CCLayer*            _content;
     CCSprite*           _panel;
     int                 _signin_id;
+    
+    int                 _clothesId;
 };
 
 #endif /* Signin7Panel_hpp */

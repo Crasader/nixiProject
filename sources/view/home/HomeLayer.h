@@ -80,6 +80,7 @@ public:
     CCSprite* _bSpr4;
     CCSprite* _zrSpr1; // 妆容
     
+    CCLabelTTF* bgLabel;
     
     HomeTableView* tabLayer;
     

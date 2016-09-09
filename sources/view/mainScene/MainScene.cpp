@@ -233,6 +233,10 @@ void MainScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
 //    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
+    
     BaseScene::onExit();
 }
 
@@ -1367,11 +1371,11 @@ void MainScene::juqingCallBack(CCObject* pSender){
 }
 
 void MainScene::_500CallBack(CCObject* pSender) {
-    AUDIO->comfirm_effect();
     if (isrenwuBool) {
         LOADING->show_loading();
         NET->completed_mission_600();
     }else {
+        AUDIO->comfirm_effect();
         CCScene* scene = QingjingScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -1418,6 +1422,7 @@ void MainScene::_905CallBack(CCObject *pObj){
 
 void MainScene::nc_take_gift_333(CCObject *pObj) {
     LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     CCDictionary* dic = (CCDictionary*)pObj;
     if (dic) {
         int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
@@ -1452,15 +1457,12 @@ void MainScene::nc_take_gift_333(CCObject *pObj) {
 }
 
 void MainScene::_600CallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
     LOADING->remove();
-    
     if (ishomeBool) {
-        AUDIO->comfirm_effect();
         LOADING->show_loading();
         NET->home_info_704(! DATA->getHome()->has_init_house_template());
     }else{
-        DATA->setTaskPhase(DATA->getPlayer()->phase);
+        AUDIO->comfirm_effect();
         CCLayer* layer = TaskScene::create(false);
         CCScene* scene = CCScene::create();
         scene->addChild(layer);

@@ -99,7 +99,7 @@ void ChatPanel::initChatPanel(){
 //    this->updateSendTime();
     
 
-    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("每条最多20个汉字", DISPLAY->fangzhengFont(), 24);
+    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("最多可输入20汉字", DISPLAY->fangzhengFont(), 24);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
     _input_text->setColor(ccBLACK);
     _input_text->setDelegate(this);
@@ -276,14 +276,14 @@ void ChatPanel::show_panel(){
 }
 
 bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
-    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, _panel_bg->getPosition().y + 350));
+    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f + 350));
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
     
     return false;
 }
 
 bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
-    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, _panel_bg->getPosition().y - 350));
+    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f));
     _panel_bg->stopAllActions();
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
     

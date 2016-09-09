@@ -227,6 +227,7 @@ void Signin7Panel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
                     // 发送签到请求
                     LOADING->show_loading();
                     NET->perform_signin7_303(id_str->getCString());
+                    
                     _signin_id = i;
                     break;
                 case e_SigninState_Done:
@@ -244,12 +245,38 @@ void Signin7Panel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
 
 void Signin7Panel::signin_callback_303(){
     LOADING->remove();
+    
     CCSprite* icon_bg = (CCSprite*)_panel->getChildByTag(_signin_id);
     if (icon_bg->getChildByTag(200)) {
         icon_bg->removeChildByTag(200, true);
         CCSprite* state = CCSprite::create("pic/panel/signin7/state_got.png");
         state->setPosition(ccp(icon_bg->getContentSize().width - state->getContentSize().width* .5f, state->getContentSize().height* .5f));
         icon_bg->addChild(state);
+        
+        CCArray* arr = DATA->getSignin()->signin7_template();
+        CCObject* obj = NULL;
+        CCString* cloth_id = NULL;
+        CCARRAY_FOREACH(arr, obj){
+            CCDictionary* dic = (CCDictionary*)obj;
+            const char* id = dic->valueForKey("id")->getCString();
+            if (CCString::createWithFormat("%d", _signin_id)->compare(id) == 0) {
+                cloth_id = (CCString*)dic->valueForKey("uri");
+            }
+        }
+        
+        _clothesId = atoi(cloth_id->getCString());
+        std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
+        if (stdStr.empty()) {
+            CCString* saveStr = CCString::createWithFormat("%d;", _clothesId);
+            stdStr.append(saveStr->getCString());
+            CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+        }else{
+            CCString* saveStr = CCString::createWithFormat("%d;", _clothesId);
+            stdStr.append(saveStr->getCString());
+            CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", stdStr.c_str());
+        }
+        CCUserDefault::sharedUserDefault()->flush();
+        
         
         PromptLayer* tip = PromptLayer::create();
         tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "领取成功");

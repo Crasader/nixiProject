@@ -75,6 +75,18 @@ void HomeLayer::updataBg(){
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     bgSpr->setTag(0x88888);
     this->addChild(bgSpr);
+    
+    CCString* labelStr;
+    if (DATA->getHouseIndex() + 1 == 1) {
+        labelStr = CCString::createWithFormat("欧式风情");
+    }else if (DATA->getHouseIndex() + 1 == 2){
+        labelStr = CCString::createWithFormat("换装空间");
+    }else if (DATA->getHouseIndex() + 1 == 3){
+        labelStr = CCString::createWithFormat("田园风光");
+    }else if (DATA->getHouseIndex() + 1 == 4){
+        labelStr = CCString::createWithFormat("罗马假日");
+    }
+    bgLabel->setString(labelStr->getCString());
 }
 
 void HomeLayer::onEnter(){
@@ -96,6 +108,9 @@ void HomeLayer::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
     
     BaseScene::onExit();
 }
@@ -194,10 +209,10 @@ void HomeLayer::creat_View(){
     }else if (DATA->getHouseIndex() == 4){
         labelStr = CCString::createWithFormat("罗马假日");
     }
-    CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    label->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .47f));
-    label->setColor(ccWHITE);
-    titleDiSpr->addChild(label);
+    bgLabel = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    bgLabel->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .47f));
+    bgLabel->setColor(ccWHITE);
+    titleDiSpr->addChild(bgLabel);
     
     // 公司
     CCSprite* gongsiSpr1 = CCSprite::create("res/pic/house/house_gongsi.png");
@@ -231,7 +246,7 @@ void HomeLayer::creat_View(){
     item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
     CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
     menu_chat->setPosition(CCPointZero);
-    this->addChild(menu_chat);
+    this->addChild(menu_chat, 20);
     
     // 切换
     qiehuanSpr = CCSprite::create("res/pic/house/house_qiehuan2.png");
@@ -582,7 +597,6 @@ void HomeLayer::_600CallBack(CCObject* pSender){
     LOADING->remove();
     
     DATA->setHomeBool(true);
-    DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

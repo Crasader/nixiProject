@@ -61,7 +61,7 @@ bool ResetNicknamePanel::init(const char* cost) {
         
         CCSize size_bar = CCSizeMake(262, 40);
         _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/nickname_reset/nnr_bar.png"));
-        _eb->setMaxLength(30);
+        _eb->setMaxLength(12);
         _eb->setFontColor(DISPLAY->defalutColor());
         _eb->setPlaceHolder("点此输入昵称");
         _eb->setFontName(DISPLAY->fangzhengFont());

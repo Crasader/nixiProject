@@ -40,7 +40,7 @@ void WSManager::send(const string& msg) {
 }
 
 void WSManager::disconnect() {
-    if (_ws) {
+    if (_ws->getReadyState() == cocos2d::extension::WebSocket::kStateOpen) {
         _ws->close();
     }
 }
@@ -67,6 +67,7 @@ void WSManager::onOpen(WebSocket* ws) {
     CCLOG("Websocket (%p) opened", ws);
 //    BarrageView::show();
     ChatPanel* panel = ChatPanel::create();
+    panel->setTag(0x1008);
     CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
 }
 

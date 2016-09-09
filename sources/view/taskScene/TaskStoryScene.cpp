@@ -246,7 +246,7 @@ void TaskStoryScene::onExit(){
 
 void TaskStoryScene::keyBackClicked(){
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
+    CCLOG("===== children_num: %d", num_child);
     if(num_child > 1)
     {
         return;
@@ -942,7 +942,7 @@ void TaskStoryScene::initClothes(){//穿衣服
 
 void TaskStoryScene::init(CCDictionary* dic){
     content = dic->valueForKey("said")->getCString();
-    CCLog("content == %s", content.c_str());
+    CCLOG("content == %s", content.c_str());
     contentLength = 0;
     
     int length = content.length();
@@ -1036,21 +1036,21 @@ void TaskStoryScene::init_Man(){
 }
 
 void TaskStoryScene::dialogueControl(float dt){
-//    CCLog("id ==== %s", missionDic->valueForKey("id")->getCString());
-//    CCLog("taskID ==== %d", missionDic->valueForKey("taskID")->intValue());
-//    CCLog("name ==== %s", missionDic->valueForKey("name")->getCString());
-//    CCLog("nameID ==== %s", missionDic->valueForKey("nameID")->getCString());
-//    CCLog("states ==== %d", missionDic->valueForKey("states")->intValue());
-//    CCLog("zishi_1 ==== %s", missionDic->valueForKey("zishi_1")->getCString());
-//    CCLog("Expression_1 ==== %d", missionDic->valueForKey("Expression_1")->intValue());
-//    CCLog("zishi_2 ==== %s", missionDic->valueForKey("zishi_2")->getCString());
-//    CCLog("Expression_2 ==== %d", missionDic->valueForKey("Expression_2")->intValue());
-//    CCLog("said ==== %s", missionDic->valueForKey("said")->getCString());
-//    CCLog("next ==== %d", missionDic->valueForKey("next")->intValue());
+//    CCLOG("id ==== %s", missionDic->valueForKey("id")->getCString());
+//    CCLOG("taskID ==== %d", missionDic->valueForKey("taskID")->intValue());
+//    CCLOG("name ==== %s", missionDic->valueForKey("name")->getCString());
+//    CCLOG("nameID ==== %s", missionDic->valueForKey("nameID")->getCString());
+//    CCLOG("states ==== %d", missionDic->valueForKey("states")->intValue());
+//    CCLOG("zishi_1 ==== %s", missionDic->valueForKey("zishi_1")->getCString());
+//    CCLOG("Expression_1 ==== %d", missionDic->valueForKey("Expression_1")->intValue());
+//    CCLOG("zishi_2 ==== %s", missionDic->valueForKey("zishi_2")->getCString());
+//    CCLOG("Expression_2 ==== %d", missionDic->valueForKey("Expression_2")->intValue());
+//    CCLOG("said ==== %s", missionDic->valueForKey("said")->getCString());
+//    CCLOG("next ==== %d", missionDic->valueForKey("next")->intValue());
 //    
-//    CCLog("tag1 ==== %d", missionDic->valueForKey("tag1")->intValue());
-//    CCLog("tag2 ==== %d", missionDic->valueForKey("tag2")->intValue());
-//    CCLog("tag3 ==== %d", missionDic->valueForKey("tag3")->intValue());
+//    CCLOG("tag1 ==== %d", missionDic->valueForKey("tag1")->intValue());
+//    CCLOG("tag2 ==== %d", missionDic->valueForKey("tag2")->intValue());
+//    CCLOG("tag3 ==== %d", missionDic->valueForKey("tag3")->intValue());
     
     if (_touSpr->getChildByTag(0x44444) != NULL) {
         _touSpr->removeChildByTag(0x44444);
