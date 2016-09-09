@@ -84,8 +84,19 @@ void HaoyouScene::onEnter(){
 }
 
 void HaoyouScene::onEnterTransitionDidFinish() {
+    CCLayer::onEnterTransitionDidFinish();
     CCLog("onEnterTransitionDidFinish");
     this->openChat();
+}
+
+void HaoyouScene::onExitTransitionDidStart() {
+    if (this->getChildByTag(0x1008)) {
+        this->removeChildByTag(0x1008, true);
+    }
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
+    CCLOG("onExitTransitionDidStart");
+    CCLayer::onExitTransitionDidStart();
 }
 
 void HaoyouScene::keyBackStatus(float dt){
@@ -171,6 +182,7 @@ void HaoyouScene::openChat() {
     if (WS->isConnected()) {
         ChatPanel* panel = ChatPanel::create();
 //        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+        panel->setTag(0x1008);
         this->addChild(panel, 100000);
     }else{
         WS->connect();

@@ -99,7 +99,7 @@ void ChatPanel::initChatPanel(){
 //    this->updateSendTime();
     
 
-    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("每条最多20个汉字", DISPLAY->fangzhengFont(), 24);
+    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("最多可输入20汉字", DISPLAY->fangzhengFont(), 24);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
     _input_text->setColor(ccBLACK);
     _input_text->setDelegate(this);

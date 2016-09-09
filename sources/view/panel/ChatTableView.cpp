@@ -138,7 +138,7 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     text_bg->setAnchorPoint(ccp(0, 0.5));
     text_bg->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width, CELL_HEIGHT* .5f));
     
-    CCLabelTTF* message = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18, CCSizeMake(lab_size_width, lab_size_height), kCCTextAlignmentLeft);
+    CCLabelTTF* message = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18, CCSizeMake(lab_size_width, lab_size_height + 2), kCCTextAlignmentLeft);
     message->setColor(ccc3(108, 83, 96));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(11, text_bg->getContentSize().height* .5f));

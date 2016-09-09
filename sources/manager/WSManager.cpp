@@ -67,6 +67,7 @@ void WSManager::onOpen(WebSocket* ws) {
     CCLOG("Websocket (%p) opened", ws);
 //    BarrageView::show();
     ChatPanel* panel = ChatPanel::create();
+    panel->setTag(0x1008);
     CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
 }
 

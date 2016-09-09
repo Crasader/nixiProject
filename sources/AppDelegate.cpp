@@ -142,7 +142,7 @@ void AppDelegate::applicationDidEnterBackground()
     AUDIO->pause_music();
     AUDIO->pause_effects();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_BACKGROUND_EVENT");
-    DATA->setChatOut(false);
+    DATA->setChatOut(true);
 }
 
 // this function will be called when the app is active again
@@ -155,7 +155,7 @@ void AppDelegate::applicationWillEnterForeground()
     AUDIO->resume_music();
     AUDIO->resume_all_effects();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_FOREGROUND_EVENT");
-    DATA->setChatOut(true);
+    DATA->setChatOut(false);
 }
 
 void AppDelegate::setProjectConfig(const ProjectConfig& config)
