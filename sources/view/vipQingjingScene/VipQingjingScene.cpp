@@ -88,6 +88,10 @@ void VipQingjingScene::keyBackStatus(float dt){
 void VipQingjingScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
+    
     BaseScene::onExit();
 }
 

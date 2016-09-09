@@ -232,6 +232,10 @@ void MainScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
 //    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
+    
     BaseScene::onExit();
 }
 
