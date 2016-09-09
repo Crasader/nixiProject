@@ -234,7 +234,7 @@ void HomeLayer::creat_View(){
     item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
     CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
     menu_chat->setPosition(CCPointZero);
-    this->addChild(menu_chat);
+    this->addChild(menu_chat, 20);
     
     // 切换
     qiehuanSpr = CCSprite::create("res/pic/house/house_qiehuan2.png");
