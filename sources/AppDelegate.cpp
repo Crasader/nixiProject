@@ -80,12 +80,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCScene* pScene = LogoScene::scene();
     CCDirector::sharedDirector()->runWithScene(pScene);
     
-//    CCScene* scene = CCScene::create();
-//    TaskSettlementLayer* layer = TaskSettlementLayer::create(2, 100, false);
-//    scene->addChild(layer);
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->runWithScene(trans);
-    //
     return true;
 }
 

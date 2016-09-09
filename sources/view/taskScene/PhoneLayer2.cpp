@@ -319,7 +319,7 @@ bool PhoneLayer2::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 
 void PhoneLayer2::init(std::string str){
     content = str;
-    CCLog("content == %s", content.c_str());
+    CCLOG("content == %s", content.c_str());
     contentLength = 0;
     
     int length = content.length();
@@ -362,7 +362,7 @@ int PhoneLayer2::getContentLength(){
 
 void PhoneLayer2::keyBackClicked(){
     int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
+    CCLOG("===== children_num: %d", num_child);
     if(num_child > 1)
     {
         return;

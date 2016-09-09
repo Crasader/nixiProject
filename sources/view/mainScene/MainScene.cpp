@@ -1419,6 +1419,7 @@ void MainScene::_905CallBack(CCObject *pObj){
 
 void MainScene::nc_take_gift_333(CCObject *pObj) {
     LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     CCDictionary* dic = (CCDictionary*)pObj;
     if (dic) {
         int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
