@@ -95,12 +95,12 @@ NetEnv NetManager::obtain_net_env() {
 #endif
 }
 
-void NetManager::fast_login_900(const char* uuid, const char* recommender) {
+void NetManager::fast_login_900(const char* uuid, int channel) {
     FastWriter writer;
     Value root;
     root["uuid"] = uuid;
     root["type"] = 1;
-    root["recommender"] = recommender;
+    root["channel"] = channel;
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -123,12 +123,12 @@ void NetManager::login_game_server_902() {
     this->post_data(902, data);
 }
 
-void NetManager::account_regist_903(const char *account, const char *password, const char* recommender) {
+void NetManager::account_regist_903(const char *account, const char *password, int channel) {
     FastWriter writer;
     Value root;
     root["account"] = account;
     root["password"] = password;
-    root["recommender"] = recommender;
+    root["channel"] = channel;
     string data = writer.write(root);
     this->post_data(903, data);
 }

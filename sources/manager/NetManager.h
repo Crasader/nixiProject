@@ -35,11 +35,12 @@ public:
     
 public:
     NetEnv obtain_net_env();
-    
-    void fast_login_900(const char* uuid, const char* recommender = "");
+    // channel : iOS = 0, 易接 = 1xx;
+    void fast_login_900(const char* uuid, int channel);
+    // 直接输入登录才用到
     void account_login_901(const char* account, const char* password);
-    void account_regist_903(const char* account, const char* password, const char* recommender = "");
-    
+    void account_regist_903(const char* account, const char* password, int channel);
+    //
     void login_game_server_902();
     void save_nickname_904(const char* nickname);
     void update_guide_905(int guide);
