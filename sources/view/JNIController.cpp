@@ -34,7 +34,18 @@ extern "C"
 #endif
     }
     
-    // 分享
+    // 登陆
+    void JNIController::isLanding(int index){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JniMethodInfo jni_methodInfo;
+    if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "isLanding", "(I)V")){
+        return;
+    }
+    jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID, index);
+    jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+
     // 分享
     void JNIController::showShare(){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -57,6 +68,229 @@ extern "C"
             jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,jTitle);
             jni_methodInfo.env->DeleteLocalRef(jTitle);
         }
+#endif
+    }
+    
+    // 网络状态
+    bool JNIController::getNetworkAvailable() {
+        bool ret = false;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "getNetworkAvailable", "()I") ){
+            return ret;
+        }
+        ret = jni_methodInfo.env->CallStaticBooleanMethod(jni_methodInfo.classID,  jni_methodInfo.methodID);
+        jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+        return ret;
+    }
+    
+    std::string JNIController::getSessionid(){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"getSessionid","()Ljava/lang/String;");
+        if(ret)
+        {
+            jstr = (jstring)jni_methodInfo.env->CallStaticObjectMethod(jni_methodInfo.classID,jni_methodInfo.methodID);
+            return JniHelper::jstring2string(jstr);
+        }
+#endif
+    }
+    
+    std::string JNIController::getCpOrderId(){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"getCpOrderId","()Ljava/lang/String;");
+        if(ret)
+        {
+            jstr = (jstring)jni_methodInfo.env->CallStaticObjectMethod(jni_methodInfo.classID,jni_methodInfo.methodID);
+            return JniHelper::jstring2string(jstr);
+        }
+#endif
+    }
+    
+    void JNIController::setUserId(char const* str){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"setUserId","(Ljava/lang/String;)V");
+        if (ret) {
+            jstring jTitle = jni_methodInfo.env->NewStringUTF(str);
+            jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,jTitle);
+            jni_methodInfo.env->DeleteLocalRef(jTitle);
+        }
+#endif
+    }
+    
+    // money
+    int JNIController::getMoneyStatus(){
+        int ret = 0;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "getMoneyStatus", "()I")){
+    		return ret;
+    	}
+    	ret = jni_methodInfo.env->CallStaticIntMethod(jni_methodInfo.classID, jni_methodInfo.methodID);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+        return ret;
+    }
+    void JNIController::setMoneyStatus(int status){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "setMoneyStatus", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID, status);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+    // gold
+    int JNIController::getGoldStatus(){
+        int ret = 0;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "getGoldStatus", "()I")){
+    		return ret;
+    	}
+    	ret = jni_methodInfo.env->CallStaticIntMethod(jni_methodInfo.classID, jni_methodInfo.methodID);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+        return ret;
+    }
+    void JNIController::setGoldStatus(int status){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "setGoldStatus", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID, status);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+    // name
+    void JNIController::setPlayerName(char const* str){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"setPlayerName","(Ljava/lang/String;)V");
+        if (ret) {
+            jstring jTitle = jni_methodInfo.env->NewStringUTF(str);
+            jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,jTitle);
+            jni_methodInfo.env->DeleteLocalRef(jTitle);
+        }
+#endif
+    }
+    void JNIController::setPlayerLevel(char const* str){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"setPlayerLevel","(Ljava/lang/String;)V");
+        if (ret) {
+            jstring jTitle = jni_methodInfo.env->NewStringUTF(str);
+            jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,jTitle);
+            jni_methodInfo.env->DeleteLocalRef(jTitle);
+        }
+#endif
+    }
+    void JNIController::setPlayerGold(char const* str){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"setPlayerGold","(Ljava/lang/String;)V");
+        if (ret) {
+            jstring jTitle = jni_methodInfo.env->NewStringUTF(str);
+            jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,jTitle);
+            jni_methodInfo.env->DeleteLocalRef(jTitle);
+        }
+#endif
+    }
+    
+    int JNIController::getRestartApplication(){
+        int ret = 0;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "getRestartApplication", "()I")){
+    		return ret;
+    	}
+    	ret = jni_methodInfo.env->CallStaticIntMethod(jni_methodInfo.classID, jni_methodInfo.methodID);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+        return ret;
+    }
+    void JNIController::setRestartApplication(int status){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "setRestartApplication", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID, status);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+    
+    int  JNIController::getLandStatus(){
+        int ret = 0;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "getLandStatus", "()I")){
+    		return ret;
+    	}
+    	ret = jni_methodInfo.env->CallStaticIntMethod(jni_methodInfo.classID, jni_methodInfo.methodID);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+        return ret;
+    }
+    void JNIController::setLandStatus(int smsStatus){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "setLandStatus", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,smsStatus);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+    
+    // 支付
+    void JNIController::isGamePay(int smsIndex){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    	JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "isGamePay", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,smsIndex);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+    int  JNIController::getSmsStatus(){
+        int ret = 0;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "getSmsStatus", "()I")){
+    		return ret;
+    	}
+    	ret = jni_methodInfo.env->CallStaticIntMethod(jni_methodInfo.classID, jni_methodInfo.methodID);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+        return ret;
+    }
+    void JNIController::setSmsStatus(int status){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "setSmsStatus", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID, status);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
 #endif
     }
     

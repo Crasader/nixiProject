@@ -1,4 +1,4 @@
-package cn.mzplay.malestar.anzhi;
+package cn.mzplay.tiegao;
 
 
 import java.io.ByteArrayInputStream;
@@ -24,7 +24,7 @@ public class SplashActivity extends SFOnlineSplashActivity {
 	@Override
 	public void onSplashStop() {
 
-		Intent intent = new Intent(this, Mm3c.class);
+		Intent intent = new Intent(this, Tiegao.class);
 		startActivity(intent);
 		this.finish();
 	}

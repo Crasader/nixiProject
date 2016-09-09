@@ -3230,6 +3230,9 @@ int ClothesScene::haveEnoughGold(){
                             
                             int goldIndex = DATA->getTaskGameIndex6();
                             goldIndex++;
+                            if (goldIndex >= 5) {
+                                goldIndex = 5;
+                            }
                             DATA->setTaskGameIndex6(goldIndex);
                         }
                     }
@@ -3247,6 +3250,9 @@ int ClothesScene::haveEnoughGold(){
                                 
                                 int goldIndex = DATA->getTaskGameIndex6();
                                 goldIndex++;
+                                if (goldIndex >= 5) {
+                                    goldIndex = 5;
+                                }
                                 DATA->setTaskGameIndex6(goldIndex);
                             }
                         }

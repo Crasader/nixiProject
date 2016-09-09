@@ -291,9 +291,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/panel/EnergyLargessPanel.h \
  jni/../../sources/view/mainScene/GashaponLayer.h \
  jni/../../sources/view/mainScene/ExchangeLayer.h \
- jni/../../sources/view/JNIController.h \
- /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
  jni/../../sources/view/friends/Shower.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
@@ -314,6 +311,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/panel/MailPanel.h \
  jni/../../sources/view/panel/OperationPanel.h \
@@ -322,7 +320,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/panel/TotalRechargePanel.h \
  jni/../../sources/view/mainScene/RewardLayer.h \
  jni/../../sources/view/guide/GuideLayer.h \
- jni/../../sources/view/mainScene/PromptLayer.h
+ jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
 jni/../../sources/view/mainScene/MainScene.h:
 
@@ -918,12 +918,6 @@ jni/../../sources/view/mainScene/GashaponLayer.h:
 
 jni/../../sources/view/mainScene/ExchangeLayer.h:
 
-jni/../../sources/view/JNIController.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
-
-jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
-
 jni/../../sources/view/friends/Shower.h:
 
 jni/../../sources/view/haoyouScene/StrangerScene.h:
@@ -964,6 +958,8 @@ jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
 
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+
 jni/../../sources/manager/ConfigManager.h:
 
 jni/../../sources/view/panel/MailPanel.h:
@@ -981,3 +977,7 @@ jni/../../sources/view/mainScene/RewardLayer.h:
 jni/../../sources/view/guide/GuideLayer.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:

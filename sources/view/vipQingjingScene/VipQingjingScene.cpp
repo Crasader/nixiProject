@@ -268,8 +268,8 @@ void VipQingjingScene::creat_view(){
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
             startItem->setTag(i);
             
-            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
-            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart3.png");
+            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart3.png");
             buySpr2->setScale(1.02f);
             buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
             buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));

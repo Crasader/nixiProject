@@ -655,7 +655,7 @@ void TaskTableView::buttonStatus(int index, CCSprite* button){
     CCString* indexStr = CCString::createWithFormat("%d", index);
     int num = DATA->getMission()->mission_rating(indexStr->getCString());
 //    num = 5;
-    if (num == 5) {
+    if (num >= 5) {
         CCSprite* xingDiSpr1;
         xingDiSpr1 = CCSprite::create("res/pic/taskScene/task_xing5.png");
         xingDiSpr1->setPosition(ccp(button->getContentSize().width* .5f, button->getContentSize().height* .4f));

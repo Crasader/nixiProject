@@ -10,8 +10,6 @@
 #include "LoginScene.h"
 
 
-
-
 LogoScene::~LogoScene(){
     
 }

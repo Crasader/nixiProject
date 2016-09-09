@@ -34,9 +34,42 @@ extern "C"
     	static void push_Android(string nameStr, int num, int index);
     	static void closePush_Android(int index);
         
+        // 登陆
+        static void isLanding(int index);
+        
         // 分享
         static void showShare();
         static void setShareImage(char const* str);
+        
+        // 网络状态
+        static bool getNetworkAvailable();
+        
+        static std::string getSessionid();
+        static std::string getCpOrderId();
+        static void setUserId(char const* str);
+        // money
+        static int getMoneyStatus();
+        static void setMoneyStatus(int status);
+        // gold
+        static int getGoldStatus();
+        static void setGoldStatus(int status);
+        // name
+        static void setPlayerName(char const* str);
+        static void setPlayerLevel(char const* str);
+        static void setPlayerGold(char const* str);
+        
+        static int getRestartApplication();
+        static void setRestartApplication(int status);
+        
+        static int  getLandStatus();
+        static void setLandStatus(int smsStatus);
+        
+        // 支付
+        static void isGamePay(int smsIndex);
+        static int  getSmsStatus();
+        static void setSmsStatus(int status);
+        
+        
         
     };
 }

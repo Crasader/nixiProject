@@ -1,3 +1,5 @@
+package cn.mzplay.tiegao.wxapi;
+
 /*
  * 官网地站:http://www.mob.com
  * 技术支持QQ: 4006852216
@@ -6,7 +8,7 @@
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-package cn.sharesdk.demo.wxapi;
+
 
 import android.content.Intent;
 import android.widget.Toast;

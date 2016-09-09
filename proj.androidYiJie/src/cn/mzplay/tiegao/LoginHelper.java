@@ -1,4 +1,4 @@
-package cn.mzplay.malestar.anzhi;
+package cn.mzplay.tiegao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class LoginHelper {
 		public String orderId;
 	}
 	//自建服务器
-	static public final String CP_LOGIN_CHECK_URL = "http://115.28.20.23:33333/thired/login";
+	static public final String CP_LOGIN_CHECK_URL = "http://192.168.1.234:9765/yijie/login";
 
 	/*CP服务器地址，支付结果同步地址
 	 * 如果客户端不设置，将以在易接后台创建游戏时设置的数据同步地址进行同步

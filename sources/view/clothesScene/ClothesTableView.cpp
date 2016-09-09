@@ -149,9 +149,10 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
                 saveString.append(saveStr->getCString());
             }
         }
+        CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", saveString.c_str());
+        CCUserDefault::sharedUserDefault()->flush();
     }
-    CCUserDefault::sharedUserDefault()->setStringForKey("SaveClothes", saveString.c_str());
-    CCUserDefault::sharedUserDefault()->flush();
+    
     
     
     if (clothesType != Tag_CL_ShiPin) {
@@ -715,7 +716,7 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     }else{
         CCArray* strList = StringUtil::sharedStrUtil()->split(stdStr.c_str(), ";");
         for (int i = 0; i < strList->count(); i++) {
-            CCString* listStr = (CCString* )strList->objectAtIndex(0);
+            CCString* listStr = (CCString* )strList->objectAtIndex(i);
             int saveClothes = atoi(listStr->getCString());
             if (cloth_id == saveClothes) {
                 CCSprite* newSpr1 = CCSprite::create("res/pic/clothesScene/gj_new1.png");

@@ -1,4 +1,4 @@
-package cn.mzplay.malestar.anzhi;
+package cn.mzplay.tiegao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -22,15 +22,9 @@ public class YijieLayer{
 	
 	private static String productName;
 	private static int price;
-	private static boolean landBool;
-	private static int baiduIndex;
 	
 	public YijieLayer(Activity act){
 		instance = act;
-		
-		landBool = false;
-//		baiduIndex = 1;  // baidu
-		baiduIndex = 0;  // other
 		
 		initSDK();
 	}
@@ -51,41 +45,20 @@ public class YijieLayer{
 			public void onLoginSuccess(SFOnlineUser user, Object customParams) { //登陆成功回调
 				Log.e("main", "<><> onLoginSuccess" );
 				Log.e("main", "<><> customParams == " + customParams);
-				if(baiduIndex == 1){
-					// 百度
-					if (landBool) {
-						landBool = false;
-						Mm3c.setRestartApplication(1);
-					}else{
-						LoginCheck(user);
-					}
-				}else{
-					// 其它
-					LoginCheck(user);
-				}
+				Log.e("main", "<><> user == " + user);
+				LoginCheck(user);
 			}
 			@Override
 			public void onLoginFailed(String reason, Object customParams) { //登陆失败回调
 //				Log.e("main", "<><> onLoginFailed: " + reason + ", " + customParams );
-				if(baiduIndex == 1){
-					// 百度
-					if (landBool) {
-						Mm3c.setRestartApplication(2);
-						
-					}else{
-						Mm3c.setLandStatus(2);
-					}
-				}else{
-					// 其它
-					Mm3c.setLandStatus(2);
-				}
+				Tiegao.setLandStatus(2);
 //				Toast.makeText(instance, "账户登陆失败", Toast.LENGTH_SHORT).show();
 			}
 			@Override
 			public void onLogout(Object customParams) { //登出回调
 //				Log.e("main", "<><> onLogout:" + customParams);
 //				Toast.makeText(instance, "账户登出", Toast.LENGTH_SHORT).show();
-				Mm3c.setRestartApplication(1);
+				Tiegao.setRestartApplication(1);
 			}
 		});
 		if (type == 1) {
@@ -123,15 +96,8 @@ public class YijieLayer{
 		Log.i("main","<<<<<<<< tempError ===== " + tempError + " >>>>>>>>");
 		if (tempError[0].equals("200")) {
 			try {
-				Mm3c.setSessionid(tempError[1]);
-				Mm3c.setLandStatus(1);
-				
-				if(baiduIndex == 1){
-					// 百度
-					landBool = true;
-				}else{
-					// 其它
-				}
+				Tiegao.setSessionid(tempError[1]);
+				Tiegao.setLandStatus(1);
 				
 				LoginHelper.showMessage("登录成功", instance);
             } catch (Exception e) {
@@ -139,13 +105,8 @@ public class YijieLayer{
             }
 			return;
 		}else{
-			Mm3c.setSmsStatus(2);
-			if(baiduIndex == 1){
-				// 百度
-				landBool = false;
-			}else{
-				// 其它
-			}
+			Tiegao.setSmsStatus(2);
+			
 			LoginHelper.showMessage("未登录", instance);
 			return;
 		}
@@ -181,7 +142,7 @@ public class YijieLayer{
 		 *  @param zoneId    区域唯一标识
 		 *  @param zoneName  区域名称
 		 * */
-		SFOnlineHelper.setRoleData(instance, Mm3c.getUserId(), Mm3c.getPlayerName(), Mm3c.getPlayerLevel(), "1", "男神大区");
+		SFOnlineHelper.setRoleData(instance, Tiegao.getUserId(), Tiegao.getPlayerName(), Tiegao.getPlayerLevel(), "1", "男神大区");
 	}
 	
 	
@@ -193,15 +154,15 @@ public class YijieLayer{
 		price = 0;
 		
 		if (index == 0) {
-			productName = "" + Mm3c.getGoldStatus() + "钻石";
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 1) {
-			productName = "" + Mm3c.getGoldStatus() + "钻石";
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 2) {
-			productName = "" + Mm3c.getGoldStatus() + "钻石";
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 3) {
-			productName = "" + Mm3c.getGoldStatus() + "钻石";
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 4) {
-			productName = "" + Mm3c.getGoldStatus() + "钻石";
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}
 		else if (index == 10) {
 			productName = "一元购";
@@ -209,19 +170,19 @@ public class YijieLayer{
 		else if (index == 30) {
 			productName = "VIP包月";
 		}
-		price = Mm3c.getMoneyStatus();
+		price = Tiegao.getMoneyStatus();
 //		price = 1;
 //		Log.e("main", "<><> productName == " + productName);
 		
 		
 		// 其它
-		SFOnlineHelper.pay(instance, price, productName, 1, Mm3c.getProductId(), LoginHelper.CP_PAY_SYNC_URL, new SFOnlinePayResultListener() 
+		SFOnlineHelper.pay(instance, price, productName, 1, Tiegao.getProductId(), LoginHelper.CP_PAY_SYNC_URL, new SFOnlinePayResultListener() 
 		{
 
 			@Override
 			public void onFailed(String remain) {
 				// TODO Auto-generated method stub
-				Mm3c.setSmsStatus(2);
+				Tiegao.setSmsStatus(2);
 				Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();
 				Log.e("main", "<><> onFailed remain == " + remain);
 			}
@@ -229,19 +190,19 @@ public class YijieLayer{
 			@Override
 			public void onOderNo(String orderNo) {
 				// TODO Auto-generated method stub
-				Mm3c.setCpOrderId(orderNo);
-				if (Mm3c.getSmsStatus() == 1) {
-					Mm3c.setSmsStatus(1);
+				Tiegao.setCpOrderId(orderNo);
+				if (Tiegao.getSmsStatus() == 1) {
+					Tiegao.setSmsStatus(1);
 				}else{
-					Mm3c.setSmsStatus(2);
+					Tiegao.setSmsStatus(2);
 				}
-				Log.e("main", "<><> onOderNo == " + orderNo + ";" + "<><> getSmsStatus == " + Mm3c.getSmsStatus());
+				Log.e("main", "<><> onOderNo == " + orderNo + ";" + "<><> getSmsStatus == " + Tiegao.getSmsStatus());
 			}
 
 			@Override
 			public void onSuccess(String remain) {
 				// TODO Auto-generated method stub
-				Mm3c.setSmsStatus(1);
+				Tiegao.setSmsStatus(1);
 				Log.e("main", "<><> onSuccess remain == " + remain);
 			}
 			
@@ -269,17 +230,17 @@ public class YijieLayer{
         JSONObject roleInfo = new  JSONObject();  
         try {
         	// 当前登录的玩家角色ID。必须为数字
-        	roleInfo.put("roleId", Mm3c.getUserId());
+        	roleInfo.put("roleId", Tiegao.getUserId());
         	// 当前登录的玩家角色名，不能为空，不能为null
-        	roleInfo.put("roleName", Mm3c.getPlayerName());
+        	roleInfo.put("roleName", Tiegao.getPlayerName());
         	// 当前登录的玩家角色等级，必须为数字，且不能为0，若无传入1
-        	roleInfo.put("roleLevel", Mm3c.getPlayerLevel());
+        	roleInfo.put("roleLevel", Tiegao.getPlayerLevel());
         	// 当前登录的游戏区服ID，必须为数字，且不能为0.若无传入1
         	roleInfo.put("zoneId", "1");
         	// 当前登录的游戏区服名称，不能为空，不能为null
         	roleInfo.put("zoneName", "男神大区");
         	// 用户游戏币余额，必须为数字，若无，传入0
-        	roleInfo.put("balance", Mm3c.getPlayerGold());
+        	roleInfo.put("balance", Tiegao.getPlayerGold());
         	// 当前用户VIP等级，必须为数字，若无传入1
         	roleInfo.put("vip", "1");
         	// 当前角色所属帮派，不能为空，不能为null，若无传入“无帮派”

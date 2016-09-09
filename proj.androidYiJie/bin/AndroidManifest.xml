@@ -34,21 +34,34 @@
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.GET_TASKS"  />
 	
-    <application android:label="@string/app_name"
-        android:icon="@drawable/icon">
-
-        <activity android:name=".Tiegao"
+    <application
+        android:name="com.snowfish.cn.ganga.helper.SFOnlineApplication"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:icon="@drawable/icon" >
+        
+        <!-- SplashActivity为闪屏Activity,继承com.snowfish.cn.ganga.helper.SFOnlineSplashActivity
+         并将该Activity设置为程序启动时的Activity -->
+		<activity android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
-            android:configChanges="orientation">
+            android:configChanges="orientation|keyboardHidden|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		
+        <activity android:name=".Tiegao"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask" >
+        </activity>
         
-        		<activity
+        <activity
      		android:name="com.mob.tools.MobUIShell" 
     	 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
@@ -103,7 +116,7 @@
         
         <meta-data
             android:name="com.snowfish.appid" 
-            android:value="{2BDCA7CB-81082F19}" >
+            android:value="{E309AE84-C1785CF4}" >
         </meta-data>
         
         <meta-data

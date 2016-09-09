@@ -25,8 +25,15 @@ package cn.mzplay.tiegao;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import com.snowfish.cn.ganga.helper.SFOnlineHelper;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import cn.mzplay.tiegao.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -34,14 +41,23 @@ public class Tiegao extends Cocos2dxActivity {
 	public static Tiegao instance;
 	
 	private static AlarmClock alarmClock = null;
+	private static YijieLayer yijieLayer = null;
 	
 	public static String shareImage = "";
+	public static String session = "";
+	public static String userId = "";
+	public static String playerLevel = "";
+	public static String playerGold = "";
+	public static String productId = "";
+	public static String cpOrderId = "";
+	public static String playerName = "";
 	
 	
-	
-	
-	
-	
+	public static int landStatus = 0;
+	public static int restartApplication = 0;
+	public static int moneyStatus = 0;
+	public static int smsStatus = 0;
+	public static int goldStatus = 0;
 	
 	
 	
@@ -51,7 +67,7 @@ public class Tiegao extends Cocos2dxActivity {
 		instance = this;
 		
 		alarmClock = new AlarmClock(instance);
-		
+		yijieLayer = new YijieLayer(instance);
 		
 		// 055A2E7D7DB33E6E318D0D2263C57F2B 测试
 //		TalkingDataGA.init(instance, "B9AF9FCF7CD821D4EB526416E2BD24FC", "mzplay");
@@ -64,18 +80,37 @@ public class Tiegao extends Cocos2dxActivity {
     
     
     
+    @Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		SFOnlineHelper.onStop(instance);
+		Log.i("", "===============onStop()");
+	}
+    
+    @Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		SFOnlineHelper.onRestart(instance);
+		Log.i("", "===============onRestart()");
+	}
     
     @Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		SFOnlineHelper.onResume(instance);
+//		TalkingDataGA.onResume(instance);
 		Log.i("", "===============onResume()");
 	}
     
-	@Override
+    @Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		SFOnlineHelper.onPause(instance);
+//		TalkingDataGA.onPause(instance);
 		Log.i("", "================onPause()");
 	}
 	
@@ -89,8 +124,9 @@ public class Tiegao extends Cocos2dxActivity {
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
-		Log.i("", "================onDestroy()");
 		super.onDestroy();
+		SFOnlineHelper.onDestroy(instance);
+		Log.i("", "================onDestroy()");
 	}
 	
 	
@@ -123,6 +159,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// 启动分享GUI
 		oks.show(instance);
 	}
+	
 	// 获取用户信息
 	public static String getShareImage(){
 		return shareImage;
@@ -131,14 +168,129 @@ public class Tiegao extends Cocos2dxActivity {
 		shareImage = str;
 	}
 	
+	public static int getLandStatus(){
+		return landStatus;
+	}
+	public static void setLandStatus(int status){
+		landStatus = status;
+	}
+	
+	public static int getRestartApplication(){
+		return restartApplication;
+	}
+	public static void setRestartApplication(int status){
+		restartApplication = status;
+	}
+	
+	public static String getSessionid(){
+		return session;
+	}
+	public static void setSessionid(String _sessionid){
+		session = _sessionid;
+	}
+	
+	// userid
+	public static String getUserId(){
+		return userId;
+	}
+	public static void setUserId(String str){
+		userId = str;
+	}
+	// 玩家等级
+	public static String getPlayerLevel(){
+		return playerLevel;
+	}
+	public static void setPlayerLevel(String level){
+		playerLevel = level;
+	}
+	// 玩家钻石
+	public static String getPlayerGold(){
+		return playerGold;
+	}
+	public static void setPlayerGold(String gold){
+		playerGold = gold;
+	}
+	// money
+	public static int getMoneyStatus(){
+		return moneyStatus;
+	}
+	public static void setMoneyStatus(int status){
+		moneyStatus = status;
+	}
+	
+	public static String getProductId(){
+		return productId;
+	}
+	public static void setProductId(String str){
+		productId = str;
+	}
+	
+	public static int getSmsStatus(){
+		return smsStatus;
+	}
+	public static void setSmsStatus(int status){
+		smsStatus = status;
+	}
+	
+	// 获取用户信息
+	public static String getCpOrderId(){
+		return cpOrderId;
+	}
+	public static void setCpOrderId(String str){
+		cpOrderId = str;
+	}
+	
+	// 获取用户信息
+	public static String getPlayerName(){
+		return playerName;
+	}
+	public static void setPlayerName(String str){
+		playerName = str;
+	}
+	// gold
+	public static int getGoldStatus(){
+		return goldStatus;
+	}
+	public static void setGoldStatus(int status){
+		goldStatus = status;
+	}
 	
 	
 	
+	// 判断网络
+	public static Boolean getNetworkAvailable(){
+		ConnectivityManager connectivityManager = (ConnectivityManager)instance.getSystemService(CONNECTIVITY_SERVICE);  
+		if (connectivityManager == null) {
+			return false;
+		}else {
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();  
+			if(networkInfo == null || !networkInfo.isAvailable())  
+			{  
+			    //当前有可用网络  
+				Log.i("main", "<><><><><><>当前有可用网络");
+				return true;
+			}  
+			else   
+			{  
+			    //当前无可用网络  
+				Log.i("main", "<><><><><><>当前无可用网络");
+				return false;
+			}
+		}
+	}
 	
 	
-	
-	
-	
+	// 登陆接口
+	public static void isLanding(int index){
+		Message msg = new Message();
+		msg.arg1 = index;			
+		moreHandler1.sendMessage(msg);
+	}
+ 	static Handler moreHandler1 = new Handler(){
+    	public void handleMessage(Message msg){
+    		yijieLayer.doLogin(msg.arg1);
+    	}
+ 	};
 	
 	
 	

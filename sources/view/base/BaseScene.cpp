@@ -470,11 +470,11 @@ void BaseScene::push_Android(CCObject* pObj){
     JNIController::closePush_Android(1);
     
     CCDictionary* dic = (CCDictionary* )pObj;
-    const CCString* name = (CCString*)dic->valueForKey("name");
+    CCString* name = (CCString*)dic->valueForKey("name");
     CCInteger* num = (CCInteger*)dic->objectForKey("num");
     CCInteger* index = CCInteger::create(1);
     
-    CCLog("str == %s, num == %d", name->getCString(), num->getValue());
+    CCLog("str == %s, num == %d, index == %d", name->getCString(), num->getValue(), index->getValue());
     
     JNIController::push_Android(name->getCString(), num->getValue(), index->getValue());
 #endif

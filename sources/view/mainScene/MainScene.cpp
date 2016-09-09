@@ -22,7 +22,6 @@
 #include "EnergyLargessPanel.h"
 #include "GashaponLayer.h"
 #include "ExchangeLayer.h"
-#include "JNIController.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -49,6 +48,8 @@
 #include "RewardLayer.h"
 
 #include "GuideLayer.h"
+
+#include "JNIController.h"
 
 
 // --------------- test ----------------
@@ -1241,18 +1242,16 @@ void MainScene::openChat(cocos2d::CCObject *pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击聊天");
     
-    AUDIO->comfirm_effect();
-    DATA->setChatOut(false);
-    if (WS->isConnected()) {
-        ChatPanel* panel = ChatPanel::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
-    }else{
-        WS->connect();
-    }
-//    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
-//    path.append("/share.png");
-//    JNIController::setShareImage(path.c_str());
-//    JNIController::showShare();
+//    AUDIO->comfirm_effect();
+//    DATA->setChatOut(false);
+//    if (WS->isConnected()) {
+//        ChatPanel* panel = ChatPanel::create();
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+//    }else{
+//        WS->connect();
+//    }
+    
+    JNIController::isLanding(1);
 }
 
 void MainScene::displayChatItem(){
