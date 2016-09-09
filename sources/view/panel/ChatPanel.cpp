@@ -276,14 +276,14 @@ void ChatPanel::show_panel(){
 }
 
 bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
-    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, _panel_bg->getPosition().y + 350));
+    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f + 350));
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
     
     return false;
 }
 
 bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
-    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, _panel_bg->getPosition().y - 350));
+    CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f));
     _panel_bg->stopAllActions();
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
     

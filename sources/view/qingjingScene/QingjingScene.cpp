@@ -105,6 +105,10 @@ void QingjingScene::keyBackStatus(float dt){
 void QingjingScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
+    DATA->setChatOut(true);
+    DATA->getChat()->setItems(CCArray::create());
+    
     BaseScene::onExit();
 }
 
