@@ -46,9 +46,9 @@ bool UpgradeLayer::init(){
     do {
         CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(250, 250, 250, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
         
-//        this->setTouchSwallowEnabled(true);
-//        this->setTouchMode(kCCTouchesOneByOne);
-//        this->setTouchEnabled(true);
+        this->setTouchSwallowEnabled(true);
+        this->setTouchMode(kCCTouchesOneByOne);
+        this->setTouchEnabled(true);
         
         bRet = true;
     } while (0);
@@ -56,10 +56,10 @@ bool UpgradeLayer::init(){
     return bRet;
 }
 
-//bool UpgradeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-//    
-//    return true;
-//}
+bool UpgradeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
+    
+    return true;
+}
 
 UpgradeLayer* UpgradeLayer::create_with_index(int index){
     UpgradeLayer* rtn = UpgradeLayer::create();
