@@ -8,6 +8,7 @@
 
 #include "DataManager.h"
 #include "NetManager.h"
+#include "WSManager.h"
 #include "ConfigManager.h"
 #include <sys/time.h>
 #include "AppUtil.h"
@@ -523,6 +524,7 @@ void DataManager::update(float dt) {
 }
 
 void DataManager::relogin() {
+    WS->disconnect();
     CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
 }
 
@@ -583,8 +585,15 @@ bool DataManager::could_prduce() {
 }
 
 int DataManager::current_guide_step(){
-    return _player->getGuide();
-//    return 0;
+    CCDictionary* mainConf = this->getLogin()->config();
+    CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
+    if (guideConf->getValue() == 1) {
+        //    return _player->getGuide();
+        return 0;
+    }
+    else {
+        return 0;
+    }
 }
 
 

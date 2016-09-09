@@ -51,7 +51,7 @@ bool GiftPanel::init() {
         
         CCSize size_bar = CCSizeMake(262, 40);
         _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/nickname_reset/nnr_bar.png"));
-        _eb->setMaxLength(30);
+        _eb->setMaxLength(16);
         _eb->setFontColor(DISPLAY->defalutColor());
         _eb->setPlaceHolder("点此输入礼包码");
         _eb->setFontName(DISPLAY->fangzhengFont());
