@@ -13,6 +13,9 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.mob.tools.utils.R;
+import com.mob.tools.utils.UIHandler;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -21,15 +24,14 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
+import cn.mzplay.tiegao.meitu.Tiegao;
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-
-import com.mob.tools.utils.R;
-import com.mob.tools.utils.UIHandler;
 
 /** 快捷分享的主题样式的实现父类 */
 public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Callback {
@@ -377,6 +379,8 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
 				if (resId > 0) {
 					toast(context.getString(resId));
 				}
+				Log.i("main", "成功");
+				Tiegao.setShareStatus(1);
 			} break;
 			case 2: {
 				// 失败
@@ -403,9 +407,14 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
 				} else {
 					toast("ssdk_oks_share_failed");
 				}
+				
+				Log.i("main", "失败");
+				Tiegao.setShareStatus(2);
 			} break;
 			case 3: {
 				// 取消
+				Log.i("main", "取消");
+				Tiegao.setShareStatus(3);
 				toast("ssdk_oks_share_canceled");
 			} break;
 		}

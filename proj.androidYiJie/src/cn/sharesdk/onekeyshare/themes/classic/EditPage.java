@@ -11,6 +11,10 @@ package cn.sharesdk.onekeyshare.themes.classic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.mob.tools.gui.AsyncImageView;
+import com.mob.tools.utils.DeviceHelper;
+import com.mob.tools.utils.R;
+
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -28,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.mzplay.tiegao.meitu.Tiegao;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.ShareSDK;
@@ -35,10 +40,6 @@ import cn.sharesdk.onekeyshare.OnekeySharePage;
 import cn.sharesdk.onekeyshare.OnekeyShareThemeImpl;
 import cn.sharesdk.onekeyshare.themes.classic.land.FriendListPageLand;
 import cn.sharesdk.onekeyshare.themes.classic.port.FriendListPagePort;
-
-import com.mob.tools.gui.AsyncImageView;
-import com.mob.tools.utils.DeviceHelper;
-import com.mob.tools.utils.R;
 
 public class EditPage extends OnekeySharePage implements OnClickListener, TextWatcher, Runnable {
 	private OnekeyShareThemeImpl impl;
@@ -108,6 +109,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 	private void shareAndFinish() {
 		int resId = R.getStringRes(activity, "ssdk_oks_sharing");
 		if (resId > 0) {
+//			Tiegao.setShareText(activity.getString(resId));
 			Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
 		}
 

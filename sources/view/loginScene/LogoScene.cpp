@@ -8,7 +8,7 @@
 
 #include "LogoScene.h"
 #include "LoginScene.h"
-
+#include "ConfigManager.h"
 #include "YiJieLoginScene.h"
 
 
@@ -56,8 +56,13 @@ void LogoScene::next_scene(){
     CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->replaceScene(pScene);
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    CCScene* pScene = YiJieLoginScene::scene();
-    CCDirector::sharedDirector()->replaceScene(pScene);
+    if (CONFIG->baiOrYijie == 0) {// 白包
+        CCScene* pScene = LoginScene::scene();
+        CCDirector::sharedDirector()->replaceScene(pScene);
+    }else if (CONFIG->baiOrYijie == 1){// 易接
+        CCScene* pScene = YiJieLoginScene::scene();
+        CCDirector::sharedDirector()->replaceScene(pScene);
+    }
 #endif
 }
 

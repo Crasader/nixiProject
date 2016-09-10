@@ -114,16 +114,6 @@ void FriendsScene::create_UI() {
     room_name->setPosition(ccp(name_bar->getContentSize().width* .5f, name_bar->getContentSize().height* .5f - 4));
     name_bar->addChild(room_name);
     
-    //分享
-    CCSprite* share_spr = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    CCSprite* share_spr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    share_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_share = CCMenuItemSprite::create(share_spr, share_spr2, this, menu_selector(FriendsScene::btn_no_realize));
-    item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
-    CCMenu* menu_share = CCMenu::create(item_share, NULL);
-    menu_share->setPosition(CCPointZero);
-    this->addChild(menu_share);
-    
     //纸条
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     CCSprite* note_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
@@ -411,16 +401,6 @@ void FriendsScene::nc_take_energy_807(CCObject *pObj) {
     CCPoint from = ccp(DISPLAY->halfW() + 100, DISPLAY->H() * 0.12);
     dic->setObject(CCString::createWithFormat("{%f,%f}", from.x, from.y), "from");
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
-}
-
-void FriendsScene::btn_no_realize(CCMenuItem* menuItem) {
-    AUDIO->common_effect();
-    
-    // talkingData
-    DATA->onEvent("点击事件", "好友界面", "点击分享");
-    
-    PromptLayer* tip = PromptLayer::create();
-    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放，敬请期待~");
 }
 
 

@@ -99,16 +99,6 @@ void StrangerScene::createView(){
     room_name->setPosition(ccp(name_bar->getContentSize().width* .5f, name_bar->getContentSize().height* .5f - 4));
     name_bar->addChild(room_name);
     
-    //分享
-    CCSprite* share_spr = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    CCSprite* share_spr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    share_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_share = CCMenuItemSprite::create(share_spr, share_spr2, this, menu_selector(StrangerScene::btn_share_callback));
-    item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
-    CCMenu* menu_share = CCMenu::create(item_share, NULL);
-    menu_share->setPosition(CCPointZero);
-    this->addChild(menu_share, z_order);
-    
     //刷新
     CCSprite* refresh_spr = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
     CCSprite* refresh_spr2 = CCSprite::create("res/pic/haoyoupaihang/refresh.png");
@@ -175,15 +165,6 @@ void StrangerScene::initStranger(){
 //    di_bar->setPosition(ccp(di_bar->getContentSize().width* .5f, 0));
 //    tabLayer->addChild(di_bar);
 
-}
-
-void StrangerScene::btn_share_callback(CCObject* pSender){
-    AUDIO->common_effect();
-    // talkingData
-    DATA->onEvent("点击事件", "陌生人界面", "点击分享");
-    
-    PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
 }
 
 void StrangerScene::btn_refresh_callback(CCObject* pSender){

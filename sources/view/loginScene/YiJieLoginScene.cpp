@@ -18,6 +18,8 @@
 #include "CreateName.h"
 #include "MainScene.h"
 
+#include "JNIController.h"
+
 YiJieLoginScene::~YiJieLoginScene() {
 
 }
@@ -31,7 +33,7 @@ CCScene* YiJieLoginScene::scene() {
 bool YiJieLoginScene::init() {
     CCLog("<><><><><> YiJieLoginScene::init()");
     if (CCLayer::init()) {
-        CCSprite* bg = CCSprite::create("res/pic/YiJieLoginScene/login_bg.png");
+        CCSprite* bg = CCSprite::create("res/pic/loginScene/login_bg.png");
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);
         
@@ -47,6 +49,7 @@ void YiJieLoginScene::onEnter() {
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&YiJieLoginScene::fast_login_callback_900), "HTTP_FINISHED_900", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&YiJieLoginScene::game_login_callback_902), "HTTP_FINISHED_902", NULL);
     nc->addObserver(this, SEL_CallFuncO(&YiJieLoginScene::save_nickname_callback_904), "HTTP_FINISHED_904", NULL);
     
     this->setTouchMode(kCCTouchesOneByOne);
@@ -76,30 +79,61 @@ void YiJieLoginScene::create_views() {
     // 需要检查网络状况
     
     
-    // 测试
-    CCLabelTTF* lblTest = CCLabelTTF::create("我是测试易接的~!", DISPLAY->fangzhengFont(), 30);
-    lblTest->setPosition(DISPLAY->center());
-    this->addChild(lblTest);
+    CCSprite* startSpr1 = CCSprite::create("res/pic/loginScene/login_btn_fast2.png");
+    CCSprite* startSpr2 = CCSprite::create("res/pic/loginScene/login_btn_fast2.png");
+    startSpr2->setScale(1.01f);
+    startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(YiJieLoginScene::startCallBack));
+    startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    CCMenu* startMenu = CCMenu::create(startItem, NULL);
+    startItem->setPosition(CCPointZero);
+    this->addChild(startMenu, 10);
     
-
     CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
     CCLabelTTF* lblVersion = CCLabelTTF::create(strVersion->getCString(), DISPLAY->fangzhengFont(), 20.f);
     lblVersion->setColor(ccORANGE);
     lblVersion->setPosition(ccp(DISPLAY->W() * 0.85, DISPLAY->H() * 0.04));
     this->addChild(lblVersion);
-    
-    bool autoLogin = DATA->getAutoLogin();
-    if (autoLogin && CONFIG->has_saved_uuid()) {
-        CCLog("非 首次登录~");
+}
+void YiJieLoginScene::startCallBack(CCObject* pSender){
+    LOADING->show_loading();
+    JNIController::isLanding(1);
+    this->schedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus), .5f);
+}
+void YiJieLoginScene::updataLoginStatus(float dt){
+    if (JNIController::getLandStatus() == 1) {
+        JNIController::setLandStatus(0);
+        this->unschedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus));
+        startItem->setVisible(false);
+        
+        CCString* seccionStr;
+        seccionStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
+        CCLog("<><><><> seccionStr == %s", seccionStr->getCString());
         LOADING->show_loading();
         DATA->setLoginType(1);
-        NET->fast_login_900(CONFIG->saved_uuid().c_str(), CONFIG->channelId);
-    }
-    else { // 首次登入走这里
-        CCLog("首次登入走这里");
+        NET->fast_login_900(seccionStr->getCString(), CONFIG->channelId);
+    }else if (JNIController::getLandStatus() == 2){
+        JNIController::setLandStatus(0);
+        this->unschedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus));
+        startItem->setVisible(true);
+        
+        // 添加提示 登录失败，是否重新登录   是发送isLanding  否推出游戏
+        AHMessageBox* mb = AHMessageBox::create_with_message("登录失败,是否重新登录?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3900);
     }
 }
 
+void YiJieLoginScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
+    box->animation_out();
+    
+    if (button_type == AH_BUTTON_TYPE_YESNO) {
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            startCallBack(NULL);
+        }else if (button_tag == AH_BUTTON_TAG_NO){
+            JNIController::exitGame(CONFIG->baiOrYijie);
+        }
+    }
+}
 
 
 void YiJieLoginScene::show_nicknameview() {
@@ -112,14 +146,15 @@ void YiJieLoginScene::fast_login_callback_900(CCObject *pObj) {
     if (! CONFIG->has_saved_uuid()) {
         CONFIG->save_uuid(DATA->getLogin()->obtain_UUID());
     }
-    
+    LOADING->show_loading();
     NET->login_game_server_902();
 }
 
 void YiJieLoginScene::game_login_callback_902(CCObject *pObj) {
+    LOADING->remove();
+    
     const char* nickname = DATA->getShow()->nickname();
     if (strcmp(nickname, "") == 0) {
-        LOADING->remove();
 
         this->show_nicknameview();
         AUDIO->first_run_config();

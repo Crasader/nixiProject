@@ -74,7 +74,6 @@ public:
     void createView();
     void initStranger();
     
-    void btn_share_callback(CCObject* pSender);
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     void btn_find_callback(CCObject* pSender);

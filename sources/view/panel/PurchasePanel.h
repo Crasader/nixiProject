@@ -30,6 +30,9 @@ public:
 public:
     void show_from(CCPoint from);
     
+    void updatePay(float dt);
+    void send105();
+    
 private:
     void init_content();
     void update_content();

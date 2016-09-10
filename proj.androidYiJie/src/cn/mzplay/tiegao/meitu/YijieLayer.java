@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao;
+package cn.mzplay.tiegao.meitu;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -142,7 +142,7 @@ public class YijieLayer{
 		 *  @param zoneId    区域唯一标识
 		 *  @param zoneName  区域名称
 		 * */
-		SFOnlineHelper.setRoleData(instance, Tiegao.getUserId(), Tiegao.getPlayerName(), Tiegao.getPlayerLevel(), "1", "男神大区");
+		SFOnlineHelper.setRoleData(instance, Tiegao.getUserId(), Tiegao.getPlayerName(), Tiegao.getPlayerLevel(), "1", "女总Android大区");
 	}
 	
 	
@@ -163,30 +163,30 @@ public class YijieLayer{
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 4) {
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
+		}else if (index == 5) {
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
+		}else if (index == 6) {
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}
-		else if (index == 10) {
-			productName = "一元购";
-		}
-		else if (index == 30) {
-			productName = "VIP包月";
-		}
-		price = Tiegao.getMoneyStatus();
-//		price = 1;
+		
+//		price = Tiegao.getMoneyStatus();
+		price = 1;
 //		Log.e("main", "<><> productName == " + productName);
 		
+		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();
+//		String mzStr = Tiegao.getProductId() + "";
 		
 		// 其它
-		SFOnlineHelper.pay(instance, price, productName, 1, Tiegao.getProductId(), LoginHelper.CP_PAY_SYNC_URL, new SFOnlinePayResultListener() 
+		SFOnlineHelper.pay(instance, price, productName, 1, mzStr, LoginHelper.CP_PAY_SYNC_URL, new SFOnlinePayResultListener() 
 		{
-
+			
 			@Override
 			public void onFailed(String remain) {
 				// TODO Auto-generated method stub
 				Tiegao.setSmsStatus(2);
-				Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();
-				Log.e("main", "<><> onFailed remain == " + remain);
+				Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();				Log.e("main", "<><> onFailed remain == " + remain);
 			}
-
+			
 			@Override
 			public void onOderNo(String orderNo) {
 				// TODO Auto-generated method stub
@@ -198,7 +198,7 @@ public class YijieLayer{
 				}
 				Log.e("main", "<><> onOderNo == " + orderNo + ";" + "<><> getSmsStatus == " + Tiegao.getSmsStatus());
 			}
-
+			
 			@Override
 			public void onSuccess(String remain) {
 				// TODO Auto-generated method stub
@@ -238,7 +238,7 @@ public class YijieLayer{
         	// 当前登录的游戏区服ID，必须为数字，且不能为0.若无传入1
         	roleInfo.put("zoneId", "1");
         	// 当前登录的游戏区服名称，不能为空，不能为null
-        	roleInfo.put("zoneName", "男神大区");
+        	roleInfo.put("zoneName", "女总Android大区");
         	// 用户游戏币余额，必须为数字，若无，传入0
         	roleInfo.put("balance", Tiegao.getPlayerGold());
         	// 当前用户VIP等级，必须为数字，若无传入1

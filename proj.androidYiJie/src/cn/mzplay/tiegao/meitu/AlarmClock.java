@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao;
+package cn.mzplay.tiegao.meitu;
 
 import java.util.Calendar;
 
@@ -27,9 +27,7 @@ public class AlarmClock {
 		
 	}
 	
-	// 消耗接口
 	public static void push_Android(String str, int num, int index) {
-		Log.i("main", "onConsume<><><><>"+index+"");
 		Message msg = new Message();
 		msg.arg1 = num;
 		msg.arg2 = index;
@@ -100,7 +98,17 @@ public class AlarmClock {
 		}
 	}
 	
-	public static void closePush_Android(int index){
+	public static void closePush_Android(int index) {
+		Message msg = new Message();
+		msg.arg1 = index;
+		closePushHandler.sendMessage(msg);
+	}
+	static Handler closePushHandler = new Handler(){
+		public void handleMessage(Message msg){ 
+			closePush_Methods(msg.arg1);
+		}
+	};
+	public static void closePush_Methods(int index){
 		if(index == 1){
 			closeAlarmClock1(index);
 		}else if (index == 2){

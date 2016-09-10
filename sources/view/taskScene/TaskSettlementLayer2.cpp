@@ -17,6 +17,8 @@
 #include "PromptLayer.h"
 #include "GuideLayer.h"
 #include "AudioManager.h"
+#include "AppUtil.h"
+#include "JNIController.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
@@ -184,7 +186,7 @@ void TaskSettlementLayer2::nextAnimation1(){
 }
 
 void TaskSettlementLayer2::nextAnimation2(){
-    SPECIAL->show_energy_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+    SPECIAL->show_energy_reward(this, _energy, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
     logic_open_bool = true;
 }
 
@@ -685,7 +687,36 @@ void TaskSettlementLayer2::lingquCallBack(CCObject* pSender){
     this->nextAnimation1();
 }
 void TaskSettlementLayer2::shareCallBack(CCObject* pSender){
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
     
+    CCLog("图片 === %s", path.c_str());
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    rt->saveToFile(path.c_str());
+    
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JNIController::setShareImage(path.c_str());
+    rt->saveToFile(path.c_str());
+    
+    JNIController::showShare();
+    
+    this->schedule(SEL_SCHEDULE(&TaskSettlementLayer2::shareStatus), .1f);
+#endif
+}
+void TaskSettlementLayer2::shareStatus(float dt){
+    
+    if (JNIController::getShareStatus() == 1) {
+//        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&TaskSettlementLayer2::shareStatus));
+    }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
+//        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&TaskSettlementLayer2::shareStatus));
+    }
 }
 
 void TaskSettlementLayer2::creat_Man(){

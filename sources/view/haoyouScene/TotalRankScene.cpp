@@ -15,6 +15,9 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 #include "NetManager.h"
+#include "AppUtil.h"
+#include "JNIController.h"
+
 
 const float totalRank_z_oder = 20.f;
 
@@ -384,8 +387,23 @@ void TotalRankScene::btn_share_callback(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "排行界面", "点击分享");
     
-    PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "暂未开放");
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    rt->saveToFile(path.c_str());
+    
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JNIController::setShareImage(path.c_str());
+    rt->saveToFile(path.c_str());
+    
+    JNIController::showShare();
+#endif
+    
 }
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){

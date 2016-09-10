@@ -19,6 +19,7 @@
 #include "AudioManager.h"
 #include "WSManager.h"
 #include "ChatPanel.h"
+#include "JNIController.h"
 
 
 VipQingjingScene::VipQingjingScene(){
@@ -487,9 +488,28 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         }
         if (tongguanBool) {
             if (DATA->getPlayer()->energy >= 9) {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
                 LOADING->show_loading();
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
                 NET->start_story2_509(indexStr->getCString());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+                if (CONFIG->baiOrYijie == 0) {// 白包
+                    LOADING->show_loading();
+                    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+                    NET->start_story2_509(indexStr->getCString());
+                }else if (CONFIG->baiOrYijie == 1){// 易接
+                    LOADING->show_loading();
+                    JNIController::setMoneyStatus(2 * 100);
+                    JNIController::setGoldStatus(0);
+                    JNIController::setPlayerName(DATA->getShow()->nickname());
+                    CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);
+                    JNIController::setProductId(productStr->getCString());
+                    JNIController::setSidId(DATA->getLogin()->obtain_sid());
+                    JNIController::isGamePay(item->getTag());
+                    
+                    this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+                }
+#endif
             }else{
                 AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
@@ -501,15 +521,57 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         }
     }else{
         if (DATA->getPlayer()->energy >= 9) {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
             LOADING->show_loading();
             CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
             NET->start_story2_509(indexStr->getCString());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+            if (CONFIG->baiOrYijie == 0) {// 白包
+                LOADING->show_loading();
+                CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+                NET->start_story2_509(indexStr->getCString());
+            }else if (CONFIG->baiOrYijie == 1){// 易接
+                LOADING->show_loading();
+                JNIController::setMoneyStatus(2 * 100);
+                JNIController::setGoldStatus(0);
+                JNIController::setPlayerName(DATA->getShow()->nickname());
+                CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);
+                JNIController::setProductId(productStr->getCString());
+                JNIController::setSidId(DATA->getLogin()->obtain_sid());
+                JNIController::isGamePay(item->getTag());
+                
+                this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+            }
+#endif
         }else{
             AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
             mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
             CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
         }
     }
+}
+void VipQingjingScene::updatePay(float dt){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if (JNIController::getSmsStatus() == 1) {
+        JNIController::setSmsStatus(0);
+        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
+        
+        this->unschedule(SEL_SCHEDULE(&VipQingjingScene::updatePay));
+        this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::send509), 5.f);
+    }else if (JNIController::getSmsStatus() == 2) {
+        LOADING->remove();
+        
+        CCUserDefault::sharedUserDefault()->setStringForKey("CpOrderId", "");
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("Product_Index", 100);
+        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
+        JNIController::setSmsStatus(0);
+        this->unschedule(SEL_SCHEDULE(&VipQingjingScene::updatePay));
+    }
+#endif
+}
+void VipQingjingScene::send509(){
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    NET->start_story2_509(indexStr->getCString());
 }
 void VipQingjingScene::_509CallBack(CCObject* pSender){
     CCScene* pScene = CCScene::create();

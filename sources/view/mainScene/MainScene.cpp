@@ -137,7 +137,33 @@ bool MainScene::init(){
         this->addChild(layer, 500);
     }
     
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if (CONFIG->baiOrYijie == 0) {// 白包
+        
+    }else if (CONFIG->baiOrYijie == 1){// 易接
+        JNIController::setUserId(JNIController::getSessionid().c_str());
+        JNIController::setPlayerName(DATA->getShow()->nickname());
+        CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+        JNIController::setPlayerLevel(phaseStr->getCString());
+        CCString* diamStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
+        JNIController::setPlayerGold(diamStr->getCString());
+        
+        bool creatNameBool = CCUserDefault::sharedUserDefault()->getBoolForKey("CreatName");
+        if (!creatNameBool) {
+            CCUserDefault::sharedUserDefault()->setBoolForKey("CreatName", true);
+            JNIController::setData(1);
+        }else{
+            JNIController::setData(5);
+            this->scheduleOnce(SEL_SCHEDULE(&MainScene::setStartGameData), .5f);
+        }
+        JNIController::isExtendData();
+    }
+#endif
+    
     return true;
+}
+void MainScene::setStartGameData(float dt){
+    JNIController::setData(3);
 }
 
 CCScene* MainScene::scene(){
@@ -241,7 +267,37 @@ void MainScene::onExit(){
 }
 
 void MainScene::keyBackClicked(){
-    
+    CCLog("===== MMChooseLayer::keyBackClicked");
+    if (DATA->current_guide_step() == 0) {
+        int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
+        CCLog("===== MMChooseLayer children_num: %d", num_child);
+        if(num_child > 1)
+        {
+            return;
+        }
+        
+        if (CONFIG->baiOrYijie == 0) {// 白包
+            JNIController::setUserId(JNIController::getSessionid().c_str());
+            JNIController::setPlayerName(DATA->getShow()->nickname());
+            CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+            JNIController::setPlayerLevel(phaseStr->getCString());
+            CCString* diamStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
+            JNIController::setPlayerGold(diamStr->getCString());
+            JNIController::setData(4);
+            
+            JNIController::exitGame(0);
+        }else if (CONFIG->baiOrYijie == 1){// 易接
+            JNIController::setUserId(JNIController::getSessionid().c_str());
+            JNIController::setPlayerName(DATA->getShow()->nickname());
+            CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+            JNIController::setPlayerLevel(phaseStr->getCString());
+            CCString* diamStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
+            JNIController::setPlayerGold(diamStr->getCString());
+            JNIController::setData(4);
+            
+            JNIController::exitGame(1);
+        }
+    }
 }
 
 void MainScene::didAccelerate( CCAcceleration* pAccelerationValue){
@@ -1246,16 +1302,14 @@ void MainScene::openChat(cocos2d::CCObject *pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击聊天");
     
-//    AUDIO->comfirm_effect();
-//    DATA->setChatOut(false);
-//    if (WS->isConnected()) {
-//        ChatPanel* panel = ChatPanel::create();
-//        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
-//    }else{
-//        WS->connect();
-//    }
-    
-    JNIController::isLanding(1);
+    AUDIO->comfirm_effect();
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        ChatPanel* panel = ChatPanel::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    }else{
+        WS->connect();
+    }
 }
 
 void MainScene::displayChatItem(){

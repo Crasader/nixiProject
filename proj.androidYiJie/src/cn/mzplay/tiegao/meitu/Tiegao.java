@@ -21,19 +21,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao;
+package cn.mzplay.tiegao.meitu;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
 import com.snowfish.cn.ganga.helper.SFOnlineHelper;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import cn.mzplay.tiegao.YijieLayer;
+import android.widget.Toast;
+import cn.mzplay.tiegao.meitu.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -49,8 +53,10 @@ public class Tiegao extends Cocos2dxActivity {
 	public static String playerLevel = "";
 	public static String playerGold = "";
 	public static String productId = "";
+	public static String sidId = "";
 	public static String cpOrderId = "";
 	public static String playerName = "";
+	public static String shareText = "";
 	
 	
 	public static int landStatus = 0;
@@ -58,6 +64,7 @@ public class Tiegao extends Cocos2dxActivity {
 	public static int moneyStatus = 0;
 	public static int smsStatus = 0;
 	public static int goldStatus = 0;
+	public static int shareStatus = 0;
 	
 	
 	
@@ -159,6 +166,25 @@ public class Tiegao extends Cocos2dxActivity {
 		// 启动分享GUI
 		oks.show(instance);
 	}
+	public static void setShareText(String str){
+		shareText = str;
+	}
+	public static void shareText() {
+		shareTextHandler.sendEmptyMessage(0);
+	}
+	static Handler shareTextHandler = new Handler(){
+		public void handleMessage(Message msg){ 
+			Toast.makeText(instance, shareText, Toast.LENGTH_SHORT).show();
+		}
+    };
+	public static int getShareStatus(){
+		return shareStatus;
+	}
+	public static void setShareStatus(int status){
+		shareStatus = status;
+	}
+	
+	
 	
 	// 获取用户信息
 	public static String getShareImage(){
@@ -223,6 +249,13 @@ public class Tiegao extends Cocos2dxActivity {
 	}
 	public static void setProductId(String str){
 		productId = str;
+	}
+	
+	public static String getSidId(){
+		return sidId;
+	}
+	public static void setSidId(String str){
+		sidId = str;
 	}
 	
 	public static int getSmsStatus(){
@@ -293,14 +326,93 @@ public class Tiegao extends Cocos2dxActivity {
  	};
 	
 	
+ 	// 退出游戏
+ 	public static void exitGame(int index){
+ 		Message msg = new Message();
+ 		msg.arg1 = index;			
+ 		exitHandler.sendMessage(msg);
+ 	}
+ 	static Handler exitHandler = new Handler(){
+ 		public void handleMessage(Message msg){
+ 			if (msg.arg1 == 0) {
+ 				instance.finish();
+				System.exit(0);
+ 			}else if (msg.arg1 == 1){
+                 SFOnlineHelper.exit(instance, new SFOnlineExitListener() {
+                 	
+ 					@Override
+ 					public void onNoExiterProvide() {
+ 						AlertDialog.Builder builder = new AlertDialog.Builder(instance);
+ 		                builder.setTitle("是否退出游戏?");
+ 		                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+ 		                    public void onClick(DialogInterface dialog, int whichButton) {
+ 		                        // 这里添加点击确定后的逻辑
+ 		                        dialog.dismiss();
+ 		                        instance.finish();
+ 								System.exit(0);
+ 		                    }
+ 		                });
+ 		                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+ 		                    public void onClick(DialogInterface dialog, int whichButton) {
+ 		                        // 这里添加点击取消后的逻辑
+ 		                        dialog.dismiss();
+ 		                    }
+ 		                });
+ 		                builder.create().show();
+ 					}
+ 					
+ 					@Override
+ 					public void onSDKExit(boolean bool) {
+ 						if (bool){
+ 							//apk退出函数，demo中也有使用System.exit()方法；但请注意360SDK的退出使用exit（）会导致游戏退出异常
+ 							instance.finish();
+ 							System.exit(0);
+ 						}
+ 					}
+                 });
+ 			}
+ 		}
+ 	};
 	
 	
+ 	// UC玩家信息接口
+ 	public static void isExtendData(){
+ 		Message msg = new Message();
+ 		msg.arg1 = 1;			
+ 		extendDataHandler.sendMessage(msg);
+ 	}
+ 	static Handler extendDataHandler = new Handler(){
+ 		public void handleMessage(Message msg){
+ 			if (msg.arg1 == 1){
+ 				yijieLayer.ucSdkSubmitExtendData();
+ 			}
+ 	 	}
+ 	};
+ 	// UC玩家信息接口
+ 	public static void setData(int index){
+ 		Message msg = new Message();
+ 		msg.arg1 = index;			
+ 		setDataHandler.sendMessage(msg);
+ 	}
+ 	static Handler setDataHandler = new Handler(){
+ 		public void handleMessage(Message msg){
+ 			yijieLayer.setData(msg.arg1);
+ 		}
+ 	};
 	
 	
-	
-	
-	
-	
+ 	// 支付接口
+ 	public static void isGamePay(int index) {
+ 		Log.i("main", "isGamePay<><><><>"+index+"");
+ 		Message msg = new Message();
+ 		msg.arg1 = index;
+ 		payHandler.sendMessage(msg);
+ 	}
+ 	static Handler payHandler = new Handler(){
+ 		public void handleMessage(Message msg){ 
+ 			yijieLayer.pay(msg.arg1);
+ 		}
+ 	};
 	
 	
 	

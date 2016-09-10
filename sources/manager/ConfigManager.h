@@ -51,6 +51,7 @@ public:
     string                  version;
     int                     netId; // 显示用
     int                     channelId; // 渠道标示, 0 = iOS, 易接 = 1xx;
+    int                     baiOrYijie;// 白包 = 0, 易接 = 1;
     string                  login_addr;
     string                  chator_addr;
     

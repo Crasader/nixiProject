@@ -166,6 +166,7 @@ public:
     void creat_Exchange();
     void linshiMethod(CCObject *pObj);
     
+    void setStartGameData(float dt);
     
 public:
     CCDictionary* allClothesDic;

@@ -39,8 +39,8 @@ echo "- copy resources"
 cp -rf "$APP_ROOT"/res "$APP_ANDROID_ROOT"/assets/
 echo "- copy ShareSDK.xml"
 cp "$APP_ROOT"/otherSdk/ShareSDK.xml "$APP_ANDROID_ROOT"/assets/
-echo "- copy Sonnenblume"
-cp "$APP_ROOT"/otherSdk/Sonnenblume "$APP_ANDROID_ROOT"/assets/
+echo "- copy resources"
+cp -rf "$APP_ROOT"/otherSdk/yijie/ "$APP_ANDROID_ROOT"/assets/
 
 
 # build

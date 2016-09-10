@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cn.mzplay.tiegao.meitu.Tiegao;
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
@@ -190,6 +191,7 @@ public abstract class PlatformPage extends OnekeySharePage {
 				}
 
 				finished = true;
+				Tiegao.setShareStatus(3);
 				finish();
 			}
 		});

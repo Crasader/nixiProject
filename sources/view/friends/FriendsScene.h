@@ -56,8 +56,6 @@ private:
     void nc_take_energy_807(CCObject* pObj);
 
     
-    void btn_no_realize(CCMenuItem* menuItem);
-
 private:
     CCArray*                _data;
     ShowerView*             _showerView;

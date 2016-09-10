@@ -26,6 +26,10 @@
 #include "AudioManager.h"
 #include "WSManager.h"
 #include "ChatPanel.h"
+#include "AppUtil.h"
+#include "JNIController.h"
+
+
 
 HaoyouScene::HaoyouScene(){
     
@@ -162,6 +166,17 @@ void HaoyouScene::creat_view(){
     this->addChild(allMenu, 20);
     
     
+    CCSprite* shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share.png");
+    CCSprite* shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
+    shareSpr2->setScale(1.02f);
+    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
+    shareItem->setAnchorPoint(ccp(0, .5f));
+    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+    shareMenu = CCMenu::create(shareItem, NULL);
+    shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
+    this->addChild(shareMenu, 20);
+    
     
     CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
     CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
@@ -173,8 +188,44 @@ void HaoyouScene::creat_view(){
     hidMenu->setPosition(CCPointZero);
     hidMenu->setTag(0x46577);
     this->addChild(hidMenu, 5);
-    
 }
+void HaoyouScene::shareCallBack(CCObject* pSender){
+    allMenu->setVisible(false);
+    BaseScene::hideBaseScene();
+    
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    rt->saveToFile(path.c_str());
+    
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JNIController::setShareImage(path.c_str());
+    rt->saveToFile(path.c_str());
+    
+    JNIController::showShare();
+    this->schedule(SEL_SCHEDULE(&HaoyouScene::shareStatus), .1f);
+#endif
+}
+void HaoyouScene::shareStatus(float dt){
+    allMenu->setVisible(true);
+    BaseScene::openBaseScene();
+    
+    if (JNIController::getShareStatus() == 1) {
+//        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&HaoyouScene::shareStatus));
+    }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
+//        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&HaoyouScene::shareStatus));
+    }
+}
+
 
 void HaoyouScene::openChat() {
     // talkingData

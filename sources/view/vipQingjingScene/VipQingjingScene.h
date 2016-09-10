@@ -102,7 +102,10 @@ public:
 
     void openChat();
     void displayChatItem();
-
+    
+    
+    void updatePay(float dt);
+    void send509();
     
 public:
     

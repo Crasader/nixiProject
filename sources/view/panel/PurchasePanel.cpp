@@ -14,6 +14,8 @@
 #include "AudioManager.h"
 //#include "Reward.h"
 #include "Loading2.h"
+#include "ConfigManager.h"
+#include "JNIController.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "IOSIAPManager.h"
 #endif
@@ -172,6 +174,7 @@ void PurchasePanel::update_content() {
         
         CCMenuItemSprite* btn = CCMenuItemSprite::create(pic1, pic2, this, SEL_MenuHandler(&PurchasePanel::on_bar_clicked));
         btn->setUserObject(pObj);
+        btn->setTag(i + 1);
         arr->addObject(btn);
     }
     
@@ -225,9 +228,54 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     }
 #endif
 */
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     LOADING->show_loading();
     string orderId = "";
     NET->verify_order_android_105(orderId, pro->id);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    if (CONFIG->baiOrYijie == 0) {// 白包
+        LOADING->show_loading();
+        string orderId = "";
+        NET->verify_order_android_105(orderId, pro->id);
+    }else if (CONFIG->baiOrYijie == 1){// 易接
+        LOADING->show_loading();
+        JNIController::setMoneyStatus(pro->money * 100);
+        JNIController::setGoldStatus(pro->diam);
+        JNIController::setPlayerName(DATA->getShow()->nickname());
+        JNIController::setProductId(pro->id.c_str());
+        JNIController::setSidId(DATA->getLogin()->obtain_sid());
+        JNIController::isGamePay(item->getTag());
+        
+        this->schedule(schedule_selector(PurchasePanel::updatePay), 1.f);
+    }
+#endif
+    
+}
+void PurchasePanel::send105(){
+    LOADING->show_loading();
+    
+    string orderId = JNIController::getCpOrderId();
+    string productId = JNIController::getProductId();
+    NET->verify_order_android_105(orderId, productId);
+}
+void PurchasePanel::updatePay(float dt){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if (JNIController::getSmsStatus() == 1) {
+        JNIController::setSmsStatus(0);
+        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
+
+        this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
+        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 5.f);
+    }else if (JNIController::getSmsStatus() == 2) {
+        LOADING->remove();
+        
+        CCUserDefault::sharedUserDefault()->setStringForKey("CpOrderId", "");
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("Product_Index", 100);
+        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
+        JNIController::setSmsStatus(0);
+        this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
+    }
+#endif
 }
 
 void PurchasePanel::keyBackClicked(){

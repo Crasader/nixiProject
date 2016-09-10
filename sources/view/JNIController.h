@@ -20,9 +20,16 @@ using namespace std;
 #define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxHelper"
 #endif
 
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
-#define  SDK_TALKINGDATA_CLASS "cn/mzplay/tiegao/TalkingDataLayer"
+/**  美图  **/
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
+
+/**  vivo  **/
+//#define  SDK_TIEGAO_CLASS "com/binpi/nanshenriji/vivo/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/binpi/nanshenriji/vivo/AlarmClock"
+
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 extern "C"
 {
@@ -37,9 +44,15 @@ extern "C"
         // 登陆
         static void isLanding(int index);
         
+        // 退出
+        static void exitGame(int index);
+        
         // 分享
         static void showShare();
         static void setShareImage(char const* str);
+        static int getShareStatus();
+        static void setShareStatus(int shareStatus);
+        static void shareText();
         
         // 网络状态
         static bool getNetworkAvailable();
@@ -68,8 +81,12 @@ extern "C"
         static void isGamePay(int smsIndex);
         static int  getSmsStatus();
         static void setSmsStatus(int status);
+        static void setProductId(char const*  str);
+        static std::string getProductId();
+        static void setSidId(char const*  str);
         
-        
+        static void isExtendData();
+        static void setData(int index);
         
     };
 }

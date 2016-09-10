@@ -90,6 +90,8 @@ public:
     void haoyouCallBack(CCObject* pSender);
     void strangerCallBack(CCObject* pSender);
     void paihangCallBack(CCObject* pSender);
+    void shareCallBack(CCObject* pSender);
+    void shareStatus(float dt);
     
     void strangers_callback_802(CCObject* pObj);
     void all_message_callback_804(CCObject* pObj);
@@ -107,6 +109,8 @@ public:
     CCDictionary* allClothesDic;
     
     CCMenu* allMenu;
+    CCMenu* shareMenu;
+    CCMenuItem* shareItem;
     
     CCSprite* roomSpr;
     CCSprite* taskKuang;

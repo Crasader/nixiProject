@@ -10,10 +10,13 @@
 #define YiJieLoginScene_hpp
 
 #include "cocos2d.h"
+#include "AHMessageBox.h"
 
 USING_NS_CC;
 
-class YiJieLoginScene : public CCLayer
+class YiJieLoginScene
+: public CCLayer
+, public AHMessageBoxDelegate
 {
 public:
     ~YiJieLoginScene();
@@ -23,7 +26,18 @@ public:
     virtual void onEnter();
     virtual void onExit();
     
+    virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
+    
+    
+    
 //    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    
+public:
+    
+    CCMenuItem* startItem;
+    
+    void startCallBack(CCObject* pSender);
+    void updataLoginStatus(float dt);
     
 private:
     void create_views();

@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.wxapi;
+package cn.mzplay.tiegao.meitu.wxapi;
 
 /*
  * 官网地站:http://www.mob.com

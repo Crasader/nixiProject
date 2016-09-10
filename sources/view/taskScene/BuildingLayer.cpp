@@ -19,6 +19,9 @@
 #include "BuildingView.h"
 #include "UpgradeLayer.h"
 
+#include "ConfigManager.h"
+#include "JNIController.h"
+
 BuildingLayer::~BuildingLayer() {
 }
 
@@ -83,6 +86,21 @@ void BuildingLayer::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_take_income_203), "HTTP_FINISHED_203", NULL);
     
     if (_isPhaseUp) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        if (CONFIG->baiOrYijie == 0) {// 白包
+        }else if (CONFIG->baiOrYijie == 1){// 易接
+            JNIController::setUserId(JNIController::getSessionid().c_str());
+            JNIController::setPlayerName(DATA->getShow()->nickname());
+            CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+            JNIController::setPlayerLevel(phaseStr->getCString());
+            CCString* diamStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
+            JNIController::setPlayerGold(diamStr->getCString());
+            JNIController::setData(4);
+            
+            JNIController::exitGame(1);
+        }
+#endif
+        
         this->_isAction = true;
         scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_phase_up), 1.0);
     }

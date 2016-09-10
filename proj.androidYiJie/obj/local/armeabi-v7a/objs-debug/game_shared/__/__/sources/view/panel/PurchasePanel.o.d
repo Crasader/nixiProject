@@ -274,7 +274,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/panel/PurchasePa
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
- jni/../../sources/view/common/Loading2/Loading2.h
+ jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
 jni/../../sources/view/panel/PurchasePanel.h:
 
@@ -837,3 +840,9 @@ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
+
+jni/../../sources/manager/ConfigManager.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:

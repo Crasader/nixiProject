@@ -55,6 +55,7 @@ public:
     void creat_view();
     void lingquCallBack(CCObject* pSender);
     void shareCallBack(CCObject* pSender);
+    void shareStatus(float dt);
     
     void creat_Man();
     void initClothes();
