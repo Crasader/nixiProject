@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#include "TDCCTalkingDataGA.h"
+
 @implementation AppController
 
 // -------------------------------- Notification --------------------------------
@@ -70,6 +72,10 @@
 
 - (void)initLocalNotification {
     LocalNotifDelegate::Inst();
+}
+
+- (void)initTalkingData {
+    TDCCTalkingDataGA::onStart("49AC41ECB2C5B4A961E00B2380C21E9F", "APPLE_APP_STORE");
 }
 
 #pragma mark -

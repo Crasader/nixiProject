@@ -26,6 +26,8 @@
 #include "WSManager.h"
 #include "AppUtil.h"
 
+#include "ShareManager.h"
+
 
 HomeLayer::HomeLayer(){
     
@@ -467,6 +469,11 @@ void HomeLayer::gameCallBack2(CCObject* pSender){
 
 void HomeLayer::qiehuanCallBack(CCObject* pSender){
     AUDIO->common_effect();
+    
+    
+#warning Test
+    SHARE->test();
+    
     
     // talkingData
     DATA->onEvent("点击事件", "home界面", "点击切换");

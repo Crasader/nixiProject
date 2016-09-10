@@ -40,6 +40,7 @@
 
 - (void) addLocalNotification;
 - (void) initLocalNotification;
+- (void) initTalkingData;
 
 @end
 
