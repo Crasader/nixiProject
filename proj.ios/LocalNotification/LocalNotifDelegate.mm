@@ -20,6 +20,7 @@ void LocalNotifDelegate::addFreeGashaponLN(time_t secondDelta) {
         return;
     }
     
+    this->dropAllLocalNotifications();
 //    // 获得系统时间
 //    NSDate* senddate = [NSDate date];
 //    // 获得系统日期
@@ -38,24 +39,25 @@ void LocalNotifDelegate::addFreeGashaponLN(time_t secondDelta) {
 //    [dFormatter setTimeZone:timeZone];
 //    NSString* strToDate = [dFormatter stringFromDate:toDate];
     NSLog(@"secondDelta = %ld", secondDelta);
-    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta + 28800];
+    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta];
 //    NSDate* fireDate = [dFormatter dateFromString:strToDate];
     NSLog(@"fireDate = %@", fireDate);
     NSString* alterBody = [NSString stringWithCString:"可以免费抽奖啦~!" encoding:NSUTF8StringEncoding];
 //    NSString* alterAction = [NSString stringWithCString:"我是标题党" encoding:NSUTF8StringEncoding];
 
-    UILocalNotification* ln = [[UILocalNotification alloc] init];
+    UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
     [ln setFireDate:fireDate];
     [ln setTimeZone:[NSTimeZone defaultTimeZone]];
-    [ln setRepeatInterval:NSCalendarUnitEra];
+    [ln setRepeatInterval:NSCalendarUnitYear];
     [ln setSoundName:UILocalNotificationDefaultSoundName];
     [ln setAlertBody:alterBody];
 //    [ln setAlertAction:alterAction];
     [ln setApplicationIconBadgeNumber:1];
     [ln setAlertLaunchImage:@"29x29.png"];
     
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"gashapon", NOTIFICATION_KEY_NAME,nil];
-    [ln setUserInfo:dict];
+    
+//    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"gashapon", NOTIFICATION_KEY_NAME,nil]; 有问题，重复发送时报错
+//    [ln setUserInfo:dict];
     [[UIApplication sharedApplication] scheduleLocalNotification:ln];
 }
 
