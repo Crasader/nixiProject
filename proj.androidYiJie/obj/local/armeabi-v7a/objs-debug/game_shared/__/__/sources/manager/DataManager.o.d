@@ -279,7 +279,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/manager/DataManager.o
  jni/../../sources/utils/AppUtil.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
- jni/../../sources/view/loginScene/LoginScene.h
+ jni/../../sources/view/loginScene/LoginScene.h \
+ jni/../../sources/td_include/TDCCTalkingDataGA.h \
+ jni/../../sources/td_include/TDCCVirtualCurrency.h
 
 jni/../../sources/manager/DataManager.h:
 
@@ -852,3 +854,7 @@ jni/../../sources/view/common/Loading2/Loading2.h:
 jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/loginScene/LoginScene.h:
+
+jni/../../sources/td_include/TDCCTalkingDataGA.h:
+
+jni/../../sources/td_include/TDCCVirtualCurrency.h:

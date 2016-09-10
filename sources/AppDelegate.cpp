@@ -16,6 +16,10 @@ using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
 
+#include "C2DXShareSDK.h"
+#include "ShareManager.h"
+
+using namespace cn::sharesdk;
 
 AppDelegate::AppDelegate()
 {
@@ -48,6 +52,32 @@ void AppDelegate::write_debug_info()
 //#endif
 }
 
+void AppDelegate::init_shareSDK() {
+//    //设置平台配置
+//    //Platforms
+//    CCDictionary *totalDict = CCDictionary::create();
+//    
+//    //微信
+//    //微信朋友  iOS别忘在info.plist中注册  移动端上必须要装微信客户端，并且已连接互联网。
+//    CCDictionary *wechatConf = CCDictionary::create();
+//    wechatConf->setObject(CCString::create("wxad4d9004b6d5777c"), "app_id");
+//    wechatConf->setObject(CCString::create("7b6d4e3777540fa2c7ae53714520dacb"), "app_secret");
+//    stringstream wechat;
+//    wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
+//    totalDict->setObject(wechatConf, wechat.str());
+//    
+//    //在 ShareSDK 官网后台注册应用并获取Appkey，并填入此方法的第一个参数中
+//    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig("16f5723c11eb0", totalDict);
+    
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    cn::sharesdk::C2DXShareSDK::open(CCString::create("16f5723c11eb0"), false);
+    ShareManager::get_instance()->config();
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    
+#endif
+}
+
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
@@ -57,6 +87,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
+    //
+    init_shareSDK();
     //
     rand_seed();
     //

@@ -298,7 +298,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Haoy
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
- jni/../../sources/view/panel/ChatPanel.h
+ jni/../../sources/view/panel/ChatPanel.h \
+ jni/../../sources/utils/AppUtil.h jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
 jni/../../sources/view/haoyouScene/HaoyouScene.h:
 
@@ -909,3 +911,9 @@ jni/../../sources/manager/WSManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
 
 jni/../../sources/view/panel/ChatPanel.h:
+
+jni/../../sources/utils/AppUtil.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:

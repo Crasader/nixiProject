@@ -39,10 +39,11 @@ public:
 
 private:
     ProjectConfig m_projectConfig;
-
+    
     void init_lua_env();
     void rand_seed();
     void write_debug_info();
+    void init_shareSDK();
 };
 
 #endif // _APP_DELEGATE_H_

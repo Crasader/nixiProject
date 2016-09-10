@@ -323,7 +323,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/JNIController.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
- jni/../../sources/utils/AppUtil.h
+ jni/../../sources/td_include/TDCCAccount.h
 
 jni/../../sources/view/mainScene/MainScene.h:
 
@@ -983,4 +983,4 @@ jni/../../sources/view/JNIController.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
 
-jni/../../sources/utils/AppUtil.h:
+jni/../../sources/td_include/TDCCAccount.h:

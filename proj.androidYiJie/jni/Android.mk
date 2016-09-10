@@ -46,6 +46,7 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocosdenshion_static
 LOCAL_WHOLE_STATIC_LIBRARIES += spine_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_network_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx-talkingdata
 
 
 include $(BUILD_SHARED_LIBRARY)
@@ -53,4 +54,6 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-module,lib/proj.android) \
 $(call import-module,cocos2dx) \
 $(call import-module,extensions) \
+$(call import-module,external) \
+$(call import-module,cocos2dx/platform/third_party/android/TalkingDataGameAnalytics/android) \
 $(call import-module,external) 

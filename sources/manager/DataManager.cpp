@@ -16,6 +16,9 @@
 #include "PromptLayer.h"
 #include "LoginScene.h"
 
+#include "TDCCTalkingDataGA.h"
+#include "TDCCVirtualCurrency.h"
+
 static DataManager* _instance = nullptr;
 
 const float UpdateInterval = 60.0f;
@@ -597,9 +600,9 @@ int DataManager::current_guide_step(){
 
 // talkingData自定义事件
 void DataManager::onEvent(std::string eventStr, std::string pageStr, std::string contentStr){
-//    EventParamMap paramMap;
-//    paramMap.insert(EventParamPair(pageStr, contentStr));
-//    TDCCTalkingDataGA::onEvent(eventStr.c_str(), &paramMap);
+    EventParamMap paramMap;
+    paramMap.insert(EventParamPair(pageStr, contentStr));
+    TDCCTalkingDataGA::onEvent(eventStr.c_str(), &paramMap);
 }
 
 /*
@@ -607,12 +610,12 @@ void DataManager::onEvent(std::string eventStr, std::string pageStr, std::string
  *  virtualCurrencyAmount 虚拟币金额
  */
 void DataManager::onChargeRequest(std::string orderId, std::string iapId, double currencyAmount, double virtualCurrencyAmount){
-//    CCString* typeStr = CCString::createWithFormat("%d", CARRIER_ID);
-//    TDCCVirtualCurrency::onChargeRequest(orderId.c_str(), iapId.c_str(), currencyAmount, "CNY", virtualCurrencyAmount, typeStr->getCString());
+    CCString* typeStr = CCString::createWithFormat("%d", CONFIG->channelId);
+    TDCCVirtualCurrency::onChargeRequest(orderId.c_str(), iapId.c_str(), currencyAmount, "CNY", virtualCurrencyAmount, typeStr->getCString());
 }
 
 void DataManager::onChargeSuccess(std::string orderId){
-//    TDCCVirtualCurrency::onChargeSuccess(orderId.c_str());
+    TDCCVirtualCurrency::onChargeSuccess(orderId.c_str());
 }
 
 

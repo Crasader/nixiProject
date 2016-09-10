@@ -1,5 +1,3 @@
-package cn.mzplay.tiegao.meitu.wxapi;
-
 /*
  * 官网地站:http://www.mob.com
  * 技术支持QQ: 4006852216
@@ -8,9 +6,10 @@ package cn.mzplay.tiegao.meitu.wxapi;
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-
+package cn.mzplay.tiegao.meitu.wxapi;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
 import cn.sharesdk.wechat.utils.WXMediaMessage;
@@ -27,10 +26,8 @@ public class WXEntryActivity extends WechatHandlerActivity {
 	 * 做点其他的事情，包括根本不打开任何页面
 	 */
 	public void onGetMessageFromWXReq(WXMediaMessage msg) {
-		if (msg != null) {
-			Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
-			startActivity(iLaunchMyself);
-		}
+		Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
+		startActivity(iLaunchMyself);
 	}
 
 	/**
@@ -47,6 +44,7 @@ public class WXEntryActivity extends WechatHandlerActivity {
 		if (msg != null && msg.mediaObject != null
 				&& (msg.mediaObject instanceof WXAppExtendObject)) {
 			WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
+			Log.i("main", "<><><><>" + obj.extInfo);
 			Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
 		}
 	}

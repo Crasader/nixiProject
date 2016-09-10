@@ -26,7 +26,6 @@
 #include "WSManager.h"
 #include "AppUtil.h"
 
-
 HomeLayer::HomeLayer(){
     
 }

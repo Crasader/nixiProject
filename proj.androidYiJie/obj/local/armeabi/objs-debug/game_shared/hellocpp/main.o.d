@@ -215,7 +215,8 @@ obj/local/armeabi/objs-debug/game_shared/hellocpp/main.o: \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
- /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/third_party/android/TalkingDataGameAnalytics/android/TDGAJniHelper.h
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -648,3 +649,5 @@ jni/../../../../lib/cocos2d-x/extensions/ProjectConfig/SimulatorConfig.h:
 jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/third_party/android/TalkingDataGameAnalytics/android/TDGAJniHelper.h:

@@ -275,7 +275,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/view/loginScene/LogoScene.h \
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
- jni/../../sources/view/common/Number/FlashNumberLabel2.h
+ jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/C2DXShareSDK/C2DXShareSDK.h \
+ jni/../../sources/C2DXShareSDK/C2DXShareSDKTypeDef.h \
+ jni/../../sources/manager/ShareManager.h
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -840,3 +843,9 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/C2DXShareSDK/C2DXShareSDK.h:
+
+jni/../../sources/C2DXShareSDK/C2DXShareSDKTypeDef.h:
+
+jni/../../sources/manager/ShareManager.h:

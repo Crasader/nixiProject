@@ -239,6 +239,8 @@ void CreateName::editBoxReturn(CCEditBox* editBox) {
 
 void CreateName::on_btn_confirem(cocos2d::CCObject *pSender)
 {
+    DATA->setInit_TalkingBool(true);
+    
     _tf_nickname->detachWithIME();
     if (this->check_nickname(_tf_nickname->getText())) {
         LOADING->show_loading();

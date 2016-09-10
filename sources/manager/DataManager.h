@@ -106,6 +106,8 @@ public:
     CC_SYNTHESIZE(bool, _taskGameBool6, TaskGameBool6);
     CC_SYNTHESIZE(int, _taskGameIndex6, TaskGameIndex6);
     CC_SYNTHESIZE(int, _taskTempID, TaskTempID);
+    // 初始化talkingdata数据
+    CC_SYNTHESIZE(bool, _init_talkingBool, Init_TalkingBool);
     
     // 体力时间
     CC_SYNTHESIZE(int, _tili_Minute, TiliMinute);
@@ -142,7 +144,6 @@ public:
     void onEvent(std::string eventStr, std::string pageStr, std::string contentStr);
     void onChargeRequest(std::string orderId, std::string iapId, double currencyAmount, double virtualCurrencyAmount);
     void onChargeSuccess(std::string orderId);
-    
     
     
 private:

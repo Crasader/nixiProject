@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#include "TDCCTalkingDataGA.h"
+
 @implementation AppController
 
 // -------------------------------- Notification --------------------------------
@@ -46,7 +48,7 @@
 - (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     [[UIApplication sharedApplication] cancelLocalNotification:notification];
-//         application.applicationIconBadgeNumber -= 1;
+    application.applicationIconBadgeNumber -= 1;
 }
 
 // --------------------------------------------------------------------
@@ -72,6 +74,10 @@
     LocalNotifDelegate::Inst();
 }
 
+- (void)initTalkingData {
+    TDCCTalkingDataGA::onStart("49AC41ECB2C5B4A961E00B2380C21E9F", "APPLE_APP_STORE");
+}
+
 #pragma mark -
 #pragma mark Application lifecycle
 
@@ -80,8 +86,8 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-//    [self addLocalNotification];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self addLocalNotification];
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];

@@ -50,6 +50,7 @@
 #include "GuideLayer.h"
 
 #include "JNIController.h"
+#include "TDCCAccount.h"
 
 
 // --------------- test ----------------
@@ -68,6 +69,20 @@ bool MainScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    
+    if (DATA->getInit_TalkingBool()) {
+        DATA->setInit_TalkingBool(false);
+        
+        // talkingData初始化玩家信息
+        CCString* accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
+        CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
+        TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
+        account->setGender(TDCCAccount::TDCCGender::kGenderUnknown);
+        account->setAccountType(TDCCAccount::kAccountRegistered);
+        account->setLevel(DATA->getPlayer()->phase);
+        account->setAccountName(accountNameStr->getCString());
+    }
+    
     
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);

@@ -27,6 +27,7 @@ import org.cocos2dx.lib.Cocos2dxActivity;
 
 import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
 import com.snowfish.cn.ganga.helper.SFOnlineHelper;
+import com.tendcloud.tenddata.TalkingDataGA;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -76,8 +77,9 @@ public class Tiegao extends Cocos2dxActivity {
 		alarmClock = new AlarmClock(instance);
 		yijieLayer = new YijieLayer(instance);
 		
-		// 055A2E7D7DB33E6E318D0D2263C57F2B 测试
-//		TalkingDataGA.init(instance, "B9AF9FCF7CD821D4EB526416E2BD24FC", "mzplay");
+		// 49AC41ECB2C5B4A961E00B2380C21E9F		android
+		// 85C506A249F4A97CD676DE2A6D7C652B		测试
+		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
 		
 	}
 
@@ -108,7 +110,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		SFOnlineHelper.onResume(instance);
-//		TalkingDataGA.onResume(instance);
+		TalkingDataGA.onResume(instance);
 		Log.i("", "===============onResume()");
 	}
     
@@ -117,7 +119,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		SFOnlineHelper.onPause(instance);
-//		TalkingDataGA.onPause(instance);
+		TalkingDataGA.onPause(instance);
 		Log.i("", "================onPause()");
 	}
 	
