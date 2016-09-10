@@ -62,6 +62,9 @@ void AppDelegate::init_shareSDK() {
     stringstream wechat;
     wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
     totalDict->setObject(wechatConf, wechat.str());
+    
+    //在 ShareSDK 官网后台注册应用并获取Appkey，并填入此方法的第一个参数中
+    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig("16f5723c11eb0", totalDict);
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
@@ -74,7 +77,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
     //
-//    init_shareSDK();
+    init_shareSDK();
     //
     rand_seed();
     //

@@ -17,7 +17,7 @@ using namespace cn::sharesdk;
 
 #define SHARE       ShareManager::Inst()
 // 分享临时图片
-#define TEMPORARY_SHARE_PIC_NAME "/share.png"
+#define TEMPORARY_SHARE_PIC_NAME "share.png"
 
 class ShareManager : public CCObject
 {

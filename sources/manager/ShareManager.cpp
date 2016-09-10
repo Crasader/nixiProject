@@ -97,7 +97,6 @@ void ShareManager::config() {
 }
 
 void ShareManager::show_share_menu(CCDictionary* content) {
-    
     if (! C2DXShareSDK::isClientValid(C2DXPlatTypeWeChatMoments)) {
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "未安装微信客户端，无法使用分享~!");
