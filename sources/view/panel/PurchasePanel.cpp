@@ -231,7 +231,7 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     LOADING->show_loading();
     string orderId = "";
-    NET->verify_order_android_105(orderId, pro->id);
+    NET->verify_order_iOS_107(orderId, pro->id);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     if (CONFIG->baiOrYijie == 0) {// 白包
         LOADING->show_loading();
