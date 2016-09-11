@@ -424,7 +424,7 @@ void GashaponLayer::creat_gold(CCMenuItem* item, int index){
     
     CCString* goldStr;
     if (index == 1) {
-        goldStr = CCString::createWithFormat("10");
+        goldStr = CCString::createWithFormat("%d", DATA->getOperation()->getSignleCost());
     }else if (index == 10){
         goldStr = CCString::createWithFormat("%d", DATA->getOperation()->getTenCost());
     }
