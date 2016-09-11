@@ -1,74 +1,52 @@
+
 //
-//  LocalNotifDelegate.cpp
+//  MZiOSLocalNotificationManager.m
 //  mm3c
 //
-//  Created by lakkey on 14-8-27.
+//  Created by lakkey on 14-6-14.
 //
 //
 
-#include "LocalNotifDelegate.h"
-//#include "MMLocalNotif.h"
-
-static LocalNotifDelegate* _instance = nullptr;
+#import "LocalNotifDelegate.h"
 
 const NSString* NOTIFICATION_KEY_NAME = @"name";
 
-#pragma mark - Export
+@interface LocalNotifDelegate ()
 
-void LocalNotifDelegate::addFreeGashaponLN(time_t secondDelta) {
-    if (secondDelta <= 0) {
-        return;
-    }
-    
-    this->dropAllLocalNotifications();
-//    // 获得系统时间
-//    NSDate* senddate = [NSDate date];
-//    // 获得系统日期
-//    NSCalendar* cal = [NSCalendar currentCalendar];
-//    NSUInteger unitFlags = NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit;
-//    NSDateComponents* conponent = [cal components:unitFlags fromDate:senddate];
-//    NSInteger year = [conponent year];
-//    NSInteger month = [conponent month];
-//    NSInteger day = [conponent day];
-    //
-//    time_t curTS = [[NSDate date] timeIntervalSince1970];
-//    NSDate* toDate = [NSDate dateWithTimeIntervalSince1970:(curTS + secondDelta)];
-//    NSDateFormatter* dFormatter = [[[NSDateFormatter alloc] init] autorelease];
-//    [dFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
-//    [dFormatter setTimeZone:timeZone];
-//    NSString* strToDate = [dFormatter stringFromDate:toDate];
-    NSLog(@"secondDelta = %ld", secondDelta);
-    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta];
-//    NSDate* fireDate = [dFormatter dateFromString:strToDate];
-    NSLog(@"fireDate = %@", fireDate);
-    NSString* alterBody = [NSString stringWithCString:"可以免费抽奖啦~!" encoding:NSUTF8StringEncoding];
-//    NSString* alterAction = [NSString stringWithCString:"我是标题党" encoding:NSUTF8StringEncoding];
+@property (nonatomic, retain) NSMutableArray* arrNotification;
 
-    UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
-    [ln setFireDate:fireDate];
-    [ln setTimeZone:[NSTimeZone defaultTimeZone]];
-    [ln setRepeatInterval:NSCalendarUnitYear];
-    [ln setSoundName:UILocalNotificationDefaultSoundName];
-    [ln setAlertBody:alterBody];
-//    [ln setAlertAction:alterAction];
-    [ln setApplicationIconBadgeNumber:1];
-    [ln setAlertLaunchImage:@"29x29.png"];
-    
-//    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"gashapon", NOTIFICATION_KEY_NAME,nil];
-//    [ln setUserInfo:dict];
-    [[UIApplication sharedApplication] scheduleLocalNotification:ln];
+@end
+
+
+@implementation LocalNotifDelegate
+
+@synthesize arrNotification;
+
+
++ (LocalNotifDelegate*)create {
+    return [[LocalNotifDelegate alloc] init];
 }
 
-//void LocalNotifDelegate::dropLocalNotification(UILocalNotification* notif) {
-//    NSDictionary* dic = notif.userInfo;
-//    NSString* value = [dic objectForKey:NOTIFICATION_KEY_NAME];
-//    const char* csValue = [value UTF8String];
-//    this->dropLocalNotificationByName(csValue);
-//}
+- (id)init {
+    self = [super init];
+    return self;
+}
 
-void LocalNotifDelegate::dropLocalNotificationByName(string name) {
-    if (name.empty() || name.length() == 0) {
+
+- (void)initialization {
+    
+}
+
+
+- (void)addLocalNotification:(UILocalNotification*)notif {
+    if (notif != nil) {
+        [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+    }
+}
+
+
+- (void)dropLocalNotificationByName:(NSString*)name {
+    if (name == nil || [name isEqualToString:@""]) {
         return;
     }
     
@@ -77,82 +55,74 @@ void LocalNotifDelegate::dropLocalNotificationByName(string name) {
         NSDictionary* dic = notif.userInfo;
         if (dic != nil) {
             NSString* value = [dic objectForKey:NOTIFICATION_KEY_NAME];
-            const char* csValue = [value UTF8String];
-            if (name.compare(csValue) == 0) {
+            if ([value isEqualToString:name]) {
                 if (notif != nil) {
                     [notif release];
                     notif = nil;
                 }
+                
                 break;
             }
         }
     }
 }
 
-void LocalNotifDelegate::dropAllLocalNotifications() {
+
+- (void)dropAllLocalNotifications {
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }
 
-void LocalNotifDelegate::resetIconBadgeNumber() {
+
+- (void)resetIconBadgeNumber {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
-#pragma mark -
 
-LocalNotifDelegate::~LocalNotifDelegate()
-{
-    CCLOG("LocalNotifDelegate::~LocalNotifDelegate()");
-    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-}
-
-LocalNotifDelegate* LocalNotifDelegate::Inst() {
-    if (_instance == nullptr) {
-        _instance = new LocalNotifDelegate();
-        _instance->init();
+- (void)addFreeGashaponLN:(time_t)secondDelta {
+    if (secondDelta <= 0) {
+        return;
     }
     
-    return _instance;
+    [self dropAllLocalNotifications];
+    
+    NSLog(@"secondDelta = %ld", secondDelta);
+    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta];
+    NSLog(@"fireDate = %@", fireDate);
+    NSString* alterBody = [NSString stringWithCString:"可以免费抽奖啦~!" encoding:NSUTF8StringEncoding];
+    
+    UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
+    [ln setFireDate:fireDate];
+    [ln setTimeZone:[NSTimeZone defaultTimeZone]];
+    [ln setRepeatInterval:NSCalendarUnitYear];
+    [ln setSoundName:UILocalNotificationDefaultSoundName];
+    [ln setAlertBody:alterBody];
+    [ln setApplicationIconBadgeNumber:1];
+    [ln setAlertLaunchImage:@"29x29.png"];
+    [self addLocalNotification:ln];
 }
 
-void LocalNotifDelegate::init() {
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&LocalNotifDelegate::nc_gashapon), "FREE_GASHAPON", NULL);
+- (NSDate*)getLocalDateByNow {
+    NSDate* now = [NSDate date];
+    NSTimeZone* timeZone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [timeZone secondsFromGMTForDate:now];
+    return [now dateByAddingTimeInterval:interval];
 }
 
-#pragma makr - Inner
 
-void LocalNotifDelegate::nc_gashapon(CCObject *pObj) {
-    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&LocalNotifDelegate::_nc_gashapon), this, 1, 0, 0.1, false);
-    this->setTemp((CCDictionary*)pObj);
+- (int)getWeekIndexFromDate:(NSDate*)date {
+    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+    NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+    NSInteger unitFlags =   NSYearCalendarUnit |
+    NSMonthCalendarUnit |
+    NSDayCalendarUnit |
+    NSWeekdayCalendarUnit |
+    NSHourCalendarUnit |
+    NSMinuteCalendarUnit |
+    NSSecondCalendarUnit;
+    components = [calendar components:unitFlags fromDate:date];
+    int weekday = [components weekday];
+    //    NSLog(@"weekday = %d, hour = %d, minu = %d", weekday, [components hour], [components minute]);
+    return weekday - 1; // sunday:0
 }
 
-void LocalNotifDelegate::_nc_gashapon() {
-    CCLOG("LocalNotifDelegate::_nc_gashapon()");
-    const CCString* name = (CCString*)this->getTemp()->valueForKey("name");
-    CCInteger* nmu = (CCInteger*)this->getTemp()->objectForKey("num");
-    this->dropLocalNotificationByName(name->getCString());
-    this->addFreeGashaponLN(nmu->getValue());
-}
-
-//NSDate* LocalNotifDelegate::getLocalDateByNow() {
-//    NSDate* now = [NSDate date];
-//    NSTimeZone* timeZone = [NSTimeZone systemTimeZone];
-//    NSInteger interval = [timeZone secondsFromGMTForDate:now];
-//    return [now dateByAddingTimeInterval:interval];
-//}
-//
-//int LocalNotifDelegate::getWeekIndexFromDate(NSDate* date) {
-//    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-//    NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
-//    NSInteger unitFlags =   NSYearCalendarUnit |
-//    NSMonthCalendarUnit |
-//    NSDayCalendarUnit |
-//    NSWeekdayCalendarUnit |
-//    NSHourCalendarUnit |
-//    NSMinuteCalendarUnit |
-//    NSSecondCalendarUnit;
-//    components = [calendar components:unitFlags fromDate:date];
-//    int weekday = [components weekday];
-//    //    NSLog(@"weekday = %d, hour = %d, minu = %d", weekday, [components hour], [components minute]);
-//    return weekday - 1; // sunday:0
-//}
-
+@end

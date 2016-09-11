@@ -11,10 +11,6 @@
 #include "Shower.h"
 #include "ConfigManager.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "LocalNotifDelegate.h"
-#endif
-
 #pragma mark - Export
 
 unsigned OperationComp::cur_purchase_achievement_template_index() {

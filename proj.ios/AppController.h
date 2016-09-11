@@ -28,7 +28,7 @@
 #define kOpenGameWaitForAlert   1
 #define kOpenGameExit           2
 
-#include "LocalNotifDelegate.h"
+#include "LocalNotifMgr.h"
 
 @interface AppController : NSObject <UIAccelerometerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIApplicationDelegate, UIAlertViewDelegate> {
     UIWindow *window;

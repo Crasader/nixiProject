@@ -9,30 +9,22 @@
 #ifndef __mm3c__LocalNotifDelegate__
 #define __mm3c__LocalNotifDelegate__
 
-#include "cocos2d.h"
+#import <Foundation/Foundation.h>
 
-USING_NS_CC;
+@interface LocalNotifDelegate : NSObject
 
++ (LocalNotifDelegate*)create;
 
-class LocalNotifDelegate : public CCObject
-{
-public: // Export
-    void addFreeGashaponLN(time_t secondDelta);
-//    void dropLocalNotification(UILocalNotification* notif);
-    void dropLocalNotificationByName(string name);
-    void dropAllLocalNotifications();
-    void resetIconBadgeNumber();
-    
-public:
-    ~LocalNotifDelegate();
-    static LocalNotifDelegate* Inst();
-    void init();
-    
-    CC_SYNTHESIZE_RETAIN(CCDictionary*, _temp, Temp);
-    
-private:
-    void nc_gashapon(CCObject* pObj);
-    void _nc_gashapon();
-};
+- (void)initialization;
+
+- (void)addFreeGashaponLN:(time_t)secondDelta;
+
+- (void)resetIconBadgeNumber;
+
+- (void)dropAllLocalNotifications;
+
+- (int)getWeekIndexFromDate:(NSDate* )date;
+
+@end
 
 #endif /* defined(__mm3c__LocalNotifDelegate__) */

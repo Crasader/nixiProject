@@ -71,7 +71,7 @@
 }
 
 - (void)initLocalNotification {
-    LocalNotifDelegate::Inst();
+    LocalNotifMgr::Inst();
 }
 
 - (void)initTalkingData {
@@ -86,8 +86,8 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-//    [self addLocalNotification];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self addLocalNotification];
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
