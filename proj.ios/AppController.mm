@@ -88,6 +88,7 @@ static AppDelegate s_sharedApplication;
     // Override point for customization after application launch.
     [self addLocalNotification];
 //    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self initTalkingData];
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
