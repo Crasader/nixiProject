@@ -155,6 +155,10 @@ ShowComp* SocialComp::getSelectedStrangerByIndex(int idx) {
 
 const char* SocialComp::getSelectedStrangerIDbyIndex(int idx){
     CCArray* arrKeys = _strangers->allKeys();
+    if (arrKeys == NULL) {
+        return NULL;
+    }
+    
     int count = arrKeys->count();
     if (0 <= idx && idx < count) {
         CCString* key = (CCString*)arrKeys->objectAtIndex(idx);
