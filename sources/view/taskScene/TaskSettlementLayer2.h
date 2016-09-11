@@ -56,6 +56,7 @@ public:
     void lingquCallBack(CCObject* pSender);
     void shareCallBack(CCObject* pSender);
     void shareStatus(float dt);
+    void _321CallBack(CCObject* pSender);
     
     void creat_Man();
     void initClothes();

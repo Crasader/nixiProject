@@ -17,6 +17,7 @@
 #include "NetManager.h"
 #include "AppUtil.h"
 #include "JNIController.h"
+#include "Loading2.h"
 
 
 const float totalRank_z_oder = 20.f;
@@ -103,6 +104,7 @@ void TotalRankScene::init_with_type(int type){
 void TotalRankScene::onEnter(){
     BaseScene::onEnter();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::_321CallBack), "HTTP_FINISHED_321", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::small_callback), "Small", NULL);
     nc->addObserver(this, SEL_CallFuncO(&TotalRankScene::exitMan), "ExitMan", NULL);
@@ -402,8 +404,52 @@ void TotalRankScene::btn_share_callback(CCObject* pSender){
     rt->saveToFile(path.c_str());
     
     JNIController::showShare();
+    this->schedule(SEL_SCHEDULE(&TotalRankScene::shareStatus), .1f);
 #endif
     
+}
+void TotalRankScene::shareStatus(float dt){
+    
+    if (JNIController::getShareStatus() == 1) {
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        
+        if (this->getChildByTag(0x334455) != NULL) {
+            this->removeChildByTag(0x334455);
+        }
+        CCSprite* shareSpr1;
+        CCSprite* shareSpr2;
+        if (DATA->getNews()->dailyShareCount == 0) {
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2->setScale(1.02f);
+        }else{
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2->setScale(1.02f);
+        }
+        CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TotalRankScene::btn_share_callback));
+        shareItem->setAnchorPoint(ccp(0, .5f));
+        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+        shareMenu->setPosition(CCPointZero);
+        shareMenu->setTag(0x334455);
+        this->addChild(shareMenu, 20);
+        
+        LOADING->show_loading();
+        NET->daily_share_321();
+        
+        
+        this->unschedule(SEL_SCHEDULE(&TotalRankScene::shareStatus));
+    }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&TotalRankScene::shareStatus));
+    }
+}
+void TotalRankScene::_321CallBack(CCObject* pSender){
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 void TotalRankScene::btn_note_callback(CCObject* pSender){

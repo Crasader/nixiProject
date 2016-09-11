@@ -76,6 +76,8 @@ public:
     void initTotalRank();
     
     void btn_share_callback(CCObject* pSender);
+    void shareStatus(float dt);
+    void _321CallBack(CCObject* pSender);
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
     

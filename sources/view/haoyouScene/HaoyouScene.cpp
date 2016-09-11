@@ -80,6 +80,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_605CallBack), "HTTP_FINISHED_605", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_321CallBack), "HTTP_FINISHED_321", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -166,9 +167,17 @@ void HaoyouScene::creat_view(){
     this->addChild(allMenu, 20);
     
     
-    CCSprite* shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    CCSprite* shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    shareSpr2->setScale(1.02f);
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
     shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
     shareItem->setAnchorPoint(ccp(0, .5f));
     shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
@@ -216,14 +225,44 @@ void HaoyouScene::shareStatus(float dt){
     BaseScene::openBaseScene();
     
     if (JNIController::getShareStatus() == 1) {
-//        JNIController::shareText();
+        JNIController::shareText();
         JNIController::setShareStatus(0);
+        
+        if (this->getChildByTag(0x334455) != NULL) {
+            this->removeChildByTag(0x334455);
+        }
+        CCSprite* shareSpr1;
+        CCSprite* shareSpr2;
+        if (DATA->getNews()->dailyShareCount == 0) {
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2->setScale(1.02f);
+        }else{
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2->setScale(1.02f);
+        }
+        shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
+        shareItem->setAnchorPoint(ccp(0, .5f));
+        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+        shareMenu = CCMenu::create(shareItem, NULL);
+        shareMenu->setPosition(CCPointZero);
+        shareMenu->setTag(0x334455);
+        this->addChild(shareMenu, 20);
+        
+        LOADING->show_loading();
+        NET->daily_share_321();
+        
         this->unschedule(SEL_SCHEDULE(&HaoyouScene::shareStatus));
     }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
-//        JNIController::shareText();
+        JNIController::shareText();
         JNIController::setShareStatus(0);
         this->unschedule(SEL_SCHEDULE(&HaoyouScene::shareStatus));
     }
+}
+void HaoyouScene::_321CallBack(CCObject* pObj){
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 
