@@ -236,7 +236,7 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     if (CONFIG->baiOrYijie == 0) {// 白包
         LOADING->show_loading();
         string orderId = "";
-        NET->verify_order_android_105(orderId, pro->id);
+        NET->verify_order_iOS_107(orderId, pro->id);
     }else if (CONFIG->baiOrYijie == 1){// 易接
         LOADING->show_loading();
         JNIController::setMoneyStatus(pro->money * 100);
