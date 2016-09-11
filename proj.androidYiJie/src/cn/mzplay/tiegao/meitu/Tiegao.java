@@ -82,7 +82,7 @@ public class Tiegao extends Cocos2dxActivity {
 		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
 		
 	}
-
+	
     static {
     	System.loadLibrary("game");
     }

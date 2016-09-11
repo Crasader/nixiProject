@@ -74,13 +74,20 @@ bool MainScene::init(){
         DATA->setInit_TalkingBool(false);
         
         // talkingData初始化玩家信息
-        CCString* accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
-        CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
-        TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
-        account->setGender(TDCCAccount::TDCCGender::kGenderUnknown);
-        account->setAccountType(TDCCAccount::kAccountRegistered);
-        account->setLevel(DATA->getPlayer()->phase);
-        account->setAccountName(accountNameStr->getCString());
+        CCString* accountStr = NULL;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_UUID());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+        accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
+#endif
+        if (accountStr != NULL) {
+            CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
+            TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
+            account->setGender(TDCCAccount::TDCCGender::kGenderUnknown);
+            account->setAccountType(TDCCAccount::kAccountRegistered);
+            account->setLevel(DATA->getPlayer()->phase);
+            account->setAccountName(accountNameStr->getCString());
+        }
     }
     
     
