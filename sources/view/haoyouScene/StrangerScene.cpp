@@ -267,16 +267,18 @@ void StrangerScene::exitMan(){
 
 void StrangerScene::enterMan(){
     const char* curSelected_id = DATA->getSocial()->getSelectedStrangerIDbyIndex(DATA->getSocial()->getSelectedStranger());
-    ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
-    myClothesTemp = show->ondress();
-    
-    this->creat_Man();
-    this->initClothes();
-    
-    CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(0, _ManSpr->getPosition().y));
-    CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
-    CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
-    _ManSpr->runAction(seq);
+    if (curSelected_id) {
+        ShowComp* show = (ShowComp*)DATA->getSocial()->strangers()->objectForKey(curSelected_id);
+        myClothesTemp = show->ondress();
+        
+        this->creat_Man();
+        this->initClothes();
+        
+        CCMoveTo* moveTo = CCMoveTo::create(.3f, ccp(0, _ManSpr->getPosition().y));
+        CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
+        CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
+        _ManSpr->runAction(seq);
+    }
 }
 
 void StrangerScene::removeMask(){
