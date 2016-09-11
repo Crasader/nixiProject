@@ -44,4 +44,5 @@ void NewsComp::print_news() {
     CCLOG("Mail: %d", mail);
     CCLOG("Message: %d", message);
     CCLOG("Paper: %d", paper);
+    CCLOG("dailyShareCount: %d", dailyShareCount);
 }
