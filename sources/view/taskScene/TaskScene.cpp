@@ -48,8 +48,6 @@ bool TaskScene::init(bool isPhaseUP){
         return false;
     }
     
-    DATA->setTaskPhase(DATA->getPlayer()->phase);
-    
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
     CCLOG("_isPhaseUP = %d", _isPhaseUP);
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
@@ -109,6 +107,8 @@ void TaskScene::keyBackClicked(){
 }
 
 void TaskScene::nc_phase_up_finished(CCObject *pObj) {
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
+    
     this->init_contents();
 }
 

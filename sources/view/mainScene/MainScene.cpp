@@ -1539,6 +1539,7 @@ void MainScene::_600CallBack(CCObject* pSender){
         NET->home_info_704(! DATA->getHome()->has_init_house_template());
     }else{
         AUDIO->comfirm_effect();
+        DATA->setTaskPhase(DATA->getPlayer()->phase);
         CCLayer* layer = TaskScene::create(false);
         CCScene* scene = CCScene::create();
         scene->addChild(layer);

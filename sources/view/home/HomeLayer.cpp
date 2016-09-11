@@ -593,6 +593,7 @@ void HomeLayer::_600CallBack(CCObject* pSender){
     LOADING->remove();
     
     DATA->setHomeBool(true);
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

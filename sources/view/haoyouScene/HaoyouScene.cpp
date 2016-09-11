@@ -254,6 +254,7 @@ void HaoyouScene::displayChatItem() {
 void HaoyouScene::_605CallBack(CCObject* pObj){
     LOADING->remove();
     
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -286,6 +287,8 @@ void HaoyouScene::backCallBack(CCObject* pSender){
 }
 void HaoyouScene::_600CallBack(CCObject* pObj){
     LOADING->remove();
+    
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

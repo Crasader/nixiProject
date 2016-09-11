@@ -259,6 +259,7 @@ void GameCheckoutPanel::remove() {
 void GameCheckoutPanel::_605CallBack(CCObject* pObj){
     LOADING->remove();
     
+    DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
