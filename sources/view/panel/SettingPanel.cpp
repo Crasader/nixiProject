@@ -46,24 +46,34 @@ bool SettingPanel::init() {
         menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.18);
         _panel->addChild(menu);
         
-        CCSprite* back_nor = CCSprite::create("res/pic/panel/setting/relogin.png");
-        CCSprite* back_sel = CCSprite::create("res/pic/panel/setting/relogin.png");
-        back_sel->setScale(1.02f);
-        CCMenuItemSprite* item_back = CCMenuItemSprite::create(back_nor, back_sel, this, menu_selector(SettingPanel::on_back));
-//        item_back->setPosition(ccp(panelSize.width * 0.8, panelSize.height * 0.18));
-        
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
+        CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
+        relogin2->setScale(1.02f);
+        CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
         
         CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
         CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
         gift2->setScale(1.02f);
         CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
         
-        
-        CCMenu* menu_back = CCMenu::create(btnGift, item_back, NULL);
+        CCMenu* menu_back = CCMenu::create(btnGift, btnRelogin, NULL);
         menu_back->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
-//        menu_back->setPosition(CCPointZero);
         menu_back->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.18));
         _panel->addChild(menu_back);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+        CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
+        CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
+        gift2->setScale(1.02f);
+        CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+        
+        CCMenu* menu_back = CCMenu::create(btnGift, NULL);
+        menu_back->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
+        menu_back->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.18));
+        _panel->addChild(menu_back);
+#endif
+        
+
         
         return true;
     }

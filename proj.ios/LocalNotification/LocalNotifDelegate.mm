@@ -55,8 +55,7 @@ void LocalNotifDelegate::addFreeGashaponLN(time_t secondDelta) {
     [ln setApplicationIconBadgeNumber:1];
     [ln setAlertLaunchImage:@"29x29.png"];
     
-    
-//    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"gashapon", NOTIFICATION_KEY_NAME,nil]; 有问题，重复发送时报错
+//    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"gashapon", NOTIFICATION_KEY_NAME,nil];
 //    [ln setUserInfo:dict];
     [[UIApplication sharedApplication] scheduleLocalNotification:ln];
 }

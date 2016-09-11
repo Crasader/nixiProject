@@ -285,9 +285,6 @@ void HomeLayer::creat_View(){
     tabLayer->setTag(0x77777);
     kuangSpr->addChild(tabLayer, 5);
     
-    
-    
-    
     CCDictionary* scores = DATA->getHome()->getScores();
     int score1 = ((CCInteger*)scores->objectForKey("1"))->getValue();
     int score2 = ((CCInteger*)scores->objectForKey("2"))->getValue();

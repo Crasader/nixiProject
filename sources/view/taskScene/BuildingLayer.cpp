@@ -358,6 +358,14 @@ void BuildingLayer::nc_coffers_info_200(CCObject *pObj) {
 void BuildingLayer::nc_take_income_203(CCObject *pObj) {
     CCNode* node = this->getChildByTag(7451);
     if (node && node->getParent()) {
-        node->removeAllChildrenWithCleanup(true);
+        node->removeFromParentAndCleanup(true);
     }
+    
+//    if (_phase == DATA->getPlayer()->phase) {
+//        schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+//        CoffersComp* coffers = DATA->getCoffers();
+//        if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+//            this->show_arrow();
+//        }
+//    }
 }
