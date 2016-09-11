@@ -17,7 +17,7 @@ bool NewsComp::init() {
 }
 
 void NewsComp::init_with_json(Value json) {
-    if (!json.isObject()) {
+    if (json.type() == nullValue) {
         CCLOG("NewsComp::init_with_json() json object error.");
         return;
     }
@@ -32,6 +32,7 @@ void NewsComp::init_with_json(Value json) {
     purchaseAchievement = json["PA"].asInt();
     signin7 = json["S7"].asInt();
     signin30 = json["S30"].asInt();
+    dailyShareCount = json["SC"].asInt();
 }
 
 void NewsComp::print_news() {

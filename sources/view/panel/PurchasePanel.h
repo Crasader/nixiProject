@@ -42,6 +42,7 @@ private:
     void on_bar_clicked(CCMenuItem* item);
     
     void nc_verify_android_105(CCObject* pObj);
+    void nc_verify_iOS_107(CCObject* pObj);
     
 private:
     CCLayer*            _content;

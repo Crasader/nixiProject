@@ -91,12 +91,17 @@ public:
     void take_energy_reward_301();
     void signin7_info_302(bool full);
     void perform_signin7_303(string id);
+    
     void purchase_achievement_info_304(bool full);
     void take_purchase_achievement_305(string& id);
+    
     void gashapon_info_306(bool full);
     void single_lottery_307();
     void multiply_lottery_309();
     void exchange_clothes_311(string clothesId);
+    
+    void daily_share_321();
+    
     void take_gift_333(int ChannelId, const char* code);
 
     
