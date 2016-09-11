@@ -19,6 +19,8 @@
 #include "AudioManager.h"
 #include "AppUtil.h"
 #include "JNIController.h"
+#include "Loading2.h"
+#include "NetManager.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
@@ -87,7 +89,7 @@ void TaskSettlementLayer2::onEnter(){
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    
+    nc->addObserver(this, SEL_CallFuncO(&TaskSettlementLayer2::_321CallBack), "HTTP_FINISHED_321", NULL);
     
     SPECIAL->showPetal2At(this, DISPLAY->center(), 1);
     
@@ -366,15 +368,26 @@ void TaskSettlementLayer2::creat_view(){
     menu->setPosition(CCPointZero);
     kuangSpr1->addChild(menu);
     
-    CCSprite* shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    CCSprite* shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    shareSpr2->setScale(1.02f);
+    
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
     shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TaskSettlementLayer2::shareCallBack));
     shareItem->setAnchorPoint(ccp(0, .5f));
     shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
     CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
     shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
     this->addChild(shareMenu, 20);
+    
     
     coinSpr->setVisible(false);
     lingquItem->setVisible(false);
@@ -709,14 +722,45 @@ void TaskSettlementLayer2::shareCallBack(CCObject* pSender){
 void TaskSettlementLayer2::shareStatus(float dt){
     
     if (JNIController::getShareStatus() == 1) {
-//        JNIController::shareText();
+        JNIController::shareText();
         JNIController::setShareStatus(0);
+        
+        if (this->getChildByTag(0x334455) != NULL) {
+            this->removeChildByTag(0x334455);
+        }
+        CCSprite* shareSpr1;
+        CCSprite* shareSpr2;
+        if (DATA->getNews()->dailyShareCount == 0) {
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2->setScale(1.02f);
+        }else{
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2->setScale(1.02f);
+        }
+        shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TaskSettlementLayer2::shareCallBack));
+        shareItem->setAnchorPoint(ccp(0, .5f));
+        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+        shareMenu->setPosition(CCPointZero);
+        shareMenu->setTag(0x334455);
+        this->addChild(shareMenu, 20);
+        
+        LOADING->show_loading();
+        NET->daily_share_321();
+        
+        
         this->unschedule(SEL_SCHEDULE(&TaskSettlementLayer2::shareStatus));
     }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
-//        JNIController::shareText();
+        JNIController::shareText();
         JNIController::setShareStatus(0);
         this->unschedule(SEL_SCHEDULE(&TaskSettlementLayer2::shareStatus));
     }
+}
+void TaskSettlementLayer2::_321CallBack(CCObject* pSender){
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
 void TaskSettlementLayer2::creat_Man(){
