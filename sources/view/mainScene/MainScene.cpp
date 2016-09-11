@@ -684,33 +684,6 @@ void MainScene::creat_view(){
     _layer_2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f - 2));
     this->addChild(_layer_2);
     
-    //---邮箱btn---
-    CCSprite* mail_box1 = CCSprite::create("res/pic/mainScene/mail_nor.png");
-    xinfeng_spr1 = CCSprite::create("res/pic/mainScene/xinfeng.png");
-    xinfeng_spr1->setPosition(ccp(mail_box1->getContentSize().width* .6f, mail_box1->getContentSize().height * 0.88));
-    mail_box1->addChild(xinfeng_spr1);
-    CCSprite* mail_box2 = CCSprite::create("res/pic/mainScene/mail_sel.png");
-    CCSprite* xinfeng_spr2 = CCSprite::create("res/pic/mainScene/xinfeng.png");
-    xinfeng_spr2->setPosition(ccp(mail_box2->getContentSize().width* .6f, mail_box2->getContentSize().height * 0.88));
-    mail_box2->addChild(xinfeng_spr2);
-    mail_box2->setScale(1.02f);
-    CCMenuItemSprite* youjian_Item = CCMenuItemSprite::create(mail_box1, mail_box2, this, menu_selector(MainScene::youjianCallBack));
-    youjian_Item->setPosition(ccp(_layer_2->getContentSize().width* .38f, _layer_2->getContentSize().height* .47f));
-    menu_mail = CCMenu::create(youjian_Item, NULL);
-    menu_mail->setPosition(CCPointZero);
-    _layer_2->addChild(menu_mail);
-    
-        CCMoveBy* ac_xin_1 = CCMoveBy::create(2.5f, CCPoint(0, 8));
-        CCScaleTo* st = CCScaleTo::create(2.5f, 1.05f);
-        CCSpawn* spa_xin = CCSpawn::create(ac_xin_1, st, NULL);
-        CCScaleTo* st_2 = CCScaleTo::create(2.5f, 1.0f);
-        CCMoveBy* ac_xin_2 = CCMoveBy::create(2.5f, CCPoint(0, -8));
-        CCSpawn* spa_xin_2 = CCSpawn::create(ac_xin_2, st_2, NULL);
-        CCSequence* seq_xin = CCSequence::create(spa_xin, CCDelayTime::create(0.3f), spa_xin_2, CCDelayTime::create(0.3), NULL);
-        CCRepeatForever* rep_xin = CCRepeatForever::create(seq_xin);
-        
-        xinfeng_spr1->runAction(rep_xin);
-    
     
     //---家btn---
     CCSprite* home_spr1 = CCSprite::create("res/pic/mainScene/home_nor.png");
@@ -729,6 +702,34 @@ void MainScene::creat_view(){
     _layer_2->addChild(menu_home);
     home_bar1->setUserObject(ccs("res/pic/mainScene/home_bar.png"));
     _arrGroup1->addObject(home_bar1);
+    
+    
+    //---邮箱btn---
+    CCSprite* mail_box1 = CCSprite::create("res/pic/mainScene/mail_nor.png");
+    xinfeng_spr1 = CCSprite::create("res/pic/mainScene/xinfeng.png");
+    xinfeng_spr1->setPosition(ccp(mail_box1->getContentSize().width* .6f, mail_box1->getContentSize().height * 0.88));
+    mail_box1->addChild(xinfeng_spr1);
+    CCSprite* mail_box2 = CCSprite::create("res/pic/mainScene/mail_sel.png");
+    CCSprite* xinfeng_spr2 = CCSprite::create("res/pic/mainScene/xinfeng.png");
+    xinfeng_spr2->setPosition(ccp(mail_box2->getContentSize().width* .6f, mail_box2->getContentSize().height * 0.88));
+    mail_box2->addChild(xinfeng_spr2);
+    mail_box2->setScale(1.02f);
+    CCMenuItemSprite* youjian_Item = CCMenuItemSprite::create(mail_box1, mail_box2, this, menu_selector(MainScene::youjianCallBack));
+    youjian_Item->setPosition(ccp(_layer_2->getContentSize().width* .38f, _layer_2->getContentSize().height* .47f));
+    menu_mail = CCMenu::create(youjian_Item, NULL);
+    menu_mail->setPosition(CCPointZero);
+    _layer_2->addChild(menu_mail);
+    
+    // 信封
+    CCMoveBy* ac_xin_1 = CCMoveBy::create(2.5f, CCPoint(0, 8));
+    CCScaleTo* st = CCScaleTo::create(2.5f, 1.05f);
+    CCSpawn* spa_xin = CCSpawn::create(ac_xin_1, st, NULL);
+    CCScaleTo* st_2 = CCScaleTo::create(2.5f, 1.0f);
+    CCMoveBy* ac_xin_2 = CCMoveBy::create(2.5f, CCPoint(0, -8));
+    CCSpawn* spa_xin_2 = CCSpawn::create(ac_xin_2, st_2, NULL);
+    CCSequence* seq_xin = CCSequence::create(spa_xin, CCDelayTime::create(0.3f), spa_xin_2, CCDelayTime::create(0.3), NULL);
+    CCRepeatForever* rep_xin = CCRepeatForever::create(seq_xin);
+    xinfeng_spr1->runAction(rep_xin);
     
     
     //---换装btn---

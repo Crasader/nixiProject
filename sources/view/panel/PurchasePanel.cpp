@@ -53,11 +53,15 @@ void PurchasePanel::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
-
-    this->init_content();
-//    this->do_enter();
     
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
+#endif
+    
+    this->init_content();
+
     this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::keyBackStatus), .8f);
 }
 void PurchasePanel::keyBackStatus(float dt){
@@ -290,6 +294,14 @@ void PurchasePanel::keyBackClicked(){
 }
 
 void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
+    LOADING->remove();
+    this->update_content();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "钻石购买成功~!");
+}
+
+void PurchasePanel::nc_verify_iOS_107(CCObject *pObj) {
     LOADING->remove();
     this->update_content();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");

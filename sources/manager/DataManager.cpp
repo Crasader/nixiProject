@@ -400,6 +400,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _signin->update_signin7_info(content["signin7"]);
             _clothes->init_with_json(content["clothes"]);
             _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
         case 304: {
@@ -455,6 +456,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _operation->replace_gashapon_user(content["gashapon"]);
         } break;
             
+        case 321: {
+            _player->init_with_json(content["player"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
         case 333: {
             _player->init_with_json(content["player"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
@@ -499,6 +506,12 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 105: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+        } break;
+            
+        case 107: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
