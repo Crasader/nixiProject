@@ -137,13 +137,22 @@ void TotalRankScene::createView(){
     name_bar->addChild(room_name);
     
     //分享
-    CCSprite* share_spr = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    CCSprite* share_spr2 = CCSprite::create("res/pic/haoyoupaihang/share.png");
-    share_spr2->setScale(1.02f);
-    CCMenuItemSprite* item_share = CCMenuItemSprite::create(share_spr, share_spr2, this, menu_selector(TotalRankScene::btn_share_callback));
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
+    CCMenuItemSprite* item_share = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TotalRankScene::btn_share_callback));
     item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);
+    menu_share->setTag(0x334455);
     this->addChild(menu_share, totalRank_z_oder);
     
     //纸条
