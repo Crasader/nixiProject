@@ -27,8 +27,8 @@ bool VipDialogs::init()
 void VipDialogs::config_with_file(const char *file)
 {
     MZResourceLoader* loader = MZResourceLoader::get_instance();
-    char* file_data = loader->reader_file(file);
-//    char* file_data = loader->reader_xxtea_file(file);
+//    char* file_data = loader->reader_file(file);
+    char* file_data = loader->reader_xxtea_file(file);
     
     CSJson::Reader reader;
     CSJson::Value root;
@@ -55,8 +55,8 @@ void VipDialogs::config_with_file(const char *file)
 void VipDialogs::clues_config_with_file(const char* file){
     MZResourceLoader* loader = MZResourceLoader::get_instance();
     
-    char* file_data = loader->reader_file(file);
-//    char* file_data = loader->reader_xxtea_file(file);
+//    char* file_data = loader->reader_file(file);
+    char* file_data = loader->reader_xxtea_file(file);
     
     CSJson::Reader reader;
     CSJson::Value root;

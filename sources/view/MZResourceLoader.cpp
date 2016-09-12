@@ -82,8 +82,8 @@ char* MZResourceLoader::reader_xxtea_file(const char* file)
 
 CSJson::Value MZResourceLoader::get_json_data_with_file(const char *file)
 {
-    char* file_data = this->reader_file(file);
-//    char* file_data = this->reader_xxtea_file(file);
+//    char* file_data = this->reader_file(file);
+    char* file_data = this->reader_xxtea_file(file);
     
     CSJson::Reader reader;
     CSJson::Value root;

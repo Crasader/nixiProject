@@ -97,6 +97,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(fixed_width, fixed_height, kResolutionFixedHeight);
     // 配置文件搜索路径
     CCFileUtils::sharedFileUtils()->addSearchPath("res/");
+    this->init_lua_env();
     CONFIG->config();
     //
 //    write_debug_info();
@@ -121,7 +122,8 @@ void AppDelegate::init_lua_env() {
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
     
     CCLuaStack *pStack = pEngine->getLuaStack();
-    
+    pStack->setXXTEAKeyAndSign("tiegao", strlen("tiegao"), "yunlook", strlen("yunlook"));
+/*
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // load framework
     pStack->loadChunksFromZIP("res/framework_precompiled.zip");
@@ -167,6 +169,7 @@ void AppDelegate::init_lua_env() {
     CCLOG("LOAD LUA FILE: %s", path.c_str());
     CCLOG("------------------------------------------------");
     pEngine->executeScriptFile(path.c_str());
+*/
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
