@@ -60,8 +60,12 @@ bool TaskScene::init(bool isPhaseUP){
     else {
         this->init_contents();
     }
+    
 
     return true;
+}
+void TaskScene::play_music(float dt){
+    AUDIO->enterTheTask_effect();
 }
 
 void TaskScene::onEnter(){
@@ -1412,7 +1416,8 @@ void TaskScene::init_phone(){
             CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
             if (storyArr == NULL) {
                 now_task_index = i;
-                AUDIO->phone_effect();
+                
+                this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_phone_music), .5f);
                 if (DATA->current_guide_step() == 9) {
                     this->creat_phone2();
                 }else{
@@ -1422,9 +1427,16 @@ void TaskScene::init_phone(){
                 }
                 
                 break;
+            }else{
+                this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
             }
+        }else{
+            this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
         }
     }
+}
+void TaskScene::play_phone_music(float dt){
+    AUDIO->enterThePhone_effect();
 }
 void TaskScene::creat_phone(){
     CCSprite* phoneDiSpr = CCSprite::create("res/pic/taskScene/animation/task_phoneDi.png");

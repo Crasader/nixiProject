@@ -3343,6 +3343,8 @@ void ClothesScene::showAnimationWithType(int type) {
 //        SPECIAL->showBattleAt(getParent(), ccp(DISPLAY->halfW() - 130, DISPLAY->H() * 0.55), 1);
         SPECIAL->showFlowerAt(getParent(), ccp(DISPLAY->halfW() - 150, DISPLAY->H() * 0.55), 1);
     }
+    
+//    AUDIO->enterTheClothes_effect();
 }
 
 

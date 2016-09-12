@@ -86,6 +86,7 @@ public:
     
     void update_man();
     
+    void play_music(float dt);
     
 public:
     

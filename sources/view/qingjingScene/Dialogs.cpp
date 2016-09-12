@@ -27,8 +27,8 @@ bool Dialogs::init()
 void Dialogs::config_with_file(const char *file)
 {
     MZResourceLoader* loader = MZResourceLoader::get_instance();
-    char* file_data = loader->reader_file(file);
-//    char* file_data = loader->reader_xxtea_file(file);
+//    char* file_data = loader->reader_file(file);
+    char* file_data = loader->reader_xxtea_file(file);
     
     CSJson::Reader reader;
     CSJson::Value root;
@@ -55,8 +55,8 @@ void Dialogs::config_with_file(const char *file)
 void Dialogs::clues_config_with_file(const char* file){
     MZResourceLoader* loader = MZResourceLoader::get_instance();
     
-    char* file_data = loader->reader_file(file);
-//    char* file_data = loader->reader_xxtea_file(file);
+//    char* file_data = loader->reader_file(file);
+    char* file_data = loader->reader_xxtea_file(file);
     
     CSJson::Reader reader;
     CSJson::Value root;

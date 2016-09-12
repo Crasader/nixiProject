@@ -58,7 +58,12 @@ bool HomeLayer::init(){
     this->creat_Man();
     this->initClothes();
     
+    this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::play_music), .5f);
+    
     return true;
+}
+void HomeLayer::play_music(float dt){
+    AUDIO->enterTheHome_effect();
 }
 void HomeLayer::updataBg(){
     if (this->getChildByTag(0x88888) != NULL) {

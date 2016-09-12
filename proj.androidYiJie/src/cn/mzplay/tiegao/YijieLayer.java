@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.meitu;
+package cn.mzplay.tiegao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -167,10 +167,12 @@ public class YijieLayer{
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 6) {
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
+		}else if (index == 10) {
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}
 		
-//		price = Tiegao.getMoneyStatus();
-		price = 1;
+		price = Tiegao.getMoneyStatus();
+//		price = 1;
 //		Log.e("main", "<><> productName == " + productName);
 		
 		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();

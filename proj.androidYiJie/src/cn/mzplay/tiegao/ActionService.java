@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.meitu;
+package cn.mzplay.tiegao;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -8,7 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import cn.mzplay.tiegao.meitu.R;
+import cn.mzplay.tiegao.R;
 
 
 public class ActionService extends Service {

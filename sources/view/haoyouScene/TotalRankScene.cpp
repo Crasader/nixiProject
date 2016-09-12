@@ -423,31 +423,8 @@ void TotalRankScene::shareStatus(float dt){
         JNIController::shareText();
         JNIController::setShareStatus(0);
         
-        if (this->getChildByTag(0x334455) != NULL) {
-            this->removeChildByTag(0x334455);
-        }
-        CCSprite* shareSpr1;
-        CCSprite* shareSpr2;
-        if (DATA->getNews()->dailyShareCount == 0) {
-            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-            shareSpr2->setScale(1.02f);
-        }else{
-            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-            shareSpr2->setScale(1.02f);
-        }
-        CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TotalRankScene::btn_share_callback));
-        shareItem->setAnchorPoint(ccp(0, .5f));
-        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
-        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
-        shareMenu->setPosition(CCPointZero);
-        shareMenu->setTag(0x334455);
-        this->addChild(shareMenu, 20);
-        
         LOADING->show_loading();
         NET->daily_share_321();
-        
         
         this->unschedule(SEL_SCHEDULE(&TotalRankScene::shareStatus));
     }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
@@ -458,6 +435,29 @@ void TotalRankScene::shareStatus(float dt){
 }
 void TotalRankScene::_321CallBack(CCObject* pSender){
     LOADING->remove();
+    
+    if (this->getChildByTag(0x334455) != NULL) {
+        this->removeChildByTag(0x334455);
+    }
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
+    CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TotalRankScene::btn_share_callback));
+    shareItem->setAnchorPoint(ccp(0, .5f));
+    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+    CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+    shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
+    this->addChild(shareMenu, 20);
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 
