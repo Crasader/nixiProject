@@ -33,7 +33,6 @@ public:
     void buy_effect();
     void shop_effect();
     void clothes_effect();
-    void phone_effect();
     void right_effect();
     void wrong_effect();
     

@@ -167,6 +167,8 @@ public class YijieLayer{
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 6) {
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
+		}else if (index == 10) {
+			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}
 		
 //		price = Tiegao.getMoneyStatus();

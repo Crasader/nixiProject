@@ -1,7 +1,7 @@
 {
     "version": "1.0.2",
     "can": 0,
-    "baiOrYijie": 0,
+    "baiOrYijie": 1,
     "net": 170,
     "chat": 170
 }

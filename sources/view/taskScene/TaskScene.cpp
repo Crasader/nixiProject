@@ -60,7 +60,7 @@ bool TaskScene::init(bool isPhaseUP){
     else {
         this->init_contents();
     }
-    this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
+    
 
     return true;
 }
@@ -1416,7 +1416,6 @@ void TaskScene::init_phone(){
             CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
             if (storyArr == NULL) {
                 now_task_index = i;
-                AUDIO->phone_effect();
                 
                 this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_phone_music), .5f);
                 if (DATA->current_guide_step() == 9) {
@@ -1428,7 +1427,11 @@ void TaskScene::init_phone(){
                 }
                 
                 break;
+            }else{
+                this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
             }
+        }else{
+            this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
         }
     }
 }

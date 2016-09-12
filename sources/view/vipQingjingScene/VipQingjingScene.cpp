@@ -76,6 +76,7 @@ void VipQingjingScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_509CallBack), "HTTP_FINISHED_509", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_505CallBack), "HTTP_FINISHED_505", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_109CallBack), "HTTP_FINISHED_109", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "VipQingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
@@ -418,7 +419,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
                 CCString* productStr = CCString::createWithFormat("story_buy2");
                 JNIController::setProductId(productStr->getCString());
                 JNIController::setSidId(DATA->getLogin()->obtain_sid());
-                JNIController::isGamePay(item->getTag());
+                JNIController::isGamePay(10);
                 
                 this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
             }
@@ -469,7 +470,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             CCString* productStr = CCString::createWithFormat("story_buy2");
             JNIController::setProductId(productStr->getCString());
             JNIController::setSidId(DATA->getLogin()->obtain_sid());
-            JNIController::isGamePay(item->getTag());
+            JNIController::isGamePay(10);
             
             this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
         }
@@ -483,7 +484,7 @@ void VipQingjingScene::updatePay(float dt){
         CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
         
         this->unschedule(SEL_SCHEDULE(&VipQingjingScene::updatePay));
-        this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::send505), 5.f);
+        this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::send109), 5.f);
     }else if (JNIController::getSmsStatus() == 2) {
         LOADING->remove();
         
@@ -495,7 +496,15 @@ void VipQingjingScene::updatePay(float dt){
     }
 #endif
 }
-void VipQingjingScene::send505(){
+void VipQingjingScene::send109(){
+    string orderId = JNIController::getCpOrderId();
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    NET->buy_fee_story_109(indexStr->getCString(), orderId);
+}
+void VipQingjingScene::_109CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    LOADING->show_loading();
     CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
     NET->buy_story2_505(indexStr->getCString());
 }
@@ -524,7 +533,7 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
         CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);
         JNIController::setProductId(productStr->getCString());
         JNIController::setSidId(DATA->getLogin()->obtain_sid());
-        JNIController::isGamePay(item->getTag());
+        JNIController::isGamePay(10);
         
         this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
     }

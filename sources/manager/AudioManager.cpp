@@ -74,8 +74,6 @@ void AudioManager::preload_audios()
     this->preloadEffect("audio/wav/audio_game_right.wav");
     // wrong 音效
     this->preloadEffect("audio/wav/audio_game_wrong.wav");
-    // 手机音
-    this->preloadEffect("audio/wav/audio_phone.wav");
     
     // 进入公司播放
     this->preloadEffect("audio/wav/11.wav");
@@ -269,9 +267,6 @@ void AudioManager::wrong_effect(){
     this->play_effect("audio/wav/audio_game_wrong.wav", false);
 }
 
-void AudioManager::phone_effect() {
-    this->play_effect("audio/wav/audio_phone.wav", false);
-}
 
 
 
@@ -285,59 +280,59 @@ void AudioManager::phone_effect() {
 void AudioManager::enterTheTask_effect(){
     int index = 1 + rand()%3;
     if (index == 1) {
-        this->preloadEffect("audio/wav/11.wav");
+        this->play_effect("audio/wav/11.wav", false);
     }else if (index == 2){
-        this->preloadEffect("audio/wav/12.wav");
+        this->play_effect("audio/wav/12.wav", false);
     }else if (index == 3){
-        this->preloadEffect("audio/wav/13.wav");
+        this->play_effect("audio/wav/13.wav", false);
     }
 }
 // 进入家播放
 void AudioManager::enterTheHome_effect(){
     int index = 1 + rand()%3;
     if (index == 1) {
-        this->preloadEffect("audio/wav/21.wav");
+        this->play_effect("audio/wav/21.wav", false);
     }else if (index == 2){
-        this->preloadEffect("audio/wav/22.wav");
+        this->play_effect("audio/wav/22.wav", false);
     }else if (index == 3){
-        this->preloadEffect("audio/wav/23.wav");
+        this->play_effect("audio/wav/23.wav", false);
     }
 }
 // 小手机出现播放
 void AudioManager::enterThePhone_effect(){
     int index = 1 + rand()%4;
     if (index == 1) {
-        this->preloadEffect("audio/wav/31.wav");
+        this->play_effect("audio/wav/31.wav", false);
     }else if (index == 2){
-        this->preloadEffect("audio/wav/32.wav");
+        this->play_effect("audio/wav/32.wav", false);
     }else if (index == 3){
-        this->preloadEffect("audio/wav/33.wav");
+        this->play_effect("audio/wav/33.wav", false);
     }else if (index == 4){
-        this->preloadEffect("audio/wav/34.wav");
+        this->play_effect("audio/wav/34.wav", false);
     }
 }
 // 进入陌生人播放
 void AudioManager::enterTheHaoyou_effect(){
     int index = 1 + rand()%3;
     if (index == 1) {
-        this->preloadEffect("audio/wav/41.wav");
+        this->play_effect("audio/wav/41.wav", false);
     }else if (index == 2){
-        this->preloadEffect("audio/wav/42.wav");
+        this->play_effect("audio/wav/42.wav", false);
     }else if (index == 3){
-        this->preloadEffect("audio/wav/43.wav");
+        this->play_effect("audio/wav/43.wav", false);
     }
 }
 // 高级衣服
 void AudioManager::enterTheClothes_effect(){
     int index = 1 + rand()%4;
     if (index == 1) {
-        this->preloadEffect("audio/wav/71.wav");
+        this->play_effect("audio/wav/71.wav", false);
     }else if (index == 2){
-        this->preloadEffect("audio/wav/72.wav");
+        this->play_effect("audio/wav/72.wav", false);
     }else if (index == 3){
-        this->preloadEffect("audio/wav/73.wav");
+        this->play_effect("audio/wav/73.wav", false);
     }else if (index == 4){
-        this->preloadEffect("audio/wav/74.wav");
+        this->play_effect("audio/wav/74.wav", false);
     }
 }
 
