@@ -21,8 +21,8 @@ public:
     ~ClothesComp();
     CREATE_FUNC(ClothesComp);
     bool init();
-    void init_with_json(Value json);
-    void init_dressed(Value json);
+    void init_with_json(Value json);        // 拥有衣服
+    void init_dressed(Value json);          // 身上的衣服
     void copy_clothesTemp();
     void update_clothes(Value json);
     bool is_owned(int part, int cloth_id);

@@ -33,8 +33,11 @@ void LoginComp::config_UUID() {
         CCLOG("UUID 只需获取一次，请确认是否正确使用???");
         return;
     }
-    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     _uuid = cocos2d::extra::CCNative::getOpenUDID();
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    _uuid = "没有获得";
+#endif
 }
 
 const char* LoginComp::obtain_UUID() {
