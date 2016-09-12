@@ -309,7 +309,7 @@ void HaoyouScene::backCallBack(CCObject* pSender){
     
     if (DATA->getTaskGameBool4()) {
         LOADING->show_loading();
-        NET->commit_extra_mission_605(DATA->getTaskTempID(), 4, 0);
+        NET->commit_extra_mission_605(DATA->getTaskTempID(), 4, DATA->getTaskGameIndex4());
     }else{
         if (DATA->getHomeBool()) {
             DATA->setHomeBool(false);

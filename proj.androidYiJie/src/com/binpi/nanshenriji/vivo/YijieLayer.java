@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.meitu;
+package com.binpi.nanshenriji.vivo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

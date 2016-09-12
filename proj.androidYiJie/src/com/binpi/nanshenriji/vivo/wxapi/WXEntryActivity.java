@@ -6,7 +6,7 @@
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-package cn.mzplay.tiegao.meitu.wxapi;
+package com.binpi.nanshenriji.vivo.wxapi;
 
 import android.content.Intent;
 import android.util.Log;

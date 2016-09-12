@@ -105,7 +105,7 @@ public:
     
     
     void updatePay(float dt);
-    void send509();
+    void send505();
     
 public:
     

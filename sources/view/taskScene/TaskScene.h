@@ -66,6 +66,9 @@ public:
     void _905status();
     void _905CallBack(CCObject* pSender);
     
+    void play_music(float dt);
+    void play_phone_music(float dt);
+    
 public:
     
     CCDictionary* allClothesDic;

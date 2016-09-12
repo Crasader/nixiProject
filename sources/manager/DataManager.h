@@ -102,6 +102,7 @@ public:
     CC_SYNTHESIZE(bool, _taskGameBool2, TaskGameBool2);
     CC_SYNTHESIZE(bool, _taskGameBool3, TaskGameBool3);
     CC_SYNTHESIZE(bool, _taskGameBool4, TaskGameBool4);
+    CC_SYNTHESIZE(int, _taskGameIndex4, TaskGameIndex4);
     CC_SYNTHESIZE(bool, _taskGameBool5, TaskGameBool5);
     CC_SYNTHESIZE(bool, _taskGameBool6, TaskGameBool6);
     CC_SYNTHESIZE(int, _taskGameIndex6, TaskGameIndex6);

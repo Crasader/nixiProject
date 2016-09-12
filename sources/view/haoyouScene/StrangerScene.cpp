@@ -51,7 +51,12 @@ bool StrangerScene::init(){
     this->creat_Man();
     this->initClothes();
     
+    this->scheduleOnce(SEL_SCHEDULE(&StrangerScene::play_music), .5f);
+    
     return true;
+}
+void StrangerScene::play_music(float dt){
+    AUDIO->enterTheHaoyou_effect();
 }
 
 CCScene* StrangerScene::scene(){
@@ -242,9 +247,15 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
 }
 
 void StrangerScene::result_tip(){
+    int goldIndex = DATA->getTaskGameIndex4();
+    goldIndex++;
+    if (goldIndex >= 5) {
+        goldIndex = 5;
+    }
+    DATA->setTaskGameIndex4(goldIndex);
+    
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
-    
 }
 
 void StrangerScene::exitMan(){

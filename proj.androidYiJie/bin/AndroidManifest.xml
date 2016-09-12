@@ -6,9 +6,9 @@ com.binpi.nanshenriji.vivo  	vivo
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao.meitu"
-    android:versionCode="9"
-    android:versionName="1.0.9">
+    package="com.binpi.nanshenriji.vivo"
+    android:versionCode="10"
+    android:versionName="1.1.0">
 	
     <uses-sdk android:minSdkVersion="19" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -91,7 +91,7 @@ com.binpi.nanshenriji.vivo  	vivo
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.meitu.wxapi.WXEntryActivity" 
+     		android:name="com.binpi.nanshenriji.vivo.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
@@ -101,7 +101,7 @@ com.binpi.nanshenriji.vivo  	vivo
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="cn.mzplay.tiegao.meitu.ActionService" /> 
+				<action android:name="com.binpi.nanshenriji.vivo.ActionService" /> 
 			</intent-filter> 
         </service>
         
@@ -126,10 +126,11 @@ com.binpi.nanshenriji.vivo  	vivo
             android:name="com.snowfish.appid" 
             android:value="{E309AE84-C1785CF4}" >
         </meta-data>
-        
+        <!-- 2BDCA7CB-81082F19 -->
+        <!-- 4ff036a1-3254eafe -->
         <meta-data
             android:name="com.snowfish.channelid" 
-            android:value="{4ff036a1-3254eafe}" >
+            android:value="{2BDCA7CB-81082F19}" >
         </meta-data>
         
         <meta-data

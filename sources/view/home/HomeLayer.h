@@ -91,6 +91,9 @@ public:
     void openChat(CCObject* pSender);
     void displayChatItem();
     
+    
+    void play_music(float dt);
+    
 public:
     
     void creat_View();

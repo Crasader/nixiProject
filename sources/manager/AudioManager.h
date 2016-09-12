@@ -37,6 +37,12 @@ public:
     void right_effect();
     void wrong_effect();
     
+    void enterTheTask_effect();
+    void enterTheHome_effect();
+    void enterThePhone_effect();
+    void enterTheHaoyou_effect();
+    void enterTheClothes_effect();
+    
 public:
     ~AudioManager();
     static AudioManager* Inst();
