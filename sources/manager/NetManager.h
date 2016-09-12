@@ -78,7 +78,7 @@ public:
     void start_story_501(const char* id);
     void commit_story_503(const char* id, const char* flag);
     void completed_story2_504();
-    void buy_story2_505(const char* id);
+    void buy_story2_505(const char* id); // Only for iOS
     void commit_story2_507(const char* id, const char* flag);
     void start_story2_509(const char* id);
     // 发表弹幕：storyId-剧情ID, lineId-第几句的id, words-发表内容
@@ -115,6 +115,8 @@ public:
     void exchange_coin_103();
     void verify_order_android_105(string& orderId, string& productId);
     void verify_order_iOS_107(string& orderId, string& productId);
+    
+    void buy_fee_story_109(const char* id, string& orderId); // 4 Andoird
     
 private:
     string generate_sign(int cid, const char* data);
