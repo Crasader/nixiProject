@@ -517,6 +517,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _purchase->init_purchase(content["purchase"]);
         } break;
             
+        case 109: {
+            _story->replace_story2_user(content["story2"]);
+            _purchase->init_purchase(content["purchase"]);
+        } break;
+            
         default:
             break;
     }

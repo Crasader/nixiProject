@@ -228,28 +228,6 @@ void HaoyouScene::shareStatus(float dt){
         JNIController::shareText();
         JNIController::setShareStatus(0);
         
-        if (this->getChildByTag(0x334455) != NULL) {
-            this->removeChildByTag(0x334455);
-        }
-        CCSprite* shareSpr1;
-        CCSprite* shareSpr2;
-        if (DATA->getNews()->dailyShareCount == 0) {
-            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-            shareSpr2->setScale(1.02f);
-        }else{
-            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-            shareSpr2->setScale(1.02f);
-        }
-        shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
-        shareItem->setAnchorPoint(ccp(0, .5f));
-        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
-        shareMenu = CCMenu::create(shareItem, NULL);
-        shareMenu->setPosition(CCPointZero);
-        shareMenu->setTag(0x334455);
-        this->addChild(shareMenu, 20);
-        
         LOADING->show_loading();
         NET->daily_share_321();
         
@@ -262,6 +240,29 @@ void HaoyouScene::shareStatus(float dt){
 }
 void HaoyouScene::_321CallBack(CCObject* pObj){
     LOADING->remove();
+    
+    if (this->getChildByTag(0x334455) != NULL) {
+        this->removeChildByTag(0x334455);
+    }
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
+    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
+    shareItem->setAnchorPoint(ccp(0, .5f));
+    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+    shareMenu = CCMenu::create(shareItem, NULL);
+    shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
+    this->addChild(shareMenu, 20);
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
 

@@ -26,12 +26,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+import cn.mzplay.tiegao.Tiegao;
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 
-import com.binpi.nanshenriji.vivo.Tiegao;
 import com.mob.tools.utils.UIHandler;
 
 /**

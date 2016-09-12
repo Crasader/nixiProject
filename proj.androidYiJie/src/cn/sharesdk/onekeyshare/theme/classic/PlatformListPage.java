@@ -13,8 +13,6 @@ import static cn.sharesdk.framework.utils.ShareSDKR.getBitmapRes;
 
 import java.util.ArrayList;
 
-import com.binpi.nanshenriji.vivo.Tiegao;
-
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -27,6 +25,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import cn.mzplay.tiegao.Tiegao;
 import cn.sharesdk.onekeyshare.PlatformListFakeActivity;
 
 public class PlatformListPage extends PlatformListFakeActivity implements View.OnClickListener {

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
+cn.mzplay.tiegao
+
 cn.mzplay.tiegao.meitu  		美图
 
 com.binpi.nanshenriji.vivo  	vivo
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.binpi.nanshenriji.vivo"
-    android:versionCode="12"
-    android:versionName="1.1.2">
+    package="cn.mzplay.tiegao"
+    android:versionCode="15"
+    android:versionName="1.1.5">
 	
     <uses-sdk android:minSdkVersion="19" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -91,7 +93,7 @@ com.binpi.nanshenriji.vivo  	vivo
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="com.binpi.nanshenriji.vivo.wxapi.WXEntryActivity" 
+     		android:name="cn.mzplay.tiegao.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
@@ -101,7 +103,7 @@ com.binpi.nanshenriji.vivo  	vivo
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="com.binpi.nanshenriji.vivo.ActionService" /> 
+				<action android:name="cn.mzplay.tiegao.ActionService" /> 
 			</intent-filter> 
         </service>
         
@@ -124,7 +126,7 @@ com.binpi.nanshenriji.vivo  	vivo
         <!-- android:value="{2BDCA7CB-81082F19}" >  男  -->
         <meta-data
             android:name="com.snowfish.appid" 
-            android:value="{2BDCA7CB-81082F19}" >
+            android:value="{E309AE84-C1785CF4}" >
         </meta-data>
         
         <meta-data

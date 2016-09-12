@@ -504,9 +504,14 @@ void VipQingjingScene::send109(){
 void VipQingjingScene::_109CallBack(CCObject* pSender){
     LOADING->remove();
     
-    LOADING->show_loading();
-    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-    NET->buy_story2_505(indexStr->getCString());
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "购买成功.");
+    
+    CCMenu* menu = (CCMenu* )tempItem->getParent();
+    CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
+    CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);
+    startItem->setVisible(true);
+    buyItem->setVisible(false);
 }
 
 void VipQingjingScene::quedingCallBack(CCObject* pSender){
