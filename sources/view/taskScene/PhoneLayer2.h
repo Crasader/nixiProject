@@ -54,6 +54,8 @@ public:
     CCProgressTimer* _progress2;
     
 public:
+    int num_child;
+    
     
     void creat_view();
     void creat_man();

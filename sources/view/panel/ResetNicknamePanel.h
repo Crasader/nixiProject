@@ -44,6 +44,8 @@ private:
     void onBtnCommit(CCMenuItem* btn);
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCEditBox*          _eb;

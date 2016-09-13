@@ -40,6 +40,8 @@ private:
     void on_anim_finish();
     
 private:
+    int num_child;
+    
     int gameScore;
     CCSprite*           _panel;
     bool                _couldRemove;

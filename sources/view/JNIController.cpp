@@ -46,6 +46,20 @@ extern "C"
 #endif
     }
     
+    std::string JNIController::getOpenId(){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JniMethodInfo jni_methodInfo;
+        bool ret;
+        jstring jstr = NULL;
+        ret = JniHelper::getStaticMethodInfo(jni_methodInfo,SDK_TIEGAO_CLASS,"getOpenId","()Ljava/lang/String;");
+        if(ret)
+        {
+            jstr = (jstring)jni_methodInfo.env->CallStaticObjectMethod(jni_methodInfo.classID,jni_methodInfo.methodID);
+            return JniHelper::jstring2string(jstr);
+        }
+#endif
+    }
+    
     // 退出
     void JNIController::exitGame(int index){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

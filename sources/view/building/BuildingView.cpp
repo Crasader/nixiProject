@@ -41,6 +41,7 @@ bool BuildingView::init(int phase) {
     if (! CCLayer::init()) {
         return false;
     }
+    num_child = 0;
     
     _phase = phase;
     
@@ -240,10 +241,9 @@ void BuildingView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
 
 
 void BuildingView::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== BuildingView  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

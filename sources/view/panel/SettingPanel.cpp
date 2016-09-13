@@ -18,6 +18,7 @@ SettingPanel::~SettingPanel() {
 
 bool SettingPanel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
         
         _content = CCLayer::create();
 //        _content->setScale(0.1);
@@ -175,10 +176,9 @@ void SettingPanel::on_take_gift(CCMenuItem *btn) {
 }
 
 void SettingPanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== SettingPanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

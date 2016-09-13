@@ -23,6 +23,8 @@ THE SOFTWARE.
 ****************************************************************************/
 package cn.mzplay.tiegao;
 
+import java.util.UUID;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
@@ -290,6 +292,12 @@ public class Tiegao extends Cocos2dxActivity {
 		goldStatus = status;
 	}
 	
+	public static String getOpenId() {
+        String s = UUID.randomUUID().toString();
+        setSessionid(s);
+        return s;
+    }
+	
 	
 	
 	// 判断网络
@@ -404,17 +412,22 @@ public class Tiegao extends Cocos2dxActivity {
 	
 	
  	// 支付接口
+// 	public static void isGamePay(int index) {
+// 		Log.i("main", "isGamePay<><><><>"+index+"");
+// 		Message msg = new Message();
+// 		msg.arg1 = index;
+// 		payHandler.sendMessage(msg);
+// 	}
+// 	static Handler payHandler = new Handler(){
+// 		public void handleMessage(Message msg){ 
+// 			yijieLayer.pay(msg.arg1);
+// 		}
+// 	};
+ 	
  	public static void isGamePay(int index) {
  		Log.i("main", "isGamePay<><><><>"+index+"");
- 		Message msg = new Message();
- 		msg.arg1 = index;
- 		payHandler.sendMessage(msg);
+ 		yijieLayer.pay(index);
  	}
- 	static Handler payHandler = new Handler(){
- 		public void handleMessage(Message msg){ 
- 			yijieLayer.pay(msg.arg1);
- 		}
- 	};
 	
 	
 	

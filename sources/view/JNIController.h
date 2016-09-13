@@ -44,6 +44,9 @@ extern "C"
         // 登陆
         static void isLanding(int index);
         
+        // uuid
+        static std::string getOpenId();
+        
         // 退出
         static void exitGame(int index);
         

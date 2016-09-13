@@ -244,6 +244,9 @@ private:
     void _905CallBack(CCObject* pObj);
     void removeAnimation();
     
+    int num_child;
+    std::string buyClothesStr;
+    void buyClothesMethods();
 };
 
 

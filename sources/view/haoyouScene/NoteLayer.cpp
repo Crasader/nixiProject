@@ -24,6 +24,8 @@ bool NoteLayer::init(){
         return false;
     }
     
+    num_child = 0;
+    
     this->create_view();
     
     return true;
@@ -81,10 +83,9 @@ void NoteLayer::backCallback(CCObject* pSender){
 }
 
 void NoteLayer::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== NoteLayer  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

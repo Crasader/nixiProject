@@ -107,6 +107,7 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         
         CCString* seccionStr;
         seccionStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
+        DATA->getLogin()->setUUid(seccionStr);
         CCLog("<><><><> seccionStr == %s", seccionStr->getCString());
         LOADING->show_loading();
         DATA->setLoginType(1);

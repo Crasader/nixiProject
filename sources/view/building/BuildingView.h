@@ -61,6 +61,8 @@ private:
     void nc_take_income_203(CCObject* pObj);
     
 private:
+    int num_child;
+    
     UnreusedTableView* _tbView;
     int             _phase;
     CCArray*        _floors;

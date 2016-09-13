@@ -28,6 +28,8 @@ bool TotalRankScene::init(){
     if(!BaseScene::init()){
         return false;
     }
+    
+    num_child = 0;
         
     enterBool = false;
     
@@ -1388,10 +1390,9 @@ void TotalRankScene::initClothes(){
 }
 
 void TotalRankScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== TotalRankScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

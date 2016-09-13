@@ -33,6 +33,8 @@ bool VipQingjingScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    num_child = 0;
+    
 //    // 0为未购买 非0已购买 -1通关
 //    int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
     storyIndex = 0;
@@ -98,10 +100,9 @@ void VipQingjingScene::onExit(){
 }
 
 void VipQingjingScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== VipQingjingScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     
@@ -499,10 +500,17 @@ void VipQingjingScene::updatePay(float dt){
 void VipQingjingScene::send109(){
     string orderId = JNIController::getCpOrderId();
     CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    CCString* iapId = CCString::createWithFormat("%d钻石", 0);
+    
+    DATA->onChargeRequest(orderId, iapId->getCString(), 2 * 100, 0);
+    
     NET->buy_fee_story_109(indexStr->getCString(), orderId);
 }
 void VipQingjingScene::_109CallBack(CCObject* pSender){
     LOADING->remove();
+    
+    string orderId = JNIController::getCpOrderId();
+    DATA->onChargeSuccess(orderId);
     
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "购买成功.");

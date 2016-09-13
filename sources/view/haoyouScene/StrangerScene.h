@@ -96,6 +96,7 @@ public:
     
     StrangerTableView* tabLayer;
 
+    int num_child;
     
 public:
     

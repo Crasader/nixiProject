@@ -32,7 +32,6 @@ CCScene* LoginScene::scene() {
 }
 
 bool LoginScene::init() {
-    CCLog("<><><><><>LoginScene::init");
     if (CCLayer::init()) {
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);
@@ -260,11 +259,11 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
     const char* nickname = DATA->getShow()->nickname();
     if (strcmp(nickname, "") == 0) {
         LOADING->remove();
+        
 //        this->addChild(CreateName::create());
         if (_container == NULL) {
             this->create_views();
         }
-        
         this->show_nicknameview();
         AUDIO->first_run_config();
         AUDIO->play_main_bgm();
@@ -289,6 +288,7 @@ void LoginScene::account_regist_callback_903(CCObject *pObj) {
 }
 
 void LoginScene::save_nickname_callback_904(CCObject *pObj) {
+    CCLog("<><><><><> LoginScene::save_nickname_callback_904");
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

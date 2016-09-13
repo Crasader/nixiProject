@@ -101,6 +101,7 @@ public:
     void displayChatItem();
     
 public:
+    int num_child;
     
     CCDictionary* allClothesDic;
     

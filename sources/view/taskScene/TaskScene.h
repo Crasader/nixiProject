@@ -117,6 +117,8 @@ public:
     
     bool historyBool;
     
+    int num_child;
+    
 private:
     void init_contents();
     void nc_phase_up_finished(CCObject* pObj);

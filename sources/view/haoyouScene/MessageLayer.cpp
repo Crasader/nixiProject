@@ -26,6 +26,7 @@ bool MessageLayer::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    num_child = 0;
     
     this->creat_View();
     
@@ -86,10 +87,9 @@ void MessageLayer::backCallBack(CCObject* pSender){
 }
 
 void MessageLayer::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== MessageLayer  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

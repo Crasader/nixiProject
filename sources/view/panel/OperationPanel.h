@@ -58,6 +58,9 @@ private:
     void on_gashapon();
     
 private:
+    
+    int num_child;
+    
     CCPoint             _touchLocation;
     CCLayer*            _content;
     CCSprite*           _panel;

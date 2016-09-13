@@ -42,6 +42,8 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
         return false;
     }
     
+    num_child = 0;
+    
     this->setTouchSwallowEnabled(false);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
@@ -134,10 +136,9 @@ void TaskSettlementLayer2::did_number_stoped4(){
 }
 
 void TaskSettlementLayer2::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== TaskSettlementLayer2  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

@@ -44,6 +44,8 @@ bool TaskLabelColorLayer::init(){
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchEnabled(true);
         
+        num_child = 0;
+        
         the_current_number_of_pages = 0;
         
         _labelArr = CCArray::create();
@@ -211,10 +213,9 @@ bool TaskLabelColorLayer::isDkContainTouchPoint1(CCTouch* touch){
 }
 
 void TaskLabelColorLayer::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== TaskLabelColorLayer  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

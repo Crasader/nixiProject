@@ -109,6 +109,7 @@ public:
     void send109();
     
 public:
+    int num_child;
     
     CCDictionary* allClothesDic;
     

@@ -92,6 +92,8 @@ public:
     int randIndex3;
     int randIndex4;
     
+    int num_child;
+    
     
     CCSprite* kuangSpr1;
     CCSprite* coinSpr;

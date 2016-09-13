@@ -43,6 +43,8 @@ private:
     void btn_right_callback();
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCMenuItemSprite*   _item;

@@ -34,6 +34,8 @@ public:
 private:
     void remove();
     
+    int num_child;
+    
 private:
 };
 

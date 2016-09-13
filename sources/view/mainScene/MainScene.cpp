@@ -69,10 +69,11 @@ bool MainScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    num_child = 0;
+    
     
     if (DATA->getInit_TalkingBool()) {
         DATA->setInit_TalkingBool(false);
-        
         // talkingData初始化玩家信息
         CCString* accountStr = NULL;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -89,7 +90,6 @@ bool MainScene::init(){
             account->setAccountName(accountNameStr->getCString());
         }
     }
-    
     
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -291,10 +291,9 @@ void MainScene::onExit(){
 void MainScene::keyBackClicked(){
     CCLog("===== MMChooseLayer::keyBackClicked");
     if (DATA->current_guide_step() == 0) {
-        int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-        CCLog("===== MMChooseLayer children_num: %d", num_child);
-        if(num_child > 1)
-        {
+        num_child++;
+        CCLog("===== MainScene  children_num: %d", num_child);
+        if (num_child> 1) {
             return;
         }
         
@@ -1329,7 +1328,7 @@ void MainScene::openChat(cocos2d::CCObject *pSender){
     DATA->setChatOut(false);
     if (WS->isConnected()) {
         ChatPanel* panel = ChatPanel::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+        this->addChild(panel, 100);
     }else{
         WS->connect();
     }

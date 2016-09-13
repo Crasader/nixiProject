@@ -37,6 +37,8 @@ private:
     void signin_callback_303();
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     int                 _signin_id;

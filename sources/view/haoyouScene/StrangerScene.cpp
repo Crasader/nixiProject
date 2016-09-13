@@ -29,6 +29,8 @@ bool StrangerScene::init(){
         return false;
     }
     
+    num_child = 0;
+    
     _timeLeft = 0;
 
     
@@ -852,10 +854,9 @@ void StrangerScene::schedule_count_down(float dt) {
 }
 
 void StrangerScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== StrangerScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

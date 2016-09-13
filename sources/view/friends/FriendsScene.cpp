@@ -39,6 +39,8 @@ FriendsScene::~FriendsScene() {
 
 bool FriendsScene::init() {
     if (BaseScene::init()) {
+        num_child = 0;
+        
         CCSprite* background = CCSprite::create("res/pic/haoyoupaihang/main_bg.png");
         background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
         this->addChild(background);
@@ -405,10 +407,9 @@ void FriendsScene::nc_take_energy_807(CCObject *pObj) {
 
 
 void FriendsScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== FriendsScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

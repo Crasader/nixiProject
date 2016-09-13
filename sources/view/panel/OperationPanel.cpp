@@ -31,6 +31,8 @@ OperationPanel::~OperationPanel() {
 
 bool OperationPanel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
         CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
@@ -124,9 +126,9 @@ void OperationPanel::on_gashapon() {
 }
 
 void OperationPanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1) {
+    num_child++;
+    CCLog("===== OperationPanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

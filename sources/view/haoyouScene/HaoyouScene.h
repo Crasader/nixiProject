@@ -106,6 +106,8 @@ public:
     void _321CallBack(CCObject* pObj);
 
 public:
+    int num_child;
+    
     
     CCDictionary* allClothesDic;
     

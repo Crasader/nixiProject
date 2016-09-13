@@ -42,6 +42,8 @@ private:
     void buy_energy_callback_101(CCObject* pObj);
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;

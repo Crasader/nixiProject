@@ -30,6 +30,8 @@ bool GashaponLayer::init(){
     freeBool = false;
     nowIndex = 0;
     
+    num_child = 0;
+    
     allClothesDic = CONFIG->clothes();// 所有衣服
     suitsArr = (CCArray* )DATA->getOperation()->getSuits();
     
@@ -64,10 +66,9 @@ void GashaponLayer::onExit(){
 
 
 void GashaponLayer::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLOG("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== GashaponLayer  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

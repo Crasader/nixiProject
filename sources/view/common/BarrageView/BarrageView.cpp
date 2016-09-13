@@ -40,6 +40,8 @@ BarrageView::~BarrageView() {
 
 bool BarrageView::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
         CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
@@ -76,10 +78,9 @@ void BarrageView::keyBackStatus(float dt){
 }
 
 void BarrageView::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== BarrageView  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

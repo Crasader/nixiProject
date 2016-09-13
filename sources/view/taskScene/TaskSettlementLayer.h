@@ -41,6 +41,8 @@ public:
     void startAnimation(float dt);
 public:
     
+    int num_child;
+    
     bool lingquBool;
     
     CCDictionary* allClothesDic;

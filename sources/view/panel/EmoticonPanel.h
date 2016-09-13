@@ -55,6 +55,8 @@ private:
     void config_cell(CCTableViewCell* cell, int idx);
     
 private:
+    int num_child;
+    
     CCSprite*           _panel;
     CCTableView*        _tv;
 };

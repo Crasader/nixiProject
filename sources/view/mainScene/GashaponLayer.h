@@ -79,6 +79,7 @@ public:
     CCSprite* _bSpr3;
     CCSprite* _zrSpr1; // 妆容
     
+    int num_child;
     
 public:
     

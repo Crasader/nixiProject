@@ -39,6 +39,8 @@ private:
     void buy_energy_callback_101(CCObject* pObj);
     
 private:
+    int num_child;
+    
     CCSprite*           _panel;
     CCEditBox*          _input;
 };

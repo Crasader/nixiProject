@@ -41,6 +41,8 @@ private:
     void on_take_gift(CCMenuItem* btn);
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;

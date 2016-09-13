@@ -31,6 +31,8 @@ public:
     const char* obtain_game_addr();
     CCDictionary* config();
     
+    void setUUid(CCString* uuStr);
+    
 protected:
     
 private:
