@@ -10,6 +10,7 @@
 #include "AppUtil.h"
 #include "FileManager.h"
 
+#define UD_TYPE         "UTYPE"
 #define UD_ACCOUNT      "UDA"
 #define UD_PASSWORD     "UDP"
 #define UD_UUID         "UUID"
@@ -178,12 +179,21 @@ bool ConfigManager::has_saved_account() {
     return !(this->saved_account().compare("") == 0);
 }
 
+int ConfigManager::saved_login_type() {
+    return CCUserDefault::sharedUserDefault()->getIntegerForKey(UD_TYPE);
+}
+
 string ConfigManager::saved_account() {
     return CCUserDefault::sharedUserDefault()->getStringForKey(UD_ACCOUNT);
 }
 
 string ConfigManager::saved_password() {
     return CCUserDefault::sharedUserDefault()->getStringForKey(UD_PASSWORD);
+}
+
+
+void ConfigManager::save_login_type(int type) {
+    CCUserDefault::sharedUserDefault()->setIntegerForKey(UD_TYPE, type);
 }
 
 void ConfigManager::save_account(const char *str) {

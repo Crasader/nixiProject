@@ -97,31 +97,29 @@ void LoginScene::onEnter() {
     
     bool autoLogin = DATA->getAutoLogin();
     bool hasSavedAccount = CONFIG->has_saved_account();
-    if (autoLogin && CONFIG->has_saved_uuid()) {
-//        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
-//        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
-//        this->addChild(logo);
-        
-        LOADING->show_loading();
-        DATA->setLoginType(1);
-        NET->fast_login_900(CONFIG->saved_uuid().c_str(), CONFIG->channelId);
+    if (autoLogin && CONFIG->saved_login_type() == 1) {
+        if (CONFIG->has_saved_uuid()) {
+            LOADING->show_loading();
+            //        DATA->setLoginType(1);
+            CONFIG->save_login_type(1);
+            NET->fast_login_900(CONFIG->saved_uuid().c_str(), CONFIG->channelId);
+        }
     }
-    else if (autoLogin && hasSavedAccount) {
-//        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
-//        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.12f));
-//        this->addChild(logo);
-        
-        LOADING->show_loading();
-        DATA->setLoginType(2);
-        NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
+    else if (autoLogin && CONFIG->saved_login_type() == 2) {
+        if (hasSavedAccount) {
+            LOADING->show_loading();
+            //        DATA->setLoginType(2);
+            CONFIG->save_login_type(2);
+            NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
+        }
     }
     else {
+        DATA->setAutoLogin(false);
         this->create_views();
         this->show_registview();
         this->show_loginview();
-        
-//        this->slide_in_logo();
     }
+    
     
     CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
     CCLabelTTF* lblVersion = CCLabelTTF::create(strVersion->getCString(), DISPLAY->fangzhengFont(), 20.f);
@@ -205,7 +203,8 @@ void LoginScene::fast_login(CCMenuItem *pObj) {
 //    RecommendView::show(this->getScene());
     pObj->setEnabled(false);
     LOADING->show_loading();
-    DATA->setLoginType(1);
+
+    CONFIG->save_login_type(1);
     NET->fast_login_900(DATA->getLogin()->obtain_UUID(), CONFIG->channelId);
 }
 
@@ -218,7 +217,6 @@ void LoginScene::start_login(CCObject *pObj) {
     _temp_account_pwd->retain();
     
     LOADING->show_loading();
-    DATA->setLoginType(1);
     NET->account_login_901(account->getCString(), password->getCString());
 }
 
@@ -236,6 +234,7 @@ void LoginScene::start_regist(CCObject *pObj) {
 
 void LoginScene::fast_login_callback_900(CCObject *pObj) {
     LOADING->remove();
+    
     if (! CONFIG->has_saved_uuid()) {
         CONFIG->save_uuid(DATA->getLogin()->obtain_UUID());
     }
@@ -244,14 +243,13 @@ void LoginScene::fast_login_callback_900(CCObject *pObj) {
 }
 
 void LoginScene::account_login_callback_901(CCObject *pObj) {
-//    if (! CONFIG->has_saved_account()) {
-//        CONFIG->save_account(((CCString*)_temp_account_pwd->objectForKey("account"))->getCString());
-//        CONFIG->save_password(((CCString*)_temp_account_pwd->objectForKey("password"))->getCString());
-//    }
-    const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
-    CONFIG->save_account(account);
-    const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
-    CONFIG->save_password(password);
+    if (! DATA->getAutoLogin()) {
+        CONFIG->save_login_type(2);
+        const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
+        CONFIG->save_account(account);
+        const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();
+        CONFIG->save_password(password);
+    }
     
     NET->login_game_server_902();
 }
@@ -278,6 +276,8 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
 
 void LoginScene::account_regist_callback_903(CCObject *pObj) {
     LOADING->remove();
+    
+    CONFIG->save_login_type(2);
     const char* account = ((CCString*)_temp_account_pwd->objectForKey("account"))->getCString();
     CONFIG->save_account(account);
     const char* password = ((CCString*)_temp_account_pwd->objectForKey("password"))->getCString();

@@ -159,7 +159,7 @@ void DataManager::http_response_handle(int resp_code, string response) {
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), msg);
         // 账号登入失败
-        if (cid == 901 && this->getLoginType() == 2){
+        if (cid == 901){
 //            CONFIG->save_account("");
 //            CONFIG->save_password("");
             this->setAutoLogin(false);

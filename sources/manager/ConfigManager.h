@@ -37,8 +37,10 @@ public: // Export
     string saved_uuid();
     bool has_saved_account();
     
+    int saved_login_type();     // 1游客；2账号
     string saved_account();
     string saved_password();
+    void save_login_type(int type);
     void save_account(const char* str);
     void save_password(const char* str);
 
