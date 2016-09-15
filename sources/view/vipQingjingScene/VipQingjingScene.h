@@ -108,6 +108,8 @@ public:
     void updatePay(float dt);
     void send109();
     
+    void iOS_buy_109();
+    
 public:
     
     CCDictionary* allClothesDic;

@@ -48,7 +48,7 @@ public:
     void buyYiyuangou();
     //
     void printProducts();
-    void printTransactions();
+    void printTransaction(CCStorePaymentTransaction* transaction);
 
 protected:
     void notification_http_error(CCObject* pObj);
