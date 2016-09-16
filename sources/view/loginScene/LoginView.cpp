@@ -8,6 +8,7 @@
 
 #include "LoginView.h"
 #include "DisplayManager.h"
+#include "ConfigManager.h"
 #include "AccountValidate.h"
 #include "PromptLayer.h"
 
@@ -79,6 +80,12 @@ void LoginView::create_view()
     _tf_password->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.46));
     _tf_password->setDelegate(this);
     spt_inputbox->addChild(_tf_password);
+    
+    if (CONFIG->has_saved_account()) {
+        _tf_account->setText(CONFIG->saved_account().c_str());
+        _tf_password->setText(CONFIG->saved_password().c_str());
+    }
+    
     
     //
     CCSprite* login_normal = CCSprite::create("res/pic/loginScene/login_btn_login.png");
