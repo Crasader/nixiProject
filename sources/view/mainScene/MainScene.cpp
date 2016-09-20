@@ -668,6 +668,11 @@ void MainScene::creat_view(){
     san->setPosition(ccp(_layer_3->getContentSize().width* .56f, _layer_3->getContentSize().height* .5f));
     _layer_3->addChild(san);
     
+//    CCSprite* spt2 = CCSprite::create("res/pic/new.png");
+//    spt2->setPosition(ccp(175, 110));
+//    spt2->setTag(173);
+//    haoyou_Item->addChild(spt2);
+    
     
     //---路灯---
     CCSprite* ludeng_spr = CCSprite::create("res/pic/mainScene/ludeng.png");

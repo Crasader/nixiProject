@@ -13,7 +13,7 @@
 #include "NetManager.h"
 #include "PromptLayer.h"
 
-const float NAME_FONT_SIZE = 20;
+const float NAME_FONT_SIZE = 22;
 
 TotalRankTableView::~TotalRankTableView(){}
 

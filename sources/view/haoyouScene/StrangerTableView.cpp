@@ -109,7 +109,7 @@ void StrangerTableView::tableCellTouched(cocos2d::extension::CCTableView* table,
             bg1->removeChildByTag(0X10500, true);
         }
         
-        CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(200, 30), kCCTextAlignmentRight, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
             name1->setPosition(ccp(bg1->getContentSize().width* .68f, bg1->getContentSize().height* .68));
             name1->setColor(ccc3(234, 106, 106));
             name1->setTag(0x10500);
