@@ -86,7 +86,7 @@ void VipQingjingScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "VipQingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::iOS_buy_109), "IOS_BUY_FINISHED", NULL);
     
@@ -99,8 +99,8 @@ void VipQingjingScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     
-    DATA->setChatOut(true);
-    DATA->getChat()->setItems(CCArray::create());
+//    DATA->setChatOut(true);
+//    DATA->getChat()->setItems(CCArray::create());
     
     BaseScene::onExit();
 }
@@ -129,14 +129,14 @@ void VipQingjingScene::creat_view(){
     
     
     // 聊天
-    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
-    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
-    qipao2->setScale(1.02f);
-    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(VipQingjingScene::openChat));
-    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .32f));
-    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
-    menu_chat->setPosition(CCPointZero);
-    this->addChild(menu_chat, 20);
+//    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    qipao2->setScale(1.02f);
+//    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(VipQingjingScene::openChat));
+//    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .32f));
+//    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+//    menu_chat->setPosition(CCPointZero);
+//    this->addChild(menu_chat, 20);
     
     CCSprite* tempKuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
     CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
@@ -370,28 +370,28 @@ void VipQingjingScene::backCallBack(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-void VipQingjingScene::openChat() {
-    // talkingData
-    DATA->onEvent("点击事件", "vip情景界面", "点击聊天");
-    
-    AUDIO->comfirm_effect();
-    DATA->setChatOut(false);
-    if (WS->isConnected()) {
-        ChatPanel* panel = ChatPanel::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
-    }else{
-        WS->connect();
-    }
-}
-
-void VipQingjingScene::displayChatItem(){
-    if (item_chat->isVisible()) {
-        item_chat->setVisible(false);
-    }else{
-        item_chat->setVisible(true);
-    }
-    
-}
+//void VipQingjingScene::openChat() {
+//    // talkingData
+//    DATA->onEvent("点击事件", "vip情景界面", "点击聊天");
+//    
+//    AUDIO->comfirm_effect();
+//    DATA->setChatOut(false);
+//    if (WS->isConnected()) {
+//        ChatPanel* panel = ChatPanel::create();
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+//    }else{
+//        WS->connect();
+//    }
+//}
+//
+//void VipQingjingScene::displayChatItem(){
+//    if (item_chat->isVisible()) {
+//        item_chat->setVisible(false);
+//    }else{
+//        item_chat->setVisible(true);
+//    }
+//    
+//}
 
 void VipQingjingScene::buyCallBack(CCObject* pSender){
     tempItem = (CCMenuItem* )pSender;

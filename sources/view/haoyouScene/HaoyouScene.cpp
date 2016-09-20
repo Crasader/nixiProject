@@ -130,13 +130,13 @@ void HaoyouScene::creat_view(){
     CCSprite* xiaoxiSpr2 = CCSprite::create("res/pic/haoyouScene/hy_xiaoxi.png");
     xiaoxiSpr2->setScale(1.02f);
     _xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
-    _xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .42f));
+    _xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .59f));
     
     CCSprite* zhitiaoSpr1 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
     CCSprite* zhitiaoSpr2 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
     zhitiaoSpr2->setScale(1.02f);
     _zhitiaoItem = CCMenuItemSprite::create(zhitiaoSpr1, zhitiaoSpr2, this, menu_selector(HaoyouScene::zhitiaoCallBack));
-    _zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .30f));
+    _zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .46f));
     
     CCSprite* haoyouSpr1 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");
     CCSprite* haoyouSpr2 = CCSprite::create("res/pic/haoyouScene/hy_haoyou.png");

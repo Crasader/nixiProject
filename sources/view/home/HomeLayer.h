@@ -89,9 +89,9 @@ public:
     CCMenuItem* backItem;
     CCSprite* qiehuanSpr;
     CCMenuItem* qiehuanItem;
-    CCMenuItemSprite* item_chat;
-    void openChat(CCObject* pSender);
-    void displayChatItem();
+//    CCMenuItemSprite* item_chat;
+//    void openChat(CCObject* pSender);
+//    void displayChatItem();
     
     
     void play_music(float dt);

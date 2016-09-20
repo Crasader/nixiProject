@@ -101,8 +101,8 @@ public:
     void quedingCallBack(CCObject* pSender);
     void quxiaoCallBack(CCObject* pSender);
 
-    void openChat();
-    void displayChatItem();
+//    void openChat();
+//    void displayChatItem();
     
     
     void updatePay(float dt);
@@ -118,7 +118,7 @@ public:
     VipQingjingCoverView* qingjingCoverView;
     CCMenuItem* jiantouItem1, *jiantouItem2, *tempItem;
     
-    CCMenuItemSprite* item_chat;
+//    CCMenuItemSprite* item_chat;
     
     int storyIndex;
     int allNumber;

@@ -97,8 +97,8 @@ public:
     
     void qingjingStatus();
     
-    void openChat();
-    void displayChatItem();
+//    void openChat();
+//    void displayChatItem();
     
 public:
     int num_child;
@@ -108,7 +108,7 @@ public:
     QingjingCoverView* qingjingCoverView;
     CCMenuItem* jiantouItem1,* jiantouItem2;
     
-    CCMenuItemSprite*   item_chat;
+//    CCMenuItemSprite*   item_chat;
     
     int storyIndex;
     int renwuIndex;

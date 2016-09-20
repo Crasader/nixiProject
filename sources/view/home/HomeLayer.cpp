@@ -105,7 +105,7 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_705CallBack), "HTTP_FINISHED_705", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::displayChatItem), "CLOSE_CHATPANEL", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::displayChatItem), "CLOSE_CHATPANEL", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::keyBackStatus), .8f);
 }
@@ -115,8 +115,8 @@ void HomeLayer::onExit(){
     this->unscheduleAllSelectors();
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
-    DATA->setChatOut(true);
-    DATA->getChat()->setItems(CCArray::create());
+//    DATA->setChatOut(true);
+//    DATA->getChat()->setItems(CCArray::create());
     
     BaseScene::onExit();
 }
@@ -244,14 +244,14 @@ void HomeLayer::creat_View(){
     this->addChild(buttonMenu, 20);
     
     // 聊天
-    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
-    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
-    qipao2->setScale(1.02f);
-    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HomeLayer::openChat));
-    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
-    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
-    menu_chat->setPosition(CCPointZero);
-    this->addChild(menu_chat, 20);
+//    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    qipao2->setScale(1.02f);
+//    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(HomeLayer::openChat));
+//    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+//    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+//    menu_chat->setPosition(CCPointZero);
+//    this->addChild(menu_chat, 20);
     
     // 切换
     qiehuanSpr = CCSprite::create("res/pic/house/house_qiehuan2.png");
@@ -416,28 +416,28 @@ void HomeLayer::creat_View(){
     sleepItem->runAction(CCSequence::create(CCDelayTime::create(1.2f), spawn3, NULL));
 }
 
-void HomeLayer::openChat(CCObject* pSender) {
-    // talkingData
-    DATA->onEvent("点击事件", "home界面", "点击聊天");
-    
-    AUDIO->comfirm_effect();
-    DATA->setChatOut(false);
-    if (WS->isConnected()) {
-        ChatPanel* panel = ChatPanel::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
-    }else{
-        WS->connect();
-    }
-}
-
-void HomeLayer::displayChatItem(){
-    if (item_chat->isVisible()) {
-        item_chat->setVisible(false);
-    }else{
-        item_chat->setVisible(true);
-    }
-    
-}
+//void HomeLayer::openChat(CCObject* pSender) {
+//    // talkingData
+//    DATA->onEvent("点击事件", "home界面", "点击聊天");
+//    
+//    AUDIO->comfirm_effect();
+//    DATA->setChatOut(false);
+//    if (WS->isConnected()) {
+//        ChatPanel* panel = ChatPanel::create();
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+//    }else{
+//        WS->connect();
+//    }
+//}
+//
+//void HomeLayer::displayChatItem(){
+//    if (item_chat->isVisible()) {
+//        item_chat->setVisible(false);
+//    }else{
+//        item_chat->setVisible(true);
+//    }
+//    
+//}
 
 void HomeLayer::gameCallBack(CCObject* pSender){
     AUDIO->common_effect();

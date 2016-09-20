@@ -111,7 +111,7 @@ public:
     CCSprite* unknow_bar1;
     
     CCMenuItem* haoyou_Item;
-    CCMenuItem* item_chat;
+//    CCMenuItem* item_chat;
     
     CCArray* target_arr;
     
@@ -138,8 +138,8 @@ public:
     void energyLargessCallBack(CCObject* pSender);
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
-    void openChat(CCObject* pSender);
-    void displayChatItem();
+//    void openChat(CCObject* pSender);
+//    void displayChatItem();
     void lingdang_callback(CCObject* pSender);
     void blankCallback();
     
