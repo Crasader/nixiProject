@@ -232,6 +232,9 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::check_free_gashapon), "CHECK_FREE_GASHAPON", NULL);
+    
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::gashaponCallBack), "NEED_SHOW_GASHAPON", NULL);
@@ -250,9 +253,10 @@ void MainScene::onEnter(){
     // guide
     nc->addObserver(this, SEL_CallFuncO(&MainScene::richangMethods), "GuideRichangMethods", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::isTxt_Bar), "GuideIsTxt_Bar", NULL);
-    
+    // 检查最新状态
     this->update_news_status();
-    
+    // 检查是否有可用的免费抽奖
+    this->check_free_gashapon();
     
     this->setArrPlay(this->rand_array(_arrGroup1));
     this->schedule(SEL_SCHEDULE(&MainScene::delayPlay), 10, kCCRepeatForever, 3);
@@ -415,8 +419,7 @@ void MainScene::creat_view(){
     CCSprite* gashapon1 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     gashapon2->setScale(1.02f);
-    CCMenuItem* btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
-//    btnGashapon->setPosition(btnPurchaseAchievement->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
+    _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
 
     // 聊天
     CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -847,7 +850,7 @@ void MainScene::creat_view(){
                                   qiandaoItem,
                                   btnEnergyLargess,
 //                                  btnGashapon,
-                                  btnGashapon,
+                                  _btnGashapon,
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
@@ -2104,13 +2107,27 @@ void MainScene::update_news_status() {
     }
 }
 
+void MainScene::check_free_gashapon() {
+    unsigned long timeLeft = DATA->getOperation()->getFreePoint();
+    if (timeLeft == 0) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setScale(1.5);
+        spt->setPosition(ccp(20, 74));
+        spt->setTag(182);
+        _btnGashapon->addChild(spt);
+    }
+    else {
+        CCNode* hongDian = _btnGashapon->getChildByTag(182);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
+    }
+}
 
 void MainScene::linshiMethod(CCObject *pObj){
     RewardLayer* layer = RewardLayer::create_with_index((CCArray* )pObj);
     this->addChild(layer, 100);
 }
-
-
 
 void MainScene::creat_guideBool(){
     PlayerComp* _player = DATA->getPlayer();
