@@ -44,7 +44,7 @@ IOSIAPManager* IOSIAPManager::Inst() {
         
         CCDictionary* conf = DATA->getLogin()->config();
         CCInteger* formal = (CCInteger*)conf->objectForKey("formal");
-        if (formal->getValue() == 1) {
+        if (formal->getValue() == 0) {
             CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
             CCStore::sharedStore()->setReceiptVerifyServerUrl(SANDBOX_RECEIPT_VERIFY_URL);
         }

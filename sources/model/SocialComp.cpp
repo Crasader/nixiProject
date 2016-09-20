@@ -137,7 +137,7 @@ bool SocialComp::has_send_energy(const char *other_sid) {
 }
 
 int SocialComp::energy_could_take() {
-    return _energy_receive->count() - _energy_token;
+    return _energy_receive->count();
 }
 
 ShowComp* SocialComp::getSelectedStrangerByIndex(int idx) {

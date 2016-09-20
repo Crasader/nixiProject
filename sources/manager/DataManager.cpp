@@ -199,6 +199,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_dressed(content["show"]);
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
             this->start_check_news();
         } break;
             

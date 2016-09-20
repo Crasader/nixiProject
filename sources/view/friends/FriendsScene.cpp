@@ -231,7 +231,7 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         _nodeNormal->addChild(cloth_count);
         
         // 体力
-        CCString* strEnergy = CCString::createWithFormat("收到体力: %d", energyCount);
+        CCString* strEnergy = CCString::createWithFormat("收到体力: %d/30", energyCount);
         CCLabelTTF* lblEnergy = CCLabelTTF::create(strEnergy->getCString(), DISPLAY->fangzhengFont(), 14.f);
         lblEnergy->setAnchorPoint(ccp(0, 0.5));
         lblEnergy->setColor(DISPLAY->defalutColor());
@@ -388,6 +388,8 @@ void FriendsScene::nc_send_energy_803(CCObject *pObj) {
     LOADING->remove();
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "体力赠送成功~");
+    //
+    _listView->update_selected_cell();
 }
 
 void FriendsScene::nc_take_energy_807(CCObject *pObj) {
