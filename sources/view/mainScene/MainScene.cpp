@@ -205,6 +205,7 @@ CCScene* MainScene::scene(){
 void MainScene::onEnter(){
     BaseScene::onEnter();
     this->setAccelerometerEnabled(true); // ?
+    
     CCString* strBGM = AUDIO->getCurBGM();
     if (strBGM && strBGM->compare("MAIN") == 0) {
         
@@ -258,6 +259,8 @@ void MainScene::onEnter(){
     this->update_news_status();
     // 检查是否有可用的免费抽奖
     this->check_free_gashapon();
+    // 每次登入显示一次活动红点
+    this->check_first_on();
     
     this->setArrPlay(this->rand_array(_arrGroup1));
     this->schedule(SEL_SCHEDULE(&MainScene::delayPlay), 10, kCCRepeatForever, 3);
@@ -370,14 +373,14 @@ void MainScene::creat_view(){
     CCSprite* hdSpr1 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     CCSprite* hdSpr2 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     hdSpr2->setScale(1.02f);
-    CCMenuItem* huodongItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::huodongCallBack));
+    _huodongItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::huodongCallBack));
 //    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .54));
 
     // 签到
     CCSprite* qdSpr1 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
     CCSprite* qdSpr2 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
     qdSpr2->setScale(1.02f);
-    CCMenuItem* qiandaoItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(MainScene::qiandaoCallBack));
+    _qiandaoItem = CCMenuItemSprite::create(qdSpr1, qdSpr2, this, menu_selector(MainScene::qiandaoCallBack));
 //    qiandaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .45f));
 
     // 好友
@@ -405,7 +408,7 @@ void MainScene::creat_view(){
     CCSprite* energyLargess1 = CCSprite::create("res/pic/mainScene/btn_energylargess.png");
     CCSprite* energyLargess2 = CCSprite::create("res/pic/mainScene/btn_energylargess.png");
     energyLargess2->setScale(1.02f);
-    CCMenuItem* btnEnergyLargess = CCMenuItemSprite::create(energyLargess1, energyLargess2, this, menu_selector(MainScene::energyLargessCallBack));
+    _btnEnergyLargess = CCMenuItemSprite::create(energyLargess1, energyLargess2, this, menu_selector(MainScene::energyLargessCallBack));
 //    btnEnergyLargess->setPosition(qiandaoItem->getPosition() - ccp(0, DISPLAY->ScreenHeight()* 0.09f));
     
     // 充值成就
@@ -843,13 +846,13 @@ void MainScene::creat_view(){
     
     menu = CCMenu::create(//shouchongItem,
 //                                  _haoyouItem,
-                                  qiandaoItem,
+                                  _qiandaoItem,
                                   huanzhuangItem,
 //                                  paihangItem,
                                   btnPurchaseAchievement,
-                                  huodongItem,
+                                  _huodongItem,
 //                                  qiandaoItem,
-                                  btnEnergyLargess,
+                                  _btnEnergyLargess,
 //                                  btnGashapon,
                                   _btnGashapon,
                                   item_lingdang,
@@ -863,9 +866,9 @@ void MainScene::creat_view(){
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, huodongItem->getContentSize().width, huodongItem->getContentSize().height* 8));
+    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8));
     node = CCClippingNode::create(stencil);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .62f));
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .62f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
@@ -1239,6 +1242,7 @@ void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
         OperationPanel::show();
+        this->check_first_on();
     }
 }
 
@@ -2092,19 +2096,59 @@ void MainScene::update_news_status() {
     NewsComp* news = DATA->getNews();
     if (news->mail > 0) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(80, 60));
+        spt->setPosition(ccp(20, 74));
+        spt->setTag(171);
         xinfeng_spr1->addChild(spt);
     }
-    
+    else {
+        CCNode* hongDian = xinfeng_spr1->getChildByTag(171);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
+    }
+    // 玩家消息
     if (news->paper + news->message > 0) {
-        CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(80, 80));
-        _haoyouItem->addChild(spt);
+//        CCSprite* spt = CCSprite::create("res/pic/new.png");
+//        spt->setPosition(ccp(20, 74));
+//        spt->setTag(172);
+//        _haoyouItem->addChild(spt);
         
         CCSprite* spt2 = CCSprite::create("res/pic/new.png");
-        spt2->setScale(1.08);
         spt2->setPosition(ccp(210, 205));
+        spt2->setTag(173);
         haoyou_Item->addChild(spt2);
+    }
+    else {
+        CCNode* hongDian = haoyou_Item->getChildByTag(173);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
+    }
+    // 体力奖励
+    if (news->energy1 > 0 || news->energy2 > 0) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setPosition(ccp(24, 74));
+        spt->setTag(174);
+        _btnEnergyLargess->addChild(spt);
+    }
+    else {
+        CCNode* hongDian = _btnEnergyLargess->getChildByTag(174);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
+    }
+    // 签到
+    if (DATA->getNews()->signin7 == 1) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setPosition(ccp(20, 74));
+        spt->setTag(175);
+        _qiandaoItem->addChild(spt);
+    }
+    else {
+        CCNode* hongDian = _qiandaoItem->getChildByTag(185);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
     }
 }
 
@@ -2112,7 +2156,6 @@ void MainScene::check_free_gashapon() {
     unsigned long timeLeft = DATA->getOperation()->getFreePoint();
     if (timeLeft == 0) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setScale(1.5);
         spt->setPosition(ccp(20, 74));
         spt->setTag(182);
         _btnGashapon->addChild(spt);
@@ -2123,6 +2166,23 @@ void MainScene::check_free_gashapon() {
             hongDian->removeFromParent();
         }
     }
+}
+
+void MainScene::check_first_on() {
+    if (DATA->getFirstOnMainScene() == true) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setPosition(ccp(20, 74));
+        spt->setTag(183);
+        _huodongItem->addChild(spt);
+    }
+    else {
+        CCNode* hongDian = _huodongItem->getChildByTag(183);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
+    }
+    
+    DATA->setFirstOnMainScene(false);
 }
 
 void MainScene::linshiMethod(CCObject *pObj){

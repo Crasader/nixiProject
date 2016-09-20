@@ -109,7 +109,8 @@ void BuildingLayer::onEnter() {
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
             CoffersComp* coffers = DATA->getCoffers();
             if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
-                this->show_arrow();
+//                this->show_arrow();
+                this->show_building();
             }
         }
     }
@@ -334,7 +335,8 @@ void BuildingLayer::on_phaseup_finish(CCNode* node) {
     
     CoffersComp* coffers = DATA->getCoffers();
     if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
-        this->show_arrow();
+//        this->show_arrow();
+        this->show_building();
     }
 
     schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
