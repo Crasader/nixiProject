@@ -26,6 +26,7 @@ public:
     static CCSprite* num_sprite(int num);
     
     void unseleted_cells();
+    void update_selected_cell();
     
 public:
     ~FriendsListView();

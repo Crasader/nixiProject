@@ -110,7 +110,8 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         DATA->getLogin()->setUUid(seccionStr);
         CCLog("<><><><> seccionStr == %s", seccionStr->getCString());
         LOADING->show_loading();
-        DATA->setLoginType(1);
+//        DATA->setLoginType(1);
+        CONFIG->save_login_type(1);
         NET->fast_login_900(seccionStr->getCString(), CONFIG->channelId);
     }else if (JNIController::getLandStatus() == 2){
         JNIController::setLandStatus(0);

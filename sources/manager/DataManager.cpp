@@ -43,6 +43,7 @@ DataManager* DataManager::Inst() {
 void DataManager::init_data() {
     this->setRefreshTimeStampe(0);
     this->setAutoLogin(true);
+    this->setHasLogin(false);
     
     this->setLogin(LoginComp::create());
     this->setPlayer(PlayerComp::create());
@@ -136,6 +137,14 @@ void DataManager::http_response_error(int code, string msg) {
 void DataManager::http_response_handle(int resp_code, string response) {
     if (200 != resp_code) {
         CCLOG("DataManager::http_response_handle() - HTTP response status code: %d.", resp_code);
+        if (getHasLogin() == false){ // 账号登入失败
+            this->setAutoLogin(false);
+            CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+        }
+        else {
+        
+        }
+        
         return;
     }
     
@@ -162,11 +171,13 @@ void DataManager::http_response_handle(int resp_code, string response) {
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), msg);
         // 账号登入失败
-        if (cid == 901 && this->getLoginType() == 2){
-//            CONFIG->save_account("");
-//            CONFIG->save_password("");
+        if (cid == 901){
             this->setAutoLogin(false);
-            CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+            this->setHasLogin(false);
+            CCScene* loginScene = LoginScene::scene();
+            CCDirector::sharedDirector()->replaceScene(loginScene);
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(loginScene, msg);
         }
     }
 }
@@ -191,6 +202,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_dressed(content["show"]);
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
             this->start_check_news();
         } break;
             
@@ -543,6 +555,7 @@ void DataManager::update(float dt) {
 
 void DataManager::relogin() {
     WS->disconnect();
+    this->setHasLogin(false);
     CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
 }
 

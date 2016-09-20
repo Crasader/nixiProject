@@ -224,31 +224,32 @@ void PurchasePanel::remove() {
 void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     ProductItem* pro = (ProductItem* )item->getUserObject();
     CCLOG("clicked %s", pro->id.c_str());
-/*
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
-//    LOADING->show_loading();
-    IOSIAPManager* d = IOSIAPManager::Inst();
-    if (d->canMakePurchases()) {
-        CCLOG("can purchases");
-        d->buyProduct(pro->id.c_str());
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if (true) {
+        LOADING->show_loading();
+        IOSIAPManager* d = IOSIAPManager::Inst();
+        if (d->canMakePurchases()) {
+            CCLOG("can purchases");
+            d->buyProduct(pro->id.c_str());
+        }
+        else {
+            LOADING->remove();
+            CCLOG("can not purchases");
+        }
     }
     else {
-        CCLOG("can not purchases");
+        LOADING->show_loading();
+        string orderId = "";
+        
+        string orderId2 = DATA->getLogin()->obtain_UUID();
+        string productId = pro->id.c_str();
+        CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
+        DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
+        
+        NET->verify_order_iOS_107(orderId, pro->id);
     }
-#endif
-*/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    LOADING->show_loading();
-    string orderId = "";
-    
-    string orderId2 = DATA->getLogin()->obtain_UUID();
-    string productId = pro->id.c_str();
-    CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
-    DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
-    
-    NET->verify_order_iOS_107(orderId, pro->id);
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (CONFIG->baiOrYijie == 0) {// 白包
         LOADING->show_loading();
         string orderId = "";
@@ -273,6 +274,7 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
 #endif
     
 }
+
 void PurchasePanel::send105(){
     
     CCLog("<><><><><><> send105");

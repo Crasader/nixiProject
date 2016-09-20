@@ -311,6 +311,12 @@ void FriendsListView::unseleted_cells() {
     }
 }
 
+void FriendsListView::update_selected_cell() {
+    if (_seletedIndex >= 0) {
+        _tv->updateCellAtIndex(_seletedIndex);
+    }
+}
+
 void FriendsListView::on_btn_send_energy(CCMenuItem *menuItem) {
     LOADING->show_loading();
     CCString* otherId = (CCString*)menuItem->getUserObject();
