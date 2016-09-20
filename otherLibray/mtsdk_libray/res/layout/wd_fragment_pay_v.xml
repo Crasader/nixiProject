@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/wd_color_white">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <!-- 竖屏 -->
+        <LinearLayout
+                android:id="@+id/wd_ll_pay_details_v"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/wd_margin_15">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/wd_margin_12"
+                    android:paddingLeft="@dimen/wd_margin_12">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前账号: "
+                        android:textSize="@dimen/wd_text_size_14"
+                        android:textColor="@color/wd_color_gray_6"/>
+
+                <TextView
+                        android:id="@+id/wd_tv_pay_username_v"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="xxxxx"
+                        android:textSize="@dimen/wd_text_size_14"
+                        android:textColor="@color/wd_color_blue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/wd_margin_12"
+                    android:paddingLeft="@dimen/wd_margin_12">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="应付金额: "
+                        android:textSize="@dimen/wd_text_size_14"
+                        android:textColor="@color/wd_color_gray_6"/>
+
+                <TextView
+                        android:id="@+id/wd_tv_pay_money_v"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="xxxxx"
+                        android:textSize="@dimen/wd_text_size_14"
+                        android:textColor="@color/wd_color_yellow_2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/wd_margin_12"
+                    android:paddingLeft="@dimen/wd_margin_12"
+                    android:paddingBottom="@dimen/wd_margin_12">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品名称: "
+                        android:textSize="@dimen/wd_text_size_14"
+                        android:textColor="@color/wd_color_gray_6"/>
+
+                <TextView
+                        android:id="@+id/wd_tv_pay_tradename_v"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="xxxxx"
+                        android:textColor="@color/wd_color_gray_6"
+                        android:textSize="@dimen/wd_text_size_14"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 支付列表-->
+        <LinearLayout
+                android:id="@+id/wd_ll_pay_list_v"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/wd_ll_pay_details_v"
+                android:layout_weight="1">
+
+            <LinearLayout
+                    android:id="@+id/wd_ll_pay_method_v"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/wd_margin_13"
+                    android:background="@color/wd_color_gray">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请选择支付方式"
+                        android:textSize="@dimen/wd_text_size_16"
+                        android:paddingLeft="@dimen/wd_margin_13"
+                        android:textColor="@color/wd_color_black_6"/>
+
+            </LinearLayout>
+
+            <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                >
+
+                    <RelativeLayout
+                            android:id="@+id/wd_rl_pay_alipay_v"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/wd_bg_pay_blue_selector"
+                            android:paddingLeft="@dimen/wd_margin_10"
+                    >
+
+                        <ImageView
+                                android:id="@+id/wd_ic_pay_alipay_v"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/wd_ic_pay_alipay"
+                                android:layout_margin="@dimen/wd_margin_18"
+                                android:layout_centerVertical="true"
+                        />
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="支付宝"
+                                android:textSize="@dimen/wd_text_size_18"
+                                android:textColor="@color/wd_color_black_7"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/wd_ic_pay_alipay_v"
+                                />
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/wd_ic_pay_right_arrows"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/wd_margin_30"
+                        />
+
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/wd_color_gray_3"/>
+
+                    <RelativeLayout
+                            android:id="@+id/wd_rl_pay_wxpay_v"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/wd_bg_pay_white_selector"
+                            android:paddingLeft="10dp"
+                    >
+
+                        <ImageView
+                                android:id="@+id/wd_ic_pay_wxpay_v"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/wd_ic_pay_wxpay"
+                                android:layout_margin="@dimen/wd_margin_18"
+                                android:layout_centerVertical="true"
+                        />
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="微信"
+                                android:textSize="@dimen/wd_text_size_18"
+                                android:textColor="@color/wd_color_black_7"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/wd_ic_pay_wxpay_v"/>
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/wd_ic_pay_right_arrows"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/wd_margin_30"
+                        />
+
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/wd_color_gray_3"/>
+
+                    <RelativeLayout
+                            android:id="@+id/wd_rl_pay_tenpay_v"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/wd_bg_pay_white_selector"
+                            android:paddingLeft="10dp"
+                    >
+
+                        <ImageView
+                                android:id="@+id/wd_ic_pay_tenpay_v"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/wd_ic_pay_tenpay"
+                                android:layout_margin="@dimen/wd_margin_18"
+                                android:layout_centerVertical="true"
+                        />
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="财付通"
+                                android:textSize="@dimen/wd_text_size_18"
+                                android:textColor="@color/wd_color_black_7"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/wd_ic_pay_tenpay_v"/>
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/wd_ic_pay_right_arrows"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/wd_margin_30"
+                        />
+
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/wd_color_gray_3"/>
+
+                    <RelativeLayout
+                            android:id="@+id/wd_rl_pay_umpay_v"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/wd_bg_pay_white_selector"
+                            android:paddingLeft="10dp"
+                    >
+
+                        <ImageView
+                                android:id="@+id/wd_ic_pay_umpay_v"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/wd_ic_pay_umpay"
+                                android:layout_margin="@dimen/wd_margin_18"
+                                android:layout_centerVertical="true"
+                        />
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="银联"
+                                android:textSize="@dimen/wd_text_size_18"
+                                android:textColor="@color/wd_color_black_7"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/wd_ic_pay_umpay_v"/>
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/wd_ic_pay_right_arrows"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/wd_margin_30"
+                        />
+
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/wd_color_gray_3"/>
+
+
+                    <RelativeLayout
+                            android:id="@+id/wd_rl_pay_jdpay_v"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/wd_bg_pay_white_selector"
+                            android:paddingLeft="10dp"
+                    >
+                        <ImageView
+                                android:id="@+id/wd_ic_pay_jdpay_v"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/wd_ic_pay_jdpay"
+                                android:layout_margin="@dimen/wd_margin_18"
+                                android:layout_centerVertical="true"
+                        />
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="京东支付"
+                                android:textSize="@dimen/wd_text_size_18"
+                                android:textColor="@color/wd_color_black_7"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/wd_ic_pay_jdpay_v"/>
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/wd_ic_pay_right_arrows"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/wd_margin_30"
+                        />
+
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/wd_color_gray_3"/>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <!-- 客服 -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@color/wd_color_blue">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="客服联系方式 ：020-66608191转91"
+                    android:layout_marginLeft="@dimen/wd_margin_10"
+                    android:textColor="@color/wd_color_white"
+                    android:textSize="@dimen/wd_text_size_15"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

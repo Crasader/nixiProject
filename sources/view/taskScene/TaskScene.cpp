@@ -743,7 +743,9 @@ void TaskScene::startCallBack(CCObject* pSender){
 void TaskScene::_startCallBack(CCObject* pSender){
     LOADING->remove();
     
-    CCString* taskStr = CCString::createWithFormat("%d", taskIndex);
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(taskIndex-1);
+    int id = dic->valueForKey("id")->intValue();
+    CCString* taskStr = CCString::createWithFormat("%d", id);
     DATA->onBegin(taskStr->getCString());
     
     CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);

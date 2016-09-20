@@ -202,7 +202,7 @@ void LoginScene::show_nicknameview() {
 
 void LoginScene::fast_login(CCMenuItem *pObj) {
 //    RecommendView::show(this->getScene());
-    
+    pObj->setEnabled(false);
     LOADING->show_loading();
     DATA->setLoginType(1);
     NET->fast_login_900(DATA->getLogin()->obtain_UUID(), CONFIG->channelId);

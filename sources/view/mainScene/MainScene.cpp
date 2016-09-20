@@ -91,6 +91,7 @@ bool MainScene::init(){
         }
     }
     
+    
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);

@@ -261,7 +261,7 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         NET->verify_order_iOS_107(orderId, pro->id);
     }else if (CONFIG->baiOrYijie == 1){// 易接
         LOADING->show_loading();
-        JNIController::setMoneyStatus(pro->money);
+        JNIController::setMoneyStatus(pro->money * 100);
         JNIController::setGoldStatus(pro->diam);
         JNIController::setPlayerName(DATA->getShow()->nickname());
         JNIController::setProductId(pro->id.c_str());
@@ -274,13 +274,13 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     
 }
 void PurchasePanel::send105(){
-    LOADING->show_loading();
     
+    CCLog("<><><><><><> send105");
     string orderId = JNIController::getCpOrderId();
     string productId = JNIController::getProductId();
     CCString* iapId = CCString::createWithFormat("%d钻石", JNIController::getGoldStatus());
     
-    DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus(), JNIController::getGoldStatus());
+    DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus()/100, JNIController::getGoldStatus());
     
     
     NET->verify_order_android_105(orderId, productId);
@@ -290,9 +290,11 @@ void PurchasePanel::updatePay(float dt){
     if (JNIController::getSmsStatus() == 1) {
         JNIController::setSmsStatus(0);
         CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
-
+        CCLog("<><><><><><> updatePay");
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
-        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 5.f);
+        
+        LOADING->show_loading();
+        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
     }else if (JNIController::getSmsStatus() == 2) {
         LOADING->remove();
         

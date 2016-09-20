@@ -3135,7 +3135,10 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
 //    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
 //    CCDirector::sharedDirector()->replaceScene(trans);
     
-    CCString* taskStr = CCString::createWithFormat("%d", getTaskId(task_index - 1));
+    CCArray* taskArr = DATA->getTaskSource();
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index - 1);
+    int id = dic->valueForKey("id")->intValue();
+    CCString* taskStr = CCString::createWithFormat("%d", id);
     DATA->onCompleted(taskStr->getCString());
     
     CCScene* scene = CCScene::create();
