@@ -207,6 +207,7 @@ public:
 private:
     void update_news_status();
     void check_free_gashapon();
+    void check_first_on();
     CCArray* rand_array(CCArray* arr);
     void play(CCSprite* spt);
     void delayPlay(float dt);
@@ -215,8 +216,11 @@ private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;
     CCMenuItem*         _shezhiItem;
+    CCMenuItem*         _qiandaoItem;
+    CCMenuItem*         _huodongItem;
     
     CCMenuItem*         _btnGashapon;
+    CCMenuItem*         _btnEnergyLargess;
     
     CCClippingNode*     node;
     CCMenu*             menu;

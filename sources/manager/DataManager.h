@@ -80,6 +80,7 @@ public:
     CC_SYNTHESIZE(int, _autoLogin, AutoLogin);
 //    CC_SYNTHESIZE(int, _loginType, LoginType);    // 1游客；2账号
     CC_SYNTHESIZE(bool, _hasLogin, HasLogin);       // 是否完成登入
+    CC_SYNTHESIZE(bool, _firstOnMainScene, FirstOnMainScene);       // 是否首次进入主界面
     // 剧情选中数
     CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
     CC_SYNTHESIZE(bool, chapterNumberBool, ChapterNumberBool);

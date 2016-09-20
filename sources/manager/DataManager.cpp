@@ -204,6 +204,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             this->start_check_news();
+            
+            this->setFirstOnMainScene(true);
         } break;
             
         case 903: {
@@ -619,8 +621,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-        return _player->getGuide();
-//        return 0;
+//        return _player->getGuide();
+        return 0;
     }
     else {
         return 0;
