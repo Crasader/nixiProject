@@ -2096,7 +2096,7 @@ void MainScene::update_news_status() {
     NewsComp* news = DATA->getNews();
     if (news->mail > 0) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(20, 74));
+        spt->setPosition(ccp(26, 54));
         spt->setTag(171);
         xinfeng_spr1->addChild(spt);
     }
@@ -2125,7 +2125,7 @@ void MainScene::update_news_status() {
         }
     }
     // 体力奖励
-    if (news->energy1 > 0 || news->energy2 > 0) {
+    if (news->energy1 == 1 || news->energy2 == 1) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(24, 74));
         spt->setTag(174);
