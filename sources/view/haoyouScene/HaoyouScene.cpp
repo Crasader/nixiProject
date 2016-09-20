@@ -99,8 +99,8 @@ void HaoyouScene::onExitTransitionDidStart() {
     if (this->getChildByTag(0x1008)) {
         this->removeChildByTag(0x1008, true);
     }
-    DATA->setChatOut(true);
-    DATA->getChat()->setItems(CCArray::create());
+//    DATA->setChatOut(true);
+//    DATA->getChat()->setItems(CCArray::create());
     CCLOG("onExitTransitionDidStart");
     CCLayer::onExitTransitionDidStart();
 }

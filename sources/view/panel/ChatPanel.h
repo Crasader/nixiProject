@@ -76,6 +76,7 @@ private:
     CCLabelTTF* _text_lab;
     CCClippingNode* _node;
     bool isCanClose;
+    bool isOpen;
 };
 
 #endif /* ChatPanel_hpp */

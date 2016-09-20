@@ -28,6 +28,7 @@ bool ChatPanel::init(){
     }
     
     isCanClose = true;
+    isOpen = false;
     if (!DATA->getBeginTime()) {
         DATA->setBeginTime(-1);
     }
@@ -213,8 +214,8 @@ void ChatPanel::initTopMessage(){
 }
 
 void ChatPanel::closeChatPanel(){
-    DATA->setChatOut(true);
-    DATA->getChat()->setItems(CCArray::create());
+//    DATA->setChatOut(true);
+//    DATA->getChat()->setItems(CCArray::create());
     
     if (_input_text->detachWithIME()) {
         
@@ -263,12 +264,21 @@ void ChatPanel::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
 
 void ChatPanel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
     CCPoint pos = _panel_bg->convertToNodeSpace(pTouch->getLocation());
+//    if (_input_bg->boundingBox().containsPoint(pos)) {
+//        _input_text->attachWithIME();
+//        isCanClose = false;
+//    }else{
+//        _input_text->detachWithIME();
+//        isCanClose = true;
+//    }
     if (_input_bg->boundingBox().containsPoint(pos)) {
-        _input_text->attachWithIME();
-        isCanClose = false;
-    }else{
+        if (isOpen) {
+            
+        }else{
+            _input_text->attachWithIME();
+        }
+    }else {
         _input_text->detachWithIME();
-        isCanClose = true;
     }
 }
 
@@ -278,6 +288,7 @@ void ChatPanel::show_panel(){
 
 bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
     this->setTouchSwallowEnabled(true);
+    isOpen = true;
     CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f + 350));
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
     
@@ -286,6 +297,7 @@ bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
 
 bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
     this->setTouchSwallowEnabled(false);
+    isOpen = false;
     CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f));
     _panel_bg->stopAllActions();
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
