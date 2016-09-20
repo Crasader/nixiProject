@@ -52,6 +52,7 @@ void LogoScene::creat_view(){
     this->scheduleOnce(SEL_SCHEDULE(&LogoScene::next_scene), 1.f);
 }
 void LogoScene::next_scene(){
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->replaceScene(pScene);

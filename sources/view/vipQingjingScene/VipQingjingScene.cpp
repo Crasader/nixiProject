@@ -45,10 +45,66 @@ bool VipQingjingScene::init(){
     allNumber = 0;
     theEndBool = false;
     
+    
+    CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
+    CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
+    backSpr2->setScale(1.02f);
+    CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(VipQingjingScene::backCallBack));
+    backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
+    
+    CCMenu* menu = CCMenu::create(backItem, NULL);
+    menu->setPosition(CCPointZero);
+    this->addChild(menu, 20);
+    
+    // 聊天
+    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+    qipao2->setScale(1.02f);
+    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(VipQingjingScene::openChat));
+    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .32f));
+    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
+    menu_chat->setPosition(CCPointZero);
+    this->addChild(menu_chat, 20);
+    
+    
     selectedIndex = DATA->getChapterNumber();
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-    allNumber = taskConditionsDic->count();
+//    allNumber = taskConditionsDic->count();
+    
+    
+    int dicCount = taskConditionsDic->count()/3;
+    for (int i = 0; i < dicCount; i++) {
+        CCString* story_index = CCString::createWithFormat("%d", i*3);
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+        if (tempIndex == 0) {
+            if (i < dicCount-1) {
+                allNumber = (i*3) + 1;
+            }else{
+                allNumber = taskConditionsDic->count();
+            }
+            break;
+        }else{
+            allNumber = taskConditionsDic->count();
+        }
+    }
+    
+    // 0为未购买 非0已购买 -1通关
+    int tempIndex1 = DATA->getStory()->story2_state("0");
+    if (tempIndex1 != 0) {
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex2 = DATA->getStory()->story2_state("1");
+        if (tempIndex2 == 0) {
+            CCString* indexStr1 = CCString::createWithFormat("%d", 1);
+            NET->buy_story2_505(indexStr1->getCString());
+            
+            CCString* indexStr2 = CCString::createWithFormat("%d", 2);
+            NET->buy_story2_505(indexStr2->getCString());
+        }
+    }
+    
+    
     
     DATA->setChapterNumber(0);
     
@@ -116,27 +172,22 @@ void VipQingjingScene::keyBackClicked(){
 }
 
 void VipQingjingScene::creat_view(){
+    if (this->getChildByTag(0x99999) != NULL) {
+        this->removeChildByTag(0x99999);
+    }
+    if (this->getChildByTag(0x11111) != NULL) {
+        this->removeChildByTag(0x11111);
+    }
+    if (this->getChildByTag(0x22222) != NULL) {
+        this->removeChildByTag(0x22222);
+    }
+    if (this->getChildByTag(0x77777) != NULL) {
+        this->removeChildByTag(0x77777);
+    }
+    if (this->getChildByTag(0x33333) != NULL) {
+        this->removeChildByTag(0x33333);
+    }
     
-    CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
-    CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
-    backSpr2->setScale(1.02f);
-    CCMenuItem* backItem = CCMenuItemSprite::create(backSpr1, backSpr2, this, menu_selector(VipQingjingScene::backCallBack));
-    backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
-    
-    CCMenu* menu = CCMenu::create(backItem, NULL);
-    menu->setPosition(CCPointZero);
-    this->addChild(menu, 20);
-    
-    
-    // 聊天
-    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
-    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
-    qipao2->setScale(1.02f);
-    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(VipQingjingScene::openChat));
-    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .32f));
-    CCMenu* menu_chat = CCMenu::create(item_chat, NULL);
-    menu_chat->setPosition(CCPointZero);
-    this->addChild(menu_chat, 20);
     
     CCSprite* tempKuangSpr = CCSprite::create("res/pic/qingjingScene/qj_dikuang.png");
     CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
@@ -163,6 +214,7 @@ void VipQingjingScene::creat_view(){
     
     CCMenu* jiantouMenu = CCMenu::create(jiantouItem1, jiantouItem2, NULL);
     jiantouMenu->setPosition(CCPointZero);
+    jiantouMenu->setTag(0x33333);
     this->addChild(jiantouMenu, 20);
     jiantouItem1->setColor(ccGRAY);
     jiantouItem1->setEnabled(false);
@@ -281,8 +333,8 @@ void VipQingjingScene::creat_view(){
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
             startItem->setTag(i);
             
-            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart3.png");
-            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart3.png");
+            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
             buySpr2->setScale(1.02f);
             buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
             buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
@@ -410,30 +462,35 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
         if (tongguanBool) {
             AUDIO->comfirm_effect();
             
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            if (true) {
-                LOADING->show_loading();
-                IOSIAPManager* d = IOSIAPManager::Inst();
-                if (d->canMakePurchases()) {
-                    CCLOG("can purchases");
-                    d->buyProduct("tiegao_story");
-                }
-                else {
-                    LOADING->remove();
-                    CCLOG("can not purchases");
-                }
-            }
-            else {
-                LOADING->show_loading();
-                CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-                NET->buy_story2_505(indexStr->getCString());
-            }
-            
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+//            if (true) {
+//                LOADING->show_loading();
+//                IOSIAPManager* d = IOSIAPManager::Inst();
+//                if (d->canMakePurchases()) {
+//                    CCLOG("can purchases");
+//                    d->buyProduct("tiegao_story");
+//                }
+//                else {
+//                    LOADING->remove();
+//                    CCLOG("can not purchases");
+//                }
+//            }
+//            else {
+//                LOADING->show_loading();
+//                CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+//                NET->buy_story2_505(indexStr->getCString());
+//            }
+//            
+//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
             if (CONFIG->baiOrYijie == 0) {// 白包
                 LOADING->show_loading();
-                CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-                NET->buy_story2_505(indexStr->getCString());
+                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                NET->buy_story2_505(indexStr1->getCString());
+                CCString* indexStr2 = CCString::createWithFormat("%d", storyIndex+1);
+                NET->buy_story2_505(indexStr2->getCString());
+                CCString* indexStr3 = CCString::createWithFormat("%d", storyIndex+2);
+                NET->buy_story2_505(indexStr3->getCString());
+                
             }else if (CONFIG->baiOrYijie == 1){// 易接
                 LOADING->show_loading();
                 JNIController::setMoneyStatus(2 * 100);
@@ -446,7 +503,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
                 
                 this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
             }
-#endif
+//#endif
         }else {
             CCSprite* tskSpr = CCSprite::create("res/pic/common/ah_box_message.png");
             tskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
@@ -477,30 +534,34 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
     }else{
         AUDIO->comfirm_effect();
         
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        if (true) {
-            LOADING->show_loading();
-            IOSIAPManager* d = IOSIAPManager::Inst();
-            if (d->canMakePurchases()) {
-                CCLOG("can purchases");
-                d->buyProduct("tiegao_story");
-            }
-            else {
-                LOADING->remove();
-                CCLOG("can not purchases");
-            }
-        }
-        else {
-            LOADING->show_loading();
-            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-            NET->buy_story2_505(indexStr->getCString());
-        }
-        
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+//        if (true) {
+//            LOADING->show_loading();
+//            IOSIAPManager* d = IOSIAPManager::Inst();
+//            if (d->canMakePurchases()) {
+//                CCLOG("can purchases");
+//                d->buyProduct("tiegao_story");
+//            }
+//            else {
+//                LOADING->remove();
+//                CCLOG("can not purchases");
+//            }
+//        }
+//        else {
+//            LOADING->show_loading();
+//            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+//            NET->buy_story2_505(indexStr->getCString());
+//        }
+//        
+//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         if (CONFIG->baiOrYijie == 0) {// 白包
             LOADING->show_loading();
-            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-            NET->buy_story2_505(indexStr->getCString());
+            CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+            NET->buy_story2_505(indexStr1->getCString());
+            CCString* indexStr2 = CCString::createWithFormat("%d", storyIndex+1);
+            NET->buy_story2_505(indexStr2->getCString());
+            CCString* indexStr3 = CCString::createWithFormat("%d", storyIndex+2);
+            NET->buy_story2_505(indexStr3->getCString());
         }else if (CONFIG->baiOrYijie == 1){// 易接
             
             JNIController::setMoneyStatus(2 * 100);
@@ -513,7 +574,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             
             this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
         }
-#endif
+//#endif
     }
 }
 void VipQingjingScene::updatePay(float dt){
@@ -610,11 +671,14 @@ void VipQingjingScene::_505CallBack(CCObject* pSender){
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "购买成功.");
     
-    CCMenu* menu = (CCMenu* )tempItem->getParent();
-    CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
-    CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);
-    startItem->setVisible(true);
-    buyItem->setVisible(false);
+//    CCMenu* menu = (CCMenu* )tempItem->getParent();
+//    CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
+//    CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);
+//    startItem->setVisible(true);
+//    buyItem->setVisible(false);
+    
+    storyIndex = 0;
+    creat_view();
 }
 
 void VipQingjingScene::startCallBack(CCObject* pSender){
@@ -1241,24 +1305,46 @@ void VipQingjingScene::closeButton(){
 }
 void VipQingjingScene::updataButton(){
     selectedIndex = DATA->getChapterNumber();
-    if (selectedIndex == allNumber-1) {
-        theEndBool = true;
-        jiantouItem2->setColor(ccGRAY);
-        jiantouItem2->setEnabled(true);
-        jiantouItem1->setColor(ccWHITE);
-        jiantouItem1->setEnabled(true);
-    }else if (selectedIndex == 0){
-        theEndBool = false;
-        jiantouItem1->setColor(ccGRAY);
-        jiantouItem1->setEnabled(false);
-        jiantouItem2->setColor(ccWHITE);
-        jiantouItem2->setEnabled(true);
+    if (allNumber > 1) {
+        if (selectedIndex == allNumber-1) {
+            theEndBool = true;
+            jiantouItem2->setColor(ccGRAY);
+            jiantouItem2->setEnabled(true);
+            jiantouItem1->setColor(ccWHITE);
+            jiantouItem1->setEnabled(true);
+        }else if (selectedIndex == 0){
+            theEndBool = false;
+            jiantouItem1->setColor(ccGRAY);
+            jiantouItem1->setEnabled(false);
+            jiantouItem2->setColor(ccWHITE);
+            jiantouItem2->setEnabled(true);
+        }else{
+            theEndBool = false;
+            jiantouItem1->setColor(ccWHITE);
+            jiantouItem1->setEnabled(true);
+            jiantouItem2->setColor(ccWHITE);
+            jiantouItem2->setEnabled(true);
+        }
     }else{
-        theEndBool = false;
-        jiantouItem1->setColor(ccWHITE);
-        jiantouItem1->setEnabled(true);
-        jiantouItem2->setColor(ccWHITE);
-        jiantouItem2->setEnabled(true);
+        if (selectedIndex == allNumber-1) {
+            theEndBool = true;
+            jiantouItem2->setColor(ccGRAY);
+            jiantouItem2->setEnabled(true);
+            jiantouItem1->setColor(ccGRAY);
+            jiantouItem1->setEnabled(true);
+        }else if (selectedIndex == 0){
+            theEndBool = false;
+            jiantouItem1->setColor(ccGRAY);
+            jiantouItem1->setEnabled(false);
+            jiantouItem2->setColor(ccWHITE);
+            jiantouItem2->setEnabled(true);
+        }else{
+            theEndBool = false;
+            jiantouItem1->setColor(ccWHITE);
+            jiantouItem1->setEnabled(true);
+            jiantouItem2->setColor(ccWHITE);
+            jiantouItem2->setEnabled(true);
+        }
     }
 }
 void VipQingjingScene::updataMan(){

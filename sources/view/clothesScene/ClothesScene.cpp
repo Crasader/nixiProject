@@ -928,7 +928,13 @@ void ClothesScene::renwukuangCallBack(CCObject* pSender){
     }else if (buttonTag == Tag_CL_XieZi){
         
         isClothesType = Tag_CL_XieZi;
-        renwukuangMethods(isClothesType);
+        if (renwukuangMethodsBool) {
+            renwukuangMethodsBool = false;
+            creat_ViewMethods(isClothesType);
+        }else{
+            renwukuangMethodsBool = true;
+            renwukuangMethods(isClothesType);
+        }
     }else if (buttonTag == Tag_CL_ShiPin){
         
         isClothesType = Tag_CL_ShiPin;
@@ -1378,6 +1384,12 @@ void ClothesScene::startMethods(){
             }
             
             this->buyClothesMethods();
+            
+            
+            if (DATA->current_guide_step() == 4){
+                // talkingData
+                DATA->onEvent("引导事件", "引导界面", "完成引导第4步");
+            }
             
             startTask = true;
             LOADING->show_loading();

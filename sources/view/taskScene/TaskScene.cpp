@@ -861,6 +861,9 @@ void TaskScene::openTaskStoryScene(){
             _player->setGuide(3);
         }
         
+        // talkingData
+        DATA->onEvent("引导事件", "引导界面", "完成引导第2步");
+        
         LOADING->show_loading();
         NET->update_guide_905(_player->getGuide());
     }
@@ -870,6 +873,13 @@ void TaskScene::_905status(){
 }
 void TaskScene::_905CallBack(CCObject* pSender){
     if (!_905Bool) {
+        
+        PlayerComp* _player = DATA->getPlayer();
+        if (_player->getGuide() == 3) {
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第3步");
+        }
+        
         CCScene* scene = TaskStoryScene::scene();
         CCDirector::sharedDirector()->replaceScene(scene);
     }

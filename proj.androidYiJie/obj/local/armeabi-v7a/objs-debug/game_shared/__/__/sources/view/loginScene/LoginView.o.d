@@ -235,6 +235,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/loginScene/Login
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/manager/DisplayManager.h \
+ jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/loginScene/AccountValidate.h \
  jni/../../sources/view/mainScene/PromptLayer.h
 
@@ -707,6 +708,8 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
 
 jni/../../sources/manager/DisplayManager.h:
+
+jni/../../sources/manager/ConfigManager.h:
 
 jni/../../sources/view/loginScene/AccountValidate.h:
 

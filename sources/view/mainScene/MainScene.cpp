@@ -1478,6 +1478,8 @@ void MainScene::richangMethods() {
     PlayerComp* _player = DATA->getPlayer();
     if (_player->getGuide() == 1) {
         _player->setGuide(2);
+        // talkingData
+        DATA->onEvent("引导事件", "引导界面", "完成引导第1步");
     }else if (_player->getGuide() == 8){
         _player->setGuide(8);
     }else if (_player->getGuide() == 100){
