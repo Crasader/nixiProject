@@ -27,6 +27,8 @@ EmoticonPanel::~EmoticonPanel() {
 
 bool EmoticonPanel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
 //        CCSprite* mask = CCSprite::create("res/pic/mask.png");
 //        mask->setPosition(DISPLAY->center());
 //        this->addChild(mask);
@@ -113,10 +115,9 @@ void EmoticonPanel::config_cell(CCTableViewCell* cell, int idx) {
 }
 
 void EmoticonPanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== EmoticonPanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

@@ -51,6 +51,8 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
         return false;
     }
     
+    num_child = 0;
+    
     _type = string(type.c_str());
     _value = value;
 
@@ -155,10 +157,9 @@ void BuildingRewardPanel::remove() {
 }
 
 void BuildingRewardPanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLOG("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== BuildingRewardPanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

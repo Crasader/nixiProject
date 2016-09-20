@@ -93,6 +93,8 @@ public:
     CCLabelTTF* _wordNum_lab;
     int         _word_count;
     
+    int num_child;
+    
 public:
     
     void update(float dt);

@@ -29,6 +29,8 @@ PurchasePanel::~PurchasePanel() {
 
 bool PurchasePanel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
 //        CCSprite* mask = CCSprite::create("res/pic/mask.png");
 //        mask->setPosition(DISPLAY->center());
 //        this->addChild(mask);
@@ -57,7 +59,11 @@ void PurchasePanel::onEnter() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
+    if (CONFIG->baiOrYijie == 0) {// 白包
+        nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
+    }else if (CONFIG->baiOrYijie == 1){// 易接
+        nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
+    }
 #endif
     
     this->init_content();
@@ -235,13 +241,24 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     else {
         LOADING->show_loading();
         string orderId = "";
+        
+        string orderId2 = DATA->getLogin()->obtain_UUID();
+        string productId = pro->id.c_str();
+        CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
+        DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
+        
         NET->verify_order_iOS_107(orderId, pro->id);
     }
-    
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (CONFIG->baiOrYijie == 0) {// 白包
         LOADING->show_loading();
         string orderId = "";
+        
+        string orderId2 = DATA->getLogin()->obtain_UUID();
+        string productId = pro->id.c_str();
+        CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
+        DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
+        
         NET->verify_order_iOS_107(orderId, pro->id);
     }else if (CONFIG->baiOrYijie == 1){// 易接
         LOADING->show_loading();
@@ -257,11 +274,17 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
 #endif
     
 }
+
 void PurchasePanel::send105(){
-    LOADING->show_loading();
     
+    CCLog("<><><><><><> send105");
     string orderId = JNIController::getCpOrderId();
     string productId = JNIController::getProductId();
+    CCString* iapId = CCString::createWithFormat("%d钻石", JNIController::getGoldStatus());
+    
+    DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus()/100, JNIController::getGoldStatus());
+    
+    
     NET->verify_order_android_105(orderId, productId);
 }
 void PurchasePanel::updatePay(float dt){
@@ -269,9 +292,11 @@ void PurchasePanel::updatePay(float dt){
     if (JNIController::getSmsStatus() == 1) {
         JNIController::setSmsStatus(0);
         CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
-
+        CCLog("<><><><><><> updatePay");
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
-        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 5.f);
+        
+        LOADING->show_loading();
+        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
     }else if (JNIController::getSmsStatus() == 2) {
         LOADING->remove();
         
@@ -285,10 +310,9 @@ void PurchasePanel::updatePay(float dt){
 }
 
 void PurchasePanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== PurchasePanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     
@@ -298,6 +322,10 @@ void PurchasePanel::keyBackClicked(){
 void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
     LOADING->remove();
     this->update_content();
+    
+    string orderId = JNIController::getCpOrderId();
+    DATA->onChargeSuccess(orderId);
+    
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     PromptLayer* prompt = PromptLayer::create();
     prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "钻石购买成功~!");
@@ -305,6 +333,10 @@ void PurchasePanel::nc_verify_android_105(CCObject *pObj) {
 
 void PurchasePanel::nc_verify_iOS_107(CCObject *pObj) {
     LOADING->remove();
+    
+    string orderId2 = DATA->getLogin()->obtain_UUID();
+    DATA->onChargeSuccess(orderId2);
+    
     this->update_content();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     PromptLayer* prompt = PromptLayer::create();

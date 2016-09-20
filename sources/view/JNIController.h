@@ -21,15 +21,15 @@ using namespace std;
 #endif
 
 /**  美图  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
 
 /**  vivo  **/
 //#define  SDK_TIEGAO_CLASS "com/binpi/nanshenriji/vivo/Tiegao"
 //#define  SDK_CLOCK_CLASS "com/binpi/nanshenriji/vivo/AlarmClock"
 
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 extern "C"
 {
@@ -43,6 +43,9 @@ extern "C"
         
         // 登陆
         static void isLanding(int index);
+        
+        // uuid
+        static std::string getOpenId();
         
         // 退出
         static void exitGame(int index);

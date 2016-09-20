@@ -45,6 +45,8 @@ ResetNicknamePanel* ResetNicknamePanel::create(const char *cost) {
 
 bool ResetNicknamePanel::init(const char* cost) {
     if (CCLayer::init()) {
+        num_child = 0;
+        
 //        CCSprite* mask = CCSprite::create("res/pic/mask.png");
 //        mask->setPosition(DISPLAY->center());
 //        this->addChild(mask);
@@ -150,10 +152,9 @@ void ResetNicknamePanel::remove() {
 }
 
 void ResetNicknamePanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== ResetNicknamePanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

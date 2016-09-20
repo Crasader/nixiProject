@@ -37,6 +37,8 @@ EnergyLargessPanel::~EnergyLargessPanel() {
 
 bool EnergyLargessPanel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
         CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
@@ -136,10 +138,9 @@ void EnergyLargessPanel::on_take(CCMenuItem *) {
 }
 
 void EnergyLargessPanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== EnergyLargessPanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

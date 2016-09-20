@@ -35,6 +35,8 @@ bool TotalRechargePanel::init(){
         return false;
     }
     
+    num_child = 0;
+    
     _curIndex = DATA->getOperation()->cur_purchase_achievement_template_index();;
     
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
@@ -230,10 +232,9 @@ void TotalRechargePanel::remove() {
 }
 
 void TotalRechargePanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== TotalRechargePanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

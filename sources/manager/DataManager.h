@@ -146,7 +146,12 @@ public:
     void onEvent(std::string eventStr, std::string pageStr, std::string contentStr);
     void onChargeRequest(std::string orderId, std::string iapId, double currencyAmount, double virtualCurrencyAmount);
     void onChargeSuccess(std::string orderId);
-    
+    // 记录付费点
+    void onPurchase(std::string clothesIdStr, int index, double money);
+    //接受或进入
+    void onBegin(std::string taskId);
+    //任务完成
+    void onCompleted(std::string taskId);
     
 private:
 

@@ -48,6 +48,8 @@ bool TaskScene::init(bool isPhaseUP){
         return false;
     }
     
+    num_child = 0;
+    
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
     CCLOG("_isPhaseUP = %d", _isPhaseUP);
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
@@ -99,9 +101,9 @@ void TaskScene::onExit(){
 }
 
 void TaskScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1) {
+    num_child++;
+    CCLog("===== TaskScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     
@@ -740,6 +742,12 @@ void TaskScene::startCallBack(CCObject* pSender){
 
 void TaskScene::_startCallBack(CCObject* pSender){
     LOADING->remove();
+    
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(taskIndex-1);
+    int id = dic->valueForKey("id")->intValue();
+    CCString* taskStr = CCString::createWithFormat("%d", id);
+    DATA->onBegin(taskStr->getCString());
+    
     CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

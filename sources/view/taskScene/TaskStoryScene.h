@@ -167,6 +167,8 @@ public:
     void clothesCallBack(CCObject* pSender);
     
 public:
+    int num_child;
+    
     bool openStory;
     bool quanBool;
     bool m_bIsKJSelect;

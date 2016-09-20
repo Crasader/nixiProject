@@ -35,6 +35,8 @@ bool StoryScene::init(){
         return false;
     }
     
+    num_child = 0;
+    
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
@@ -2163,10 +2165,9 @@ void StoryScene::didAccelerate( CCAcceleration* pAccelerationValue){
 //}
 
 void StoryScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== StoryScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

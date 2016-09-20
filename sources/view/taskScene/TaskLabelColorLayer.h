@@ -45,6 +45,7 @@ public:
     bool isDkContainTouchPoint1(CCTouch* touch);
     
 public:
+    int num_child;
     
     CCSprite* dkSpr;
     CCLabelTTF* m_pLabel;

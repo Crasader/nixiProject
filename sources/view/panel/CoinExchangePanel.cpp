@@ -21,6 +21,8 @@ CoinExchangePanel::~CoinExchangePanel() {
 
 bool CoinExchangePanel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
         this->setTouchEnabled(true);
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);
@@ -173,10 +175,9 @@ void CoinExchangePanel::nc_exchange_coin_103(CCObject *pObj) {
 
 
 void CoinExchangePanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== CoinExchangePanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

@@ -151,6 +151,7 @@ public:
     CCMenuItemToggle* kuaijinToggleItem;
     CCMenuItemToggle* zidongToggleItem;
     
+    int num_child;
         
 public:
     

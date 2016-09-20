@@ -42,6 +42,8 @@ private:
     void nc_exchange_coin_103(CCObject* pObj);
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;

@@ -45,6 +45,8 @@ private:
     void nc_verify_iOS_107(CCObject* pObj);
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;

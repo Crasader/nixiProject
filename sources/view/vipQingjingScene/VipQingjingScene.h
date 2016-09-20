@@ -111,6 +111,7 @@ public:
     void iOS_buy_109();
     
 public:
+    int num_child;
     
     CCDictionary* allClothesDic;
     

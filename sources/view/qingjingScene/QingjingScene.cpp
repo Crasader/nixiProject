@@ -35,6 +35,8 @@ bool QingjingScene::init(){
         return false;
     }
     
+    num_child = 0;
+    
     storyIndex = 0;
     renwuIndex = 0;
     allNumber = 0;
@@ -113,10 +115,9 @@ void QingjingScene::onExit(){
 }
 
 void QingjingScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== QingjingScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

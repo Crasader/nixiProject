@@ -8,14 +8,15 @@
 
 #include "LoginComp.h"
 #include "AppUtil.h"
+#include "ConfigManager.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "native/CCNative.h"
 USING_NS_CC_EXTRA;
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
+#include "JNIController.h"
 #endif
-
+#include "JNIController.h"
 LoginComp::~LoginComp() {
 }
 
@@ -36,7 +37,11 @@ void LoginComp::config_UUID() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     _uuid = cocos2d::extra::CCNative::getOpenUDID();
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    _uuid = "没有获得";
+    if (CONFIG->baiOrYijie == 0) {// 白包
+        _uuid = JNIController::getOpenId();
+    }else if (CONFIG->baiOrYijie == 1){// 易接
+        
+    }
 #endif
 }
 
@@ -77,5 +82,7 @@ void LoginComp::init_with_json(Value json) {
     CCLOG("Game addr: %s", _gameaddr.c_str());
 }
 
-
+void LoginComp::setUUid(CCString* uuStr){
+    _uuid = uuStr->getCString();
+}
 

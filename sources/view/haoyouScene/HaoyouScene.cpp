@@ -42,6 +42,7 @@ bool HaoyouScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    num_child = 0;
     
     DATA->setTaskGameIndex4(0);
     allClothesDic = CONFIG->clothes();// 所有衣服
@@ -275,7 +276,6 @@ void HaoyouScene::openChat() {
     DATA->setChatOut(false);
     if (WS->isConnected()) {
         ChatPanel* panel = ChatPanel::create();
-//        CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
         panel->setTag(0x1008);
         this->addChild(panel, 100000);
     }else{
@@ -1031,10 +1031,9 @@ void HaoyouScene::update_news_status() {
 
 
 void HaoyouScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== HaoyouScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

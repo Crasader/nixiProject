@@ -56,6 +56,8 @@ private:
     void whether_mailbox_empty();
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _bg;
     CCTableView*        _tv;

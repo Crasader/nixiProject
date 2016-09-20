@@ -115,6 +115,8 @@ public:
     bool isadd_sed;
     bool isadd_thd;
     
+    int num_child;
+    
 public:
     NotePanel* _panel;
     TotalRankTableView* tabLayer;

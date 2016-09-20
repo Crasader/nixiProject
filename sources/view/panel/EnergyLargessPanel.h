@@ -38,6 +38,8 @@ private:
     void update_state();
     
 private:
+    int num_child;
+    
     CCLayer*            _content;
     CCSprite*           _panel;
     CCMenu*             _menu;

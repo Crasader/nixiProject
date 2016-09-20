@@ -36,6 +36,8 @@ bool TaskStoryScene::init(){
         return false;
     }
     
+    num_child = 0;
+    
     OpenToWhichOne = 0;
     taskPhase = 0;
     taskIndex = 0;
@@ -245,10 +247,9 @@ void TaskStoryScene::onExit(){
 }
 
 void TaskStoryScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLOG("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== TaskStoryScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

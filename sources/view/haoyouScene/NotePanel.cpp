@@ -27,6 +27,8 @@ bool NotePanel::init(){
         return false;
     }
     
+    num_child = 0;
+    
     erase_pos = 1000000;
     _word_count = 0;
     
@@ -338,10 +340,9 @@ void NotePanel::onCursorTextFieldDetachWithIME(CursorTextField * sender) {
 }
 
 void NotePanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== NotePanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

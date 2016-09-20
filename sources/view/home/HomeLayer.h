@@ -84,6 +84,8 @@ public:
     
     HomeTableView* tabLayer;
     
+    int num_child;
+    
     CCMenuItem* backItem;
     CCSprite* qiehuanSpr;
     CCMenuItem* qiehuanItem;

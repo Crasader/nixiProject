@@ -57,6 +57,8 @@ private:
 
     
 private:
+    int num_child;
+    
     CCArray*                _data;
     ShowerView*             _showerView;
     FriendsListView*        _listView;

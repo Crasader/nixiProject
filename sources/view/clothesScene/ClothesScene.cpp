@@ -22,6 +22,8 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 #include "GuideLayer.h"
+#include "StringUtil.h"
+
 
 ClothesScene::ClothesScene(){
     
@@ -114,6 +116,7 @@ bool ClothesScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    num_child = 0;
     
     this->setTouchSwallowEnabled(false);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -168,10 +171,9 @@ void ClothesScene::onExit(){
 }
 
 void ClothesScene::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== ClothesScene  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     
@@ -377,6 +379,8 @@ void ClothesScene::openTouch(float dt){
     
 }
 void ClothesScene::creat_money(){
+    buyClothesStr = "";
+    
     if (clothKuangSpr->getChildByTag(0x11111) != NULL) {
         clothKuangSpr->removeChildByTag(0x11111);
     }
@@ -1221,6 +1225,8 @@ void ClothesScene::removeAnimation(){
 void ClothesScene::startCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
+    buyClothesStr = "";
+    
     // talkingData
     DATA->onEvent("点击事件", "换装界面", "点击开始任务");
     
@@ -1370,6 +1376,9 @@ void ClothesScene::startMethods(){
             if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
                 _buttonStatus = 2;
             }
+            
+            this->buyClothesMethods();
+            
             startTask = true;
             LOADING->show_loading();
             NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
@@ -1467,6 +1476,8 @@ void ClothesScene::updataSaveItemStatus(){
     }
 }
 void ClothesScene::saveClothesMethods(){
+    buyClothesStr = "";
+    
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     bool phaseBool = false;
@@ -1541,6 +1552,9 @@ void ClothesScene::saveClothesMethods(){
             if (haveEnoughCoin() == 0 && haveEnoughGold() == 0) {
                 _buttonStatus = 2;
             }
+            
+            this->buyClothesMethods();
+            
             LOADING->show_loading();
             NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
         }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
@@ -2983,6 +2997,19 @@ void ClothesScene::buttonStatus(){
 }
 
 void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
+    
+    if (!buyClothesStr.empty()) {
+        CCArray* strList1 = StringUtil::sharedStrUtil()->split(buyClothesStr.c_str(), ";");
+        for (int i = 0; i < strList1->count(); i++) {
+            CCString* listStr1 = (CCString* )strList1->objectAtIndex(i);
+            CCArray* strList2 = StringUtil::sharedStrUtil()->split(listStr1->getCString(), "_");
+            CCString* idStr = (CCString* )strList2->objectAtIndex(0);
+            CCString* costStr = (CCString* )strList2->objectAtIndex(1);
+            DATA->onPurchase(idStr->getCString(), 1, atoi(costStr->getCString()));
+        }
+    }
+    
+    
     AUDIO->buy_effect();
     if (clothesStatus == 1) {// 任务
         if (startTask) {
@@ -3108,6 +3135,12 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
 //    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
 //    CCDirector::sharedDirector()->replaceScene(trans);
     
+    CCArray* taskArr = DATA->getTaskSource();
+    CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index - 1);
+    int id = dic->valueForKey("id")->intValue();
+    CCString* taskStr = CCString::createWithFormat("%d", id);
+    DATA->onCompleted(taskStr->getCString());
+    
     CCScene* scene = CCScene::create();
     TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, levelup);
     scene->addChild(layer);
@@ -3175,6 +3208,7 @@ int ClothesScene::haveEnoughCoin(){
                     int cloth_type = dic->valueForKey("type")->intValue();
                     if (cloth_type == 1) {
                         if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                            
                             coin += dic->valueForKey("cost")->intValue();
                         }
                     }
@@ -3226,6 +3260,7 @@ int ClothesScene::haveEnoughGold(){
                     int cloth_type = dic->valueForKey("type")->intValue();
                     if (cloth_type == 2) {
                         if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                            
                             gold += dic->valueForKey("cost")->intValue();
                             
                             int goldIndex = DATA->getTaskGameIndex6();
@@ -3246,6 +3281,7 @@ int ClothesScene::haveEnoughGold(){
                         int cloth_type = dic->valueForKey("type")->intValue();
                         if (cloth_type == 2) {
                             if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                                
                                 gold += dic->valueForKey("cost")->intValue();
                                 
                                 int goldIndex = DATA->getTaskGameIndex6();
@@ -3348,6 +3384,56 @@ void ClothesScene::showAnimationWithType(int type) {
 }
 
 
-
+void ClothesScene::buyClothesMethods(){
+    CCDictionary* dic = CONFIG->clothes();// 所有衣服
+    
+    CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
+    
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+        CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
+        CCArray* tempArr = CCArray::create();
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int sale = clothDic->valueForKey("sale")->intValue();
+            if (sale != 0) {
+                tempArr->addObject(clothDic);
+            }
+        }
+        for (int k = 0; k < tempArr->count(); k++) {
+            CCDictionary* dic = (CCDictionary* )tempArr->objectAtIndex(k);
+            CCInteger* clothesTemp_id;
+            CCDictionary* shipinDic;
+            if (i != Tag_CL_ShiPin) {
+                clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                    int cloth_type = dic->valueForKey("type")->intValue();
+                    if (cloth_type == 2) {
+                        if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                            
+                            CCString* tempBuyStr = CCString::createWithFormat("%d_%d;", dic->valueForKey("id")->intValue(), dic->valueForKey("cost")->intValue());
+                            buyClothesStr.append(tempBuyStr->getCString());
+                        }
+                    }
+                }
+            }else{
+                shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
+                CCInteger* clothesTemp_id;
+                for (int n = 11; n <= 20; n++) {
+                    clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
+                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                        int cloth_type = dic->valueForKey("type")->intValue();
+                        if (cloth_type == 2) {
+                            if (!DATA->getClothes()->is_owned(i, dic->valueForKey("id")->intValue())) {
+                                
+                                CCString* tempBuyStr = CCString::createWithFormat("%d_%d;", dic->valueForKey("id")->intValue(), dic->valueForKey("cost")->intValue());
+                                buyClothesStr.append(tempBuyStr->getCString());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 

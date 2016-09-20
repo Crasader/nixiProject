@@ -23,6 +23,7 @@ bool FindPanel::init(){
     if (!CCLayer::init()) {
         return false;
     }
+    num_child = 0;
     
     this->initView();
     return true;
@@ -225,10 +226,9 @@ void FindPanel::editBoxReturn(CCEditBox* editBox) {
 }
 
 void FindPanel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== FindPanel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

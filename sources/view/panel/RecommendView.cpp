@@ -25,6 +25,8 @@ RecommendView::~RecommendView() {
 
 bool RecommendView::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
         this->setTouchEnabled(true);
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchSwallowEnabled(true);
@@ -121,10 +123,9 @@ void RecommendView::buy_energy_callback_101(CCObject *pObj) {
 }
 
 void RecommendView::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== RecommendView  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

@@ -47,6 +47,8 @@ public:
     
     CCMenu* allMenu;
     
+    int num_child;
+    
 public:
     
     void create_view();

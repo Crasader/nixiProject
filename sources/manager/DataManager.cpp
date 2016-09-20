@@ -18,6 +18,9 @@
 
 #include "TDCCTalkingDataGA.h"
 #include "TDCCVirtualCurrency.h"
+#include "TDCCItem.h"
+#include "TDCCMission.h"
+
 
 static DataManager* _instance = nullptr;
 
@@ -616,8 +619,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-//        return _player->getGuide();
-        return 0;
+        return _player->getGuide();
+//        return 0;
     }
     else {
         return 0;
@@ -649,11 +652,19 @@ void DataManager::onChargeSuccess(std::string orderId){
     TDCCVirtualCurrency::onChargeSuccess(orderId.c_str());
 }
 
+// 记录付费点
+void DataManager::onPurchase(std::string clothesIdStr, int index, double money){
+    TDCCItem::onPurchase(clothesIdStr.c_str(), index, money);
+}
 
-
-
-
-
+//接受或进入
+void DataManager::onBegin(std::string taskId){
+    TDCCMission::onBegin(taskId.c_str());
+}
+//任务完成
+void DataManager::onCompleted(std::string taskId){
+    TDCCMission::onCompleted(taskId.c_str());
+}
 
 
 

@@ -8,9 +8,9 @@ com.binpi.nanshenriji.vivo  	vivo
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao"
-    android:versionCode="15"
-    android:versionName="1.1.5">
+    package="cn.mzplay.tiegao.meitu"
+    android:versionCode="20"
+    android:versionName="1.2.0">
 	
     <uses-sdk android:minSdkVersion="19" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -93,7 +93,7 @@ com.binpi.nanshenriji.vivo  	vivo
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.wxapi.WXEntryActivity" 
+     		android:name="cn.mzplay.tiegao.meitu.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
@@ -103,7 +103,7 @@ com.binpi.nanshenriji.vivo  	vivo
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="cn.mzplay.tiegao.ActionService" /> 
+				<action android:name="cn.mzplay.tiegao.meitu.ActionService" /> 
 			</intent-filter> 
         </service>
         

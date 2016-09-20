@@ -170,6 +170,8 @@ public:
     
 public:
     CCDictionary* allClothesDic;
+    
+    int num_child;
         
     CCSprite* roomSpr;
     CCSprite* _ManSpr;

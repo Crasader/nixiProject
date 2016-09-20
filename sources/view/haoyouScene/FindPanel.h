@@ -44,6 +44,8 @@ public:
     
     CCSprite* find_panel;
     
+    int num_child;
+    
     CCMenu* menu;
     CCEditBox* _input_name;
     

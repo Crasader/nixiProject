@@ -39,6 +39,8 @@ Signin7Panel::~Signin7Panel() {
 
 bool Signin7Panel::init() {
     if (CCLayer::init()) {
+        num_child = 0;
+        
         CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
@@ -292,10 +294,9 @@ void Signin7Panel::remove() {
 }
 
 void Signin7Panel::keyBackClicked(){
-    int num_child = CCDirector::sharedDirector()->getRunningScene()->getChildren()->count();
-    CCLog("===== children_num: %d", num_child);
-    if(num_child > 1)
-    {
+    num_child++;
+    CCLog("===== Signin7Panel  children_num: %d", num_child);
+    if (num_child> 1) {
         return;
     }
     

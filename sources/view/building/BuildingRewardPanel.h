@@ -36,6 +36,8 @@ private:
     void do_exit();
     
 private:
+    int num_child;
+    
     CCSprite*           _panel;
     string              _type;
     int                 _value;
