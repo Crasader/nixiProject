@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.meitu;
+package cn.mzplay.tiegao.qihu360;
 
 import java.util.UUID;
 
@@ -42,7 +42,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.meitu.YijieLayer;
+import cn.mzplay.tiegao.qihu360.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -87,7 +87,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// DB61C0FF7AD0549C91DD4FB203139909		360
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
-		TalkingDataGA.init(instance, "49AC41ECB2C5B4A961E00B2380C21E9F", "mzplay");
+		TalkingDataGA.init(instance, "DB61C0FF7AD0549C91DD4FB203139909", "mzplay");
 		
 	}
 	
