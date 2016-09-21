@@ -324,6 +324,11 @@ void VipQingjingScene::creat_view(){
             kuangSpr->addChild(startMenu);
             
         }else{
+            CCLabelTTF* tempLabel = CCLabelTTF::create("购买后可开启3章.", DISPLAY->fangzhengFont(), 25);
+            tempLabel->setPosition(ccp(kuangSpr->getContentSize().width* .77f, -5));
+            tempLabel->setColor(ccWHITE);
+            kuangSpr->addChild(tempLabel);
+            
             startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
             startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
             startSpr2->setScale(1.02f);

@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.baidu;
+package cn.mzplay.tiegao.meitu;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
