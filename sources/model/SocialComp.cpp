@@ -18,6 +18,7 @@ SocialComp::~SocialComp() {
     CC_SAFE_DELETE(_arr_friends);
     CC_SAFE_DELETE(_energy_send);
     CC_SAFE_DELETE(_energy_receive);
+    CC_SAFE_DELETE(_requested);
 }
 
 bool SocialComp::init() {
@@ -27,6 +28,7 @@ bool SocialComp::init() {
     _arr_friends = NULL;
     _energy_send = NULL;
     _energy_receive = NULL;
+    _requested = NULL;
     
     return true;
 }
@@ -53,6 +55,11 @@ void SocialComp::init_with_json(Value json) {
     CC_SAFE_RELEASE(_energy_receive);
     _energy_receive = arr_receive;
     _energy_receive->retain();
+    
+    CCArray* requesters = AppUtil::array_with_json(json["requesters"]);
+    CC_SAFE_RELEASE(_requested);
+    _requested = requesters;
+    _requested->retain();
 }
 
 void SocialComp::init_friends(Value json) {
@@ -119,6 +126,19 @@ bool SocialComp::is_friend(const char *other_sid) {
     CCObject* pObj = _friends->objectForKey(other_sid);
     if (pObj) {
         return true;
+    }
+    
+    return false;
+}
+
+bool SocialComp::is_requested(const char *other_sid) {
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(_requested, pObj) {
+        CCString* otherId = (CCString*)pObj;
+        if (otherId->compare(other_sid) == 0) {
+            CCLOG("Requested: %s", other_sid);
+            return true;
+        }
     }
     
     return false;

@@ -96,7 +96,8 @@ void MessageTableView::creat_View(){
 //    }
     pTableView = CCTableView::create(this, CCSizeMake(522, 300* 3));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
-    pTableView->setPosition(ccp(59, 119));
+//    pTableView->setPosition(ccp(59, 119));
+    pTableView->setPosition(ccp(DISPLAY->halfW() - 265, 119));
     pTableView->setDelegate(this);
     pTableView->setTag(0);
     this->addChild(pTableView, 1);
