@@ -600,16 +600,16 @@ void MainScene::creat_view(){
     CCSprite* hd_Spr2 = CCSprite::create("res/pic/mainScene/huodong.png");
     
     huodong_bar1 = CCSprite::create("res/pic/mainScene/huodong_bar.png");
-    huodong_bar1->setPosition(ccp(hd_Spr1->getContentSize().width* .5f, huodong_bar1->getContentSize().height* .46f));
+    huodong_bar1->setPosition(ccp(hd_Spr1->getContentSize().width* .45f, hd_Spr1->getContentSize().height* .33f));
     hd_Spr1->addChild(huodong_bar1);
     
     CCSprite* huodong_bar2 = CCSprite::create("res/pic/mainScene/huodong_bar.png");
-    huodong_bar2->setPosition(ccp(hd_Spr2->getContentSize().width* .5f, huodong_bar2->getContentSize().height* .46f));
+    huodong_bar2->setPosition(ccp(hd_Spr2->getContentSize().width* .45f, hd_Spr1->getContentSize().height* .33f));
     hd_Spr2->addChild(huodong_bar2);
     
     hd_Spr2->setScale(1.02f);
     CCMenuItem* huodong_Item = CCMenuItemSprite::create(hd_Spr1, hd_Spr2, this, menu_selector(MainScene::huodongCallBack));
-    huodong_Item->setPosition(ccp(_layer_3->getContentSize().width* .38f, _layer_3->getContentSize().height* .89f));
+    huodong_Item->setPosition(ccp(_layer_3->getContentSize().width* .38f, _layer_3->getContentSize().height* .82f));
     
     menu_huodong = CCMenu::create(huodong_Item, NULL);
     menu_huodong->setPosition(CCPointZero);
