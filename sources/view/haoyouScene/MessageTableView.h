@@ -92,6 +92,7 @@ public:
     
     void creat_View();
     void updateTableView();
+    void hanle_message_oper(int id, int oper);
     
     void agreedCallBack(CCObject* pSender);
     void deleteCallBack(CCObject* pSender);

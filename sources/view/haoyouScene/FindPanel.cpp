@@ -81,7 +81,7 @@ void FindPanel::btn_find_callback(){
 
 void FindPanel::find_callback_801(CCObject* obj){
     CCString* id = (CCString*)obj;
-    NET->send_message_803(id->getCString(), 1);
+//    NET->send_message_803(id->getCString(), 1);
     LOADING->remove();
 //    this->removeFromParentAndCleanup(true);
     PromptLayer* tip = PromptLayer::create();

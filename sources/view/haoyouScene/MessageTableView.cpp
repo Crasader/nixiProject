@@ -10,9 +10,10 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "ConfigManager.h"
-#include "Loading2.h"
 #include "NetManager.h"
 
+#include "Loading2.h"
+#include "PromptLayer.h"
 
 MessageTableView::MessageTableView()
 {
@@ -245,7 +246,8 @@ void MessageTableView::deleteCallBack(CCObject* pSender){
 }
 void MessageTableView::_805CallBack(CCObject* pSender){
     LOADING->remove();
-    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "操作成功~!");
     this->updateTableView();
 }
 

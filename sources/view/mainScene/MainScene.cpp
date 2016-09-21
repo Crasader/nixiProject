@@ -2150,7 +2150,7 @@ void MainScene::update_news_status() {
         _qiandaoItem->addChild(spt);
     }
     else {
-        CCNode* hongDian = _qiandaoItem->getChildByTag(185);
+        CCNode* hongDian = _qiandaoItem->getChildByTag(175);
         if (NULL != hongDian) {
             hongDian->removeFromParent();
         }
