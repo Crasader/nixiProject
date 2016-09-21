@@ -2119,7 +2119,7 @@ void MainScene::update_news_status() {
 //        _haoyouItem->addChild(spt);
         
         CCSprite* spt2 = CCSprite::create("res/pic/new.png");
-        spt2->setPosition(ccp(210, 205));
+        spt2->setPosition(ccp(180, 220));
         spt2->setTag(173);
         haoyou_Item->addChild(spt2);
     }
