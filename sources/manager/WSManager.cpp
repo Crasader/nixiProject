@@ -102,6 +102,16 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
                 ChatItem* chat = ChatItem::create();
                 if (chat->init_with_json(root)) {
                     DATA->getChat()->addItem(chat);
+                    int length = DATA->getChat()->getItems()->count();
+                    if( length >= 200) {
+                        CCArray* arr = CCArray::create();
+                        for (int i = length - 100; i < length; i++) {
+                            arr->addObject(DATA->getChat()->getItems()->objectAtIndex(i));
+                        }
+                        DATA->getChat()->setItems(arr);
+                    }
+                    
+//                    CCLOG("Message_count = %d", DATA->getChat()->getItems()->count());
                     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
                 }
             }

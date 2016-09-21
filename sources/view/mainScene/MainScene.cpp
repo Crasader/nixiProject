@@ -598,6 +598,7 @@ void MainScene::creat_view(){
     _layer_3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(_layer_3);
     
+    
     //---日常btn(公司)---
     CCSprite* rc_Spr1 = CCSprite::create("res/pic/mainScene/company.png");
     company_bar1 = CCSprite::create("res/pic/mainScene/company_bar.png");
