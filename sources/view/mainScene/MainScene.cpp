@@ -290,8 +290,8 @@ void MainScene::onExit(){
     this->unscheduleAllSelectors();
 //    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
-    DATA->setChatOut(true);
-    DATA->getChat()->setItems(CCArray::create());
+//    DATA->setChatOut(true);
+//    DATA->getChat()->setItems(CCArray::create());
     
     BaseScene::onExit();
 }
@@ -556,7 +556,7 @@ void MainScene::creat_view(){
     
     tower_spr2->setScale(1.02f);
     CCMenuItem* paihang_Item = CCMenuItemSprite::create(tower_spr1, tower_spr2, this, menu_selector(MainScene::paihangCallBack));
-    paihang_Item->setPosition(ccp(_layer_4->getContentSize().width* .58f, _layer_4->getContentSize().height* .78f));
+    paihang_Item->setPosition(ccp(_layer_4->getContentSize().width* .60f, _layer_4->getContentSize().height* .78f));
     menu_paihang = CCMenu::create(paihang_Item, NULL);
     menu_paihang->setPosition(CCPointZero);
     _layer_4->addChild(menu_paihang);
@@ -667,6 +667,11 @@ void MainScene::creat_view(){
     CCSprite* san = CCSprite::create("res/pic/mainScene/san.png");
     san->setPosition(ccp(_layer_3->getContentSize().width* .56f, _layer_3->getContentSize().height* .5f));
     _layer_3->addChild(san);
+    
+//    CCSprite* spt2 = CCSprite::create("res/pic/new.png");
+//    spt2->setPosition(ccp(175, 110));
+//    spt2->setTag(173);
+//    haoyou_Item->addChild(spt2);
     
     
     //---路灯---
