@@ -283,11 +283,21 @@ void StrangerTableView::bigSprite(int index, CCSprite* spr){
 
     CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     add_spr2->setScale(1.02f);
     CCMenuItemSprite* item_add;
-    if (show->isadd == 0) {
+    bool hasAdd = DATA->getSocial()->is_requested(show_id->getCString());
+    if (true == hasAdd) {
+        item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+        item_add->setTag(index);
+        item_add->setUserData(show_id);
+        CCMenu* menu_add = CCMenu::create(item_add, NULL);
+        menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+        menu_add->setTag(0x10400);
+        bg->addChild(menu_add);
+    }
+    else if (show->isadd == 0) {
         item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(StrangerTableView::toBeFriend));
         item_add->setTag(index);
         item_add->setUserData(show_id);
@@ -342,11 +352,24 @@ void StrangerTableView::smallSprite(int index, CCSprite* spr){
     
     CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     add_spr2->setScale(1.02f);
+    
     CCMenuItemSprite* item_add;
-    if (show->isadd == 0) {
+
+    bool hasAdd = DATA->getSocial()->is_requested(show_id->getCString());
+    if (true == hasAdd) {
+        item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+        item_add->setTag(index);
+        item_add->setUserData(show_id);
+        CCMenu* menu_add = CCMenu::create(item_add, NULL);
+        menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+        menu_add->setTag(0x10400);
+        menu_add->setVisible(false);
+        bg->addChild(menu_add);
+    }
+    else if (show->isadd == 0) {
         item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(StrangerTableView::toBeFriend));
         item_add->setTag(index);
         item_add->setUserData(show_id);
@@ -377,8 +400,8 @@ void StrangerTableView::toBeFriend(CCMenuItem* btn){
     ShowComp* other = (ShowComp*)strangers->objectForKey(other_id->getCString());
     other->isadd = 1;
     
-    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     CCMenuItemSprite* item_add;
     item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
     CCMenu* menu_add = CCMenu::create(item_add, NULL);

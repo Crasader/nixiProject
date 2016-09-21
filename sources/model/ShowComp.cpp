@@ -44,7 +44,6 @@ void ShowComp::init_with_json(Value json) {
         _ornaments->retain();
         
         _ondress->setObject(_ornaments, "7");
-        this->print_dress();
     }
 }
 

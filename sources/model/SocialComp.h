@@ -38,6 +38,7 @@ public:
     CCDictionary* friends() const;      // 包括自己的Show在内
     CCArray* sortedFriends();           // 按收集度从高到低排序
     bool is_friend(const char* other_sid);
+    bool is_requested(const char* other_sid);   // 是否申请好友
     bool has_send_energy(const char* other_sid);
     int energy_could_take();            // 可以领取的体力数量
     
@@ -62,6 +63,7 @@ private:
     CCArray*            _arr_friends;
     CCArray*            _energy_send;
     CCArray*            _energy_receive;
+    CCArray*            _requested;
 };
 
 #endif /* SocialComp_hpp */
