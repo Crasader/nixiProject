@@ -46,7 +46,7 @@
 #include <time.h>
 
 #include "RewardLayer.h"
-
+#include "AHMessageBox.h"
 #include "GuideLayer.h"
 
 #include "JNIController.h"
@@ -277,6 +277,21 @@ void MainScene::onEnter(){
         if (DATA->getNews()->signin7 == 1) {
             isOk = true;
             this->qiandaoCallBack(NULL);
+        }
+    }
+    
+    this->checkVersion();
+}
+
+void MainScene::checkVersion() {
+    CCDictionary* mainConf = DATA->getLogin()->config();
+    CCInteger* versionFlag = (CCInteger*)mainConf->objectForKey("ver");
+    if (NULL != versionFlag) {
+        int isNewVersion = versionFlag->getValue();
+        if (0 != isNewVersion) {
+            AHMessageBox* mb = AHMessageBox::create_with_message("检测到您当前不是最新版本!\n请前往应用商店更新~!", NULL, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YES, false);
+            mb->setPosition(DISPLAY->center());
+            this->addChild(mb, 3900);
         }
     }
 }
