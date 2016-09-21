@@ -211,6 +211,7 @@ private:
     CCArray* rand_array(CCArray* arr);
     void play(CCSprite* spt);
     void delayPlay(float dt);
+    void checkVersion();
     
 private:
     CCMenuItem*         _youjianItem;
