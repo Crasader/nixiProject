@@ -622,3 +622,12 @@ void NetManager::buy_fee_story2_111(const char* id, string &orderId) {
     this->post_data(111, data);
 }
 
+void NetManager::buchang_story2_113(const char *id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(113, data);
+}
+
