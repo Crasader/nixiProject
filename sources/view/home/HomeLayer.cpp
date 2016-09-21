@@ -127,9 +127,6 @@ void HomeLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
     if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
-        }else if (button_tag == AH_BUTTON_TAG_NO){
-            PromptLayer* layer = PromptLayer::create();
-            layer->show_prompt(this->getScene(), "加入官方QQ群315157598可获得钻石奖励呦!");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {
