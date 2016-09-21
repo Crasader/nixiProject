@@ -89,7 +89,6 @@ bool VipQingjingScene::init(){
     }
     
     
-    
     // 0为未购买 非0已购买 -1通关
     int tempIndex1 = DATA->getStory()->story2_state("0");
     if (tempIndex1 != 0) {

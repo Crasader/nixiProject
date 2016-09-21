@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.qihu360;
+package cn.mzplay.tiegao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

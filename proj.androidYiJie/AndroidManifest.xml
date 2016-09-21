@@ -9,7 +9,7 @@ cn.mzplay.tiegao.qihu360		360	can 3  baiOrYijie 1
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao.qihu360"
+    package="cn.mzplay.tiegao"
     android:versionCode="20"
     android:versionName="1.2.0">
 	
@@ -91,10 +91,12 @@ cn.mzplay.tiegao.qihu360		360	can 3  baiOrYijie 1
         		<category android:name="android.intent.category.DEFAULT" />
     		</intent-filter>
 		</activity>
+		
+        
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.qihu360.wxapi.WXEntryActivity" 
+     		android:name="cn.mzplay.tiegao.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
@@ -104,7 +106,7 @@ cn.mzplay.tiegao.qihu360		360	can 3  baiOrYijie 1
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="cn.mzplay.tiegao.qihu360.ActionService" /> 
+				<action android:name="cn.mzplay.tiegao.ActionService" /> 
 			</intent-filter> 
         </service>
         
