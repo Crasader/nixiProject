@@ -13,7 +13,7 @@
 #include "NetManager.h"
 #include "PromptLayer.h"
 
-const float NAME_FONT_SIZE = 20;
+const float NAME_FONT_SIZE = 22;
 
 TotalRankTableView::~TotalRankTableView(){}
 
@@ -481,6 +481,8 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
     CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr5 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr6 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     add_spr2->setScale(1.02f);
     CCMenuItemSprite* item_add;
 //    if (show->isadd == 0) {
@@ -515,8 +517,9 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
             menu_add->setTag(0x10900);
             bg->addChild(menu_add);
         }else{
+            bool hasRequested = DATA->getSocial()->is_requested(show->getShowID().c_str());
             //不是好友
-            if (show->isadd == 0) {
+            if (! hasRequested || show->isadd == 0) {
                 item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(TotalRankTableView::toBeFriend));
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
@@ -525,7 +528,7 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
                 menu_add->setTag(0x10900);
                 bg->addChild(menu_add);
             }else{
-                item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+                item_add = CCMenuItemSprite::create(add_spr5, add_spr6, this, NULL);
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
                 CCMenu* menu_add = CCMenu::create(item_add, NULL);
@@ -593,6 +596,8 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
     CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr5 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr6 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     add_spr2->setScale(1.02f);
     CCMenuItemSprite* item_add;
 //    if (show->isadd == 0) {
@@ -630,8 +635,9 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
             menu_add->setVisible(false);
             bg->addChild(menu_add);
         }else{
+            bool hasRequested = DATA->getSocial()->is_requested(show->getShowID().c_str());
             //不是好友
-            if (show->isadd == 0) {
+            if (! hasRequested || show->isadd == 0) {
                 item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(TotalRankTableView::toBeFriend));
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
@@ -641,7 +647,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
                 menu_add->setVisible(false);
                 bg->addChild(menu_add);
             }else{
-                item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
+                item_add = CCMenuItemSprite::create(add_spr5, add_spr6, this, NULL);
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
                 CCMenu* menu_add = CCMenu::create(item_add, NULL);
@@ -666,8 +672,8 @@ void TotalRankTableView::toBeFriend(CCMenuItem* btn){
     ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
     other->isadd = 1;
     
-    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     CCMenuItemSprite* item_add;
     item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
     CCMenu* menu_add = CCMenu::create(item_add, NULL);

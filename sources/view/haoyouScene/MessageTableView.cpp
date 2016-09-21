@@ -10,9 +10,10 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "ConfigManager.h"
-#include "Loading2.h"
 #include "NetManager.h"
 
+#include "Loading2.h"
+#include "PromptLayer.h"
 
 MessageTableView::MessageTableView()
 {
@@ -95,7 +96,8 @@ void MessageTableView::creat_View(){
 //    }
     pTableView = CCTableView::create(this, CCSizeMake(522, 300* 3));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
-    pTableView->setPosition(ccp(59, 119));
+//    pTableView->setPosition(ccp(59, 119));
+    pTableView->setPosition(ccp(DISPLAY->halfW() - 265, 119));
     pTableView->setDelegate(this);
     pTableView->setTag(0);
     this->addChild(pTableView, 1);
@@ -245,7 +247,8 @@ void MessageTableView::deleteCallBack(CCObject* pSender){
 }
 void MessageTableView::_805CallBack(CCObject* pSender){
     LOADING->remove();
-    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "操作成功~!");
     this->updateTableView();
 }
 

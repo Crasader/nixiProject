@@ -96,12 +96,18 @@ void LoginScene::onEnter() {
     
     bool autoLogin = DATA->getAutoLogin();
     bool hasSavedAccount = CONFIG->has_saved_account();
-    if (autoLogin && CONFIG->saved_login_type() == 1) {
+    if (autoLogin && CONFIG->saved_login_type() == 1) { // UUID登录
         if (CONFIG->has_saved_uuid()) {
             LOADING->show_loading();
             //        DATA->setLoginType(1);
             CONFIG->save_login_type(1);
             NET->fast_login_900(CONFIG->saved_uuid().c_str(), CONFIG->channelId);
+        }
+        else {
+            DATA->setAutoLogin(false);
+            this->create_views();
+            this->show_registview();
+            this->show_loginview();
         }
     }
     else if (autoLogin && CONFIG->saved_login_type() == 2) {
@@ -110,6 +116,12 @@ void LoginScene::onEnter() {
             //        DATA->setLoginType(2);
             CONFIG->save_login_type(2);
             NET->account_login_901(CONFIG->saved_account().c_str(), CONFIG->saved_password().c_str());
+        }
+        else {
+            DATA->setAutoLogin(false);
+            this->create_views();
+            this->show_registview();
+            this->show_loginview();
         }
     }
     else {

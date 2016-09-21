@@ -289,6 +289,7 @@ void TotalRankScene::create_first(){
         //这是我自己
         
     }else {
+        
         if (DATA->getSocial()->is_friend(show_fst->getShowID().c_str())) {
             //是好友
             CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
@@ -299,7 +300,19 @@ void TotalRankScene::create_first(){
             menu_add_fst->setPosition(ccp(item_first->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
             bg->addChild(menu_add_fst);
             item_add_fst->setEnabled(false);
-        }else{
+        }
+        // 已申请好友
+        else if (true == DATA->getSocial()->is_requested(show_fst->getShowID().c_str())) {
+            CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+            CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+            spr_fst2->setScale(1.02f);
+            CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
+            CCMenu* menu_add_fst = CCMenu::create(item_add_fst, NULL);
+            menu_add_fst->setPosition(ccp(item_first->getContentSize().width - spr_fst->getContentSize().width/2 -10, 20));
+            bg->addChild(menu_add_fst);
+            item_add_fst->setEnabled(false);
+        }
+        else{
             //不是好友
             CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
             CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
@@ -581,10 +594,11 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
                     menu_add_fst->setTag(0x10400);
                     item_add_fst->setEnabled(false);
                 }else{
+                    bool hasRequested = DATA->getSocial()->is_requested(show->getShowID().c_str());
                     //不是好友
-                    if (isadd_fst) {
-                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    if (hasRequested || isadd_fst) {
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
                         spr_fst2->setScale(1.02f);
                         CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
                         //                item_add->setUserObject(CCInteger::create(index + 3));
@@ -625,10 +639,11 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
                     menu_add_fst->setTag(0x10400);
                     item_add_fst->setEnabled(false);
                 }else{
+                    bool hasRequested = DATA->getSocial()->is_requested(show->getShowID().c_str());
                     //不是好友
-                    if (isadd_sed) {
-                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    if (hasRequested || isadd_sed) {
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
                         spr_fst2->setScale(1.02f);
                         CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
                         //                item_add->setUserObject(CCInteger::create(index + 3));
@@ -669,10 +684,11 @@ void TotalRankScene::btn_toBig_callback(CCMenuItem* btn){
                     menu_add_fst->setTag(0x10400);
                     item_add_fst->setEnabled(false);
                 }else{
+                    bool hasRequested = DATA->getSocial()->is_requested(show->getShowID().c_str());
                     //不是好友
-                    if (isadd_thd) {
-                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+                    if (hasRequested || isadd_thd) {
+                        CCSprite* spr_fst = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+                        CCSprite* spr_fst2 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
                         spr_fst2->setScale(1.02f);
                         CCMenuItem* item_add_fst = CCMenuItemSprite::create(spr_fst, spr_fst2, this, menu_selector(TotalRankScene::toBeFriend));
                         //                item_add->setUserObject(CCInteger::create(index + 3));
@@ -815,8 +831,8 @@ void TotalRankScene::toBeFriend(CCMenuItem *btn){
     CCArray* rankers = DATA->getRanking()->ranking();
     ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
     
-    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
     CCMenuItemSprite* item_add;
     item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
     CCMenu* menu_add = CCMenu::create(item_add, NULL);

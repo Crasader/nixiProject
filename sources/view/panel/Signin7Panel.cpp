@@ -248,6 +248,8 @@ void Signin7Panel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
 void Signin7Panel::signin_callback_303(){
     LOADING->remove();
     
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_NEWS_STATUS");
+    
     CCSprite* icon_bg = (CCSprite*)_panel->getChildByTag(_signin_id);
     if (icon_bg->getChildByTag(200)) {
         icon_bg->removeChildByTag(200, true);

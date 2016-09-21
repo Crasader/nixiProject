@@ -79,13 +79,13 @@ void ChatTableView::insertMessage(CCObject *pObj){
 //    }
 }
 
-void ChatTableView::updateCellPosition(){
-    for (int i = 0; i < DATA->getChat()->getItems()->count() - 1; i++) {
-        CCTableViewCell* cell = pTableView->cellAtIndex(i);
-        cell->setPosition(ccp(0, CELL_HEIGHT));
-    }
-    pTableView->insertCellAtIndex(0);
-}
+//void ChatTableView::updateCellPosition(){
+//    for (int i = 0; i < DATA->getChat()->getItems()->count() - 1; i++) {
+//        CCTableViewCell* cell = pTableView->cellAtIndex(i);
+//        cell->setPosition(ccp(0, CELL_HEIGHT));
+//    }
+//    pTableView->insertCellAtIndex(0);
+//}
 
 CCTableViewCell* ChatTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
     CCTableViewCell* pCell = table->dequeueCell();
@@ -94,7 +94,13 @@ CCTableViewCell* ChatTableView::tableCellAtIndex(cocos2d::extension::CCTableView
     }else{
         pCell = new CCTableViewCell();
     }
-    this->config_cell(pCell, idx);
+    int length = DATA->getChat()->getItems()->count();
+    if (length > 100) {
+        this->config_cell(pCell, idx + length - 100);
+    }else {
+        this->config_cell(pCell, idx);
+    }
+    
     
     return pCell;
 }
@@ -158,7 +164,7 @@ CCSize ChatTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){
 }
 
 unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
-    return DATA->getChat()->getItems()->count();
+    return MIN(100, DATA->getChat()->getItems()->count());
 }
 
 CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){

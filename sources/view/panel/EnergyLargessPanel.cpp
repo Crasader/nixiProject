@@ -110,6 +110,7 @@ void EnergyLargessPanel::nc_take_energy_301(CCObject *pObj) {
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_NEWS_STATUS");
 }
 
 #pragma mark - Inner
