@@ -70,7 +70,7 @@ bool VipQingjingScene::init(){
     selectedIndex = DATA->getChapterNumber();
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
-//    allNumber = taskConditionsDic->count();
+    allNumber = taskConditionsDic->count();
     
     
     int dicCount = taskConditionsDic->count()/3;
@@ -96,11 +96,10 @@ bool VipQingjingScene::init(){
         int tempIndex2 = DATA->getStory()->story2_state("1");
         int tempIndex3 = DATA->getStory()->story2_state("2");
         if (tempIndex2 == 0 || tempIndex3 == 0) {
-            CCString* indexStr1 = CCString::createWithFormat("%d", 1);
-            NET->buy_story2_505(indexStr1->getCString());
+            CCString* indexStr1 = CCString::createWithFormat("%d", 0);
+            NET->buchang_story2_113(indexStr1->getCString());
         }
     }
-    
     
     
     DATA->setChapterNumber(0);
@@ -135,7 +134,9 @@ void VipQingjingScene::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_509CallBack), "HTTP_FINISHED_509", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_505CallBack), "HTTP_FINISHED_505", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_111CallBack), "HTTP_FINISHED_109", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_111CallBack), "HTTP_FINISHED_111", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::_113CallBack), "HTTP_FINISHED_113", NULL);
+    
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "VipQingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
@@ -485,7 +486,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
                 NET->buy_story2_505(indexStr1->getCString());
             }else if (CONFIG->baiOrYijie == 1){// 易接
                 LOADING->show_loading();
-                JNIController::setMoneyStatus(2 * 100);
+                JNIController::setMoneyStatus(6 * 100);
                 JNIController::setGoldStatus(0);
                 JNIController::setPlayerName(DATA->getShow()->nickname());
                 CCString* productStr = CCString::createWithFormat("story_buy2");
@@ -552,7 +553,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             NET->buy_story2_505(indexStr1->getCString());
         }else if (CONFIG->baiOrYijie == 1){// 易接
             
-            JNIController::setMoneyStatus(2 * 100);
+            JNIController::setMoneyStatus(6 * 100);
             JNIController::setGoldStatus(0);
             JNIController::setPlayerName(DATA->getShow()->nickname());
             CCString* productStr = CCString::createWithFormat("story_buy2");
@@ -634,6 +635,33 @@ void VipQingjingScene::_111CallBack(CCObject* pSender){
     
     creat_view();
 }
+void VipQingjingScene::_113CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    storyIndex = 0;
+    
+    selectedIndex = DATA->getChapterNumber();
+    CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
+    CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+    int dicCount = taskConditionsDic->count()/3;
+    for (int i = 0; i < dicCount; i++) {
+        CCString* story_index = CCString::createWithFormat("%d", i*3);
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+        if (tempIndex == 0) {
+            if (i < dicCount-1) {
+                allNumber = (i*3) + 1;
+            }else{
+                allNumber = taskConditionsDic->count();
+            }
+            break;
+        }else{
+            allNumber = taskConditionsDic->count();
+        }
+    }
+    
+    creat_view();
+}
 
 void VipQingjingScene::iOS_buy_109() {
     LOADING->show_loading();
@@ -659,7 +687,7 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
         NET->buy_story2_505(indexStr->getCString());
     }else if (CONFIG->baiOrYijie == 1){// 易接
         LOADING->show_loading();
-        JNIController::setMoneyStatus(2 * 100);
+        JNIController::setMoneyStatus(6 * 100);
         JNIController::setGoldStatus(0);
         JNIController::setPlayerName(DATA->getShow()->nickname());
         CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);

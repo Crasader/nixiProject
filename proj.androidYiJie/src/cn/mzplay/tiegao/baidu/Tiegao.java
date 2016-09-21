@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao;
+package cn.mzplay.tiegao.baidu;
 
 import java.util.UUID;
 
@@ -42,7 +42,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.YijieLayer;
+import cn.mzplay.tiegao.baidu.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 

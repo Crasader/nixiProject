@@ -89,6 +89,7 @@ public:
     void _509CallBack(CCObject* pSender);
     void _505CallBack(CCObject* pSender);
     void _111CallBack(CCObject* pSender);
+    void _113CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);
     void closeButton();

@@ -25,7 +25,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import cn.mzplay.tiegao.Tiegao;
+import cn.mzplay.tiegao.baidu.Tiegao;
 import cn.sharesdk.onekeyshare.PlatformListFakeActivity;
 
 public class PlatformListPage extends PlatformListFakeActivity implements View.OnClickListener {
