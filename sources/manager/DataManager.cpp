@@ -204,6 +204,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             this->start_check_news();
+            
+            this->setFirstOnMainScene(true);
         } break;
             
         case 903: {
@@ -655,6 +657,12 @@ void DataManager::onChargeSuccess(std::string orderId){
 // 记录付费点
 void DataManager::onPurchase(std::string clothesIdStr, int index, double money){
     TDCCItem::onPurchase(clothesIdStr.c_str(), index, money);
+}
+
+// 记录赠予
+void DataManager::onReward(double money, std::string contentStr){
+//    TDCCVirtualCurrency::onReward(100, "初始化赠予100钻石");
+    TDCCVirtualCurrency::onReward(money, contentStr.c_str());
 }
 
 //接受或进入

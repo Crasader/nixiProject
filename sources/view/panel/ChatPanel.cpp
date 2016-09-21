@@ -52,7 +52,8 @@ void ChatPanel::onEnter(){
     CCNotificationCenter::sharedNotificationCenter()->postNotification("CLOSE_CHATPANEL");
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchSwallowEnabled(true);
+//    this->setTouchSwallowEnabled(true);
+    this->setTouchSwallowEnabled(false);
 }
 
 void ChatPanel::onExit(){
@@ -248,11 +249,11 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-    CCPoint pos = pTouch->getLocation();
-    if (!_panel_bg->boundingBox().containsPoint(pos) && isCanClose) {
-//        WS->disconnect();
-        this->closeChatPanel();
-    }
+//    CCPoint pos = pTouch->getLocation();
+//    if (!_panel_bg->boundingBox().containsPoint(pos) && isCanClose) {
+////        WS->disconnect();
+//        this->closeChatPanel();
+//    }
     return true;
 }
 
@@ -276,6 +277,7 @@ void ChatPanel::show_panel(){
 }
 
 bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
+    this->setTouchSwallowEnabled(true);
     CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f + 350));
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
     
@@ -283,6 +285,7 @@ bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
 }
 
 bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
+    this->setTouchSwallowEnabled(false);
     CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f));
     _panel_bg->stopAllActions();
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));

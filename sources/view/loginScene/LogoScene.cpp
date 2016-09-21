@@ -53,10 +53,10 @@ void LogoScene::creat_view(){
 }
 void LogoScene::next_scene(){
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    CCScene* pScene = LoginScene::scene();
-    CCDirector::sharedDirector()->replaceScene(pScene);
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+//    CCScene* pScene = LoginScene::scene();
+//    CCDirector::sharedDirector()->replaceScene(pScene);
+//#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (CONFIG->baiOrYijie == 0) {// 白包
         CCScene* pScene = LoginScene::scene();
         CCDirector::sharedDirector()->replaceScene(pScene);
@@ -64,7 +64,7 @@ void LogoScene::next_scene(){
         CCScene* pScene = YiJieLoginScene::scene();
         CCDirector::sharedDirector()->replaceScene(pScene);
     }
-#endif
+//#endif
 }
 
 

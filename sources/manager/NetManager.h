@@ -53,6 +53,11 @@ public:
     void social_info_800();
     void search_other_801(const char* other_sid);
     void recommend_stranger_802();
+//    typedef enum {
+//        e_Msg_Friend_Ask = 1,   // 加好友消息的类型
+//        e_Msg_Send_Energy,      // 送体力消息的类型
+//        e_Msg_Friend_Deletem,   // 当删除好友时消息的类型
+//    } MesssageType;
     void send_message_803(const char* other_sid, int type);
     void all_messages_804();
     void response_message_805(int id, int oper);      // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
@@ -115,8 +120,10 @@ public:
     void exchange_coin_103();
     void verify_order_android_105(string& orderId, string& productId);
     void verify_order_iOS_107(string& orderId, string& productId);
-    
-    void buy_fee_story_109(const char* id, string& orderId); // 4 Andoird
+    // 4 Andoird 旧版使用
+    void buy_fee_story_109(const char* id, string& orderId);
+    // 4 Andoird 新版使用
+    void buy_fee_story2_111(const char* id, string& orderId);
     
 private:
     string generate_sign(int cid, const char* data);

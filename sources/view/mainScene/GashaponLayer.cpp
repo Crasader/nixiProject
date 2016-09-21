@@ -495,6 +495,7 @@ void GashaponLayer::_307CallBack(CCObject* pSender){
         
     }
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("CHECK_FREE_GASHAPON");
     this->creat_Tishi((CCArray* )pSender);
 }
 

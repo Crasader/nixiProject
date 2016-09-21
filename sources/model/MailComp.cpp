@@ -8,6 +8,7 @@
 
 #include "MailComp.h"
 #include "Reward.h"
+#include "DataManager.h"
 
 MailItem::~MailItem() {
     CC_SAFE_DELETE(reward);
@@ -93,6 +94,15 @@ void MailComp::handle_mail_oper(int id, int oper) {
     for (int i = 0; i < size; i++) {
         MailItem* item = (MailItem* )_mails->objectAtIndex(i);
         if (item->id == id) {
+            
+            if (item->reward != NULL) {
+                Reward* reward = item->reward;
+                if (reward->diam > 0) {
+                    CCString* diamStr = CCString::createWithFormat("邮件赠予%d钻石", reward->diam);
+                    DATA->onReward(reward->diam, diamStr->getCString());
+                }
+            }
+            
             _mails->removeObjectAtIndex(i);
             break;
         }

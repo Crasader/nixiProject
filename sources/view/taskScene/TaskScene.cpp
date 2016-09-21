@@ -24,6 +24,8 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "BuildingLayer.h"
+#include "TDCCAccount.h"
+#include "TDCCTalkingDataGA.h"
 
 #include "GuideLayer.h"
 
@@ -63,7 +65,16 @@ bool TaskScene::init(bool isPhaseUP){
         this->init_contents();
     }
     
-
+    if (DATA->getTaskTalkingdataID() != DATA->getPlayer()->mission) {
+        DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+        
+        CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
+        TDCCAccount* account = TDCCAccount::setAccount(TDCCTalkingDataGA::getDeviceId());
+        account->setLevel(DATA->getTaskTalkingdataID());
+        account->setAccountName(accountNameStr->getCString());
+    }
+    
+    
     return true;
 }
 void TaskScene::play_music(float dt){

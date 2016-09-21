@@ -88,7 +88,7 @@ public:
     void buyCallBack(CCObject* pSender);
     void _509CallBack(CCObject* pSender);
     void _505CallBack(CCObject* pSender);
-    void _109CallBack(CCObject* pSender);
+    void _111CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);
     void closeButton();
@@ -101,12 +101,12 @@ public:
     void quedingCallBack(CCObject* pSender);
     void quxiaoCallBack(CCObject* pSender);
 
-    void openChat();
-    void displayChatItem();
+//    void openChat();
+//    void displayChatItem();
     
     
     void updatePay(float dt);
-    void send109();
+    void send111();
     
     void iOS_buy_109();
     
@@ -118,7 +118,7 @@ public:
     VipQingjingCoverView* qingjingCoverView;
     CCMenuItem* jiantouItem1, *jiantouItem2, *tempItem;
     
-    CCMenuItemSprite* item_chat;
+//    CCMenuItemSprite* item_chat;
     
     int storyIndex;
     int allNumber;
