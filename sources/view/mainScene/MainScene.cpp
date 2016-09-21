@@ -598,6 +598,7 @@ void MainScene::creat_view(){
     _layer_3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(_layer_3);
     
+    
     //---日常btn(公司)---
     CCSprite* rc_Spr1 = CCSprite::create("res/pic/mainScene/company.png");
     company_bar1 = CCSprite::create("res/pic/mainScene/company_bar.png");
@@ -2119,7 +2120,7 @@ void MainScene::update_news_status() {
 //        _haoyouItem->addChild(spt);
         
         CCSprite* spt2 = CCSprite::create("res/pic/new.png");
-        spt2->setPosition(ccp(210, 205));
+        spt2->setPosition(ccp(180, 220));
         spt2->setTag(173);
         haoyou_Item->addChild(spt2);
     }
