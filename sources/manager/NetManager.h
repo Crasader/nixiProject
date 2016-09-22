@@ -125,6 +125,8 @@ public:
     void buy_fee_story_109(const char* id, string& orderId);
     // 4 Andoird 新版使用
     void buy_fee_story2_111(const char* id, string& orderId);
+    // 4 Andoird 补偿使用
+    void buchang_story2_113(const char* id);
     
 private:
     string generate_sign(int cid, const char* data);

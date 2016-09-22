@@ -928,7 +928,13 @@ void ClothesScene::renwukuangCallBack(CCObject* pSender){
     }else if (buttonTag == Tag_CL_XieZi){
         
         isClothesType = Tag_CL_XieZi;
-        renwukuangMethods(isClothesType);
+        if (renwukuangMethodsBool) {
+            renwukuangMethodsBool = false;
+            creat_ViewMethods(isClothesType);
+        }else{
+            renwukuangMethodsBool = true;
+            renwukuangMethods(isClothesType);
+        }
     }else if (buttonTag == Tag_CL_ShiPin){
         
         isClothesType = Tag_CL_ShiPin;
@@ -1378,6 +1384,12 @@ void ClothesScene::startMethods(){
             }
             
             this->buyClothesMethods();
+            
+            
+            if (DATA->current_guide_step() == 4){
+                // talkingData
+                DATA->onEvent("引导事件", "引导界面", "完成引导第4步");
+            }
             
             startTask = true;
             LOADING->show_loading();
@@ -3162,9 +3174,6 @@ void ClothesScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_
     }else if (button_type == AH_BUTTON_TYPE_YESNO2){
         if (button_tag == AH_BUTTON_TAG_YES) {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
-        }else if (button_tag == AH_BUTTON_TAG_NO){
-            PromptLayer* layer = PromptLayer::create();
-            layer->show_prompt(this->getScene(), "加入官方QQ群315157598可获得钻石奖励呦!");
         }
     }else if (button_type == AH_BUTTON_TYPE_YESNO3){
         if (button_tag == AH_BUTTON_TAG_YES) {

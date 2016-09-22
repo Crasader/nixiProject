@@ -88,7 +88,8 @@ public:
     void buyCallBack(CCObject* pSender);
     void _509CallBack(CCObject* pSender);
     void _505CallBack(CCObject* pSender);
-    void _109CallBack(CCObject* pSender);
+    void _111CallBack(CCObject* pSender);
+    void _113CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);
     void closeButton();
@@ -106,7 +107,7 @@ public:
     
     
     void updatePay(float dt);
-    void send109();
+    void send111();
     
     void iOS_buy_109();
     

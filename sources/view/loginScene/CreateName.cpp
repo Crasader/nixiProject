@@ -25,6 +25,9 @@ bool CreateName::init()
         return false;
     }
     
+    // talkingData
+    DATA->onEvent("启动事件", "昵称界面", "进入昵称界面");
+    
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);

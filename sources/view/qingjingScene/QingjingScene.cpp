@@ -255,7 +255,12 @@ void QingjingScene::creat_view(){
         kuangSpr1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height - 30));
         kuangSpr->addChild(kuangSpr1);
         
-        CCString* labelStr = CCString::createWithFormat("序章. %s", DISPLAY->GetOffTheName(i)->getCString());
+        CCString* labelStr;
+        if (i == 0) {
+            labelStr = CCString::createWithFormat("序章. %s", DISPLAY->GetOffTheName(i)->getCString());
+        }else{
+            labelStr = CCString::createWithFormat("%s", DISPLAY->GetOffTheName(i)->getCString());
+        }
         CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25);
         label->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
         label->setColor(ccWHITE);

@@ -149,10 +149,14 @@ public:
     void onChargeSuccess(std::string orderId);
     // 记录付费点
     void onPurchase(std::string clothesIdStr, int index, double money);
-    //接受或进入
+    // 记录赠予
+    void onReward(double money, std::string contentStr);
+    // 接受或进入
     void onBegin(std::string taskId);
-    //任务完成
+    // 任务完成
     void onCompleted(std::string taskId);
+    // 任务id处理
+    CC_SYNTHESIZE(int, _taskTalkingdataID, TaskTalkingdataID);
     
 private:
 

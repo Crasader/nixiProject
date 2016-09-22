@@ -1417,6 +1417,9 @@ void TaskStoryScene::startCallBack(CCObject* pSender){
                     _player->setGuide(4);
                 }
                 
+                // talkingData
+                DATA->onEvent("引导事件", "引导界面", "完成引导第3步");
+                
                 LOADING->show_loading();
                 NET->update_guide_905(_player->getGuide());
             }else{

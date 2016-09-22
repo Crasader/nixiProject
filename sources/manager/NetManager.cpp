@@ -101,6 +101,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["uuid"] = uuid;
     root["type"] = 1;
     root["channel"] = channel;
+    root["ver"] = "10200";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -620,5 +621,14 @@ void NetManager::buy_fee_story2_111(const char* id, string &orderId) {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(111, data);
+}
+
+void NetManager::buchang_story2_113(const char *id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(113, data);
 }
 

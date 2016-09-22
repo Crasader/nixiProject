@@ -330,32 +330,32 @@ void FloorCell::update_coffers() {
         _coffers->removeAllChildrenWithCleanup(true);
     }
     
-    // 金库信息
-    CCSprite* sptPromptBar = CCSprite::create("res/pic/building/coin_plate.png");
-    sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
-    _coffers->addChild(sptPromptBar, 100);
-    
-    CoffersComp* coffers = DATA->getCoffers();
-    CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
-    CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 18);
-    lbl->setColor(ccc3(192, 102, 82));
-    lbl->setAnchorPoint(ccp(0.5, 0.5));
-    lbl->setPosition(ccp(sptPromptBar->getContentSize().width * 0.5, sptPromptBar->getContentSize().height * 0.5));
-    sptPromptBar->addChild(lbl);
-    
     // 领取按钮
-    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("res/pic/building/coin_plate.png");
-    sptTakeBar->setContentSize(CCSizeMake(84, 25));
-    sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.86, 48));
-    _coffers->addChild(sptTakeBar, 100);
+//    CCScale9Sprite* sptTakeBar = CCScale9Sprite::create("res/pic/building/coin_plate.png");
+//    sptTakeBar->setContentSize(CCSizeMake(84, 25));
+//    sptTakeBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.86, 48));
+//    _coffers->addChild(sptTakeBar, 100);
     
-    CCSprite* take1 = CCSprite::create("res/pic/building/btn_take.png");
-    CCSprite* take2 = CCSprite::create("res/pic/building/btn_take.png");
+    CCSprite* take1 = CCSprite::create("res/pic/building/btn_take_new.png");
+    CCSprite* take2 = CCSprite::create("res/pic/building/btn_take_new.png");
     take2->setScale(DISPLAY->btn_scale());
     CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&FloorCell::on_take_rewards));
     CCMenu* menuTake = CCMenu::createWithItem(btn_take);
-    menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.86, 49));
+    menuTake->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 49));
     _coffers->addChild(menuTake, 101);
+    
+    // 金库信息
+    CCSprite* sptPromptBar = CCSprite::create("res/pic/building/coin_plate.png");
+    sptPromptBar->setPosition(ccp(take1->getContentSize().width * 0.32, take1->getContentSize().height * 0.55));
+    btn_take->addChild(sptPromptBar, 100);
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
+    CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
+    lbl->setColor(ccc3(192, 102, 82));
+    lbl->setAnchorPoint(ccp(0.5, 0.5));
+    lbl->setPosition(ccp(sptPromptBar->getContentSize().width * 0.66, sptPromptBar->getContentSize().height * 0.45));
+    sptPromptBar->addChild(lbl);
 }
 
 #pragma mark - Inner
@@ -505,17 +505,17 @@ void FloorCell::_show_coin_collected() {
     
     AUDIO->comfirm_effect();
     
-    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/clothesScene/gj_dikuang1.png");
+    CCScale9Sprite* sptPromptBar = CCScale9Sprite::create("res/pic/building/coin_plate.png");
     sptPromptBar->setContentSize(CCSizeMake(120, 30));
-    sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.7, 48));
-    _coffers->addChild(sptPromptBar, 100);
+    sptPromptBar->setPosition(ccp(FLOOR_CELL_WIDTH * 0.625, 52));
+    _coffers->addChild(sptPromptBar, 200);
     
     CoffersComp* coffers = DATA->getCoffers();
     CCString* strProfit = CCString::createWithFormat("%d/%d", coffers->profit, coffers->top);
     CCLabelTTF* lbl = CCLabelTTF::create(strProfit->getCString(), DISPLAY->fangzhengFont(), 22);
-    lbl->setColor(DISPLAY->defalutColor());
+    lbl->setColor(ccc3(192, 102, 82));
     lbl->setAnchorPoint(ccp(0.5, 0.5));
-    lbl->setPosition(ccp(60, 15));
+    lbl->setPosition(ccp(sptPromptBar->getContentSize().width * 0.66, sptPromptBar->getContentSize().height * 0.45));
     sptPromptBar->addChild(lbl);
     
     sptPromptBar->runAction(AppUtil::action_expand_fade_out());

@@ -46,7 +46,7 @@
 #include <time.h>
 
 #include "RewardLayer.h"
-
+#include "AHMessageBox.h"
 #include "GuideLayer.h"
 
 #include "JNIController.h"
@@ -82,11 +82,16 @@ bool MainScene::init(){
         accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
 #endif
         if (accountStr != NULL) {
+            CCString* diamStr = CCString::createWithFormat("初始化赠予%d钻石", DATA->getPlayer()->diam);
+            DATA->onReward(DATA->getPlayer()->diam, diamStr->getCString());
+            
+            DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+            
             CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
             TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
             account->setGender(TDCCAccount::TDCCGender::kGenderUnknown);
             account->setAccountType(TDCCAccount::kAccountRegistered);
-            account->setLevel(DATA->getPlayer()->phase);
+            account->setLevel(DATA->getTaskTalkingdataID());
             account->setAccountName(accountNameStr->getCString());
         }
     }
@@ -277,6 +282,21 @@ void MainScene::onEnter(){
         if (DATA->getNews()->signin7 == 1) {
             isOk = true;
             this->qiandaoCallBack(NULL);
+        }
+    }
+    
+    this->checkVersion();
+}
+
+void MainScene::checkVersion() {
+    CCDictionary* mainConf = DATA->getLogin()->config();
+    CCInteger* versionFlag = (CCInteger*)mainConf->objectForKey("ver");
+    if (NULL != versionFlag) {
+        int isNewVersion = versionFlag->getValue();
+        if (0 != isNewVersion) {
+            AHMessageBox* mb = AHMessageBox::create_with_message("检测到您当前不是最新版本!\n请前往应用商店更新~!", NULL, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YES, false);
+            mb->setPosition(DISPLAY->center());
+            this->addChild(mb, 3900);
         }
     }
 }
@@ -563,35 +583,6 @@ void MainScene::creat_view(){
     paihang_bar1->setUserObject(ccs("res/pic/mainScene/paihang_bar.png"));
     _arrGroup1->addObject(paihang_bar1);
     
-    
-    //---活动---
-    CCSprite* hd_Spr1 = CCSprite::create("res/pic/mainScene/huodong.png");
-    CCSprite* hd_Spr2 = CCSprite::create("res/pic/mainScene/huodong.png");
-    
-    huodong_bar1 = CCSprite::create("res/pic/mainScene/huodong_bar.png");
-    huodong_bar1->setPosition(ccp(hd_Spr1->getContentSize().width* .5f, huodong_bar1->getContentSize().height* .46f));
-    hd_Spr1->addChild(huodong_bar1);
-    
-    CCSprite* huodong_bar2 = CCSprite::create("res/pic/mainScene/huodong_bar.png");
-    huodong_bar2->setPosition(ccp(hd_Spr2->getContentSize().width* .5f, huodong_bar2->getContentSize().height* .46f));
-    hd_Spr2->addChild(huodong_bar2);
-    
-    hd_Spr2->setScale(1.02f);
-    CCMenuItem* huodong_Item = CCMenuItemSprite::create(hd_Spr1, hd_Spr2, this, menu_selector(MainScene::huodongCallBack));
-    huodong_Item->setPosition(ccp(_layer_4->getContentSize().width* .38f, _layer_4->getContentSize().height* .89f));
-    
-    menu_huodong = CCMenu::create(huodong_Item, NULL);
-    menu_huodong->setPosition(CCPointZero);
-    _layer_4->addChild(menu_huodong);
-    
-    huodong_bar1->setUserObject(ccs("res/pic/mainScene/huodong_bar.png"));
-    _arrGroup1->addObject(huodong_bar1);
-    
-    CCMoveBy* mb = CCMoveBy::create(2.5f, CCPoint(0, 8));
-    CCMoveBy* mb2 = CCMoveBy::create(0.5f, CCPoint(0, -1.6));
-    CCSequence* seq = CCSequence::create(mb, CCDelayTime::create(0.2f), mb->reverse(), mb2, CCDelayTime::create(0.2f), mb2->reverse(), NULL);
-    CCRepeatForever* ac_huodong = CCRepeatForever::create(seq);
-    menu_huodong->runAction(ac_huodong);
         
     //-----3层背景------
     _layer_3 = CCSprite::create("res/pic/mainScene/three_bg.png");
@@ -622,6 +613,36 @@ void MainScene::creat_view(){
     _layer_3->addChild(menu_richang);
     company_bar1->setUserObject(ccs("res/pic/mainScene/company_bar.png"));
     _arrGroup1->addObject(company_bar1);
+    
+    
+    //---活动---
+    CCSprite* hd_Spr1 = CCSprite::create("res/pic/mainScene/huodong.png");
+    CCSprite* hd_Spr2 = CCSprite::create("res/pic/mainScene/huodong.png");
+    
+    huodong_bar1 = CCSprite::create("res/pic/mainScene/huodong_bar.png");
+    huodong_bar1->setPosition(ccp(hd_Spr1->getContentSize().width* .45f, hd_Spr1->getContentSize().height* .33f));
+    hd_Spr1->addChild(huodong_bar1);
+    
+    CCSprite* huodong_bar2 = CCSprite::create("res/pic/mainScene/huodong_bar.png");
+    huodong_bar2->setPosition(ccp(hd_Spr2->getContentSize().width* .45f, hd_Spr1->getContentSize().height* .33f));
+    hd_Spr2->addChild(huodong_bar2);
+    
+    hd_Spr2->setScale(1.02f);
+    CCMenuItem* huodong_Item = CCMenuItemSprite::create(hd_Spr1, hd_Spr2, this, menu_selector(MainScene::huodongCallBack));
+    huodong_Item->setPosition(ccp(_layer_3->getContentSize().width* .38f, _layer_3->getContentSize().height* .82f));
+    
+    menu_huodong = CCMenu::create(huodong_Item, NULL);
+    menu_huodong->setPosition(CCPointZero);
+    _layer_3->addChild(menu_huodong);
+    
+    huodong_bar1->setUserObject(ccs("res/pic/mainScene/huodong_bar.png"));
+    _arrGroup1->addObject(huodong_bar1);
+    
+    CCMoveBy* mb = CCMoveBy::create(2.5f, CCPoint(0, 8));
+    CCMoveBy* mb2 = CCMoveBy::create(0.5f, CCPoint(0, -1.6));
+    CCSequence* seq = CCSequence::create(mb, CCDelayTime::create(0.2f), mb->reverse(), mb2, CCDelayTime::create(0.2f), mb2->reverse(), NULL);
+    CCRepeatForever* ac_huodong = CCRepeatForever::create(seq);
+    menu_huodong->runAction(ac_huodong);
     
     
     //---樱花树---
@@ -1492,6 +1513,8 @@ void MainScene::richangMethods() {
     PlayerComp* _player = DATA->getPlayer();
     if (_player->getGuide() == 1) {
         _player->setGuide(2);
+        // talkingData
+        DATA->onEvent("引导事件", "引导界面", "完成引导第1步");
     }else if (_player->getGuide() == 8){
         _player->setGuide(8);
     }else if (_player->getGuide() == 100){
@@ -1519,6 +1542,12 @@ void MainScene::nc_take_gift_333(CCObject *pObj) {
         int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
         int diam = ((CCInteger*)dic->objectForKey("diam"))->getValue();
         int energy = ((CCInteger*)dic->objectForKey("energy"))->getValue();
+        
+        if (diam > 0) {
+            CCString* diamStr = CCString::createWithFormat("礼包赠予%d钻石", diam);
+            DATA->onReward(diam, diamStr->getCString());
+        }
+        
         CCString* str = NULL;
         if (coin > 0) {
             if (diam > 0) {

@@ -301,6 +301,10 @@ void LoginScene::account_regist_callback_903(CCObject *pObj) {
 
 void LoginScene::save_nickname_callback_904(CCObject *pObj) {
     CCLog("<><><><><> LoginScene::save_nickname_callback_904");
+    
+    // talkingData
+    DATA->onEvent("启动事件", "昵称界面", "完成昵称界面");
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
