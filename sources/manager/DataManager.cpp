@@ -630,15 +630,13 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-//        return _player->getGuide();
-        return 0;
+        return _player->getGuide();
+//        return 0;
     }
     else {
         return 0;
     }
 }
-
-
 
 
 
@@ -666,6 +664,12 @@ void DataManager::onChargeSuccess(std::string orderId){
 // 记录付费点
 void DataManager::onPurchase(std::string clothesIdStr, int index, double money){
     TDCCItem::onPurchase(clothesIdStr.c_str(), index, money);
+}
+
+// 记录赠予
+void DataManager::onReward(double money, std::string contentStr){
+//    TDCCVirtualCurrency::onReward(100, "初始化赠予100钻石");
+    TDCCVirtualCurrency::onReward(money, contentStr.c_str());
 }
 
 //接受或进入

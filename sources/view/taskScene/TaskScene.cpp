@@ -24,6 +24,8 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "BuildingLayer.h"
+#include "TDCCAccount.h"
+#include "TDCCTalkingDataGA.h"
 
 #include "GuideLayer.h"
 
@@ -63,7 +65,16 @@ bool TaskScene::init(bool isPhaseUP){
         this->init_contents();
     }
     
-
+    if (DATA->getTaskTalkingdataID() != DATA->getPlayer()->mission) {
+        DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+        
+        CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
+        TDCCAccount* account = TDCCAccount::setAccount(TDCCTalkingDataGA::getDeviceId());
+        account->setLevel(DATA->getTaskTalkingdataID());
+        account->setAccountName(accountNameStr->getCString());
+    }
+    
+    
     return true;
 }
 void TaskScene::play_music(float dt){
@@ -861,6 +872,9 @@ void TaskScene::openTaskStoryScene(){
             _player->setGuide(3);
         }
         
+        // talkingData
+        DATA->onEvent("引导事件", "引导界面", "完成引导第2步");
+        
         LOADING->show_loading();
         NET->update_guide_905(_player->getGuide());
     }
@@ -870,6 +884,13 @@ void TaskScene::_905status(){
 }
 void TaskScene::_905CallBack(CCObject* pSender){
     if (!_905Bool) {
+        
+        PlayerComp* _player = DATA->getPlayer();
+        if (_player->getGuide() == 3) {
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第3步");
+        }
+        
         CCScene* scene = TaskStoryScene::scene();
         CCDirector::sharedDirector()->replaceScene(scene);
     }

@@ -454,6 +454,10 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
             }else if (DATA->_guideBool5[1] && !DATA->_guideBool5[2]){
                 LOADING->show_loading();
                 DATA->getPlayer()->setGuide(6);
+                
+                // talkingData
+                DATA->onEvent("引导事件", "引导界面", "完成引导第5步");
+                
                 NET->update_guide_905(DATA->getPlayer()->getGuide());
             }
         }else if (guideIndex == 6){
@@ -553,6 +557,10 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                     CCNotificationCenter::sharedNotificationCenter()->postNotification("Guide_905status");
                     LOADING->show_loading();
                     DATA->getPlayer()->setGuide(9);
+                    
+                    // talkingData
+                    DATA->onEvent("引导事件", "引导界面", "完成引导第8步");
+                    
                     NET->update_guide_905(DATA->getPlayer()->getGuide());
                     this->setTouchSwallowEnabled(true);
                 }
@@ -613,6 +621,10 @@ bool GuideLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
                 }
             }else if (DATA->_guideBool9[5] && !DATA->_guideBool9[6]){
                 DATA->getPlayer()->setGuide(0);
+                
+                // talkingData
+                DATA->onEvent("引导事件", "引导界面", "完成引导第9步");
+                DATA->onEvent("引导事件", "引导界面", "全部引导完成");
                 
                 LOADING->show_loading();
                 NET->update_guide_905(DATA->getPlayer()->getGuide());
@@ -826,9 +838,16 @@ void GuideLayer::getIndex(float dt){
             this->scheduleOnce(SEL_SCHEDULE(&GuideLayer::openTouch), .5f);
             LOADING->show_loading();
             DATA->getPlayer()->setGuide(7);
+            
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "完成引导第6步");
+            
             NET->update_guide_905(DATA->getPlayer()->getGuide());
         }
     }else if (guideIndex == 7){
+        // talkingData
+        DATA->onEvent("引导事件", "引导界面", "进入引导第7步");
+        
         this->schedule(SEL_SCHEDULE(&GuideLayer::guideTime), 3.f);
     }else if (guideIndex == 8){
         if (!DATA->_guideBool8[0]){
@@ -949,6 +968,9 @@ void GuideLayer::creatLabel(float dt){
     wordCount = 0;
     if (guideIndex == 1) {
         if (!DATA->_guideBool1[0]) {
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第1步");
+            
             this->creatDiKuang(1);
             str = CCString::createWithFormat("欢迎(%s)来到女总的世界.\n我是剧里的后期编辑小妮.", DATA->getShow()->nickname());
             this->creat_ContentLength(str->getCString());
@@ -965,6 +987,9 @@ void GuideLayer::creatLabel(float dt){
         }
     }else if (guideIndex == 2){
         if (!DATA->_guideBool2[0]) {
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第2步");
+            
             this->creatDiKuang(6);
             str = CCString::createWithFormat("(=@__@=)哪~!\n这里就是我们女总的日常事务啦!\n帮助女总完成日常\n会根据您的“能力”给予丰厚的奖励");
             this->creat_ContentLength(str->getCString());
@@ -984,6 +1009,9 @@ void GuideLayer::creatLabel(float dt){
         }
     }else if (guideIndex == 4){
         if (!DATA->_guideBool4[0]) {
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第4步");
+            
             this->creatDiKuang(3);
             str = CCString::createWithFormat("额~!注册公司穿什么衣服好呢?\n让我看看哈.\n哦职场类的衣服啊.");
             this->creat_ContentLength(str->getCString());
@@ -1024,6 +1052,9 @@ void GuideLayer::creatLabel(float dt){
         }
     }else if (guideIndex == 5){
         if (!DATA->_guideBool5[0]) {
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第5步");
+            
             this->creatDiKuang(3);
             str = CCString::createWithFormat("公司正式成立了.让我们进入公司内部去参观一下吧.");
             this->creat_ContentLength(str->getCString());
@@ -1036,6 +1067,9 @@ void GuideLayer::creatLabel(float dt){
         }
     }else if (guideIndex == 6){
         if (!DATA->_guideBool6[0]){
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第6步");
+            
             this->creatDiKuang(1);
             str = CCString::createWithFormat("哈哈!辣么多衣服,你说你都想穿出来看~!\n那我们就去服装店,看看吧~!");
             this->creat_ContentLength(str->getCString());
@@ -1060,6 +1094,9 @@ void GuideLayer::creatLabel(float dt){
         }
     }else if (guideIndex == 8){
         if (!DATA->_guideBool8[0]){
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第8步");
+            
             this->creatDiKuang(1);
             str = CCString::createWithFormat("还有辣么多好玩的地方.如果想去,就让我们继续日常,获得更多的星星吧.");
             this->creat_ContentLength(str->getCString());
@@ -1077,6 +1114,9 @@ void GuideLayer::creatLabel(float dt){
         }
     }else if (guideIndex == 9){
         if (!DATA->_guideBool9[0]){
+            // talkingData
+            DATA->onEvent("引导事件", "引导界面", "进入引导第9步");
+            
             this->creatDiKuang(6);
             str = CCString::createWithFormat("咦~!手机响了.快去接电话吧.");
             this->creat_ContentLength(str->getCString());
@@ -1347,6 +1387,10 @@ void GuideLayer::guideTime(float dt){
     this->unschedule(SEL_SCHEDULE(&GuideLayer::guideTime));
     LOADING->show_loading();
     DATA->getPlayer()->setGuide(8);
+    
+    // talkingData
+    DATA->onEvent("引导事件", "引导界面", "完成引导第7步");
+    
     NET->update_guide_905(DATA->getPlayer()->getGuide());
 }
 void GuideLayer::guideQuan(){

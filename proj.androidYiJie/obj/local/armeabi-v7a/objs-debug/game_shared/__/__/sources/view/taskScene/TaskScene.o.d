@@ -290,6 +290,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  jni/../../sources/utils/AppUtil.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/taskScene/BuildingLayer.h \
+ jni/../../sources/td_include/TDCCAccount.h \
+ jni/../../sources/td_include/TDCCTalkingDataGA.h \
  jni/../../sources/view/guide/GuideLayer.h
 
 jni/../../sources/view/taskScene/TaskScene.h:
@@ -883,5 +885,9 @@ jni/../../sources/utils/AppUtil.h:
 jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/taskScene/BuildingLayer.h:
+
+jni/../../sources/td_include/TDCCAccount.h:
+
+jni/../../sources/td_include/TDCCTalkingDataGA.h:
 
 jni/../../sources/view/guide/GuideLayer.h:

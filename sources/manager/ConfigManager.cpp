@@ -50,7 +50,11 @@ void ConfigManager::config() {
         CCAssert(this->channelId == 0, "Channel ID is wrong!");
     }
     else if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) {
-        CCAssert(this->channelId != 0, "Channel ID is wrong!");
+        if (baiOrYijie == 0) {
+            CCAssert(this->channelId == 0, "Channel ID is wrong!");
+        }else{
+            CCAssert(this->channelId != 0, "Channel ID is wrong!");
+        }
     }
     
     netId = config["net"].asInt();

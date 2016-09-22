@@ -82,11 +82,16 @@ bool MainScene::init(){
         accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
 #endif
         if (accountStr != NULL) {
+            CCString* diamStr = CCString::createWithFormat("初始化赠予%d钻石", DATA->getPlayer()->diam);
+            DATA->onReward(DATA->getPlayer()->diam, diamStr->getCString());
+            
+            DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+            
             CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
             TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
             account->setGender(TDCCAccount::TDCCGender::kGenderUnknown);
             account->setAccountType(TDCCAccount::kAccountRegistered);
-            account->setLevel(DATA->getPlayer()->phase);
+            account->setLevel(DATA->getTaskTalkingdataID());
             account->setAccountName(accountNameStr->getCString());
         }
     }
@@ -1508,6 +1513,8 @@ void MainScene::richangMethods() {
     PlayerComp* _player = DATA->getPlayer();
     if (_player->getGuide() == 1) {
         _player->setGuide(2);
+        // talkingData
+        DATA->onEvent("引导事件", "引导界面", "完成引导第1步");
     }else if (_player->getGuide() == 8){
         _player->setGuide(8);
     }else if (_player->getGuide() == 100){
@@ -1535,6 +1542,12 @@ void MainScene::nc_take_gift_333(CCObject *pObj) {
         int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
         int diam = ((CCInteger*)dic->objectForKey("diam"))->getValue();
         int energy = ((CCInteger*)dic->objectForKey("energy"))->getValue();
+        
+        if (diam > 0) {
+            CCString* diamStr = CCString::createWithFormat("礼包赠予%d钻石", diam);
+            DATA->onReward(diam, diamStr->getCString());
+        }
+        
         CCString* str = NULL;
         if (coin > 0) {
             if (diam > 0) {

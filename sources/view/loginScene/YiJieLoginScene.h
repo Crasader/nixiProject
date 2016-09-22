@@ -34,7 +34,10 @@ public:
     
 public:
     
+    CCSprite* bg;
     CCMenuItem* startItem;
+    
+    void init_snow(int huaIndex);
     
     void startCallBack(CCObject* pSender);
     void updataLoginStatus(float dt);
