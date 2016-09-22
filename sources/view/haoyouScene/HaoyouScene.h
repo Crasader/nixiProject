@@ -101,6 +101,7 @@ public:
     
     void openChat();
     void displayChatItem();
+    void createChatPanel();
     void _600CallBack(CCObject* pObj);
     void _605CallBack(CCObject* pObj);
     void _321CallBack(CCObject* pObj);

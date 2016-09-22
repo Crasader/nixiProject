@@ -30,6 +30,7 @@ private:
     void show_registview();
     void show_nicknameview();
 //    void slide_in_logo();
+    void init_snow(int huaIndex);
     
     void fast_login(CCMenuItem* pObj);
     void start_login(CCObject* pObj);

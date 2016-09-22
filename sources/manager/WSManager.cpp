@@ -66,9 +66,10 @@ WSManager* WSManager::Inst() {
 void WSManager::onOpen(WebSocket* ws) {
     CCLOG("Websocket (%p) opened", ws);
 //    BarrageView::show();
-    ChatPanel* panel = ChatPanel::create();
-    panel->setTag(0x1008);
-    CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+//    ChatPanel* panel = ChatPanel::create();
+//    panel->setTag(0x1008);
+//    CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("OPEN_CHAT");
 }
 
 void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {

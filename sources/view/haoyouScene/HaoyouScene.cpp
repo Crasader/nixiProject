@@ -86,6 +86,7 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_321CallBack), "HTTP_FINISHED_321", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::createChatPanel), "OPEN_CHAT", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -204,13 +205,15 @@ void HaoyouScene::creat_view(){
     this->addChild(hidMenu, 5);
 }
 void HaoyouScene::shareCallBack(CCObject* pSender){
-    allMenu->setVisible(false);
+//    allMenu->setVisible(false);
+//    
+//    if (this->getChildByTag(0x1008)) {
+//        this->getChildByTag(0x1008)->setVisible(false);
+//    }
+//    
+//    BaseScene::hideBaseScene();
     
-    if(this->getChildByTag(0x1008)) {
-        this->getChildByTag(0x1008)->setVisible(false);
-    }
-    
-    BaseScene::hideBaseScene();
+    this->hiddenCallback2();
     
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
@@ -232,13 +235,15 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
 }
 
 void HaoyouScene::iOS_share_finish(CCObject* pSender) {
-    allMenu->setVisible(true);
+//    allMenu->setVisible(true);
+//    
+//    if(this->getChildByTag(0x1008)) {
+//        this->getChildByTag(0x1008)->setVisible(true);
+//    }
+//    
+//    BaseScene::openBaseScene();
+    this->openCallback2();
     
-    if(this->getChildByTag(0x1008)) {
-        this->getChildByTag(0x1008)->setVisible(true);
-    }
-    
-    BaseScene::openBaseScene();
     LOADING->show_loading();
     NET->daily_share_321();
 }
@@ -302,12 +307,16 @@ void HaoyouScene::openChat() {
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
-        ChatPanel* panel = ChatPanel::create();
-        panel->setTag(0x1008);
-        this->addChild(panel, 100000);
+        this->createChatPanel();
     }else{
         WS->connect();
     }
+}
+
+void HaoyouScene::createChatPanel() {
+    ChatPanel* panel = ChatPanel::create();
+    panel->setTag(0x1008);
+    this->addChild(panel, 100000);
 }
 
 void HaoyouScene::displayChatItem() {
@@ -480,6 +489,7 @@ void HaoyouScene::openCallback(){
     
     BaseScene::openBaseScene();
 }
+
 void HaoyouScene::openCallback2(){
     if (this->getChildByTag(0x46577) != NULL) {
         this->removeChildByTag(0x46577);
@@ -504,6 +514,7 @@ void HaoyouScene::openCallback2(){
     hidMenu->setTag(0x46577);
     this->addChild(hidMenu, 5);
 }
+
 void HaoyouScene::hiddenCallback(){
     if (this->getChildByTag(0x46577) != NULL) {
         this->removeChildByTag(0x46577);
@@ -517,6 +528,7 @@ void HaoyouScene::hiddenCallback(){
     
     BaseScene::hideBaseScene();
 }
+
 void HaoyouScene::hiddenCallback2(){
     if (this->getChildByTag(0x46577) != NULL) {
         this->removeChildByTag(0x46577);
