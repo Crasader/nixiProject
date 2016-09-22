@@ -126,7 +126,7 @@ void PromptLayer::show_prompt(CCNode* parent, const char* str){
     parent->addChild(this, 3333);
     
     CCCallFunc* remove = CCCallFunc::create(this, SEL_CallFunc(&PromptLayer::removeself));
-    CCSequence* lblSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(2.f), remove, NULL);
+    CCSequence* lblSeq = CCSequence::create(CCMoveBy::create(.3f, ccp(0, 44.f)), CCShow::create(), CCFadeOut::create(3.f), remove, NULL);
     lbl->runAction(lblSeq);
 }
 

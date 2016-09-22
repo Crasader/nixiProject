@@ -148,6 +148,7 @@ public:
     
 private:
     void update_news_status();
+    void iOS_share_finish(CCObject* pSender);
     
 private:
     CCMenuItem*         _xiaoxiItem;

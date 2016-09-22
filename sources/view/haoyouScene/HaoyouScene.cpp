@@ -29,7 +29,9 @@
 #include "AppUtil.h"
 #include "JNIController.h"
 
-
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "ShareManager.h"
+#endif
 
 HaoyouScene::HaoyouScene(){
     
@@ -82,6 +84,8 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_321CallBack), "HTTP_FINISHED_321", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -216,7 +220,7 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     rt->saveToFile(path.c_str());
-    
+    ShareManager::get_instance()->share_pic();
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     JNIController::setShareImage(path.c_str());
@@ -226,6 +230,19 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
     this->schedule(SEL_SCHEDULE(&HaoyouScene::shareStatus), .1f);
 #endif
 }
+
+void HaoyouScene::iOS_share_finish(CCObject* pSender) {
+    allMenu->setVisible(true);
+    
+    if(this->getChildByTag(0x1008)) {
+        this->getChildByTag(0x1008)->setVisible(true);
+    }
+    
+    BaseScene::openBaseScene();
+    LOADING->show_loading();
+    NET->daily_share_321();
+}
+
 void HaoyouScene::shareStatus(float dt){
     allMenu->setVisible(true);
     

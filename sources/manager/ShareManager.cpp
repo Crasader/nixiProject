@@ -12,6 +12,43 @@
 #include "Loading2.h"
 #include "NetManager.h"
 
+void ShareManager::test() {
+    CCDictionary *content = CCDictionary::create();
+    content -> setObject(CCString::create("这是一条测试内容"), "content");
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/test.png");
+    if (CCFileUtils::sharedFileUtils()->isFileExist(path.c_str())) {
+        content -> setObject(CCString::create(path), "image");
+    }
+    content -> setObject(CCString::create("测试标题"), "title");
+    content -> setObject(CCString::create("测试描述"), "description");
+    content -> setObject(CCString::createWithFormat("%d", C2DXContentTypeImage), "type");
+    
+    this->show_share_menu(content);
+}
+
+void ShareManager::share_pic() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    CCDictionary *content = CCDictionary::create();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
+    
+    if (CCFileUtils::sharedFileUtils()->isFileExist(path.c_str())) {
+        content -> setObject(CCString::create(path), "image");
+        content -> setObject(CCString::createWithFormat("%d", C2DXContentTypeImage), "type");
+        this->show_share_menu(content);
+    }
+    else {
+        ShareManager::get_instance()->stop_share();
+    }
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    JNIController::showShare();
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&ShareManager::shareStatus), this, .1f, false);
+#endif
+    
+}
+
+#pragma Inner
 
 void shareResultHandler(C2DXResponseState state, C2DXPlatType platType, CCDictionary *shareInfo, CCDictionary *error)
 {
@@ -19,13 +56,15 @@ void shareResultHandler(C2DXResponseState state, C2DXPlatType platType, CCDictio
         case C2DXResponseStateCancel: {
             CCLog("ShareManager::取消");
             ShareManager::get_instance()->stop_share();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_SHARE_FINISH");
         } break;
-
+            
         case C2DXResponseStateSuccess: {
             CCLog("ShareManager::分享成功");
             ShareManager::get_instance()->did_share_success();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_SHARE_FINISH");
         } break;
-        
+            
         case C2DXResponseStateFail: {
             CCLog("ShareManager::分享失败");
             ShareManager::get_instance()->stop_share();
@@ -35,7 +74,6 @@ void shareResultHandler(C2DXResponseState state, C2DXPlatType platType, CCDictio
             break;
     }
 }
-
 
 static ShareManager* _shared_manager = NULL;
 
@@ -93,28 +131,7 @@ void ShareManager::show_share_menu(CCDictionary* content) {
 //    C2DXShareSDK::showShareMenu(NULL, content, ccp(300, 500), C2DXMenuArrowDirectionDown, NULL);
 }
 
-void ShareManager::share_pic() {
-    
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    CCDictionary *content = CCDictionary::create();
-    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
-    path.append("/share.png");
-    
-    if (CCFileUtils::sharedFileUtils()->isFileExist(path.c_str())) {
-        content -> setObject(CCString::create(path), "image");
-        content -> setObject(CCString::createWithFormat("%d", C2DXContentTypeImage), "type");
-        this->show_share_menu(content);
-    }
-    else {
-        ShareManager::get_instance()->stop_share();
-    }
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIController::showShare();
-    
-    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&ShareManager::shareStatus), this, .1f, false);
-#endif
-    
-}
+
 
 void ShareManager::shareStatus(float dt){
     CCLog("<><><><>shareStatus == %d", JNIController::getShareStatus());
@@ -174,20 +191,5 @@ void ShareManager::notification_4500_callback(CCObject* pObj){
 //    
 //    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 //    nc->postNotification(NOTIFICATION_Share_Rewards, pObj);
-}
-
-void ShareManager::test() {    
-    CCDictionary *content = CCDictionary::create();
-    content -> setObject(CCString::create("这是一条测试内容"), "content");
-    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
-    path.append("/test.png");
-    if (CCFileUtils::sharedFileUtils()->isFileExist(path.c_str())) {
-        content -> setObject(CCString::create(path), "image");
-    }
-    content -> setObject(CCString::create("测试标题"), "title");
-    content -> setObject(CCString::create("测试描述"), "description");
-    content -> setObject(CCString::createWithFormat("%d", C2DXContentTypeImage), "type");
-
-    this->show_share_menu(content);
 }
 
