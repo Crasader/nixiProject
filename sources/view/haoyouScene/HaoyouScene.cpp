@@ -83,6 +83,8 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_321CallBack), "HTTP_FINISHED_321", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::createChatPanel), "OPEN_CHAT", NULL);
+    
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
     
@@ -285,12 +287,16 @@ void HaoyouScene::openChat() {
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
-        ChatPanel* panel = ChatPanel::create();
-        panel->setTag(0x1008);
-        this->addChild(panel, 100000);
+        this->createChatPanel();
     }else{
         WS->connect();
     }
+}
+
+void HaoyouScene::createChatPanel() {
+    ChatPanel* panel = ChatPanel::create();
+    panel->setTag(0x1008);
+    this->addChild(panel, 100000);
 }
 
 void HaoyouScene::displayChatItem() {
