@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.qihu360;
+package cn.mzplay.tiegao.ksyun.mi;
 
 import java.util.UUID;
 
@@ -42,7 +42,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.qihu360.YijieLayer;
+import cn.mzplay.tiegao.ksyun.mi.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -82,12 +82,24 @@ public class Tiegao extends Cocos2dxActivity {
 		alarmClock = new AlarmClock(instance);
 		yijieLayer = new YijieLayer(instance);
 		
+		// 3B6C85B55D277722EE4A800FCC596B17		金山云
+		
+		
 		// 49AC41ECB2C5B4A961E00B2380C21E9F		美图
 		// C5F4CD1E92B6718262FBF57950D8829D		百度
 		// DB61C0FF7AD0549C91DD4FB203139909		360
+		// 03BF303202380DA28B046607C2A79ABF		小米
+		// C59DC7B087EEE431A985F76BBEEDC021		新浪
+		// 77E611BA3283B34C2124D21F0C99632F		vivo
+		
+		
+		
+		
+		
+		
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
-		TalkingDataGA.init(instance, "DB61C0FF7AD0549C91DD4FB203139909", "mzplay");
+		TalkingDataGA.init(instance, "3B6C85B55D277722EE4A800FCC596B17", "mzplay");
 		
 	}
 	

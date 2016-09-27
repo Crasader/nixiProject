@@ -187,7 +187,6 @@ bool MainScene::init(){
         JNIController::isExtendData();
     }
 #endif
-    
     return true;
 }
 void MainScene::setStartGameData(float dt){

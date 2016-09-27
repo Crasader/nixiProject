@@ -61,14 +61,16 @@ bool QingjingScene::init(){
     
     
     if (DATA->current_guide_step() == 9){
-        if (DATA->_guideBool9[2] && !DATA->_guideBool9[3]){
-            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-            layer->setTag(0x445566);
-            this->addChild(layer, 500);
-        }else if (DATA->_guideBool9[5] && !DATA->_guideBool9[6]){
-            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-            layer->setTag(0x445566);
-            this->addChild(layer, 500);
+        if (DATA->getOpenGuideBool9()) {
+            if (DATA->_guideBool9[2] && !DATA->_guideBool9[3]){
+                GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+                layer->setTag(0x445566);
+                this->addChild(layer, 500);
+            }else if (DATA->_guideBool9[5] && !DATA->_guideBool9[6]){
+                GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+                layer->setTag(0x445566);
+                this->addChild(layer, 500);
+            }
         }
     }
     
@@ -504,6 +506,10 @@ void QingjingScene::qingjingStatus(){
 
 void QingjingScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
+    if (DATA->getOpenGuideBool9()) {
+        DATA->setOpenGuideBool9(false);
+    }
     
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

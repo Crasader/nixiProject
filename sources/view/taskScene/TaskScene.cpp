@@ -188,6 +188,7 @@ void TaskScene::init_contents() {
         for (int i = 0; i < 10; i++) {
             DATA->_guideBool9[i] = true;
         }
+        DATA->setOpenGuideBool9(true);
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
@@ -448,6 +449,10 @@ void TaskScene::enterTheKuang(float dt){
 
 void TaskScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
+    
+    if (DATA->getOpenGuideBool9()) {
+        DATA->setOpenGuideBool9(false);
+    }
     
     if (DATA->getHomeBool()) {
         DATA->setHomeBool(false);

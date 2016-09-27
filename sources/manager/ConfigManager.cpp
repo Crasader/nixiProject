@@ -46,6 +46,7 @@ void ConfigManager::config() {
     
     this->channelId = config["can"].asInt();
     this->baiOrYijie = config["baiOrYijie"].asInt();
+    this->openPay = config["openPay"].asInt();
     if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) {
         CCAssert(this->channelId == 0, "Channel ID is wrong!");
     }

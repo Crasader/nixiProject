@@ -2,6 +2,7 @@
     "version": "1.2.7",
     "can": 0,
     "baiOrYijie": 0,
-    "net": 17,
+    "openPay": 1,
+    "net": 170,
     "chat": 170
 }
