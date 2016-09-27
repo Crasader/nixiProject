@@ -1070,10 +1070,13 @@ void StoryScene::addButton(){
     menu->setTag(0x88888);
     _dkSpr->addChild(menu, 15);
     
-    if (DATA->current_guide_step() == 9){
-        fhItem->setColor(ccGRAY);
-        fhItem->setEnabled(false);
+    if (DATA->current_guide_step() == 9) {
+        if (DATA->getOpenGuideBool9()) {
+            fhItem->setColor(ccGRAY);
+            fhItem->setEnabled(false);
+        }
     }
+    
 }
 
 void StoryScene::button1CallBack(CCObject* pSender){
@@ -1213,11 +1216,14 @@ void StoryScene::button3CallBack(CCObject* pSender){
 }
 
 void StoryScene::initButton(){
-    if (DATA->current_guide_step() == 9){
-        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-        layer->setTag(0x445566);
-        this->addChild(layer, 500);
+    if (DATA->current_guide_step() == 9) {
+        if (DATA->getOpenGuideBool9()) {
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }
     }
+    
     
     CCArray* arr = dialogItem->getArray();
     int nextIndex;
@@ -1261,9 +1267,12 @@ void StoryScene::creatButton(int dex){
         menu1->setVisible(true);
         this->addChild(menu1, 20);
         
-        if (DATA->current_guide_step() == 9){
-            item1->setEnabled(false);
+        if (DATA->current_guide_step() == 9) {
+            if (DATA->getOpenGuideBool9()) {
+                item1->setEnabled(false);
+            }
         }
+        
         
     }else if (dex == 1){
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/storyscene/qj_rwtiao.png");
@@ -1289,9 +1298,12 @@ void StoryScene::creatButton(int dex){
         menu3->setVisible(true);
         this->addChild(menu3, 20);
         
-        if (DATA->current_guide_step() == 9){
-            item3->setEnabled(false);
+        if (DATA->current_guide_step() == 9) {
+            if (DATA->getOpenGuideBool9()) {
+                item3->setEnabled(false);
+            }
         }
+        
     }
 }
 void StoryScene::initLabel(int dex){
