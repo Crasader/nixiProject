@@ -8,11 +8,13 @@
 
 #include "ChatPanel.h"
 #include "DisplayManager.h"
+#include "FileManager.h"
 #include "ChatTableView.h"
 #include "WSManager.h"
 #include "DataManager.h"
 #include "json_lib.h"
 
+#include "PromptLayer.h"
 #include "EmoticonPanel.h"
 #include "AudioManager.h"
 
@@ -237,16 +239,21 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
     if (text_str->compare("") == 0) {
         
     }else{
-        root["name"] = DATA->getShow()->nickname();
-        root["chat"] = _input_text->getString();
-        string data = writer.write(root);
-        WS->send(data);
-        
-        _input_text->setString("");
-        _input_text->setAnchorPoint(CCPoint(0, 0.5));
-        _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
+        const char* content = _input_text->getString();
+        if (FILEM->is_blanked_illegal(content) == true) {
+            PromptLayer* tip = PromptLayer::create();
+            tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不能使用不文明及敏感文字~!");
+        }else{
+            root["name"] = DATA->getShow()->nickname();
+            root["chat"] = content;
+            string data = writer.write(root);
+            WS->send(data);
+            
+            _input_text->setString("");
+            _input_text->setAnchorPoint(CCPoint(0, 0.5));
+            _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
+        }
     }
- 
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
