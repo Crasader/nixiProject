@@ -184,14 +184,6 @@ void TaskScene::init_contents() {
         GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
         layer->setTag(0x445566);
         this->addChild(layer, 500);
-    }else if (DATA->current_guide_step() == 9){
-        for (int i = 0; i < 10; i++) {
-            DATA->_guideBool9[i] = true;
-        }
-        DATA->setOpenGuideBool9(true);
-        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-        layer->setTag(0x445566);
-        this->addChild(layer, 500);
     }
 }
 
@@ -1453,6 +1445,14 @@ void TaskScene::init_phone(){
                 
                 this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_phone_music), .5f);
                 if (DATA->current_guide_step() == 9) {
+                    for (int i = 0; i < 10; i++) {
+                        DATA->_guideBool9[i] = true;
+                    }
+                    DATA->setOpenGuideBool9(true);
+                    GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+                    layer->setTag(0x445566);
+                    this->addChild(layer, 500);
+                    
                     this->creat_phone2();
                 }else{
                     if (DATA->current_guide_step() == 0) {

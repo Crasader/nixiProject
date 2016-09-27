@@ -72,12 +72,14 @@ bool PhoneLayer2::init(){
     this->creat_view();
     this->creat_man();
     
-    
     if (DATA->current_guide_step() == 9) {
-        GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
-        layer->setTag(0x445566);
-        this->addChild(layer, 500);
+        if (DATA->getOpenGuideBool9()) {
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }
     }
+    
     
     return true;
 }
@@ -153,13 +155,15 @@ void PhoneLayer2::creat_view(){
     buttonMenu->setPosition(CCPointZero);
     kuangSpr->addChild(buttonMenu);
     
-    
     if (DATA->current_guide_step() == 9) {
-        backItem->setColor(ccGRAY);
-        backItem->setEnabled(false);
-        buquItem->setColor(ccGRAY);
-        buquItem->setEnabled(false);
+        if (DATA->getOpenGuideBool9()) {
+            backItem->setColor(ccGRAY);
+            backItem->setEnabled(false);
+            buquItem->setColor(ccGRAY);
+            buquItem->setEnabled(false);
+        }
     }
+    
 }
 void PhoneLayer2::creat_man(){
     // 显示的任务的结局
