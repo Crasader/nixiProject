@@ -2189,6 +2189,10 @@ void StoryScene::fhCallBack(CCObject* pSender){
 //    mb->setPosition(Center);
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3010);
     
+    if (DATA->getOpenGuideBool9()) {
+        DATA->setOpenGuideBool9(false);
+    }
+    
     if (DATA->current_guide_step() == 0 || DATA->current_guide_step() != 8) {
         CCScene* scene = QingjingScene::scene();
         CCDirector::sharedDirector()->replaceScene(scene);

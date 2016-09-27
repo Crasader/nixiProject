@@ -261,15 +261,20 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         
         NET->verify_order_iOS_107(orderId, pro->id);
     }else if (CONFIG->baiOrYijie == 1){// 易接
-        LOADING->show_loading();
-        JNIController::setMoneyStatus(pro->money * 100);
-        JNIController::setGoldStatus(pro->diam);
-        JNIController::setPlayerName(DATA->getShow()->nickname());
-        JNIController::setProductId(pro->id.c_str());
-        JNIController::setSidId(DATA->getLogin()->obtain_sid());
-        JNIController::isGamePay(item->getTag());
-        
-        this->schedule(schedule_selector(PurchasePanel::updatePay), 1.f);
+        if (CONFIG->openPay == 0) {
+            // talkingData
+            DATA->onEvent("支付意向", "支付界面", "点击购买钻石");
+        }else if (CONFIG->openPay == 1){
+            LOADING->show_loading();
+            JNIController::setMoneyStatus(pro->money * 100);
+            JNIController::setGoldStatus(pro->diam);
+            JNIController::setPlayerName(DATA->getShow()->nickname());
+            JNIController::setProductId(pro->id.c_str());
+            JNIController::setSidId(DATA->getLogin()->obtain_sid());
+            JNIController::isGamePay(item->getTag());
+            
+            this->schedule(schedule_selector(PurchasePanel::updatePay), 1.f);
+        }
     }
 #endif
     

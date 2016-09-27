@@ -490,16 +490,22 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
                 CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
                 NET->buy_story2_505(indexStr1->getCString());
             }else if (CONFIG->baiOrYijie == 1){// 易接
-                LOADING->show_loading();
-                JNIController::setMoneyStatus(6 * 100);
-                JNIController::setGoldStatus(0);
-                JNIController::setPlayerName(DATA->getShow()->nickname());
-                CCString* productStr = CCString::createWithFormat("story_buy2");
-                JNIController::setProductId(productStr->getCString());
-                JNIController::setSidId(DATA->getLogin()->obtain_sid());
-                JNIController::isGamePay(10);
-                
-                this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+                if (CONFIG->openPay == 0) {
+                    LOADING->show_loading();
+                    CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                    NET->buy_story2_505(indexStr1->getCString());
+                }else if (CONFIG->openPay == 1){
+                    LOADING->show_loading();
+                    JNIController::setMoneyStatus(6 * 100);
+                    JNIController::setGoldStatus(0);
+                    JNIController::setPlayerName(DATA->getShow()->nickname());
+                    CCString* productStr = CCString::createWithFormat("story_buy2");
+                    JNIController::setProductId(productStr->getCString());
+                    JNIController::setSidId(DATA->getLogin()->obtain_sid());
+                    JNIController::isGamePay(10);
+                    
+                    this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+                }
             }
 #endif
         }else {
@@ -557,16 +563,21 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
             NET->buy_story2_505(indexStr1->getCString());
         }else if (CONFIG->baiOrYijie == 1){// 易接
-            
-            JNIController::setMoneyStatus(6 * 100);
-            JNIController::setGoldStatus(0);
-            JNIController::setPlayerName(DATA->getShow()->nickname());
-            CCString* productStr = CCString::createWithFormat("story_buy2");
-            JNIController::setProductId(productStr->getCString());
-            JNIController::setSidId(DATA->getLogin()->obtain_sid());
-            JNIController::isGamePay(10);
-            
-            this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+            if (CONFIG->openPay == 0) {
+                LOADING->show_loading();
+                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                NET->buy_story2_505(indexStr1->getCString());
+            }else if (CONFIG->openPay == 1){
+                JNIController::setMoneyStatus(6 * 100);
+                JNIController::setGoldStatus(0);
+                JNIController::setPlayerName(DATA->getShow()->nickname());
+                CCString* productStr = CCString::createWithFormat("story_buy2");
+                JNIController::setProductId(productStr->getCString());
+                JNIController::setSidId(DATA->getLogin()->obtain_sid());
+                JNIController::isGamePay(10);
+                
+                this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+            }
         }
 #endif
     }
@@ -691,16 +702,22 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
         CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
         NET->buy_story2_505(indexStr->getCString());
     }else if (CONFIG->baiOrYijie == 1){// 易接
-        LOADING->show_loading();
-        JNIController::setMoneyStatus(6 * 100);
-        JNIController::setGoldStatus(0);
-        JNIController::setPlayerName(DATA->getShow()->nickname());
-        CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);
-        JNIController::setProductId(productStr->getCString());
-        JNIController::setSidId(DATA->getLogin()->obtain_sid());
-        JNIController::isGamePay(10);
-        
-        this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+        if (CONFIG->openPay == 0) {
+            LOADING->show_loading();
+            CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+            NET->buy_story2_505(indexStr1->getCString());
+        }else if (CONFIG->openPay == 1){
+            LOADING->show_loading();
+            JNIController::setMoneyStatus(6 * 100);
+            JNIController::setGoldStatus(0);
+            JNIController::setPlayerName(DATA->getShow()->nickname());
+            CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);
+            JNIController::setProductId(productStr->getCString());
+            JNIController::setSidId(DATA->getLogin()->obtain_sid());
+            JNIController::isGamePay(10);
+            
+            this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
+        }
     }
 #endif
 }

@@ -166,7 +166,6 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
 //                layer->show_prompt(this->getScene(), "领取成功!");
             }else{
                 exit();
-                CCLog("<><><>exit()");
             }
         }
     }

@@ -129,6 +129,7 @@ public:
     bool _guideBool7[10];
     bool _guideBool8[10];
     bool _guideBool9[10];
+    CC_SYNTHESIZE(bool, _openGuideBool9, OpenGuideBool9);
     int current_guide_step();
     
     // 陌生人刷新计时
