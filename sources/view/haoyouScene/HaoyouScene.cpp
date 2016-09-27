@@ -29,7 +29,9 @@
 #include "AppUtil.h"
 #include "JNIController.h"
 
-
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "ShareManager.h"
+#endif
 
 HaoyouScene::HaoyouScene(){
     
@@ -82,6 +84,9 @@ void HaoyouScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::_321CallBack), "HTTP_FINISHED_321", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::createChatPanel), "OPEN_CHAT", NULL);
     
     this->update_news_status();
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
@@ -200,8 +205,15 @@ void HaoyouScene::creat_view(){
     this->addChild(hidMenu, 5);
 }
 void HaoyouScene::shareCallBack(CCObject* pSender){
-    allMenu->setVisible(false);
-    BaseScene::hideBaseScene();
+//    allMenu->setVisible(false);
+//    
+//    if (this->getChildByTag(0x1008)) {
+//        this->getChildByTag(0x1008)->setVisible(false);
+//    }
+//    
+//    BaseScene::hideBaseScene();
+    
+    this->hiddenCallback2();
     
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
@@ -211,7 +223,7 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     rt->saveToFile(path.c_str());
-    
+    ShareManager::get_instance()->share_pic();
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     JNIController::setShareImage(path.c_str());
@@ -221,8 +233,28 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
     this->schedule(SEL_SCHEDULE(&HaoyouScene::shareStatus), .1f);
 #endif
 }
+
+void HaoyouScene::iOS_share_finish(CCObject* pSender) {
+//    allMenu->setVisible(true);
+//    
+//    if(this->getChildByTag(0x1008)) {
+//        this->getChildByTag(0x1008)->setVisible(true);
+//    }
+//    
+//    BaseScene::openBaseScene();
+    this->openCallback2();
+    
+    LOADING->show_loading();
+    NET->daily_share_321();
+}
+
 void HaoyouScene::shareStatus(float dt){
     allMenu->setVisible(true);
+    
+    if(this->getChildByTag(0x1008)) {
+        this->getChildByTag(0x1008)->setVisible(true);
+    }
+    
     BaseScene::openBaseScene();
     
     if (JNIController::getShareStatus() == 1) {
@@ -275,12 +307,16 @@ void HaoyouScene::openChat() {
     AUDIO->comfirm_effect();
     DATA->setChatOut(false);
     if (WS->isConnected()) {
-        ChatPanel* panel = ChatPanel::create();
-        panel->setTag(0x1008);
-        this->addChild(panel, 100000);
+        this->createChatPanel();
     }else{
         WS->connect();
     }
+}
+
+void HaoyouScene::createChatPanel() {
+    ChatPanel* panel = ChatPanel::create();
+    panel->setTag(0x1008);
+    this->addChild(panel, 100000);
 }
 
 void HaoyouScene::displayChatItem() {
@@ -446,14 +482,25 @@ void HaoyouScene::openCallback(){
     this->addChild(hidMenu, 5);
     
     allMenu->setVisible(true);
+    
+    if(this->getChildByTag(0x1008)) {
+        this->getChildByTag(0x1008)->setVisible(true);
+    }
+    
     BaseScene::openBaseScene();
 }
+
 void HaoyouScene::openCallback2(){
     if (this->getChildByTag(0x46577) != NULL) {
         this->removeChildByTag(0x46577);
     }
     
     allMenu->setVisible(true);
+    
+    if(this->getChildByTag(0x1008)) {
+        this->getChildByTag(0x1008)->setVisible(true);
+    }
+    
     BaseScene::openBaseScene();
     
     CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
@@ -467,20 +514,32 @@ void HaoyouScene::openCallback2(){
     hidMenu->setTag(0x46577);
     this->addChild(hidMenu, 5);
 }
+
 void HaoyouScene::hiddenCallback(){
     if (this->getChildByTag(0x46577) != NULL) {
         this->removeChildByTag(0x46577);
     }
     
     allMenu->setVisible(false);
+    
+    if(this->getChildByTag(0x1008)) {
+        this->getChildByTag(0x1008)->setVisible(false);
+    }
+    
     BaseScene::hideBaseScene();
 }
+
 void HaoyouScene::hiddenCallback2(){
     if (this->getChildByTag(0x46577) != NULL) {
         this->removeChildByTag(0x46577);
     }
     
     allMenu->setVisible(false);
+    
+    if(this->getChildByTag(0x1008)) {
+        this->getChildByTag(0x1008)->setVisible(false);
+    }
+    
     BaseScene::hideBaseScene();
     
     CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_show.png");

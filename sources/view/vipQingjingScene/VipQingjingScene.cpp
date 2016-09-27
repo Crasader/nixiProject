@@ -466,23 +466,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             AUDIO->comfirm_effect();
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            if (true) {
-                LOADING->show_loading();
-                IOSIAPManager* d = IOSIAPManager::Inst();
-                if (d->canMakePurchases()) {
-                    CCLOG("can purchases");
-                    d->buyProduct("tiegao_story");
-                }
-                else {
-                    LOADING->remove();
-                    CCLOG("can not purchases");
-                }
-            }
-            else {
-                LOADING->show_loading();
-                CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-                NET->buy_story2_505(indexStr->getCString());
-            }
+            this->start_iOS_purchase();
             
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
             if (CONFIG->baiOrYijie == 0) {// 白包
@@ -539,23 +523,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
         AUDIO->comfirm_effect();
         
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        if (true) {
-            LOADING->show_loading();
-            IOSIAPManager* d = IOSIAPManager::Inst();
-            if (d->canMakePurchases()) {
-                CCLOG("can purchases");
-                d->buyProduct("tiegao_story");
-            }
-            else {
-                LOADING->remove();
-                CCLOG("can not purchases");
-            }
-        }
-        else {
-            LOADING->show_loading();
-            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-            NET->buy_story2_505(indexStr->getCString());
-        }
+        this->start_iOS_purchase();
         
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         if (CONFIG->baiOrYijie == 0) {// 白包
@@ -603,6 +571,7 @@ void VipQingjingScene::updatePay(float dt){
     }
 #endif
 }
+
 void VipQingjingScene::send111(){
     string orderId = JNIController::getCpOrderId();
     CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
@@ -679,6 +648,27 @@ void VipQingjingScene::_113CallBack(CCObject* pSender){
     creat_view();
 }
 
+void VipQingjingScene::start_iOS_purchase() {
+    if (true) {
+        LOADING->show_loading();
+        IOSIAPManager* d = IOSIAPManager::Inst();
+        if (d->canMakePurchases()) {
+            CCLOG("can purchases");
+            d->buyProduct("tiegao_story");
+        }
+        else {
+            LOADING->remove();
+            CCLOG("can not purchases");
+        }
+    }
+    else {
+        LOADING->show_loading();
+        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+        NET->buy_story2_505(indexStr->getCString());
+    }
+}
+
+// iOS支付成功回调
 void VipQingjingScene::iOS_buy_109() {
     LOADING->show_loading();
     CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
@@ -692,10 +682,12 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
         this->removeChildByTag(0x8888);
     }
     
+    // 就要买
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    LOADING->show_loading();
-    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-    NET->buy_story2_505(indexStr->getCString());
+    this->start_iOS_purchase();
+//    LOADING->show_loading();
+//    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+//    NET->buy_story2_505(indexStr->getCString());
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     if (CONFIG->baiOrYijie == 0) {// 白包
         LOADING->show_loading();

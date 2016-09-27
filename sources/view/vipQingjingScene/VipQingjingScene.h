@@ -98,6 +98,7 @@ public:
     
     void qingjingStatus();
     
+    void start_iOS_purchase();
 
     void quedingCallBack(CCObject* pSender);
     void quxiaoCallBack(CCObject* pSender);

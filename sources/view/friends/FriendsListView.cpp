@@ -88,6 +88,7 @@ CCSprite* FriendsListView::num_sprite(int num){
             spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
             break;
         default:
+            spr =CCSprite::create("res/pic/unknown.png");
             break;
     }
     

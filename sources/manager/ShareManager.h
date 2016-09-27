@@ -17,6 +17,10 @@ using namespace cn::sharesdk;
 
 class ShareManager : public CCObject
 {
+public: // Export
+    void share_pic();
+    void test();
+    
 public:
     ~ShareManager();
     static ShareManager* get_instance();
@@ -27,9 +31,6 @@ public:
     void did_share_success();
     
     void show_share_menu(CCDictionary* content);
-    void share_pic();
-    void test();
-    
     void shareStatus(float dt);
     
 protected:

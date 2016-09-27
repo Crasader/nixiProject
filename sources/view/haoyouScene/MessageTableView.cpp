@@ -189,7 +189,7 @@ cocos2d::extension::CCTableViewCell* MessageTableView::tableCellAtIndex(cocos2d:
     if (item->type == e_Msg_Friend_Ask) {
         contentStr = CCString::createWithFormat("%s希望加您为好友,希望您能同意.", item->sender.c_str());
     }else if (item->type == e_Msg_Send_Energy){
-        contentStr = CCString::createWithFormat("您的好友%s赠送了您体力,请前往领取呦~!", item->sender.c_str());
+        contentStr = CCString::createWithFormat("您的好友%s赠送了您体力,请前往好友界面领取~!", item->sender.c_str());
     }else if (item->type == e_Msg_Friend_Deletem){
         contentStr = CCString::createWithFormat("%s删除您的好友.", item->sender.c_str());
     }

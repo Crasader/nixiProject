@@ -101,6 +101,7 @@ public:
     
     void openChat();
     void displayChatItem();
+    void createChatPanel();
     void _600CallBack(CCObject* pObj);
     void _605CallBack(CCObject* pObj);
     void _321CallBack(CCObject* pObj);
@@ -148,6 +149,7 @@ public:
     
 private:
     void update_news_status();
+    void iOS_share_finish(CCObject* pSender);
     
 private:
     CCMenuItem*         _xiaoxiItem;

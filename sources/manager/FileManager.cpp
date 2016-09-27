@@ -119,16 +119,24 @@ const vector<string> FileManager::illegalWrods() {
         _illegalWords = this->fetch_file_contents("conf/learn2", "、");
     }
     
-//    long size = _illegalWords.size();
-//    for (int i = 0; i < size; i++) {
-//        CCLOG("%d -- %s", i, _illegalWords[i].c_str());
-//    }
+    return _illegalWords;
+}
+
+const vector<string> FileManager::illegalWrods_Nonblank() {
+    if (_illegalWords.empty()) {
+        _illegalWords = this->fetch_file_contents("conf/blanked", "、");
+    }
     
     return _illegalWords;
 }
 
 bool FileManager::is_illegal(const char* toCheck) {
     vector<string>cotents = this->illegalWrods();
+    return this->whether_contain_string(cotents, toCheck);
+}
+
+bool FileManager::is_blanked_illegal(const char* toCheck) {
+    vector<string>cotents = this->illegalWrods_Nonblank();
     return this->whether_contain_string(cotents, toCheck);
 }
 

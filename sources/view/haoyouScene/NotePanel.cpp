@@ -171,6 +171,12 @@ void NotePanel::update(float dt){
 }
 
 void NotePanel::btn_send_callback(){
+    if (m_text->getText().length() == 0) {
+        PromptLayer* tip = PromptLayer::create();
+        tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "内容不能为空~!");
+        return;
+    }
+    
     if (!_entranceType.empty() && _entranceType.compare("friend") == 0) {
         ShowComp* other = DATA->getSocial()->getSelectedFriendByIndex(_index);
         if (other) {
