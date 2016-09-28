@@ -140,7 +140,7 @@ void VipQingjingScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataButton), "VipQingjing_UpdataButton", NULL);
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
-//    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::displayChatItem), "ON_CHAT_PANEL_CLOSE", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::iOS_buy_109), "IOS_BUY_FINISHED", NULL);
     

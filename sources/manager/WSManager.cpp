@@ -65,10 +65,6 @@ WSManager* WSManager::Inst() {
 
 void WSManager::onOpen(WebSocket* ws) {
     CCLOG("Websocket (%p) opened", ws);
-//    BarrageView::show();
-//    ChatPanel* panel = ChatPanel::create();
-//    panel->setTag(0x1008);
-//    CCDirector::sharedDirector()->getRunningScene()->addChild(panel);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("OPEN_CHAT");
 }
 
@@ -102,8 +98,10 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
             else {
                 ChatItem* chat = ChatItem::create();
                 if (chat->init_with_json(root)) {
-                    DATA->getChat()->addItem(chat);
-                    int length = DATA->getChat()->getItems()->count();
+                    ChatComp* compChat = DATA->getChat();
+                    compChat->addItem(chat);
+                    compChat->setNewChatCount(compChat->getNewChatCount() + 1);
+                    int length = compChat->getItems()->count();
                     if( length >= 200) {
                         CCArray* arr = CCArray::create();
                         for (int i = length - 100; i < length; i++) {

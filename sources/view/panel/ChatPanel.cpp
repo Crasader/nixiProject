@@ -24,12 +24,27 @@ ChatPanel::~ChatPanel(){
     
 }
 
-bool ChatPanel::init(){
+ChatPanel* ChatPanel::create(bool couldColse) {
+    ChatPanel* pRet = new ChatPanel();
+    if (pRet && pRet->init(couldColse))
+    {
+        pRet->autorelease();
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
+}
+
+bool ChatPanel::init(bool couldColse){
     if (!CCLayer::init()) {
         return false;
     }
     
-    isCanClose = true;
+    _couldClose = couldColse;
     isOpen = false;
     if (!DATA->getBeginTime()) {
         DATA->setBeginTime(-1);
@@ -46,17 +61,16 @@ bool ChatPanel::init(){
 void ChatPanel::onEnter(){
     CCLayer::onEnter();
     
-
-//    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::send_replay_callback), "CHAT_REPLY", NULL);
-    
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::nc_on_emoticon), "ON_EMOTICON", NULL);
     
-//    EmoticonPanel::show(this->getScene());
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("CLOSE_CHATPANEL");
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
-//    this->setTouchSwallowEnabled(true);
-    this->setTouchSwallowEnabled(false);
+    if (_couldClose) {
+        this->setTouchSwallowEnabled(true);
+    }
+    else {
+        this->setTouchSwallowEnabled(false);
+    }
 }
 
 void ChatPanel::onExit(){
@@ -225,7 +239,8 @@ void ChatPanel::closeChatPanel(){
         _input_text->detachWithIME();
     }
     this->removeFromParentAndCleanup(true);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("CLOSE_CHATPANEL");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("ON_CHAT_PANEL_CLOSE");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("CLOSE_CHATPANEL"); // 咖啡厅用
 }
 
 void ChatPanel::btn_sendMessage(CCMenuItem *item){
@@ -257,11 +272,16 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-//    CCPoint pos = pTouch->getLocation();
-//    if (!_panel_bg->boundingBox().containsPoint(pos) && isCanClose) {
-////        WS->disconnect();
-//        this->closeChatPanel();
-//    }
+    CCPoint pos = pTouch->getLocation();
+    if (_couldClose) {
+        if (! _panel_bg->boundingBox().containsPoint(pos) && ! isOpen) {
+            this->closeChatPanel();
+        }
+    }
+    else {
+
+    }
+    
     return true;
 }
 
@@ -294,7 +314,7 @@ void ChatPanel::show_panel(){
 }
 
 bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
-    this->setTouchSwallowEnabled(true);
+//    this->setTouchSwallowEnabled(true);
     isOpen = true;
     CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f + 350));
     _panel_bg->runAction(CCSequence::create(_actionMove, NULL));
@@ -303,7 +323,7 @@ bool ChatPanel::onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF *sender){
 }
 
 bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
-    this->setTouchSwallowEnabled(false);
+//    this->setTouchSwallowEnabled(false);
     isOpen = false;
     CCFiniteTimeAction* _actionMove = CCMoveTo::create(.18f, ccp(_panel_bg->getPosition().x, DISPLAY->ScreenHeight()* .165f));
     _panel_bg->stopAllActions();

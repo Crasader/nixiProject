@@ -208,6 +208,8 @@ CCScene* MainScene::scene(){
 
 void MainScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat();
+    
     this->setAccelerometerEnabled(true); // ?
     
     CCString* strBGM = AUDIO->getCurBGM();
@@ -255,7 +257,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_begin_position), "TOUCH_BEGIN", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::change_position), "DRAGING", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::setIsEffective), "EFFECTIVE", NULL);
-//    nc->addObserver(this, SEL_CallFuncO(&MainScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&MainScene::displayChatItem), "ON_CHAT_PANEL_CLOSE", NULL);
     
     
     // guide

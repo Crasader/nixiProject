@@ -83,6 +83,7 @@ void TaskScene::play_music(float dt){
 
 void TaskScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat();
     
     AUDIO->play_company_bgm();
     

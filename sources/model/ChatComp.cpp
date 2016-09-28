@@ -58,6 +58,7 @@ bool ChatComp::init() {
     this->setItems(CCArray::create());
     this->setColors(CCArray::create());
     this->initColors();
+    this->setNewChatCount(0);
     
     return true;
 }

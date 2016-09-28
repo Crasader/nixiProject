@@ -18,6 +18,8 @@
 USING_NS_CC;
 using namespace extension;
 
+class ChatBar;
+
 class BaseScene
 : public CCLayer
 , public FlashNumberLabelDelegate
@@ -90,6 +92,20 @@ private:
     CCSprite*                   _phaseStar;
     CCProgressTimer*            _progress;
     CCLabelTTF*                 _nameLabel;
+    
+// 聊天框相关
+public:
+    void openChat();
+    void show_chat_panel();
+private:
+    ChatBar*                    _chatBar;
+//    CCMenu*                     _chatMenu;
+    bool                        _isChatBarShow;
+    bool                        _isChatPanelShow;
+
+    void show_chat_bar();
+    void check_new_chat();
+    void on_chat_panel_close();
 };
 
 #endif /* defined(__tiegao__BaseScene__) */
