@@ -37,6 +37,7 @@ public:
     int signin7;
     int signin30;
     int dailyShareCount; // 每日分享次数
+    int tempSignin;      // 节日临时签到
     
     void print_news();
 

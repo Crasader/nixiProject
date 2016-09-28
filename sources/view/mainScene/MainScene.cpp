@@ -235,6 +235,8 @@ void MainScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
@@ -2142,11 +2144,6 @@ void MainScene::update_news_status() {
     }
     // 玩家消息
     if (news->paper + news->message > 0) {
-//        CCSprite* spt = CCSprite::create("res/pic/new.png");
-//        spt->setPosition(ccp(20, 74));
-//        spt->setTag(172);
-//        _haoyouItem->addChild(spt);
-        
         CCSprite* spt2 = CCSprite::create("res/pic/new.png");
         spt2->setPosition(ccp(180, 220));
         spt2->setTag(173);
@@ -2184,6 +2181,14 @@ void MainScene::update_news_status() {
             hongDian->removeFromParent();
         }
     }
+    // 节日临时签到
+    if (DATA->getNews()->tempSignin == 1) {
+        NET->temp_signin_info_340();
+    }
+}
+
+void MainScene::nc_temp_signin_info_340(CCObject *pObj) {
+    
 }
 
 void MainScene::check_free_gashapon() {
