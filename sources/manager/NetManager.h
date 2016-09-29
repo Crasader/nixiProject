@@ -109,7 +109,7 @@ public:
     void daily_share_321();         // 每日分享
     void take_gift_333(int ChannelId, const char* code); // 礼包兑换
     void temp_signin_info_340();    // 节日临时签到信息
-
+    void perform_temp_signin_341(string id);
     
     void coffers_info_200(bool full);
     void collect_coin_201();

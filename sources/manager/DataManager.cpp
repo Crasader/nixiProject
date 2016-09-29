@@ -489,6 +489,15 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->setTempSigninUserdata(AppUtil::dictionary_with_json(content["info"]));
         } break;
             
+        case 341: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            this->setTempSigninUserdata(AppUtil::dictionary_with_json(content["info"]));
+            _clothes->init_with_json(content["clothes"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
         case 200: {
             _coffers->init_company_template(content["template"]);
             _coffers->replace_user_data(content["coffers"]);
@@ -631,7 +640,7 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
-SigninState DataManager::fetch_signin7_state(CCDictionary* info, const string& id) {
+SigninState DataManager::fetch_tempsignin_state(CCDictionary* info, const string& id) {
     CCInteger* state = (CCInteger*)info->objectForKey(id);
     if (state == NULL) {
         return e_SigninState_Locked;
