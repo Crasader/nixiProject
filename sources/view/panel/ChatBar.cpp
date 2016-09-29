@@ -114,8 +114,8 @@ void ChatBar::show_nmu_plate() {
     _plate->addChild(circle1);
     circle1->runAction(CCRepeatForever::create(CCSequence::create(CCHide::create(), CCDelayTime::create(1.4), CCShow::create(), CCDelayTime::create(1.4), NULL)));
     
-    
-    _num = FlashNumberLabel::create_with_atlas("res/pic/baseScene/base_number4.png", "0", 0, .01f);
+    CCString* startNum = CCString::createWithFormat("%d", DATA->getChat()->getNewChatCount());
+    _num = FlashNumberLabel::create_with_atlas("res/pic/baseScene/base_number4.png", startNum->getCString(), 0, .01f);
     _num->setAnchorPoint(ccp(.5f, .5f));
     _num->setScale(0.9);
     _num->set_delegate(this); // 设置代理
@@ -172,16 +172,22 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
     CCCallFunc* next = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::display_next_chat));
     
     float showSize = nameWidth + lblContent->getContentSize().width;
-    if (showSize < barWidth * 0.94) {
+    if (showSize < barWidth) {
 //        lblContent->setPosition(ccp(nameWidth, barHeight));
 //        lblContent->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(0, barHeight * (-0.5))), CCDelayTime::create(2), next, NULL));
         lblContent->setPosition(ccp(nameWidth, barHeight * 0.5));
         lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), CCFadeOut::create(1.0), next, NULL));
     }
     else {
-        float distance = lblContent->getContentSize().width - nameWidth;
-        lblContent->setPosition(ccp(barWidth * 0.8, barHeight * 0.5));
-        lblContent->runAction(CCSequence::create(CCMoveBy::create(distance / 32, ccp(-distance, 0)), CCDelayTime::create(1.2), next, NULL));
+        lblContent->setPosition(ccp(nameWidth + barWidth * 0.15, barHeight * 0.5));
+        float distance = lblContent->getContentSize().width - lblContent->getPositionX() - nameWidth;
+        if (distance <= 0) {
+            lblContent->setPosition(ccp(nameWidth, barHeight * 0.5));
+            lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), CCFadeOut::create(1.0), next, NULL));
+        }
+        else {
+            lblContent->runAction(CCSequence::create(CCMoveBy::create(MAX(distance / 34, 1.2), ccp(-distance, 0)), CCDelayTime::create(1.2), next, NULL));
+        }
     }
 }
 

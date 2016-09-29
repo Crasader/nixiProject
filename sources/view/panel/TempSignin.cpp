@@ -165,7 +165,13 @@ void TempSignin::config_siginInfo(){
         CCSprite* state_spr = NULL;
         switch (cur_state) {
             case e_SigninState_Locked:{ // 没到时间
-
+                int index = arr->indexOfObject(obj);
+                CCString* name = CCString::createWithFormat("pic/panel/temp_signin/date_10_%d.png", 1+index);
+                state_spr = CCSprite::create(name->getCString());
+                if (state_spr) {
+                    state_spr->setPosition(ccp(icon_bg->getContentSize().width - state_spr->getContentSize().width* .5f, icon_bg->getContentSize().height* 0.15f));
+                    icon_bg->addChild(state_spr);
+                }
             }  break;
             case e_SigninState_Available:{ // 可用
                 state_spr = CCSprite::create("pic/panel/signin7/state_clickget.png");
@@ -190,7 +196,7 @@ void TempSignin::config_siginInfo(){
                 icon_bg->addChild(state_spr);
             }  break;
             case e_SigninState_Expired:{ // 过期
-                state_spr = CCSprite::create("pic/panel/temp_signin/tempsignin_ expired.png");
+                state_spr = CCSprite::create("pic/panel/temp_signin/tempsignin_expired.png");
                 state_spr->setPosition(ccp(icon_bg->getContentSize().width - state_spr->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
                 icon_bg->addChild(state_spr);
             }  break;
