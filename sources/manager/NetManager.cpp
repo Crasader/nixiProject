@@ -532,6 +532,15 @@ void NetManager::temp_signin_info_340() {
     this->post_data(340, string(""));
 }
 
+void NetManager::perform_temp_signin_341(string id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(341, data);
+}
+
 
 void NetManager::coffers_info_200(bool full) {
     FastWriter writer;
