@@ -17,11 +17,6 @@
 #include "NoticeManager.h"
 #include "AudioManager.h"
 #include "WSManager.h"
-#include "Signin7Panel.h"
-#include "HomeLayer.h"
-#include "EnergyLargessPanel.h"
-#include "GashaponLayer.h"
-#include "ExchangeLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -42,6 +37,12 @@
 #include "SettingPanel.h"
 #include "ChatPanel.h"
 #include "TotalRechargePanel.h"
+#include "Signin7Panel.h"
+#include "HomeLayer.h"
+#include "EnergyLargessPanel.h"
+#include "GashaponLayer.h"
+#include "ExchangeLayer.h"
+#include "TempSignin.h"
 
 #include <time.h>
 
@@ -236,7 +237,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
-    
+    // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
@@ -282,7 +283,11 @@ void MainScene::onEnter(){
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
     
     if (DATA->current_guide_step() == 0) {
-        if (DATA->getNews()->signin7 == 1) {
+        // 节日临时签到
+        if (DATA->getNews()->tempSignin == 1) {
+            NET->temp_signin_info_340();
+        }
+        else if (DATA->getNews()->signin7 == 1) {
             isOk = true;
             this->qiandaoCallBack(NULL);
         }
@@ -2171,7 +2176,7 @@ void MainScene::update_news_status() {
         }
     }
     // 签到
-    if (DATA->getNews()->signin7 == 1) {
+    if (DATA->getNews()->signin7 == 1) { // 可签
         CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(20, 74));
         spt->setTag(175);
@@ -2183,14 +2188,10 @@ void MainScene::update_news_status() {
             hongDian->removeFromParent();
         }
     }
-    // 节日临时签到
-    if (DATA->getNews()->tempSignin == 1) {
-        NET->temp_signin_info_340();
-    }
 }
 
 void MainScene::nc_temp_signin_info_340(CCObject *pObj) {
-    
+    TempSignin::show(this->getScene());
 }
 
 void MainScene::check_free_gashapon() {

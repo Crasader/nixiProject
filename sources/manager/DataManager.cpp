@@ -631,6 +631,16 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
+SigninState DataManager::fetch_signin7_state(CCDictionary* info, const string& id) {
+    CCInteger* state = (CCInteger*)info->objectForKey(id);
+    if (state == NULL) {
+        return e_SigninState_Locked;
+    }
+    else {
+        return (SigninState)state->getValue();
+    }
+}
+
 int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
