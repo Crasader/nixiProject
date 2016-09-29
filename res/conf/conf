@@ -1,8 +1,8 @@
 {
-    "version": "1.2.7",
-    "can": 0,
-    "baiOrYijie": 0,
-    "openPay": 0,
-    "net": 234,
-    "chat": 234
+    "version": "1.3.0",
+    "can": 1,
+    "baiOrYijie": 1,
+    "openPay": 1,
+    "net": 170,
+    "chat": 170
 }

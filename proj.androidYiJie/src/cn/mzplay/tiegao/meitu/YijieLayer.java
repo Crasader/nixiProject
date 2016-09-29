@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.ksyun.mi;
+package cn.mzplay.tiegao.meitu;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,9 +43,9 @@ public class YijieLayer{
 		SFOnlineHelper.setLoginListener(instance, new SFOnlineLoginListener() { 
 			@Override
 			public void onLoginSuccess(SFOnlineUser user, Object customParams) { //登陆成功回调
-				Log.e("main", "<><> onLoginSuccess" );
-				Log.e("main", "<><> customParams == " + customParams);
-				Log.e("main", "<><> user == " + user);
+//				Log.e("main", "<><> onLoginSuccess" );
+//				Log.e("main", "<><> customParams == " + customParams);
+//				Log.e("main", "<><> user == " + user);
 				LoginCheck(user);
 			}
 			@Override
@@ -74,17 +74,17 @@ public class YijieLayer{
      */
 	public void LoginCheck(final SFOnlineUser user) {
 		
-		Log.e("main", "<><> LoginCheck user: " + user.toString());
+//		Log.e("main", "<><> LoginCheck user: " + user.toString());
 		new Thread(new Runnable() {
 			@Override
 			public void run() { 
 				try {
 					String url = LoginHelper.CP_LOGIN_CHECK_URL + createLoginURL(user);
 					String result = LoginHelper.executeHttpGet(url);
- 					Log.e("main", "<><> LoginCheck result:" + result);
+// 					Log.e("main", "<><> LoginCheck result:" + result);
  					isAnalyticString(result);
 				} catch (Exception e) {
-					Log.e("main", "<><> LoginCheck ERROR: " + e.toString());
+//					Log.e("main", "<><> LoginCheck ERROR: " + e.toString());
 				}
 			}
 		}).start();
@@ -93,7 +93,7 @@ public class YijieLayer{
 		String[] tempError = null;
 		tempError = str.split(";");
 		
-		Log.i("main","<<<<<<<< tempError ===== " + tempError + " >>>>>>>>");
+//		Log.i("main","<<<<<<<< tempError ===== " + tempError + " >>>>>>>>");
 		if (tempError[0].equals("200")) {
 			try {
 				Tiegao.setSessionid(tempError[1]);
@@ -191,7 +191,7 @@ public class YijieLayer{
 					Tiegao.setSmsStatus(2);
 				}
 				Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();				
-				Log.e("main", "<><> onFailed remain == " + remain);
+//				Log.e("main", "<><> onFailed remain == " + remain);
 			}
 			
 			@Override
@@ -203,14 +203,14 @@ public class YijieLayer{
 				}else{
 					Tiegao.setSmsStatus(2);
 				}
-				Log.e("main", "<><> onOderNo == " + orderNo + ";" + "<><> getSmsStatus == " + Tiegao.getSmsStatus());
+//				Log.e("main", "<><> onOderNo == " + orderNo + ";" + "<><> getSmsStatus == " + Tiegao.getSmsStatus());
 			}
 			
 			@Override
 			public void onSuccess(String remain) {
 				// TODO Auto-generated method stub
 				Tiegao.setSmsStatus(1);
-				Log.e("main", "<><> onSuccess remain == " + remain);
+//				Log.e("main", "<><> onSuccess remain == " + remain);
 			}
 			
 		});

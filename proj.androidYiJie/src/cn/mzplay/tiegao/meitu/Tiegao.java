@@ -21,11 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.ksyun.mi;
+package cn.mzplay.tiegao.meitu;
 
 import java.util.UUID;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
 import com.snowfish.cn.ganga.helper.SFOnlineHelper;
@@ -42,7 +43,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.ksyun.mi.YijieLayer;
+import cn.mzplay.tiegao.meitu.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -99,9 +100,16 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
-		TalkingDataGA.init(instance, "3B6C85B55D277722EE4A800FCC596B17", "mzplay");
+		TalkingDataGA.init(instance, "49AC41ECB2C5B4A961E00B2380C21E9F", "mzplay");
 		
 	}
+	
+	public Cocos2dxGLSurfaceView onCreateView() {
+		Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
+		glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
+		return glSurfaceView; 
+	}
+
 	
     static {
     	System.loadLibrary("game");

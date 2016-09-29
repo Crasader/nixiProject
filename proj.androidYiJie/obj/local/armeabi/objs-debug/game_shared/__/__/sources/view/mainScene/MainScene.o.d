@@ -285,12 +285,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
- jni/../../sources/view/panel/Signin7Panel.h \
- jni/../../sources/view/home/HomeLayer.h \
- jni/../../sources/view/home/HomeTableView.h \
- jni/../../sources/view/panel/EnergyLargessPanel.h \
- jni/../../sources/view/mainScene/GashaponLayer.h \
- jni/../../sources/view/mainScene/ExchangeLayer.h \
  jni/../../sources/view/friends/Shower.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
@@ -318,6 +312,13 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/panel/SettingPanel.h \
  jni/../../sources/view/panel/ChatPanel.h \
  jni/../../sources/view/panel/TotalRechargePanel.h \
+ jni/../../sources/view/panel/Signin7Panel.h \
+ jni/../../sources/view/home/HomeLayer.h \
+ jni/../../sources/view/home/HomeTableView.h \
+ jni/../../sources/view/panel/EnergyLargessPanel.h \
+ jni/../../sources/view/mainScene/GashaponLayer.h \
+ jni/../../sources/view/mainScene/ExchangeLayer.h \
+ jni/../../sources/view/panel/TempSignin.h \
  jni/../../sources/view/mainScene/RewardLayer.h \
  jni/../../sources/view/guide/GuideLayer.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
@@ -907,18 +908,6 @@ jni/../../sources/manager/WSManager.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
 
-jni/../../sources/view/panel/Signin7Panel.h:
-
-jni/../../sources/view/home/HomeLayer.h:
-
-jni/../../sources/view/home/HomeTableView.h:
-
-jni/../../sources/view/panel/EnergyLargessPanel.h:
-
-jni/../../sources/view/mainScene/GashaponLayer.h:
-
-jni/../../sources/view/mainScene/ExchangeLayer.h:
-
 jni/../../sources/view/friends/Shower.h:
 
 jni/../../sources/view/haoyouScene/StrangerScene.h:
@@ -972,6 +961,20 @@ jni/../../sources/view/panel/SettingPanel.h:
 jni/../../sources/view/panel/ChatPanel.h:
 
 jni/../../sources/view/panel/TotalRechargePanel.h:
+
+jni/../../sources/view/panel/Signin7Panel.h:
+
+jni/../../sources/view/home/HomeLayer.h:
+
+jni/../../sources/view/home/HomeTableView.h:
+
+jni/../../sources/view/panel/EnergyLargessPanel.h:
+
+jni/../../sources/view/mainScene/GashaponLayer.h:
+
+jni/../../sources/view/mainScene/ExchangeLayer.h:
+
+jni/../../sources/view/panel/TempSignin.h:
 
 jni/../../sources/view/mainScene/RewardLayer.h:
 

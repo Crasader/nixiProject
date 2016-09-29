@@ -271,6 +271,13 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/base/BaseScene.o
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
+ jni/../../sources/manager/WSManager.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/panel/ResetNicknamePanel.h \
  jni/../../sources/view/panel/PurchasePanel.h \
@@ -280,7 +287,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/base/BaseScene.o
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/JNIController.h \
- jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
+ jni/../../sources/view/panel/ChatBar.h \
+ jni/../../sources/view/panel/ChatPanel.h
 
 jni/../../sources/view/base/BaseScene.h:
 
@@ -836,6 +845,20 @@ jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
+jni/../../sources/manager/WSManager.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
+
 jni/../../sources/view/common/Loading2/Loading2.h:
 
 jni/../../sources/view/panel/ResetNicknamePanel.h:
@@ -855,3 +878,7 @@ jni/../../sources/view/mainScene/PromptLayer.h:
 jni/../../sources/view/JNIController.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
+
+jni/../../sources/view/panel/ChatBar.h:
+
+jni/../../sources/view/panel/ChatPanel.h:
