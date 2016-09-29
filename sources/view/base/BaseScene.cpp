@@ -10,6 +10,8 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
+#include "WSManager.h"
+
 #include "Loading2.h"
 #include "ResetNicknamePanel.h"
 #include "PurchasePanel.h"
@@ -19,6 +21,9 @@
 #include "SpecialManager.h"
 #include "PromptLayer.h"
 #include "JNIController.h"
+
+#include "ChatBar.h"
+#include "ChatPanel.h"
 
 
 BaseScene::~BaseScene(){
@@ -74,11 +79,17 @@ void BaseScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::push_Android), "Push_Android", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_chat_panel), "ON_CHAT_BAR_CLICKED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::on_chat_panel_close), "ON_CHAT_PANEL_CLOSE", NULL);
 }
 
 void BaseScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    
+    if (_isChatPanelShow) {
+        DATA->getChat()->setNewChatCount(0);
+    }
     
     CCLayer::onExit();
 }
@@ -90,7 +101,6 @@ bool BaseScene::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent) {
 }
 
 void BaseScene::init_UI(){
-        
     // 姓名框
     CCSprite* nameSpr1 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
     CCSprite* nameSpr2 = CCSprite::create("res/pic/baseScene/base_name_bar.png");
@@ -210,11 +220,31 @@ void BaseScene::init_UI(){
     
     // 公司等级进度
     _phaseStar = CCSprite::create("res/pic/baseScene/base_phase.png");
-//    _phaseStar->setPosition(nameItem->getPosition() + ccp(72, -16));
     _phaseStar->setPosition(ccp(-10, 4));
     coinItem->addChild(_phaseStar, 10);
-    //
+
     this->updatePhaseProgress();
+    
+    
+//    // Chat button
+//    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
+//    qipao2->setScale(1.02f);
+//    CCMenuItemSprite* item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(BaseScene::show_chat_panel));
+//    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+//    _chatMenu = CCMenu::createWithItem(item_chat);
+//    _chatMenu->setPosition(CCPointZero);
+//    this->addChild(_chatMenu, 100);
+//    _chatMenu->setVisible(false);
+    
+    
+    // ChatBar
+    _chatBar = ChatBar::create();
+    _chatBar->setVisible(false);
+    this->addChild(_chatBar, 100);
+    
+    _isChatPanelShow = false;
+    _isChatBarShow = false;
 }
 
 void BaseScene::updataTileTime(float dt){
@@ -462,9 +492,6 @@ void BaseScene::nc_energy_fly_completed(CCObject *pObj) {
     updataMoney();
 }
 
-
-
-
 void BaseScene::push_Android(CCObject* pObj){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     JNIController::closePush_Android(1);
@@ -481,5 +508,61 @@ void BaseScene::push_Android(CCObject* pObj){
 }
 
 
+#pragma mark - ChatBar
+
+void BaseScene::openChat() {
+    DATA->setChatOut(false);
+    if (WS->isConnected()) {
+        
+    }else{
+        // talkingData
+        DATA->onEvent("连接事件", "主界面", "连接聊天服务器");
+        WS->connect();
+    }
+    
+//    _chatMenu->setVisible(true);
+    
+    this->unschedule(SEL_SCHEDULE(&BaseScene::check_new_chat));
+    this->schedule(SEL_SCHEDULE(&BaseScene::check_new_chat), 0.5);
+}
+
+void BaseScene::show_chat_bar() {
+    _isChatBarShow = true;
+    _chatBar->update_display();
+    _chatBar->setVisible(true);
+    _isChatPanelShow = false;
+}
+
+void BaseScene::show_chat_panel() {
+    if (! _isChatPanelShow) {
+        _chatBar->setVisible(false);
+        _isChatBarShow = false;
+        _isChatPanelShow = true;
+        //
+        ChatPanel* panel = ChatPanel::create(true);
+        this->addChild(panel, 101);
+    }
+}
+
+void BaseScene::check_new_chat() {
+    static int oldNum = 0;
+    int newNum = DATA->getChat()->getNewChatCount();
+    
+    if (newNum > 0 && ! _isChatPanelShow) {
+        if (! _isChatBarShow) {
+            this->show_chat_bar();
+        }
+    }
+    
+    if (oldNum != newNum) {
+        _chatBar->update_num(newNum);
+        oldNum = newNum;
+    }
+}
+
+void BaseScene::on_chat_panel_close() {
+    _isChatPanelShow = false;
+    DATA->getChat()->setNewChatCount(0);
+}
 
 

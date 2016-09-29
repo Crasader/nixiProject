@@ -528,6 +528,10 @@ void NetManager::take_gift_333(int ChannelId, const char *code) {
     this->post_data(333, data);
 }
 
+void NetManager::temp_signin_info_340() {
+    this->post_data(340, string(""));
+}
+
 
 void NetManager::coffers_info_200(bool full) {
     FastWriter writer;

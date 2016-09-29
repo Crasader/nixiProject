@@ -314,9 +314,10 @@ void HaoyouScene::openChat() {
 }
 
 void HaoyouScene::createChatPanel() {
-    ChatPanel* panel = ChatPanel::create();
+    ChatPanel* panel = ChatPanel::create(false);
     panel->setTag(0x1008);
     this->addChild(panel, 100000);
+    item_chat->setVisible(false);
 }
 
 void HaoyouScene::displayChatItem() {

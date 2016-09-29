@@ -76,6 +76,11 @@ public:
     CC_SYNTHESIZE_RETAIN(OperationComp*, _operation, Operation);
     CC_SYNTHESIZE_RETAIN(HomeComp*, _home, Home);
     
+    // 国庆签到信息
+    CC_SYNTHESIZE_RETAIN(CCArray*, _tempSigninTemplate, TempSigninTemplate);
+    CC_SYNTHESIZE_RETAIN(CCDictionary*, _tempSigninUserdata, TempSigninUserdata);
+    SigninState fetch_signin7_state(CCDictionary* info, const string& id);
+    
     //
     CC_SYNTHESIZE(int, _autoLogin, AutoLogin);
 //    CC_SYNTHESIZE(int, _loginType, LoginType);    // 1游客；2账号

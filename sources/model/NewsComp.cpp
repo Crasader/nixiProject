@@ -33,6 +33,7 @@ void NewsComp::init_with_json(Value json) {
     signin7 = json["S7"].asInt();
     signin30 = json["S30"].asInt();
     dailyShareCount = json["SC"].asInt();
+    tempSignin = json["TS"].asInt();
 }
 
 void NewsComp::print_news() {
@@ -45,4 +46,5 @@ void NewsComp::print_news() {
     CCLOG("Message: %d", message);
     CCLOG("Paper: %d", paper);
     CCLOG("dailyShareCount: %d", dailyShareCount);
+    CCLOG("tempSignin: %d", tempSignin);
 }

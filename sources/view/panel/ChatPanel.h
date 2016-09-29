@@ -20,9 +20,8 @@ class ChatPanel: public CCLayer
 {
 public:
     ~ChatPanel();
-    CREATE_FUNC(ChatPanel);
-    
-    virtual bool init();
+    static ChatPanel* create(bool couldColse);
+    virtual bool init(bool couldColse);
     virtual void onEnter();
     virtual void onExit();
     
@@ -63,20 +62,16 @@ private:
     void nc_on_emoticon(CCObject* pObj);
     
 private:
+    bool                _couldClose;
     CCSprite*           _panel_bg;
     CCSprite*           _input_bg;
     
-    CCMenuItemSprite* item_send;
-//    CCSprite* send_mask;
-//    CCLabelAtlas* lab_time;
-//    float               _timeLeft;
+    CCMenuItemSprite*   item_send;
+    CCTextFieldTTF*     _input_text;
     
-    CCTextFieldTTF* _input_text;
-//    CCEditBox* _input_text;
-    CCLabelTTF* _text_lab;
-    CCClippingNode* _node;
-    bool isCanClose;
-    bool isOpen;
+    CCLabelTTF*         _text_lab;
+    CCClippingNode*     _node;
+    bool                isOpen;
 };
 
 #endif /* ChatPanel_hpp */

@@ -37,6 +37,7 @@ public:
     void addItem(ChatItem* item);
     CCColor3bObject* randColor();
     CC_SYNTHESIZE(int, _interval, Interval);
+    CC_SYNTHESIZE(int, _newChatCount, NewChatCount);    // 刷新后新消息的条数
     
 public:
     ~ChatComp();

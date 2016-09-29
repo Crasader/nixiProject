@@ -234,7 +234,7 @@ void ConfigManager::conf_chat_addr(int chat) {
 //        const char* addr = "ws://echo.websocket.org";
     switch (chat) {
         case 17:
-            chator_addr = "ws://115.28.179.17:20168/chator";
+            chator_addr = "ws://tgtest.yunlookgame.cn:20168/chator";
             break;
         case 170:
             chator_addr = "ws://tiegao.yunlookgame.cn:20168/chator";

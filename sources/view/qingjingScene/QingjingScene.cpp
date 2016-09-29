@@ -98,7 +98,7 @@ void QingjingScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&QingjingScene::guide_StartCallBack), "Guide_StartCallBack", NULL);
     
-//    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::displayChatItem), "CLOSE_CHATPANEL", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::displayChatItem), "ON_CHAT_PANEL_CLOSE", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&QingjingScene::keyBackStatus), .8f);
 }

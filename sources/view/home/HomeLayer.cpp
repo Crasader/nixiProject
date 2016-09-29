@@ -97,6 +97,7 @@ void HomeLayer::updataBg(){
 
 void HomeLayer::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);
@@ -105,7 +106,7 @@ void HomeLayer::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_705CallBack), "HTTP_FINISHED_705", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_800CallBack), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::updataBg), "HomeUpdataBg", NULL);
-//    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::displayChatItem), "CLOSE_CHATPANEL", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&HomeLayer::displayChatItem), "ON_CHAT_PANEL_CLOSE", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&HomeLayer::keyBackStatus), .8f);
 }

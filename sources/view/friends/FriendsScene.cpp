@@ -92,6 +92,7 @@ void FriendsScene::onEnter() {
     
     this->scheduleOnce(SEL_SCHEDULE(&FriendsScene::keyBackStatus), .8f);
 }
+
 void FriendsScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
