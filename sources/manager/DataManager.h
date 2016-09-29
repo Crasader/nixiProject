@@ -77,7 +77,8 @@ public:
     CC_SYNTHESIZE_RETAIN(HomeComp*, _home, Home);
     
     // 国庆签到信息
-    CC_SYNTHESIZE_RETAIN(CCArray*, _guoqingSignin, GuoqingSignin);
+    CC_SYNTHESIZE_RETAIN(CCArray*, _tempSigninTemplate, TempSigninTemplate);
+    CC_SYNTHESIZE_RETAIN(CCDictionary*, _tempSigninUserdata, TempSigninUserdata);
     
     //
     CC_SYNTHESIZE(int, _autoLogin, AutoLogin);

@@ -485,8 +485,8 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 340: {
-            CCArray* info = AppUtil::array_with_json(content["temp_signin"]);
-            this->setGuoqingSignin(info);
+            this->setTempSigninTemplate(AppUtil::array_with_json(content["template"]));
+            this->setTempSigninUserdata(AppUtil::dictionary_with_json(content["info"]));
         } break;
             
         case 200: {
