@@ -318,6 +318,20 @@ void FriendsListView::update_selected_cell() {
     }
 }
 
+void FriendsListView::reload_all() {
+    if (_tv && _seletedIndex >= 0) {
+        _data = DATA->getSocial()->sortedFriends();
+        _tv->reloadData();
+        int count = this->numberOfCellsInTableView(_tv);
+        if (count > 0) {
+            _seletedIndex = 0;
+        }
+        else {
+            _seletedIndex = -1;
+        }
+    }
+}
+
 void FriendsListView::on_btn_send_energy(CCMenuItem *menuItem) {
     LOADING->show_loading();
     CCString* otherId = (CCString*)menuItem->getUserObject();

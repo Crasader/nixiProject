@@ -290,6 +290,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _paper->delete_paper(content["id"].asInt());
         } break;
             
+        case 813: {
+            _social->init_with_json(content["social"]);
+            _social->init_friends(content["friends"]);
+        } break;
+            
         case 700: {
             _mail->init_with_json(content["mail"]);
             _news->init_with_json(content["news"]);

@@ -285,7 +285,7 @@ void MainScene::onEnter(){
     if (DATA->current_guide_step() == 0) {
         // 节日临时签到
         if (DATA->getNews()->tempSignin == 1) {
-            NET->temp_signin_info_340();
+            this->show_guoqing_signin();
         }
         else if (DATA->getNews()->signin7 == 1) {
             isOk = true;
@@ -2188,6 +2188,30 @@ void MainScene::update_news_status() {
             hongDian->removeFromParent();
         }
     }
+    // 国庆临时签到
+    if (DATA->current_guide_step() == 0) {
+        float scale = 1;
+        CCSprite* pic1 = CCSprite::create("pic/mainScene/btn_guoqing.png");
+        pic1->setScale(scale);
+        CCSprite* pic2 = CCSprite::create("pic/mainScene/btn_guoqing.png");
+        pic2->setScale(DISPLAY->btn_scale() * scale);
+        CCMenuItem* item = CCMenuItemSprite::create(pic1, pic2, this, SEL_MenuHandler(&MainScene::show_guoqing_signin));
+        CCMenu* menuGuoqing = CCMenu::createWithItem(item);
+//        menuGuoqing->ignoreAnchorPointForPosition(false);
+        item->setPosition(ccp(DISPLAY->halfW() - item->getContentSize().width * 1.6, DISPLAY->H() * 0.375));
+        this->addChild(menuGuoqing, 100);
+        
+        if (DATA->getNews()->tempSignin == 1) { // 可签
+
+        }
+        else {
+
+        }
+    }
+}
+
+void MainScene::show_guoqing_signin() {
+    NET->temp_signin_info_340();
 }
 
 void MainScene::nc_temp_signin_info_340(CCObject *pObj) {

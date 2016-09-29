@@ -164,20 +164,16 @@ void TempSignin::config_siginInfo(){
         CCLOG("STATE = %d", cur_state);
         CCSprite* state_spr = NULL;
         switch (cur_state) {
-            case e_SigninState_Locked:{
-                // 锁定
-                //                state_spr = CCSprite::create("res/pic/mask.png");
-                //                state_spr->CCNode::setScale(icon_bg->getContentSize().width / state_spr->getContentSize().width, icon_bg->getContentSize().height / state_spr->getContentSize().height);
-                //                state_spr->setPosition(ccp(icon_bg->getContentSize().width* .5f, icon_bg->getContentSize().height* .5f));
-                //                icon_bg->addChild(state_spr);
-                
-                
-            }
-                
-                
-                break;
-            case e_SigninState_Available:{
-                // 可用
+            case e_SigninState_Locked:{ // 没到时间
+                int index = arr->indexOfObject(obj);
+                CCString* name = CCString::createWithFormat("pic/panel/temp_signin/date_10_%d.png", 1+index);
+                state_spr = CCSprite::create(name->getCString());
+                if (state_spr) {
+                    state_spr->setPosition(ccp(icon_bg->getContentSize().width - state_spr->getContentSize().width* .5f, icon_bg->getContentSize().height* 0.15f));
+                    icon_bg->addChild(state_spr);
+                }
+            }  break;
+            case e_SigninState_Available:{ // 可用
                 state_spr = CCSprite::create("pic/panel/signin7/state_clickget.png");
                 state_spr->setPosition(ccp(icon_bg->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
                 state_spr->setTag(200);
@@ -193,17 +189,17 @@ void TempSignin::config_siginInfo(){
                 CCScaleTo* st2 = CCScaleTo::create(0.5, 1.02f);
                 CCSequence* seq = CCSequence::create(CCSpawn::create(fi, st2, NULL), CCDelayTime::create(0.2f), CCScaleTo::create(0.5, 1.0f), CCSpawn::create(fi, st2, NULL), CCSpawn::create(fo, st, NULL), CCDelayTime::create(0.2f), NULL);
                 stars->runAction(CCRepeatForever::create(seq));
-            }
-                break;
-            case e_SigninState_Done:{
-                // 已签
+            } break;
+            case e_SigninState_Done:{ // 已签
                 state_spr = CCSprite::create("pic/panel/signin7/state_got.png");
                 state_spr->setPosition(ccp(icon_bg->getContentSize().width - state_spr->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
                 icon_bg->addChild(state_spr);
-            }
-                
-                
-                break;
+            }  break;
+            case e_SigninState_Expired:{ // 过期
+                state_spr = CCSprite::create("pic/panel/temp_signin/tempsignin_expired.png");
+                state_spr->setPosition(ccp(icon_bg->getContentSize().width - state_spr->getContentSize().width* .5f, state_spr->getContentSize().height* .5f));
+                icon_bg->addChild(state_spr);
+            }  break;
             default:
                 break;
         }

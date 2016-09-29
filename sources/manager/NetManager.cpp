@@ -244,6 +244,14 @@ void NetManager::delete_paper_811(int id) {
     this->post_data(811, data);
 }
 
+void NetManager::friend_break_813(const char *other_sid) {
+    FastWriter writer;
+    Value root;
+    root["other"] = other_sid;
+    string data = writer.write(root);
+    this->post_data(813, data);
+}
+
 
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
