@@ -79,7 +79,7 @@ public:
     // 国庆签到信息
     CC_SYNTHESIZE_RETAIN(CCArray*, _tempSigninTemplate, TempSigninTemplate);
     CC_SYNTHESIZE_RETAIN(CCDictionary*, _tempSigninUserdata, TempSigninUserdata);
-    SigninState fetch_signin7_state(CCDictionary* info, const string& id);
+    SigninState fetch_tempsignin_state(CCDictionary* info, const string& id);
     
     //
     CC_SYNTHESIZE(int, _autoLogin, AutoLogin);
