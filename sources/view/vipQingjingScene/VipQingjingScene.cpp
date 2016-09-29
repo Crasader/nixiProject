@@ -649,6 +649,7 @@ void VipQingjingScene::_113CallBack(CCObject* pSender){
 }
 
 void VipQingjingScene::start_iOS_purchase() {
+    #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     if (true) {
         LOADING->show_loading();
         IOSIAPManager* d = IOSIAPManager::Inst();
@@ -666,6 +667,7 @@ void VipQingjingScene::start_iOS_purchase() {
         CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
         NET->buy_story2_505(indexStr->getCString());
     }
+    #endif
 }
 
 // iOS支付成功回调
