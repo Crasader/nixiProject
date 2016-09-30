@@ -2181,6 +2181,12 @@ void MainScene::update_news_status() {
         spt->setPosition(ccp(20, 74));
         spt->setTag(175);
         _qiandaoItem->addChild(spt);
+        
+        if (DATA->current_guide_step() == 0) {
+            isOk = true;
+            this->qiandaoCallBack(NULL);
+        }
+        
     }
     else {
         CCNode* hongDian = _qiandaoItem->getChildByTag(175);
