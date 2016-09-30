@@ -191,7 +191,7 @@ cocos2d::extension::CCTableViewCell* MessageTableView::tableCellAtIndex(cocos2d:
     }else if (item->type == e_Msg_Send_Energy){
         contentStr = CCString::createWithFormat("您的好友%s赠送了您体力,请前往好友界面领取~!", item->sender.c_str());
     }else if (item->type == e_Msg_Friend_Deletem){
-        contentStr = CCString::createWithFormat("%s删除您的好友.", item->sender.c_str());
+        contentStr = CCString::createWithFormat("%s删除了您的好友.", item->sender.c_str());
     }
     CCLabelTTF* contentLabel = CCLabelTTF::create(contentStr->getCString(), DISPLAY->fangzhengFont(), 23, CCSizeMake(kuangSpr->getContentSize().width* .9f, kuangSpr->getContentSize().height* .6f), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     contentLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));

@@ -27,6 +27,7 @@ public:
     
     void unseleted_cells();
     void update_selected_cell();
+    void reload_all();
     
 public:
     ~FriendsListView();

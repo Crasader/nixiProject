@@ -173,13 +173,15 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
     
     float showSize = nameWidth + lblContent->getContentSize().width;
     if (showSize < barWidth * 0.94) {
-        lblContent->setPosition(ccp(nameWidth, barHeight));
-        lblContent->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(0, barHeight * (-0.5))), CCDelayTime::create(2), next, NULL));
+//        lblContent->setPosition(ccp(nameWidth, barHeight));
+//        lblContent->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(0, barHeight * (-0.5))), CCDelayTime::create(2), next, NULL));
+        lblContent->setPosition(ccp(nameWidth, barHeight * 0.5));
+        lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), CCFadeOut::create(1.0), next, NULL));
     }
     else {
         float distance = lblContent->getContentSize().width - nameWidth;
         lblContent->setPosition(ccp(barWidth * 0.8, barHeight * 0.5));
-        lblContent->runAction(CCSequence::create(CCMoveBy::create(distance / 26, ccp(-distance, 0)), CCDelayTime::create(1.2), next, NULL));
+        lblContent->runAction(CCSequence::create(CCMoveBy::create(distance / 32, ccp(-distance, 0)), CCDelayTime::create(1.2), next, NULL));
     }
 }
 

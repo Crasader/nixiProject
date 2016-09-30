@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "AHMessageBox.h"
 
 USING_NS_CC;
 
@@ -18,7 +19,7 @@ class ShowComp;
 class ShowerView;
 class FriendsListView;
 
-class FriendsScene : public BaseScene
+class FriendsScene : public BaseScene, public AHMessageBoxDelegate
 {
 public:
     static CCScene* scene();
@@ -29,6 +30,8 @@ public:
     virtual bool init();
     virtual void onEnter();
     virtual void onExit();
+    
+    virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
     
     void keyBackStatus(float dt);
     virtual void keyBackClicked();
@@ -49,12 +52,13 @@ private:
     void on_btn_goto_starngers(CCMenuItem* menuItem);
     void on_btn_take_energy(CCMenuItem* menuItem);
     void on_btn_send_paper(CCMenuItem* menuItem);
+    void on_btn_delete_friend(CCMenuItem* menuItem);
     
     void nc_change_shower(CCObject* pObj);
     void nc_goto_strangers_802(CCObject* pObj);
     void nc_send_energy_803(CCObject* pObj);
     void nc_take_energy_807(CCObject* pObj);
-
+    void nc_friend_break_813(CCObject* pObj);
     
 private:
     int num_child;
@@ -66,6 +70,7 @@ private:
     int                     _curIndex;
     
     CCMenuItem*             _btnPaper;
+    CCMenuItem*             _btnDelete;
     
     CCMenuItemToggle*       _btnSelfPanel;
     CCMenuItemImage*        _selfPanelNormal;

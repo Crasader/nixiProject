@@ -89,6 +89,7 @@ void FriendsScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_goto_strangers_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_send_energy_803), "HTTP_FINISHED_803", NULL);
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_take_energy_807), "HTTP_FINISHED_807", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_friend_break_813), "HTTP_FINISHED_813", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&FriendsScene::keyBackStatus), .8f);
 }
@@ -116,17 +117,27 @@ void FriendsScene::create_UI() {
     CCLabelTTF* room_name = CCLabelTTF::create("好友", DISPLAY->fangzhengFont(), 22);
     room_name->setPosition(ccp(name_bar->getContentSize().width* .5f, name_bar->getContentSize().height* .5f - 4));
     name_bar->addChild(room_name);
-    
+    {
     //纸条
     CCSprite* note_spr = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     CCSprite* note_spr2 = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     note_spr2->setScale(1.02f);
     _btnPaper = CCMenuItemSprite::create(note_spr, note_spr2, this, menu_selector(FriendsScene::on_btn_send_paper));
-    _btnPaper->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
+    _btnPaper->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .3f));
     CCMenu* menu_note = CCMenu::create(_btnPaper, NULL);
     menu_note->setPosition(CCPointZero);
     this->addChild(menu_note);
-    
+    }{
+    // 删除
+    CCSprite* delete_spr = CCSprite::create("res/pic/haoyouScene/btn_delete.png");
+    CCSprite* delete_spr2 = CCSprite::create("res/pic/haoyouScene/btn_delete.png");
+    delete_spr->setScale(1.02f);
+    _btnDelete = CCMenuItemSprite::create(delete_spr, delete_spr2, this, SEL_MenuHandler(&FriendsScene::on_btn_delete_friend));
+    _btnDelete->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .2f));
+    CCMenu* menu_delete = CCMenu::create(_btnDelete, NULL);
+    menu_delete->setPosition(CCPointZero);
+    this->addChild(menu_delete);
+    }{
     //返回
     CCSprite* back_spr = CCSprite::create("res/pic/common/btn_goback2.png");
     CCSprite* back_spr2 = CCSprite::create("res/pic/common/btn_goback2.png");
@@ -136,6 +147,7 @@ void FriendsScene::create_UI() {
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back);
+    }
 }
 
 void FriendsScene::create_listview() {
@@ -315,10 +327,12 @@ void FriendsScene::on_btn_self_panel(CCMenuItemToggle *menuItem) {
         _showerView->change_shower(selfShow->ondress());
 
         _btnPaper->setVisible(false);           // 不能发纸条给自己
+        _btnDelete->setVisible(false);
     }
     else {
         _btnSelfPanel->setEnabled(true);        // 开启按钮
         _btnPaper->setVisible(true);
+        _btnDelete->setVisible(true);
     }
 }
 
@@ -354,6 +368,24 @@ void FriendsScene::on_btn_send_paper(CCMenuItem *menuItem) {
     this->addChild(panel, 10000);
 }
 
+void FriendsScene::on_btn_delete_friend(CCMenuItem *menuItem) {
+    AUDIO->common_effect();
+    
+//    DATA->getSocial()->setSelectedFriend(_curIndex);
+    ShowComp* show = DATA->getSocial()->getSelectedFriendByIndex(_curIndex);
+
+    CCString* msg = CCString::createWithFormat("请确认是否删除'%s'这个好友?", show->nickname());
+    AHMessageBox* mb = AHMessageBox::create_with_message(msg->getCString(), this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+    mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    
+
+    
+//    NotePanel* panel = NotePanel::create();
+//    panel->setEntranceType("friend");
+//    this->addChild(panel, 10000);
+}
+
 
 void FriendsScene::nc_change_shower(CCObject *pObj) {
     // 恢复自己的面板状态
@@ -370,9 +402,11 @@ void FriendsScene::nc_change_shower(CCObject *pObj) {
     
     if (this->is_self_sid(show->getShowID().c_str())) {
         _btnPaper->setVisible(false);           // 不能发纸条给自己
+        _btnDelete->setVisible(false);
     }
     else {
         _btnPaper->setVisible(true);
+        _btnDelete->setVisible(true);
     }
 }
 
@@ -390,7 +424,7 @@ void FriendsScene::nc_goto_strangers_802(CCObject *pObj) {
 void FriendsScene::nc_send_energy_803(CCObject *pObj) {
     LOADING->remove();
     PromptLayer* tip = PromptLayer::create();
-    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "体力赠送成功~");
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "体力赠送成功~!");
     //
     _listView->update_selected_cell();
 }
@@ -408,6 +442,28 @@ void FriendsScene::nc_take_energy_807(CCObject *pObj) {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", dic);
 }
 
+void FriendsScene::nc_friend_break_813(CCObject* pObj) {
+    LOADING->remove();
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "操作成功~!");
+    _listView->reload_all();
+    //
+    _data = DATA->getSocial()->sortedFriends();
+    if (_data->count() <= 1) {
+        // 没有好友，提示去添加好友
+        this->create_empty_prompt();
+        // 显示自己
+        _btnSelfPanel->setSelectedIndex(1);
+        this->on_btn_self_panel(_btnSelfPanel);
+        if (_listView) {
+            _listView->removeFromParentAndCleanup(true);
+        }
+    }
+    else {
+        _curIndex = 0;
+        this->nc_change_shower(CCInteger::create(0));
+    }
+}
 
 void FriendsScene::keyBackClicked(){
     num_child++;
@@ -417,5 +473,19 @@ void FriendsScene::keyBackClicked(){
     }
     
     this->on_btn_back_to_social(NULL);
+}
+
+void FriendsScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
+    if (button_type == AH_BUTTON_TYPE_YESNO) {
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            // talkingData
+            DATA->onEvent("点击事件", "好友界面", "删除好友");
+            LOADING->show_loading();
+            ShowComp* show = DATA->getSocial()->getSelectedFriendByIndex(_curIndex);
+            NET->friend_break_813(show->getShowID().c_str());
+        }
+    }
+    
+    box->animation_out();
 }
 
