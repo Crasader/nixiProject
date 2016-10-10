@@ -97,8 +97,6 @@ public:
     void updataMan();
     
     void qingjingStatus();
-    
-    void start_iOS_purchase();
 
     void quedingCallBack(CCObject* pSender);
     void quxiaoCallBack(CCObject* pSender);
@@ -110,7 +108,9 @@ public:
     void updatePay(float dt);
     void send111();
     
-    void iOS_buy_109();
+//    void iOS_buy_109();
+    void buy_iOS_story2_515();
+    void nc_buy_iOS_story2(CCObject* pSender);
     
 public:
     int num_child;

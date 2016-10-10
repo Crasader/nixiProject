@@ -376,6 +376,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _story->replace_story2_user(content["story2"]);
         } break;
             
+        case 515: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _story->replace_story2_user(content["story2"]);
+        } break;
+            
         case 507: {
             _story->replace_story2_user(content["story2"]);
         } break;
@@ -659,8 +665,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-//        return _player->getGuide();
-        return 0;
+        return _player->getGuide();
+//        return 0;
     }
     else {
         return 0;

@@ -40,7 +40,7 @@ private:
     void remove();
     
     void show_nmu_plate();
-    void display_chat(int index);
+    void display_chat(CCInteger* index);
     void display_chat_content(const char* name, const char* content);
     void display_next_chat();
     

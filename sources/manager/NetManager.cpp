@@ -360,6 +360,15 @@ void NetManager::buy_story2_505(const char *id) {
     this->post_data(505, data);
 }
 
+void NetManager::buy_ios_story2_515(const char *id) {
+    FastWriter writer;
+    Value root;
+    root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(515, data);
+}
+
 void NetManager::commit_story2_507(const char *id, const char* flag) {
     FastWriter writer;
     Value root;
