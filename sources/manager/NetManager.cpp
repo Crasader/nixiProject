@@ -310,6 +310,7 @@ void NetManager::commit_mission_603(int id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
+    root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(603, data);
 }
@@ -571,6 +572,7 @@ void NetManager::collect_coin_201() {
     FastWriter writer;
     Value root;
     root["id"] = (int)DATA->cur_timestamp();
+    root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(201, data);
 }

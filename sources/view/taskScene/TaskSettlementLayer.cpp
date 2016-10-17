@@ -147,7 +147,7 @@ void TaskSettlementLayer::creat_view(){
         randIndex2 = 20 + rand()%20;
         randIndex3 = 20 + rand()%20;
         randIndex4 = 20 + rand()%20;
-        tishiStr = CCString::createWithFormat("你这样,还处的去门嘛.");
+        tishiStr = CCString::createWithFormat("你这样,还出的去门嘛.");
     }else if (_rating == 1) {
         randIndex1 = 2 + rand()%20;
         randIndex2 = 2 + rand()%20;
