@@ -15,7 +15,8 @@
 #pragma mark - Export
 
 void ChatBar::update_num(int num) {
-    CCString* strNum = CCString::createWithFormat("%d", num);
+    int n = MIN(99, num);
+    CCString* strNum = CCString::createWithFormat("%d", n);
     if (_num && num < 100) {
         _num->set_new_number(strNum->getCString());
         if (_isIdle) {

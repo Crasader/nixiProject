@@ -137,8 +137,8 @@ void HaoyouScene::creat_view(){
     _xiaoxiItem = CCMenuItemSprite::create(xiaoxiSpr1, xiaoxiSpr2, this, menu_selector(HaoyouScene::xiaoxiCallBack));
     _xiaoxiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .59f));
     
-    CCSprite* zhitiaoSpr1 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
-    CCSprite* zhitiaoSpr2 = CCSprite::create("res/pic/haoyouScene/hy_zhitiao.png");
+    CCSprite* zhitiaoSpr1 = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
+    CCSprite* zhitiaoSpr2 = CCSprite::create("res/pic/haoyoupaihang/btn_zhitiao.png");
     zhitiaoSpr2->setScale(1.02f);
     _zhitiaoItem = CCMenuItemSprite::create(zhitiaoSpr1, zhitiaoSpr2, this, menu_selector(HaoyouScene::zhitiaoCallBack));
     _zhitiaoItem->setPosition(ccp(DISPLAY->ScreenWidth()* .89f, DISPLAY->ScreenHeight()* .46f));
