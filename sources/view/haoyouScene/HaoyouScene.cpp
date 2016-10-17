@@ -121,7 +121,7 @@ void HaoyouScene::onExit(){
 }
 
 void HaoyouScene::creat_view(){
-    roomSpr = CCSprite::create("res/pic/qingjingScene/bgimage/33.png");
+    roomSpr = CCSprite::create("res/pic/haoyoupaihang/social_bg.png");
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
