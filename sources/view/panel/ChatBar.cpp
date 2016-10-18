@@ -115,7 +115,8 @@ void ChatBar::show_nmu_plate() {
     _plate->addChild(circle1);
     circle1->runAction(CCRepeatForever::create(CCSequence::create(CCHide::create(), CCDelayTime::create(1.4), CCShow::create(), CCDelayTime::create(1.4), NULL)));
     
-    CCString* startNum = CCString::createWithFormat("%d", DATA->getChat()->getNewChatCount());
+    int num = MIN(99, DATA->getChat()->getNewChatCount());
+    CCString* startNum = CCString::createWithFormat("%d", num);
     _num = FlashNumberLabel::create_with_atlas("res/pic/baseScene/base_number4.png", startNum->getCString(), 0, .01f);
     _num->setAnchorPoint(ccp(.5f, .5f));
     _num->setScale(0.9);
