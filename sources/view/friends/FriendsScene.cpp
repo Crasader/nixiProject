@@ -235,14 +235,18 @@ void FriendsScene::update_self_panel(ShowComp* self) {
     if (_nodeNormal) {
         _nodeNormal->removeAllChildrenWithCleanup(true);
         CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        name->setPosition(ccp(plateSize.width* .68f, plateSize.height* .68f));
-        name->setColor(ccc3(234, 106, 106));
+        name->setPosition(ccp(plateSize.width* .75f, plateSize.height* .68f));
+        name->setColor(ccc3(109, 98, 96));
         _nodeNormal->addChild(name);
         
-        CCString* collect_str = CCString::createWithFormat("服装收集: %d", DATA->getShow()->collected());
-        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
+        CCSprite* flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_nor.png");
+        flag->setPosition(ccp(plateSize.width* .6f, plateSize.height* .38));
+        _nodeNormal->addChild(flag);
+        
+        CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
         cloth_count->setAnchorPoint(CCPoint(0, 0.5));
-        cloth_count->setPosition(ccp(plateSize.width * .47f, plateSize.height* .36f));
+        cloth_count->setPosition(ccp(plateSize.width * .78f, plateSize.height* .36f));
         _nodeNormal->addChild(cloth_count);
         
         // 体力
@@ -260,17 +264,21 @@ void FriendsScene::update_self_panel(ShowComp* self) {
     if (_nodeSelected) {
         _nodeSelected->removeAllChildrenWithCleanup(true);
         float scaleRate = 1.2f;
-        CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        name->setPosition(ccp(_selfPanelSelected->getContentSize().width* .68f, _selfPanelSelected->getContentSize().height* .68f));
-        name->setColor(ccc3(234, 106, 106));
-        name->setScale(scaleRate);
+        CCLabelTTF* name = CCLabelTTF::create(nickname_self, DISPLAY->fangzhengFont(), 27, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        name->setPosition(ccp(_selfPanelSelected->getContentSize().width* .63f, _selfPanelSelected->getContentSize().height* .76f));
+        name->setColor(ccc3(109, 98, 96));
+//        name->setScale(scaleRate);
         _nodeSelected->addChild(name);
         
-        CCString* collect_str = CCString::createWithFormat("服装收集: %d", DATA->getShow()->collected());
-        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
+        CCSprite* flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_sel.png");
+        flag->setPosition(ccp(plateSize.width* .5f, plateSize.height* .36));
+        _nodeSelected->addChild(flag);
+        
+        CCString* collect_str = CCString::createWithFormat("%d", DATA->getShow()->collected());
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 22);
         cloth_count->setAnchorPoint(CCPoint(0, 0.5));
-        cloth_count->setPosition(ccp(_selfPanelSelected->getContentSize().width * .42f, _selfPanelSelected->getContentSize().height* .34f));
-        cloth_count->setScale(scaleRate);
+        cloth_count->setPosition(ccp(_selfPanelSelected->getContentSize().width * .75f, _selfPanelSelected->getContentSize().height* .34f));
+//        cloth_count->setScale(scaleRate);
         _nodeSelected->addChild(cloth_count);
         
         // 体力
@@ -289,7 +297,7 @@ void FriendsScene::update_self_panel(ShowComp* self) {
         spt3->setColor(ccGRAY);
         CCMenuItem* btnTake = CCMenuItemSprite::create(spt1, spt2, spt3, this, SEL_MenuHandler(&FriendsScene::on_btn_take_energy));
         CCMenu* menu = CCMenu::createWithItem(btnTake);
-        menu->setPosition(ccp(plateSize.width - 55, 15));
+        menu->setPosition(ccp(plateSize.width - 55, 8));
         _nodeSelected->addChild(menu);
         if (energyCount <= 0) {
             btnTake->setEnabled(false);
