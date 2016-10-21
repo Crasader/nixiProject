@@ -36,7 +36,7 @@ bool TotalRankTableView::init(){
     
     selectedIndex = -1;
     
-    pTableView = CCTableView::create(this, CCSizeMake(275, 3.5*124));
+    pTableView = CCTableView::create(this, CCSizeMake(304, 4.5*110));
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
@@ -119,9 +119,9 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->removeChildByTag(0X10500, true);
         }
         
-        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        name2->setPosition(ccp(bg2->getContentSize().width* .6f, bg2->getContentSize().height* .68));
-        name2->setColor(ccc3(234, 106, 106));
+        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 27, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        name2->setPosition(ccp(bg2->getContentSize().width* .63f, bg2->getContentSize().height* .76));
+        name2->setColor(ccc3(109, 98, 96));
         name2->setTag(0x10500);
         bg2->addChild(name2);
         
@@ -129,12 +129,21 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->removeChildByTag(0x10300, true);
         }
         
-        CCString* collected_str2 = CCString::createWithFormat("服装收集: %d", collected2);
-        CCLabelTTF* cloth_count2 = CCLabelTTF::create(collected_str2->getCString(), DISPLAY->fangzhengFont(), 16);
+        CCString* collected_str2 = CCString::createWithFormat("%d", collected2);
+        CCLabelTTF* cloth_count2 = CCLabelTTF::create(collected_str2->getCString(), DISPLAY->fangzhengFont(), 22);
         cloth_count2->setAnchorPoint(CCPoint(0, 0.5));
-        cloth_count2->setPosition(ccp(bg2->getContentSize().width * .40, bg2->getContentSize().height* .365f));
+        cloth_count2->setPosition(ccp(bg2->getContentSize().width * .75, bg2->getContentSize().height* .34f));
         cloth_count2->setTag(0x10300);
         bg2->addChild(cloth_count2);
+        
+        if (bg2->getChildByTag(0x10111) != NULL) {
+            bg2->removeChildByTag(0x10111, true);
+        }
+        
+        CCSprite* flag2 = CCSprite::create("res/pic/haoyoupaihang/text_collected_sel.png");
+        flag2->setPosition(ccp(bg2->getContentSize().width* .5f, bg2->getContentSize().height* .36));
+        flag2->setTag(0x10111);
+        bg2->addChild((flag2));
         
         int num = selectedIndex + 1;
         if (num >= 4 && num <= 9) {
@@ -143,7 +152,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             }
             
             CCSprite* spr = this->getNumSprite(num);
-            spr->setPosition(ccp(bg2->getContentSize().width* .15f, bg2->getContentSize().height* .5f));
+            spr->setPosition(ccp(bg2->getContentSize().width* .16f, bg2->getContentSize().height* .5f));
             spr->setTag(0x10400);
             bg2->addChild(spr);
         }else{
@@ -155,11 +164,11 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             }
             
             CCSprite* spr1 = this->getNumSprite((int)floor(num/10));
-            spr1->setPosition(ccp(bg2->getContentSize().width* .15f - 10, bg2->getContentSize().height* .5f));
+            spr1->setPosition(ccp(bg2->getContentSize().width* .16f - 8, bg2->getContentSize().height* .5f));
             spr1->setTag(0x10600);
             bg2->addChild(spr1);
             CCSprite* spr2 = this->getNumSprite((int)floor(num%10));
-            spr2->setPosition(ccp(bg2->getContentSize().width* .15f + 10, bg2->getContentSize().height* .5f));
+            spr2->setPosition(ccp(bg2->getContentSize().width* .16f + 8, bg2->getContentSize().height* .5f));
             spr2->setTag(0x10700);
             bg2->addChild(spr2);
         }
@@ -204,8 +213,8 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         }
         
             CCLabelTTF* name1 = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), NAME_FONT_SIZE, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-            name1->setPosition(ccp(bg1->getContentSize().width* .68f, bg1->getContentSize().height* .68));
-            name1->setColor(ccc3(234, 106, 106));
+            name1->setPosition(ccp(bg1->getContentSize().width* .75f, bg1->getContentSize().height* .68));
+            name1->setColor(ccc3(109, 98, 96));
             name1->setTag(0x10500);
             bg1->addChild(name1);
         
@@ -213,12 +222,22 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
         if (bg1->getChildByTag(0x10300) != NULL) {
             bg1->removeChildByTag(0x10300, true);
         }
-        CCString* collected_str1 = CCString::createWithFormat("服装收集: %d", collected1);
-        CCLabelTTF* cloth_count1 = CCLabelTTF::create(collected_str1->getCString(), DISPLAY->fangzhengFont(), 16);
+        CCString* collected_str1 = CCString::createWithFormat("%d", collected1);
+        CCLabelTTF* cloth_count1 = CCLabelTTF::create(collected_str1->getCString(), DISPLAY->fangzhengFont(), 20);
         cloth_count1->setAnchorPoint(CCPoint(0, 0.5));
-        cloth_count1->setPosition(ccp(bg1->getContentSize().width * .47f, bg1->getContentSize().height* .38f));
+        cloth_count1->setPosition(ccp(bg1->getContentSize().width * .78f, bg1->getContentSize().height* .36f));
         cloth_count1->setTag(0x10300);
         bg1->addChild(cloth_count1);
+        
+        if(bg1->getChildByTag(0x10111) != NULL) {
+            bg1->removeChildByTag(0x10111, true);
+        }
+        
+        CCSprite* flag1 = CCSprite::create("res/pic/haoyoupaihang/text_collected_nor.png");
+        flag1->setPosition(ccp(bg1->getContentSize().width* .6f, bg1->getContentSize().height* .38));
+        flag1->setTag(0x10111);
+        bg1->addChild((flag1));
+        
             
         int num1 = selectedIndex + 1;
         if (num1 >= 4 && num1 <= 9) {
@@ -227,7 +246,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             }
             
             CCSprite* spr = this->getNumSprite(num1);
-            spr->setPosition(ccp(bg1->getContentSize().width* .25f, bg1->getContentSize().height* .5f));
+            spr->setPosition(ccp(bg1->getContentSize().width* .325f, bg1->getContentSize().height* .5f));
             spr->setTag(0x10400);
             bg1->addChild(spr);
         }else{
@@ -239,11 +258,11 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             }
             
             CCSprite* spr1 = this->getNumSprite((int)floor(num1/10));
-            spr1->setPosition(ccp(bg1->getContentSize().width* .25f - 10, bg1->getContentSize().height* .5f));
+            spr1->setPosition(ccp(bg1->getContentSize().width* .325f - 8, bg1->getContentSize().height* .5f));
             spr1->setTag(0x10600);
             bg1->addChild(spr1);
             CCSprite* spr2 = this->getNumSprite((int)floor(num1%10));
-            spr2->setPosition(ccp(bg1->getContentSize().width* .25f + 10, bg1->getContentSize().height* .5f));
+            spr2->setPosition(ccp(bg1->getContentSize().width* .325f + 8, bg1->getContentSize().height* .5f));
             spr2->setTag(0x10700);
             bg1->addChild(spr2);
         }
@@ -285,9 +304,9 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->removeChildByTag(0X10500, true);
         }
         
-        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        name2->setPosition(ccp(bg2->getContentSize().width* .60f, bg2->getContentSize().height* .68));
-        name2->setColor(ccc3(234, 106, 106));
+        CCLabelTTF* name2 = CCLabelTTF::create(nickname_2, DISPLAY->fangzhengFont(), 27, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        name2->setPosition(ccp(bg2->getContentSize().width* .63f, bg2->getContentSize().height* .76));
+        name2->setColor(ccc3(109, 98, 96));
         name2->setTag(0x10500);
         bg2->addChild(name2);
         
@@ -295,12 +314,21 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             bg2->removeChildByTag(0x10300, true);
         }
         
-        CCString* collected_str2 = CCString::createWithFormat("服装收集: %d", collected2);
-        CCLabelTTF* cloth_count2 = CCLabelTTF::create(collected_str2->getCString(), DISPLAY->fangzhengFont(), 16);
+        CCString* collected_str2 = CCString::createWithFormat("%d", collected2);
+        CCLabelTTF* cloth_count2 = CCLabelTTF::create(collected_str2->getCString(), DISPLAY->fangzhengFont(), 22);
         cloth_count2->setAnchorPoint(CCPoint(0, 0.5));
-        cloth_count2->setPosition(ccp(bg2->getContentSize().width * .40, bg2->getContentSize().height* .365f));
+        cloth_count2->setPosition(ccp(bg2->getContentSize().width * .75, bg2->getContentSize().height* .34f));
         cloth_count2->setTag(0x10300);
         bg2->addChild(cloth_count2);
+        
+        if (bg2->getChildByTag(0x10111) != NULL) {
+            bg2->removeChildByTag(0x10111, true);
+        }
+        
+        CCSprite* flag2 = CCSprite::create("res/pic/haoyoupaihang/text_collected_sel.png");
+        flag2->setPosition(ccp(bg2->getContentSize().width* .5f, bg2->getContentSize().height* .36));
+        flag2->setTag(0x10111);
+        bg2->addChild((flag2));
         
         int num2 = selectedIndex + 1;
         if (num2 >= 4 && num2 <= 9) {
@@ -309,7 +337,7 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             }
             
             CCSprite* spr = this->getNumSprite(num2);
-            spr->setPosition(ccp(bg2->getContentSize().width* .15f, bg2->getContentSize().height* .5f));
+            spr->setPosition(ccp(bg2->getContentSize().width* .16f, bg2->getContentSize().height* .5f));
             spr->setTag(0x10400);
             bg2->addChild(spr);
         }else{
@@ -321,11 +349,11 @@ void TotalRankTableView::tableCellTouched(cocos2d::extension::CCTableView* table
             }
             
             CCSprite* spr1 = this->getNumSprite((int)floor(num2/10));
-            spr1->setPosition(ccp(bg2->getContentSize().width* .15f - 10, bg2->getContentSize().height* .5f));
+            spr1->setPosition(ccp(bg2->getContentSize().width* .16f - 8, bg2->getContentSize().height* .5f));
             spr1->setTag(0x10600);
             bg2->addChild(spr1);
             CCSprite* spr2 = this->getNumSprite((int)floor(num2%10));
-            spr2->setPosition(ccp(bg2->getContentSize().width* .15f + 10, bg2->getContentSize().height* .5f));
+            spr2->setPosition(ccp(bg2->getContentSize().width* .16f + 8, bg2->getContentSize().height* .5f));
             spr2->setTag(0x10700);
             bg2->addChild(spr2);
         }
@@ -351,7 +379,7 @@ void TotalRankTableView::updateTabelView(){
 
 //每个cell的size
 cocos2d::CCSize TotalRankTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){
-    return CCSizeMake(275, 124);
+    return CCSizeMake(304, 110);
 }
 
 //生成cell
@@ -447,15 +475,20 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     int collected = show->collected();
     
     
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(bg->getContentSize().width* .6f, bg->getContentSize().height* .68));
-    name->setColor(ccc3(234, 106, 106));
+    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 27, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    name->setPosition(ccp(bg->getContentSize().width* .63f, bg->getContentSize().height* .76));
+    name->setColor(ccc3(109, 98, 96));
     name->setTag(0x10500);
     bg->addChild(name);
     
-    CCString* collected_str = CCString::createWithFormat("服装收集: %d", collected);
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collected_str->getCString(), DISPLAY->fangzhengFont(), 16);
-    cloth_count->setPosition(ccp(bg->getContentSize().width * .40, bg->getContentSize().height* .365f));
+    CCSprite* flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_sel.png");
+    flag->setPosition(ccp(bg->getContentSize().width* .5f, bg->getContentSize().height* .36));
+    flag->setTag(0x10111);
+    bg->addChild((flag));
+    
+    CCString* collected_str = CCString::createWithFormat("%d", collected);
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collected_str->getCString(), DISPLAY->fangzhengFont(), 22);
+    cloth_count->setPosition(ccp(bg->getContentSize().width * .75, bg->getContentSize().height* .34f));
     cloth_count->setAnchorPoint(CCPoint(0, 0.5));
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
@@ -463,16 +496,16 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
     int num = index + 4;
     if (num >= 4 && num <= 9) {
         CCSprite* spr = this->getNumSprite(num);
-        spr->setPosition(ccp(bg->getContentSize().width* .15f, bg->getContentSize().height* .5f));
+        spr->setPosition(ccp(bg->getContentSize().width* .16f, bg->getContentSize().height* .5f));
         spr->setTag(0x10400);
         bg->addChild(spr);
     }else{
         CCSprite* spr1 = this->getNumSprite((int)floor(num/10));
-        spr1->setPosition(ccp(bg->getContentSize().width* .15f - 10, bg->getContentSize().height* .5f));
+        spr1->setPosition(ccp(bg->getContentSize().width* .16f - 8, bg->getContentSize().height* .5f));
         spr1->setTag(0x10600);
         bg->addChild(spr1);
         CCSprite* spr2 = this->getNumSprite((int)floor(num%10));
-        spr2->setPosition(ccp(bg->getContentSize().width* .15f + 10, bg->getContentSize().height* .5f));
+        spr2->setPosition(ccp(bg->getContentSize().width* .16f + 8, bg->getContentSize().height* .5f));
         spr2->setTag(0x10700);
         bg->addChild(spr2);
     }
@@ -513,7 +546,7 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
             item_add->setTag(index);
             item_add->setUserObject(CCInteger::create(index + 3));
             CCMenu* menu_add = CCMenu::create(item_add, NULL);
-            menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+            menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 8));
             menu_add->setTag(0x10900);
             bg->addChild(menu_add);
         }else{
@@ -524,7 +557,7 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
                 CCMenu* menu_add = CCMenu::create(item_add, NULL);
-                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 20));
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 8));
                 menu_add->setTag(0x10900);
                 bg->addChild(menu_add);
             }else{
@@ -532,7 +565,7 @@ void TotalRankTableView::bigSprite(int index, CCSprite* spr){
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
                 CCMenu* menu_add = CCMenu::create(item_add, NULL);
-                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 8));
                 menu_add->setTag(0x10900);
                 bg->addChild(menu_add);
             }
@@ -562,14 +595,19 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     
     
     CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(bg->getContentSize().width* .68f, bg->getContentSize().height* .68));
-    name->setColor(ccc3(234, 106, 106));
+    name->setPosition(ccp(bg->getContentSize().width* .75f, bg->getContentSize().height* .68));
+    name->setColor(ccc3(109, 98, 96));
     name->setTag(0x10500);
     bg->addChild(name);
     
-    CCString* collect_str = CCString::createWithFormat("服装收集: %d", collect);
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 16);
-    cloth_count->setPosition(ccp(bg->getContentSize().width * .47f, bg->getContentSize().height* .38f));
+    CCSprite* flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_nor.png");
+    flag->setPosition(ccp(bg->getContentSize().width* .6f, bg->getContentSize().height* .38));
+    flag->setTag(0x10111);
+    bg->addChild((flag));
+    
+    CCString* collect_str = CCString::createWithFormat("%d", collect);
+    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
+    cloth_count->setPosition(ccp(bg->getContentSize().width * .78f, bg->getContentSize().height* .36f));
     cloth_count->setAnchorPoint(CCPoint(0, 0.5));
     cloth_count->setTag(0x10300);
     bg->addChild(cloth_count);
@@ -577,16 +615,16 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
     int num = index + 4;
     if (num >= 4 && num <= 9) {
         CCSprite* spr = this->getNumSprite(num);
-        spr->setPosition(ccp(bg->getContentSize().width* .25f, bg->getContentSize().height* .5f));
+        spr->setPosition(ccp(bg->getContentSize().width* .325f, bg->getContentSize().height* .5f));
         spr->setTag(0x10400);
         bg->addChild(spr);
     }else{
         CCSprite* spr1 = this->getNumSprite((int)floor(num/10));
-        spr1->setPosition(ccp(bg->getContentSize().width* .25f - 10, bg->getContentSize().height* .5f));
+        spr1->setPosition(ccp(bg->getContentSize().width* .325f - 8, bg->getContentSize().height* .5f));
         spr1->setTag(0x10600);
         bg->addChild(spr1);
         CCSprite* spr2 = this->getNumSprite((int)floor(num%10));
-        spr2->setPosition(ccp(bg->getContentSize().width* .25f + 10, bg->getContentSize().height* .5f));
+        spr2->setPosition(ccp(bg->getContentSize().width* .325f + 8, bg->getContentSize().height* .5f));
         spr2->setTag(0x10700);
         bg->addChild(spr2);
     }
@@ -630,7 +668,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
             item_add->setTag(index);
             item_add->setUserObject(CCInteger::create(index + 3));
             CCMenu* menu_add = CCMenu::create(item_add, NULL);
-            menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+            menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 8));
             menu_add->setTag(0x10900);
             menu_add->setVisible(false);
             bg->addChild(menu_add);
@@ -642,7 +680,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
                 CCMenu* menu_add = CCMenu::create(item_add, NULL);
-                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 20));
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr1->getContentSize().width/2 -10, 8));
                 menu_add->setTag(0x10900);
                 menu_add->setVisible(false);
                 bg->addChild(menu_add);
@@ -651,7 +689,7 @@ void TotalRankTableView::smallSprite(int index, CCSprite* spr){
                 item_add->setTag(index);
                 item_add->setUserObject(CCInteger::create(index + 3));
                 CCMenu* menu_add = CCMenu::create(item_add, NULL);
-                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+                menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 8));
                 menu_add->setTag(0x10900);
                 menu_add->setVisible(false);
                 bg->addChild(menu_add);
@@ -677,7 +715,7 @@ void TotalRankTableView::toBeFriend(CCMenuItem* btn){
     CCMenuItemSprite* item_add;
     item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
     CCMenu* menu_add = CCMenu::create(item_add, NULL);
-    menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 20));
+    menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 8));
     menu_add->setTag(0X10900);
     bg->addChild(menu_add);
     

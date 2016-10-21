@@ -13,8 +13,8 @@
 #include "AudioManager.h"
 #include "Loading2.h"
 
-#define CELL_WIDTH          275
-#define CELL_HEIGHT         124
+#define CELL_WIDTH          304
+#define CELL_HEIGHT         110
 
 const float selectedScale = 1.2f;
 
@@ -24,31 +24,31 @@ void FriendsListView::add_ranking_num(CCSprite* plate, int ranking, bool selecte
     if (0 < ranking && ranking < 10) {
         CCSprite* spr = FriendsListView::num_sprite(ranking);
         if (selected) {
-            spr->setPosition(ccp(plate->getContentSize().width* .15f, plate->getContentSize().height* .5f));
-            spr->setScale(selectedScale);
+            spr->setPosition(ccp(plate->getContentSize().width* .16f, plate->getContentSize().height* .5f));
+//            spr->setScale(selectedScale);
         }
         else {
-            spr->setPosition(ccp(plate->getContentSize().width* .25f, plate->getContentSize().height* .5f));
+            spr->setPosition(ccp(plate->getContentSize().width* .325f, plate->getContentSize().height* .5f));
         }
         plate->addChild(spr);
     }else{
         CCSprite* spr1 = FriendsListView::num_sprite((int)floor(ranking / 10));
         if (selected) {
-            spr1->setPosition(ccp(plate->getContentSize().width* .15f - 9, plate->getContentSize().height* .5f));
-            spr1->setScale(selectedScale);
+            spr1->setPosition(ccp(plate->getContentSize().width* .16f - 8, plate->getContentSize().height* .5f));
+//            spr1->setScale(selectedScale);
         }
         else {
-            spr1->setPosition(ccp(plate->getContentSize().width* .25f - 8, plate->getContentSize().height* .5f));
+            spr1->setPosition(ccp(plate->getContentSize().width* .325f - 8, plate->getContentSize().height* .5f));
         }
         plate->addChild(spr1);
         
         CCSprite* spr2 = FriendsListView::num_sprite((int)floor(ranking % 10));
         if (selected) {
-            spr2->setPosition(ccp(plate->getContentSize().width* .15f + 9, plate->getContentSize().height* .5f));
-            spr2->setScale(selectedScale);
+            spr2->setPosition(ccp(plate->getContentSize().width* .16f + 8, plate->getContentSize().height* .5f));
+//            spr2->setScale(selectedScale);
         }
         else {
-            spr2->setPosition(ccp(plate->getContentSize().width* .25f + 8, plate->getContentSize().height* .5f));
+            spr2->setPosition(ccp(plate->getContentSize().width* .325f + 8, plate->getContentSize().height* .5f));
         }
         plate->addChild(spr2);
     }
@@ -106,7 +106,7 @@ bool FriendsListView::init() {
         _data = DATA->getSocial()->sortedFriends();
         
         float panelW = CELL_WIDTH;
-        float panelH = CELL_HEIGHT * 5.5;
+        float panelH = CELL_HEIGHT * 6.5;
         _tv = CCTableView::create(this, CCSizeMake(panelW, panelH));
         _tv->setDirection(kCCScrollViewDirectionVertical);
         _tv->setVerticalFillOrder(kCCTableViewFillTopDown);
@@ -185,6 +185,7 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
         
         this->add_ranking_num(plate, idx + 1, true);
         this->add_name(plate, show->nickname(), true);
+        this->add_flag(plate, true);
         this->add_collected(plate, show->collected(), true);
         if (strcasecmp(otherId, DATA->getLogin()->obtain_sid()) == 0) { // 不能给自己送体力
             
@@ -211,6 +212,7 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
         
         this->add_ranking_num(plate, idx + 1, false);
         this->add_name(plate, show->nickname(), false);
+        this->add_flag(plate, false);
         this->add_collected(plate, show->collected(), false);
         if (strcasecmp(otherId, DATA->getLogin()->obtain_sid()) == 0) { // 不能给自己送体力
             
@@ -228,30 +230,45 @@ void FriendsListView::config_cell(CCTableViewCell *cell, int idx) {
 
 void FriendsListView::add_name(CCSprite *plate, const char *nickname, bool selected) {
     CCSize plateSize = plate->getContentSize();
-    CCLabelTTF* labelName = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 24, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    labelName->setAnchorPoint(ccp(0, 0.5));
-    labelName->setColor(ccc3(234, 106, 106));
+    CCLabelTTF* labelName = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 27, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+//    labelName->setAnchorPoint(ccp(0, 0.5));
+    labelName->setColor(ccc3(109, 98, 96));
     if (selected) {
-        labelName->setPosition(ccp(plateSize.width* .24f, plateSize.height* .68));
-        labelName->setScale(selectedScale);
+        labelName->setFontSize(27);
+        labelName->setPosition(ccp(plateSize.width* .63f, plateSize.height* .76));
     }
     else {
-        labelName->setPosition(ccp(plateSize.width* .34f, plateSize.height* .68));
+        labelName->setFontSize(22);
+        labelName->setPosition(ccp(plateSize.width* .75f, plateSize.height* .68));
     }
     plate->addChild(labelName);
 }
 
+void FriendsListView::add_flag(CCSprite *plate, bool selected) {
+    CCSize plateSize = plate->getContentSize();
+    CCSprite* flag = NULL;
+    if (selected) {
+        flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_sel.png");
+        flag->setPosition(ccp(plateSize.width * .5f, plateSize.height* .36f));
+    }else {
+        flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_nor.png");
+        flag->setPosition(ccp(plateSize.width * .6f, plateSize.height* .38f));
+    }
+    plate->addChild(flag);
+}
+
 void FriendsListView::add_collected(CCSprite *plate, int collected, bool selected) {
     CCSize plateSize = plate->getContentSize();
-    CCString* strCollected = CCString::createWithFormat("服装收集: %d", collected);
-    CCLabelTTF* label = CCLabelTTF::create(strCollected->getCString(), DISPLAY->fangzhengFont(), 16);
+    CCString* strCollected = CCString::createWithFormat("%d", collected);
+    CCLabelTTF* label = CCLabelTTF::create(strCollected->getCString(), DISPLAY->fangzhengFont(), 20);
     label->setAnchorPoint(CCPoint(0, 0.5));
     if (selected) {
-        label->setPosition(ccp(plateSize.width * .42f, plateSize.height* .35f));
-        label->setScale(selectedScale);
+        label->setFontSize(22);
+        label->setPosition(ccp(plateSize.width * .75f, plateSize.height* .34f));
     }
     else {
-        label->setPosition(ccp(plateSize.width * .48f, plateSize.height* .365f));
+        label->setFontSize(20);
+        label->setPosition(ccp(plateSize.width * .78f, plateSize.height* .36f));
     }
     
     plate->addChild(label);
@@ -268,7 +285,7 @@ void FriendsListView::add_send_button(CCSprite* plate, const char* otherId, bool
             btnSend->setUserObject(ccs(otherId));
             CCMenu* menu = CCMenu::createWithItem(btnSend);
             //        menu->setPosition(ccp(plateSize.width - 50, 24));
-            menu->setPosition(ccp(plateSize.width - 55, 18));
+            menu->setPosition(ccp(plateSize.width - 55, 8));
             plate->addChild(menu);
         }
     }
@@ -276,8 +293,8 @@ void FriendsListView::add_send_button(CCSprite* plate, const char* otherId, bool
         CCSprite* hasSent = CCSprite::create("res/pic/haoyoupaihang/send_finish.png");
         hasSent->setPosition(ccp(plateSize.width - 50, 24));
         if (selected) {
-            hasSent->setScale(selectedScale);
-            hasSent->setPosition(ccp(plateSize.width - 55, 18));
+//            hasSent->setScale(selectedScale);
+            hasSent->setPosition(ccp(plateSize.width - 55, 8));
         }
         
         plate->addChild(hasSent);
@@ -374,7 +391,7 @@ void FriendsListView::tableCellTouched(CCTableView *table, CCTableViewCell *cell
 
 void FriendsListView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view) {
     CCPoint contOffsetPos = view->getContentOffset();
-    if (this->numberOfCellsInTableView(_tv) > 5) {
+    if (this->numberOfCellsInTableView(_tv) > 7) {
 //        _tv->setBounceable(true);
         if (contOffsetPos.y < view->minContainerOffset().y) {
             view->setContentOffset(CCPoint(contOffsetPos.x, view->minContainerOffset().y));
