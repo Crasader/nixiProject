@@ -290,9 +290,11 @@ void ConfigManager::conf_clothes() {
         CCDictionary* cloth = AppUtil::dictionary_with_json(value);
         if (cloth) {
             CCString* part = (CCString* )cloth->objectForKey("part");
+            
 //            CCLOG("Cloth part: %s", part->getCString());
 //            CCString* id = (CCString* )cloth->objectForKey("id");
 //            CCLOG("Cloth id: %s", id->getCString());
+            
             CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->intValue());
             clothes_part->addObject(cloth);
         }
