@@ -88,7 +88,7 @@ void BuildingLayer::onEnter() {
     if (_isPhaseUp) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         if (CONFIG->baiOrYijie == 0) {// 白包
-        }else if (CONFIG->baiOrYijie == 1){// 易接
+        }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
             JNIController::setUserId(JNIController::getSessionid().c_str());
             JNIController::setPlayerName(DATA->getShow()->nickname());
             CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);

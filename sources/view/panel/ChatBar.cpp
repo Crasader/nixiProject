@@ -27,7 +27,7 @@ void ChatBar::update_num(int num) {
 void ChatBar::update_display() {
     int count = DATA->getChat()->getItems()->count();
     int newCount = DATA->getChat()->getNewChatCount();
-    _curDisplayIndex = count - newCount -1;
+    _curDisplayIndex = count - newCount;
     _curDisplayIndex = MAX(_curDisplayIndex, 0);
     if (newCount != 0) {
         this->display_chat(_curDisplayIndex);
@@ -127,7 +127,7 @@ void ChatBar::display_chat(int index) {
     CCLOG("ChatBar::display_chat(%d)", index);
     CCArray* items = DATA->getChat()->getItems();
     int count = items->count();
-    if (index < count - 1 || (count == 1 && index == 0)) {
+    if (index < count || (count == 1 && index == 0)) {
         ChatItem* item = (ChatItem*)items->objectAtIndex(index);
         if (item) {
             _isIdle = false;
@@ -172,6 +172,7 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
     CCCallFunc* next = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::display_next_chat));
     
     float showSize = nameWidth + lblContent->getContentSize().width;
+    CCLog("=== showSize = %f", showSize);
     if (showSize < barWidth) {
 //        lblContent->setPosition(ccp(nameWidth, barHeight));
 //        lblContent->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(0, barHeight * (-0.5))), CCDelayTime::create(2), next, NULL));
@@ -180,7 +181,8 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
     }
     else {
         lblContent->setPosition(ccp(nameWidth + barWidth * 0.15, barHeight * 0.5));
-        float distance = lblContent->getContentSize().width - lblContent->getPositionX() - nameWidth;
+        float distance = lblContent->getContentSize().width + nameWidth + barWidth * 0.15 - barWidth;
+        CCLog("=== distance = %f", distance);
         if (distance <= 0) {
             lblContent->setPosition(ccp(nameWidth, barHeight * 0.5));
             lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), CCFadeOut::create(1.0), next, NULL));

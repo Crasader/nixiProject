@@ -116,6 +116,8 @@ public:
     CC_SYNTHESIZE(int, _taskTempID, TaskTempID);
     // 初始化talkingdata数据
     CC_SYNTHESIZE(bool, _init_talkingBool, Init_TalkingBool);
+    // 鱼丸第一次进入游戏记录
+    CC_SYNTHESIZE(bool, _yuwanBool, YuwanBool);
     
     // 体力时间
     CC_SYNTHESIZE(int, _tili_Minute, TiliMinute);
