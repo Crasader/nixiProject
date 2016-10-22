@@ -64,6 +64,7 @@ void DataManager::init_data() {
     this->setChat(ChatComp::create());
     this->setOperation(OperationComp::create());
     this->setHome(HomeComp::create());
+    this->setMystery(MysteryComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -350,6 +351,25 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
+            
+            
+        case 610: {
+            _mystery->init_template(content["template"]);
+            _mystery->update_user_data(content["mystery"]);
+        } break;
+            
+        case 611: {
+
+        } break;
+            
+        case 613: {
+            
+        } break;
+        
+        case 615: {
+            
+        } break;
+            
         
         case 500: {
             _story->init_with_json(content["story"]);

@@ -43,6 +43,7 @@
 #include "GashaponLayer.h"
 #include "ExchangeLayer.h"
 #include "TempSignin.h"
+#include "MysteryLayer.h"
 
 #include <time.h>
 
@@ -237,6 +238,8 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_fetch_mystery_info_610), "HTTP_FINISHED_610", NULL);
+    
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
     
@@ -1300,11 +1303,13 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
 void MainScene::youjianCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击邮件");
-    
     if (isOk) {
-        AUDIO->comfirm_effect();
+//        AUDIO->comfirm_effect();
+//        LOADING->show_loading();
+//        NET->all_mails_700();
+
         LOADING->show_loading();
-        NET->all_mails_700();
+        NET->fetch_mystery_info_610(true);
     }
 }
 
@@ -2130,9 +2135,15 @@ void MainScene::initClothes(){//穿衣服
         
 void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
     xinfeng_spr1->removeAllChildrenWithCleanup(true);
+    
     LOADING->remove();
     MailPanel* panel = MailPanel::create();
     panel->show_from(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
+}
+
+void MainScene::nc_fetch_mystery_info_610(CCObject *pObj) {
+    LOADING->remove();
+    CCDirector::sharedDirector()->replaceScene(MysteryLayer::scene());
 }
 
 void MainScene::update_news_status() {

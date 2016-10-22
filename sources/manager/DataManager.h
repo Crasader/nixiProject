@@ -32,6 +32,7 @@
 #include "ChatComp.h"
 #include "OperationComp.h"
 #include "HomeComp.h"
+#include "MysteryComp.h"
 
 USING_NS_CC;
 //USING_NS_CC_EXT;
@@ -75,6 +76,7 @@ public:
     CC_SYNTHESIZE_RETAIN(ChatComp*, _chat, Chat);
     CC_SYNTHESIZE_RETAIN(OperationComp*, _operation, Operation);
     CC_SYNTHESIZE_RETAIN(HomeComp*, _home, Home);
+    CC_SYNTHESIZE_RETAIN(MysteryComp*, _mystery, Mystery);
     
     // 国庆签到信息
     CC_SYNTHESIZE_RETAIN(CCArray*, _tempSigninTemplate, TempSigninTemplate);

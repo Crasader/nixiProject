@@ -15,7 +15,6 @@
 #include "json_lib.h"
 
 #include "PromptLayer.h"
-#include "EmoticonPanel.h"
 #include "AudioManager.h"
 
 using namespace CSJson;

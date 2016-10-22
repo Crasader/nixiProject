@@ -160,6 +160,8 @@ public:
     void nc_recharge_info_304(CCObject *pObj);
     void nc_take_gift_333(CCObject *pObj);
     
+    void nc_fetch_mystery_info_610(CCObject* pObj);
+    
     void show_guoqing_signin();
     void nc_temp_signin_info_340(CCObject* pObj);
     
