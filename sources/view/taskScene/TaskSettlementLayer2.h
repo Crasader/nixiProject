@@ -28,6 +28,8 @@ class TaskSettlementLayer2
 {
 public:
     ~TaskSettlementLayer2();
+    static TaskSettlementLayer2* create(int rating, int coin, int energy); // 给神秘事件用
+    virtual bool init(int rating, int coin, int energy);
     static TaskSettlementLayer2* create(int rating, int coin, int energy, bool isPhaseUP);
     virtual bool init(int rating, int coin, int energy, bool isPhaseUP);
     virtual void onEnter();
@@ -93,6 +95,8 @@ public:
     int randIndex4;
     
     int num_child;
+    
+    bool is_mystery;
     
     
     CCSprite* kuangSpr1;

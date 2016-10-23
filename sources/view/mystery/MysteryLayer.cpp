@@ -9,7 +9,14 @@
 #include "MysteryLayer.h"
 #include "DisplayManager.h"
 #include "DataManager.h"
+#include "ConfigManager.h"
+#include "NetManager.h"
 #include "AudioManager.h"
+
+#include "MysteryDialogScene.h"
+#include "PromptLayer.h"
+#include "Loading2.h"
+
 
 #define CELL_WIDTH          576
 #define CELL_HEIGHT         310
@@ -48,8 +55,8 @@ bool MysteryLayer::init() {
         _tv->ignoreAnchorPointForPosition(false);
         _tv->setPosition(ccp(_panel->getContentSize().width * 0.5, _panel->getContentSize().height * 0.5 - 44));
         _panel->addChild(_tv);
-//        // 暂时不让滚动
-//        _tv->setBounceable(false);
+        // 暂时不让滚动
+        _tv->setBounceable(false);
         
         CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
         txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.05));
@@ -70,6 +77,7 @@ void MysteryLayer::onEnter() {
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, menu_selector(MysteryLayer::after_start_mystery_611), "HTTP_FINISHED_611", NULL);
     
     this->do_enter();
     
@@ -230,6 +238,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     }
     
     if (btn != NULL) {
+        btn->setUserObject(category);
         CCMenu* menu = CCMenu::createWithItem(btn);
         menu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT - 63));
         plane->addChild(menu);
@@ -239,8 +248,43 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
 
 void MysteryLayer::on_start_task(CCMenuItem *pObj) {
     AUDIO->common_effect();
-    pObj->setEnabled(false);
-    
+    //
+    if (DATA->getPlayer()->energy < 12) {
+//        AHMessageBox* mb = AHMessageBox::create_with_message("体力不够，是否购买体力?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+//        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "体力不够啦~~!");
+    }
+    else {
+        LOADING->show_loading();
+        CCString* category = dynamic_cast<CCString*>(pObj->getUserObject());
+        this->setCategoryTempSaved(category);
+        
+        NET->start_mystery_611(category->getCString());
+    }
+}
+
+//void MysteryLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
+//    box->animation_out();
+//    
+//    if (button_type == AH_BUTTON_TYPE_YESNO) {
+//        if (button_tag == AH_BUTTON_TAG_YES) {
+//            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_BUY_ENERGY");
+//        }else if (button_tag == AH_BUTTON_TAG_NO){
+//            PromptLayer* layer = PromptLayer::create();
+//            layer->show_prompt(this->getScene(), "据说体力藏在活动里~!去看看活动吧.");
+//        }
+//    }
+//}
+
+void MysteryLayer::after_start_mystery_611(CCObject *pObj) {
+    LOADING->remove();
+    CCString* choosedTaskId = dynamic_cast<CCString*>(pObj);
+    CCLOG("MysteryLayer::after_start_mystery_611() - %s", choosedTaskId->getCString());
+    CCArray* dialogs = CONFIG->mysteryDialog(choosedTaskId->getCString());
+    CCScene* scene = MysteryDialogScene::scene(this->getCategoryTempSaved()->getCString(), dialogs);
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 #pragma mark - CCTableViewDataSource

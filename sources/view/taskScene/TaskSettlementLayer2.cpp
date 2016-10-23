@@ -21,11 +21,77 @@
 #include "JNIController.h"
 #include "Loading2.h"
 #include "NetManager.h"
+#include "MainScene.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
     
 }
+
+TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int energy){
+    TaskSettlementLayer2* rtn = new TaskSettlementLayer2();
+    if (rtn && rtn->init(rating, coin, energy)) {
+        rtn->autorelease();
+    }
+    else {
+        CC_SAFE_RELEASE_NULL(rtn);
+    }
+    
+    return rtn;
+}
+
+bool TaskSettlementLayer2::init(int rating, int coin, int energy){
+    if (!CCLayer::init()) {
+        return false;
+    }
+    
+    is_mystery = true;
+    num_child = 0;
+    
+    this->setTouchSwallowEnabled(false);
+    this->setTouchMode(kCCTouchesOneByOne);
+    this->setTouchEnabled(true);
+    
+    _rating = rating;
+    _coin = coin;
+    _energy = energy;
+    _isPhaseUP = false;
+    
+    lingquBool = false;
+    logic_open_bool = false;
+    logic_end_Bool = false;
+    animationBool = false;
+    
+    allClothesDic = CONFIG->clothes();// 所有衣服
+    
+    _ManSpr = CCSprite::create();
+    this->addChild(_ManSpr, 10);
+    
+    this->creat_view();
+    this->creat_Man();
+    this->initClothes();
+    
+    if (DATA->current_guide_step() != 0 && DATA->current_guide_step() < 6) {
+        DATA->_guideBool4[0] = true;
+        DATA->_guideBool4[1] = true;
+        DATA->_guideBool4[2] = true;
+        DATA->_guideBool4[3] = true;
+        DATA->_guideBool4[4] = true;
+        DATA->_guideBool4[5] = true;
+        DATA->_guideBool4[6] = true;
+        DATA->_guideBool4[7] = false;
+        DATA->getPlayer()->setGuide(4);
+        if (DATA->current_guide_step() == 4){
+            GuideLayer* layer = GuideLayer::create_with_guide(DATA->current_guide_step());
+            layer->setTag(0x445566);
+            this->addChild(layer, 500);
+        }
+    }
+    
+    
+    return true;
+}
+
 TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int energy, bool isPhaseUP){
     TaskSettlementLayer2* rtn = new TaskSettlementLayer2();
     if (rtn && rtn->init(rating, coin, energy, isPhaseUP)) {
@@ -37,12 +103,14 @@ TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int ene
     
     return rtn;
 }
+
 bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP){
     if (!CCLayer::init()) {
         return false;
     }
     
     num_child = 0;
+    is_mystery = false;
     
     this->setTouchSwallowEnabled(false);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -87,6 +155,7 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
     
     return true;
 }
+
 void TaskSettlementLayer2::onEnter(){
     CCLayer::onEnter();
     
@@ -195,11 +264,18 @@ void TaskSettlementLayer2::nextAnimation2(){
 void TaskSettlementLayer2::exit() {
     AUDIO->goback_effect();
     
-    CCLayer* layer = TaskScene::create(_isPhaseUP);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    if (this->is_mystery) {
+        CCScene* scene = MainScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
+    else {
+        CCLayer* layer = TaskScene::create(_isPhaseUP);
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void TaskSettlementLayer2::creat_view(){

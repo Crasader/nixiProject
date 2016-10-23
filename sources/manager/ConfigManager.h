@@ -26,9 +26,11 @@ public: // Export
     
     // 颜文字表
     const vector<string> emoticon();
-    
+    // 换装任务对话
     CCDictionary* missionDialog();
     CCArray* getMissionDialog(int phase, int taskID);
+    // 神秘人物对话
+    CCArray* mysteryDialog(const char* taskId);
     // 衣服
     CCDictionary* clothes();
     // 登录
@@ -67,6 +69,7 @@ private:
     void conf_chat_addr(int chat);
     void conf_mission();
     void conf_mission_dialog(int phase);
+    void conf_mystery_dialog();
     void conf_clothes();
     void conf_signin7Template();
 
@@ -74,6 +77,7 @@ private:
     bool            _hasconfig;
     CCArray*        _mission;
     CCDictionary*   _missionDialog;
+    CCDictionary*   _mysteryDialog;
     CCDictionary*   _clothes;
     vector<string>  _emoticon;
 };

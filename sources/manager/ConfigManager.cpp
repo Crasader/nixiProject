@@ -29,6 +29,7 @@ ConfigManager* ConfigManager::Inst() {
         _instance->_hasconfig = false;
         _instance->_mission = nullptr;
         _instance->_clothes = nullptr;
+        _instance->_mysteryDialog = NULL;
     }
     
     return _instance;
@@ -166,6 +167,15 @@ CCArray* ConfigManager::getMissionDialog(int phase, int taskID) {
     }
     
     return NULL;
+}
+
+CCArray* ConfigManager::mysteryDialog(const char* taskId) {
+    if (_mysteryDialog == NULL) {
+        this->conf_mystery_dialog();
+        
+    }
+    
+    return dynamic_cast<CCArray*>(_mysteryDialog->objectForKey(taskId));
 }
 
 bool ConfigManager::has_saved_uuid() {
@@ -309,6 +319,12 @@ void ConfigManager::conf_mission_dialog(int phase) {
     CSJson::Value root = AppUtil::read_json_file(fileName->getCString());
     CCArray* allPahseMission = AppUtil::array_with_json(root);
     _missionDialog->setObject(allPahseMission, phase);
+}
+
+void ConfigManager::conf_mystery_dialog() {
+    CSJson::Value root = AppUtil::read_json_file("mystery/mystery_dialog");
+    _mysteryDialog = AppUtil::dictionary_with_json(root);
+    _mysteryDialog->retain();
 }
 
 void ConfigManager::test_mission_count() {

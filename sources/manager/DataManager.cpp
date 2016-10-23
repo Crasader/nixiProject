@@ -359,11 +359,17 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 611: {
-
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            pData = CCString::create(content["id"].asString());
         } break;
             
         case 613: {
-            
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _mystery->update_user_data(content["mystery"]);
+            // 形如：{"rating":5,"coin":50,"energy":6}.
+            pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
         
         case 615: {

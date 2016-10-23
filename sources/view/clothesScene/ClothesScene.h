@@ -242,6 +242,8 @@ private:
     void Http_Finished_603(CCObject* pObj);
     void _605CallBack(CCObject* pObj);
     void _905CallBack(CCObject* pObj);
+    void after_commit_mystery_613(CCObject* pObj);
+    
     void removeAnimation();
     
     int num_child;
