@@ -15,7 +15,9 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class MysteryLayer : public CCLayer
+class MysteryLayer
+: public CCLayer
+, public CCTableViewDataSource
 {
 public: // Export
     static CCScene* scene();
@@ -29,10 +31,18 @@ public:
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     
+    virtual CCSize tableCellSizeForIndex(CCTableView *table, unsigned int idx);
+    virtual CCSize cellSizeForTable(CCTableView *table);
+    virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
+    virtual unsigned int numberOfCellsInTableView(CCTableView *table);
+    
     void keyBackStatus(float dt);
     virtual void keyBackClicked();
     
 private:
+    void config_cell(CCTableViewCell* cell, int idx);
+    void on_start_task(CCMenuItem* pObj);
+    
     void do_enter();
     void do_exit();
     void remove();
@@ -41,6 +51,7 @@ private:
     int num_child;
     
     CCSprite*           _panel;
+    CCTableView*        _tv;
 };
 
 #endif /* MysteryLayer_hpp */

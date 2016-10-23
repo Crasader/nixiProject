@@ -8,9 +8,11 @@
 
 #include "MysteryLayer.h"
 #include "DisplayManager.h"
+#include "DataManager.h"
+#include "AudioManager.h"
 
-#define CELL_WIDTH          187
-#define CELL_HEIGHT         50
+#define CELL_WIDTH          576
+#define CELL_HEIGHT         310
 
 #pragma mark - Export
 
@@ -34,13 +36,23 @@ bool MysteryLayer::init() {
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
-        _panel = CCSprite::create("pic/clothesScene/gj_bgkuang.png");
-        _panel->setAnchorPoint(ccp(1, 0.5));
-        _panel->setPosition(ccp(DISPLAY->W(), DISPLAY->H() * 0.5));
+        _panel = CCSprite::create("pic/mystery/my_bg.png");
+        _panel->setPosition(DISPLAY->center());
         this->addChild(_panel);
         
-        CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
-        txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
+        float panelW = CELL_WIDTH;
+        float panelH = 980;
+        _tv = CCTableView::create(this, CCSizeMake(panelW, panelH));
+        _tv->setVerticalFillOrder(kCCTableViewFillTopDown);
+        _tv->setDirection(kCCScrollViewDirectionVertical);
+        _tv->ignoreAnchorPointForPosition(false);
+        _tv->setPosition(ccp(_panel->getContentSize().width * 0.5, _panel->getContentSize().height * 0.5 - 44));
+        _panel->addChild(_tv);
+//        // 暂时不让滚动
+//        _tv->setBounceable(false);
+        
+        CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
+        txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.05));
         this->addChild(txt_close);
         
         this->setTouchEnabled(true);
@@ -63,6 +75,7 @@ void MysteryLayer::onEnter() {
     
     this->scheduleOnce(SEL_SCHEDULE(&MysteryLayer::keyBackStatus), .8f);
 }
+
 void MysteryLayer::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
@@ -77,8 +90,7 @@ void MysteryLayer::onExit() {
 bool MysteryLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = this->convertToNodeSpace(pTouch->getLocation());
     if (! _panel->boundingBox().containsPoint(location)) {
-        //        this->do_exit();
-        remove();
+        this->do_exit();
     }
     
     return false;
@@ -87,11 +99,16 @@ bool MysteryLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEve
 #pragma mark - Inner
 
 void MysteryLayer::do_enter() {
-
+    _panel->setScale(0.3);
+    CCSequence* seq = CCSequence::create(CCScaleTo::create(0.4, 1.03), CCScaleTo::create(0.3, 1), NULL);
+    _panel->runAction(CCEaseElasticOut::create(seq));
 }
 
 void MysteryLayer::do_exit() {
-
+    _panel->setScale(0.3);
+    CCCallFunc* remove = CCCallFunc::create(this, SEL_CallFunc(&MysteryLayer::remove));
+    CCSequence* seq = CCSequence::create(CCScaleTo::create(0.4, 1.03), CCScaleTo::create(0.3, 0.3), remove, NULL);
+    _panel->runAction(CCEaseElasticOut::create(seq));
 }
 
 void MysteryLayer::remove() {
@@ -108,4 +125,141 @@ void MysteryLayer::keyBackClicked(){
     this->remove();
 }
 
+void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
+    CCLOG("MysteryLayer::config_cell() - idx = %d", idx);
+    CCSprite* plane = CCSprite::create("pic/mystery/my_plane.png");
+    plane->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    cell->addChild(plane);
+    
+    MysteryComp* comp = DATA->getMystery();
+    
+    CCString* category = CCString::createWithFormat("%d", idx + 1);
+    CCArray* goalArray = comp->fetchTemplate(category->getCString());
+    CCDictionary* item_0 = (CCDictionary*)goalArray->objectAtIndex(0);
+    CCDictionary* item_1 = (CCDictionary*)goalArray->objectAtIndex(1);
+    CCDictionary* item_2 = (CCDictionary*)goalArray->objectAtIndex(2);
+    CCDictionary* item_3 = (CCDictionary*)goalArray->objectAtIndex(3);
+    int goal_0 = ((CCInteger*)item_0->objectForKey("goal"))->getValue();
+    int goal_1 = ((CCInteger*)item_1->objectForKey("goal"))->getValue();
+    int goal_2 = ((CCInteger*)item_2->objectForKey("goal"))->getValue();
+    int goal_3 = ((CCInteger*)item_3->objectForKey("goal"))->getValue();
+    CCString* type_0 = (CCString*)item_0->objectForKey("type");
+    CCString* type_1 = (CCString*)item_1->objectForKey("type");
+    CCString* type_2 = (CCString*)item_2->objectForKey("type");
+    CCString* type_3 = (CCString*)item_3->objectForKey("type");
+    int num_0 = ((CCInteger*)item_0->objectForKey("num"))->getValue();
+    int num_1 = ((CCInteger*)item_1->objectForKey("num"))->getValue();
+    int num_2 = ((CCInteger*)item_2->objectForKey("num"))->getValue();
+    int num_3 = ((CCInteger*)item_3->objectForKey("num"))->getValue();
+    
+    {
+        ccColor3B goalColor = ccc3(99, 67, 96);
+        float goalStandY = CELL_HEIGHT * 0.44;
+        
+        CCLabelTTF* lblGoal_0 = CCLabelTTF::create(CCString::createWithFormat("%d", goal_0)->getCString(), DISPLAY->fangzhengFont(), 18);
+        lblGoal_0->setColor(goalColor);
+        lblGoal_0->setPosition(ccp(CELL_WIDTH * 0.125, goalStandY));
+        plane->addChild(lblGoal_0);
+        
+        CCSprite* adhereStar_0 = CCSprite::create("pic/mystery/my_star.png");
+        adhereStar_0->setPosition(ccp(lblGoal_0->getPositionX() + lblGoal_0->getContentSize().width * 0.5 + 12, lblGoal_0->getPositionY()));
+        plane->addChild(adhereStar_0);
+        
+        
+        CCLabelTTF* lblGoal_1 = CCLabelTTF::create(CCString::createWithFormat("%d", goal_1)->getCString(), DISPLAY->fangzhengFont(), 18);
+        lblGoal_1->setColor(goalColor);
+        lblGoal_1->setPosition(ccp(CELL_WIDTH * 0.375, goalStandY));
+        plane->addChild(lblGoal_1);
+        
+        CCSprite* adhereStar_1 = CCSprite::create("pic/mystery/my_star.png");
+        adhereStar_1->setPosition(ccp(lblGoal_1->getPositionX() + lblGoal_1->getContentSize().width * 0.5 + 12, lblGoal_1->getPositionY()));
+        plane->addChild(adhereStar_1);
+        
+        
+        CCLabelTTF* lblGoal_2 = CCLabelTTF::create(CCString::createWithFormat("%d", goal_2)->getCString(), DISPLAY->fangzhengFont(), 18);
+        lblGoal_2->setColor(goalColor);
+        lblGoal_2->setPosition(ccp(CELL_WIDTH * 0.625, goalStandY));
+        plane->addChild(lblGoal_2);
+        
+        CCSprite* adhereStar_2 = CCSprite::create("pic/mystery/my_star.png");
+        adhereStar_2->setPosition(ccp(lblGoal_2->getPositionX() + lblGoal_2->getContentSize().width * 0.5 + 12, lblGoal_2->getPositionY()));
+        plane->addChild(adhereStar_2);
+        
+        
+        CCLabelTTF* lblGoal_3 = CCLabelTTF::create(CCString::createWithFormat("%d", goal_3)->getCString(), DISPLAY->fangzhengFont(), 18);
+        lblGoal_3->setColor(goalColor);
+        lblGoal_3->setPosition(ccp(CELL_WIDTH * 0.875, goalStandY));
+        plane->addChild(lblGoal_3);
+        
+        CCSprite* adhereStar_3 = CCSprite::create("pic/mystery/my_star.png");
+        adhereStar_3->setPosition(ccp(lblGoal_3->getPositionX() + lblGoal_3->getContentSize().width * 0.5 + 12, lblGoal_3->getPositionY()));
+        plane->addChild(adhereStar_3);
+    }
+    
+    
+    CCSprite* progress_0 = CCSprite::create("pic/mystery/my_progress_0.png");
+    progress_0->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    plane->addChild(progress_0);
+    
+    CCSprite* progress_1 = CCSprite::create("pic/mystery/my_progress_1.png");
+    CCProgressTimer* progress = CCProgressTimer::create(progress_1);
+    progress->setReverseDirection(true);
+    progress->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    plane->addChild(progress);
+    
+    
+    CCMenuItem* btn = NULL;
+    float btnScale = 1.002;
+    if (category->compare("1") == 0) {
+        CCSprite* btn1 = CCSprite::create("pic/mystery/my_btn_1.png");
+        CCSprite* btn2 = CCSprite::create("pic/mystery/my_btn_1.png");
+        btn2->setScale(btnScale);
+        btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&MysteryLayer::on_start_task));
+    }
+    else if (category->compare("2") == 0) {
+        CCSprite* btn1 = CCSprite::create("pic/mystery/my_btn_2.png");
+        CCSprite* btn2 = CCSprite::create("pic/mystery/my_btn_2.png");
+        btn2->setScale(btnScale);
+        btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&MysteryLayer::on_start_task));
+    }
+    else if (category->compare("3") == 0) {
+        CCSprite* btn1 = CCSprite::create("pic/mystery/my_btn_3.png");
+        CCSprite* btn2 = CCSprite::create("pic/mystery/my_btn_3.png");
+        btn2->setScale(btnScale);
+        btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&MysteryLayer::on_start_task));
+    }
+    
+    if (btn != NULL) {
+        CCMenu* menu = CCMenu::createWithItem(btn);
+        menu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT - 63));
+        plane->addChild(menu);
+    }
+    
+}
+
+void MysteryLayer::on_start_task(CCMenuItem *pObj) {
+    AUDIO->common_effect();
+    pObj->setEnabled(false);
+    
+}
+
+#pragma mark - CCTableViewDataSource
+
+CCSize MysteryLayer::tableCellSizeForIndex(CCTableView *table, unsigned int idx) {
+    return CCSizeMake(CELL_WIDTH, CELL_HEIGHT);
+}
+
+CCSize MysteryLayer::cellSizeForTable(CCTableView *table) {
+    return CCSizeZero;
+}
+
+CCTableViewCell* MysteryLayer::tableCellAtIndex(CCTableView *table, unsigned int idx) {
+    CCTableViewCell* cell = new CCTableViewCell();
+    this->config_cell(cell, idx);
+    return cell;
+}
+
+unsigned int MysteryLayer::numberOfCellsInTableView(CCTableView *table) {
+    return 3;
+}
 

@@ -11,7 +11,7 @@
 
 // Export
 CCArray* MysteryComp::fetchTemplate(const char *category) {
-    return dynamic_cast<CCArray*>(mysteryTemplate);
+    return dynamic_cast<CCArray*>(mysteryTemplate->objectForKey(category));
 }
 
 // Import
