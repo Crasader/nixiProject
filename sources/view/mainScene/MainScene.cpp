@@ -2143,7 +2143,8 @@ void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
 
 void MainScene::nc_fetch_mystery_info_610(CCObject *pObj) {
     LOADING->remove();
-    CCDirector::sharedDirector()->replaceScene(MysteryLayer::scene());
+//    CCDirector::sharedDirector()->replaceScene(MysteryLayer::scene());
+    MysteryLayer::show(this->getScene());
 }
 
 void MainScene::update_news_status() {

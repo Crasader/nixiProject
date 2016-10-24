@@ -23,6 +23,7 @@ class MysteryLayer
 {
 public: // Export
     static CCScene* scene();
+    static void show(CCNode* parent);
     
 public:
     ~MysteryLayer();
@@ -49,12 +50,16 @@ public:
 private:
     void config_cell(CCTableViewCell* cell, int idx);
     void on_start_task(CCMenuItem* pObj);
+    void on_take_achv(CCMenuItem* pObj);
+    
+    CCSprite* createRewardIcon(CCString* type);
     
     void do_enter();
     void do_exit();
     void remove();
     
     void after_start_mystery_611(CCObject* pObj);
+    void after_take_mystery_achv_615(CCObject* pObj);
     
 private:
     int num_child;

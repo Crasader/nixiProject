@@ -354,9 +354,10 @@ void NetManager::commit_mystery_613(const char* category) {
     this->post_data(613, data);
 }
 
-void NetManager::take_mystery_achv_615(const char* achvId) {
+void NetManager::take_mystery_achv_615(const char* category, const char* achvId) {
     FastWriter writer;
     Value root;
+    root["category"] = category;
     root["id"] = achvId;
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);

@@ -145,23 +145,21 @@ public:
     void removeMan();
     void addButton();
     
-    
+    void LabelColorFhCallBack(CCObject* pSender);
     void startCallBack(CCObject* pSender);
-
-    void nc_clothes_info_400(CCObject* pSender);
-
-    
     void huikanCallBack(CCObject* pSender);
     void kuaijinCallBack(CCObject* pSender);
-    void _603CallBack(CCObject* pSender);
-    void _905CallBack(CCObject* pSender);
-    void _800CallBack(CCObject* pObj);
-    void _704CallBack(CCObject* pObj);
-    void _600CallBack(CCObject* pObj);
-    void goTaskScene();
-    void LabelColorFhCallBack(CCObject* pSender);
+    void gotoMainScene();
     
-    void clothesCallBack(CCObject* pSender);
+    void nc_clothes_info_400(CCObject* pSender);
+
+//    void clothesCallBack(CCObject* pSender);
+    
+//    void _603CallBack(CCObject* pSender);
+//    void _905CallBack(CCObject* pSender);
+//    void _800CallBack(CCObject* pObj);
+//    void _704CallBack(CCObject* pObj);
+//    void _600CallBack(CCObject* pObj);
     
 private:
     const char* category;

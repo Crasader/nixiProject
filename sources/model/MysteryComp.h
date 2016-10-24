@@ -21,6 +21,9 @@ class MysteryComp : public CCObject
 public: // Export
     // category: "1","2","3"
     CCArray* fetchTemplate(const char* category);
+    int userRatingOfCategory(const char* category);
+    // @return: 0-未达成；1-可领；2-已领
+    int userAchvStateOfCategory(const char* category, const char* achvId);
     
 public:
     ~MysteryComp();

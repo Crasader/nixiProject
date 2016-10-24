@@ -83,7 +83,7 @@ public:
     void fetch_mystery_info_610(bool full);
     void start_mystery_611(const char* category);
     void commit_mystery_613(const char* category);
-    void take_mystery_achv_615(const char* achvId);
+    void take_mystery_achv_615(const char* category, const char* achvId);
     
     void completed_story_500();
     void start_story_501(const char* id);

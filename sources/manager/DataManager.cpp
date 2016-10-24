@@ -373,7 +373,10 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
         
         case 615: {
+            _player->init_with_json(content["player"]); // 不必然
+            _mystery->update_user_data(content["mystery"]);
             
+            pData = CCString::create(content["category"].asString());
         } break;
             
         

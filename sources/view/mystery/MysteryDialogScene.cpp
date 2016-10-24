@@ -14,16 +14,11 @@
 #include "SpecialManager.h"
 #include "NetManager.h"
 
-//#include "TaskScene.h"
 #include "ClothesScene.h"
+#include "MainScene.h"
 #include "Loading2.h"
-//#include "TaskLabelColorLayer.h"
+#include "TaskLabelColorLayer.h"
 
-//#include "GuideLayer.h"
-//#include "ColorLayer.h"
-//#include "GameJingli.h"
-//#include "LiveAiXin.h"
-//#include "HaoyouScene.h"
 
 CCScene* MysteryDialogScene::scene(const char* category, CCArray* dialogs){
     CCScene* scene = CCScene::create();
@@ -291,7 +286,7 @@ void MysteryDialogScene::backCallBack(CCObject* pSender){
         CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
         CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
         CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
-        CCCallFunc* goTaskScene = CCCallFunc::create(this, SEL_CallFunc(&MysteryDialogScene::goTaskScene));
+        CCCallFunc* goTaskScene = CCCallFunc::create(this, SEL_CallFunc(&MysteryDialogScene::gotoMainScene));
         _ManSpr1->runAction(CCSequence::create(CCDelayTime::create(.4f), spawn, NULL));
         
         CCFiniteTimeAction* _actMove1 = CCMoveBy::create(.1f, ccp(0, 35));
@@ -321,17 +316,10 @@ void MysteryDialogScene::backCallBack(CCObject* pSender){
             CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, 0));
             CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
             CCSpawn* spawn = CCSpawn::create(moveTo, scaleTo, NULL);
-            CCCallFunc* goTaskScene = CCCallFunc::create(this, SEL_CallFunc(&MysteryDialogScene::goTaskScene));
+            CCCallFunc* goTaskScene = CCCallFunc::create(this, SEL_CallFunc(&MysteryDialogScene::gotoMainScene));
             _ManSpr1->runAction(CCSequence::create(CCDelayTime::create(.8f), spawn, CCDelayTime::create(.2f), goTaskScene, NULL));
         }
     }
-}
-
-void MysteryDialogScene::goTaskScene(){
-//    CCLayer* layer = TaskScene::create(false);
-//    CCScene* scene = CCScene::create();
-//    scene->addChild(layer);
-//    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MysteryDialogScene::creat_Man(float _widthFolt, float _heightFloat, float _scaleFloat){
@@ -1129,11 +1117,11 @@ void MysteryDialogScene::huikanCallBack(CCObject* pSender){
     AUDIO->common_effect();
     
     // talkingData
-    DATA->onEvent("点击事件", "日常对话界面", "点击回顾");
+    DATA->onEvent("点击事件", "神秘事件 对话界面", "点击回顾");
     
-//    TaskLabelColorLayer* layer = TaskLabelColorLayer::create_with_index(labStr.c_str());
-//    layer->setTag(0x999999);
-//    this->addChild(layer, 100);
+    TaskLabelColorLayer* layer = TaskLabelColorLayer::create_with_index(labStr.c_str());
+    layer->setTag(0x999999);
+    this->addChild(layer, 100);
 }
 
 void MysteryDialogScene::kuaijinCallBack(CCObject* pSender){
@@ -1267,25 +1255,6 @@ void MysteryDialogScene::nc_clothes_info_400(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void MysteryDialogScene::_603CallBack(CCObject* pSender){
-    LOADING->remove();
-    this->backCallBack(NULL);
-}
-
 void MysteryDialogScene::openTouch(float dt){
     logIndex = 0;
     this->setTouchEnabled(true);
@@ -1317,61 +1286,6 @@ void MysteryDialogScene::getIndex(float dt){
     }
 }
 
-void MysteryDialogScene::_905CallBack(CCObject* pSender){
-//    if (DATA->getClothes()->has_init_clothes == true) {
-//        this->_400CallBack(NULL);
-//    }
-//    else {
-//        LOADING->show_loading();
-//        NET->owned_clothes_400();
-//    }
-}
-
-void MysteryDialogScene::_600CallBack(CCObject* pSender){
-    AUDIO->comfirm_effect();
-    LOADING->show_loading();
-//    NET->home_info_704(! DATA->getHome()->has_init_house_template());
-}
-
-void MysteryDialogScene::_704CallBack(CCObject* pSender){
-    LOADING->remove();
-    
-//    if (index == -2){// 睡觉
-//        CCScene* scene = CCScene::create();
-//        GameJingli* layer = GameJingli::create();
-//        scene->addChild(layer);
-//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//        CCDirector::sharedDirector()->replaceScene(trans);
-//    }else if (index == -3){// 颜色
-//        CCScene* scene = CCScene::create();
-//        ColorLayer* layer = ColorLayer::create();
-//        scene->addChild(layer);
-//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//        CCDirector::sharedDirector()->replaceScene(trans);
-//    }else if (index == -5){// 垃圾
-//        CCScene* scene = CCScene::create();
-//        LiveAiXin* layer = LiveAiXin::create();
-//        scene->addChild(layer);
-//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//        CCDirector::sharedDirector()->replaceScene(trans);
-//    }
-}
-
-void MysteryDialogScene::clothesCallBack(CCObject* pSender){
-    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-}
-
-void MysteryDialogScene::_800CallBack(CCObject* pObj) {
-//    LOADING->remove();
-//    CCScene* scene = HaoyouScene::scene();
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
-}
-
 void MysteryDialogScene::LabelColorFhCallBack(CCObject* pSender){
     if (this->getChildByTag(0x999999) != NULL) {
         this->removeChildByTag(0x999999);
@@ -1379,5 +1293,20 @@ void MysteryDialogScene::LabelColorFhCallBack(CCObject* pSender){
     
     this->setTouchEnabled(true);
 }
+
+void MysteryDialogScene::gotoMainScene(){
+    CCLayer* layer = MainScene::create();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCDirector::sharedDirector()->replaceScene(scene);
+}
+
+//void MysteryDialogScene::clothesCallBack(CCObject* pSender){
+//    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
+//    CCScene* scene = CCScene::create();
+//    scene->addChild(layer);
+//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
+//}
 
 

@@ -14,6 +14,19 @@ CCArray* MysteryComp::fetchTemplate(const char *category) {
     return dynamic_cast<CCArray*>(mysteryTemplate->objectForKey(category));
 }
 
+int MysteryComp::userRatingOfCategory(const char* category) {
+    CCDictionary* categoryInfo = dynamic_cast<CCDictionary*>(mysteryUserdata->objectForKey(category));
+    CCInteger* value = dynamic_cast<CCInteger*>(categoryInfo->objectForKey("rating"));
+    return value->getValue();
+}
+
+int MysteryComp::userAchvStateOfCategory(const char *category, const char *achvId) {
+    CCDictionary* categoryInfo = dynamic_cast<CCDictionary*>(mysteryUserdata->objectForKey(category));
+    CCDictionary* achv = dynamic_cast<CCDictionary*>(categoryInfo->objectForKey("achv"));
+    CCInteger* state = dynamic_cast<CCInteger*>(achv->objectForKey(achvId));
+    return state->getValue();
+}
+
 // Import
 MysteryComp::~MysteryComp() {
     CC_SAFE_DELETE(mysteryUserdata);
@@ -58,6 +71,9 @@ void MysteryComp::update_user_data(Value json) {
         return;
     }
     
+    CC_SAFE_RELEASE(mysteryUserdata);
+    mysteryUserdata = AppUtil::dictionary_with_json(json);
+    mysteryUserdata->retain();
 }
 
 // Inner

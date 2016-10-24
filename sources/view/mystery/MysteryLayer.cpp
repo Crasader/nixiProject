@@ -30,6 +30,11 @@ CCScene* MysteryLayer::scene() {
     return scene;
 }
 
+void MysteryLayer::show(CCNode* parent) {
+    MysteryLayer* layer = MysteryLayer::create();
+    parent->addChild(layer);
+}
+
 #pragma mark - Inherit
 
 MysteryLayer::~MysteryLayer() {
@@ -78,6 +83,7 @@ void MysteryLayer::onEnter() {
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(MysteryLayer::after_start_mystery_611), "HTTP_FINISHED_611", NULL);
+    nc->addObserver(this, menu_selector(MysteryLayer::after_take_mystery_achv_615), "HTTP_FINISHED_615", NULL);
     
     this->do_enter();
     
@@ -142,23 +148,16 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     MysteryComp* comp = DATA->getMystery();
     
     CCString* category = CCString::createWithFormat("%d", idx + 1);
-    CCArray* goalArray = comp->fetchTemplate(category->getCString());
-    CCDictionary* item_0 = (CCDictionary*)goalArray->objectAtIndex(0);
-    CCDictionary* item_1 = (CCDictionary*)goalArray->objectAtIndex(1);
-    CCDictionary* item_2 = (CCDictionary*)goalArray->objectAtIndex(2);
-    CCDictionary* item_3 = (CCDictionary*)goalArray->objectAtIndex(3);
+    CCArray* achvTemplate = comp->fetchTemplate(category->getCString());
+    CCDictionary* item_0 = (CCDictionary*)achvTemplate->objectAtIndex(0);
+    CCDictionary* item_1 = (CCDictionary*)achvTemplate->objectAtIndex(1);
+    CCDictionary* item_2 = (CCDictionary*)achvTemplate->objectAtIndex(2);
+    CCDictionary* item_3 = (CCDictionary*)achvTemplate->objectAtIndex(3);
+
     int goal_0 = ((CCInteger*)item_0->objectForKey("goal"))->getValue();
     int goal_1 = ((CCInteger*)item_1->objectForKey("goal"))->getValue();
     int goal_2 = ((CCInteger*)item_2->objectForKey("goal"))->getValue();
     int goal_3 = ((CCInteger*)item_3->objectForKey("goal"))->getValue();
-    CCString* type_0 = (CCString*)item_0->objectForKey("type");
-    CCString* type_1 = (CCString*)item_1->objectForKey("type");
-    CCString* type_2 = (CCString*)item_2->objectForKey("type");
-    CCString* type_3 = (CCString*)item_3->objectForKey("type");
-    int num_0 = ((CCInteger*)item_0->objectForKey("num"))->getValue();
-    int num_1 = ((CCInteger*)item_1->objectForKey("num"))->getValue();
-    int num_2 = ((CCInteger*)item_2->objectForKey("num"))->getValue();
-    int num_3 = ((CCInteger*)item_3->objectForKey("num"))->getValue();
     
     {
         ccColor3B goalColor = ccc3(99, 67, 96);
@@ -204,7 +203,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
         plane->addChild(adhereStar_3);
     }
     
-    
+    // 进度条
     CCSprite* progress_0 = CCSprite::create("pic/mystery/my_progress_0.png");
     progress_0->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     plane->addChild(progress_0);
@@ -215,7 +214,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     progress->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     plane->addChild(progress);
     
-    
+    // 任务开始按钮
     CCMenuItem* btn = NULL;
     float btnScale = 1.002;
     if (category->compare("1") == 0) {
@@ -244,6 +243,143 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
         plane->addChild(menu);
     }
     
+    int rating = comp->userRatingOfCategory(category->getCString());
+    CCString* strProgress = CCString::createWithFormat("%d/%d", rating, goal_3);
+    CCLabelTTF* lblProgress = CCLabelTTF::create(strProgress->getCString(), DISPLAY->fangzhengFont(), 20);
+    lblProgress->setColor(ccc3(229, 123, 100));
+    lblProgress->setPosition(ccp(CELL_WIDTH - 65, CELL_HEIGHT * 0.5 + 32));
+    plane->addChild(lblProgress);
+    
+    // 四个状态
+    CCString* achvId_0 = (CCString*)item_0->objectForKey("id");
+    CCString* achvId_1 = (CCString*)item_1->objectForKey("id");
+    CCString* achvId_2 = (CCString*)item_2->objectForKey("id");
+    CCString* achvId_3 = (CCString*)item_3->objectForKey("id");
+    int state_0 = comp->userAchvStateOfCategory(category->getCString(), achvId_0->getCString());
+    int state_1 = comp->userAchvStateOfCategory(category->getCString(), achvId_1->getCString());
+    int state_2 = comp->userAchvStateOfCategory(category->getCString(), achvId_2->getCString());
+    int state_3 = comp->userAchvStateOfCategory(category->getCString(), achvId_3->getCString());
+    CCLOG("state_0 = %d, state_1 = %d, state_2 = %d, state_3 = %d", state_0 ,state_1, state_2, state_3);
+    
+    // 四个按钮
+    CCString* strBtnImage_0 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_0);
+    CCMenuItem* btn_0 = CCMenuItemImage::create(strBtnImage_0->getCString(), strBtnImage_0->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
+    btn_0->setEnabled(state_0 == 1);
+    CCDictionary* itemUserData_0 = CCDictionary::create();
+    itemUserData_0->setObject(ccs(category->getCString()), "category");
+    itemUserData_0->setObject(ccs(achvId_0->getCString()), "achvId");
+    btn_0->setUserObject(itemUserData_0);
+    
+    CCString* strBtnImage_1 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_1);
+    CCMenuItem* btn_1 = CCMenuItemImage::create(strBtnImage_1->getCString(), strBtnImage_1->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
+    btn_1->setEnabled(state_1 == 1);
+    CCDictionary* itemUserData_1 = CCDictionary::create();
+    itemUserData_1->setObject(ccs(category->getCString()), "category");
+    itemUserData_1->setObject(ccs(achvId_1->getCString()), "achvId");
+    btn_1->setUserObject(itemUserData_1);
+    
+    CCString* strBtnImage_2 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_2);
+    CCMenuItem* btn_2 = CCMenuItemImage::create(strBtnImage_2->getCString(), strBtnImage_2->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
+    btn_2->setEnabled(state_2 == 1);
+    CCDictionary* itemUserData_2 = CCDictionary::create();
+    itemUserData_2->setObject(ccs(category->getCString()), "category");
+    itemUserData_2->setObject(ccs(achvId_2->getCString()), "achvId");
+    btn_2->setUserObject(itemUserData_2);
+    
+    CCString* strBtnImage_3 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_3);
+    CCMenuItem* btn_3 = CCMenuItemImage::create(strBtnImage_3->getCString(), strBtnImage_3->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
+    btn_3->setEnabled(state_3 == 1);
+    CCDictionary* itemUserData_3 = CCDictionary::create();
+    itemUserData_3->setObject(ccs(category->getCString()), "category");
+    itemUserData_3->setObject(ccs(achvId_3->getCString()), "achvId");
+    btn_3->setUserObject(itemUserData_3);
+    
+    CCMenu* btnMenu = CCMenu::create(btn_0, btn_1, btn_2, btn_3, NULL);
+    btnMenu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.25 - 94);
+    btnMenu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.2));
+    plane->addChild(btnMenu);
+    
+    
+    // 按钮上的奖励内容
+    CCString* type_0 = (CCString*)item_0->objectForKey("type");
+    CCString* type_1 = (CCString*)item_1->objectForKey("type");
+    CCString* type_2 = (CCString*)item_2->objectForKey("type");
+    CCString* type_3 = (CCString*)item_3->objectForKey("type");
+    // 奖励数目
+    int num_0 = ((CCInteger*)item_0->objectForKey("num"))->getValue();
+    int num_1 = ((CCInteger*)item_1->objectForKey("num"))->getValue();
+    int num_2 = ((CCInteger*)item_2->objectForKey("num"))->getValue();
+    int num_3 = ((CCInteger*)item_3->objectForKey("num"))->getValue();
+    
+    float iconX = 47;
+    float iconY = 60;
+    float numY = iconY - 28;
+    ccColor3B numColor = ccc3(178, 84, 122);
+    CCSprite* rewardIcon_0 = this->createRewardIcon(type_0);
+    if (rewardIcon_0 != NULL) {
+        rewardIcon_0->setPosition(ccp(iconX, iconY));
+        btn_0->addChild(rewardIcon_0);
+
+        CCString* srtNum = CCString::createWithFormat("%d", num_0);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(iconX, numY));
+        btn_0->addChild(lblNum);
+    }
+    
+    CCSprite* rewardIcon_1 = this->createRewardIcon(type_1);
+    if (rewardIcon_1 != NULL) {
+        rewardIcon_1->setPosition(ccp(iconX, iconY));
+        btn_1->addChild(rewardIcon_1);
+        
+        CCString* srtNum = CCString::createWithFormat("%d", num_1);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(iconX, numY));
+        btn_1->addChild(lblNum);
+    }
+    
+    CCSprite* rewardIcon_2 = this->createRewardIcon(type_2);
+    if (rewardIcon_2 != NULL) {
+        rewardIcon_2->setPosition(ccp(iconX, iconY));
+        btn_2->addChild(rewardIcon_2);
+        
+        CCString* srtNum = CCString::createWithFormat("%d", num_2);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(iconX, numY));
+        btn_2->addChild(lblNum);
+    }
+    
+    CCSprite* rewardIcon_3 = this->createRewardIcon(type_3);
+    if (rewardIcon_3 != NULL) {
+        rewardIcon_3->setPosition(ccp(iconX, iconY));
+        btn_3->addChild(rewardIcon_3);
+        
+        CCString* srtNum = CCString::createWithFormat("%d", num_3);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(iconX, numY));
+        btn_3->addChild(lblNum);
+    }
+}
+
+CCSprite* MysteryLayer::createRewardIcon(CCString* type) {
+    CCSprite* rtn = NULL;
+    if (type->compare("coin") == 0) {
+         rtn = CCSprite::create("pic/clothesScene/gj_coin.png");
+    }
+    else if (type->compare("diam") == 0) {
+        rtn = CCSprite::create("pic/clothesScene/gj_gold.png");
+    }
+    else if (type->compare("energy") == 0) {
+        rtn = CCSprite::create("pic/clothesScene/gj_xin.png");
+    }
+    else if (type->compare("clothes") == 0) {
+        
+    }
+    
+    return rtn;
 }
 
 void MysteryLayer::on_start_task(CCMenuItem *pObj) {
@@ -263,6 +399,15 @@ void MysteryLayer::on_start_task(CCMenuItem *pObj) {
         
         NET->start_mystery_611(category->getCString());
     }
+}
+
+void MysteryLayer::on_take_achv(CCMenuItem *pObj) {
+    CCDictionary* data = dynamic_cast<CCDictionary*>(pObj->getUserObject());
+    CCString* category = dynamic_cast<CCString*>(data->objectForKey("category"));
+    CCString* achvId = dynamic_cast<CCString*>(data->objectForKey("achvId"));
+    CCLOG("MysteryLayer::on_take_achv() - category = %s, achvId = %s", category->getCString(), achvId->getCString());
+    LOADING->show_loading();
+    NET->take_mystery_achv_615(category->getCString(), achvId->getCString());
 }
 
 //void MysteryLayer::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag){
@@ -285,6 +430,16 @@ void MysteryLayer::after_start_mystery_611(CCObject *pObj) {
     CCArray* dialogs = CONFIG->mysteryDialog(choosedTaskId->getCString());
     CCScene* scene = MysteryDialogScene::scene(this->getCategoryTempSaved()->getCString(), dialogs);
     CCDirector::sharedDirector()->replaceScene(scene);
+}
+
+void MysteryLayer::after_take_mystery_achv_615(CCObject *pObj) {
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    CCString* category = dynamic_cast<CCString*>(pObj);
+    int idx = category->intValue() - 1;
+    if (idx >= 0) {
+        _tv->updateCellAtIndex(idx);
+    }
 }
 
 #pragma mark - CCTableViewDataSource
