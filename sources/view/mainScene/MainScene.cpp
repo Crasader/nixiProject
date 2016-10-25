@@ -451,6 +451,12 @@ void MainScene::creat_view(){
     CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     gashapon2->setScale(1.02f);
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+    
+    //事件
+    CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/event.png");
+    CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/event.png");
+    eventSpr2->setScale(1.02f);
+    CCMenuItem* eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
 
     // 聊天
 //    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -890,20 +896,23 @@ void MainScene::creat_view(){
                                   _btnEnergyLargess,
 //                                  btnGashapon,
                                   _btnGashapon,
+                                  eventItem,
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
     if (DATA->current_guide_step() == 6){
-        menu->setPosition(ccp(0, 90 * 7 - 10));
+        menu->setPosition(ccp(0, 90 * 7.5));
     }else{
         menu->setPosition(ccp(0, 0));
     }
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8));
+    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8 + 40));
+    stencil->setColor(ccGRAY);
     node = CCClippingNode::create(stencil);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .62f));
+    node->setColor(ccGRAY);
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
@@ -945,7 +954,7 @@ void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
     if (isOk) {
         CCMoveTo* mt = NULL;
         if (isOpen) {
-            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7 - 10));
+            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7.5));
             isOpen = false;
         }else{
             if (DATA->current_guide_step() == 6) {
@@ -1362,6 +1371,13 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
 //    Shower* shower = Shower::create();
 //    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
+}
+
+void MainScene::onEventCallback(CCObject *pSender) {
+    if (isOk) {
+        AUDIO->comfirm_effect();
+        CCLOG("on event callback");
+    }
 }
 
 //void MainScene::openChat(cocos2d::CCObject *pSender){
