@@ -253,7 +253,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     progress->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     plane->addChild(progress);
     
-    progress->setPercentage((rating * 0.1 / goal_3) * 1000);
+    progress->setPercentage(MIN(100, (rating * 0.1 / goal_3) * 1000));
     
     
     // 四个状态
@@ -317,39 +317,35 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     int num_2 = ((CCInteger*)item_2->objectForKey("num"))->getValue();
     int num_3 = ((CCInteger*)item_3->objectForKey("num"))->getValue();
     
-    float iconX = 47;
-    float iconY = 60;
-    
     CCSprite* rewardIcon_0 = this->createRewardIcon(type_0, num_0);
     if (rewardIcon_0 != NULL) {
-        rewardIcon_0->setPosition(ccp(iconX, iconY));
         btn_0->addChild(rewardIcon_0);
     }
     
     CCSprite* rewardIcon_1 = this->createRewardIcon(type_1, num_1);
     if (rewardIcon_1 != NULL) {
-        rewardIcon_1->setPosition(ccp(iconX, iconY));
         btn_1->addChild(rewardIcon_1);
     }
     
     CCSprite* rewardIcon_2 = this->createRewardIcon(type_2, num_2);
     if (rewardIcon_2 != NULL) {
-        rewardIcon_2->setPosition(ccp(iconX, iconY));
         btn_2->addChild(rewardIcon_2);
     }
     
     CCSprite* rewardIcon_3 = this->createRewardIcon(type_3, num_3);
     if (rewardIcon_3 != NULL) {
-        rewardIcon_3->setPosition(ccp(iconX, iconY));
         btn_3->addChild(rewardIcon_3);
     }
 }
 
 CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
     ccColor3B numColor = ccc3(178, 84, 122);
+    float iconX = 47;
+    float iconY = 60;
     CCSprite* rtn = NULL;
     if (type->compare("coin") == 0) {
-         rtn = CCSprite::create("pic/clothesScene/gj_coin.png");
+        rtn = CCSprite::create("pic/clothesScene/gj_coin.png");
+        rtn->setPosition(ccp(iconX, iconY));
         
         CCString* srtNum = CCString::createWithFormat("%d", num);
         CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
@@ -359,6 +355,7 @@ CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
     }
     else if (type->compare("diam") == 0) {
         rtn = CCSprite::create("pic/clothesScene/gj_gold.png");
+        rtn->setPosition(ccp(iconX, iconY));
         
         CCString* srtNum = CCString::createWithFormat("%d", num);
         CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
@@ -368,6 +365,7 @@ CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
     }
     else if (type->compare("energy") == 0) {
         rtn = CCSprite::create("pic/clothesScene/gj_xin.png");
+        rtn->setPosition(ccp(iconX, iconY));
         
         CCString* srtNum = CCString::createWithFormat("%d", num);
         CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
@@ -376,9 +374,12 @@ CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
         rtn->addChild(lblNum);
     }
     else if (type->compare("clothes") == 0) {
-        CCString* icon = DATA->clothes_icon_path_with_id(num);
+        CCString* icon = CCString::createWithFormat("pic/mystery/my_%d.png", num);
         CCLOG("icon = %s", icon->getCString());
         rtn = CCSprite::create(icon->getCString());
+        if (rtn) {
+            rtn->setPosition(ccp(iconX, iconY - 14));
+        }
     }
     
     return rtn;

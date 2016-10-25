@@ -455,10 +455,11 @@ void MainScene::creat_view(){
     gashapon2->setScale(1.02f);
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
     
-    CCSprite* mystery1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
-    CCSprite* mystery2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
-    mystery2->setScale(1.02f);
-    CCMenuItem* btnMystery = CCMenuItemSprite::create(mystery1, mystery2, this, menu_selector(MainScene::mysteryCallBack));
+    //事件
+    CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
+    CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
+    eventSpr2->setScale(1.02f);
+    CCMenuItem* eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
 
     // 聊天
 //    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -887,32 +888,29 @@ void MainScene::creat_view(){
     item_lingdang->addChild(lingdang_effect);
     lingdang_effect->runAction(this->getIntervalAction());
     
-    menu = CCMenu::create(//shouchongItem,
-//                                  _haoyouItem,
-                                  _qiandaoItem,
+    menu = CCMenu::create(        _qiandaoItem,
                                   huanzhuangItem,
-//                                  paihangItem,
                                   btnPurchaseAchievement,
                                   _huodongItem,
-//                                  qiandaoItem,
                                   _btnEnergyLargess,
-//                                  btnGashapon,
                                   _btnGashapon,
-                                  btnMystery,
+                                  eventItem,
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
     if (DATA->current_guide_step() == 6){
-        menu->setPosition(ccp(0, 90 * 7 - 10));
+        menu->setPosition(ccp(0, 90 * 7.5));
     }else{
         menu->setPosition(ccp(0, 0));
     }
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8));
+    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8 + 40));
+    stencil->setColor(ccGRAY);
     node = CCClippingNode::create(stencil);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .62f));
+    node->setColor(ccGRAY);
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
@@ -954,7 +952,7 @@ void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
     if (isOk) {
         CCMoveTo* mt = NULL;
         if (isOpen) {
-            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7 - 10));
+            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7.5));
             isOpen = false;
         }else{
             if (DATA->current_guide_step() == 6) {
@@ -1371,13 +1369,16 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
 }
 
-void MainScene::mysteryCallBack(CCObject *pSender) {
-    LOADING->show_loading();
-    if (DATA->getMystery()->hasInitAchvTemplate()) {
-        NET->fetch_mystery_info_610(false);
-    }
-    else {
-        NET->fetch_mystery_info_610(true);
+void MainScene::onEventCallback(CCObject *pSender) {
+    if (isOk) {
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        if (DATA->getMystery()->hasInitAchvTemplate()) {
+            this->nc_fetch_mystery_info_610(NULL);
+        }
+        else {
+            NET->fetch_mystery_info_610(true);
+        }
     }
 }
 

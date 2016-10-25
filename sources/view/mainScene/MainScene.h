@@ -138,9 +138,9 @@ public:
     void energyLargessCallBack(CCObject* pSender);
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
+    void onEventCallback(CCObject* pSender);
 //    void openChat(CCObject* pSender);
 //    void displayChatItem();
-    void mysteryCallBack(CCObject* pSender);
     void lingdang_callback(CCObject* pSender);
     void blankCallback();
     
