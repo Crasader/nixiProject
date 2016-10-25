@@ -10,8 +10,13 @@
 #include "AppUtil.h"
 
 // Export
-CCArray* MysteryComp::fetchTemplate(const char *category) {
-    return dynamic_cast<CCArray*>(mysteryTemplate->objectForKey(category));
+
+bool MysteryComp::hasInitAchvTemplate() {
+    return mysteryAchvTemplate != nullptr;
+}
+
+CCArray* MysteryComp::fetchAchvTemplate(const char *category) {
+    return dynamic_cast<CCArray*>(mysteryAchvTemplate->objectForKey(category));
 }
 
 int MysteryComp::userRatingOfCategory(const char* category) {
@@ -29,12 +34,12 @@ int MysteryComp::userAchvStateOfCategory(const char *category, const char *achvI
 
 // Import
 MysteryComp::~MysteryComp() {
-    CC_SAFE_DELETE(mysteryUserdata);
+    CC_SAFE_DELETE(mysteryAchvTemplate);
     CC_SAFE_DELETE(mysteryUserdata);
 }
 
 bool MysteryComp::init() {
-    mysteryTemplate = nullptr;
+    mysteryAchvTemplate = nullptr;
     mysteryUserdata = nullptr;
     
     return true;
@@ -60,9 +65,9 @@ void MysteryComp::init_template(Value json) {
         arrTemp->addObject(item);
     }
     
-    CC_SAFE_RELEASE(mysteryTemplate);
-    mysteryTemplate = dict;
-    mysteryTemplate->retain();
+    CC_SAFE_RELEASE(mysteryAchvTemplate);
+    mysteryAchvTemplate = dict;
+    mysteryAchvTemplate->retain();
 }
 
 void MysteryComp::update_user_data(Value json) {

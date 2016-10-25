@@ -52,7 +52,7 @@ private:
     void on_start_task(CCMenuItem* pObj);
     void on_take_achv(CCMenuItem* pObj);
     
-    CCSprite* createRewardIcon(CCString* type);
+    CCSprite* createRewardIcon(CCString* type, int num);
     
     void do_enter();
     void do_exit();

@@ -454,6 +454,11 @@ void MainScene::creat_view(){
     CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     gashapon2->setScale(1.02f);
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+    
+    CCSprite* mystery1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
+    CCSprite* mystery2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
+    mystery2->setScale(1.02f);
+    CCMenuItem* btnMystery = CCMenuItemSprite::create(mystery1, mystery2, this, menu_selector(MainScene::mysteryCallBack));
 
     // 聊天
 //    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -893,6 +898,7 @@ void MainScene::creat_view(){
                                   _btnEnergyLargess,
 //                                  btnGashapon,
                                   _btnGashapon,
+                                  btnMystery,
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
@@ -1304,12 +1310,9 @@ void MainScene::youjianCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击邮件");
     if (isOk) {
-//        AUDIO->comfirm_effect();
-//        LOADING->show_loading();
-//        NET->all_mails_700();
-
+        AUDIO->comfirm_effect();
         LOADING->show_loading();
-        NET->fetch_mystery_info_610(true);
+        NET->all_mails_700();
     }
 }
 
@@ -1363,10 +1366,19 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
             NET->gashapon_info_306(true);
         }
     }
-    
 //    Shower* shower = Shower::create();
 //    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
+}
+
+void MainScene::mysteryCallBack(CCObject *pSender) {
+    LOADING->show_loading();
+    if (DATA->getMystery()->hasInitAchvTemplate()) {
+        NET->fetch_mystery_info_610(false);
+    }
+    else {
+        NET->fetch_mystery_info_610(true);
+    }
 }
 
 //void MainScene::openChat(cocos2d::CCObject *pSender){

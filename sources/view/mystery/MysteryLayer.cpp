@@ -148,7 +148,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     MysteryComp* comp = DATA->getMystery();
     
     CCString* category = CCString::createWithFormat("%d", idx + 1);
-    CCArray* achvTemplate = comp->fetchTemplate(category->getCString());
+    CCArray* achvTemplate = comp->fetchAchvTemplate(category->getCString());
     CCDictionary* item_0 = (CCDictionary*)achvTemplate->objectAtIndex(0);
     CCDictionary* item_1 = (CCDictionary*)achvTemplate->objectAtIndex(1);
     CCDictionary* item_2 = (CCDictionary*)achvTemplate->objectAtIndex(2);
@@ -203,17 +203,6 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
         plane->addChild(adhereStar_3);
     }
     
-    // 进度条
-    CCSprite* progress_0 = CCSprite::create("pic/mystery/my_progress_0.png");
-    progress_0->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
-    plane->addChild(progress_0);
-    
-    CCSprite* progress_1 = CCSprite::create("pic/mystery/my_progress_1.png");
-    CCProgressTimer* progress = CCProgressTimer::create(progress_1);
-    progress->setReverseDirection(true);
-    progress->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
-    plane->addChild(progress);
-    
     // 任务开始按钮
     CCMenuItem* btn = NULL;
     float btnScale = 1.002;
@@ -249,6 +238,23 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     lblProgress->setColor(ccc3(229, 123, 100));
     lblProgress->setPosition(ccp(CELL_WIDTH - 65, CELL_HEIGHT * 0.5 + 32));
     plane->addChild(lblProgress);
+    
+    // 进度条
+    CCSprite* progress_0 = CCSprite::create("pic/mystery/my_progress_0.png");
+    progress_0->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    plane->addChild(progress_0);
+    
+    CCSprite* progress_1 = CCSprite::create("pic/mystery/my_progress_1.png");
+    CCProgressTimer* progress = CCProgressTimer::create(progress_1);
+//    progress->setReverseDirection(true);
+    progress->setType(kCCProgressTimerTypeBar);
+    progress->setMidpoint(ccp(0, 0.5));
+    progress->setBarChangeRate(ccp(1, 0));
+    progress->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    plane->addChild(progress);
+    
+    progress->setPercentage((rating * 0.1 / goal_3) * 1000);
+    
     
     // 四个状态
     CCString* achvId_0 = (CCString*)item_0->objectForKey("id");
@@ -313,70 +319,66 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     
     float iconX = 47;
     float iconY = 60;
-    float numY = iconY - 28;
-    ccColor3B numColor = ccc3(178, 84, 122);
-    CCSprite* rewardIcon_0 = this->createRewardIcon(type_0);
+    
+    CCSprite* rewardIcon_0 = this->createRewardIcon(type_0, num_0);
     if (rewardIcon_0 != NULL) {
         rewardIcon_0->setPosition(ccp(iconX, iconY));
         btn_0->addChild(rewardIcon_0);
-
-        CCString* srtNum = CCString::createWithFormat("%d", num_0);
-        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
-        lblNum->setColor(numColor);
-        lblNum->setPosition(ccp(iconX, numY));
-        btn_0->addChild(lblNum);
     }
     
-    CCSprite* rewardIcon_1 = this->createRewardIcon(type_1);
+    CCSprite* rewardIcon_1 = this->createRewardIcon(type_1, num_1);
     if (rewardIcon_1 != NULL) {
         rewardIcon_1->setPosition(ccp(iconX, iconY));
         btn_1->addChild(rewardIcon_1);
-        
-        CCString* srtNum = CCString::createWithFormat("%d", num_1);
-        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
-        lblNum->setColor(numColor);
-        lblNum->setPosition(ccp(iconX, numY));
-        btn_1->addChild(lblNum);
     }
     
-    CCSprite* rewardIcon_2 = this->createRewardIcon(type_2);
+    CCSprite* rewardIcon_2 = this->createRewardIcon(type_2, num_2);
     if (rewardIcon_2 != NULL) {
         rewardIcon_2->setPosition(ccp(iconX, iconY));
         btn_2->addChild(rewardIcon_2);
-        
-        CCString* srtNum = CCString::createWithFormat("%d", num_2);
-        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
-        lblNum->setColor(numColor);
-        lblNum->setPosition(ccp(iconX, numY));
-        btn_2->addChild(lblNum);
     }
     
-    CCSprite* rewardIcon_3 = this->createRewardIcon(type_3);
+    CCSprite* rewardIcon_3 = this->createRewardIcon(type_3, num_3);
     if (rewardIcon_3 != NULL) {
         rewardIcon_3->setPosition(ccp(iconX, iconY));
         btn_3->addChild(rewardIcon_3);
-        
-        CCString* srtNum = CCString::createWithFormat("%d", num_3);
-        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
-        lblNum->setColor(numColor);
-        lblNum->setPosition(ccp(iconX, numY));
-        btn_3->addChild(lblNum);
     }
 }
 
-CCSprite* MysteryLayer::createRewardIcon(CCString* type) {
+CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
+    ccColor3B numColor = ccc3(178, 84, 122);
     CCSprite* rtn = NULL;
     if (type->compare("coin") == 0) {
          rtn = CCSprite::create("pic/clothesScene/gj_coin.png");
+        
+        CCString* srtNum = CCString::createWithFormat("%d", num);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(rtn->getContentSize().width * 0.5, -12));
+        rtn->addChild(lblNum);
     }
     else if (type->compare("diam") == 0) {
         rtn = CCSprite::create("pic/clothesScene/gj_gold.png");
+        
+        CCString* srtNum = CCString::createWithFormat("%d", num);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(rtn->getContentSize().width * 0.5, -12));
+        rtn->addChild(lblNum);
     }
     else if (type->compare("energy") == 0) {
         rtn = CCSprite::create("pic/clothesScene/gj_xin.png");
+        
+        CCString* srtNum = CCString::createWithFormat("%d", num);
+        CCLabelTTF* lblNum = CCLabelTTF::create(srtNum->getCString(), DISPLAY->fangzhengFont(), 16);
+        lblNum->setColor(numColor);
+        lblNum->setPosition(ccp(rtn->getContentSize().width * 0.5, -12));
+        rtn->addChild(lblNum);
     }
     else if (type->compare("clothes") == 0) {
-        
+        CCString* icon = DATA->clothes_icon_path_with_id(num);
+        CCLOG("icon = %s", icon->getCString());
+        rtn = CCSprite::create(icon->getCString());
     }
     
     return rtn;
@@ -440,6 +442,9 @@ void MysteryLayer::after_take_mystery_achv_615(CCObject *pObj) {
     if (idx >= 0) {
         _tv->updateCellAtIndex(idx);
     }
+    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "成功领取奖励~!");
 }
 
 #pragma mark - CCTableViewDataSource

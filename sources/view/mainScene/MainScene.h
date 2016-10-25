@@ -140,6 +140,7 @@ public:
     void gashaponCallBack(CCObject* pSender);
 //    void openChat(CCObject* pSender);
 //    void displayChatItem();
+    void mysteryCallBack(CCObject* pSender);
     void lingdang_callback(CCObject* pSender);
     void blankCallback();
     

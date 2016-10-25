@@ -19,8 +19,9 @@ using namespace CSJson;
 class MysteryComp : public CCObject
 {
 public: // Export
+    bool hasInitAchvTemplate();
     // category: "1","2","3"
-    CCArray* fetchTemplate(const char* category);
+    CCArray* fetchAchvTemplate(const char* category);
     int userRatingOfCategory(const char* category);
     // @return: 0-未达成；1-可领；2-已领
     int userAchvStateOfCategory(const char* category, const char* achvId);
@@ -33,7 +34,7 @@ public:
     void update_user_data(Value json);
     
 private:
-    CCDictionary*           mysteryTemplate;
+    CCDictionary*           mysteryAchvTemplate;
     CCDictionary*           mysteryUserdata;
 };
 
