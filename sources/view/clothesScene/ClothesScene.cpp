@@ -28,19 +28,35 @@
 ClothesScene::ClothesScene(){
     
 }
+
 ClothesScene::~ClothesScene(){
     
 }
+
+ClothesScene* ClothesScene::create_with_mystery(int _type_id, const char *category, const char *tishi) {
+    ClothesScene* rtn = ClothesScene::create();
+    rtn->init_with_mystery(_type_id, category, tishi);
+    
+    return rtn;
+}
+
+void ClothesScene::init_with_mystery(int _type_id, const char *category, const char *tishi) {
+    this->category = category;
+    this->tishi = tishi;
+    this->init_with_type(_type_id, 1, 1);
+}
+
 ClothesScene* ClothesScene::create_with_type(int _type_id, int _task_index, int _task_phase){
     ClothesScene* rtn = ClothesScene::create();
     rtn->init_with_type(_type_id, _task_index, _task_phase);
     
     return rtn;
 }
+
 void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase){
     
     clothesStatus = _type_id;
-    task_index = _task_index; // 神秘事件时，保存category的整数值
+    task_index = _task_index;
     task_phase = _task_phase;
     startTask = false;
     renwukuangMethodsBool = false;
@@ -871,6 +887,23 @@ void ClothesScene::crate_Tishi(){
         
     }else if (clothesStatus == 2){// 换装
         
+    }
+    else if (clothesStatus == 3) {
+        CCSprite* renwukuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCSprite* renwukuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCMenuItem* renwukuangItem = CCMenuItemSprite::create(renwukuangSpr1, renwukuangSpr2);
+        renwukuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
+        CCMenu* menu = CCMenu::create(renwukuangItem, NULL);
+        menu->setPosition(CCPointZero);
+        menu->setEnabled(false);
+        this->addChild(menu, 10);
+        
+        float kuangWidth = renwukuangSpr1->getContentSize().width;
+        float kuangHeight = renwukuangSpr1->getContentSize().height;
+        CCLabelTTF* lblTishi = CCLabelTTF::create(this->tishi, DISPLAY->fangzhengFont(), 16, CCSizeMake(230, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        lblTishi->setPosition(ccp(kuangWidth * 0.5, kuangHeight * 0.38));
+        lblTishi->setColor(ccc3(107, 89, 99));
+        renwukuangSpr1->addChild(lblTishi);
     }
 }
 void ClothesScene::renwukuangCallBack(CCObject* pSender){
@@ -3050,7 +3083,6 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     AUDIO->buy_effect();
     if (clothesStatus == 1) {// 任务
         if (startTask) {
-//            NET->start_mission_601(getTaskId(task_index - 1));
             this->go_fitting_room();
         }else{
             startTask = false;
@@ -3062,8 +3094,7 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     else if (clothesStatus == 3){// 神秘事件
         if (startTask) {
             LOADING->show_loading();
-            CCString* categ = CCString::createWithFormat("%d", task_index);
-            NET->commit_mystery_613(categ->getCString());
+            NET->commit_mystery_613(this->category);
         }else{
             startTask = false;
             LOADING->remove();

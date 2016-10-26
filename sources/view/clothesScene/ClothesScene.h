@@ -99,9 +99,12 @@ public:
     ~ClothesScene();
     
     virtual bool init();
-    
+    // 公司任务和换装用
     static ClothesScene* create_with_type(int _type_id, int _task_index, int _task_phase);
     void init_with_type(int _type_id, int _task_index, int _task_phase);
+    // 神秘事件专用
+    static ClothesScene* create_with_mystery(int _type_id, const char* category, const char* tishi);
+    void init_with_mystery(int _type_id, const char* category, const char* tishi);
     
     virtual void onEnter();
     
@@ -123,9 +126,12 @@ public:
     CREATE_FUNC(ClothesScene);
     
 public:
-    
     ClothesTableView* _delegate;
-        
+    
+    // 神秘任务用
+    const char* category;
+    const char* tishi;
+    
     bool startTask;
     bool animationBool;
     bool zhuangrongBool;
