@@ -52,6 +52,7 @@ private:
     void seleted_cell(int idx);
     
     void add_name(CCSprite* plate, const char* nickname, bool selected);
+    void add_flag(CCSprite* plate, bool selected);
     void add_collected(CCSprite* plate, int collected, bool selected);
     void add_send_button(CCSprite* plate, const char* otherId, bool couldSend, bool selected);
     

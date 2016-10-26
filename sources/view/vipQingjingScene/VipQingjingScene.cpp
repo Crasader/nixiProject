@@ -21,9 +21,9 @@
 #include "ChatPanel.h"
 #include "JNIController.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "IOSIAPManager.h"
-#endif
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+//#include "IOSIAPManager.h"
+//#endif
 
 
 VipQingjingScene::VipQingjingScene(){
@@ -142,7 +142,8 @@ void VipQingjingScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::updataMan), "VipQingjing_UpdataMan", NULL);
 //    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::displayChatItem), "ON_CHAT_PANEL_CLOSE", NULL);
     
-    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::iOS_buy_109), "IOS_BUY_FINISHED", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::iOS_buy_109), "IOS_BUY_FINISHED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&VipQingjingScene::nc_buy_iOS_story2), "HTTP_FINISHED_515", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::keyBackStatus), .8f);
 }
@@ -336,9 +337,17 @@ void VipQingjingScene::creat_view(){
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
             startItem->setTag(i);
             
-            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
-            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            CCSprite* buySpr1;
+            CCSprite* buySpr2;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
+            buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
             buySpr2->setScale(1.02f);
+#else
+            buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart1.png");
+            buySpr2->setScale(1.02f);
+#endif
             buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
             buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
             buyItem->setTag(i+1000);
@@ -466,7 +475,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             AUDIO->comfirm_effect();
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            this->start_iOS_purchase();
+            this->buy_iOS_story2_515();
             
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
             if (CONFIG->baiOrYijie == 0) {// 白包
@@ -523,7 +532,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
         AUDIO->comfirm_effect();
         
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        this->start_iOS_purchase();
+        this->buy_iOS_story2_515();
         
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         if (CONFIG->baiOrYijie == 0) {// 白包
@@ -648,34 +657,40 @@ void VipQingjingScene::_113CallBack(CCObject* pSender){
     creat_view();
 }
 
-void VipQingjingScene::start_iOS_purchase() {
-    #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    if (true) {
-        LOADING->show_loading();
-        IOSIAPManager* d = IOSIAPManager::Inst();
-        if (d->canMakePurchases()) {
-            CCLOG("can purchases");
-            d->buyProduct("tiegao_story");
-        }
-        else {
-            LOADING->remove();
-            CCLOG("can not purchases");
-        }
-    }
-    else {
-        LOADING->show_loading();
-        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-        NET->buy_story2_505(indexStr->getCString());
-    }
-    #endif
-}
-
-// iOS支付成功回调
-void VipQingjingScene::iOS_buy_109() {
+void VipQingjingScene::buy_iOS_story2_515() {
+//    if (true) {
+//        LOADING->show_loading();
+//        IOSIAPManager* d = IOSIAPManager::Inst();
+//        if (d->canMakePurchases()) {
+//            CCLOG("can purchases");
+//            d->buyProduct("tiegao_story");
+//        }
+//        else {
+//            LOADING->remove();
+//            CCLOG("can not purchases");
+//        }
+//    }
+//    else {
+//        LOADING->show_loading();
+//        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+//        NET->buy_story2_505(indexStr->getCString());
+//    }
     LOADING->show_loading();
     CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-    NET->buy_story2_505(indexStr->getCString());
+    NET->buy_ios_story2_515(indexStr->getCString());
 }
+
+void VipQingjingScene::nc_buy_iOS_story2(CCObject *pSender) {
+    this->_505CallBack(pSender);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
+
+//// iOS支付成功回调
+//void VipQingjingScene::iOS_buy_109() {
+//    LOADING->show_loading();
+//    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+//    NET->buy_story2_505(indexStr->getCString());
+//}
 
 void VipQingjingScene::quedingCallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
@@ -686,7 +701,7 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
     
     // 就要买
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    this->start_iOS_purchase();
+    this->buy_iOS_story2_515();
 //    LOADING->show_loading();
 //    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
 //    NET->buy_story2_505(indexStr->getCString());
