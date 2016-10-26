@@ -888,7 +888,7 @@ void ClothesScene::crate_Tishi(){
     }else if (clothesStatus == 2){// 换装
         
     }
-    else if (clothesStatus == 3) {
+    else if (clothesStatus == 3 && this->tishi != NULL) {
         CCSprite* renwukuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
         CCSprite* renwukuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
         CCMenuItem* renwukuangItem = CCMenuItemSprite::create(renwukuangSpr1, renwukuangSpr2);
