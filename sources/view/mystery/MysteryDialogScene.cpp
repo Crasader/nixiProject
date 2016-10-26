@@ -1236,8 +1236,10 @@ void MysteryDialogScene::startCallBack(CCObject* pSender){
 void MysteryDialogScene::nc_clothes_info_400(CCObject* pSender){
     LOADING->remove();
     
-    int categ = ccs(this->category)->intValue();
-    CCLayer* layer = ClothesScene::create_with_type(3, categ, 0);
+//    int categ = ccs(this->category)->intValue();
+    CCDictionary* firstDialog = dynamic_cast<CCDictionary*>(this->dialogs->objectAtIndex(0));
+    const CCString* tishi = firstDialog->valueForKey("tishi");
+    CCLayer* layer = ClothesScene::create_with_mystery(3, this->category, tishi->getCString());
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
