@@ -328,7 +328,7 @@ void ConfigManager::conf_mission_dialog(int phase) {
 }
 
 void ConfigManager::conf_mystery_dialog() {
-    CSJson::Value root = AppUtil::read_json_file("mystery/mystery_dialog");
+    CSJson::Value root = AppUtil::read_json_file("conf/mystery_dialog");
     _mysteryDialog = AppUtil::dictionary_with_json(root);
     _mysteryDialog->retain();
 }

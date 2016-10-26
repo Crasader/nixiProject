@@ -158,7 +158,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     int goal_1 = ((CCInteger*)item_1->objectForKey("goal"))->getValue();
     int goal_2 = ((CCInteger*)item_2->objectForKey("goal"))->getValue();
     int goal_3 = ((CCInteger*)item_3->objectForKey("goal"))->getValue();
-    
+    // 进度数字
     {
         ccColor3B goalColor = ccc3(99, 67, 96);
         float goalStandY = CELL_HEIGHT * 0.44;
@@ -232,7 +232,8 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
         plane->addChild(menu);
     }
     
-    int rating = comp->userRatingOfCategory(category->getCString());
+    // 进度数值表示
+    int rating = MIN(goal_3, comp->userRatingOfCategory(category->getCString()));
     CCString* strProgress = CCString::createWithFormat("%d/%d", rating, goal_3);
     CCLabelTTF* lblProgress = CCLabelTTF::create(strProgress->getCString(), DISPLAY->fangzhengFont(), 20);
     lblProgress->setColor(ccc3(229, 123, 100));
