@@ -54,6 +54,18 @@ bool MysteryDialogScene::init(const char* category, CCArray* dialogs){
     this->dialogs = dialogs;
     dialogs->retain();
     
+    CCString* strBg = CCString::createWithFormat("pic/mystery/my_bg_%s.png", category);
+    CCSprite* bg = CCSprite::create(strBg->getCString());
+    if (bg) {
+        bg->setPosition(DISPLAY->center());
+        this->addChild(bg);
+    }
+    else {
+        bg = CCSprite::create("pic/taskScene/task_bg.png");
+        bg->setPosition(DISPLAY->center());
+        this->addChild(bg);
+    }
+    
     // 任务数据
     curDialogDic = (CCDictionary* )dialogs->objectAtIndex(0);
     subscriptIndex = curDialogDic->valueForKey("id")->intValue();
@@ -165,7 +177,6 @@ bool MysteryDialogScene::init(const char* category, CCArray* dialogs){
     
     this->addButton();
     
-    this->creat_view();
     this->creat_Man(0, 0, 1.f);
     this->initClothes();
     this->init_Man();
@@ -248,28 +259,6 @@ bool MysteryDialogScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     }
     
     return true;
-}
-
-void MysteryDialogScene::creat_view(){
-    CCSprite* bg = CCSprite::create("res/pic/taskScene/task_bg.png");
-    bg->setPosition(DISPLAY->center());
-    this->addChild(bg);
-    
-//    CCString* str = NULL;
-//    if (taskPhase < 3) {
-//        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", taskPhase);
-//    }
-//    else {
-//        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
-//    }
-//    CCSprite* _building = CCSprite::create(str->getCString());
-//    _building->setAnchorPoint(CCPointZero);
-//    _building->setPosition(ccp(0, DISPLAY->H() * 0.22));
-//    this->addChild(_building);
-//    
-//    CCSprite* fountain = CCSprite::create("res/pic/taskScene/task_fountain.png");
-//    fountain->setPosition(ccp(DISPLAY->halfW() + 175, DISPLAY->H() * 0.287));
-//    this->addChild(fountain);
 }
 
 void MysteryDialogScene::backCallBack(CCObject* pSender){

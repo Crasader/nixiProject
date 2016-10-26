@@ -120,9 +120,6 @@ public:
     virtual void keyBackClicked();
     
 public:
-    
-    void creat_view();
-    
     void creat_Man(float _widthFolt, float _heightFloat, float _scaleFloat);
     void creat_Man2(float _widthFolt, float _heightFloat, float _scaleFloat);
     void initClothes();

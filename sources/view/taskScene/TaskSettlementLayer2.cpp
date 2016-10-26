@@ -284,18 +284,18 @@ void TaskSettlementLayer2::creat_view(){
     this->addChild(bgSpr1);
     
     // 上条
-    tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao2.png");
-    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .9f));
-    this->addChild(tiaoSpr, 15);
     
-//    tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao.png");
-//    tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .86f));
-//    this->addChild(tiaoSpr, 15);
-//    
-//    CCSprite* done_text = CCSprite::create("res/pic/taskSettlement/ts_done_text.png");
-//    done_text->setPosition(ccp(tiaoSpr->getContentSize().width* .5f, tiaoSpr->getContentSize().height* .63f));
-//    tiaoSpr->addChild(done_text);
-    
+    if (this->is_mystery) {
+        tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao.png");
+        tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .9f));
+        this->addChild(tiaoSpr, 15);
+    }
+    else {
+        tiaoSpr = CCSprite::create("res/pic/taskSettlement/ts_tiao2.png");
+        tiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .9f));
+        this->addChild(tiaoSpr, 15);
+    }
+
     int renIndex = 1;
     if (_rating == 1) {
         renIndex = 1;
