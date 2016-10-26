@@ -40,7 +40,7 @@ ClothesScene* ClothesScene::create_with_type(int _type_id, int _task_index, int 
 void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase){
     
     clothesStatus = _type_id;
-    task_index = _task_index;
+    task_index = _task_index; // 神秘事件时，保存category的整数值
     task_phase = _task_phase;
     startTask = false;
     renwukuangMethodsBool = false;
@@ -68,7 +68,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
-    if (clothesStatus == 1) {// 任务
+    if (clothesStatus == 1 || clothesStatus == 3) {// 1:任务, 3:神秘事件
         CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
         CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
         startSpr2->setScale(1.02f);
@@ -78,7 +78,8 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
         CCMenu* menu = CCMenu::create(backItem, startItem, NULL);
         menu->setPosition(CCPointZero);
         this->addChild(menu, 15);
-    }else if (clothesStatus == 2){// 换装
+    }
+    else if (clothesStatus == 2){// 换装
         CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
         CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
@@ -91,6 +92,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
         menu->setPosition(CCPointZero);
         this->addChild(menu, 15);
     }
+    
     
     if (DATA->current_guide_step() == 0) {
         
@@ -156,6 +158,8 @@ void ClothesScene::onEnter(){
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::_605CallBack), "HTTP_FINISHED_605", NULL);
+    
+    nc->addObserver(this, menu_selector(ClothesScene::after_commit_mystery_613), "HTTP_FINISHED_613", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
 }
@@ -1168,6 +1172,7 @@ void ClothesScene::_605CallBack(CCObject* pObj){
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
@@ -1195,7 +1200,8 @@ void ClothesScene::backCallBack(CCObject* pSender){
                 scene->addChild(layer);
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                 CCDirector::sharedDirector()->replaceScene(trans);
-            }else if (clothesStatus == 2){// 换装
+            }
+            else if (clothesStatus == 2){// 换装
                 if (DATA->current_guide_step() >= 6 && DATA->current_guide_step() < 8) {
                     LOADING->show_loading();
                     DATA->getPlayer()->setGuide(8);
@@ -1207,6 +1213,11 @@ void ClothesScene::backCallBack(CCObject* pSender){
                     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                     CCDirector::sharedDirector()->replaceScene(trans);
                 }
+            }
+            else if (clothesStatus == 3){// 神秘事件
+                CCScene* scene = MainScene::scene();
+                CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+                CCDirector::sharedDirector()->replaceScene(trans);
             }
         }
     }
@@ -1220,6 +1231,20 @@ void ClothesScene::_905CallBack(CCObject* pObj){
         CCDirector::sharedDirector()->replaceScene(trans);
     }
 }
+
+void ClothesScene::after_commit_mystery_613(CCObject *pObj) {
+    CCDictionary* result = (CCDictionary*)pObj;
+    int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
+    int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
+    int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
+    
+    CCScene* scene = CCScene::create();
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy);
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+
 void ClothesScene::removeAnimation(){
     if (animationBool) {
         animationBool = false;
@@ -3034,6 +3059,17 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     }else if (clothesStatus == 2){// 换装
         LOADING->remove();
     }
+    else if (clothesStatus == 3){// 神秘事件
+        if (startTask) {
+            LOADING->show_loading();
+            CCString* categ = CCString::createWithFormat("%d", task_index);
+            NET->commit_mystery_613(categ->getCString());
+        }else{
+            startTask = false;
+            LOADING->remove();
+        }
+    }
+    
     
     if (_buttonStatus == 1) {// buy
         _buttonStatus = 0;

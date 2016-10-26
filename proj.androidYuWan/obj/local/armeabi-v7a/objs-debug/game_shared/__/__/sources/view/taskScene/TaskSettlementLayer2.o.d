@@ -261,7 +261,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h \
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/base/BaseScene.h \
@@ -289,7 +289,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSe
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
+ jni/../../sources/view/mainScene/MainScene.h
 
 jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
 
@@ -827,6 +828,8 @@ jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
 
+jni/../../sources/model/MysteryComp.h:
+
 jni/../../sources/manager/ConfigManager.h:
 
 jni/../../sources/view/taskScene/TaskScene.h:
@@ -884,3 +887,5 @@ jni/../../sources/manager/NetManager.h:
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
+
+jni/../../sources/view/mainScene/MainScene.h:

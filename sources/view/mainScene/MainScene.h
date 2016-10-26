@@ -138,6 +138,7 @@ public:
     void energyLargessCallBack(CCObject* pSender);
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
+    void onEventCallback(CCObject* pSender);
 //    void openChat(CCObject* pSender);
 //    void displayChatItem();
     void lingdang_callback(CCObject* pSender);
@@ -159,6 +160,8 @@ public:
     void nc_gashapon_info_306(CCObject *pObj);
     void nc_recharge_info_304(CCObject *pObj);
     void nc_take_gift_333(CCObject *pObj);
+    
+    void nc_fetch_mystery_info_610(CCObject* pObj);
     
     void show_guoqing_signin();
     void nc_temp_signin_info_340(CCObject* pObj);

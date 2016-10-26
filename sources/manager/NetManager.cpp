@@ -327,6 +327,44 @@ void NetManager::commit_extra_mission_605(int id, int type, int flag) {
 }
 
 
+void NetManager::fetch_mystery_info_610(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(610, data);
+}
+
+void NetManager::start_mystery_611(const char *category) {
+    FastWriter writer;
+    Value root;
+    root["category"] = category;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(611, data);
+}
+
+void NetManager::commit_mystery_613(const char* category) {
+    FastWriter writer;
+    Value root;
+    root["category"] = category;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(613, data);
+}
+
+void NetManager::take_mystery_achv_615(const char* category, const char* achvId) {
+    FastWriter writer;
+    Value root;
+    root["category"] = category;
+    root["id"] = achvId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(615, data);
+}
+
+
 void NetManager::completed_story_500() {
     this->post_data(500, string(""));
 }

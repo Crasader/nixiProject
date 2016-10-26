@@ -20,7 +20,7 @@
 #include "FriendsScene.h"
 #include "AudioManager.h"
 
-#define REFRESH_INTERVAL   30 // 60秒
+#define REFRESH_INTERVAL            10
 
 StrangerScene:: ~StrangerScene(){}
 
@@ -120,8 +120,8 @@ void StrangerScene::createView(){
     
     // 刷新倒计时
     _countDown = CCLabelAtlas::create("00:00", "res/pic/baseScene/base_number3.png", 14, 20, '0');
-    _countDown->setScale(0.9);
-    _countDown->setPosition(ccp(6, 2));
+    _countDown->setScale(0.68);
+    _countDown->setPosition(ccp(19.5, 26));
     _countDown->setVisible(false);
     _itemRefresh->addChild(_countDown);
     

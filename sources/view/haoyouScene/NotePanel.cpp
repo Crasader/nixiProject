@@ -180,7 +180,7 @@ void NotePanel::btn_send_callback(){
     if (!_entranceType.empty() && _entranceType.compare("friend") == 0) {
         ShowComp* other = DATA->getSocial()->getSelectedFriendByIndex(_index);
         if (other) {
-            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+            if (FILEM->is_blanked_illegal(m_text->getText().c_str()) == true) {
                 FILEM->replace_all_illegal(m_text->getText(), "**");
 //                m_text->setText(m_text->getText().c_str());
                 m_text->openIME();
@@ -195,7 +195,7 @@ void NotePanel::btn_send_callback(){
     else if (!_entranceType.empty() && _entranceType.compare("stranger") == 0) {
         const char* id = DATA->getSocial()->getSelectedStrangerIDbyIndex(_index);
         if (id) {
-            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+            if (FILEM->is_blanked_illegal(m_text->getText().c_str()) == true) {
                 FILEM->replace_all_illegal(m_text->getText(), "**");
 //                m_text->setText(m_text->getText().c_str());
                 m_text->openIME();
@@ -210,7 +210,7 @@ void NotePanel::btn_send_callback(){
     else if (!_entranceType.empty() && _entranceType.compare("zhitiao") == 0) {
         const char* id = DATA->getPaper()->getReplyID();
         if (id) {
-            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+            if (FILEM->is_blanked_illegal(m_text->getText().c_str()) == true) {
                 FILEM->replace_all_illegal(m_text->getText(), "**");
 //                m_text->setText(m_text->getText().c_str());
                 m_text->openIME();
@@ -227,7 +227,7 @@ void NotePanel::btn_send_callback(){
         ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
         const char* id = show->getShowID().c_str();
         if (id) {
-            if (FILEM->is_illegal(m_text->getText().c_str()) == true) {
+            if (FILEM->is_blanked_illegal(m_text->getText().c_str()) == true) {
                 FILEM->replace_all_illegal(m_text->getText(), "**");
 //                m_text->setText(m_text->getText().c_str());
                 m_text->openIME();

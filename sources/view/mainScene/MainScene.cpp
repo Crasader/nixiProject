@@ -43,6 +43,7 @@
 #include "GashaponLayer.h"
 #include "ExchangeLayer.h"
 #include "TempSignin.h"
+#include "MysteryLayer.h"
 
 #include <time.h>
 
@@ -264,6 +265,8 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_fetch_mystery_info_610), "HTTP_FINISHED_610", NULL);
+    
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
     
@@ -478,6 +481,12 @@ void MainScene::creat_view(){
     CCSprite* gashapon2 = CCSprite::create("res/pic/mainScene/btn_gashapon.png");
     gashapon2->setScale(1.02f);
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
+    
+    //事件
+    CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
+    CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
+    eventSpr2->setScale(1.02f);
+    CCMenuItem* eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
 
     // 聊天
 //    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -906,31 +915,29 @@ void MainScene::creat_view(){
     item_lingdang->addChild(lingdang_effect);
     lingdang_effect->runAction(this->getIntervalAction());
     
-    menu = CCMenu::create(//shouchongItem,
-//                                  _haoyouItem,
-                                  _qiandaoItem,
+    menu = CCMenu::create(        _qiandaoItem,
                                   huanzhuangItem,
-//                                  paihangItem,
                                   btnPurchaseAchievement,
                                   _huodongItem,
-//                                  qiandaoItem,
                                   _btnEnergyLargess,
-//                                  btnGashapon,
                                   _btnGashapon,
+                                  eventItem,
                                   item_lingdang,
                                   NULL);
     menu->alignItemsVerticallyWithPadding(5);
     if (DATA->current_guide_step() == 6){
-        menu->setPosition(ccp(0, 90 * 7 - 10));
+        menu->setPosition(ccp(0, 90 * 7.5));
     }else{
         menu->setPosition(ccp(0, 0));
     }
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8));
+    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8 + 40));
+    stencil->setColor(ccGRAY);
     node = CCClippingNode::create(stencil);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .62f));
+    node->setColor(ccGRAY);
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
@@ -972,7 +979,7 @@ void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
     if (isOk) {
         CCMoveTo* mt = NULL;
         if (isOpen) {
-            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7 - 10));
+            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7.5));
             isOpen = false;
         }else{
             if (DATA->current_guide_step() == 6) {
@@ -1327,7 +1334,6 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
 void MainScene::youjianCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击邮件");
-    
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
@@ -1385,10 +1391,22 @@ void MainScene::gashaponCallBack(CCObject *pSender) {
             NET->gashapon_info_306(true);
         }
     }
-    
 //    Shower* shower = Shower::create();
 //    shower->ondress((CCDictionary*)suits->objectAtIndex(0));
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(shower);
+}
+
+void MainScene::onEventCallback(CCObject *pSender) {
+    if (isOk) {
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        if (DATA->getMystery()->hasInitAchvTemplate()) {
+            this->nc_fetch_mystery_info_610(NULL);
+        }
+        else {
+            NET->fetch_mystery_info_610(true);
+        }
+    }
 }
 
 //void MainScene::openChat(cocos2d::CCObject *pSender){
@@ -2157,9 +2175,16 @@ void MainScene::initClothes(){//穿衣服
         
 void MainScene::all_mail_callback_700(cocos2d::CCObject *pObj) {
     xinfeng_spr1->removeAllChildrenWithCleanup(true);
+    
     LOADING->remove();
     MailPanel* panel = MailPanel::create();
     panel->show_from(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .85f));
+}
+
+void MainScene::nc_fetch_mystery_info_610(CCObject *pObj) {
+    LOADING->remove();
+//    CCDirector::sharedDirector()->replaceScene(MysteryLayer::scene());
+    MysteryLayer::show(this->getScene());
 }
 
 void MainScene::update_news_status() {

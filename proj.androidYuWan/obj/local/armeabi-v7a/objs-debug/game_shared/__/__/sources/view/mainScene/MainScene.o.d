@@ -261,7 +261,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h \
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
@@ -319,6 +319,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/view/mainScene/GashaponLayer.h \
  jni/../../sources/view/mainScene/ExchangeLayer.h \
  jni/../../sources/view/panel/TempSignin.h \
+ jni/../../sources/view/mystery/MysteryLayer.h \
  jni/../../sources/view/mainScene/RewardLayer.h \
  jni/../../sources/view/guide/GuideLayer.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
@@ -862,6 +863,8 @@ jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
 
+jni/../../sources/model/MysteryComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/qingjingScene/QingjingScene.h:
@@ -975,6 +978,8 @@ jni/../../sources/view/mainScene/GashaponLayer.h:
 jni/../../sources/view/mainScene/ExchangeLayer.h:
 
 jni/../../sources/view/panel/TempSignin.h:
+
+jni/../../sources/view/mystery/MysteryLayer.h:
 
 jni/../../sources/view/mainScene/RewardLayer.h:
 

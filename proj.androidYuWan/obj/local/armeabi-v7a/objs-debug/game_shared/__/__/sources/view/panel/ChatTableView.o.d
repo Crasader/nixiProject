@@ -260,7 +260,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/panel/ChatTableV
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h
 
 jni/../../sources/view/panel/ChatTableView.h:
 
@@ -793,3 +793,5 @@ jni/../../sources/model/CoffersComp.h:
 jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/model/MysteryComp.h:

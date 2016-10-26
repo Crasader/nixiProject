@@ -29,6 +29,7 @@ ConfigManager* ConfigManager::Inst() {
         _instance->_hasconfig = false;
         _instance->_mission = nullptr;
         _instance->_clothes = nullptr;
+        _instance->_mysteryDialog = NULL;
     }
     
     return _instance;
@@ -168,6 +169,15 @@ CCArray* ConfigManager::getMissionDialog(int phase, int taskID) {
     return NULL;
 }
 
+CCArray* ConfigManager::mysteryDialog(const char* taskId) {
+    if (_mysteryDialog == NULL) {
+        this->conf_mystery_dialog();
+        
+    }
+    
+    return dynamic_cast<CCArray*>(_mysteryDialog->objectForKey(taskId));
+}
+
 bool ConfigManager::has_saved_uuid() {
     return !(this->saved_uuid().compare("") == 0);
 }
@@ -221,6 +231,9 @@ void ConfigManager::conf_login_addr(int net) {
 //            login_addr = "http://118.178.24.170:9765/account";
             login_addr = "http://tiegao.yunlookgame.cn:9765/account";
             break;
+        case 59:
+            login_addr = "http://nixi.yunlookgame.cn:9765/account";
+            break;
         case 234:
             login_addr = "http://192.168.1.234:9765/account";
             break;
@@ -238,6 +251,9 @@ void ConfigManager::conf_chat_addr(int chat) {
             break;
         case 170:
             chator_addr = "ws://tiegao.yunlookgame.cn:20168/chator";
+            break;
+        case 59:
+            chator_addr = "ws://nixi.yunlookgame.cn:20168/chator";
             break;
         case 234:
             chator_addr = "ws://192.168.1.234:20168/chator";
@@ -290,9 +306,11 @@ void ConfigManager::conf_clothes() {
         CCDictionary* cloth = AppUtil::dictionary_with_json(value);
         if (cloth) {
             CCString* part = (CCString* )cloth->objectForKey("part");
+            
 //            CCLOG("Cloth part: %s", part->getCString());
 //            CCString* id = (CCString* )cloth->objectForKey("id");
 //            CCLOG("Cloth id: %s", id->getCString());
+            
             CCArray* clothes_part = (CCArray* )clothes->objectForKey(part->intValue());
             clothes_part->addObject(cloth);
         }
@@ -307,6 +325,12 @@ void ConfigManager::conf_mission_dialog(int phase) {
     CSJson::Value root = AppUtil::read_json_file(fileName->getCString());
     CCArray* allPahseMission = AppUtil::array_with_json(root);
     _missionDialog->setObject(allPahseMission, phase);
+}
+
+void ConfigManager::conf_mystery_dialog() {
+    CSJson::Value root = AppUtil::read_json_file("conf/mystery_dialog");
+    _mysteryDialog = AppUtil::dictionary_with_json(root);
+    _mysteryDialog->retain();
 }
 
 void ConfigManager::test_mission_count() {
