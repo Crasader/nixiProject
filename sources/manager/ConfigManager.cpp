@@ -232,7 +232,7 @@ void ConfigManager::conf_login_addr(int net) {
             login_addr = "http://tiegao.yunlookgame.cn:9765/account";
             break;
         case 59:
-            login_addr = "http://nixi.yunlookgame.cn:6597/account";
+            login_addr = "http://nixi.yunlookgame.cn:9765/account";
             break;
         case 234:
             login_addr = "http://192.168.1.234:9765/account";
@@ -253,7 +253,7 @@ void ConfigManager::conf_chat_addr(int chat) {
             chator_addr = "ws://tiegao.yunlookgame.cn:20168/chator";
             break;
         case 59:
-            chator_addr = "ws://nixi.yunlookgame.cn:16820/chator";
+            chator_addr = "ws://nixi.yunlookgame.cn:20168/chator";
             break;
         case 234:
             chator_addr = "ws://192.168.1.234:20168/chator";

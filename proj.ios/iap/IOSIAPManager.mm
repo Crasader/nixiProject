@@ -114,9 +114,13 @@ void IOSIAPManager::transactionCompleted(CCStorePaymentTransaction* transaction)
             std::string productId = transaction->getProductIdentifier();
             if (productId.compare("tiegao_story") == 0) {
                 CCLOG("购买剧情~");
+                DATA->onChargeRequest(orderId, productId, 0, 0);
+                DATA->onChargeSuccess(orderId);
                 CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_BUY_FINISHED");
             }
             else {
+                DATA->onChargeRequest(orderId, productId, 0, 0);
+                DATA->onChargeSuccess(orderId);
                 NET->verify_order_iOS_107(orderId, productId);
             }
             

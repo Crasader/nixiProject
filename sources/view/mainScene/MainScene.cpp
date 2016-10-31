@@ -44,6 +44,7 @@
 #include "ExchangeLayer.h"
 #include "TempSignin.h"
 #include "MysteryLayer.h"
+#include "TrystScene.h"
 
 #include <time.h>
 
@@ -1308,9 +1309,14 @@ void MainScene::youjianCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击邮件");
     if (isOk) {
-        AUDIO->comfirm_effect();
-        LOADING->show_loading();
-        NET->all_mails_700();
+//        AUDIO->comfirm_effect();
+//        LOADING->show_loading();
+//        NET->all_mails_700();
+        
+        if (! DATA->getTryst()->isOngoing()) {
+            CCScene* scene = TrystScene::create("1");
+            CCDirector::sharedDirector()->replaceScene(scene);
+        }
     }
 }
 
