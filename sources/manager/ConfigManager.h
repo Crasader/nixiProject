@@ -29,7 +29,7 @@ public: // Export
     // 换装任务对话
     CCDictionary* missionDialog();
     CCArray* getMissionDialog(int phase, int taskID);
-    // 神秘人物对话
+    // 神秘事件对话
     CCArray* mysteryDialog(const char* taskId);
     // 衣服
     CCDictionary* clothes();

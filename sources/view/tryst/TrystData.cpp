@@ -10,7 +10,7 @@
 
 // Export
 TrystData::~TrystData() {
-    CC_SAFE_DELETE_ARRAY(_dialogs);
+    CC_SAFE_DELETE(_dialogs);
 }
 
 TrystData* TrystData::create(CCArray* dialogs) {
@@ -25,13 +25,15 @@ TrystData* TrystData::create(CCArray* dialogs) {
     return rtn;
 }
 
-
+CCDictionary* TrystData::fetchDialog(int idx) {
+    return dynamic_cast<CCDictionary*>(_dialogs->objectAtIndex(idx));
+}
 
 // Inner
 
 bool TrystData::init(CCArray* dialogs) {
-    this->_dialogs = dialogs;
-    this->_dialogs->retain();
+    _dialogs = dialogs;
+    _dialogs->retain();
     
     return  true;
 }

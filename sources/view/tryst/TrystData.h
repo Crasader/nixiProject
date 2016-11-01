@@ -19,13 +19,10 @@ public:
     ~TrystData();
     static TrystData* create(CCArray* dialogs);
     
-//    const char* nextDialog();
+    CCDictionary* fetchDialog(int idx);
     
 private:
     virtual bool init(CCArray* dialogs);
-
-    
-private:
     
 private:
     CCArray*            _dialogs;
