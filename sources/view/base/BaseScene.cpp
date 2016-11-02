@@ -13,7 +13,7 @@
 #include "WSManager.h"
 
 #include "Loading2.h"
-#include "ResetNicknamePanel.h"
+#include "SettingPanel.h"
 #include "PurchasePanel.h"
 #include "EnergyBuyPanel.h"
 #include "CoinExchangePanel.h"
@@ -323,16 +323,16 @@ void BaseScene::closeBaseMenu(){
 
 void BaseScene::nicknameCallBack(CCObject* pSender) {
     // talkingData
-    DATA->onEvent("点击事件", "上导航", "点击名字");
+    DATA->onEvent("点击事件", "上导航", "点击改名与设置");
     
     int resetCost = DATA->getShow()->resetCost();
-    ResetNicknamePanel* panel = NULL;
+    SettingPanel* panel = NULL;
     if (0 == resetCost) {
-        panel = ResetNicknamePanel::create("首次免费");
+        panel = SettingPanel::create("首次免费");
     }
     else {
         CCString* strCost = CCString::createWithFormat("%d钻石", resetCost);
-        panel = ResetNicknamePanel::create(strCost->getCString());
+        panel = SettingPanel::create(strCost->getCString());
     }
     
     if (NULL != panel) {

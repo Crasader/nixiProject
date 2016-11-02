@@ -10,7 +10,6 @@
 #define TrystView_hpp
 
 #include "cocos2d.h"
-#include "cocos2d.h"
 #include "cocos-ext.h"
 
 USING_NS_CC;
