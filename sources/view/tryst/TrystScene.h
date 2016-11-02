@@ -32,6 +32,8 @@ private:
 private:
     void playing(float dt);
     void onDialogAppeared();
+    void setCouldStart();
+    void onBtnStartTryst();
     
 private:
     TrystData*          _data;

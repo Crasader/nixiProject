@@ -298,6 +298,9 @@ void MainScene::onEnter(){
     }
     
     this->checkVersion();
+    
+    //
+    this->showTrystEntrance();
 }
 
 void MainScene::checkVersion() {
@@ -1309,14 +1312,9 @@ void MainScene::youjianCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击邮件");
     if (isOk) {
-//        AUDIO->comfirm_effect();
-//        LOADING->show_loading();
-//        NET->all_mails_700();
-        
-        if (! DATA->getTryst()->isOngoing()) {
-            CCScene* scene = TrystScene::create("1");
-            CCDirector::sharedDirector()->replaceScene(scene);
-        }
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        NET->all_mails_700();
     }
 }
 
@@ -2164,6 +2162,27 @@ void MainScene::nc_fetch_mystery_info_610(CCObject *pObj) {
     LOADING->remove();
 //    CCDirector::sharedDirector()->replaceScene(MysteryLayer::scene());
     MysteryLayer::show(this->getScene());
+}
+
+void MainScene::showTrystEntrance() {
+    CCSprite* spr1 = CCSprite::create("pic/tryst/tryst_entrance.png");
+    CCSprite* spr2 = CCSprite::create("pic/tryst/tryst_entrance.png");
+    if (spr1 == NULL) {
+        return;
+    }
+    
+    spr2->setScale(1.012);
+    CCMenuItem* itemEntrance = CCMenuItemSprite::create(spr1, spr2, this, SEL_MenuHandler(&MainScene::onBtnStartTryst));
+    CCMenu* menuEntrance = CCMenu::createWithItem(itemEntrance);
+    menuEntrance->setPosition(_layer_3->getContentSize().width * 0.5 - 16, DISPLAY->halfH() - 12);
+    _layer_3->addChild(menuEntrance);
+}
+
+void MainScene::onBtnStartTryst() {
+    if (! DATA->getTryst()->isOngoing()) {
+        CCScene* scene = TrystScene::create("3");
+        CCDirector::sharedDirector()->replaceScene(scene);
+    }
 }
 
 void MainScene::update_news_status() {

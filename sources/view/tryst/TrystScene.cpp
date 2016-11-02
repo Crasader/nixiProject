@@ -78,6 +78,7 @@ void TrystScene::playing(float dt) {
     const std::string state = _state->curState();
     if (state.compare(TrystDialogState::StateEnd) == 0) {
         this->unschedule(SEL_SCHEDULE(&TrystScene::playing));
+        this->setCouldStart();
     }
     else if (state.compare(TrystDialogState::StateIdle) == 0) {
         _state->transform(TrystDialogState::StatePlaying);
@@ -96,6 +97,20 @@ void TrystScene::onDialogAppeared() {
     else {
         _state->transform(TrystDialogState::StateIdle);
     }
+}
+
+void TrystScene::setCouldStart() {
+    CCSprite* spr1 = CCSprite::create("pic/tryst/tryst_btn_start.png");
+    CCSprite* spr2 = CCSprite::create("pic/tryst/tryst_btn_start.png");
+    spr2->setScale(1.012);
+    CCMenuItem* itemStart = CCMenuItemSprite::create(spr1, spr2, this, SEL_MenuHandler(&TrystScene::onBtnStartTryst));
+    CCMenu* menuStart = CCMenu::createWithItem(itemStart);
+    menuStart->setPosition(DISPLAY->halfW() + 260, 37.5);
+    this->addChild(menuStart);
+}
+
+void TrystScene::onBtnStartTryst() {
+    CCLOG("TrystScene::onBtnStartTryst() -");
 }
 
 

@@ -211,6 +211,9 @@ public:
     CCPoint playerVelocity;
     
 private:
+    void showTrystEntrance();   // 显示约会入口
+    void onBtnStartTryst();
+    
     void update_news_status();
     void check_free_gashapon();
     void check_first_on();
