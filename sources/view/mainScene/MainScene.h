@@ -98,6 +98,9 @@ public:
     CCMenu* menu_car1;
     CCMenu* menu_car2;
     
+    CCMenuItem* home_item;
+    CCMenuItemSprite* huanzhuang_Item;
+    
     CCSprite* xinfeng_spr1;
     
     CCSprite* shop_bar1;
