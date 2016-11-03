@@ -80,10 +80,16 @@ public:
     // id: 任务index; type: 对应next 有效值(2,3,4,5,6); flag: 附加结果，比如小游戏分数。
     void commit_extra_mission_605(int id, int type, int flag);
     
+    // 神秘事件
     void fetch_mystery_info_610(bool full);
     void start_mystery_611(const char* category);
     void commit_mystery_613(const char* category);
     void take_mystery_achv_615(const char* category, const char* achvId);
+    
+    // 约会
+    void fetch_tryst_info_620();
+    void start_tryst_621();
+    void take_tryst_reward_623();
     
     void completed_story_500();
     void start_story_501(const char* id);

@@ -205,6 +205,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
+            _tryst->update_user_data(content["tryst"]);
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
@@ -379,6 +380,19 @@ void DataManager::handle_protocol(int cid, Value content) {
             _mystery->update_user_data(content["mystery"]);
             
             pData = CCString::create(content["category"].asString());
+        } break;
+            
+            
+        case 620: {
+            
+        } break;
+            
+        case 621: {
+            
+        } break;
+            
+        case 623: {
+            
         } break;
             
         

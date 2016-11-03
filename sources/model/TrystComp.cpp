@@ -10,41 +10,46 @@
 #include "AppUtil.h"
 
 // Export
+TrystUserdata::~TrystUserdata() {}
+
+TrystUserdata* TrystUserdata::create(CSJson::Value json) {
+    TrystUserdata* rtn = new TrystUserdata();
+    if (rtn) {
+        rtn->status = static_cast<TrystStatus>(json["status"].asInt());
+        rtn->curTrystId = json["id"].asString();
+        rtn->leftTime = json["left_time"].asInt();
+    }
+    
+    return rtn;
+}
+
+// -----------------------------------------------------
+// -----------------------------------------------------
+
+// Export
 
 bool TrystComp::isOngoing() {
     return false;
 }
 
 bool TrystComp::hasInitAchvTemplate() {
-    return mysteryAchvTemplate != nullptr;
+    return trystTemplate != nullptr;
 }
 
 CCArray* TrystComp::fetchAchvTemplate(const char *category) {
-    return dynamic_cast<CCArray*>(mysteryAchvTemplate->objectForKey(category));
+    return dynamic_cast<CCArray*>(trystTemplate->objectForKey(category));
 }
 
-int TrystComp::userRatingOfCategory(const char* category) {
-    CCDictionary* categoryInfo = dynamic_cast<CCDictionary*>(mysteryUserdata->objectForKey(category));
-    CCInteger* value = dynamic_cast<CCInteger*>(categoryInfo->objectForKey("rating"));
-    return value->getValue();
-}
-
-int TrystComp::userAchvStateOfCategory(const char *category, const char *achvId) {
-    CCDictionary* categoryInfo = dynamic_cast<CCDictionary*>(mysteryUserdata->objectForKey(category));
-    CCDictionary* achv = dynamic_cast<CCDictionary*>(categoryInfo->objectForKey("achv"));
-    CCInteger* state = dynamic_cast<CCInteger*>(achv->objectForKey(achvId));
-    return state->getValue();
-}
 
 // Import
 TrystComp::~TrystComp() {
-    CC_SAFE_DELETE(mysteryAchvTemplate);
-    CC_SAFE_DELETE(mysteryUserdata);
+    CC_SAFE_DELETE(trystTemplate);
+    CC_SAFE_DELETE(userData);
 }
 
 bool TrystComp::init() {
-    mysteryAchvTemplate = nullptr;
-    mysteryUserdata = nullptr;
+    trystTemplate = nullptr;
+    userData = nullptr;
     
     return true;
 }
@@ -69,9 +74,9 @@ void TrystComp::init_template(Value json) {
         arrTemp->addObject(item);
     }
     
-    CC_SAFE_RELEASE(mysteryAchvTemplate);
-    mysteryAchvTemplate = dict;
-    mysteryAchvTemplate->retain();
+    CC_SAFE_RELEASE(trystTemplate);
+    trystTemplate = dict;
+    trystTemplate->retain();
 }
 
 void TrystComp::update_user_data(Value json) {
@@ -80,9 +85,8 @@ void TrystComp::update_user_data(Value json) {
         return;
     }
     
-    CC_SAFE_RELEASE(mysteryUserdata);
-    mysteryUserdata = AppUtil::dictionary_with_json(json);
-    mysteryUserdata->retain();
+    TrystUserdata* userData = TrystUserdata::create(json);
+    this->setUserData(userData);
 }
 
 // Inner

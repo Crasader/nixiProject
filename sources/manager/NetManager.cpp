@@ -366,6 +366,34 @@ void NetManager::take_mystery_achv_615(const char* category, const char* achvId)
 }
 
 
+void NetManager::fetch_tryst_info_620() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(620, data);
+}
+
+void NetManager::start_tryst_621() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(621, data);
+}
+
+void NetManager::take_tryst_reward_623() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(623, data);
+}
+
+
 void NetManager::completed_story_500() {
     this->post_data(500, string(""));
 }

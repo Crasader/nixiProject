@@ -241,6 +241,9 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_fetch_mystery_info_610), "HTTP_FINISHED_610", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::after_start_tryst_621), "HTTP_FINISHED_621", NULL);
+    
+    
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
     
@@ -803,7 +806,7 @@ void MainScene::creat_view(){
     shop_bar2->setPosition(ccp(hz_Spr2->getContentSize().width* .29f, hz_Spr2->getContentSize().height* .33f));
     hz_Spr2->addChild(shop_bar2);
     hz_Spr2->setScale(1.02f);
-    CCMenuItemSprite* huanzhuang_Item = CCMenuItemSprite::create(hz_Spr1, hz_Spr2, this, menu_selector(MainScene::huanzhuangCallBack));
+    huanzhuang_Item = CCMenuItemSprite::create(hz_Spr1, hz_Spr2, this, menu_selector(MainScene::huanzhuangCallBack));
     huanzhuang_Item->setPosition(ccp(_layer_2->getContentSize().width* .68f, _layer_2->getContentSize().height* .345f));
     menu_hz = CCMenu::create(huanzhuang_Item, NULL);
     menu_hz->setPosition(CCPointZero);
@@ -2150,10 +2153,21 @@ void MainScene::showTrystEntrance() {
 }
 
 void MainScene::onBtnStartTryst() {
-    if (! DATA->getTryst()->isOngoing()) {
-        CCScene* scene = TrystScene::create("3");
-        CCDirector::sharedDirector()->replaceScene(scene);
+    DATA->onEvent("点击事件", "主界面", "点击 - 约会");
+    if (isOk) {
+        if (DATA->getTryst()->isOngoing()) {
+            
+        }
+        else {
+            LOADING->show_loading();
+            NET->start_tryst_621();
+        }
     }
+}
+
+void MainScene::after_start_tryst_621() {
+    CCScene* scene = TrystScene::create("3");
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::showTrystProgress() {

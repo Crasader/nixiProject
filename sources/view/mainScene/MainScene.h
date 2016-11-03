@@ -113,6 +113,8 @@ public:
     CCMenuItem* haoyou_Item;
 //    CCMenuItem* item_chat;
     
+    CCMenuItemSprite* huanzhuang_Item;
+    
     CCArray* target_arr;
     
     void check_begin_position(CCObject* pos);
@@ -213,6 +215,7 @@ public:
 private:
     void showTrystEntrance();   // 显示约会入口
     void onBtnStartTryst();
+    void after_start_tryst_621();
     void showTrystProgress();   // 显示约会进度
     
     void update_news_status();
