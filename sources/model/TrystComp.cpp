@@ -17,6 +17,7 @@ TrystUserdata* TrystUserdata::create(CSJson::Value json) {
     if (rtn) {
         rtn->status = static_cast<TrystStatus>(json["status"].asInt());
         rtn->curTrystId = json["id"].asString();
+        rtn->timeSpan = json["seconds_span"].asInt();
         rtn->leftTime = json["left_time"].asInt();
     }
     

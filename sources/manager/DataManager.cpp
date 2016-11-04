@@ -78,11 +78,10 @@ time_t DataManager::cur_timestamp_msec() {
 }
 
 time_t DataManager::cur_timestamp() {
-    //    time_t t = time(NULL);
     struct timeval t;
     gettimeofday(&t, NULL);
     time_t rtn = t.tv_sec;
-    CCLOG("timestamp sec = %ld", rtn);
+//    CCLOG("timestamp sec = %ld", rtn);
     return rtn;
 }
 

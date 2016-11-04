@@ -304,6 +304,8 @@ void MainScene::onEnter(){
     
     //
     this->showTrystEntrance();
+    //
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
 }
 
 void MainScene::checkVersion() {
@@ -2205,9 +2207,15 @@ void MainScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
     }
 }
 
-
-void MainScene::showTrystProgress() {
-    
+void MainScene::check_tryst_progress() {
+    TrystUserdata* trystUserData = DATA->getTryst()->getUserData();
+    TrystStatus state = trystUserData->status;
+    if (state == TrystStatus::going || state == TrystStatus::reward) {
+        TrystProgress* progress = TrystProgress::create(trystUserData->timeSpan, trystUserData->leftTime);
+        CCSize size = progress->sizeOfContent();
+        progress->setPosition(ccp(DISPLAY->halfW(), size.height * 0.5 + 2));
+        this->addChild(progress);
+    }
 }
 
 void MainScene::update_news_status() {
