@@ -11,10 +11,13 @@
 
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "AHMessageBox.h"
 
 USING_NS_CC;
 
-class MainScene : public BaseScene
+class MainScene
+: public BaseScene
+, public AHMessageBoxDelegate
 {
 public:
     MainScene();
@@ -29,6 +32,8 @@ public:
     
     void keyBackStatus(float dt);
     virtual void keyBackClicked();
+    
+    void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);
     
     void didAccelerate( CCAcceleration* pAccelerationValue);
     void gengxin(float dt);
@@ -216,6 +221,8 @@ public:
 private:
     void showTrystEntrance();   // 显示约会入口
     void onBtnStartTryst();
+    void after_start_tryst_621();
+    void showTrystProgress();   // 显示约会进度
     
     void update_news_status();
     void check_free_gashapon();

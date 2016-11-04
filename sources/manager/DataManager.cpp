@@ -202,9 +202,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
+            _clothes->init_with_json(content["clothes"]);
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
+            _tryst->update_user_data(content["tryst"]);
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
@@ -379,6 +381,26 @@ void DataManager::handle_protocol(int cid, Value content) {
             _mystery->update_user_data(content["mystery"]);
             
             pData = CCString::create(content["category"].asString());
+        } break;
+            
+            
+        case 620: {
+            _tryst->update_user_data(content["tryst"]);
+        } break;
+            
+        case 621: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _tryst->update_user_data(content["tryst"]);
+        } break;
+            
+        case 623: {
+            _tryst->update_user_data(content["tryst"]);
+        } break;
+            
+        case 625: {
+            _tryst->update_user_data(content["tryst"]);
+            // 奖励信息
         } break;
             
         

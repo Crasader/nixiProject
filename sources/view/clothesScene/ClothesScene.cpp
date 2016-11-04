@@ -46,6 +46,17 @@ void ClothesScene::init_with_mystery(int _type_id, const char *category, const c
     this->init_with_type(_type_id, 1, 1);
 }
 
+ClothesScene* ClothesScene::create_with_tryst() {
+    ClothesScene* rtn = ClothesScene::create();
+    rtn->init_with_tryst();
+    
+    return rtn;
+}
+
+void ClothesScene::init_with_tryst() {
+    this->init_with_type(4, 1, 1);
+}
+
 ClothesScene* ClothesScene::create_with_type(int _type_id, int _task_index, int _task_phase){
     ClothesScene* rtn = ClothesScene::create();
     rtn->init_with_type(_type_id, _task_index, _task_phase);
@@ -84,18 +95,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
-    if (clothesStatus == 1 || clothesStatus == 3) {// 1:任务, 3:神秘事件
-        CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
-        CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
-        startSpr2->setScale(1.02f);
-        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
-        startItem->setAnchorPoint(ccp(1.f, .5f));
-        startItem->setPosition(ccp(DISPLAY->ScreenWidth() - backItem->getContentSize().width - startItem->getContentSize().width* .95f, DISPLAY->ScreenHeight()* .032f));
-        CCMenu* menu = CCMenu::create(backItem, startItem, NULL);
-        menu->setPosition(CCPointZero);
-        this->addChild(menu, 15);
-    }
-    else if (clothesStatus == 2){// 换装
+    if (clothesStatus == 2){// 换装
         CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
         CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
@@ -108,7 +108,19 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
         menu->setPosition(CCPointZero);
         this->addChild(menu, 15);
     }
+    else {// 1:任务, 3:神秘事件, 4:约会
+        CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_startmission.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_startmission.png");
+        startSpr2->setScale(1.02f);
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(ClothesScene::startCallBack));
+        startItem->setAnchorPoint(ccp(1.f, .5f));
+        startItem->setPosition(ccp(DISPLAY->ScreenWidth() - backItem->getContentSize().width - startItem->getContentSize().width* .95f, DISPLAY->ScreenHeight()* .032f));
+        CCMenu* menu = CCMenu::create(backItem, startItem, NULL);
+        menu->setPosition(CCPointZero);
+        this->addChild(menu, 15);
+    }
     
+
     
     if (DATA->current_guide_step() == 0) {
         
@@ -176,6 +188,8 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::_605CallBack), "HTTP_FINISHED_605", NULL);
     
     nc->addObserver(this, menu_selector(ClothesScene::after_commit_mystery_613), "HTTP_FINISHED_613", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::after_start_tryst_task_623), "HTTP_FINISHED_623", NULL);
+    
     
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
 }
@@ -829,10 +843,7 @@ void ClothesScene::creat_ViewMethods(int index) {
     if (clothesStatus == 1) {// 任务
         shaixuanSpr->setVisible(true);
         yishaixuanSpr->setVisible(false);
-    }else if (clothesStatus == 2) {// 换装
-        
     }
-    
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("ButtonStatus", NULL);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_money", NULL);
@@ -884,8 +895,6 @@ void ClothesScene::crate_Tishi(){
             tagSpr3->setPosition(ccp(renwukuangItem->getContentSize().width* .75f, renwukuangItem->getContentSize().height* .4f));
             renwukuangItem->addChild(tagSpr3, 10);
         }
-        
-    }else if (clothesStatus == 2){// 换装
         
     }
     else if (clothesStatus == 3 && this->tishi != NULL) {
@@ -1247,7 +1256,7 @@ void ClothesScene::backCallBack(CCObject* pSender){
                     CCDirector::sharedDirector()->replaceScene(trans);
                 }
             }
-            else if (clothesStatus == 3){// 神秘事件
+            else if (clothesStatus == 3 || clothesStatus == 4){// 神秘事件和约会
                 CCScene* scene = MainScene::scene();
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                 CCDirector::sharedDirector()->replaceScene(trans);
@@ -1274,6 +1283,12 @@ void ClothesScene::after_commit_mystery_613(CCObject *pObj) {
     CCScene* scene = CCScene::create();
     TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy);
     scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
+
+void ClothesScene::after_start_tryst_task_623(CCObject *pObj) {
+    CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
@@ -1539,9 +1554,7 @@ void ClothesScene::saveCallBack(CCObject* pSender){
     this->saveClothesMethods();
 }
 void ClothesScene::updataSaveItemStatus(){
-    if (clothesStatus == 1) {// 任务
-        
-    }else if (clothesStatus == 2){// 换装
+    if (clothesStatus == 2){// 换装
         saveItem->setEnabled(true);
     }
 }
@@ -3088,7 +3101,8 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
             startTask = false;
             LOADING->remove();
         }
-    }else if (clothesStatus == 2){// 换装
+    }
+    else if (clothesStatus == 2){// 换装
         LOADING->remove();
     }
     else if (clothesStatus == 3){// 神秘事件
@@ -3099,6 +3113,9 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
             startTask = false;
             LOADING->remove();
         }
+    }
+    else if (clothesStatus == 4){// 约会
+        NET->start_tryst_task_623();
     }
     
     

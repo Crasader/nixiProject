@@ -196,7 +196,7 @@ CCLayerColor* TrystView::createDialogDisplay(bool isLeft, const char *dialog) {
     int rowCount = ceil((float(charLength) / ROW_LETTER_NUM));
     CCLOG("charLength = %d, rowCount = %d", charLength, rowCount);
     
-    float hPadding = 20.0, vPadding = 10.0;
+    float hPadding = 20.0;
     
     CCSize textSize;
     if (rowCount == 1) {
@@ -210,7 +210,7 @@ CCLayerColor* TrystView::createDialogDisplay(bool isLeft, const char *dialog) {
     }
     
     CCLabelTTF* lblText = CCLabelTTF::create(dialog, FONT_NAME, LETTER_SIZE, textSize, kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    lblText->setAnchorPoint(CCPointZero);
+    lblText->setAnchorPoint(ccp(0, 0.5));
     
     CCLayerColor* rtn = NULL;
     if (isLeft == true) {
@@ -232,7 +232,7 @@ CCLayerColor* TrystView::createDialogDisplay(bool isLeft, const char *dialog) {
         wrapper->setPosition(avatar->getContentSize().width, TABLEVIEW_HEIGH * 0.5);
         rtn->addChild(wrapper);
         
-        lblText->setPosition(ccp((hPadding - 6), 0));
+        lblText->setPosition(ccp((hPadding - 6), wrapper->getContentSize().height * 0.5 - 1.5));
         lblText->setColor(ccBLACK);
         wrapper->addChild(lblText);
     }
@@ -255,7 +255,7 @@ CCLayerColor* TrystView::createDialogDisplay(bool isLeft, const char *dialog) {
         wrapper->setPosition(TABLEVIEW_WIDTH - avatar->getContentSize().width - 3, TABLEVIEW_HEIGH * 0.5);
         rtn->addChild(wrapper);
         
-        lblText->setPosition(ccp(6, 0));
+        lblText->setPosition(ccp(6, wrapper->getContentSize().height * 0.5 - 1.5));
         lblText->setColor(ccBLACK);
         wrapper->addChild(lblText);
     }
