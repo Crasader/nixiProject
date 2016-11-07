@@ -79,9 +79,9 @@ bool MainScene::init(){
         // talkingData初始化玩家信息
         CCString* accountStr = NULL;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_UUID());
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-        accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
 #endif
         if (accountStr != NULL) {
             CCString* diamStr = CCString::createWithFormat("初始化赠予%d钻石", DATA->getPlayer()->diam);
@@ -162,7 +162,7 @@ bool MainScene::init(){
     if (CONFIG->baiOrYijie == 0) {// 白包
         
     }else if (CONFIG->baiOrYijie == 1){// 易接
-        JNIController::setUserId(JNIController::getSessionid().c_str());
+        JNIController::setUserId(DATA->getLogin()->obtain_sid());
         JNIController::setPlayerName(DATA->getShow()->nickname());
         CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
         JNIController::setPlayerLevel(phaseStr->getCString());
@@ -179,7 +179,7 @@ bool MainScene::init(){
         }
         JNIController::isExtendData();
     }else if (CONFIG->baiOrYijie == 2){// 鱼丸
-        JNIController::setUserId(JNIController::getSessionid().c_str());
+        JNIController::setUserId(DATA->getLogin()->obtain_sid());
         JNIController::setPlayerName(DATA->getShow()->nickname());
         CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
         JNIController::setPlayerLevel(phaseStr->getCString());
@@ -364,7 +364,7 @@ void MainScene::keyBackClicked(){
         }
         
         if (CONFIG->baiOrYijie == 0) {// 白包
-            JNIController::setUserId(JNIController::getSessionid().c_str());
+            JNIController::setUserId(DATA->getLogin()->obtain_sid());
             JNIController::setPlayerName(DATA->getShow()->nickname());
             CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
             JNIController::setPlayerLevel(phaseStr->getCString());
@@ -374,7 +374,7 @@ void MainScene::keyBackClicked(){
             
             JNIController::exitGame(0);
         }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
-            JNIController::setUserId(JNIController::getSessionid().c_str());
+            JNIController::setUserId(DATA->getLogin()->obtain_sid());
             JNIController::setPlayerName(DATA->getShow()->nickname());
             CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
             JNIController::setPlayerLevel(phaseStr->getCString());

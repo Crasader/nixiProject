@@ -292,6 +292,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskScene.
  jni/../../sources/view/taskScene/BuildingLayer.h \
  jni/../../sources/td_include/TDCCAccount.h \
  jni/../../sources/td_include/TDCCTalkingDataGA.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
  jni/../../sources/view/guide/GuideLayer.h
 
 jni/../../sources/view/taskScene/TaskScene.h:
@@ -891,5 +893,9 @@ jni/../../sources/view/taskScene/BuildingLayer.h:
 jni/../../sources/td_include/TDCCAccount.h:
 
 jni/../../sources/td_include/TDCCTalkingDataGA.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
 
 jni/../../sources/view/guide/GuideLayer.h:

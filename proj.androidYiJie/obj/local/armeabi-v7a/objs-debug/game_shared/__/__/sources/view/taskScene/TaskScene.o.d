@@ -260,7 +260,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h \
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/NetManager.h \
@@ -292,6 +292,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  jni/../../sources/view/taskScene/BuildingLayer.h \
  jni/../../sources/td_include/TDCCAccount.h \
  jni/../../sources/td_include/TDCCTalkingDataGA.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
  jni/../../sources/view/guide/GuideLayer.h
 
 jni/../../sources/view/taskScene/TaskScene.h:
@@ -828,6 +830,8 @@ jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
 
+jni/../../sources/model/MysteryComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/ConfigManager.h:
@@ -889,5 +893,9 @@ jni/../../sources/view/taskScene/BuildingLayer.h:
 jni/../../sources/td_include/TDCCAccount.h:
 
 jni/../../sources/td_include/TDCCTalkingDataGA.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
 
 jni/../../sources/view/guide/GuideLayer.h:

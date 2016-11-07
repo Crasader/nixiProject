@@ -34,7 +34,6 @@ public class YuWanLayer{
 	static private char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=".toCharArray();
 	public static Order order;
 	public static String mzStr = "";
-	public static String _UUID22 = "";
 	public static String _gameTempId = "";
 	public static Boolean _payBool = false;
 	
@@ -144,8 +143,7 @@ public class YuWanLayer{
 	public void pay(int index) {
 		productName = null;
 		price = 0;
-		_UUID22 = Tiegao.getUserId() + getUUID22();
-		Tiegao.setCpOrderId(_UUID22);
+		Tiegao.setCpOrderId(Tiegao.getUserId() + getUUID16());
 		
 		if (index == 0) {
 			_payBool = true;
@@ -292,9 +290,9 @@ public class YuWanLayer{
 		    e.printStackTrace();
 		}
 		order.setRoleLevel(level);									// 角色等级
-		order.setOrderID(_UUID22);									// 订单id
+		order.setOrderID(Tiegao.getCpOrderId());									// 订单id
 		order.setExtension(mzStr);									// 扩展字段
-		order.setNotify_url("http://tgtest.yunlookgame.cn:9765/purchase/yuwan/callback");// 支付回调参数，接入时测试使用
+		order.setNotify_url("http://tiegao.yunlookgame.cn:9765/purchase/yuwan/callback");// 支付回调参数，接入时测试使用
 		
 		return order;
 	}
@@ -386,7 +384,7 @@ public class YuWanLayer{
 	
 	
 	
-	public static String getUUID22() {  
+	public static String getUUID16() {  
         UUID uuid = UUID.randomUUID();  
         long msb = uuid.getMostSignificantBits();  
         long lsb = uuid.getLeastSignificantBits();  
@@ -439,7 +437,7 @@ public class YuWanLayer{
             out[idx] = alphabet[tmp & 0x3f];  
         }  
         
-        return new String(out, 0, 22);  
+        return new String(out, 0, 16);  
     } 
 }
 

@@ -248,7 +248,7 @@ void TaskStoryScene::onExit(){
 
 void TaskStoryScene::keyBackClicked(){
     num_child++;
-    CCLog("===== TaskStoryScene  children_num: %d", num_child);
+//    CCLog("===== TaskStoryScene  children_num: %d", num_child);
     if (num_child> 1) {
         return;
     }
@@ -943,7 +943,7 @@ void TaskStoryScene::initClothes(){//穿衣服
 
 void TaskStoryScene::init(CCDictionary* dic){
     content = dic->valueForKey("said")->getCString();
-    CCLOG("content == %s", content.c_str());
+//    CCLOG("content == %s", content.c_str());
     contentLength = 0;
     
     int length = content.length();

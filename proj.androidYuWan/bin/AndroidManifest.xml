@@ -17,8 +17,8 @@ com.mzplay.tiegao.vivo			vivo 	can 6  	baiOrYijie 1
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.mzplay.tiegao"
-    android:versionCode="30"
-    android:versionName="1.3.0">
+    android:versionCode="40"
+    android:versionName="1.4.1">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />

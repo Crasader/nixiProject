@@ -257,7 +257,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/Reward
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h \
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
@@ -794,6 +794,8 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

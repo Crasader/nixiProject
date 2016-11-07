@@ -96,11 +96,12 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		
 		
-		
+		// 3812FAF07E794E8FA24F1C8B5F1D8554 鱼丸
+		// AF0BCB0920DE4FE3A663D840DC389E71 鱼丸1.4.1
 		
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
-		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
+		TalkingDataGA.init(instance, "AF0BCB0920DE4FE3A663D840DC389E71", "mzplay");
 		
 	}
 	

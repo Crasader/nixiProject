@@ -262,7 +262,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/panel/ResetNickn
  jni/../../sources/model/PaperComp.h \
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h \
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/manager/FileManager.h \
  jni/../../sources/view/mainScene/PromptLayer.h
 
@@ -803,6 +803,8 @@ jni/../../sources/model/ChatComp.h:
 jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/manager/FileManager.h:
 

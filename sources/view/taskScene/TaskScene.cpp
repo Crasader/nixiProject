@@ -26,6 +26,7 @@
 #include "BuildingLayer.h"
 #include "TDCCAccount.h"
 #include "TDCCTalkingDataGA.h"
+#include "JNIController.h"
 
 #include "GuideLayer.h"
 
@@ -53,7 +54,7 @@ bool TaskScene::init(bool isPhaseUP){
     num_child = 0;
     
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
-    CCLOG("_isPhaseUP = %d", _isPhaseUP);
+//    CCLOG("_isPhaseUP = %d", _isPhaseUP);
     _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
     _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);
@@ -65,14 +66,27 @@ bool TaskScene::init(bool isPhaseUP){
         this->init_contents();
     }
     
+    
+    // talkingData初始化玩家信息
+    CCString* accountStr = NULL;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+#endif
     if (DATA->getTaskTalkingdataID() != DATA->getPlayer()->mission) {
         DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
-        
-        CCString* accountNameStr = CCString::createWithFormat("%s", DATA->getShow()->nickname());
-        TDCCAccount* account = TDCCAccount::setAccount(TDCCTalkingDataGA::getDeviceId());
-        account->setLevel(DATA->getTaskTalkingdataID());
-        account->setAccountName(accountNameStr->getCString());
+
+        if (accountStr != NULL) {
+            
+            DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+            
+            TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
+            account->setLevel(DATA->getTaskTalkingdataID());
+        }
     }
+    
+
     
     
     return true;
@@ -114,7 +128,7 @@ void TaskScene::onExit(){
 
 void TaskScene::keyBackClicked(){
     num_child++;
-    CCLog("===== TaskScene  children_num: %d", num_child);
+//    CCLog("===== TaskScene  children_num: %d", num_child);
     if (num_child> 1) {
         return;
     }
@@ -485,7 +499,7 @@ void TaskScene::historyCallBack(CCObject* pSender){
     DATA->onEvent("点击事件", "日常界面", "点击回顾");
     
     CCMenuItem* item = (CCMenuItem* )pSender;
-    CCLog("房子是%d", item->getTag());
+//    CCLog("房子是%d", item->getTag());
     historyIndex = item->getTag();
     historyBool = true;
     

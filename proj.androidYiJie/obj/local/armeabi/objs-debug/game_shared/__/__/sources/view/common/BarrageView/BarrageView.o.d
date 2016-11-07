@@ -259,7 +259,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/common/BarrageView/B
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h jni/../../sources/manager/WSManager.h \
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/manager/WSManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef \
@@ -798,6 +799,8 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
+
+jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/manager/WSManager.h:
 
