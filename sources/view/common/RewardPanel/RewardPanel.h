@@ -1,26 +1,26 @@
 //
-//  BuildingRewardPanel.hpp
+//  RewardPanel.hpp
 //  tiegao
 //
 //  Created by mac on 16/8/18.
 //
 //
 
-#ifndef BuildingRewardPanel_hpp
-#define BuildingRewardPanel_hpp
+#ifndef RewardPanel_hpp
+#define RewardPanel_hpp
 
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-class BuildingRewardPanel : public CCLayer
+class RewardPanel : public CCLayer
 {
 public: // Export
     static void show(CCNode* parent, string type, int value);
     
 public:
-    ~BuildingRewardPanel();
-    static BuildingRewardPanel* createWithReward(string type, int value);
+    ~RewardPanel();
+    static RewardPanel* createWithReward(string type, int value);
     bool initWithReward(string type, int value);
     virtual void onEnter();
     virtual void onExit();
@@ -43,4 +43,4 @@ private:
     int                 _value;
 };
 
-#endif /* BuildingRewardPanel_hpp */
+#endif /* RewardPanel_hpp */

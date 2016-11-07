@@ -399,7 +399,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 625: {
             _tryst->update_user_data(content["tryst"]);
+            _player->init_with_json(content["player"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
             // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
             
         

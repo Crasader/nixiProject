@@ -26,7 +26,12 @@ public:
 private:
     virtual bool init(int max, int left);
     void updateProgress(float dt);
+    
+    void showBoxAnimation();
+    void stopBoxAnimation();
     void onOpenRewardBox(CCMenuItem* pSender);
+    
+    void after_receive_tryst_reward_625(CCObject* pObj);
     
 private:
     int             max;
@@ -36,9 +41,10 @@ private:
     CCSprite*       plane;
     CCSize          planeSize;
     float           barWidth;
+    CCMenuItem*     itemBox;
     CCProgressTimer* prog;
     CCSprite*       heart;
-    CCLabelAtlas*   countDown;
+    CCLabelTTF*     countDown;
 };
 
 #endif /* TrystProgress_hpp */
