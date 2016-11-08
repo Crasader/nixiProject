@@ -259,7 +259,7 @@ int VipQingjingCoverView::getCurCardIndex()
     float distance2 = swSize.width/2 - offsetPosition.x;
     //+5 浮点数误差
     int index = (distance1 + distance2 + 5) / (disDistance);
-    CCLog("card index:%d  distance1:%f",index,distance1);
+//    CCLog("card index:%d  distance1:%f",index,distance1);
     
     if (DATA->getChapterNumberBool()) {
         DATA->setChapterNumberBool(false);

@@ -31,7 +31,7 @@ CCScene* YiJieLoginScene::scene() {
 }
 
 bool YiJieLoginScene::init() {
-    CCLog("<><><><><> YiJieLoginScene::init()");
+//    CCLog("<><><><><> YiJieLoginScene::init()");
     if (CCLayer::init()) {
         CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/loginScene/login_hua.plist");
         
@@ -125,7 +125,7 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         CCString* seccionStr;
         seccionStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
         DATA->getLogin()->setUUid(seccionStr);
-        CCLog("<><><><> seccionStr == %s", seccionStr->getCString());
+//        CCLog("<><><><> seccionStr == %s", seccionStr->getCString());
         LOADING->show_loading();
 //        DATA->setLoginType(1);
         CONFIG->save_login_type(1);
@@ -251,6 +251,9 @@ void YiJieLoginScene::game_login_callback_902(CCObject *pObj) {
 }
 
 void YiJieLoginScene::save_nickname_callback_904(CCObject *pObj) {
+    // talkingData
+    DATA->onEvent("启动事件", "昵称界面", "完成昵称界面");
+    
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

@@ -80,9 +80,9 @@ bool MainScene::init(){
         // talkingData初始化玩家信息
         CCString* accountStr = NULL;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_UUID());
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-        accountStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
 #endif
         if (accountStr != NULL) {
             CCString* diamStr = CCString::createWithFormat("初始化赠予%d钻石", DATA->getPlayer()->diam);
@@ -138,15 +138,6 @@ bool MainScene::init(){
     }
     
     
-    time_t t;
-    struct tm *p;
-    t = 1467241111;
-    p = gmtime(&t);
-    char s[80];
-    strftime(s, 80, "%Y-%m-%d %H:%M:%S", p);
-    CCLog("<><><><>time == %d: %s\n", (int)t, s);
-    
-    
     if (DATA->current_guide_step() == 0) {
         
     }else if (DATA->current_guide_step() == 1){
@@ -172,7 +163,7 @@ bool MainScene::init(){
     if (CONFIG->baiOrYijie == 0) {// 白包
         
     }else if (CONFIG->baiOrYijie == 1){// 易接
-        JNIController::setUserId(JNIController::getSessionid().c_str());
+        JNIController::setUserId(DATA->getLogin()->obtain_sid());
         JNIController::setPlayerName(DATA->getShow()->nickname());
         CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
         JNIController::setPlayerLevel(phaseStr->getCString());
@@ -188,8 +179,44 @@ bool MainScene::init(){
             this->scheduleOnce(SEL_SCHEDULE(&MainScene::setStartGameData), .5f);
         }
         JNIController::isExtendData();
+    }else if (CONFIG->baiOrYijie == 2){// 鱼丸
+        JNIController::setUserId(DATA->getLogin()->obtain_sid());
+        JNIController::setPlayerName(DATA->getShow()->nickname());
+        CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+        JNIController::setPlayerLevel(phaseStr->getCString());
+        CCString* diamStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
+        JNIController::setPlayerGold(diamStr->getCString());
+        
+        bool creatNameBool = CCUserDefault::sharedUserDefault()->getBoolForKey("CreatName");
+        if (!creatNameBool) {
+            CCUserDefault::sharedUserDefault()->setBoolForKey("CreatName", true);
+            JNIController::setData(1);
+        }else{
+            if (DATA->getYuwanBool()) {
+            }else{
+                DATA->setYuwanBool(true);
+                this->scheduleOnce(SEL_SCHEDULE(&MainScene::setStartGameData), .5f);
+            }
+        }
     }
 #endif
+    
+    
+    
+//    time_t t;
+//    struct tm *p;
+//    t = 1467241111;
+//    p = gmtime(&t);
+//    char s[80];
+//    strftime(s, 80, "%Y-%m-%d %H:%M:%S", p);
+//    CCLog("<><><><>time == %d: %s\n", (int)t, s);
+//    
+//    struct cc_timeval now;
+//    CCTime::gettimeofdayCocos2d(&now, NULL);
+//    CCLog("<><><><> time == %ld", now.tv_sec * 1000 + now.tv_usec / 1000);
+    
+    
+    
     return true;
 }
 void MainScene::setStartGameData(float dt){
@@ -344,7 +371,7 @@ void MainScene::keyBackClicked(){
         }
         
         if (CONFIG->baiOrYijie == 0) {// 白包
-            JNIController::setUserId(JNIController::getSessionid().c_str());
+            JNIController::setUserId(DATA->getLogin()->obtain_sid());
             JNIController::setPlayerName(DATA->getShow()->nickname());
             CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
             JNIController::setPlayerLevel(phaseStr->getCString());
@@ -353,8 +380,8 @@ void MainScene::keyBackClicked(){
             JNIController::setData(4);
             
             JNIController::exitGame(0);
-        }else if (CONFIG->baiOrYijie == 1){// 易接
-            JNIController::setUserId(JNIController::getSessionid().c_str());
+        }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
+            JNIController::setUserId(DATA->getLogin()->obtain_sid());
             JNIController::setPlayerName(DATA->getShow()->nickname());
             CCString* phaseStr = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
             JNIController::setPlayerLevel(phaseStr->getCString());

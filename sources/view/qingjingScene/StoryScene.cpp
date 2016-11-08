@@ -1243,7 +1243,7 @@ void StoryScene::initButton(){
         CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(i);
         nextIndex = dic->valueForKey("next")->intValue();
         str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), nextIndex);
+//        CCLog("%s == %d", str->getCString(), nextIndex);
         
         this->creatButton(i);
         this->initLabel(i);
@@ -1314,7 +1314,7 @@ void StoryScene::initLabel(int dex){
     CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(dex);
     int nextIndex = dic->valueForKey("next")->intValue();
     CCString* str = (CCString* )dic->objectForKey("dialog");
-    CCLog("%s == %d", str->getCString(), nextIndex);
+//    CCLog("%s == %d", str->getCString(), nextIndex);
     
 //    CCString* str = (CCString* )dic->objectForKey("dialog");
 //    MZLog("====== str->length()%d ===== %d", dex, str->length());
@@ -1698,19 +1698,19 @@ void StoryScene::removeButton(){
         dic = (CCDictionary*)arr->objectAtIndex(0);
         index = dic->valueForKey("next")->intValue();
         CCString* str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), index);
+//        CCLog("%s == %d", str->getCString(), index);
         nextindex = dic->valueForKey("next")->intValue();
     }else if (tagIndex == Tag_Item_1){
         dic = (CCDictionary*)arr->objectAtIndex(1);
         index = dic->valueForKey("next")->intValue();
         CCString* str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), index);
+//        CCLog("%s == %d", str->getCString(), index);
         nextindex = dic->valueForKey("next")->intValue();
     }else if (tagIndex == Tag_Item_2){
         dic = (CCDictionary*)arr->objectAtIndex(2);
         index = dic->valueForKey("next")->intValue();
         CCString* str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), index);
+//        CCLog("%s == %d", str->getCString(), index);
         nextindex = dic->valueForKey("next")->intValue();
     }
     
@@ -2078,7 +2078,7 @@ void StoryScene::getIndex(float dt){
     
     if (dialogItem->getArray() == NULL) {
         index = dialogItem->getNext();
-        CCLOG("StoryScene::getIndex -- %d", index);
+//        CCLOG("StoryScene::getIndex -- %d", index);
         
         CCString* _achievement = CCString::createWithFormat("%s",dialogItem->getAchievement().c_str());
         if (index == -1) {
@@ -2178,7 +2178,7 @@ void StoryScene::didAccelerate( CCAcceleration* pAccelerationValue){
 
 void StoryScene::keyBackClicked(){
     num_child++;
-    CCLog("===== StoryScene  children_num: %d", num_child);
+//    CCLog("===== StoryScene  children_num: %d", num_child);
     if (num_child> 1) {
         return;
     }
@@ -2228,7 +2228,7 @@ void StoryScene::LabelColorFhCallBack(CCObject* pSender){
 
 void StoryScene::_503CallBack(CCObject* pSender){
     LOADING->remove();
-    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
+//    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
     StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
     this->addChild(layer, 1000);
 }

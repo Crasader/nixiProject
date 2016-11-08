@@ -61,7 +61,7 @@ void PurchasePanel::onEnter() {
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     if (CONFIG->baiOrYijie == 0) {// 白包
         nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
-    }else if (CONFIG->baiOrYijie == 1){// 易接
+    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
         nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_android_105), "HTTP_FINISHED_105", NULL);
     }
 #endif
@@ -260,7 +260,7 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
         
         NET->verify_order_iOS_107(orderId, pro->id);
-    }else if (CONFIG->baiOrYijie == 1){// 易接
+    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
         if (CONFIG->openPay == 0) {
             // talkingData
             DATA->onEvent("支付意向", "支付界面", "点击购买钻石");

@@ -46,7 +46,6 @@ bool HaoyouScene::init(){
     }
     num_child = 0;
     
-    DATA->setTaskGameIndex4(0);
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     _ManSpr = CCSprite::create();

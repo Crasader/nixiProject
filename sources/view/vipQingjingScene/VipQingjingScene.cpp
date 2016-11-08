@@ -482,7 +482,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
                 LOADING->show_loading();
                 CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
                 NET->buy_story2_505(indexStr1->getCString());
-            }else if (CONFIG->baiOrYijie == 1){// 易接
+            }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
                 if (CONFIG->openPay == 0) {
                     LOADING->show_loading();
                     CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
@@ -539,7 +539,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             LOADING->show_loading();
             CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
             NET->buy_story2_505(indexStr1->getCString());
-        }else if (CONFIG->baiOrYijie == 1){// 易接
+        }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
             if (CONFIG->openPay == 0) {
                 LOADING->show_loading();
                 CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
@@ -710,7 +710,7 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
         LOADING->show_loading();
         CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
         NET->buy_story2_505(indexStr->getCString());
-    }else if (CONFIG->baiOrYijie == 1){// 易接
+    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
         if (CONFIG->openPay == 0) {
             LOADING->show_loading();
             CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);

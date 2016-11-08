@@ -1186,7 +1186,7 @@ void VipStoryScene::initButton(){
         CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(i);
         nextIndex = dic->valueForKey("next")->intValue();
         str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), nextIndex);
+//        CCLog("%s == %d", str->getCString(), nextIndex);
         
         this->creatButton(i);
         this->initLabel(i);
@@ -1243,7 +1243,7 @@ void VipStoryScene::initLabel(int dex){
     CCDictionary* dic = (CCDictionary*)arr->objectAtIndex(dex);
     int nextIndex = dic->valueForKey("next")->intValue();
     CCString* str = (CCString* )dic->objectForKey("dialog");
-    CCLog("%s == %d", str->getCString(), nextIndex);
+//    CCLog("%s == %d", str->getCString(), nextIndex);
     
 //    CCString* str = (CCString* )dic->objectForKey("dialog");
 //    MZLog("====== str->length()%d ===== %d", dex, str->length());
@@ -1627,19 +1627,19 @@ void VipStoryScene::removeButton(){
         dic = (CCDictionary*)arr->objectAtIndex(0);
         index = dic->valueForKey("next")->intValue();
         CCString* str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), index);
+//        CCLog("%s == %d", str->getCString(), index);
         nextindex = dic->valueForKey("next")->intValue();
     }else if (tagIndex == Tag_Item_1){
         dic = (CCDictionary*)arr->objectAtIndex(1);
         index = dic->valueForKey("next")->intValue();
         CCString* str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), index);
+//        CCLog("%s == %d", str->getCString(), index);
         nextindex = dic->valueForKey("next")->intValue();
     }else if (tagIndex == Tag_Item_2){
         dic = (CCDictionary*)arr->objectAtIndex(2);
         index = dic->valueForKey("next")->intValue();
         CCString* str = (CCString* )dic->objectForKey("dialog");
-        CCLog("%s == %d", str->getCString(), index);
+//        CCLog("%s == %d", str->getCString(), index);
         nextindex = dic->valueForKey("next")->intValue();
     }
     
@@ -1921,7 +1921,7 @@ void VipStoryScene::onExit(){
 
 bool VipStoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
-    CCLog("VipStoryScene::ccTouchBegan() ...");
+//    CCLog("VipStoryScene::ccTouchBegan() ...");
     static int guide_count = 0;
     if (!openStory) {
         logIndex++;
@@ -2073,7 +2073,7 @@ void VipStoryScene::didAccelerate( CCAcceleration* pAccelerationValue){
 
 void VipStoryScene::keyBackClicked(){
     num_child++;
-    CCLog("===== VipStoryScene  children_num: %d", num_child);
+//    CCLog("===== VipStoryScene  children_num: %d", num_child);
     if (num_child> 1) {
         return;
     }
@@ -2117,7 +2117,7 @@ void VipStoryScene::LabelColorFhCallBack(CCObject* pSender){
 
 void VipStoryScene::_507CallBack(CCObject* pSender){
     LOADING->remove();
-    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
+//    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
     VipStorySettlementOfTheAnimationLayer* layer = VipStorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
     this->addChild(layer, 1000);
 }

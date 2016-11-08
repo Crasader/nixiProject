@@ -75,7 +75,6 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     tag1 = 0;
     tag2 = 0;
     tag3 = 0;
-    DATA->setTaskGameIndex6(0);
     
     _animLayer = CCLayer::create();
     this->addChild(_animLayer, 9);
