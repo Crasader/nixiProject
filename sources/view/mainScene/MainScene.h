@@ -98,6 +98,9 @@ public:
     CCMenu* menu_car1;
     CCMenu* menu_car2;
     
+    CCMenuItem* home_item;
+    CCMenuItemSprite* huanzhuang_Item;
+    
     CCSprite* xinfeng_spr1;
     
     CCSprite* shop_bar1;
@@ -211,6 +214,9 @@ public:
     CCPoint playerVelocity;
     
 private:
+    void showTrystEntrance();   // 显示约会入口
+    void onBtnStartTryst();
+    
     void update_news_status();
     void check_free_gashapon();
     void check_first_on();

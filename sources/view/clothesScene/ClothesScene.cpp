@@ -64,7 +64,6 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     tag1 = 0;
     tag2 = 0;
     tag3 = 0;
-    DATA->setTaskGameIndex6(0);
     
     _animLayer = CCLayer::create();
     this->addChild(_animLayer, 9);
@@ -888,7 +887,7 @@ void ClothesScene::crate_Tishi(){
     }else if (clothesStatus == 2){// 换装
         
     }
-    else if (clothesStatus == 3) {
+    else if (clothesStatus == 3 && this->tishi != NULL) {
         CCSprite* renwukuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
         CCSprite* renwukuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
         CCMenuItem* renwukuangItem = CCMenuItemSprite::create(renwukuangSpr1, renwukuangSpr2);

@@ -70,14 +70,15 @@ bool TaskStoryScene::init(){
     DATA->setStoryLabelArr(CCArray::create());
     
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
-    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+//    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getTaskPhase(), taskIndex);
 //    CCArray* missionArr = CONFIG->getMissionDialog(3, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
     subscriptIndex = missionDic->valueForKey("id")->intValue();
     
     
     CCDictionary* ratingDic =  DATA->getPlayer()->rating;
-    CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+    CCString* str = CCString::createWithFormat("%d", DATA->getTaskPhase());
     OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
     
     taskArr = CONFIG->mission();
@@ -1372,7 +1373,8 @@ void TaskStoryScene::getIndex(float dt){
         this->setTouchEnabled(false);
     }else{
         index = missionDic->valueForKey("next")->intValue() - subscriptIndex;
-        CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+//        CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
+        CCArray* missionArr = CONFIG->getMissionDialog(DATA->getTaskPhase(), taskIndex);
 //        CCArray* missionArr = CONFIG->getMissionDialog(3, taskIndex);
         missionDic = (CCDictionary* )missionArr->objectAtIndex(index);
         this->init(missionDic);
@@ -1549,6 +1551,8 @@ void TaskStoryScene::_400CallBack(CCObject* pSender){
 }
 void TaskStoryScene::_800CallBack(CCObject* pObj) {
     LOADING->remove();
+    DATA->setTaskGameIndex4(0);
+    
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

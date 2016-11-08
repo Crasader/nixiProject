@@ -150,7 +150,8 @@ void TaskScene::init_contents() {
     taskIndex = 0;
     
     CCDictionary* ratingDic =  DATA->getPlayer()->rating;
-    CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+//    CCString* str = CCString::createWithFormat("%d", DATA->getPlayer()->phase);
+    CCString* str = CCString::createWithFormat("%d", DATA->getTaskPhase());
     OpenToWhichOne = ((CCInteger* )ratingDic->objectForKey(str->getCString()))->getValue();
     
     taskArr = CONFIG->mission();
@@ -374,7 +375,8 @@ void TaskScene::creat_view(){
     taskKuang->addChild(shangkuangSpr);
 
     
-    int curPhase = DATA->getPlayer()->phase;
+//    int curPhase = DATA->getPlayer()->phase;
+    int curPhase = DATA->getTaskPhase();
     int ratingsRequire = CONFIG->phase_up_required(curPhase);
     int curRatings = DATA->getPlayer()->ratings(curPhase);
     
@@ -449,7 +451,8 @@ void TaskScene::enterTheKuang(float dt){
         }
     }else{
         historyBool = true;
-        taskPhase = DATA->getPlayer()->phase;
+//        taskPhase = DATA->getPlayer()->phase;
+        taskPhase = DATA->getTaskPhase();
         DATA->setTaskPhase(taskPhase);
     }
 }
@@ -805,7 +808,8 @@ CCString* TaskScene::getTaskDescription(int index){
 void TaskScene::exitView(){
     BaseScene::hideBaseScene();
     
-    int curPhase = DATA->getPlayer()->phase;
+//    int curPhase = DATA->getPlayer()->phase;
+    int curPhase = DATA->getTaskPhase();
     int ratingsRequire = CONFIG->phase_up_required(curPhase);
     if (ratingsRequire == 9999) {
         barSpr->setVisible(false);

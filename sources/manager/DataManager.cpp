@@ -65,6 +65,7 @@ void DataManager::init_data() {
     this->setOperation(OperationComp::create());
     this->setHome(HomeComp::create());
     this->setMystery(MysteryComp::create());
+    this->setTryst(TrystComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {

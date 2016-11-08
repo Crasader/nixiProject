@@ -90,7 +90,7 @@ void PhoneLayer2::creat_view(){
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr);
     
-    CCString* str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", DATA->getPlayer()->phase);
+    CCString* str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", DATA->getTaskPhase());
     CCSprite* fzSpr = CCSprite::create(str->getCString());
     fzSpr->setAnchorPoint(CCPointZero);
     fzSpr->setPosition(ccp(0, DISPLAY->H() * 0.22));
