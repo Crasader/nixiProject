@@ -29,6 +29,7 @@ private:
     
     void showBoxAnimation();
     void stopBoxAnimation();
+    void openBox();
     void onOpenRewardBox(CCMenuItem* pSender);
     
     void after_receive_tryst_reward_625(CCObject* pObj);
@@ -45,6 +46,7 @@ private:
     CCProgressTimer* prog;
     CCSprite*       heart;
     CCLabelTTF*     countDown;
+    CCNode*         boxAnimationNode;
 };
 
 #endif /* TrystProgress_hpp */

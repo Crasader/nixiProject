@@ -50,6 +50,8 @@ bool TrystRewardPanel::initWithReward(string type, int num) {
     
     num_child = 0;
     
+    couldClose = false;
+    
     rewardDisplay = NULL;
     this->type = string(type.c_str());
     this->num = num;
@@ -153,7 +155,7 @@ void TrystRewardPanel::onExit() {
 
 bool TrystRewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
-    if (! panel->boundingBox().containsPoint(location)) {
+    if (couldClose && ! panel->boundingBox().containsPoint(location)) {
         this->remove();
     }
     
@@ -248,7 +250,6 @@ void TrystRewardPanel::do_exit() {
 //}
 
 void TrystRewardPanel::showReward() {
-//    this->schedule(SEL_SCHEDULE(&TrystRewardPanel::chooseRewardDisplay), 0.1, 20, 0.1);
     CCCallFunc* call = CCCallFunc::create(this, SEL_CallFunc(&TrystRewardPanel::changeRewardDisplay));
     CCSequence* seq1 = CCSequence::create(call, CCDelayTime::create(0.1), NULL);
     CCCallFunc* done = CCCallFunc::create(this, SEL_CallFunc(&TrystRewardPanel::chooseRewardDisplay));
@@ -265,16 +266,40 @@ void TrystRewardPanel::changeRewardDisplay() {
     }
     
     if (ran < 0.25) {
-        rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_coin.png");
+        if (lastType == 0) {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_diam.png");
+        }
+        else {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_coin.png");
+        }
+        lastType = 0;
     }
     else if (ran < 0.5) {
-        rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_energy.png");
+        if (lastType == 1) {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_piece.png");
+        }
+        else {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_energy.png");
+        }
+        lastType = 1;
     }
     else if (ran < 0.75) {
-        rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_piece.png");
+        if (lastType == 2) {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_coin.png");
+        }
+        else {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_piece.png");
+        }
+        lastType = 2;
     }
     else {
-        rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_diam.png");
+        if (lastType == 3) {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_energy.png");
+        }
+        else {
+            rewardDisplay = CCSprite::create("pic/tryst/tryst_reward_diam.png");
+        }
+        lastType = 3;
     }
     
     if (rewardDisplay) {
@@ -305,15 +330,22 @@ void TrystRewardPanel::chooseRewardDisplay() {
     if (rewardDisplay) {
         rewardDisplay->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.5));
         panel->addChild(rewardDisplay, 10);
-        CCCallFunc* showLight = CCCallFunc::create(this, SEL_CallFunc(&TrystRewardPanel::showLight));
+        CCCallFunc* showLight = CCCallFunc::create(this, SEL_CallFunc(&TrystRewardPanel::showLightAndRewardNum));
         rewardDisplay->runAction(CCSequence::create(CCDelayTime::create(0.3), CCScaleTo::create(0.3, 1.2f), showLight, NULL));
     }
 }
 
-void TrystRewardPanel::showLight() {
+void TrystRewardPanel::showLightAndRewardNum() {
     CCSprite* light = CCSprite::create("pic/tryst/tryst_light.png");
     light->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.5));
     light->runAction(CCRepeatForever::create(CCRotateBy::create(3, -360)));
     panel->addChild(light, rewardDisplay->getZOrder() - 1);
+    
+    CCLabelTTF* lblNum = CCLabelTTF::create(CCString::createWithFormat("%d", this->num)->getCString(), DISPLAY->fangzhengFont(), 22);
+    lblNum->setColor(ccc3(179, 85, 123));
+    lblNum->setPosition(ccp(rewardDisplay->getContentSize().width * 0.5, rewardDisplay->getContentSize().height * 0.2));
+    rewardDisplay->addChild(lblNum);
+    
+    couldClose = true;
 }
 

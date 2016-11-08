@@ -40,12 +40,14 @@ private:
     void showReward();
     void changeRewardDisplay();
     void chooseRewardDisplay();
-    void showLight();
+    void showLightAndRewardNum();
     
 private:
     int                 num_child;
     string              type;
     int                 num;
+    int                 lastType;
+    bool                couldClose;
     
 private:
     CCSprite*           panel;
