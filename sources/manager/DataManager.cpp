@@ -206,6 +206,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             _tryst->update_user_data(content["tryst"]);
+            _notif = content["notif"].asString();
             this->start_check_news();
             
             this->setFirstOnMainScene(true);

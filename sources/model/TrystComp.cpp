@@ -29,10 +29,6 @@ TrystUserdata* TrystUserdata::create(CSJson::Value json) {
 
 // Export
 
-bool TrystComp::isOngoing() {
-    return false;
-}
-
 bool TrystComp::hasInitAchvTemplate() {
     return trystTemplate != nullptr;
 }

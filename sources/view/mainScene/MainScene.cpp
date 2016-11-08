@@ -329,8 +329,11 @@ void MainScene::onEnter(){
     
     this->checkVersion();
     
-    //
-    this->showTrystEntrance();
+    // 是否显示约会入口
+    if (DATA->getNews()->trystOn == 1) {
+        this->showTrystEntrance();
+    }
+    
     //
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
 }
@@ -2210,14 +2213,9 @@ void MainScene::showTrystEntrance() {
 void MainScene::onBtnStartTryst() {
     DATA->onEvent("点击事件", "主界面", "点击 - 约会");
     if (isOk) {
-        if (DATA->getTryst()->isOngoing()) {
-            //
-        }
-        else {
-            AHMessageBox* mb = AHMessageBox::create_with_message("是否开始约会？", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-        }
+        AHMessageBox* mb = AHMessageBox::create_with_message("是否开始约会？", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
     }
 }
 
