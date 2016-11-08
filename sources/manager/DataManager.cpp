@@ -78,11 +78,10 @@ time_t DataManager::cur_timestamp_msec() {
 }
 
 time_t DataManager::cur_timestamp() {
-    //    time_t t = time(NULL);
     struct timeval t;
     gettimeofday(&t, NULL);
     time_t rtn = t.tv_sec;
-    CCLOG("timestamp sec = %ld", rtn);
+//    CCLOG("timestamp sec = %ld", rtn);
     return rtn;
 }
 
@@ -400,7 +399,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 625: {
             _tryst->update_user_data(content["tryst"]);
+            _player->init_with_json(content["player"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
             // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
             
         

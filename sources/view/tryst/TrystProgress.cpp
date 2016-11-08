@@ -9,13 +9,22 @@
 #include "TrystProgress.h"
 
 #include "DisplayManager.h"
+#include "DataManager.h"
+#include "NetManager.h"
+#include "AudioManager.h"
 
+#include "Loading2.h"
+#include "PromptLayer.h"
+#include "TrystRewardPanel.h"
+#include "CCShake.h"
+
+#pragma mark - Export
 
 TrystProgress::~TrystProgress() {}
 
-TrystProgress* TrystProgress::create(CCObject *target, SEL_CallFunc callback) {
+TrystProgress* TrystProgress::create(int max, int left) {
     TrystProgress* rtn = new TrystProgress();
-    if (rtn && rtn->init(target, callback)) {
+    if (rtn && rtn->init(max, left)) {
         rtn->autorelease();
     }
     else {
@@ -25,40 +34,65 @@ TrystProgress* TrystProgress::create(CCObject *target, SEL_CallFunc callback) {
     return rtn;
 }
 
-void TrystProgress::startInput(const char *text) {
-    _inputCount = 0;
-    _origText = text;
-    _lbl->setString("");
-    
-    this->schedule(SEL_SCHEDULE(&TrystProgress::gogogo), 0.3);
+CCSize TrystProgress::sizeOfContent() const {
+    return planeSize;
 }
 
 
-bool TrystProgress::init(CCObject *target, SEL_CallFunc callback) {
+#pragma mark - Inner
+
+bool TrystProgress::init(int max, int left) {
     if (CCNode::create()) {
-        _target = target;
-        _callback = callback;
+        this->max = max;
+        this->left = left;
+        this->savedTs = DATA->cur_timestamp();
         
-        CCSprite* inputBar = CCSprite::create("pic/tryst/tryst_input.png");
-        this->addChild(inputBar);
+        float offset = 40;
+        plane = CCSprite::create("pic/tryst/tryst_progress.png");
+        plane->setPosition(ccp(-offset, 0));
+        this->addChild(plane);
         
-        CCSprite* mask = CCSprite::create("pic/tryst/tryst_input_mask.png");
-        mask->setAnchorPoint(CCPointZero);
-        CCClippingNode* node = CCClippingNode::create(mask);
-        node->setPosition(74.5, 10);
-        inputBar->addChild(node);
+        planeSize = CCSizeMake(plane->getContentSize().width, plane->getContentSize().height);
         
-        _savedInputboxWidth = mask->getContentSize().width;
+        //
+        CCSprite* bar1 = CCSprite::create("pic/tryst/tryst_progress_bar1.png");
+        bar1->setPosition(ccp(planeSize.width * 0.5 - 34, planeSize.height * 0.5 + 1.6));
+        plane->addChild(bar1);
         
-        CCLayerColor* test = CCLayerColor::create(ccc4(200, 200, 200, 200), 800, 200);
-        test->setAnchorPoint(ccp(0.5, 0.5));
-        node->addChild(test);
+        barWidth = bar1->getContentSize().width;
         
-        _lbl = CCLabelTTF::create("", DISPLAY->fangzhengFont(), 28);
-        _lbl->setAnchorPoint(ccp(0, 0.5));
-        _lbl->setPosition(ccp(0, mask->getContentSize().height * 0.5));
-        _lbl->setColor(ccBLACK);
-        node->addChild(_lbl);
+        CCSprite* bar2 = CCSprite::create("pic/tryst/tryst_progress_bar2.png");
+        prog = CCProgressTimer::create(bar2);
+        prog->setType(kCCProgressTimerTypeBar);
+        prog->setMidpoint(ccp(0, 0.5));
+        prog->setBarChangeRate(ccp(1, 0));
+        prog->setPosition(bar1->getPosition());
+        plane->addChild(prog);
+        
+        //
+//        countDown = CCLabelAtlas::create("00:00", "pic/baseScene/base_number3.png", 14, 20, '0');
+        countDown = CCLabelTTF::create("00:00", DISPLAY->fangzhengFont(), 22);
+        countDown->setColor(ccc3(251, 104, 149));
+//        countDown->setScale(0.9);
+        countDown->setAnchorPoint(ccp(0.5, 0.5));
+        countDown->setPosition(ccp(planeSize.width - 44, bar1->getPositionY()));
+        plane->addChild(countDown);
+        
+        //
+        heart = CCSprite::create("pic/tryst/tryst_progress_heart.png");
+        heart->setAnchorPoint(ccp(0.35, 0.5));
+        heart->setPosition(ccp(0, bar1->getPositionY()));
+        plane->addChild(heart);
+        
+        //
+        CCSprite* box1 = CCSprite::create("pic/tryst/tryst_reward_box.png");
+        CCSprite* box2 = CCSprite::create("pic/tryst/tryst_reward_box.png");
+        box2->setScale(1.01);
+        itemBox = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&TrystProgress::onOpenRewardBox));
+//        itemBox->setEnabled(false);
+        CCMenu* menuBox = CCMenu::createWithItem(itemBox);
+        menuBox->setPosition(260, 30);
+        this->addChild(menuBox);
         
         return true;
     }
@@ -67,29 +101,72 @@ bool TrystProgress::init(CCObject *target, SEL_CallFunc callback) {
     }
 }
 
+void TrystProgress::onEnter() {
+    CCNode::onEnter();
+    
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TrystProgress::after_receive_tryst_reward_625), "HTTP_FINISHED_625", NULL);
+    
+    this->updateProgress(0);
+    this->schedule(SEL_SCHEDULE(&TrystProgress::updateProgress), 1);
+    
+    this->showBoxAnimation();
+}
 
-void TrystProgress::gogogo() {
-    _inputCount += 3;
-    if (_inputCount > _origText.length()) {
-        _lbl->setString("");
-        _lbl->setAnchorPoint(ccp(0, 0.5));
-        _lbl->setPosition(ccp(0, _lbl->getPositionY()));
-        
-        this->unscheduleAllSelectors();
-        if (_target && _callback) {
-            (_target->*_callback)();
-        }
+void TrystProgress::onExit() {
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+
+    CCNode::onExit();
+}
+
+void TrystProgress::updateProgress(float dt) {
+    time_t nowTS = DATA->cur_timestamp();
+    time_t delta = nowTS - savedTs;
+    time_t curLeftSencods = left - delta;
+
+    if (curLeftSencods > 0) {
+        int minute = int(curLeftSencods) / 60;
+        int second = int(curLeftSencods) % 60;
+        CCString* timeLeft = CCString::createWithFormat("%02d:%02d", minute, second);
+        countDown->setString(timeLeft->getCString());
     }
     else {
-        std::string strTemp = _origText.substr(0, _inputCount);
-        //        CCLOG("INPUT: %s", strTemp.c_str());
-        _lbl->setString(strTemp.c_str());
-        
-        if (_lbl->getContentSize().width >= _savedInputboxWidth) {
-            _lbl->setAnchorPoint(ccp(1, 0.5));
-            _lbl->setPosition(ccp(_savedInputboxWidth, _lbl->getPositionY()));
-        }
+        CCString* timeLeft = CCString::createWithFormat("%02d:%02d", 0, 0);
+        countDown->setString(timeLeft->getCString());
+        this->unschedule(SEL_SCHEDULE(&TrystProgress::updateProgress));
+        itemBox->setEnabled(true);
+    }
+    
+    //
+    if (max > 0) {
+        float percent = MIN((max - (float)curLeftSencods) / max, 1.0);
+        prog->setPercentage(percent * 100);
+        heart->setPosition(ccp(barWidth * percent, heart->getPositionY()));
     }
 }
 
+void TrystProgress::showBoxAnimation() {
+//    CCSequence* seq = CCSequence::create(CCScaleTo::create(3, 0.2), CCDelayTime::create(1), CCScaleTo::create(3, 1.1), CCDelayTime::create(1), NULL);
+    CCSequence* seq = CCSequence::create(CCShake::create(0.6, 6), CCDelayTime::create(1.6), NULL);
+    itemBox->runAction(CCRepeatForever::create(seq));
+}
+
+void TrystProgress::stopBoxAnimation() {
+    
+}
+
+void TrystProgress::onOpenRewardBox(CCMenuItem *pSender) {
+//    LOADING->show_loading();
+//    AUDIO->common_effect();
+//    NET->receive_tryst_reward_625();
+    TrystRewardPanel::show(this->getScene(), "coin", 0);
+}
+
+void TrystProgress::after_receive_tryst_reward_625(CCObject *pObj) {
+    LOADING->remove();
+    this->stopBoxAnimation();
+    CCDictionary* reward = dynamic_cast<CCDictionary*>(pObj);
+    CCLOG("tryst reward type = %s, num = %d", reward->valueForKey("type")->getCString(), ((CCInteger*)reward->objectForKey("num"))->getValue());
+    
+    TrystRewardPanel::show(this->getScene(), reward->valueForKey("type")->getCString(), ((CCInteger*)reward->objectForKey("num"))->getValue());
+}
 

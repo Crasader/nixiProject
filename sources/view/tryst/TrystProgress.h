@@ -17,21 +17,34 @@ class TrystProgress : public CCNode
 {
 public:
     ~TrystProgress();
-    static TrystProgress* create(CCObject *target, SEL_CallFunc callback);
+    static TrystProgress* create(int max, int left);
+    CCSize sizeOfContent() const;
     
-    void startInput(const char* text);
+    void onEnter();
+    void onExit();
+        
+private:
+    virtual bool init(int max, int left);
+    void updateProgress(float dt);
+    
+    void showBoxAnimation();
+    void stopBoxAnimation();
+    void onOpenRewardBox(CCMenuItem* pSender);
+    
+    void after_receive_tryst_reward_625(CCObject* pObj);
     
 private:
-    virtual bool init(CCObject *target, SEL_CallFunc callback);
-    void gogogo();
-    
-private:
-    CCObject*           _target;
-    SEL_CallFunc        _callback;
-    CCLabelTTF*         _lbl;
-    std::string         _origText;
-    int                 _inputCount;
-    float               _savedInputboxWidth;
+    int             max;
+    int             left;
+
+    time_t          savedTs;
+    CCSprite*       plane;
+    CCSize          planeSize;
+    float           barWidth;
+    CCMenuItem*     itemBox;
+    CCProgressTimer* prog;
+    CCSprite*       heart;
+    CCLabelTTF*     countDown;
 };
 
 #endif /* TrystProgress_hpp */

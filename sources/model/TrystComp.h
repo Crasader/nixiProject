@@ -31,6 +31,7 @@ public:
     
     TrystStatus         status;
     string              curTrystId;
+    int                 timeSpan;
     int                 leftTime;
     
 private:

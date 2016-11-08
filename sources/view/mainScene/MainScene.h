@@ -222,7 +222,10 @@ private:
     void showTrystEntrance();   // 显示约会入口
     void onBtnStartTryst();
     void after_start_tryst_621();
-    void showTrystProgress();   // 显示约会进度
+    void check_tryst_progress();
+//    void update_tryst_progress(float dt);
+//    void showTrystProgress();   // 显示约会进度
+    
     
     void update_news_status();
     void check_free_gashapon();

@@ -1,21 +1,21 @@
 //
-//  BuildingRewardPanel.cpp
+//  RewardPanel.cpp
 //  tiegao
 //
 //  Created by mac on 16/8/18.
 //
 //
 
-#include "BuildingRewardPanel.h"
+#include "RewardPanel.h"
 //
-//  BuildingRewardPanel.cpp
+//  RewardPanel.cpp
 //  tiegao
 //
 //  Created by mac on 16/8/1.
 //
 //
 
-#include "BuildingRewardPanel.h"
+#include "RewardPanel.h"
 #include "DisplayManager.h"
 #include "AudioManager.h"
 #include "Loading2.h"
@@ -23,19 +23,19 @@
 
 #pragma mark - Export
 
-void BuildingRewardPanel::show(CCNode* parent, string type, int value) {
-    BuildingRewardPanel* panel = BuildingRewardPanel::createWithReward(type, value);
+void RewardPanel::show(CCNode* parent, string type, int value) {
+    RewardPanel* panel = RewardPanel::createWithReward(type, value);
     parent->addChild(panel);
 }
 
 
 #pragma mark - Super
 
-BuildingRewardPanel::~BuildingRewardPanel() {
+RewardPanel::~RewardPanel() {
 }
 
-BuildingRewardPanel* BuildingRewardPanel::createWithReward(string type, int value) {
-    BuildingRewardPanel* rtn = new BuildingRewardPanel();
+RewardPanel* RewardPanel::createWithReward(string type, int value) {
+    RewardPanel* rtn = new RewardPanel();
     if (rtn && rtn->initWithReward(type, value)) {
         rtn->autorelease();
     }
@@ -46,7 +46,7 @@ BuildingRewardPanel* BuildingRewardPanel::createWithReward(string type, int valu
     return rtn;
 }
 
-bool BuildingRewardPanel::initWithReward(string type, int value) {
+bool RewardPanel::initWithReward(string type, int value) {
     if (! CCLayer::init()) {
         return false;
     }
@@ -119,7 +119,7 @@ bool BuildingRewardPanel::initWithReward(string type, int value) {
     return true;
 }
 
-void BuildingRewardPanel::onEnter() {
+void RewardPanel::onEnter() {
     CCLayer::onEnter();
     
     this->setTouchEnabled(true);
@@ -128,19 +128,19 @@ void BuildingRewardPanel::onEnter() {
     
     this->do_enter();
     
-    this->scheduleOnce(SEL_SCHEDULE(&BuildingRewardPanel::keyBackStatus), .8f);
+    this->scheduleOnce(SEL_SCHEDULE(&RewardPanel::keyBackStatus), .8f);
 }
-void BuildingRewardPanel::keyBackStatus(float dt){
+void RewardPanel::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
 
-void BuildingRewardPanel::onExit() {
+void RewardPanel::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     CCLayer::onExit();
 }
 
-bool BuildingRewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
+bool RewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
     if (! _panel->boundingBox().containsPoint(location)) {
         this->remove();
@@ -151,14 +151,14 @@ bool BuildingRewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEven
 
 #pragma mark - Inner
 
-void BuildingRewardPanel::remove() {
+void RewardPanel::remove() {
     this->do_exit();
     this->removeFromParentAndCleanup(true);
 }
 
-void BuildingRewardPanel::keyBackClicked(){
+void RewardPanel::keyBackClicked(){
     num_child++;
-    CCLog("===== BuildingRewardPanel  children_num: %d", num_child);
+    CCLog("===== RewardPanel  children_num: %d", num_child);
     if (num_child> 1) {
         return;
     }
@@ -166,7 +166,7 @@ void BuildingRewardPanel::keyBackClicked(){
     this->remove();
 }
 
-void BuildingRewardPanel::do_enter() {
+void RewardPanel::do_enter() {
     _panel->setScale(0.1);
     _panel->setVisible(true);
     
@@ -183,7 +183,7 @@ void BuildingRewardPanel::do_enter() {
     _panel->runAction(CCEaseSineIn::create(CCSequence::create(spawn1, spawn2, NULL)));
 }
 
-void BuildingRewardPanel::do_exit() {
+void RewardPanel::do_exit() {
     AUDIO->goback_effect();
     
     CCPoint posFrom = DISPLAY->center();

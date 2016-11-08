@@ -247,7 +247,6 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     
     CCSprite* progress_1 = CCSprite::create("pic/mystery/my_progress_1.png");
     CCProgressTimer* progress = CCProgressTimer::create(progress_1);
-//    progress->setReverseDirection(true);
     progress->setType(kCCProgressTimerTypeBar);
     progress->setMidpoint(ccp(0, 0.5));
     progress->setBarChangeRate(ccp(1, 0));
