@@ -74,6 +74,11 @@ bool QingjingScene::init(){
         }
     }
     
+//    CCUserDefault::sharedUserDefault()->setBoolForKey("101", false);
+//    CCUserDefault::sharedUserDefault()->setBoolForKey("1002", false);
+//    CCUserDefault::sharedUserDefault()->setBoolForKey("1009", false);
+//    CCUserDefault::sharedUserDefault()->flush();
+    
     return true;
 }
 CCScene* QingjingScene::scene(){

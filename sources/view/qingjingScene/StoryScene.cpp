@@ -54,6 +54,9 @@ bool StoryScene::init(){
     passersbyBool2 = false;
     dikuangBool = false;
     quanBool = false;
+    introBool = false;
+    logicBool1 = false;
+    logicBool2 = false;
     manString1 = "";
     manString2 = "";
     
@@ -938,17 +941,70 @@ void StoryScene::logic(float dt){
         
         this->closeEyesAnimation();
         
-        if (!quanBool) {
-            quanBool = true;
+//        if (!quanBool) {
+//            quanBool = true;
+//            
+//            quanSpr->setVisible(true);
+//        }
+//        
+//        if (buttonBool3) {
+//            this->setTouchEnabled(false);
+//            
+//            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
+//        }
+        
+        
+        // 101 、1002-1014
+        int nameId = atoi(dialogItem->getNameId().c_str());
+        if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
             
-            quanSpr->setVisible(true);
+            if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
+                if (!quanBool) {
+                    quanBool = true;
+                    
+                    quanSpr->setVisible(true);
+                }
+                
+                if (buttonBool3) {
+                    this->setTouchEnabled(false);
+                    
+                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
+                }
+            }else{
+                CCUserDefault::sharedUserDefault()->setBoolForKey(dialogItem->getNameId().c_str(), true);
+                CCUserDefault::sharedUserDefault()->flush();
+                introBool = true;
+                logicBool1 = true;
+                
+                CCString* introStr = CCString::createWithFormat("res/pic/qingjingScene/intro/%s.png", dialogItem->getNameId().c_str());
+                CCSprite* introSpr = CCSprite::create(introStr->getCString());
+                introSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                introSpr->setScale(.1f);
+                introSpr->setVisible(false);
+                introSpr->setTag(0x551188);
+                CCScaleTo* scaleTo = CCScaleTo::create(.6f, 1.f);
+                CCActionInterval * rotateto = CCRotateTo::create(.6f, 360* 2);
+                CCFadeIn* fadeIn = CCFadeIn::create(.4f);
+                CCSpawn* spawn = CCSpawn::create(CCShow::create(), scaleTo, rotateto, fadeIn, NULL);
+                introSpr->runAction(CCSequence::create(CCDelayTime::create(.3f), spawn, NULL));
+                this->addChild(introSpr, 100);
+                
+                _dkSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), CCHide::create(), NULL));
+            }
+        }else{
+            if (!quanBool) {
+                quanBool = true;
+                
+                quanSpr->setVisible(true);
+            }
+            
+            if (buttonBool3) {
+                this->setTouchEnabled(false);
+                
+                this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
+            }
         }
         
-        if (buttonBool3) {
-            this->setTouchEnabled(false);
-            
-            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
-        }
         
         return;
     }else{
@@ -957,15 +1013,78 @@ void StoryScene::logic(float dt){
         saidLabel->setString(getContentByLength(wordCount).c_str());
         
         if (buttonBool1) {
-            wordCount = getContentLength();
-            saidLabel->setString(getContentByLength(wordCount).c_str());
-            this->closeEyesAnimation();
-            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .1f);
+            // 101 、1002-1014
+            int nameId = atoi(dialogItem->getNameId().c_str());
+            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+                
+                if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
+                    wordCount = getContentLength();
+                    saidLabel->setString(getContentByLength(wordCount).c_str());
+                    this->closeEyesAnimation();
+                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .1f);
+                    
+                    this->schedule(schedule_selector(StoryScene::logic), .1f);
+                }else{
+                    CCUserDefault::sharedUserDefault()->setBoolForKey(dialogItem->getNameId().c_str(), true);
+                    CCUserDefault::sharedUserDefault()->flush();
+                    introBool = true;
+                    logicBool2 = true;
+                    
+                    CCString* introStr = CCString::createWithFormat("res/pic/qingjingScene/intro/%s.png", dialogItem->getNameId().c_str());
+                    CCSprite* introSpr = CCSprite::create(introStr->getCString());
+                    introSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    introSpr->setScale(.1f);
+                    introSpr->setVisible(false);
+                    introSpr->setTag(0x551188);
+                    CCScaleTo* scaleTo = CCScaleTo::create(.6f, 1.f);
+                    CCActionInterval * rotateto = CCRotateTo::create(.6f, 360* 2);
+                    CCFadeIn* fadeIn = CCFadeIn::create(.4f);
+                    CCSpawn* spawn = CCSpawn::create(CCShow::create(), scaleTo, rotateto, fadeIn, NULL);
+                    introSpr->runAction(CCSequence::create(CCDelayTime::create(.3f), spawn, NULL));
+                    this->addChild(introSpr, 100);
+                    
+                    _dkSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), CCHide::create(), NULL));
+                    
+                    
+                    wordCount = getContentLength();
+                    saidLabel->setString(getContentByLength(wordCount).c_str());
+                    this->closeEyesAnimation();
+                    
+                    
+                    buttonBool1 = false;
+                    buttonBool2 = false;
+                    buttonBool3 = false;
+                    recordBool1 = buttonBool1;
+                    recordBool2 = buttonBool2;
+                    recordBool3 = buttonBool3;
+                    this->setTouchEnabled(true);
+                    kuaijinToggleItem->setSelectedIndex(0);
+                    zidongToggleItem->setSelectedIndex(0);
+                }
+            }else{
+                wordCount = getContentLength();
+                saidLabel->setString(getContentByLength(wordCount).c_str());
+                this->closeEyesAnimation();
+                this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .1f);
+                
+                this->schedule(schedule_selector(StoryScene::logic), .1f);
+            }
+        }else{
+            this->schedule(schedule_selector(StoryScene::logic), .1f);
         }
-        
-        this->schedule(schedule_selector(StoryScene::logic), .1f);
     }
+    
+    
+//    string::size_type idx = dialogItem->getNameId().find("1002");
+//    if (idx != string::npos) {
+//        CCLog("<><><> 有有有");
+//        this->creatLogic();
+//    }else{
+//        CCLog("<><><> 没有没有没有");
+//        this->creatLogic();
+//    }
 }
+
 
 void StoryScene::creatBg(){
     this->setTouchEnabled(false);
@@ -1052,7 +1171,7 @@ void StoryScene::addButton(){
     kuaijinToggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(StoryScene::button1CallBack), kuaijinItemOn,kuaijinItemOff,NULL);
     kuaijinToggleItem->setPosition(ccp(kuangSpr->getContentSize().width* .91, kuangSpr->getContentSize().height + 80 - 500));
     CCPoint pos = ccp(kuaijinToggleItem->getPosition().x, kuaijinToggleItem->getPosition().y);
-
+    kuaijinToggleItem->setTag(Tag_kuaijin);
     m_bIsKJSelect = recordBool1;
     if (DATA->getFastForward()) {
         if (m_bIsKJSelect) {
@@ -2004,59 +2123,90 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
     CCLog("StoryScene::ccTouchBegan() ...");
     static int guide_count = 0;
     if (!openStory) {
-        logIndex++;
-        
-        if (buttonBool3) {
-            if (logIndex == 1) {
+        if (introBool) {
+            introBool = false;
+            
+            if (this->getChildByTag(0x551188) != NULL) {
+                this->removeChildByTag(0x551188);
+            }
+            _dkSpr->runAction(CCShow::create());
+            
+            if (logicBool1) {
+                logicBool1 = false;
                 
-                this->unschedule(SEL_SCHEDULE(&StoryScene::getIndex));
+                if (!quanBool) {
+                    quanBool = true;
+                    
+                    quanSpr->setVisible(true);
+                }
                 
-                if (dialogItem->getStates() != 4) {
-                    if (wordCount < contentLength) {
-                        wordCount = getContentLength();
-                        this->setTouchEnabled(false);
-                        
-                        this->closeEyesAnimation();
-                        
-                        this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
-                        
+                if (buttonBool3) {
+                    this->setTouchEnabled(false);
+                    
+                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
+                }
+            }else if (logicBool2){
+                logicBool2 = false;
+                
+                
+            }
+            
+        }else{
+            
+            logIndex++;
+            
+            if (buttonBool3) {
+                if (logIndex == 1) {
+                    
+                    this->unschedule(SEL_SCHEDULE(&StoryScene::getIndex));
+                    
+                    if (dialogItem->getStates() != 4) {
+                        if (wordCount < contentLength) {
+                            wordCount = getContentLength();
+                            this->setTouchEnabled(false);
+                            
+                            this->closeEyesAnimation();
+                            
+                            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                            
+                        }else{
+                            
+                            this->setTouchEnabled(false);
+                            
+                            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .5f);
+                            
+                        }
                     }else{
-                        
                         this->setTouchEnabled(false);
                         
                         this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .5f);
-                        
                     }
-                }else{
-                    this->setTouchEnabled(false);
-                    
-                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .5f);
                 }
-            }
-        }else{
-            if (logIndex == 1) {
-                this->unschedule(SEL_SCHEDULE(&StoryScene::getIndex));
-                
-                if (dialogItem->getStates() != 4) {
-                    if (wordCount < contentLength) {
-                        wordCount = getContentLength();
-                        this->setTouchEnabled(false);
-                        
-                        this->closeEyesAnimation();
-                        
-                        this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
-                        
+            }else{
+                if (logIndex == 1) {
+                    this->unschedule(SEL_SCHEDULE(&StoryScene::getIndex));
+                    
+                    if (dialogItem->getStates() != 4) {
+                        if (wordCount < contentLength) {
+                            wordCount = getContentLength();
+                            this->setTouchEnabled(false);
+                            
+                            this->closeEyesAnimation();
+                            
+                            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                            
+                        }else{
+                            
+                            this->setTouchEnabled(false);
+                            
+                            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .3f);
+                            
+                        }
                     }else{
-                        
                         this->setTouchEnabled(false);
                         
                         this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .3f);
-                        
                     }
-                }else{
-                    this->setTouchEnabled(false);
-                    
-                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .3f);
                 }
             }
         }
@@ -2086,8 +2236,8 @@ void StoryScene::getIndex(float dt){
             buttonBool2 = false;
             buttonBool3 = false;
             
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
+            if (_dkSpr->getChildByTag(0x88888) != NULL) {
+                CCNode* node = _dkSpr->getChildByTag(0x88888);
                 if (node->getChildByTag(Tag_kuaijin) != NULL) {
                     kuaijinToggleItem->setSelectedIndex(0);
                 }
@@ -2110,8 +2260,8 @@ void StoryScene::getIndex(float dt){
             buttonBool2 = false;
             buttonBool3 = false;
             
-            if (this->getChildByTag(0x88888) != NULL) {
-                CCNode* node = this->getChildByTag(0x88888);
+            if (_dkSpr->getChildByTag(0x88888) != NULL) {
+                CCNode* node = _dkSpr->getChildByTag(0x88888);
                 if (node->getChildByTag(Tag_kuaijin) != NULL) {
                     kuaijinToggleItem->setSelectedIndex(0);
                 }
