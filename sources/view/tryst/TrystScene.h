@@ -34,6 +34,7 @@ private:
     void onDialogAppeared();
     void setCouldStart();
     void onBtnStartTryst();
+    void onBtnGoback();
     
 private:
     TrystData*          _data;

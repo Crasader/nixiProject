@@ -44,7 +44,7 @@ bool GiftPanel::init() {
         _content = CCLayer::create();
         this->addChild(_content);
         
-        _panel = CCSprite::create("pic/panel/nickname_reset/nnr_panel.png");
+        _panel = CCSprite::create("pic/panel/setting/nnr_panel.png");
         _panel->setPosition(DISPLAY->center());
         _content->addChild(_panel);
         
@@ -52,7 +52,7 @@ bool GiftPanel::init() {
         CCSize panelSize = _panel->getContentSize();
         
         CCSize size_bar = CCSizeMake(262, 40);
-        _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/nickname_reset/nnr_bar.png"));
+        _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/setting/nnr_bar.png"));
         _eb->setMaxLength(16);
         _eb->setFontColor(DISPLAY->defalutColor());
         _eb->setPlaceHolder("点此输入礼包码");
@@ -62,8 +62,8 @@ bool GiftPanel::init() {
         _eb->setPosition(ccp(panelSize.width * 0.38, panelSize.height * 0.5));
         _panel->addChild(_eb);
         
-        CCSprite* spt1 = CCSprite::create("pic/panel/nickname_reset/nnr_commit.png");
-        CCSprite* spt2 = CCSprite::create("pic/panel/nickname_reset/nnr_commit.png");
+        CCSprite* spt1 = CCSprite::create("pic/panel/setting/nnr_commit.png");
+        CCSprite* spt2 = CCSprite::create("pic/panel/setting/nnr_commit.png");
         spt2->setScale(DISPLAY->btn_scale());
         CCMenuItem* btnCommit = CCMenuItemSprite::create(spt1, spt2, this, SEL_MenuHandler(&GiftPanel::onBtnCommit));
         CCMenu* menu = CCMenu::createWithItem(btnCommit);
@@ -153,7 +153,14 @@ void GiftPanel::keyBackClicked(){
 
 void GiftPanel::onBtnCommit(CCMenuItem *btn) {
     string text = _eb->getText();
-    LOADING->show_loading();
-    NET->take_gift_333(0, text.c_str());
-    this->remove();
+    if (text.length() < 8) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), "礼包码无效~!");
+        this->remove();
+    }
+    else {
+        LOADING->show_loading();
+        NET->take_gift_333(0, text.c_str());
+        this->remove();
+    }
 }

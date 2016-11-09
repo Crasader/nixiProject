@@ -8,12 +8,15 @@
 
 #include "TrystScene.h"
 
+#include "DisplayManager.h"
+#include "ConfigManager.h"
+
 #include "TrystData.h"
 #include "TrystView.h"
 #include "TrystDialogState.h"
 
-#include "DisplayManager.h"
-#include "ConfigManager.h"
+#include "MainScene.h"
+#include "ClothesScene.h"
 
 
 // Export
@@ -51,6 +54,11 @@ bool TrystScene::init(const char *id) {
         
         _view = TrystView::create(id);
         this->addChild(_view);
+        
+        CCMenuItem* itemGoback = CCMenuItemImage::create("pic/tryst/tryst_btn_goback.png", "pic/tryst/tryst_btn_goback.png", this, SEL_MenuHandler(&TrystScene::onBtnGoback));
+        CCMenu* menuGoback = CCMenu::createWithItem(itemGoback);
+        menuGoback->setPosition(ccp(DISPLAY->halfW() - 285, DISPLAY->H() * 0.95));
+        this->addChild(menuGoback);
         
         return  true;
     }
@@ -111,6 +119,19 @@ void TrystScene::setCouldStart() {
 
 void TrystScene::onBtnStartTryst() {
     CCLOG("TrystScene::onBtnStartTryst() -");
+    CCLayer* layer = ClothesScene::create_with_tryst();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
+void TrystScene::onBtnGoback() {
+    CCLOG("TrystScene::onBtnGoback() -");
+    CCLayer* layer = MainScene::create();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+}
 

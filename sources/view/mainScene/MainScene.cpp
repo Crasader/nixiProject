@@ -34,7 +34,6 @@
 
 #include "MailPanel.h"
 #include "OperationPanel.h"
-#include "SettingPanel.h"
 #include "ChatPanel.h"
 #include "TotalRechargePanel.h"
 #include "Signin7Panel.h"
@@ -45,6 +44,7 @@
 #include "TempSignin.h"
 #include "MysteryLayer.h"
 #include "TrystScene.h"
+#include "TrystProgress.h"
 
 #include <time.h>
 
@@ -268,6 +268,9 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_fetch_mystery_info_610), "HTTP_FINISHED_610", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::after_start_tryst_621), "HTTP_FINISHED_621", NULL);
+    
+    
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
     
@@ -328,6 +331,8 @@ void MainScene::onEnter(){
     
     //
     this->showTrystEntrance();
+    //
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
 }
 
 void MainScene::checkVersion() {
@@ -500,12 +505,12 @@ void MainScene::creat_view(){
 //    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
     
 
-    //设置
-    CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
-    CCSprite* szSpr2 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
-    szSpr2->setScale(1.02f);
-    _shezhiItem = CCMenuItemSprite::create(szSpr1, szSpr2, this, menu_selector(MainScene::shezhiCallBack));
-    _shezhiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .05f));
+//    //设置
+//    CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
+//    CCSprite* szSpr2 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
+//    szSpr2->setScale(1.02f);
+//    _shezhiItem = CCMenuItemSprite::create(szSpr1, szSpr2, this, menu_selector(MainScene::shezhiCallBack));
+//    _shezhiItem->setPosition(ccp(DISPLAY->ScreenWidth()* .09f, DISPLAY->ScreenHeight()* .05f));
 
     
     //new-----------------------------------new
@@ -750,21 +755,23 @@ void MainScene::creat_view(){
     _layer_3->addChild(ludeng_spr);
     
     //---车---
+    int defaultZOrder = 2;
+
     car_1 = CCSprite::create("res/pic/mainScene/car_1.png");
     car_1->setScale(0.5f);
     car_1->setPosition(ccp(_layer_3->getContentSize().width* .35f, _layer_3->getContentSize().height* .455f));
-    _layer_3->addChild(car_1);
+    _layer_3->addChild(car_1, defaultZOrder);
     
     car_2 = CCSprite::create("res/pic/mainScene/car_2.png");
     car_2->setScale(0.5f);
     car_2->setPosition(ccp(_layer_3->getContentSize().width + 100, _layer_3->getContentSize().height* .455f));
-    _layer_3->addChild(car_2);
+    _layer_3->addChild(car_2, defaultZOrder);
     
     car_3 = CCSprite::create("res/pic/mainScene/car_3.png");
     car_3->setFlipX(true);
     car_3->setScale(0.5f);
     car_3->setPosition(ccp(_layer_3->getContentSize().width* .2f, _layer_3->getContentSize().height* .443f));
-    _layer_3->addChild(car_3);
+    _layer_3->addChild(car_3, defaultZOrder);
     
     
     //-----2层花园背景-----
@@ -858,6 +865,7 @@ void MainScene::creat_view(){
     CCMenu* menu_shop2 = CCMenu::create(shop_item2, NULL);
     menu_shop2->setPosition(CCPointZero);
     _layer_2->addChild(menu_shop2);
+
     shop_bar1->setUserObject(ccs("res/pic/mainScene/shop_bar.png"));
     _arrGroup1->addObject(shop_bar1);
     
@@ -929,10 +937,6 @@ void MainScene::creat_view(){
     this->addChild(_layer_0);
     
     
-    CCMenu* menu_set = CCMenu::create(_shezhiItem, NULL);
-    menu_set->setPosition(CCPointZero);
-    this->addChild(menu_set);
-    
     CCSprite* lingdang = CCSprite::create("res/pic/mainScene/lingdang.png");
     CCSprite* lingdang2 = CCSprite::create("res/pic/mainScene/lingdang.png");
     CCMenuItemSprite* item_lingdang = CCMenuItemSprite::create(lingdang, lingdang2, this, menu_selector(MainScene::lingdang_callback));
@@ -968,22 +972,8 @@ void MainScene::creat_view(){
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
-    
-    
-    // 通知信息
-    Notice* notice = NOTICE->fetch_notice();
-    if (notice) {
-        CCSprite* txt_bar = CCSprite::create("res/pic/mainScene/txt_bar.png");
-        txt_bar->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, txt_bar->getContentSize().height* .5f));
-        txt_bar->setTag(0x456777);
-        this->addChild(txt_bar);
-        
-        CCLabelTTF* lab = CCLabelTTF::create(notice->getDesc().c_str(), DISPLAY->fangzhengFont(), 20, CCSizeMake(txt_bar->getContentSize().width - 10, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-        lab->setColor(ccc3(155, 84, 46));
-        lab->setPosition(ccp(txt_bar->getContentSize().width* .5f, txt_bar->getContentSize().height* .5f - 3));
-        txt_bar->addChild(lab);
-    }
 }
+
 void MainScene::isTxt_Bar(){
     if (DATA->current_guide_step() == 8) {
         if (this->getChildByTag(0x456777) != NULL) {
@@ -1668,17 +1658,6 @@ void MainScene::_600CallBack(CCObject* pSender){
     }
 }
 
-void MainScene::shezhiCallBack(CCObject* pSender){
-    // talkingData
-    DATA->onEvent("点击事件", "主界面", "点击设置");
-    
-    if (isOk) {
-        AUDIO->comfirm_effect();
-        SettingPanel* panel = SettingPanel::create();
-        panel->show_from(_shezhiItem->getPosition());
-    }
-}
-
 void MainScene::creat_Man(){
     float widthFolt = .65f;
     float heightFloat = .5f;
@@ -2220,14 +2199,53 @@ void MainScene::showTrystEntrance() {
     spr2->setScale(1.012);
     CCMenuItem* itemEntrance = CCMenuItemSprite::create(spr1, spr2, this, SEL_MenuHandler(&MainScene::onBtnStartTryst));
     CCMenu* menuEntrance = CCMenu::createWithItem(itemEntrance);
-    menuEntrance->setPosition(_layer_3->getContentSize().width * 0.5 - 16, DISPLAY->halfH() - 12);
-    _layer_4->addChild(menuEntrance);
+    menuEntrance->setPosition(_layer_3->getContentSize().width * 0.5 - 13, DISPLAY->halfH() - 12);
+    _layer_3->addChild(menuEntrance);
+    // 时间文字
+    CCLabelTTF* timePeriod = CCLabelTTF::create("21:00 - 23:59开启", DISPLAY->fangzhengFont(), 13.f);
+    timePeriod->setPosition(menuEntrance->getPosition() + ccp(0, -38));
+    _layer_3->addChild(timePeriod);
 }
 
 void MainScene::onBtnStartTryst() {
-    if (! DATA->getTryst()->isOngoing()) {
-        CCScene* scene = TrystScene::create("3");
-        CCDirector::sharedDirector()->replaceScene(scene);
+    DATA->onEvent("点击事件", "主界面", "点击 - 约会");
+    if (isOk) {
+        if (DATA->getTryst()->isOngoing()) {
+            //
+        }
+        else {
+            AHMessageBox* mb = AHMessageBox::create_with_message("是否开始约会？", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+        }
+    }
+}
+
+void MainScene::after_start_tryst_621() {
+    LOADING->remove();
+    TrystUserdata* trystUserData = DATA->getTryst()->getUserData();
+    CCScene* scene = TrystScene::create(trystUserData->curTrystId.c_str());
+    CCDirector::sharedDirector()->replaceScene(scene);
+}
+
+void MainScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag) {
+    box->animation_out();
+    if (button_type == AH_BUTTON_TYPE_YESNO) {
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            LOADING->show_loading();
+            NET->take_tryst_task_621();
+        }
+    }
+}
+
+void MainScene::check_tryst_progress() {
+    TrystUserdata* trystUserData = DATA->getTryst()->getUserData();
+    TrystStatus state = trystUserData->status;
+    if (state == TrystStatus::going || state == TrystStatus::reward) {
+        TrystProgress* progress = TrystProgress::create(trystUserData->timeSpan, trystUserData->leftTime);
+        CCSize size = progress->sizeOfContent();
+        progress->setPosition(ccp(DISPLAY->halfW(), size.height * 0.5 + 2));
+        this->addChild(progress);
     }
 }
 

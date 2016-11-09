@@ -13,7 +13,7 @@
 #include "NetManager.h"
 #include "AppUtil.h"
 #include "AudioManager.h"
-#include "BuildingRewardPanel.h"
+#include "RewardPanel.h"
 #include "Loading2.h"
 
 const float FLOOR_CELL_WIDTH = 558.f;
@@ -217,6 +217,6 @@ void TopFloorCell::nc_take_company_reward_205(CCObject *pObj) {
     CCDictionary* dic = (CCDictionary*)pObj;
     const CCString* type = dic->valueForKey("type");
     CCInteger* num = (CCInteger*)dic->objectForKey("num");
-    BuildingRewardPanel::show(this->getScene(), type->getCString(), num->getValue());
+    RewardPanel::show(this->getScene(), type->getCString(), num->getValue());
     this->update_boxes();
 }

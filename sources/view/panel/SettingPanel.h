@@ -10,15 +10,17 @@
 #define SettingPanel_hpp
 
 #include "cocos2d.h"
+#include "cocos-ext.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 class SettingPanel : public CCLayer
 {
 public:
     ~SettingPanel();
-    CREATE_FUNC(SettingPanel);
-    virtual bool init();
+    static SettingPanel* create(const char *cost);
+    virtual bool init(const char *cost);
     virtual void onEnter();
     virtual void onExit();
     
@@ -31,6 +33,7 @@ public:
     void show_from(CCPoint from);
     
 private:
+    void create_nickname_reset_bar(CCSize panelSize, const char *cost);
     void do_enter();
     void do_exit();
     void remove();
@@ -39,6 +42,7 @@ private:
     void on_effect(CCMenuItem* btn);
     void on_back(CCMenuItem* btn);
     void on_take_gift(CCMenuItem* btn);
+    void onBtnCommitRest(CCMenuItem *btn);
     
 private:
     int num_child;
@@ -46,6 +50,7 @@ private:
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;
+    CCEditBox*          _eb;
 };
 
 #endif /* SettingPanel_hpp */
