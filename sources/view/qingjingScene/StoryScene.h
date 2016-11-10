@@ -104,6 +104,9 @@ public:
     bool m_bIsKJSelect;
     bool m_bIsZDSelect;
     bool _dikuangBool;
+    bool introBool;
+    bool logicBool1;
+    bool logicBool2;
     
     bool manBool;
     bool passersbyBool1;

@@ -99,12 +99,16 @@ public:
     ~ClothesScene();
     
     virtual bool init();
+    // type_id = clothesStatus - 1:换装任务, 2:纯换装, 3:神秘事件, 4:约会
     // 公司任务和换装用
     static ClothesScene* create_with_type(int _type_id, int _task_index, int _task_phase);
     void init_with_type(int _type_id, int _task_index, int _task_phase);
     // 神秘事件专用
     static ClothesScene* create_with_mystery(int _type_id, const char* category, const char* tishi);
     void init_with_mystery(int _type_id, const char* category, const char* tishi);
+    // 约会专用
+    static ClothesScene* create_with_tryst();
+    void init_with_tryst();
     
     virtual void onEnter();
     
@@ -249,6 +253,7 @@ private:
     void _605CallBack(CCObject* pObj);
     void _905CallBack(CCObject* pObj);
     void after_commit_mystery_613(CCObject* pObj);
+    void after_start_tryst_task_623(CCObject* pObj);
     
     void removeAnimation();
     

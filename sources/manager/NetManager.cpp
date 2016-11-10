@@ -102,7 +102,8 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["type"] = 1;
     root["channel"] = channel;
 //    root["ver"] = "10300";
-    root["ver"] = "10401";
+//    root["ver"] = "10401";
+    root["ver"] = "10500";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -363,6 +364,43 @@ void NetManager::take_mystery_achv_615(const char* category, const char* achvId)
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(615, data);
+}
+
+
+void NetManager::fetch_tryst_info_620() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(620, data);
+}
+
+void NetManager::take_tryst_task_621() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(621, data);
+}
+
+void NetManager::start_tryst_task_623() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(623, data);
+}
+
+void NetManager::receive_tryst_reward_625() {
+    FastWriter writer;
+    Value root;
+    root["id"] = "1";
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(625, data);
 }
 
 

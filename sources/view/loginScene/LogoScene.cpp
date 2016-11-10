@@ -60,7 +60,7 @@ void LogoScene::next_scene(){
     if (CONFIG->baiOrYijie == 0) {// 白包
         CCScene* pScene = LoginScene::scene();
         CCDirector::sharedDirector()->replaceScene(pScene);
-    }else if (CONFIG->baiOrYijie == 1){// 易接
+    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
         CCScene* pScene = YiJieLoginScene::scene();
         CCDirector::sharedDirector()->replaceScene(pScene);
     }

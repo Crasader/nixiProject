@@ -10,27 +10,38 @@
 #include "DisplayManager.h"
 #include "AudioManager.h"
 #include "DataManager.h"
+#include "FileManager.h"
 
+#include "PromptLayer.h"
 #include "GiftPanel.h"
 
 SettingPanel::~SettingPanel() {
 }
 
-bool SettingPanel::init() {
+SettingPanel* SettingPanel::create(const char *cost) {
+    SettingPanel* rtn = new SettingPanel();
+    if (rtn && rtn->init(cost)) {
+        rtn->autorelease();
+        return rtn;
+    }
+    else {
+        delete rtn;
+        return NULL;
+    }
+}
+
+bool SettingPanel::init(const char *cost) {
     if (CCLayer::init()) {
         num_child = 0;
         
-        _content = CCLayer::create();
-//        _content->setScale(0.1);
-        this->addChild(_content);
-//        _content->setVisible(false);
-        
-        _panel = CCSprite::create("res/pic/panel/setting/set_panel.png");
-        _panel->setPosition(ccp(DISPLAY->W() * 0.33, DISPLAY->H() * 0.155));
-        _panel->setAnchorPoint(CCPointZero);
-        _content->addChild(_panel);
+        _panel = CCSprite::create("pic/panel/setting/set_panel.png");
+        _panel->setPosition(DISPLAY->center());
+        this->addChild(_panel);
         
         CCSize panelSize = _panel->boundingBox().size;
+        
+        this->create_nickname_reset_bar(panelSize, cost);
+        
         
         CCMenuItemImage* btn_music_off = CCMenuItemImage::create("res/pic/panel/setting/set_music_off.png", "res/pic/panel/setting/set_music_off.png");
         CCMenuItemImage* btn_music_on = CCMenuItemImage::create("res/pic/panel/setting/set_music_on.png", "res/pic/panel/setting/set_music_on.png");
@@ -43,7 +54,7 @@ bool SettingPanel::init() {
         toggle_effect->setSelectedIndex((int)AUDIO->is_effect_on());
         
         CCMenu* menu = CCMenu::create(toggle_music, toggle_effect, NULL);
-        menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.52));
+        menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.315));
         menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.18);
         _panel->addChild(menu);
         
@@ -58,10 +69,11 @@ bool SettingPanel::init() {
         gift2->setScale(1.02f);
         CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
         
-        CCMenu* menu_back = CCMenu::create(btnGift, btnRelogin, NULL);
-        menu_back->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
-        menu_back->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.18));
-        _panel->addChild(menu_back);
+        CCMenu* menuBottom = CCMenu::create(btnGift, btnRelogin, NULL);
+        menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
+        menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+        _panel->addChild(menuBottom);
+        
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
         CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
@@ -81,6 +93,33 @@ bool SettingPanel::init() {
     else {
         return false;
     }
+}
+
+void SettingPanel::create_nickname_reset_bar(CCSize panelSize, const char *cost) {
+    CCSize size_bar = CCSizeMake(222, 40);
+    _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/setting/nnr_bar.png"));
+    _eb->setMaxLength(12);
+    _eb->setFontColor(DISPLAY->defalutColor());
+    _eb->setPlaceHolder("点此输入昵称");
+    _eb->setFontName(DISPLAY->fangzhengFont());
+    _eb->setInputMode(kEditBoxInputModeAny);
+    _eb->setReturnType(kKeyboardReturnTypeDone);
+    _eb->setPosition(ccp(panelSize.width * 0.4, panelSize.height * 0.68));
+    _panel->addChild(_eb);
+    
+    CCSprite* spt1 = CCSprite::create("pic/panel/setting/nnr_commit.png");
+    CCSprite* spt2 = CCSprite::create("pic/panel/setting/nnr_commit.png");
+    spt2->setScale(DISPLAY->btn_scale());
+    CCMenuItem* btnCommit = CCMenuItemSprite::create(spt1, spt2, this, SEL_MenuHandler(&SettingPanel::onBtnCommitRest));
+    CCMenu* menu = CCMenu::createWithItem(btnCommit);
+    menu->ignoreAnchorPointForPosition(true);
+    menu->setPosition(ccp(panelSize.width * 0.82, _eb->getPositionY()));
+    _panel->addChild(menu);
+    
+    CCLabelTTF* lblCost = CCLabelTTF::create(cost, DISPLAY->fangzhengFont(), 20);
+    lblCost->setAnchorPoint(ccp(0.5, 0.5));
+    lblCost->setPosition(ccp(spt1->getContentSize().width * 0.5, spt1->getContentSize().height * 0.5));
+    btnCommit->addChild(lblCost);
 }
 
 void SettingPanel::onEnter() {
@@ -183,4 +222,20 @@ void SettingPanel::keyBackClicked(){
     }
     
     this->remove();
+}
+
+void SettingPanel::onBtnCommitRest(CCMenuItem *btn) {
+    string text = _eb->getText();
+    if (text.length() == 0) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), "请输入要修改名称~!");
+    }
+    else if (FILEM->is_illegal(text.c_str()) == true) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), "名称中包含非法字符~!");
+    }else{
+        CCString* str = CCString::create(text);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("ON_RESET_NICKNAME", str);
+        this->remove();
+    }
 }

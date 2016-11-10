@@ -45,13 +45,13 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/vivo/AlarmClock"
 
 /**  金山云  **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/ksyun/mi/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/ksyun/mi/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
 
 
-/**  白包  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+/**  白包 鱼丸母包 **/
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 extern "C"
 {

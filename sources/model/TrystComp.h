@@ -16,16 +16,38 @@
 USING_NS_CC;
 using namespace CSJson;
 
+typedef enum {
+    none = 0,
+    take = 1,
+    going = 2,
+    reward = 3
+} TrystStatus;
+
+class TrystUserdata : public CCObject
+{
+public:
+    ~TrystUserdata();
+    static TrystUserdata* create(Value json);
+    
+    TrystStatus         status;
+    string              curTrystId;
+    int                 timeSpan;
+    int                 leftTime;
+    
+private:
+};
+
+// -----------------------------------------------------
+// -----------------------------------------------------
+
 class TrystComp : public CCObject
 {
 public: // Export
+    CC_SYNTHESIZE_RETAIN(TrystUserdata*, userData, UserData);
     bool isOngoing();
     bool hasInitAchvTemplate();
     // category: "1","2","3"
     CCArray* fetchAchvTemplate(const char* category);
-    int userRatingOfCategory(const char* category);
-    // @return: 0-未达成；1-可领；2-已领
-    int userAchvStateOfCategory(const char* category, const char* achvId);
     
 public:
     ~TrystComp();
@@ -35,8 +57,7 @@ public:
     void update_user_data(Value json);
     
 private:
-    CCDictionary*           mysteryAchvTemplate;
-    CCDictionary*           mysteryUserdata;
+    CCDictionary*           trystTemplate;
 };
 
 #endif /* TrystComp_hpp */
