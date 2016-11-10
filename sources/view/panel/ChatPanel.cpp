@@ -116,7 +116,7 @@ void ChatPanel::initChatPanel(){
 //    this->updateSendTime();
     
 
-    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("最多可输入20汉字", DISPLAY->fangzhengFont(), 24);
+    _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("最多可输入40汉字", DISPLAY->fangzhengFont(), 24);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
     _input_text->setColor(ccBLACK);
     _input_text->setDelegate(this);
@@ -338,7 +338,7 @@ bool ChatPanel::onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF *sender){
 bool ChatPanel::onTextFieldInsertText(cocos2d::CCTextFieldTTF *sender, const char *text, int nLen){
     CCString* str = CCString::createWithFormat("%s%s", sender->getString(), text);
     
-    if (str->length() > 60) {
+    if (str->length() > 120) {
         return true;
     }else{
         CCLabelTTF* lab = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 26);
