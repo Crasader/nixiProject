@@ -546,6 +546,15 @@ void DataManager::handle_protocol(int cid, Value content) {
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
             
+        case 323: {
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+            _player->init_with_json(content["player"]);     // maybe
+            _operation->replace_gashapon_user(content["gashapon"]); // maybe
+            // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
+        } break;
+            
         case 333: {
             _player->init_with_json(content["player"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
@@ -721,8 +730,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-        return _player->getGuide();
-//        return 0;
+//        return _player->getGuide();
+        return 0;
     }
     else {
         return 0;

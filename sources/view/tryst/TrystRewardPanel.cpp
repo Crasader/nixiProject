@@ -2,10 +2,6 @@
 //  TrystRewardPanel.cpp
 //  tiegao
 //
-//  Created by mac on 16/8/18.
-//  9个位置，前8个随机，第9个为预定的奖励
-//  创建一个Node一直移动；创建两列循环出现
-//  初始显示第2个位置，减速时从第1个开始，到第9个停止
 
 #include "TrystRewardPanel.h"
 
@@ -15,8 +11,6 @@
 #include "Loading2.h"
 #include "PromptLayer.h"
 
-const float GRID_HEIGHT =  94.f;
-const int GRID_COUNT = 9;
 
 #pragma mark - Export
 

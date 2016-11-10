@@ -45,6 +45,7 @@
 #include "MysteryLayer.h"
 #include "TrystScene.h"
 #include "TrystProgress.h"
+#include "DailySigninRewardPanel.h"
 
 #include <time.h>
 
@@ -280,6 +281,9 @@ void MainScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_free_gashapon), "CHECK_FREE_GASHAPON", NULL);
     
+    // 监听是否从7日签到退出
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::check_dailysignin), "WHEN_SIGNIN7_EXIT", NULL);
+    
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::gashaponCallBack), "NEED_SHOW_GASHAPON", NULL);
@@ -317,13 +321,16 @@ void MainScene::onEnter(){
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
     
     if (DATA->current_guide_step() == 0) {
-        // 节日临时签到
-        if (DATA->getNews()->tempSignin == 1) {
-            this->show_guoqing_signin();
-        }
-        else if (DATA->getNews()->signin7 == 1) {
+//        // 节日临时签到
+//        if (DATA->getNews()->tempSignin == 1) {
+//            this->show_guoqing_signin();
+//        }
+        if (DATA->getNews()->signin7 == 1) {
             isOk = true;
             this->qiandaoCallBack(NULL);
+        }
+        else {
+            this->check_dailysignin();
         }
     }
     
@@ -1035,8 +1042,6 @@ CCArray* MainScene::rand_array(CCArray *arr) {
     for (int i = 0; i < count; i++) {
         arrTemp->addObject(arr->objectAtIndex(i));
     }
-    
-
     
     return arrTemp;
 }
@@ -2319,6 +2324,16 @@ void MainScene::update_news_status() {
 //
 //        }
 //    }
+}
+
+void MainScene::check_dailysignin() {
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::update_dailysignin), 0.1);
+}
+
+void MainScene::update_dailysignin() {
+    if (DATA->getNews()->dailySignin == 1) { // 可签
+        DailySigninRewardPanel::show(this->getScene());
+    }
 }
 
 void MainScene::show_guoqing_signin() {
