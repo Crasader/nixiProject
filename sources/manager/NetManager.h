@@ -121,6 +121,9 @@ public:
     void exchange_clothes_311(string clothesId);
     
     void daily_share_321();         // 每日分享
+    
+    void commit_daily_signin_323();     // 每日签到
+    
     void take_gift_333(int ChannelId, const char* code); // 礼包兑换
     void temp_signin_info_340();    // 节日临时签到信息
     void perform_temp_signin_341(string id);

@@ -613,6 +613,15 @@ void NetManager::daily_share_321() {
     this->post_data(321, data);
 }
 
+void NetManager::commit_daily_signin_323() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(323, data);
+}
+
 void NetManager::take_gift_333(int ChannelId, const char *code) {
     FastWriter writer;
     Value root;

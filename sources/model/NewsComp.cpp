@@ -33,6 +33,7 @@ void NewsComp::init_with_json(Value json) {
     signin7 = json["S7"].asInt();
     signin30 = json["S30"].asInt();
     dailyShareCount = json["SC"].asInt();
+    dailySignin = json["DS"].asInt();
     trystOn = json["T"].asInt();
     
     tempSignin = json["TS"].asInt();
