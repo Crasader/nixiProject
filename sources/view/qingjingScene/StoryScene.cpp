@@ -971,6 +971,7 @@ void StoryScene::logic(float dt){
                     this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
                 }
             }else{
+                CCUserDefault::sharedUserDefault()->setBoolForKey("openCollect", true);
                 CCUserDefault::sharedUserDefault()->setBoolForKey(dialogItem->getNameId().c_str(), true);
                 CCUserDefault::sharedUserDefault()->flush();
                 introBool = true;

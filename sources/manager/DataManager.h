@@ -103,6 +103,9 @@ public:
     CC_SYNTHESIZE(int, taskNumber, TaskNumber);
     CC_SYNTHESIZE_RETAIN(CCArray*, _taskSource, TaskSource);
     CC_SYNTHESIZE_RETAIN(CCArray*, _dataSource, DataSource);
+    // collect显示数组
+    CC_SYNTHESIZE_RETAIN(CCArray*, _collectSource, CollectSource);
+    CC_SYNTHESIZE(int, _collectIndex, CollectIndex);
     // 任务记录阶段
     CC_SYNTHESIZE(int, taskPhase, TaskPhase);
     // 家记录状态
