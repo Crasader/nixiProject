@@ -11,7 +11,7 @@
 #include "ChatComp.h"
 #include "DataManager.h"
 
-const float CELL_WIDTH = 401;
+const float CELL_WIDTH = 400;
 const float CELL_HEIGHT = 60;
 
 ChatTableView::~ChatTableView(){
@@ -108,41 +108,42 @@ CCTableViewCell* ChatTableView::tableCellAtIndex(cocos2d::extension::CCTableView
 void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(index);
     const char* insert_name = chat->name.c_str();
-    CCString* str = CCString::createWithFormat("%s:", insert_name);
-    CCLabelTTF* nickname = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 18);
-    nickname->setAnchorPoint(ccp(0, 0.5));
-    nickname->setColor(ccc3(112, 146, 192));
-    nickname->setPosition(ccp(CELL_WIDTH* .025f, CELL_HEIGHT* .50f));
-    pCell->addChild(nickname);
-    
-    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
-    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 2));
-    pCell->addChild(line_spr);
-    
-    
     const char* insert_chat = chat->chat.c_str();
+    
     CCLabelTTF* text = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18);
     float lab_size_height = 0;
     float lab_size_width = 0;
-    if (text->getContentSize().width > CELL_WIDTH* .95f - nickname->getContentSize().width - 16) {
+    float cellHeight = 0;
+    if (text->getContentSize().width > CELL_WIDTH* .95f - 10) {
         lab_size_height = 40;
-        lab_size_width = CELL_WIDTH* .95f - nickname->getContentSize().width - 16;
-        cell_height = CELL_HEIGHT;
+        lab_size_width = CELL_WIDTH* .95f - 10;
+        cellHeight = 80;
     }else if(text->getContentSize().width < 21){
         lab_size_height = 20;
         lab_size_width = 21;
-        cell_height = 40;
+        cellHeight = 60;
     }else{
         lab_size_height = 20;
         lab_size_width = text->getContentSize().width;
-        cell_height = 40;
+        cellHeight = 60;
     }
+    
+    CCString* str = CCString::createWithFormat("%s:", insert_name);
+    CCLabelTTF* nickname = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 20);
+    nickname->setAnchorPoint(ccp(0, 0.5));
+    nickname->setColor(ccc3(112, 146, 192));
+    nickname->setPosition(ccp(CELL_WIDTH* .025f, cellHeight - 15));
+    pCell->addChild(nickname);
+    
+//    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
+//    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 1));
+//    pCell->addChild(line_spr);
     
     
     CCScale9Sprite* text_bg = CCScale9Sprite::create("res/pic/panel/chat/text_bg.png", CCRectMake(0, 0, 37, 29), CCRectMake(11, 5, 21, 19));
-    text_bg->setContentSize(CCSizeMake(lab_size_width + 16, lab_size_height + 10));
+    text_bg->setContentSize(CCSizeMake(lab_size_width + 10, lab_size_height + 10));
     text_bg->setAnchorPoint(ccp(0, 0.5));
-    text_bg->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width, CELL_HEIGHT* .5f));
+    text_bg->setPosition(ccp(CELL_WIDTH * .025f, text_bg->getContentSize().height / 2 + 2));
     
     CCLabelTTF* message = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18, CCSizeMake(lab_size_width, lab_size_height + 2), kCCTextAlignmentLeft);
     message->setColor(ccc3(108, 83, 96));
@@ -152,7 +153,6 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     text_bg->addChild(message);
     
     pCell->addChild(text_bg);
-    
 }
 
 void ChatTableView::tableCellTouched(cocos2d::extension::CCTableView *table, cocos2d::extension::CCTableViewCell *cell){
@@ -160,7 +160,7 @@ void ChatTableView::tableCellTouched(cocos2d::extension::CCTableView *table, coc
 }
 
 CCSize ChatTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){
-    return CCSizeMake(CELL_WIDTH, CELL_HEIGHT);
+    return CCSizeMake(0, 0);
 }
 
 unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
@@ -168,7 +168,18 @@ unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
 }
 
 CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
-    return this->cellSizeForTable(table);
+    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(idx);
+    const char* insert_chat = chat->chat.c_str();
+    
+    CCLabelTTF* text = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18);
+    if (text->getContentSize().width > CELL_WIDTH* .95f - 10) {
+        cell_height = 80;
+    }else if(text->getContentSize().width < 21){
+        cell_height = 60;
+    }else{
+        cell_height = 60;
+    }
+    return CCSizeMake(400, cell_height);
 }
 
 void ChatTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView *view){
