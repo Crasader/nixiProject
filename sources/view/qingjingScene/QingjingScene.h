@@ -91,6 +91,7 @@ public:
     void _501CallBack(CCObject* pSender);
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);
+    void collectCallBack(CCObject* pSender);
     void closeButton();
     void updataButton();
     void updataMan();
