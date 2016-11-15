@@ -135,9 +135,9 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     nickname->setPosition(ccp(CELL_WIDTH* .025f, cellHeight - 15));
     pCell->addChild(nickname);
     
-    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
-    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 1));
-    pCell->addChild(line_spr);
+//    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
+//    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 1));
+//    pCell->addChild(line_spr);
     
     
     CCScale9Sprite* text_bg = CCScale9Sprite::create("res/pic/panel/chat/text_bg.png", CCRectMake(0, 0, 37, 29), CCRectMake(11, 5, 21, 19));
