@@ -135,9 +135,9 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     nickname->setPosition(ccp(CELL_WIDTH* .025f, cellHeight - 15));
     pCell->addChild(nickname);
     
-//    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
-//    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 1));
-//    pCell->addChild(line_spr);
+    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
+    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 1));
+    pCell->addChild(line_spr);
     
     
     CCScale9Sprite* text_bg = CCScale9Sprite::create("res/pic/panel/chat/text_bg.png", CCRectMake(0, 0, 37, 29), CCRectMake(11, 5, 21, 19));
@@ -168,7 +168,14 @@ unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
 }
 
 CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
-    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(idx);
+    int length = DATA->getChat()->getItems()->count();
+    int index;
+    if(length > 100) {
+        index = idx + length - 100;
+    }else {
+        index = idx;
+    }
+    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(index);
     const char* insert_chat = chat->chat.c_str();
     
     CCLabelTTF* text = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18);
