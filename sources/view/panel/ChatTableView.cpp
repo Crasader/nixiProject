@@ -168,7 +168,14 @@ unsigned int ChatTableView::numberOfCellsInTableView(cocos2d::extension::CCTable
 }
 
 CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
-    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(idx);
+    int length = DATA->getChat()->getItems()->count();
+    int index;
+    if(length > 100) {
+        index = idx + length - 100;
+    }else {
+        index = idx;
+    }
+    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(index);
     const char* insert_chat = chat->chat.c_str();
     
     CCLabelTTF* text = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18);

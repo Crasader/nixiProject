@@ -20,6 +20,7 @@
 #include "GuideLayer.h"
 #include "WSManager.h"
 #include "ChatPanel.h"
+#include "CollectLayer.h"
 
 
 
@@ -419,7 +420,28 @@ void QingjingScene::creat_view(){
     qingjingCoverView->setTag(0x77777);
     this->addChild(qingjingCoverView, 50);
     
+    
+    if (CCUserDefault::sharedUserDefault()->getBoolForKey("openCollect", false)) {
+        CCSprite* collectSpr1 = CCSprite::create("res/pic/qingjingScene/collect/qj_collectButton.png");
+        CCSprite* collectSpr2 = CCSprite::create("res/pic/qingjingScene/collect/qj_collectButton.png");
+        collectSpr2->setScale(1.02);
+        CCMenuItem* collectItem = CCMenuItemSprite::create(collectSpr1, collectSpr2, this, menu_selector(QingjingScene::collectCallBack));
+        collectItem->setAnchorPoint(ccp(1, .5f));
+        collectItem->setPosition(ccp(DISPLAY->ScreenWidth() - 10, DISPLAY->ScreenHeight()* .9f));
+        CCMenu* collectMenu = CCMenu::create(collectItem, NULL);
+        collectMenu->setPosition(CCPointZero);
+        this->addChild(collectMenu, 20);
+    }
+    
+    
+    
     this->qingjingStatus();
+}
+void QingjingScene::collectCallBack(CCObject* pSender){
+    CCScene* pScene = CCScene::create();
+    CollectLayer* layer = CollectLayer::create();
+    pScene->addChild(layer);
+    CCDirector::sharedDirector()->replaceScene(pScene);
 }
 void QingjingScene::qingjingStatus(){
     if (this->getChildByTag(0x99999) != NULL) {
