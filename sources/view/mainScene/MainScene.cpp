@@ -269,6 +269,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_fetch_mystery_info_610), "HTTP_FINISHED_610", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::after_fetch_tryst_info_620), "HTTP_FINISHED_620", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::after_start_tryst_621), "HTTP_FINISHED_621", NULL);
     
     
@@ -340,9 +341,7 @@ void MainScene::onEnter(){
     if (DATA->getNews()->trystOn == 1) {
         this->showTrystEntrance();
     }
-    
-    //
-    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
+    NET->fetch_tryst_info_620();
 }
 
 void MainScene::checkVersion() {
@@ -2222,6 +2221,10 @@ void MainScene::onBtnStartTryst() {
         mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
     }
+}
+
+void MainScene::after_fetch_tryst_info_620() {
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
 }
 
 void MainScene::after_start_tryst_621() {

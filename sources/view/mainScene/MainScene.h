@@ -222,6 +222,7 @@ private:
     // 约会 [[
     void showTrystEntrance();
     void onBtnStartTryst();
+    void after_fetch_tryst_info_620();
     void after_start_tryst_621();
     void check_tryst_progress();
     // ]]

@@ -46,14 +46,15 @@ void ClothesScene::init_with_mystery(int _type_id, const char *category, const c
     this->init_with_type(_type_id, 1, 1);
 }
 
-ClothesScene* ClothesScene::create_with_tryst() {
+ClothesScene* ClothesScene::create_with_tryst(const char *tishi) {
     ClothesScene* rtn = ClothesScene::create();
-    rtn->init_with_tryst();
+    rtn->init_with_tryst(tishi);
     
     return rtn;
 }
 
-void ClothesScene::init_with_tryst() {
+void ClothesScene::init_with_tryst(const char *tishi) {
+    this->tishi = tishi;
     this->init_with_type(4, 1, 1);
 }
 
@@ -909,6 +910,23 @@ void ClothesScene::crate_Tishi(){
         float kuangWidth = renwukuangSpr1->getContentSize().width;
         float kuangHeight = renwukuangSpr1->getContentSize().height;
         CCLabelTTF* lblTishi = CCLabelTTF::create(this->tishi, DISPLAY->fangzhengFont(), 16, CCSizeMake(230, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        lblTishi->setPosition(ccp(kuangWidth * 0.5, kuangHeight * 0.38));
+        lblTishi->setColor(ccc3(107, 89, 99));
+        renwukuangSpr1->addChild(lblTishi);
+    }
+    else if (clothesStatus == 4 && this->tishi != NULL) {
+        CCSprite* renwukuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCSprite* renwukuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCMenuItem* renwukuangItem = CCMenuItemSprite::create(renwukuangSpr1, renwukuangSpr2);
+        renwukuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
+        CCMenu* menu = CCMenu::create(renwukuangItem, NULL);
+        menu->setPosition(CCPointZero);
+        menu->setEnabled(false);
+        this->addChild(menu, 10);
+        
+        float kuangWidth = renwukuangSpr1->getContentSize().width;
+        float kuangHeight = renwukuangSpr1->getContentSize().height;
+        CCLabelTTF* lblTishi = CCLabelTTF::create(this->tishi, DISPLAY->fangzhengFont(), 16, CCSizeMake(230, 50), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         lblTishi->setPosition(ccp(kuangWidth * 0.5, kuangHeight * 0.38));
         lblTishi->setColor(ccc3(107, 89, 99));
         renwukuangSpr1->addChild(lblTishi);

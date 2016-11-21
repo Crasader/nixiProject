@@ -107,8 +107,8 @@ public:
     static ClothesScene* create_with_mystery(int _type_id, const char* category, const char* tishi);
     void init_with_mystery(int _type_id, const char* category, const char* tishi);
     // 约会专用
-    static ClothesScene* create_with_tryst();
-    void init_with_tryst();
+    static ClothesScene* create_with_tryst(const char *tishi);
+    void init_with_tryst(const char *tishi);
     
     virtual void onEnter();
     

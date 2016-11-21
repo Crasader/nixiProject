@@ -31,6 +31,8 @@ public: // Export
     CCArray* getMissionDialog(int phase, int taskID);
     // 神秘事件对话
     CCArray* mysteryDialog(const char* taskId);
+    // 约会对话
+    CCArray* trystDialog(const char* taskId);
     // 衣服
     CCDictionary* clothes();
     // 登录
@@ -70,6 +72,7 @@ private:
     void conf_mission();
     void conf_mission_dialog(int phase);
     void conf_mystery_dialog();
+    void conf_tryst_dialog();
     void conf_clothes();
     void conf_signin7Template();
 
@@ -78,6 +81,7 @@ private:
     CCArray*        _mission;
     CCDictionary*   _missionDialog;
     CCDictionary*   _mysteryDialog;
+    CCDictionary*   _trystDialog;
     CCDictionary*   _clothes;
     vector<string>  _emoticon;
 };
