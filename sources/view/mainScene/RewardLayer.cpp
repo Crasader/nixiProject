@@ -203,15 +203,48 @@ void RewardLayer::drawOnce(){
     dianSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* 1.25f));
     kuangSpr->addChild(dianSpr, 60);
 }
+
+
+CCString* RewardLayer::iconWithRewardType(const CCString* type) {
+    CCString* rtn = NULL;
+    if (type->compare("piece") == 0) {
+        rtn = ccs("pic/gashapon/gashapon_suipian.png");
+    }
+    else if (type->compare("coin") == 0) {
+        rtn = ccs("pic/common/coin2.png");
+    }
+    else if (type->compare("diam") == 0) {
+        rtn = ccs("pic/common/diam2.png");
+    }
+    
+    return rtn;
+}
+
+CCString* RewardLayer::descriptionWithRewardType(const CCString* type) {
+    CCString* rtn = NULL;
+    if (type->compare("piece") == 0) {
+        rtn = ccs("水晶碎片");
+    }
+    else if (type->compare("coin") == 0) {
+        rtn = ccs("金币");
+    }
+    else if (type->compare("diam") == 0) {
+        rtn = ccs("钻石");
+    }
+    
+    return rtn;
+}
+
+
 void RewardLayer::drawTen(){
-//    CCString* str = (CCString* )arr->objectAtIndex(i);
-//    std::string indexStr = str->getCString();
-//    int index = atoi(indexStr.c_str());
     if (tenIndex == rewardArr->count() - 1) {
         this->unschedule(SEL_SCHEDULE(&RewardLayer::drawTen));
     }
     
-    int index = ((CCInteger*)rewardArr->objectAtIndex(tenIndex))->getValue();
+    CCDictionary* dic = (CCDictionary*)rewardArr->objectAtIndex(tenIndex);
+    const CCString* type = dic->valueForKey("type");
+    
+    int index = ((CCInteger* )dic->objectForKey("num"))->getValue();
     CCString* str = CCString::createWithFormat("%d", index);
     
     CCString* iconStr;
@@ -281,8 +314,8 @@ void RewardLayer::drawTen(){
     }else{
         iconBool = false;
         
-        iconStr = CCString::createWithFormat("res/pic/gashapon/gashapon_suipian.png");
-        nameStr = CCString::createWithFormat("水晶碎片");
+        iconStr = this->iconWithRewardType(type);
+        nameStr = this->descriptionWithRewardType(type);
     }
     CCSprite* dikuangSpr = CCSprite::create("res/pic/gashapon/gashapon_dikuang.png");
     dikuangSpr->setScale(.2f);
@@ -405,53 +438,55 @@ void RewardLayer::drawTen2(){
     }
 }
 void RewardLayer::drawTen3(){
-    if (!rewardBool) {
-        CCSprite* reward = CCSprite::create("res/pic/gashapon/gashapon_reward.png");
-        reward->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* 1.1f));
-        reward->setScale(.1f);
-        kuangSpr->addChild(reward, 80);
-        
-        CCSprite* rewardGuangSpr = CCSprite::create("res/pic/gashapon/gashapon_3.png");
-        rewardGuangSpr->setPosition(ccp(reward->getContentSize().width* .5f, reward->getContentSize().height* .42f));
-        CCRotateBy* action = CCRotateBy::create(4.f, 360);
-        rewardGuangSpr->runAction(CCRepeatForever::create(action));
-        reward->addChild(rewardGuangSpr);
-        
-        CCSprite* dikuangSpr = CCSprite::create("res/pic/gashapon/gashapon_dikuang.png");
-        dikuangSpr->setPosition(ccp(reward->getContentSize().width* .5f, reward->getContentSize().height* .39f));
-        reward->addChild(dikuangSpr, 5);
-        
-        CCString* iconStr = CCString::createWithFormat("res/pic/gashapon/gashapon_suipian.png");
-        CCSprite* iconSpr = CCSprite::create(iconStr->getCString());
-        iconSpr->setScale(.7f);
-        iconSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .55f, dikuangSpr->getContentSize().height* .55f));
-        dikuangSpr->addChild(iconSpr, 70);
-        
-        CCString* nameStr = CCString::createWithFormat("水晶碎片");
-        CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 14, CCSizeMake(dikuangSpr->getContentSize().width* .9f, 14), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-        nameLabel->setPosition(ccp(dikuangSpr->getContentSize().width* .5f, dikuangSpr->getContentSize().height* .1f));
-        nameLabel->setColor(ccc3(154, 114, 146));
-        dikuangSpr->addChild(nameLabel);
-        
-        CCString* labelStr = CCString::createWithFormat("x%d", 30);
-        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(iconSpr->getContentSize().width* .5f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        label->setPosition(ccp(dikuangSpr->getContentSize().width* .83f, dikuangSpr->getContentSize().height* .9f));
-        label->setColor(ccc3(181, 143, 145));
-        dikuangSpr->addChild(label);
-        
-        CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .2f));
-        CCMoveTo* moveTo2 = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width* .5f, - kuangSpr->getContentSize().height* .4f));
-        CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 2.f);
-        CCScaleTo* scaleTo2 = CCScaleTo::create(.5f, 1.f);
-        CCSpawn* spawn1 = CCSpawn::create(moveTo1, scaleTo1, NULL);
-        CCSpawn* spawn2 = CCSpawn::create(moveTo2, scaleTo2, NULL);
-        CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&RewardLayer::openTouch));
-        
-        CCSequence* seq = CCSequence::create(CCDelayTime::create(1.6f), spawn1, CCDelayTime::create(.6f), spawn2, callFunc, NULL);
-        reward->runAction(seq);
-    }else{
-        this->openTouch();
-    }
+//    if (!rewardBool) {
+//        CCSprite* reward = CCSprite::create("res/pic/gashapon/gashapon_reward.png");
+//        reward->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* 1.1f));
+//        reward->setScale(.1f);
+//        kuangSpr->addChild(reward, 80);
+//        
+//        CCSprite* rewardGuangSpr = CCSprite::create("res/pic/gashapon/gashapon_3.png");
+//        rewardGuangSpr->setPosition(ccp(reward->getContentSize().width* .5f, reward->getContentSize().height* .42f));
+//        CCRotateBy* action = CCRotateBy::create(4.f, 360);
+//        rewardGuangSpr->runAction(CCRepeatForever::create(action));
+//        reward->addChild(rewardGuangSpr);
+//        
+//        CCSprite* dikuangSpr = CCSprite::create("res/pic/gashapon/gashapon_dikuang.png");
+//        dikuangSpr->setPosition(ccp(reward->getContentSize().width* .5f, reward->getContentSize().height* .39f));
+//        reward->addChild(dikuangSpr, 5);
+//        
+//        CCString* iconStr = CCString::createWithFormat("res/pic/gashapon/gashapon_suipian.png");
+//        CCSprite* iconSpr = CCSprite::create(iconStr->getCString());
+//        iconSpr->setScale(.7f);
+//        iconSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .55f, dikuangSpr->getContentSize().height* .55f));
+//        dikuangSpr->addChild(iconSpr, 70);
+//        
+//        CCString* nameStr = CCString::createWithFormat("水晶碎片");
+//        CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 14, CCSizeMake(dikuangSpr->getContentSize().width* .9f, 14), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//        nameLabel->setPosition(ccp(dikuangSpr->getContentSize().width* .5f, dikuangSpr->getContentSize().height* .1f));
+//        nameLabel->setColor(ccc3(154, 114, 146));
+//        dikuangSpr->addChild(nameLabel);
+//        
+//        CCString* labelStr = CCString::createWithFormat("x%d", 30);
+//        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(iconSpr->getContentSize().width* .5f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+//        label->setPosition(ccp(dikuangSpr->getContentSize().width* .83f, dikuangSpr->getContentSize().height* .9f));
+//        label->setColor(ccc3(181, 143, 145));
+//        dikuangSpr->addChild(label);
+//        
+//        CCMoveTo* moveTo1 = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .2f));
+//        CCMoveTo* moveTo2 = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width* .5f, - kuangSpr->getContentSize().height* .4f));
+//        CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 2.f);
+//        CCScaleTo* scaleTo2 = CCScaleTo::create(.5f, 1.f);
+//        CCSpawn* spawn1 = CCSpawn::create(moveTo1, scaleTo1, NULL);
+//        CCSpawn* spawn2 = CCSpawn::create(moveTo2, scaleTo2, NULL);
+//        CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&RewardLayer::openTouch));
+//        
+//        CCSequence* seq = CCSequence::create(CCDelayTime::create(1.6f), spawn1, CCDelayTime::create(.6f), spawn2, callFunc, NULL);
+//        reward->runAction(seq);
+//    }else{
+//        this->openTouch();
+//    }
+    
+    this->openTouch();
 }
 void RewardLayer::openDraw(){
     this->schedule(SEL_SCHEDULE(&RewardLayer::drawTen), .3f);

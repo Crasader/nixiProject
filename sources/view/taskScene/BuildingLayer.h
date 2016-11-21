@@ -27,6 +27,8 @@ public:
     
 private:
     void show_arrow();  // 改为直接弹出公司动画
+    
+    void createCompanyRewardIcon();
     void building_shaking();
     void building_touch_callback();
     

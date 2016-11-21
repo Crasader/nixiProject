@@ -58,5 +58,8 @@ public:
     void openDraw();
     void openTouch();
     
+    CCString* iconWithRewardType(const CCString* type);
+    CCString* descriptionWithRewardType(const CCString* type);
+    
 };
 #endif /* defined(__tiegao__RewardLayer__) */
