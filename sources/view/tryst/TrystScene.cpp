@@ -47,7 +47,7 @@ bool TrystScene::init(const char *id) {
     if (CCScene::init()) {
         _nextDialogIndex = 0;
         
-        _data = TrystData::create(CONFIG->mysteryDialog(id));
+        _data = TrystData::create(CONFIG->trystDialog(id));
         _data->retain();
         
         _state = new TrystDialogState();
@@ -91,9 +91,17 @@ void TrystScene::playing(float dt) {
     else if (state.compare(TrystDialogState::StateIdle) == 0) {
         _state->transform(TrystDialogState::StatePlaying);
         CCDictionary* dialog = _data->fetchDialog(_nextDialogIndex);
+        const CCString* nameID = dialog->valueForKey("nameID");
         const CCString* said = dialog->valueForKey("said");
         CCLOG("SAID: %s", said->getCString());
-        _view->insertDialog(_nextDialogIndex % 2 == 0, said->getCString());
+        
+        if (nameID->compare("101") == 0) {
+            _view->insertDialog(false, said->getCString());
+        }
+        else {
+            _view->insertDialog(true, said->getCString());
+        }
+        
         _nextDialogIndex = dialog->valueForKey("next")->intValue();
     }
 }
@@ -119,7 +127,9 @@ void TrystScene::setCouldStart() {
 
 void TrystScene::onBtnStartTryst() {
     CCLOG("TrystScene::onBtnStartTryst() -");
-    CCLayer* layer = ClothesScene::create_with_tryst();
+    CCDictionary* firstDialog = dynamic_cast<CCDictionary*>(_data->fetchDialog(0));
+    const CCString* tishi = firstDialog->valueForKey("tishi");
+    CCLayer* layer = ClothesScene::create_with_tryst(tishi->getCString());
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

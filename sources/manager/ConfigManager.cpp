@@ -178,6 +178,15 @@ CCArray* ConfigManager::mysteryDialog(const char* taskId) {
     return dynamic_cast<CCArray*>(_mysteryDialog->objectForKey(taskId));
 }
 
+CCArray* ConfigManager::trystDialog(const char* taskId) {
+    if (_trystDialog == NULL) {
+        this->conf_tryst_dialog();
+        
+    }
+    
+    return dynamic_cast<CCArray*>(_trystDialog->objectForKey(taskId));
+}
+
 bool ConfigManager::has_saved_uuid() {
     return !(this->saved_uuid().compare("") == 0);
 }
@@ -331,6 +340,12 @@ void ConfigManager::conf_mystery_dialog() {
     CSJson::Value root = AppUtil::read_json_file("conf/mystery_dialog");
     _mysteryDialog = AppUtil::dictionary_with_json(root);
     _mysteryDialog->retain();
+}
+
+void ConfigManager::conf_tryst_dialog() {
+    CSJson::Value root = AppUtil::read_json_file("conf/tryst_dialog");
+    _trystDialog = AppUtil::dictionary_with_json(root);
+    _trystDialog->retain();
 }
 
 void ConfigManager::test_mission_count() {

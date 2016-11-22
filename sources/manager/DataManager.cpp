@@ -205,7 +205,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
-            _tryst->update_user_data(content["tryst"]);
+            _notif = content["notif"].asString();
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
@@ -545,6 +545,15 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
+        case 323: {
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+            _player->init_with_json(content["player"]);     // maybe
+            _operation->replace_gashapon_user(content["gashapon"]); // maybe
+            // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
             
         case 333: {

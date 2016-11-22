@@ -129,6 +129,7 @@ void Signin7Panel::onEnter() {
     
     this->scheduleOnce(SEL_SCHEDULE(&Signin7Panel::keyBackStatus), .8f);
 }
+
 void Signin7Panel::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
@@ -136,6 +137,9 @@ void Signin7Panel::keyBackStatus(float dt){
 void Signin7Panel::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("WHEN_SIGNIN7_EXIT");
+    
     CCLayer::onExit();
 }
 

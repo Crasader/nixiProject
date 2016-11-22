@@ -221,7 +221,11 @@ void ChatPanel::initTopMessage(){
 //    bg->addChild(nick_bg);
 //    bg->addChild(nickname);
     
-    CCLabelTTF* message = CCLabelTTF::create("欢迎来到女总的贴身高手，请小伙伴们文明发言。共同营造和谐氛围。", DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    std::string notif = DATA->getNotif();
+    if (notif.empty()) {
+        notif = "欢迎来到女总的贴身高手，请小伙伴们文明发言。共同营造和谐氛围。";
+    }
+    CCLabelTTF* message = CCLabelTTF::create(notif.c_str(), DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     message->setColor(ccc3(178, 117, 254));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5));
