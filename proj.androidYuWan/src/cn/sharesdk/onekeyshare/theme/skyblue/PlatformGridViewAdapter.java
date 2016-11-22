@@ -33,38 +33,38 @@ import static cn.sharesdk.framework.utils.ShareSDKR.getIdRes;
 import static cn.sharesdk.framework.utils.ShareSDKR.getLayoutRes;
 
 public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClickListener {
-
+	
 	private final Context context;
 	private List<Object> logos = new ArrayList<Object>();
 	private List<Integer> checkedPositionList = new ArrayList<Integer>();
 	private int directOnlyPosition = -1;
-
+	
 	static class ViewHolder {
 		public Integer position;
 		public ImageView logoImageView;
 		public ImageView checkedImageView;
 		public TextView nameTextView;
 	}
-
+	
 	public PlatformGridViewAdapter(Context context) {
 		this.context = context;
 	}
-
+	
 	@Override
 	public int getCount() {
 		return logos.size();
 	}
-
+	
 	@Override
 	public Object getItem(int i) {
 		return logos.get(i);
 	}
-
+	
 	@Override
 	public long getItemId(int i) {
 		return i;
 	}
-
+	
 	@Override
 	public View getView(int position, View view, ViewGroup viewGroup) {
 		ViewHolder viewHolder;
@@ -78,7 +78,7 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
-
+		
 		Bitmap logo;
 		String label;
 		Object item = getItem(position);
@@ -89,7 +89,7 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		} else {
 			disabled = position != directOnlyPosition;
 		}
-
+		
 		if (item instanceof Platform) {
 			logo = getIcon((Platform) item, disabled ? "" : "_checked");
 			label = getName((Platform) item);
@@ -108,10 +108,10 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		viewHolder.checkedImageView.setVisibility(checkedPositionList.contains(viewHolder.position) ? View.VISIBLE : View.GONE);
 		viewHolder.nameTextView.setText(label);
 		viewHolder.logoImageView.setImageBitmap(logo);
-
+		
 		return view;
 	}
-
+	
 	@Override
 	public void onClick(View view) {
 		ViewHolder viewHolder = (ViewHolder) view.getTag();
@@ -119,7 +119,7 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		//直接分享平台选中后，其它的不可用
 		if(directOnlyPosition != -1 && position != directOnlyPosition)
 			return;
-
+		
 		Object item = getItem(position);
 		boolean direct = false;
 		//normal platform
@@ -132,7 +132,7 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		//EditPage Platforms only
 		if(direct && directOnlyPosition == -1 && !checkedPositionList.isEmpty())
 			return;
-
+		
 		if(checkedPositionList.contains(position)) {
 			checkedPositionList.remove(position);
 			if(direct)
@@ -142,10 +142,10 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 			if(direct)
 				directOnlyPosition = position;
 		}
-
+		
 		notifyDataSetChanged();
 	}
-
+	
 	public void setData(Platform[] platforms, HashMap<String, String> hiddenPlatforms) {
 		if(platforms == null)
 			return;
@@ -157,7 +157,7 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 				}
 				ps.add(p);
 			}
-
+			
 			logos.addAll(ps);
 		} else {
 			logos.addAll(Arrays.asList(platforms));
@@ -165,21 +165,21 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		checkedPositionList.clear();
 		notifyDataSetChanged();
 	}
-
+	
 	public void setCustomerLogos(ArrayList<CustomerLogo> customers) {
 		if(customers == null || customers.size() == 0)
 			return;
 		logos.addAll(customers);
 	}
-
+	
 	public List<Object> getCheckedItems() {
 		ArrayList<Object> list = new ArrayList<Object>();
-
+		
 		if(directOnlyPosition != -1) {
 			list.add(getItem(directOnlyPosition));
 			return list;
 		}
-
+		
 		Object item;
 		for(Integer position : checkedPositionList) {
 			item = getItem(position);
@@ -187,23 +187,23 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		}
 		return list;
 	}
-
+	
 	private Bitmap getIcon(Platform plat, String subfix) {
 		String resName = "ssdk_oks_skyblue_logo_" + plat.getName() + subfix;
 		int resId = getBitmapRes(context, resName);
 		return BitmapFactory.decodeResource(context.getResources(), resId);
 	}
-
+	
 	private String getName(Platform plat) {
 		if (plat == null) {
 			return "";
 		}
-
+		
 		String name = plat.getName();
 		if (name == null) {
 			return "";
 		}
-
+		
 		int resId = getStringRes(context, "ssdk_" + plat.getName());
 		if (resId > 0) {
 			return context.getString(resId);

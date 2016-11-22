@@ -43,7 +43,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 	private static final int MSG_TOAST = 1;
 	private static final int MSG_ACTION_CCALLBACK = 2;
 	private static final int MSG_CANCEL_NOTIFY = 3;
-
+	
 	private HashMap<String, Object> shareParamsMap;
 	private ArrayList<CustomerLogo> customers;
 	private boolean silent;
@@ -55,24 +55,24 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 	private HashMap<String, String> hiddenPlatforms;
 	private View bgView;
 	private OnekeyShareTheme theme;
-
+	
 	private Context context;
 	private PlatformListFakeActivity.OnShareButtonClickListener onShareButtonClickListener;
-
+	
 	public OnekeyShare() {
 		shareParamsMap = new HashMap<String, Object>();
 		customers = new ArrayList<CustomerLogo>();
 		callback = this;
 		hiddenPlatforms = new HashMap<String, String>();
 	}
-
+	
 	public void show(Context context) {
 		ShareSDK.initSDK(context);
 		this.context = context;
-
+		
 		// 打开分享菜单的统计
 		ShareSDK.logDemoEvent(1, null);
-
+		
 		// 显示方式是由platform和silent两个字段控制的
 		// 如果platform设置了，则无须显示九宫格，否则都会显示；
 		// 如果silent为true，表示不进入编辑页面，否则会进入。
@@ -83,7 +83,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 		if (shareParamsMap.containsKey("platform")) {
 			String name = String.valueOf(shareParamsMap.get("platform"));
 			Platform platform = ShareSDK.getPlatform(name);
-
+			
 			if (silent
 					|| ShareCore.isUseClientToShare(name)
 					|| platform instanceof CustomPlatform
@@ -95,7 +95,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				return;
 			}
 		}
-
+		
 		PlatformListFakeActivity platformListFakeActivity;
 		try {
 			if(OnekeyShareTheme.SKYBLUE == theme){
@@ -107,7 +107,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 			e.printStackTrace();
 			return;
 		}
-
+		
 		platformListFakeActivity.setDialogMode(dialogMode);
 		platformListFakeActivity.setShareParamsMap(shareParamsMap);
 		platformListFakeActivity.setSilent(silent);
@@ -128,16 +128,16 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 		}
 		platformListFakeActivity.show(context, null);
 	}
-
+	
 	public void setTheme(OnekeyShareTheme theme) {
 		this.theme = theme;
 	}
-
+	
 	/** address是接收人地址，仅在信息和邮件使用，否则可以不提供 */
 	public void setAddress(String address) {
 		shareParamsMap.put("address", address);
 	}
-
+	
 	/**
 	 * title标题，在印象笔记、邮箱、信息、微信（包括好友、朋友圈和收藏）、
 	 * 易信（包括好友、朋友圈）、人人网和QQ空间使用，否则可以不提供
@@ -145,124 +145,124 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 	public void setTitle(String title) {
 		shareParamsMap.put("title", title);
 	}
-
+	
 	/** titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供 */
 	public void setTitleUrl(String titleUrl) {
 		shareParamsMap.put("titleUrl", titleUrl);
 	}
-
+	
 	/** text是分享文本，所有平台都需要这个字段 */
 	public void setText(String text) {
 		shareParamsMap.put("text", text);
 	}
-
+	
 	/** 获取text字段的值 */
 	public String getText() {
 		return shareParamsMap.containsKey("text") ? String.valueOf(shareParamsMap.get("text")) : null;
 	}
-
+	
 	/** imagePath是本地的图片路径，除Linked-In外的所有平台都支持这个字段 */
 	public void setImagePath(String imagePath) {
 		if(!TextUtils.isEmpty(imagePath))
 			shareParamsMap.put("imagePath", imagePath);
 	}
-
+	
 	/** imageUrl是图片的网络路径，新浪微博、人人网、QQ空间和Linked-In支持此字段 */
 	public void setImageUrl(String imageUrl) {
 		if (!TextUtils.isEmpty(imageUrl))
 			shareParamsMap.put("imageUrl", imageUrl);
 	}
-
+	
 	/** url在微信（包括好友、朋友圈收藏）和易信（包括好友和朋友圈）中使用，否则可以不提供 */
  	public void setUrl(String url) {
 		shareParamsMap.put("url", url);
 	}
-
+ 	
 	/** filePath是待分享应用程序的本地路劲，仅在微信（易信）好友和Dropbox中使用，否则可以不提供 */
 	public void setFilePath(String filePath) {
 		shareParamsMap.put("filePath", filePath);
 	}
-
+	
 	/** comment是我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供 */
 	public void setComment(String comment) {
 		shareParamsMap.put("comment", comment);
 	}
-
+	
 	/** site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供 */
 	public void setSite(String site) {
 		shareParamsMap.put("site", site);
 	}
-
+	
 	/** siteUrl是分享此内容的网站地址，仅在QQ空间使用，否则可以不提供 */
 	public void setSiteUrl(String siteUrl) {
 		shareParamsMap.put("siteUrl", siteUrl);
 	}
-
+	
 	/** foursquare分享时的地方名 */
 	public void setVenueName(String venueName) {
 		shareParamsMap.put("venueName", venueName);
 	}
-
+	
 	/** foursquare分享时的地方描述 */
 	public void setVenueDescription(String venueDescription) {
 		shareParamsMap.put("venueDescription", venueDescription);
 	}
-
+	
 	/** 分享地纬度，新浪微博、腾讯微博和foursquare支持此字段 */
 	public void setLatitude(float latitude) {
 		shareParamsMap.put("latitude", latitude);
 	}
-
+	
 	/** 分享地经度，新浪微博、腾讯微博和foursquare支持此字段 */
 	public void setLongitude(float longitude) {
 		shareParamsMap.put("longitude", longitude);
 	}
-
+	
 	/** 是否直接分享 */
 	public void setSilent(boolean silent) {
 		this.silent = silent;
 	}
-
+	
 	/** 设置编辑页的初始化选中平台 */
 	public void setPlatform(String platform) {
 		shareParamsMap.put("platform", platform);
 	}
-
+	
 	/** 设置KakaoTalk的应用下载地址 */
 	public void setInstallUrl(String installurl) {
 		shareParamsMap.put("installurl", installurl);
 	}
-
+	
 	/** 设置KakaoTalk的应用打开地址 */
 	public void setExecuteUrl(String executeurl) {
 		shareParamsMap.put("executeurl", executeurl);
 	}
-
+	
 	/** 设置微信分享的音乐的地址 */
 	public void setMusicUrl(String musicUrl) {
 		shareParamsMap.put("musicUrl", musicUrl);
 	}
-
+	
 	/** 设置自定义的外部回调 */
 	public void setCallback(PlatformActionListener callback) {
 		this.callback = callback;
 	}
-
+	
 	/** 返回操作回调 */
 	public PlatformActionListener getCallback() {
 		return callback;
 	}
-
+	
 	/** 设置用于分享过程中，根据不同平台自定义分享内容的回调 */
 	public void setShareContentCustomizeCallback(ShareContentCustomizeCallback callback) {
 		customizeCallback = callback;
 	}
-
+	
 	/** 返回自定义分享内容的回调 */
 	public ShareContentCustomizeCallback getShareContentCustomizeCallback() {
 		return customizeCallback;
 	}
-
+	
 	/** 设置自己图标和点击事件，可以重复调用添加多次 */
 	public void setCustomerLogo(Bitmap enableLogo,Bitmap disableLogo, String label, OnClickListener ocListener) {
 		CustomerLogo cl = new CustomerLogo();
@@ -272,28 +272,28 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 		cl.listener = ocListener;
 		customers.add(cl);
 	}
-
+	
 	/** 设置一个总开关，用于在分享前若需要授权，则禁用sso功能 */
  	public void disableSSOWhenAuthorize() {
 		disableSSO = true;
 	}
-
+ 	
 	/** 设置一个开关，用于微信分享视频 */
  	public void shareVideoToWechat() {
  		shareVideo = true;
 	}
-
+ 	
 	/** 设置编辑页面的显示模式为Dialog模式 */
 	public void setDialogMode() {
 		dialogMode = true;
 		shareParamsMap.put("dialogMode", dialogMode);
 	}
-
+	
 	/** 添加一个隐藏的platform */
 	public void addHiddenPlatform(String platform) {
 		hiddenPlatforms.put(platform, platform);
 	}
-
+	
 	/** 设置一个将被截图分享的View , surfaceView是截不了图片的*/
 	public void setViewToShare(View viewToShare) {
 		try {
@@ -303,20 +303,20 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/** 腾讯微博分享多张图片 */
 	public void setImageArray(String[] imageArray) {
 		shareParamsMap.put("imageArray", imageArray);
 	}
-
+	
 	public void setEditPageBackground(View bgView) {
 		this.bgView = bgView;
 	}
-
+	
 	public void setOnShareButtonClickListener(PlatformListFakeActivity.OnShareButtonClickListener onShareButtonClickListener) {
 		this.onShareButtonClickListener = onShareButtonClickListener;
 	}
-
+	
 	/** 循环执行分享 */
 	public void share(HashMap<Platform, HashMap<String, Object>> shareData) {
 		boolean started = false;
@@ -324,7 +324,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 			Platform plat = ent.getKey();
 			plat.SSOSetting(disableSSO);
 			String name = plat.getName();
-
+			
 			boolean isGooglePlus = "GooglePlus".equals(name);
 			if (isGooglePlus && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -334,7 +334,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isAlipay = "Alipay".equals(name);
 			if (isAlipay && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -344,7 +344,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isKakaoTalk = "KakaoTalk".equals(name);
 			if (isKakaoTalk && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -354,7 +354,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isKakaoStory = "KakaoStory".equals(name);
 			if (isKakaoStory && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -364,7 +364,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isLine = "Line".equals(name);
 			if (isLine && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -374,7 +374,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isWhatsApp = "WhatsApp".equals(name);
 			if (isWhatsApp && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -384,7 +384,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isPinterest = "Pinterest".equals(name);
 			if (isPinterest && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -394,7 +394,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			if ("Instagram".equals(name) && !plat.isClientValid()) {
 				Message msg = new Message();
 				msg.what = MSG_TOAST;
@@ -403,7 +403,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			boolean isLaiwang = "Laiwang".equals(name);
 			boolean isLaiwangMoments = "LaiwangMoments".equals(name);
 			if(isLaiwang || isLaiwangMoments){
@@ -416,7 +416,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 					continue;
 				}
 			}
-
+			
 			boolean isYixin = "YixinMoments".equals(name) || "Yixin".equals(name);
 			if (isYixin && !plat.isClientValid()) {
 				Message msg = new Message();
@@ -426,7 +426,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				UIHandler.sendMessage(msg, this);
 				continue;
 			}
-
+			
 			HashMap<String, Object> data = ent.getValue();
 			int shareType = Platform.SHARE_TEXT;
 			String imagePath = String.valueOf(data.get("imagePath"));
@@ -472,7 +472,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				}
 			}
 			data.put("shareType", shareType);
-
+			
 			if (!started) {
 				started = true;
 //				if (this == callback) {
@@ -488,7 +488,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 			shareCore.share(plat, data);
 		}
 	}
-
+	
 	public void onComplete(Platform platform, int action,
 			HashMap<String, Object> res) {
 		Message msg = new Message();
@@ -498,21 +498,21 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 		msg.obj = platform;
 		UIHandler.sendMessage(msg, this);
 	}
-
+	
 	public void onError(Platform platform, int action, Throwable t) {
 		t.printStackTrace();
-
+		
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
 		msg.arg1 = 2;
 		msg.arg2 = action;
 		msg.obj = t;
 		UIHandler.sendMessage(msg, this);
-
+		
 		// 分享失败的统计
 		ShareSDK.logDemoEvent(4, platform);
 	}
-
+	
 	public void onCancel(Platform platform, int action) {
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
@@ -520,11 +520,11 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 		msg.arg2 = action;
 		msg.obj = platform;
 		UIHandler.sendMessage(msg, this);
-
+		
 		// 分享失败的统计
 		ShareSDK.logDemoEvent(5, platform);
 	}
-
+	
 	public boolean handleMessage(Message msg) {
 		switch(msg.what) {
 			case MSG_TOAST: {
@@ -620,13 +620,13 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 		}
 		return false;
 	}
-
+	
 	// 在状态栏提示分享操作
 	private void showNotification(String text) {
 		Tiegao.setShareText(text);
 //		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
-
+	
 	/** 是否支持QQ,QZone授权登录后发微博 */
 	public void setShareFromQQAuthSupport(boolean shareFromQQLogin)
 	{

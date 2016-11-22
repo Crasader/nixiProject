@@ -60,7 +60,7 @@ public class AlarmClock {
 		PendingIntent pendingIntent = PendingIntent.getService(instance, index, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 		
 		calend.setTimeInMillis(System.currentTimeMillis());
-			
+		
 		calend.set(Calendar.HOUR_OF_DAY, _hour);
 		
 		calend.set(Calendar.MINUTE, _minute);
@@ -72,7 +72,7 @@ public class AlarmClock {
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calend.getTimeInMillis(), INTERVAL, pendingIntent);	
 	}
 	
-
+	
 	
 	public static void creatAlarmClock2(String nameStr, int index){
 		if (index != 0) {
@@ -85,7 +85,7 @@ public class AlarmClock {
 			PendingIntent pendingIntent = PendingIntent.getService(instance, index, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 			
 			calend.setTimeInMillis(System.currentTimeMillis());
-				
+			
 			calend.set(Calendar.HOUR_OF_DAY, _hour);
 			
 			calend.set(Calendar.MINUTE, _minute);

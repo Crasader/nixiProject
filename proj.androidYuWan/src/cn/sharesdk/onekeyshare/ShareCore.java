@@ -30,12 +30,12 @@ import com.mob.tools.utils.R;
  */
 public class ShareCore {
 	private ShareContentCustomizeCallback customizeCallback;
-
+	
 	/** 设置用于分享过程中，根据不同平台自定义分享内容的回调 */
 	public void setShareContentCustomizeCallback(ShareContentCustomizeCallback callback) {
 		customizeCallback = callback;
 	}
-
+	
 	/**
 	 * 向指定平台分享内容
 	 * <p>
@@ -47,7 +47,7 @@ public class ShareCore {
 		if (plat == null || data == null) {
 			return false;
 		}
-
+		
 		try {
 			String imagePath = (String) data.get("imagePath");
 			Bitmap viewToShare = (Bitmap) data.get("viewToShare");
@@ -64,16 +64,16 @@ public class ShareCore {
 			t.printStackTrace();
 			return false;
 		}
-
+		
 		ShareParams sp = new ShareParams(data);
 		if (customizeCallback != null) {
 			customizeCallback.onShare(plat, sp);
 		}
-
+		
 		plat.share(sp);
 		return true;
 	}
-
+	
 	/** 判断指定平台是否使用客户端分享 */
 	public static boolean isUseClientToShare(String platform) {
 		if ("Wechat".equals(platform) || "WechatMoments".equals(platform)
@@ -104,10 +104,10 @@ public class ShareCore {
 				return (ri != null);
 			}
 		}
-
+		
 		return false;
 	}
-
+	
 	/** 判断指定平台是否可以用来授权 */
 	public static boolean canAuthorize(Context context, String platform) {
 		return !("WechatMoments".equals(platform)
@@ -119,8 +119,8 @@ public class ShareCore {
 				|| "BaiduTieba".equals(platform) || "Laiwang".equals(platform)
 				|| "LaiwangMoments".equals(platform) || "Alipay".equals(platform));
 	}
-
-
+	
+	
 	/** 判断指定平台是否可以用来获取用户资料 */
 	public static boolean canGetUserInfo(Context context, String platform) {
 		return !("WechatMoments".equals(platform)
@@ -133,7 +133,7 @@ public class ShareCore {
 				|| "Laiwang".equals(platform) || "LaiwangMoments".equals(platform)
 				|| "Alipay".equals(platform));
 	}
-
+	
 	/** 判断是否直接分享 */
 	public static boolean isDirectShare(Platform platform) {
 		return platform instanceof CustomPlatform || isUseClientToShare(platform.getName());

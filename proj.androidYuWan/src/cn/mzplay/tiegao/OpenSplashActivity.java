@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class OpenSplashActivity extends SplashActivity {
-
+	
 	private boolean flag = true;
 	
     @Override
@@ -21,18 +21,18 @@ public class OpenSplashActivity extends SplashActivity {
     		finish();
     		return;
     	}
-
+    	
     	for (String category : set) {
     		if("android.intent.category.LAUNCHER".equals(category)){
     			flag = false;
     		}
     	}
-
+    	
     	if(flag){
     		finish();                     
     	}
 	}
-
+    
 	@Override
 	protected void onSplashStop() {
 		// TODO Auto-generated method stub
@@ -40,5 +40,5 @@ public class OpenSplashActivity extends SplashActivity {
 		startActivity(intent);
 		finish(); 
 	}
-
+	
 }

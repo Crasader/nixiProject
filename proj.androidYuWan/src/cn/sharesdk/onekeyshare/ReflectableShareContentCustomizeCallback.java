@@ -15,12 +15,12 @@ import com.mob.tools.utils.UIHandler;
 public class ReflectableShareContentCustomizeCallback implements ShareContentCustomizeCallback {
 	private int onShareWhat;
 	private Callback onShareCallback;
-
+	
 	public void setOnShareCallback(int what, Callback callback) {
 		onShareWhat = what;
 		onShareCallback = callback;
 	}
-
+	
 	@Override
 	public void onShare(Platform platform, ShareParams paramsToShare) {
 		if (onShareCallback != null) {
@@ -30,5 +30,5 @@ public class ReflectableShareContentCustomizeCallback implements ShareContentCus
 			UIHandler.sendMessage(msg, onShareCallback);
 		}
 	}
-
+	
 }

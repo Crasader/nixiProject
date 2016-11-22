@@ -419,6 +419,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->init_with_json(content["story"]);
+//            pData = AppUtil::dictionary_with_json(content["pass_reward"]);
+            pData = CCInteger::create(50);
         } break;
             
         case 504: {
@@ -508,7 +510,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
-
+            
             bool isFree = content["free"].asBool();
             if (isFree) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
