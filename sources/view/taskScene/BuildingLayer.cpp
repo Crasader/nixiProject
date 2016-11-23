@@ -302,29 +302,6 @@ void BuildingLayer::createCompanyRewardIcon() {
                 menu->ignoreAnchorPointForPosition(false);
                 node->addChild(menu);
                 
-                // 奖励内容
-                int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
-                CCString* strReward = CCString::createWithFormat("%d", rewardValue);
-                CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-                lblReward->setAnchorPoint(ccp(0.8, 0.5));
-                lblReward->setPosition(ccp(0, -15));
-                lblReward->setColor(DISPLAY->defalutColor());
-                node->addChild(lblReward);
-                
-                const CCString* rewardType = item->valueForKey("reward_type");
-                if (rewardType->compare("coin") == 0) {
-                    CCSprite* icon = CCSprite::create("pic/common/coin2.png");
-                    icon->setPosition(ccp(16, lblReward->getPositionY()));
-                    icon->setScale(0.3);
-                    node->addChild(icon);
-                }
-                else if (rewardType->compare("diam") == 0) {
-                    CCSprite* icon = CCSprite::create("pic/common/diam2.png");
-                    icon->setPosition(ccp(16, lblReward->getPositionY()));
-                    icon->setScale(0.3);
-                    node->addChild(icon);
-                }
-                
                 break;
             }
         }
@@ -340,41 +317,20 @@ void BuildingLayer::createCompanyRewardIcon() {
             menu->ignoreAnchorPointForPosition(false);
             node->addChild(menu);
             
-            // 奖励内容
-            int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
-            CCString* strReward = CCString::createWithFormat("%d", rewardValue);
-            CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-            lblReward->setAnchorPoint(ccp(0.8, 0.5));
-            lblReward->setPosition(ccp(0, -15));
-            lblReward->setColor(DISPLAY->defalutColor());
-            node->addChild(lblReward);
-            
-            const CCString* rewardType = item->valueForKey("reward_type");
-            if (rewardType->compare("coin") == 0) {
-                CCSprite* icon = CCSprite::create("pic/common/coin2.png");
-                icon->setPosition(ccp(16, lblReward->getPositionY()));
-                icon->setScale(0.3);
-                node->addChild(icon);
-            }
-            else if (rewardType->compare("diam") == 0) {
-                CCSprite* icon = CCSprite::create("pic/common/diam2.png");
-                icon->setPosition(ccp(16, lblReward->getPositionY()));
-                icon->setScale(0.3);
-                node->addChild(icon);
-            }
-            
             
             // 显示条件
-            CCString* strCondition = CCString::createWithFormat("%d/%d", totalRatings, itemGoal);
+            CCString* strCondition = CCString::createWithFormat("%d", itemGoal);
             CCLabelTTF* lblCondition = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
             lblCondition->setAnchorPoint(ccp(1, 0.5));
-            lblCondition->setPosition(ccp(10, -36));
-            lblCondition->setColor(ccc3(232,136,174));
+            //lblCondition->setPosition(ccp(10, -36));
+            lblCondition->setPosition(ccp(2, -15));
+//            lblCondition->setColor(ccc3(232,136,174));
+            lblCondition->setColor(ccGREEN);
             node->addChild(lblCondition);
             
             CCSprite* star = CCSprite::create("pic/taskScene/task_xing3.png");
-            star->setPosition(ccp(22, lblCondition->getPositionY() + 3));
-            star->setScale(0.55);
+            star->setPosition(ccp(lblCondition->getPositionX() + 8, lblCondition->getPositionY() + 2));
+            star->setScale(0.66);
             node->addChild(star);
             
             

@@ -21,15 +21,25 @@ CCArray* MysteryComp::fetchAchvTemplate(const char *category) {
 
 int MysteryComp::userRatingOfCategory(const char* category) {
     CCDictionary* categoryInfo = dynamic_cast<CCDictionary*>(mysteryUserdata->objectForKey(category));
-    CCInteger* value = dynamic_cast<CCInteger*>(categoryInfo->objectForKey("rating"));
-    return value->getValue();
+    if (categoryInfo) {
+        CCInteger* value = dynamic_cast<CCInteger*>(categoryInfo->objectForKey("rating"));
+        return value->getValue();
+    }
+    else {
+        return 0;
+    }
 }
 
 int MysteryComp::userAchvStateOfCategory(const char *category, const char *achvId) {
     CCDictionary* categoryInfo = dynamic_cast<CCDictionary*>(mysteryUserdata->objectForKey(category));
-    CCDictionary* achv = dynamic_cast<CCDictionary*>(categoryInfo->objectForKey("achv"));
-    CCInteger* state = dynamic_cast<CCInteger*>(achv->objectForKey(achvId));
-    return state->getValue();
+    if (categoryInfo) {
+        CCDictionary* achv = dynamic_cast<CCDictionary*>(categoryInfo->objectForKey("achv"));
+        CCInteger* state = dynamic_cast<CCInteger*>(achv->objectForKey(achvId));
+        return state->getValue();
+    }
+    else {
+        return 0;
+    }
 }
 
 // Import
