@@ -2380,7 +2380,8 @@ void StoryScene::LabelColorFhCallBack(CCObject* pSender){
 void StoryScene::_503CallBack(CCObject* pSender){
     LOADING->remove();
 //    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
-    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
+    CCInteger* goldIndex = (CCInteger* )pSender;
+    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString(), goldIndex->getValue());
     this->addChild(layer, 1000);
 }
 

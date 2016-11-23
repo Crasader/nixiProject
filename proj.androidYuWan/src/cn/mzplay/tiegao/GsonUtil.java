@@ -42,7 +42,7 @@ public class GsonUtil {
 		return gson.fromJson(json, type);
 	}
 	
-
+	
     /**
      * 将对象转换成json字符串
      * @param obj java 对象

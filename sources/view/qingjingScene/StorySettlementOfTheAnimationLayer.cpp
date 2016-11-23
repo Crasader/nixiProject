@@ -37,6 +37,8 @@ bool StorySettlementOfTheAnimationLayer::init(){
     do {
         CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(0, 0, 0, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
         
+        theEndBool = false;
+        
         this->setTouchSwallowEnabled(true);
         this->setTouchMode(kCCTouchesOneByOne);
         this->setTouchEnabled(true);
@@ -49,13 +51,13 @@ bool StorySettlementOfTheAnimationLayer::init(){
     return bRet;
 }
 
-StorySettlementOfTheAnimationLayer* StorySettlementOfTheAnimationLayer::create_with_index(int index, std::string ending){
+StorySettlementOfTheAnimationLayer* StorySettlementOfTheAnimationLayer::create_with_index(int index, std::string ending, int goldIndex){
     StorySettlementOfTheAnimationLayer* rtn = StorySettlementOfTheAnimationLayer::create();
-    rtn->init_with_index(index, ending);
+    rtn->init_with_index(index, ending, goldIndex);
     
     return rtn;
 }
-void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string ending){
+void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string ending, int goldIndex){
     
 //    CCSprite* mask = CCSprite::create("res/pic/mask.png");
 //    mask->setPosition(DISPLAY->center());
@@ -114,8 +116,24 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
         float sprFloat22 = 1.f - (.25f + sprFloat2);
         float sprFloat33 = 1.f - (.25f + sprFloat3);
         float sprFloat44 = 1.f - (.25f + sprFloat4);
-        CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
-        CCSequence* seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
+        CCCallFunc* callFunc;
+        CCSequence* seq1;
+        if (DATA->getTheEndBool()) {// 有通关的章节，不显示第一次通关奖励
+            theEndBool = false;
+            callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
+            seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
+        }else{// 没有通关的章节，显示第一次通关奖励
+            if (goldIndex != 0) {// 显示
+                theEndBool = true;
+                callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::tishiCallBack));
+                seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.3f), callFunc, NULL);
+            }else{// 不显示
+                theEndBool = false;
+                callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
+                seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
+            }
+        }
+        
         CCSequence* seq2 = CCSequence::create(spawn2, CCDelayTime::create(sprFloat22 + 1.f), moveTo2_2, NULL);
         CCSequence* seq3 = CCSequence::create(spawn3, CCDelayTime::create(sprFloat33 + 1.f), moveTo3_2, NULL);
         CCSequence* seq4 = CCSequence::create(spawn4, CCDelayTime::create(sprFloat44 + 1.f), moveTo4_2, NULL);
@@ -167,12 +185,83 @@ void StorySettlementOfTheAnimationLayer::closeCallBack(CCObject* pSender){
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
+void StorySettlementOfTheAnimationLayer::tishiCallBack(CCObject* pSender){
+    CCSprite* _panel = CCSprite::create("pic/building/reward/panel.png");
+    _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75));
+    _panel->setTag(0x22222);
+    this->addChild(_panel, 100);
+    
+    CCLabelTTF* label1 = CCLabelTTF::create("首次通关奖励", DISPLAY->fangzhengFont(), 25);
+    label1->setPosition(ccp(_panel->getContentSize().width* .5f, _panel->getContentSize().height* .71f));
+    label1->setColor(ccc3(80, 63, 68));
+    _panel->addChild(label1);
+    
+    CCLabelTTF* label2 = CCLabelTTF::create("点击任意处关闭", DISPLAY->fangzhengFont(), 25);
+    label2->setPosition(ccp(_panel->getContentSize().width* .75f, 17));
+    label2->setColor(ccWHITE);
+    _panel->addChild(label2);
+    
+    CCSize panelSize = _panel->boundingBox().size;
+    
+    CCSprite* light = CCSprite::create("pic/building/reward/light.png");
+    light->setPosition(ccp(panelSize.width* .5f, panelSize.height * 1.15));
+    _panel->addChild(light);
+    
+    CCSprite* spots = CCSprite::create("pic/building/reward/spots.png");
+    spots->setPosition(ccp(panelSize.width* .5f, panelSize.height * 1.15));
+    _panel->addChild(spots);
+    
+    CCSequence* seq = CCSequence::create(CCFadeIn::create(0.6), CCDelayTime::create(0.3), CCFadeOut::create(0.6), CCDelayTime::create(0.5), NULL);
+    spots->runAction(CCRepeatForever::create(seq));
+    
+    CCSprite* title = CCSprite::create("pic/building/reward/title.png");
+    title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .88f));
+    _panel->addChild(title);
+    
+    CCSprite* plate = CCSprite::create("pic/building/reward/plate.png");
+    plate->setPosition(ccp(panelSize.width* .5f, panelSize.height * .45f));
+    _panel->addChild(plate);
+    
+    CCSprite* diam = CCSprite::create("pic/common/diam2.png");
+    diam->setPosition(ccp(panelSize.width* .5f, panelSize.height * .45f));
+    _panel->addChild(diam);
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    CCString* str = CCString::createWithFormat("%d 钻石", coffers->profit);
+    CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 24);
+    lbl->setColor(ccc3(107, 143, 190));
+    lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * .25f));
+    _panel->addChild(lbl);
+    
+    _panel->setScale(0.1);
+    _panel->setVisible(true);
+    
+    float duration1 = 0.2f;
+    CCMoveTo* moveto1 = CCMoveTo::create(duration1, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.45));
+    CCScaleTo* scaleto1 = CCScaleTo::create(duration1, 1.1);
+    CCSpawn* spawn1 = CCSpawn::create(moveto1, scaleto1, NULL);
+    
+    float duration2 = 0.2f;
+    CCMoveTo* moveto2 = CCMoveTo::create(duration2, DISPLAY->center());
+    CCScaleTo* scaleto2 = CCScaleTo::create(duration2, 1);
+    CCSpawn* spawn2 = CCSpawn::create(moveto2, scaleto2, NULL);
+    
+    _panel->runAction(CCEaseSineIn::create(CCSequence::create(spawn1, spawn2, NULL)));
+}
 
 bool StorySettlementOfTheAnimationLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
-    
-    this->closeCallBack(NULL);
+    if (theEndBool) {
+        theEndBool = false;
+        
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+        
+        this->closeCallBack(NULL);
+    }else{
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+        
+        this->closeCallBack(NULL);
+    }
     
     return true;
 }

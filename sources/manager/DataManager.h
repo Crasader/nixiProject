@@ -174,6 +174,8 @@ public:
     void onCompleted(std::string taskId);
     // 任务id处理
     CC_SYNTHESIZE(int, _taskTalkingdataID, TaskTalkingdataID);
+    // 第一次通关
+    CC_SYNTHESIZE(bool, _theEndBool, TheEndBool);
     
 private:
 

@@ -509,7 +509,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
-
+            
             bool isFree = content["free"].asBool();
             if (isFree) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

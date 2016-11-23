@@ -17,7 +17,7 @@ import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 
 /** 微信客户端回调activity示例 */
 public class WXEntryActivity extends WechatHandlerActivity {
-
+	
 	/**
 	 * 处理微信发出的向第三方应用请求app message
 	 * <p>
@@ -29,7 +29,7 @@ public class WXEntryActivity extends WechatHandlerActivity {
 		Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
 		startActivity(iLaunchMyself);
 	}
-
+	
 	/**
 	 * 处理微信向第三方应用发起的消息
 	 * <p>
@@ -48,5 +48,5 @@ public class WXEntryActivity extends WechatHandlerActivity {
 			Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
 }
