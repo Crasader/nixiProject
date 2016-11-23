@@ -522,11 +522,12 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
     if (DATA->getClothes()->is_owned(clothesType, cloth_id)) {
         // 购买了
     }else{
-        CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
-        jgkuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .22f));
-        clothSpr->addChild(jgkuang);
         int cloth_type = dic->valueForKey("type")->intValue(); // 男宠当前所穿上衣
         if (cloth_type == 1) {
+            CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
+            jgkuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .22f));
+            clothSpr->addChild(jgkuang);
+            
             CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
             costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
             costSpr->setScale(.75f);
@@ -538,6 +539,10 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             jgkuang->addChild(costLabel);
             
         }else if (cloth_type == 2){
+            CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
+            jgkuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .22f));
+            clothSpr->addChild(jgkuang);
+            
             CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
             costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
             costSpr->setScale(.75f);
@@ -550,12 +555,22 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             
         }
 //        else if (cloth_type == 10){
-//            CCString* costStr = CCString::create("非卖品");
-//            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-//            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
-//            costLabel->setColor(ccWHITE);
-//            jgkuang->addChild(costLabel);
-//        }else{
+//            CCString* cloth_label = (CCString*)dic->valueForKey("label");
+//            CCLog("cloth_label == %s", cloth_label->getCString());
+//            if (cloth_label->length() > 1) {
+//                CCLabelTTF* costLabel = CCLabelTTF::create(cloth_label->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//                costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
+//                costLabel->setColor(ccWHITE);
+//                jgkuang->addChild(costLabel);
+//            }else{
+//                CCString* costStr = CCString::create("非卖品");
+//                CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+//                costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
+//                costLabel->setColor(ccWHITE);
+//                jgkuang->addChild(costLabel);
+//            }
+//        }
+//        else{
 //            CCString* costStr = CCString::create("非卖品");
 //            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(jgkuang->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
 //            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .5f, jgkuang->getContentSize().height* .48f));
@@ -741,7 +756,32 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
         phaseSpr->setAnchorPoint(CCPointZero);
         phaseSpr->setPosition(CCPointZero);
         spr->addChild(phaseSpr, 100);
+    }else if (!DATA->getClothes()->is_owned(clothesType, cloth_id)){
+        int cloth_type = dic->valueForKey("type")->intValue();
+        if (cloth_type == 10) {
+            CCSprite* phaseSpr = CCSprite::create("res/pic/clothesScene/gj_suo.png");
+            phaseSpr->setAnchorPoint(CCPointZero);
+            phaseSpr->setPosition(CCPointZero);
+            spr->addChild(phaseSpr, 100);
+            
+            CCString* cloth_label = (CCString*)dic->valueForKey("label");
+            CCLog("cloth_label == %s", cloth_label->getCString());
+            if (cloth_label->length() > 1) {
+                CCLabelTTF* costLabel = CCLabelTTF::create(cloth_label->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(phaseSpr->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+                costLabel->setPosition(ccp(phaseSpr->getContentSize().width* .5f, phaseSpr->getContentSize().height* .6f));
+                costLabel->setColor(ccWHITE);
+                phaseSpr->addChild(costLabel);
+            }else{
+                CCString* costStr = CCString::create("非卖品");
+                CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(phaseSpr->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+                costLabel->setPosition(ccp(phaseSpr->getContentSize().width* .5f, phaseSpr->getContentSize().height* .6f));
+                costLabel->setColor(ccWHITE);
+                phaseSpr->addChild(costLabel);
+            }
+        }
     }
+
+
     
     CCString* labelStr = CCString::createWithFormat("res/pic/clothesScene/label/%d.png", phase);
     CCSprite* labelSpr = CCSprite::create(labelStr->getCString());
