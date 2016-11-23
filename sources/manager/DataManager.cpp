@@ -342,6 +342,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
+            _clothes->init_with_json(content["clothes"]);
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
@@ -353,7 +354,6 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
             
         case 610: {
             _mystery->init_template(content["template"]);

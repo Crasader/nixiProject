@@ -37,6 +37,7 @@ private:
     
 private:
     int num_child;
+    bool                _couldExit;
     
     CCSprite*           _panel;
     string              _type;

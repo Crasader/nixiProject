@@ -16,6 +16,8 @@
 //
 
 #include "RewardPanel.h"
+#include "DataManager.h"
+#include "ConfigManager.h"
 #include "DisplayManager.h"
 #include "AudioManager.h"
 #include "Loading2.h"
@@ -52,6 +54,7 @@ bool RewardPanel::initWithReward(string type, int value) {
     }
     
     num_child = 0;
+    _couldExit = false;
     
     _type = string(type.c_str());
     _value = value;
@@ -115,6 +118,31 @@ bool RewardPanel::initWithReward(string type, int value) {
         lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.28));
         _panel->addChild(lbl);
     }
+    else if (_type.compare("clothes") == 0) {
+        CCSprite* plate = CCSprite::create("pic/building/reward/plate.png");
+        plate->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
+        _panel->addChild(plate);
+        
+        CCSprite* icon = CCSprite::create(DATA->clothes_icon_path_with_id(_value)->getCString());
+        icon->setScale(0.86);
+        icon->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
+        _panel->addChild(icon);
+        
+        CCDictionary* dic = CONFIG->clothes();// 所有衣服
+        int clothesType = _value / 10000;
+        CCArray* partArr = (CCArray* )dic->objectForKey(clothesType);
+        for (int i = 0; i < partArr->count(); i++) {
+            CCDictionary* clothDic = (CCDictionary* )partArr->objectAtIndex(i);
+            int id = clothDic->valueForKey("id")->intValue();
+            if (id == _value) {
+                CCLabelTTF* lbl = CCLabelTTF::create(clothDic->valueForKey("name")->getCString(), DISPLAY->fangzhengFont(), 24);
+                lbl->setColor(ccc3(107, 143, 190));
+                lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.28));
+                _panel->addChild(lbl);
+                break;
+            }
+        }
+    }
     
     return true;
 }
@@ -132,6 +160,7 @@ void RewardPanel::onEnter() {
 }
 void RewardPanel::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
+    _couldExit = true;
 }
 
 void RewardPanel::onExit() {
@@ -142,7 +171,7 @@ void RewardPanel::onExit() {
 
 bool RewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
     CCPoint location = pTouch->getLocation();
-    if (! _panel->boundingBox().containsPoint(location)) {
+    if (_couldExit && ! _panel->boundingBox().containsPoint(location)) {
         this->remove();
     }
     
@@ -154,6 +183,7 @@ bool RewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEven
 void RewardPanel::remove() {
     this->do_exit();
     this->removeFromParentAndCleanup(true);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("REWARDPANEL_REMOVED");
 }
 
 void RewardPanel::keyBackClicked(){

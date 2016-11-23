@@ -3239,14 +3239,9 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     CCDictionary* result = (CCDictionary*)pObj;
     int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
     int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
+    const CCString* clothesId = result->valueForKey("clothes");
     int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
     bool levelup = ((CCBool*)result->objectForKey("levelup"))->getValue();
-    
-//    CCScene* scene = CCScene::create();
-//    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
-//    scene->addChild(layer);
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
     
     CCArray* taskArr = DATA->getTaskSource();
     CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index - 1);
@@ -3255,7 +3250,7 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     DATA->onCompleted(taskStr->getCString());
     
     CCScene* scene = CCScene::create();
-    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, levelup);
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, clothesId, levelup);
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
