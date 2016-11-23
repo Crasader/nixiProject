@@ -829,13 +829,23 @@ void ClothesScene::creat_ViewMethods(int index) {
     for (int i = 0; i < clothesArr->count(); i++) {
         CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
         int sale = clothDic->valueForKey("sale")->intValue();
-        int type = clothDic->valueForKey("type")->intValue();
         int id = clothDic->valueForKey("id")->intValue();
-        if (sale != 0) {
-            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//        int type = clothDic->valueForKey("type")->intValue();
+//        if (sale != 0) {
+//            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//                tempArr->addObject(clothDic);
+//            }
+//        }
+        
+        if (DATA->getClothes()->is_owned(index, id)) {
+            // 购买了
+            tempArr->addObject(clothDic);
+        }else{
+            if (sale != 0) {
                 tempArr->addObject(clothDic);
             }
         }
+        
     }
     DATA->setDataSource(tempArr);
     _delegate->updateTableView(index);
@@ -1058,10 +1068,42 @@ void ClothesScene::renwukuangMethods(int index){
         int clothTag2 = clothDic->valueForKey("tag2")->intValue();
         int clothTag3 = clothDic->valueForKey("tag3")->intValue();
         int sale = clothDic->valueForKey("sale")->intValue();
-        int type = clothDic->valueForKey("type")->intValue();
         int id = clothDic->valueForKey("id")->intValue();
-        if (sale != 0) {
-            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//        int type = clothDic->valueForKey("type")->intValue();
+//        if (sale != 0) {
+//            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//                if (   (clothTag1 != 0 && clothTag1 == tag1)
+//                    || (clothTag1 != 0 && clothTag1 == tag2)
+//                    || (clothTag1 != 0 && clothTag1 == tag3)
+//                    || (clothTag2 != 0 && clothTag2 == tag1)
+//                    || (clothTag2 != 0 && clothTag2 == tag2)
+//                    || (clothTag2 != 0 && clothTag2 == tag3)
+//                    || (clothTag3 != 0 && clothTag3 == tag1)
+//                    || (clothTag3 != 0 && clothTag3 == tag2)
+//                    || (clothTag3 != 0 && clothTag3 == tag3)) {
+//                    tempArr->addObject(clothDic);
+//                }else if (clothTag1 == 0){
+//                    tempArr->addObject(clothDic);
+//                }
+//            }
+//        }
+        
+        if (DATA->getClothes()->is_owned(index, id)) {
+            if (   (clothTag1 != 0 && clothTag1 == tag1)
+                || (clothTag1 != 0 && clothTag1 == tag2)
+                || (clothTag1 != 0 && clothTag1 == tag3)
+                || (clothTag2 != 0 && clothTag2 == tag1)
+                || (clothTag2 != 0 && clothTag2 == tag2)
+                || (clothTag2 != 0 && clothTag2 == tag3)
+                || (clothTag3 != 0 && clothTag3 == tag1)
+                || (clothTag3 != 0 && clothTag3 == tag2)
+                || (clothTag3 != 0 && clothTag3 == tag3)) {
+                tempArr->addObject(clothDic);
+            }else if (clothTag1 == 0){
+                tempArr->addObject(clothDic);
+            }
+        }else{
+            if (sale != 0) {
                 if (   (clothTag1 != 0 && clothTag1 == tag1)
                     || (clothTag1 != 0 && clothTag1 == tag2)
                     || (clothTag1 != 0 && clothTag1 == tag3)
