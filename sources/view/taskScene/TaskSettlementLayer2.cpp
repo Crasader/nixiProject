@@ -22,6 +22,7 @@
 #include "Loading2.h"
 #include "NetManager.h"
 #include "MainScene.h"
+#include "RewardPanel.h"
 
 
 TaskSettlementLayer2::~TaskSettlementLayer2(){
@@ -55,6 +56,7 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy){
     _rating = rating;
     _coin = coin;
     _energy = energy;
+    _clothesId = 0;
     _isPhaseUP = false;
     
     lingquBool = false;
@@ -92,9 +94,10 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy){
     return true;
 }
 
-TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int energy, bool isPhaseUP){
+TaskSettlementLayer2* TaskSettlementLayer2::create(
+            int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP){
     TaskSettlementLayer2* rtn = new TaskSettlementLayer2();
-    if (rtn && rtn->init(rating, coin, energy, isPhaseUP)) {
+    if (rtn && rtn->init(rating, coin, energy, clothesId, isPhaseUP)) {
         rtn->autorelease();
     }
     else {
@@ -104,7 +107,7 @@ TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int ene
     return rtn;
 }
 
-bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP){
+bool TaskSettlementLayer2::init(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP){
     if (!CCLayer::init()) {
         return false;
     }
@@ -119,6 +122,12 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, bool isPhaseUP
     _rating = rating;
     _coin = coin;
     _energy = energy;
+    if (clothesId->compare("") == 0) {
+        _clothesId = 0;
+    }
+    else {
+        _clothesId = clothesId->intValue();
+    }
     _isPhaseUP = isPhaseUP;
     
     lingquBool = false;
@@ -161,6 +170,7 @@ void TaskSettlementLayer2::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&TaskSettlementLayer2::_321CallBack), "HTTP_FINISHED_321", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&TaskSettlementLayer2::nc_rewardpanel_exit), "REWARDPANEL_REMOVED", NULL);
     
     SPECIAL->showPetal2At(this, DISPLAY->center(), 1);
     
@@ -225,14 +235,7 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
                 lingquBool = true;
                 lingquItem->setEnabled(false);
                 logic_open_bool = false;
-                SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
-//                SPECIAL->show_energy_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
-                
                 this->nextAnimation1();
-                
-//                // 给个提示
-//                PromptLayer* layer = PromptLayer::create();
-//                layer->show_prompt(this->getScene(), "领取成功!");
             }else{
                 exit();
             }
@@ -258,6 +261,16 @@ void TaskSettlementLayer2::nextAnimation1(){
 
 void TaskSettlementLayer2::nextAnimation2(){
     SPECIAL->show_energy_reward(this, _energy, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+    
+    if (_clothesId != 0) {
+        RewardPanel::show(this->getScene(), "clothes", _clothesId);
+    }
+    else {
+        logic_open_bool = true;
+    }
+}
+
+void TaskSettlementLayer2::nc_rewardpanel_exit() {
     logic_open_bool = true;
 }
 

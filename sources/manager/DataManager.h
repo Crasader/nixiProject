@@ -159,6 +159,8 @@ public:
     
     bool could_prduce();
     
+    bool isMysteryEventUnlocked();
+    CC_SYNTHESIZE(bool, _needShowUnlockMystery, NeedShowUnlockMystery);
     
     // talkingData自定义事件
     void onEvent(std::string eventStr, std::string pageStr, std::string contentStr);

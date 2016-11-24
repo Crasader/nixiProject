@@ -35,6 +35,8 @@ void PlayerComp::init_with_json(Value json) {
     left = json["left"].asInt();
     _guide = json["guide"].asInt();
     
+    mystery = json["mystery"].asInt();
+    
     
     CC_SAFE_RELEASE(rating);
     rating = AppUtil::dictionary_with_json(json["rating"]);

@@ -342,8 +342,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
+            _clothes->init_with_json(content["clothes"]);
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
+            bool mystery = ((CCBool*)((CCDictionary*)pData)->objectForKey("mystery"))->getValue();
+            this->setNeedShowUnlockMystery(mystery);
         } break;
             
         case 605: {
@@ -353,7 +356,6 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
             
         case 610: {
             _mystery->init_template(content["template"]);
@@ -714,6 +716,14 @@ bool DataManager::could_prduce() {
 //    CCLOG("1 = %d", getNews()->coin);
 //    CCLOG("2 = %d", getCoffers()->collected);
     return (getNews()->coin - getCoffers()->collected) > 0;
+}
+
+bool DataManager::isMysteryEventUnlocked() {
+    if (_player && _player->mystery == 1) {
+        return true;
+    }
+    
+    return false;
 }
 
 SigninState DataManager::fetch_tempsignin_state(CCDictionary* info, const string& id) {

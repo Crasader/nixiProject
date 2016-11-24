@@ -22,6 +22,10 @@ public:
     ~RewardPanel();
     static RewardPanel* createWithReward(string type, int value);
     bool initWithReward(string type, int value);
+    // 神秘事件开启用
+    static RewardPanel* createWithMystery();
+    bool initWithMystery();
+    
     virtual void onEnter();
     virtual void onExit();
     
@@ -37,6 +41,7 @@ private:
     
 private:
     int num_child;
+    bool                _couldExit;
     
     CCSprite*           _panel;
     string              _type;

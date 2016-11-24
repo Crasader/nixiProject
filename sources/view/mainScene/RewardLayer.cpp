@@ -117,7 +117,10 @@ void RewardLayer::drawOnce(){
 //    CCString* str = (CCString* )arr->objectAtIndex(0);
 //    std::string indexStr = str->getCString();
 //    int index = atoi(indexStr.c_str());
-    int index = ((CCInteger*)rewardArr->objectAtIndex(0))->getValue();
+    
+    CCDictionary* dic = (CCDictionary*)rewardArr->objectAtIndex(0);
+    const CCString* type = dic->valueForKey("type");
+    int index = ((CCInteger* )dic->objectForKey("num"))->getValue();
     CCString* str = CCString::createWithFormat("%d", index);
     
     CCString* iconStr;
@@ -158,7 +161,8 @@ void RewardLayer::drawOnce(){
         
     }else{
         z_oder = 0;
-        iconStr = CCString::createWithFormat("res/pic/gashapon/gashapon_suipian.png");
+//        iconStr = CCString::createWithFormat("res/pic/gashapon/gashapon_suipian.png");
+        iconStr = this->iconWithRewardType(type);
     }
     CCSprite* iconSpr = CCSprite::create(iconStr->getCString());
     iconSpr->setScale(.2f);
@@ -166,7 +170,8 @@ void RewardLayer::drawOnce(){
     kuangSpr->addChild(iconSpr, 70 + z_oder);
     
     if (index < 10000) {
-        CCString* labelStr = CCString::createWithFormat("碎片 x%s", str->getCString());
+//        CCString* labelStr = CCString::createWithFormat("碎片 x%s", str->getCString());
+        CCString* labelStr = this->descriptionWithRewardTypeOnce(type, index);
         CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(kuangSpr->getContentSize().width* .8f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .18f));
         label->setColor(ccWHITE);
@@ -215,6 +220,21 @@ CCString* RewardLayer::iconWithRewardType(const CCString* type) {
     }
     else if (type->compare("diam") == 0) {
         rtn = ccs("pic/common/diam2.png");
+    }
+    
+    return rtn;
+}
+
+CCString* RewardLayer::descriptionWithRewardTypeOnce(const CCString* type, int num) {
+    CCString* rtn = NULL;
+    if (type->compare("piece") == 0) {
+        rtn = CCString::createWithFormat("水晶碎片x%d", num);
+    }
+    else if (type->compare("coin") == 0) {
+        rtn = CCString::createWithFormat("金币x%d", num);
+    }
+    else if (type->compare("diam") == 0) {
+        rtn = CCString::createWithFormat("钻石x%d", num);
     }
     
     return rtn;

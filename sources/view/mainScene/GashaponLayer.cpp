@@ -272,6 +272,17 @@ void GashaponLayer::creat_View(){
     menu->setPosition(CCPointZero);
     bgSpr->addChild(menu, 30);
     
+    //
+    CCSprite* plate = CCSprite::create("pic/gashapon/gashapon_di2.png");
+    plate->setPosition(ccp(bgSpr->getContentSize().width * 0.7f, bgSpr->getContentSize().height * 0.066f));
+    bgSpr->addChild(plate);
+    
+    CCLabelTTF* lblTishi = CCLabelTTF::create("至少获得一件高级衣物", DISPLAY->fangzhengFont(), 9.8f);
+    lblTishi->setAnchorPoint(ccp(0.5, 0.5));
+    lblTishi->setPosition(ccp(plate->getContentSize().width * 0.5, plate->getContentSize().height * 0.5));
+    lblTishi->enableShadow(CCSizeMake(2, 1), 1, 2);
+    plate->addChild(lblTishi);
+    
     this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);
 }
 void GashaponLayer::jiantou1CallBack(CCObject* pSender){
