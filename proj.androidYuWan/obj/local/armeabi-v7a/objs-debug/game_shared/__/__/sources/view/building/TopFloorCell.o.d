@@ -261,6 +261,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/building/TopFloo
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -275,7 +276,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/building/TopFloo
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
- jni/../../sources/view/building/BuildingRewardPanel.h \
+ jni/../../sources/view/common/RewardPanel/RewardPanel.h \
  jni/../../sources/view/common/Loading2/Loading2.h
 
 jni/../../sources/view/building/TopFloorCell.h:
@@ -814,6 +815,8 @@ jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
 
+jni/../../sources/model/TrystComp.h:
+
 jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h:
@@ -842,6 +845,6 @@ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
-jni/../../sources/view/building/BuildingRewardPanel.h:
+jni/../../sources/view/common/RewardPanel/RewardPanel.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:

@@ -265,6 +265,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mystery/MysteryDialo
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h \
@@ -828,6 +829,8 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
+
+jni/../../sources/model/TrystComp.h:
 
 jni/../../sources/manager/ConfigManager.h:
 

@@ -249,6 +249,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/St
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
  jni/../../sources/view/mainScene/MainScene.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/model/ClothesComp.h \
  jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
@@ -264,9 +265,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/St
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/LabelColorLayer.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
@@ -786,6 +787,8 @@ jni/../../sources/third/Json/lib_json/writer.h:
 
 jni/../../sources/view/mainScene/MainScene.h:
 
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/model/ClothesComp.h:
@@ -830,11 +833,11 @@ jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
 
+jni/../../sources/model/TrystComp.h:
+
 jni/../../sources/view/qingjingScene/QingjingScene.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

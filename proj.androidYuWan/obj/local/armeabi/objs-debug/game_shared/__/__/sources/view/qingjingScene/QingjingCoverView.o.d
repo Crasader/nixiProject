@@ -258,7 +258,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/qingjingScene/Qingji
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
- jni/../../sources/utils/AppUtil.h
+ jni/../../sources/model/TrystComp.h jni/../../sources/utils/AppUtil.h
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
@@ -789,5 +789,7 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
+
+jni/../../sources/model/TrystComp.h:
 
 jni/../../sources/utils/AppUtil.h:

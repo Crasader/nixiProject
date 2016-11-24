@@ -260,6 +260,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/common/BarrageVi
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/WSManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
@@ -801,6 +802,8 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
+
+jni/../../sources/model/TrystComp.h:
 
 jni/../../sources/manager/WSManager.h:
 

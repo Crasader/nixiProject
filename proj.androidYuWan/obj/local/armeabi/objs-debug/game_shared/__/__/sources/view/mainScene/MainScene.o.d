@@ -237,6 +237,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -262,10 +263,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/qingjingScene/StoryScene.h \
  jni/../../sources/view/qingjingScene/Dialogs.h \
  jni/../../sources/view/qingjingScene/DialogItem.h \
@@ -309,7 +310,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/panel/MailPanel.h \
  jni/../../sources/view/panel/OperationPanel.h \
- jni/../../sources/view/panel/SettingPanel.h \
  jni/../../sources/view/panel/ChatPanel.h \
  jni/../../sources/view/panel/TotalRechargePanel.h \
  jni/../../sources/view/panel/Signin7Panel.h \
@@ -320,6 +320,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/mainScene/ExchangeLayer.h \
  jni/../../sources/view/panel/TempSignin.h \
  jni/../../sources/view/mystery/MysteryLayer.h \
+ jni/../../sources/view/tryst/TrystScene.h \
+ jni/../../sources/view/tryst/TrystProgress.h \
+ jni/../../sources/view/panel/DailySigninRewardPanel.h \
  jni/../../sources/view/mainScene/RewardLayer.h \
  jni/../../sources/view/guide/GuideLayer.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
@@ -801,6 +804,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -865,13 +870,13 @@ jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
 
+jni/../../sources/model/TrystComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/qingjingScene/QingjingScene.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/view/qingjingScene/StoryScene.h:
 
@@ -959,8 +964,6 @@ jni/../../sources/view/panel/MailPanel.h:
 
 jni/../../sources/view/panel/OperationPanel.h:
 
-jni/../../sources/view/panel/SettingPanel.h:
-
 jni/../../sources/view/panel/ChatPanel.h:
 
 jni/../../sources/view/panel/TotalRechargePanel.h:
@@ -980,6 +983,12 @@ jni/../../sources/view/mainScene/ExchangeLayer.h:
 jni/../../sources/view/panel/TempSignin.h:
 
 jni/../../sources/view/mystery/MysteryLayer.h:
+
+jni/../../sources/view/tryst/TrystScene.h:
+
+jni/../../sources/view/tryst/TrystProgress.h:
+
+jni/../../sources/view/panel/DailySigninRewardPanel.h:
 
 jni/../../sources/view/mainScene/RewardLayer.h:
 
