@@ -720,7 +720,7 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-        return _player->getGuide();
+//        return _player->getGuide();
         return 0;
     }
     else {
