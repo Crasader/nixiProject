@@ -274,6 +274,21 @@ void QingjingScene::creat_view(){
         label->setColor(ccWHITE);
         kuangSpr1->addChild(label, 2);
         
+        
+        CCLabelTTF* tishiLabel1 = CCLabelTTF::create("首次通关奖励20", DISPLAY->fangzhengFont(), 20);
+        tishiLabel1->setPosition(ccp(kuangSpr1->getContentSize().width* .86f, kuangSpr1->getContentSize().height* .3f));
+        tishiLabel1->setColor(ccWHITE);
+        kuangSpr1->addChild(tishiLabel1, 3);
+        CCLabelTTF* tishiLabel2 = CCLabelTTF::create("首次通关奖励20", DISPLAY->fangzhengFont(), 20);
+        tishiLabel2->setPosition(ccp(kuangSpr1->getContentSize().width* .86f + 2, kuangSpr1->getContentSize().height* .3f - 2));
+        tishiLabel2->setColor(ccBLACK);
+        kuangSpr1->addChild(tishiLabel2, 2);
+        CCSprite* tishiSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
+        tishiSpr->setScale(.65f);
+        tishiSpr->setPosition(ccp(kuangSpr1->getContentSize().width* .86f + tishiLabel1->getContentSize().width* .5f + 13, kuangSpr1->getContentSize().height* .31));
+        kuangSpr1->addChild(tishiSpr, 2);
+        
+        
         // 结局成就
         CCLabelTTF* titleLabel = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
         titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
