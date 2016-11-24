@@ -332,7 +332,7 @@ void MainScene::onEnter(){
     //
     this->showTrystEntrance();
     //
-    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
+//    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
 }
 
 void MainScene::checkVersion() {
