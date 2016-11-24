@@ -337,10 +337,10 @@ void MainScene::onEnter(){
     
     this->checkVersion();
     
-
-    if (DATA->getNews()->trystOn == 1) {
-        this->showTrystEntrance();
-    }
+    this->showTrystEntrance();
+//    if (DATA->getNews()->trystOn == 1) {
+//        
+//    }
     NET->fetch_tryst_info_620();
 }
 
