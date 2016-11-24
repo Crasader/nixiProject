@@ -364,8 +364,10 @@ void RewardLayer::drawTen(){
     
     if (index < 10000) {
         CCString* labelStr = CCString::createWithFormat("x%s", str->getCString());
-        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(iconSpr->getContentSize().width* .5f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-        label->setPosition(ccp(dikuangSpr->getContentSize().width* .9f, dikuangSpr->getContentSize().height* .9f));
+//        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 18, CCSizeMake(iconSpr->getContentSize().width* .5f, 18), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF* label = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 18);
+        label->setAnchorPoint(ccp(0.5, 0.5));
+        label->setPosition(ccp(dikuangSpr->getContentSize().width* .84f, dikuangSpr->getContentSize().height* .9f));
         label->setColor(ccc3(181, 143, 145));
         dikuangSpr->addChild(label);
     }

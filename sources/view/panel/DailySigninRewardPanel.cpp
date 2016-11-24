@@ -300,6 +300,7 @@ void DailySigninRewardPanel::showLightAndRewardNum() {
     box->addChild(light, rewardDisplay->getZOrder() - 1);
     
     CCLabelTTF* lblNum = CCLabelTTF::create(CCString::createWithFormat("%d", this->num)->getCString(), DISPLAY->fangzhengFont(), 22);
+    lblNum->setAnchorPoint(ccp(0.5, 0.5));
     lblNum->setColor(ccc3(179, 85, 123));
     lblNum->setPosition(ccp(rewardDisplay->getContentSize().width * 0.5, rewardDisplay->getContentSize().height * 0.2));
     rewardDisplay->addChild(lblNum);
