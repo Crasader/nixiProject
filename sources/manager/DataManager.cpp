@@ -421,7 +421,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->init_with_json(content["story"]);
-            pData = CCInteger::create(50); //AppUtil::dictionary_with_json(content["pass_reward"]);
+            pData = AppUtil::dictionary_with_json(content["extra"]);
         } break;
             
         case 504: {
