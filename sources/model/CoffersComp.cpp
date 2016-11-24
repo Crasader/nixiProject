@@ -77,13 +77,14 @@ bool CoffersComp::is_coffers_full() {
     return (profit >= top);
 }
 
-bool CoffersComp::have_untake_reward(int phase) {
+bool CoffersComp::have_untake_reward(int phase, int phaseTotalRating) {
     CCArray* items = this->phase_goals(phase);
     int count = items->count();
     for (int i = 0; i < count; i++) {
         CCDictionary* item = (CCDictionary*)items->objectAtIndex(i);
         CCString* itemId = (CCString*)item->objectForKey("id");
-        if (this->has_taken_reward(itemId)) {
+        CCInteger* itemGoal = (CCInteger*)item->objectForKey("goal");
+        if (phaseTotalRating > itemGoal->getValue() && ! this->has_taken_reward(itemId)) {
             return true;
         }
     }
