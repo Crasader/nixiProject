@@ -1629,8 +1629,17 @@ void ClothesScene::saveClothesMethods(){
         for (int j = 0; j < clothesArr->count(); j++) {
             CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
             int sale = clothDic->valueForKey("sale")->intValue();
-            if (sale != 0) {
+            int id = clothDic->valueForKey("id")->intValue();
+//            if (sale != 0) {
+//                tempArr->addObject(clothDic);
+//            }
+            if (DATA->getClothes()->is_owned(i, id)) {
+                // 购买了
                 tempArr->addObject(clothDic);
+            }else{
+                if (sale != 0) {
+                    tempArr->addObject(clothDic);
+                }
             }
         }
         for (int k = 0; k < tempArr->count(); k++) {
@@ -1639,7 +1648,8 @@ void ClothesScene::saveClothesMethods(){
             CCDictionary* shipinDic;
             if (i != Tag_CL_ShiPin) {
                 clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
-                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                int id = dic->valueForKey("id")->intValue();
+                if (id == clothesTemp_id->getValue()) {
                     int phase = dic->valueForKey("phase")->intValue();
                     int cloth_type = dic->valueForKey("type")->intValue();
                     if (phase > DATA->getPlayer()->phase) {
@@ -1652,6 +1662,19 @@ void ClothesScene::saveClothesMethods(){
                         
                         PromptLayer* layer = PromptLayer::create();
                         layer->show_prompt(this->getScene(), "有不能购买的衣饰,已经送回商店!");
+                        
+                        continue;
+                    }else if (cloth_type == 10 && !DATA->getClothes()->is_owned(i, id)){
+                        phaseBool = true;
+                        
+                        CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                        CCString* keyStr = CCString::createWithFormat("%d", i);
+                        myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
+                        this->ChangeClothes((CCObject* )updataClothes(i));
+                        
+                        PromptLayer* layer = PromptLayer::create();
+                        layer->show_prompt(this->getScene(), "有不能购买的衣饰,已经送回商店!");
+                        
                         continue;
                     }
                 }
@@ -1660,10 +1683,24 @@ void ClothesScene::saveClothesMethods(){
                 CCInteger* clothesTemp_id;
                 for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
-                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
-                        int phase = dic->valueForKey("phase")->intValue();
-                        int cloth_type = dic->valueForKey("type")->intValue();
+                    int phase = dic->valueForKey("phase")->intValue();
+                    int cloth_type = dic->valueForKey("type")->intValue();
+                    int id = dic->valueForKey("id")->intValue();
+                    if (id == clothesTemp_id->getValue()) {
                         if (phase > DATA->getPlayer()->phase) {
+                            phaseBool = true;
+                            
+                            CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                            CCString* keyStr = CCString::createWithFormat("%d", i);
+                            CCString* sub_part_keyStr = CCString::createWithFormat("%d", dic->valueForKey("sub_part")->intValue());
+                            CCDictionary* shipinDic2 = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                            shipinDic2->setObject(cloth_integer, sub_part_keyStr->getCString());
+                            myClothesTempDic->setObject(shipinDic2, keyStr->getCString());
+                            
+                            this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
+                            
+                            continue;
+                        }else if (cloth_type == 10 && !DATA->getClothes()->is_owned(i, id)){
                             phaseBool = true;
                             
                             CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
