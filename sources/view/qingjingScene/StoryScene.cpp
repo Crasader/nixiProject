@@ -2379,8 +2379,9 @@ void StoryScene::LabelColorFhCallBack(CCObject* pSender){
 
 void StoryScene::_503CallBack(CCObject* pSender){
     LOADING->remove();
-//    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
-    CCInteger* goldIndex = (CCInteger* )pSender;
+    
+    CCDictionary* extra = (CCDictionary* )pSender;
+    CCInteger* goldIndex = (CCInteger* )extra->objectForKey("pass_reward");
     StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString(), goldIndex->getValue());
     this->addChild(layer, 1000);
 }
