@@ -257,7 +257,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/vipQingjingScene/Vip
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
- jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h
+ jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h
 
 jni/../../sources/view/vipQingjingScene/VipDialogItem.h:
 
@@ -788,3 +789,5 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
+
+jni/../../sources/model/TrystComp.h:

@@ -21,8 +21,8 @@ using namespace std;
 #endif
 
 /**  美图  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
 
 /**  百度  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/baidu/Tiegao"
@@ -50,8 +50,8 @@ using namespace std;
 
 
 /**  白包 鱼丸母包 **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 extern "C"
 {

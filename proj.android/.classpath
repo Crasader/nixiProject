@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="lib" path="libs/Game_Analytics_SDK_Android_3.1.69.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/MobCommons.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/MobTools.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Core-2.6.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Wechat-2.6.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Wechat-Core-2.6.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Wechat-Moments-2.6.6.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
