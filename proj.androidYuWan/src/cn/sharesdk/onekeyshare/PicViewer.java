@@ -26,30 +26,30 @@ import com.mob.tools.FakeActivity;
 public class PicViewer extends FakeActivity implements OnTouchListener {
 	private ImageView ivViewer;
 	private Bitmap pic;
-
+	
 	Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
     DisplayMetrics dm;
-
+    
     /** 最小缩放比例*/
     float minScaleR = 1f;
     /** 最大缩放比例*/
     static final float MAX_SCALE = 10f;
-
+    
     /** 初始状态*/
     static final int NONE = 0;
     /** 拖动*/
     static final int DRAG = 1;
     /** 缩放*/
     static final int ZOOM = 2;
-
+    
     /** 当前模式*/
     int mode = NONE;
-
+    
     PointF prev = new PointF();
     PointF mid = new PointF();
     float dist = 1f;
-
+    
 	/** 设置图片用于浏览 */
 	public void setImageBitmap(Bitmap pic) {
 		this.pic = pic;
@@ -57,7 +57,7 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
 			ivViewer.setImageBitmap(pic);
 		}
 	}
-
+	
 	public void onCreate() {
 		ivViewer = new ImageView(activity);
 		ivViewer.setScaleType(ScaleType.MATRIX);
@@ -72,16 +72,16 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
         CheckView();
         ivViewer.setImageMatrix(matrix);
 	    activity.setContentView(ivViewer);
-
+	    
 	}
-
-
-
+	
+	
+	
 	/**
      * 触屏监听
      */
     public boolean onTouch(View v, MotionEvent event) {
-
+    	
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
         // 主点按下
         case MotionEvent.ACTION_DOWN:
@@ -122,7 +122,7 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
         CheckView();
         return true;
     }
-
+    
     /**
      * 限制最大最小缩放比例，自动居中
      */
@@ -141,7 +141,7 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
         }
         center();
     }
-
+    
     /**
      * 最小缩放比例，最大为100%
      */
@@ -152,26 +152,26 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
         //以最小缩放比例显示
         matrix.setScale(minScaleR, minScaleR);
     }
-
+    
     private void center() {
         center(true, true);
     }
-
+    
     /**
      * 横向、纵向居中
      */
     protected void center(boolean horizontal, boolean vertical) {
-
+    	
     	 Matrix m = new Matrix();
          m.set(matrix);
          RectF rect = new RectF(0, 0, pic.getWidth(), pic.getHeight());
          m.mapRect(rect);
-
+         
          float height = rect.height();
          float width = rect.width();
-
+         
          float deltaX = 0, deltaY = 0;
-
+         
          if (vertical) {
              // 图片小于屏幕大小，则居中显示。大于屏幕，上方留空则往上移，下方留空则往下移
              int screenHeight = dm.heightPixels;
@@ -183,7 +183,7 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
                  deltaY = ivViewer.getHeight() - rect.bottom;
              }
          }
-
+         
          if (horizontal) {
              int screenWidth = dm.widthPixels;
              if (width < screenWidth) {
@@ -196,7 +196,7 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
          }
          matrix.postTranslate(deltaX, deltaY);
     }
-
+    
     /**
      * 两点的距离
      */
@@ -205,7 +205,7 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
         float y = event.getY(0) - event.getY(1);
         return (float)Math.sqrt(x * x + y * y);
     }
-
+	
     /**
      * 两点的中点
      */
@@ -214,5 +214,5 @@ public class PicViewer extends FakeActivity implements OnTouchListener {
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
-
+    
 }

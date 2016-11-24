@@ -90,6 +90,8 @@ public:
 //    CC_SYNTHESIZE(int, _loginType, LoginType);    // 1游客；2账号
     CC_SYNTHESIZE(bool, _hasLogin, HasLogin);       // 是否完成登入
     CC_SYNTHESIZE(bool, _firstOnMainScene, FirstOnMainScene);       // 是否首次进入主界面
+    // 公示信息
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(std::string, _notif, Notif);
     // 剧情选中数
     CC_SYNTHESIZE(int, chapterNumber, ChapterNumber);
     CC_SYNTHESIZE(bool, chapterNumberBool, ChapterNumberBool);
@@ -157,6 +159,8 @@ public:
     
     bool could_prduce();
     
+    bool isMysteryEventUnlocked();
+    CC_SYNTHESIZE(bool, _needShowUnlockMystery, NeedShowUnlockMystery);
     
     // talkingData自定义事件
     void onEvent(std::string eventStr, std::string pageStr, std::string contentStr);
@@ -172,6 +176,8 @@ public:
     void onCompleted(std::string taskId);
     // 任务id处理
     CC_SYNTHESIZE(int, _taskTalkingdataID, TaskTalkingdataID);
+    // 第一次通关
+    CC_SYNTHESIZE(bool, _theEndBool, TheEndBool);
     
 private:
 

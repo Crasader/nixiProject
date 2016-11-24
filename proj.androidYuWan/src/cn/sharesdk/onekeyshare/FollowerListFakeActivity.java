@@ -8,26 +8,26 @@ import cn.sharesdk.framework.Platform;
 
 public class FollowerListFakeActivity extends FakeActivity {
 	protected Platform platform;
-
+	
 	public void setPlatform(Platform platform) {
 		this.platform = platform;
 	}
-
+	
 	public Platform getPlatform() {
 		return platform;
 	}
-
+	
 	public boolean isRadioMode(String platformName) {
 		return "FacebookMessenger".equals(platformName);
 	}
-
+	
 	public void setResultForChecked(ArrayList<String> checked) {
 		HashMap<String, Object> res = new HashMap<String, Object>();
 		res.put("selected", checked);
 		res.put("platform", platform);
 		setResult(res);
 	}
-
+	
 	public static class Following {
 		public boolean checked;
 		public String screenName;
@@ -37,17 +37,17 @@ public class FollowerListFakeActivity extends FakeActivity {
 		//@Name 用于微博等提示或关联某个人
 		public String atName;
 	}
-
+	
 	public static class FollowersResult {
 		public ArrayList<Following> list;
 		public boolean hasNextPage = false;
 	}
-
+	
 	public static FollowersResult parseFollowers(String platformName, HashMap<String, Object> res, HashMap<String, Boolean> uidMap) {
 		if (res == null || res.size() <= 0) {
 			return null;
 		}
-
+		
 		boolean hasNext = false;
 		ArrayList<Following> data = new ArrayList<Following>();
 		if ("SinaWeibo".equals(platformName)) {
@@ -158,7 +158,7 @@ public class FollowerListFakeActivity extends FakeActivity {
 			}
 			hasNext = false;
 		}
-
+		
 		FollowersResult ret = new FollowersResult();
 		ret.list = data;
 		ret.hasNextPage = hasNext;

@@ -27,11 +27,15 @@ public:
     
 private:
     void show_arrow();  // 改为直接弹出公司动画
+    
+    void createCompanyRewardIcon();
     void building_shaking();
     void building_touch_callback();
     
     void show_building();
     void show_phase_up();
+    
+    void show_mystery_unlock();
     
     void on_construction_finish(CCNode* node);
     void on_phaseup_finish(CCNode* node);

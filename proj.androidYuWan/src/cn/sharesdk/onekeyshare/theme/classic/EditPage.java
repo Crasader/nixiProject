@@ -90,9 +90,9 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 //	private LinearLayout llAt;
 	private View[] views;
 	private Drawable background;
-
+	
 	private Platform[] platformList;
-
+	
 	public void setActivity(Activity activity) {
 		super.setActivity(activity);
 		Window win = activity.getWindow();
@@ -105,18 +105,18 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 					| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		}
 	}
-
+	
 	public void onCreate() {
 		if (shareParamMap == null || platforms == null || platforms.size() < 1) {
 			finish();
 			return;
 		}
-
+		
 		getBackground();
 		activity.setContentView(getPageView());
 		onTextChanged(etContent.getText(), 0, etContent.length(), 0);
 		showThumb();
-
+		
 		// requests platform list and remove platforms share in their clients
 		new Thread(){
 			public void run() {
@@ -125,7 +125,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 					if (platformList == null) {
 						return;
 					}
-
+					
 					ArrayList<Platform> list = new ArrayList<Platform>();
 					for (Platform plat : platformList) {
 						String name = plat.getName();
@@ -139,7 +139,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 					for (int i = 0; i < platformList.length; i++) {
 						platformList[i] = list.get(i);
 					}
-
+					
 					UIHandler.sendEmptyMessage(1, new Callback() {
 						public boolean handleMessage(Message msg) {
 							afterPlatformListGot();
@@ -152,7 +152,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 		}.start();
 	}
-
+	
 	private RelativeLayout getPageView() {
 		rlPage = new RelativeLayout(getContext());
 		rlPage.setBackgroundDrawable(background);
@@ -168,7 +168,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			lpDialog.addRule(RelativeLayout.CENTER_IN_PARENT);
 			rlDialog.setLayoutParams(lpDialog);
 			rlPage.addView(rlDialog);
-
+			
 			rlDialog.addView(getPageTitle());
 			rlDialog.addView(getPageBody());
 			rlDialog.addView(getImagePin());
@@ -179,7 +179,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 		return rlPage;
 	}
-
+	
 	// title bar
 	private TitleLayout getPageTitle() {
 		llTitle = new TitleLayout(getContext());
@@ -189,7 +189,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			llTitle.setBackgroundResource(resId);
 		}
 		llTitle.getBtnBack().setOnClickListener(this);
-
+		
 		resId = getStringRes(activity, "ssdk_oks_multi_share");
 		if (resId > 0) {
 			llTitle.getTvTitle().setText(resId);
@@ -206,10 +206,10 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		llTitle.setLayoutParams(lp);
-
+		
 		return llTitle;
 	}
-
+	
 	// page body
 	private LinearLayout getPageBody() {
 		llBody = new LinearLayout(getContext());
@@ -230,14 +230,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		int dp_3 = dipToPx(getContext(), 3);
 		lpBody.setMargins(dp_3, dp_3, dp_3, dp_3);
 		llBody.setLayoutParams(lpBody);
-
+		
 		llBody.addView(getMainBody());
 		llBody.addView(getSep());
 		llBody.addView(getPlatformList());
-
+		
 		return llBody;
 	}
-
+	
 	private LinearLayout getMainBody() {
 		LinearLayout llMainBody = new LinearLayout(getContext());
 		llMainBody.setOrientation(LinearLayout.VERTICAL);
@@ -247,13 +247,13 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		int dp_4 = dipToPx(getContext(), 4);
 		lpMain.setMargins(dp_4, dp_4, dp_4, dp_4);
 		llMainBody.setLayoutParams(lpMain);
-
+		
 		LinearLayout llContent = new LinearLayout(getContext());
 		LayoutParams lpContent = new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		lpContent.weight = 1;
 		llMainBody.addView(llContent, lpContent);
-
+		
 		// share content editor
 		etContent = new EditText(getContext());
 		etContent.setGravity(Gravity.LEFT | Gravity.TOP);
@@ -265,13 +265,13 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpEt.weight = 1;
 		etContent.setLayoutParams(lpEt);
 		llContent.addView(etContent);
-
+		
 		llContent.addView(getThumbView());
 		llMainBody.addView(getBodyBottom());
-
+		
 		return llMainBody;
 	}
-
+	
 	// shared image container
 	private RelativeLayout getThumbView() {
 		rlThumb = new RelativeLayout(getContext());
@@ -281,7 +281,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		LayoutParams lpThumb
 				= new LayoutParams(dp_82, dp_98);
 		rlThumb.setLayoutParams(lpThumb);
-
+		
 		ivImage = new ImageView(getContext());
 		int resId = getBitmapRes(activity, "ssdk_oks_btn_back_nor");
 		if (resId > 0) {
@@ -289,7 +289,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 		ivImage.setScaleType(ScaleType.CENTER_INSIDE);
 		ivImage.setImageBitmap(image);
-
+		
 		int dp_4 = dipToPx(getContext(), 4);
 		ivImage.setPadding(dp_4, dp_4, dp_4, dp_4);
 		int dp_74 = dipToPx(getContext(), 74);
@@ -309,7 +309,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 		});
 		rlThumb.addView(ivImage);
-
+		
 		int dp_24 = dipToPx(getContext(), 24);
 		progressBar = new ProgressBar(getContext());
 		progressBar.setPadding(dp_24, dp_24, dp_24, dp_24);
@@ -318,7 +318,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		pb.setMargins(0, dp_16, dp_8, 0);
 		progressBar.setLayoutParams(pb);
 		rlThumb.addView(progressBar);
-
+		
 		Button btn = new Button(getContext());
 		btn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -339,13 +339,13 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpBtn.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		btn.setLayoutParams(lpBtn);
 		rlThumb.addView(btn);
-
+		
 		if(!haveImage()){
 			rlThumb.setVisibility(View.GONE);
 		}
 		return rlThumb;
 	}
-
+	
 	private void showThumb() {
 		initImageList(new ImageListResultsCallback() {
 			@Override
@@ -362,17 +362,17 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 		});
 	}
-
+	
 	private LinearLayout getBodyBottom() {
 		LinearLayout llBottom = new LinearLayout(getContext());
 		llBottom.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
+		
 		LinearLayout line = getAtLine(platforms.get(0).getName());
 		if (line != null) {
 			llBottom.addView(line);
 		}
-
+		
 		// Words counter
 		tvCounter = new TextView(getContext());
 		tvCounter.setText(String.valueOf(MAX_TEXT_COUNT));
@@ -384,10 +384,10 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpCounter.gravity = Gravity.CENTER_VERTICAL;
 		tvCounter.setLayoutParams(lpCounter);
 		llBottom.addView(tvCounter);
-
+		
 		return llBottom;
 	}
-
+	
 	// if platform selected form platform gridview is SinaWeibo,
 	// TencentWeibo, Facebook, or Twitter, there will be a button
 	// in the left-bottom of the page, which provides At-friends function
@@ -416,7 +416,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 				}
 			}
 		});
-
+		
 		TextView tvAt = new TextView(getContext());
 		int resId = getBitmapRes(activity, "ssdk_oks_btn_back_nor");
 		if (resId > 0) {
@@ -432,7 +432,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		tvAt.setTextColor(0xff000000);
 		tvAt.setGravity(Gravity.CENTER);
 		llAt.addView(tvAt);
-
+		
 		TextView tvName = new TextView(getContext());
 		tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 		tvName.setTextColor(0xff000000);
@@ -444,10 +444,10 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpName.gravity = Gravity.CENTER_VERTICAL;
 		tvName.setLayoutParams(lpName);
 		llAt.addView(tvName);
-
+		
 		return llAt;
 	}
-
+	
 	private View getSep() {
 		View vSep = new View(getContext());
 		vSep.setBackgroundColor(0xff000000);
@@ -457,14 +457,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		vSep.setLayoutParams(lpSep);
 		return vSep;
 	}
-
+	
 	// platform logos
 	private LinearLayout getPlatformList() {
 		LinearLayout llToolBar = new LinearLayout(getContext());
 		LayoutParams lpTb = new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		llToolBar.setLayoutParams(lpTb);
-
+		
 		TextView tvShareTo = new TextView(getContext());
 		int resId = getStringRes(activity, "ssdk_oks_share_to");
 		if (resId > 0) {
@@ -479,7 +479,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpShareTo.setMargins(dp_9, 0, 0, 0);
 		tvShareTo.setLayoutParams(lpShareTo);
 		llToolBar.addView(tvShareTo);
-
+		
 		HorizontalScrollView sv = new HorizontalScrollView(getContext());
 		sv.setHorizontalScrollBarEnabled(false);
 		sv.setHorizontalFadingEdgeEnabled(false);
@@ -488,15 +488,15 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpSv.setMargins(dp_9, dp_9, dp_9, dp_9);
 		sv.setLayoutParams(lpSv);
 		llToolBar.addView(sv);
-
+		
 		llPlat = new LinearLayout(getContext());
 		llPlat.setLayoutParams(new HorizontalScrollView.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 		sv.addView(llPlat);
-
+		
 		return llToolBar;
 	}
-
+	
 	// the pin
 	private ImageView getImagePin() {
 		ivPin = new ImageView(getContext());
@@ -513,10 +513,10 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		ivPin.setLayoutParams(lp);
 		ivPin.setVisibility(View.GONE);
-
+		
 		return ivPin;
 	}
-
+	
 	private void getBackground() {
 		background = new ColorDrawable(DIM_COLOR);
 		if (backgroundView != null) {
@@ -530,16 +530,16 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 		}
 	}
-
+	
 	private String getName(String platform) {
 		if (platform == null) {
 			return "";
 		}
-
+		
 		int resId = getStringRes(getContext(), "ssdk_" + platform.toLowerCase());
 		return getContext().getString(resId);
 	}
-
+	
 	public void onClick(View v) {
 		if (v.equals(llTitle.getBtnBack())) {
 			Platform plat = null;
@@ -549,7 +549,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 					break;
 				}
 			}
-
+			
 			// a statistics of Cancel-sharing
 			if (plat != null) {
 				ShareSDK.logDemoEvent(5, plat);
@@ -557,18 +557,18 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			finish();
 			return;
 		}
-
+		
 		if (v.equals(llTitle.getBtnRight())) {
 			String text = etContent.getText().toString();
 			shareParamMap.put("text", text);
-
+			
 			platforms.clear();
 			for (int i = 0; i < views.length; i++) {
 				if (views[i].getVisibility() != View.VISIBLE) {
 					platforms.add(platformList[i]);
 				}
 			}
-
+			
 			if (platforms.size() > 0) {
 				setResultAndFinish();
 			} else {
@@ -579,24 +579,24 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 			return;
 		}
-
+		
 		if (v instanceof FrameLayout) {
 			((FrameLayout) v).getChildAt(1).performClick();
 			return;
 		}
-
+		
 		if (v.getVisibility() == View.INVISIBLE) {
 			v.setVisibility(View.VISIBLE);
 		} else {
 			v.setVisibility(View.INVISIBLE);
 		}
 	}
-
+	
 	/** display platform list */
 	public void afterPlatformListGot() {
 		int size = platformList == null ? 0 : platformList.length;
 		views = new View[size];
-
+		
 		final int dp_24 = dipToPx(getContext(), 24);
 		LayoutParams lpItem = new LayoutParams(dp_24, dp_24);
 		final int dp_9 = dipToPx(getContext(), 9);
@@ -613,14 +613,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 			llPlat.addView(fl);
 			fl.setOnClickListener(this);
-
+			
 			ImageView iv = new ImageView(getContext());
 			iv.setScaleType(ScaleType.CENTER_INSIDE);
 			iv.setImageBitmap(getPlatLogo(platformList[i]));
 			iv.setLayoutParams(new FrameLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			fl.addView(iv);
-
+			
 			views[i] = new View(getContext());
 			views[i].setBackgroundColor(0xcfffffff);
 			views[i].setOnClickListener(this);
@@ -634,7 +634,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			views[i].setLayoutParams(lpMask);
 			fl.addView(views[i]);
 		}
-
+		
 		final int postSel = selection;
 		UIHandler.sendEmptyMessageDelayed(0, 333, new Callback() {
 			public boolean handleMessage(Message msg) {
@@ -644,17 +644,17 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}
 		});
 	}
-
+	
 	private Bitmap getPlatLogo(Platform plat) {
 		if (plat == null) {
 			return null;
 		}
-
+		
 		String name = plat.getName();
 		if (name == null) {
 			return null;
 		}
-
+		
 		String resName = "ssdk_oks_logo_" + plat.getName();
 		int resId = getBitmapRes(activity, resName.toLowerCase());
 		if(resId > 0) {
@@ -662,29 +662,29 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 		return null;
 	}
-
+	
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-
+		
 	}
-
+	
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		int remain = MAX_TEXT_COUNT - etContent.length();
 		tvCounter.setText(String.valueOf(remain));
 		tvCounter.setTextColor(remain > 0 ? 0xffcfcfcf : 0xffff0000);
 	}
-
+	
 	public void afterTextChanged(Editable s) {
-
+		
 	}
-
+	
 	public void onResult(HashMap<String, Object> data) {
 		String atText = getJoinSelectedUser(data);
 		if(atText != null) {
 			etContent.append(atText);
 		}
 	}
-
+	
 	private void hideSoftInput() {
 		try {
 			InputMethodManager imm = (InputMethodManager) activity.getSystemService(
@@ -694,12 +694,12 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			t.printStackTrace();
 		}
 	}
-
+	
 	public boolean onFinish() {
 		hideSoftInput();
 		return super.onFinish();
 	}
-
+	
 	public void onConfigurationChanged(Configuration newConfig) {
 		int orientation = activity.getResources().getConfiguration().orientation;
 		if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -728,5 +728,5 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			}, 1000);
 		}
 	}
-
+	
 }

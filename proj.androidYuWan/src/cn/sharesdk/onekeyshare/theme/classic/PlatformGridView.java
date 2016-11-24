@@ -67,26 +67,26 @@ public class PlatformGridView extends LinearLayout implements
 	private HashMap<String, String> hiddenPlatforms;
 	private View bgView;
 	private long lastClickTime;
-
+	
 	public PlatformGridView(Context context) {
 		super(context);
 		init(context);
 	}
-
+	
 	public PlatformGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
-
+	
 	private void init(final Context context) {
 		calPageSize();
 		setOrientation(VERTICAL);
-
+		
 		pager = new ViewPagerClassic(context);
 		disableOverScrollMode(pager);
 		pager.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		addView(pager);
-
+		
 		// in order to have a better UI effect, opening a thread request the list of platforms
 		new Thread() {
 			public void run() {
@@ -102,7 +102,7 @@ public class PlatformGridView extends LinearLayout implements
 			}
 		}.start();
 	}
-
+	
 	private void calPageSize() {
 		float scrW = com.mob.tools.utils.R.getScreenWidth(getContext());
 		float scrH = com.mob.tools.utils.R.getScreenHeight(getContext());
@@ -127,7 +127,7 @@ public class PlatformGridView extends LinearLayout implements
 		}
 		PAGE_SIZE = COLUMN_PER_LINE * LINE_PER_PAGE;
 	}
-
+	
 	public boolean handleMessage(Message msg) {
 		switch (msg.what) {
 			case MSG_PLATFORM_LIST_GOT: {
@@ -137,7 +137,7 @@ public class PlatformGridView extends LinearLayout implements
 		}
 		return false;
 	}
-
+	
 	// initializes the girdview of platforms
 	public void afterPlatformListGot() {
 		PlatformAdapter adapter = new PlatformAdapter(this);
@@ -158,7 +158,7 @@ public class PlatformGridView extends LinearLayout implements
 		if (points.length <= 0) {
 			return;
 		}
-
+		
 		Context context = getContext();
 		LinearLayout llPoints = new LinearLayout(context);
 		// if the total number of pages exceeds 1, we set the page indicators
@@ -168,7 +168,7 @@ public class PlatformGridView extends LinearLayout implements
 		lpLl.gravity = Gravity.CENTER_HORIZONTAL;
 		llPoints.setLayoutParams(lpLl);
 		addView(llPoints);
-
+		
 		int dp_5 = com.mob.tools.utils.R.dipToPx(context, 5);
 		int resId = getBitmapRes(getContext(), "ssdk_oks_light_blue_point");
 		if (resId > 0) {
@@ -190,54 +190,54 @@ public class PlatformGridView extends LinearLayout implements
 		int curPage = pager.getCurrentScreen();
 		points[curPage].setImageBitmap(bluePoint);
 	}
-
+	
 	/** after the screen rotates, this method will be called to refresh the list of gridviews */
 	public void onConfigurationChanged() {
 		int curFirst = pager.getCurrentScreen() * PAGE_SIZE;
 		calPageSize();
 		int newPage = curFirst / PAGE_SIZE;
-
+		
 		removeViewAt(1);
 		afterPlatformListGot();
-
+		
 		pager.setCurrentScreen(newPage);
 	}
-
+	
 	public void setData(HashMap<String, Object> data, boolean silent) {
 		reqData = data;
 		this.silent = silent;
 	}
-
+	
 	public void setHiddenPlatforms(HashMap<String, String> hiddenPlatforms) {
 		this.hiddenPlatforms = hiddenPlatforms;
 	}
-
+	
 	/** Set the Click event of the custom icon */
 	public void setCustomerLogos(ArrayList<CustomerLogo> customers) {
 		this.customers = customers;
 	}
-
+	
 	public void setEditPageBackground(View bgView) {
 		this.bgView = bgView;
 	}
-
+	
 	/** Sets the callback page sharing operations */
 	public void setParent(PlatformListPage parent) {
 		this.parent = parent;
 	}
-
+	
 	public void onClick(View v) {
 		long time = System.currentTimeMillis();
 		if (time - lastClickTime < MIN_CLICK_INTERVAL) {
 			return;
 		}
 		lastClickTime = time;
-
+		
 		ArrayList<Object> platforms = new ArrayList<Object>(1);
 		platforms.add(v.getTag());
 		parent.onPlatformIconClick(v, platforms);
 	}
-
+	
 	// Disable the flashing effect when viewpages sliding to left/right edge
 	private void disableOverScrollMode(View view) {
 		if (Build.VERSION.SDK_INT < 9) {
@@ -252,7 +252,7 @@ public class PlatformGridView extends LinearLayout implements
 			t.printStackTrace();
 		}
 	}
-
+	
 	/** gridview adapter */
 	private static class PlatformAdapter extends ViewPagerAdapter {
 		private GridView[] girds;
@@ -260,7 +260,7 @@ public class PlatformGridView extends LinearLayout implements
 		private OnClickListener callback;
 		private int lines;
 		private PlatformGridView platformGridView;
-
+		
 		public PlatformAdapter(PlatformGridView platformGridView) {
 			this.platformGridView = platformGridView;
 			logos = new ArrayList<Object>();
@@ -275,13 +275,13 @@ public class PlatformGridView extends LinearLayout implements
 						}
 						ps.add(p);
 					}
-
+					
 					platforms = new Platform[ps.size()];
 					for (int i = 0; i < platforms.length; i++) {
 						platforms[i] = ps.get(i);
 					}
 				}
-
+				
 				logos.addAll(Arrays.asList(platforms));
 			}
 			ArrayList<CustomerLogo> customers = platformGridView.customers;
@@ -290,7 +290,7 @@ public class PlatformGridView extends LinearLayout implements
 			}
 			this.callback = platformGridView;
 			girds = null;
-
+			
 			if (logos != null) {
 				int size = logos.size();
 				int PAGE_SIZE = platformGridView.PAGE_SIZE;
@@ -301,11 +301,11 @@ public class PlatformGridView extends LinearLayout implements
 				girds = new GridView[pageCount];
 			}
 		}
-
+		
 		public int getCount() {
 			return girds == null ? 0 : girds.length;
 		}
-
+		
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (girds[position] == null) {
 				int pageSize = platformGridView.PAGE_SIZE;
@@ -318,7 +318,7 @@ public class PlatformGridView extends LinearLayout implements
 				for (int i = 0; i < pageSize; i++) {
 					gridBean[i] = logos.get(curSize + i);
 				}
-
+				
 				if (position == 0) {
 					int COLUMN_PER_LINE = platformGridView.COLUMN_PER_LINE;
 					lines = gridBean.length / COLUMN_PER_LINE;
@@ -329,46 +329,46 @@ public class PlatformGridView extends LinearLayout implements
 				girds[position] = new GridView(this);
 				girds[position].setData(lines, gridBean);
 			}
-
+			
 			return girds[position];
 		}
-
+		
 		/** This method will be called after sliding the gridview */
 		public void onScreenChange(int currentScreen, int lastScreen) {
 			ImageView[] points = platformGridView.points;
 			for (int i = 0; i < points.length; i++) {
 				points[i].setImageBitmap(platformGridView.grayPoint);
 			}
-
+			
 			points[currentScreen].setImageBitmap(platformGridView.bluePoint);
 		}
-
+		
 	}
-
+	
 	/** a simple gridview */
 	private static class GridView extends LinearLayout {
 		private Object[] beans;
 		private OnClickListener callback;
 		private int lines;
 		private PlatformAdapter platformAdapter;
-
+		
 		public GridView(PlatformAdapter platformAdapter) {
 			super(platformAdapter.platformGridView.getContext());
 			this.platformAdapter = platformAdapter;
 			this.callback = platformAdapter.callback;
 		}
-
+		
 		public void setData(int lines, Object[] beans) {
 			this.lines = lines;
 			this.beans = beans;
 			init();
 		}
-
+		
 		private void init() {
 			int dp_5 = com.mob.tools.utils.R.dipToPx(getContext(), 5);
 			setPadding(0, dp_5, 0, dp_5);
 			setOrientation(VERTICAL);
-
+			
 			int size = beans == null ? 0 : beans.length;
 			int COLUMN_PER_LINE = platformAdapter.platformGridView.COLUMN_PER_LINE;
 			int lineSize = size / COLUMN_PER_LINE;
@@ -383,11 +383,11 @@ public class PlatformGridView extends LinearLayout implements
 				llLine.setLayoutParams(lp);
 				llLine.setPadding(dp_5, 0, dp_5, 0);
 				addView(llLine);
-
+				
 				if (i >= lineSize) {
 					continue;
 				}
-
+				
 				for (int j = 0; j < COLUMN_PER_LINE; j++) {
 					final int index = i * COLUMN_PER_LINE + j;
 					if (index >= size) {
@@ -396,7 +396,7 @@ public class PlatformGridView extends LinearLayout implements
 						llLine.addView(llItem);
 						continue;
 					}
-
+					
 					final LinearLayout llItem = getView(index, callback, getContext());
 					llItem.setTag(beans[index]);
 					llItem.setLayoutParams(lp);
@@ -404,7 +404,7 @@ public class PlatformGridView extends LinearLayout implements
 				}
 			}
 		}
-
+		
 		private LinearLayout getView(int position, OnClickListener ocL, Context context) {
 			Bitmap logo;
 			String label;
@@ -418,10 +418,10 @@ public class PlatformGridView extends LinearLayout implements
 				label = ((CustomerLogo) beans[position]).label;
 				listener = ocL;
 			}
-
+			
 			LinearLayout ll = new LinearLayout(context);
 			ll.setOrientation(LinearLayout.VERTICAL);
-
+			
 			ImageView iv = new ImageView(context);
 			int dp_5 = com.mob.tools.utils.R.dipToPx(context, 5);
 			iv.setPadding(dp_5, dp_5, dp_5, dp_5);
@@ -433,7 +433,7 @@ public class PlatformGridView extends LinearLayout implements
 			iv.setLayoutParams(lpIv);
 			iv.setImageBitmap(logo);
 			ll.addView(iv);
-
+			
 			TextView tv = new TextView(context);
 			tv.setTextColor(0xff000000);
 			tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -448,42 +448,42 @@ public class PlatformGridView extends LinearLayout implements
 			tv.setText(label);
 			ll.addView(tv);
 			ll.setOnClickListener(listener);
-
+			
 			return ll;
 		}
-
+		
 		private Bitmap getIcon(Platform plat) {
 			if (plat == null) {
 				return null;
 			}
-
+			
 			String name = plat.getName();
 			if (name == null) {
 				return null;
 			}
-
+			
 			String resName = "logo_" + plat.getName();
 			int resId = getBitmapRes(getContext(), resName.toLowerCase());
 			return BitmapFactory.decodeResource(getResources(), resId);
 		}
-
+		
 		private String getName(Platform plat) {
 			if (plat == null) {
 				return "";
 			}
-
+			
 			String name = plat.getName();
 			if (name == null) {
 				return "";
 			}
-
+			
 			int resId = getStringRes(getContext(), plat.getName().toLowerCase());
 			if (resId > 0) {
 				return getContext().getString(resId);
 			}
 			return null;
 		}
-
+		
 	}
-
+	
 }

@@ -29,7 +29,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 	private static final int UPDATE_INTERVAL = 100;
 	// 摇晃检测阈值，决定了对摇晃的敏感程度，越小越敏感
 	private static final int SHAKE_THRESHOLD = 1500;
-
+	
 	private OnShakeListener listener;
 	private SensorManager mSensorManager;
 	private long mLastUpdateTime;
@@ -37,11 +37,11 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 	private float mLastY;
 	private float mLastZ;
 	private boolean shaken;
-
+	
 	public void setOnShakeListener(OnShakeListener listener) {
 		this.listener = listener;
 	}
-
+	
 	public void setActivity(Activity activity) {
 		super.setActivity(activity);
 		int resId = getBitmapRes(activity, "ssdk_oks_shake_to_share_back");
@@ -52,10 +52,10 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 			win.setBackgroundDrawableResource(resId);
 		}
 	}
-
+	
 	public void onCreate() {
 		startSensor();
-
+		
 		int resId = getBitmapRes(activity, "ssdk_oks_yaoyiyao");
 		if (resId > 0) {
 			ImageView iv = new ImageView(activity);
@@ -63,13 +63,13 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 			iv.setImageResource(resId);
 			activity.setContentView(iv);
 		}
-
+		
 		resId = getStringRes(activity, "ssdk_oks_shake2share");
 		if (resId > 0) {
 			Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
 	private void startSensor() {
 		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
 		if (mSensorManager == null) {
@@ -84,18 +84,18 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 			throw new UnsupportedOperationException();
 		}
 	}
-
+	
 	public void onDestroy() {
 		stopSensor();
 	}
-
+	
 	private void stopSensor() {
 		if (mSensorManager != null) {
 			mSensorManager.unregisterListener(this);
 			mSensorManager = null;
 		}
 	}
-
+	
 	public void onSensorChanged(SensorEvent event) {
 		long currentTime = System.currentTimeMillis();
 		long diffTime = currentTime - mLastUpdateTime;
@@ -113,7 +113,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 						shaken = true;
 						finish();
 					}
-
+					
 					if (listener != null) {
 						listener.onShake();
 					}
@@ -125,13 +125,13 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 			mLastUpdateTime = currentTime;
 		}
 	}
-
+	
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+		
 	}
-
+	
 	public static interface OnShakeListener {
 		public void onShake();
 	}
-
+	
 }

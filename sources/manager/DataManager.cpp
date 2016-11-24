@@ -205,7 +205,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
-            _tryst->update_user_data(content["tryst"]);
+            _notif = content["notif"].asString();
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
@@ -342,8 +342,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _mission->init_with_json(content["mission"]);
+            _clothes->init_with_json(content["clothes"]);
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
+            bool mystery = ((CCBool*)((CCDictionary*)pData)->objectForKey("mystery"))->getValue();
+            this->setNeedShowUnlockMystery(mystery);
         } break;
             
         case 605: {
@@ -353,7 +356,6 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
             
         case 610: {
             _mystery->init_template(content["template"]);
@@ -419,6 +421,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->init_with_json(content["story"]);
+            pData = AppUtil::dictionary_with_json(content["extra"]);
         } break;
             
         case 504: {
@@ -508,7 +511,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
-
+            
             bool isFree = content["free"].asBool();
             if (isFree) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -543,6 +546,15 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
+            
+        case 323: {
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+            _player->init_with_json(content["player"]);     // maybe
+            _operation->replace_gashapon_user(content["gashapon"]); // maybe
+            // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
             
         case 333: {
@@ -706,6 +718,14 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
+bool DataManager::isMysteryEventUnlocked() {
+    if (_player && _player->mystery == 1) {
+        return true;
+    }
+    
+    return false;
+}
+
 SigninState DataManager::fetch_tempsignin_state(CCDictionary* info, const string& id) {
     CCInteger* state = (CCInteger*)info->objectForKey(id);
     if (state == NULL) {
@@ -720,8 +740,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-//        return _player->getGuide();
-        return 0;
+        return _player->getGuide();
+//        return 0;
     }
     else {
         return 0;

@@ -18,6 +18,7 @@
 #include "BuildingLayer.h"
 #include "BuildingView.h"
 #include "UpgradeLayer.h"
+#include "RewardPanel.h"
 
 #include "ConfigManager.h"
 #include "JNIController.h"
@@ -105,15 +106,28 @@ void BuildingLayer::onEnter() {
         scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_phase_up), 1.0);
     }
     else {
+        if (DATA->getNeedShowUnlockMystery()) {
+            this->scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_mystery_unlock), 0.6);
+        }
+        
+        
         if (_phase == DATA->getPlayer()->phase) {
+            // 公司奖励图标
+            this->createCompanyRewardIcon();
+            
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
             CoffersComp* coffers = DATA->getCoffers();
             if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
-//                this->show_arrow();
                 this->show_building();
             }
         }
     }
+}
+
+void BuildingLayer::show_mystery_unlock() {
+    RewardPanel* pannel = RewardPanel::createWithMystery();
+    this->getScene()->addChild(pannel);
+    DATA->setNeedShowUnlockMystery(false);
 }
 
 void BuildingLayer::onExit() {
@@ -248,6 +262,155 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
 }
 
 #pragma mark - inner
+
+void BuildingLayer::createCompanyRewardIcon() {
+    CCNode* node = NULL;
+    
+    CoffersComp* coffers = DATA->getCoffers();
+    int curPhase = _phase; //DATA->getPlayer()->phase;
+    int totalRatings = DATA->getPlayer()->ratings(curPhase);
+    
+    CCArray* items = coffers->phase_goals(curPhase);
+    int count = items->count();
+    
+    int i = 0;
+    for (; i < count; i++) {
+        CCDictionary* item = (CCDictionary*)items->objectAtIndex(i);
+        int itemGoal = ((CCInteger*)item->objectForKey("goal"))->getValue();
+        CCLOG("itemGoal = %d", itemGoal);
+        // 优先显示当前阶段第一没有领取的
+        if (totalRatings >= itemGoal) {
+            CCString* itemId = (CCString*)item->objectForKey("id");
+            if (! coffers->has_taken_reward(itemId)) { // 没有领取
+                node = CCNode::create();
+                
+                CCString* lightName = CCString::createWithFormat("pic/building/progress/available_light_%d.png", i);
+                CCSprite* light = CCSprite::create(lightName->getCString());
+                node->addChild(light);
+                
+                CCSequence* seq = CCSequence::create(CCFadeOut::create(0.6), CCDelayTime::create(0.5), CCFadeIn::create(0.6), CCDelayTime::create(0.3), NULL);
+                light->runAction(CCRepeatForever::create(seq));
+                
+                
+                CCString* spotName = CCString::createWithFormat("pic/building/progress/available_spot_%d.png", i);
+                CCSprite* spot = CCSprite::create(spotName->getCString());
+                spot->setPosition(ccp(light->getContentSize().width * 0.5, light->getContentSize().height * 0.7));
+                light->addChild(spot);
+                
+                CCSequence* seq2 = CCSequence::create(CCFadeOut::create(0.6), CCDelayTime::create(0.5), CCFadeIn::create(0.6), CCDelayTime::create(0.3), NULL);
+                spot->runAction(CCRepeatForever::create(seq2));
+                
+                
+                CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
+//                CCSprite* box = CCSprite::create(boxName->getCString());
+//                box->setPosition(light->getPosition());
+//                node->addChild(box);
+                CCSprite* box1 = CCSprite::create(boxName->getCString());
+                CCSprite* box2 = CCSprite::create(boxName->getCString());
+                box2->setScale(1.04);
+                CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
+                CCMenu* menu = CCMenu::createWithItem(btn);
+                menu->ignoreAnchorPointForPosition(false);
+                node->addChild(menu);
+                
+                // 显示奖励数量
+                int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
+                CCString* strReward = CCString::createWithFormat("%d", rewardValue);
+                
+                CCLabelTTF* lblReward2 = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+                lblReward2->setAnchorPoint(ccp(1, 0.5));
+                lblReward2->setPosition(ccp(8.8, -17.5));
+                lblReward2->setColor(ccGRAY);
+                lblReward2->enableStroke(ccGRAY, 2.5);
+                node->addChild(lblReward2);
+                
+                CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+                lblReward->setAnchorPoint(ccp(1, 0.5));
+                lblReward->setPosition(ccp(5, -15));
+                node->addChild(lblReward);
+                
+                const CCString* rewardType = item->valueForKey("reward_type");
+                if (rewardType->compare("coin") == 0) {
+                    CCSprite* icon = CCSprite::create("pic/common/coin2.png");
+                    icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
+                    icon->setScale(0.3);
+                    node->addChild(icon);
+                }
+                else if (rewardType->compare("diam") == 0) {
+                    CCSprite* icon = CCSprite::create("pic/common/diam2.png");
+                    icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
+                    icon->setScale(0.3);
+                    node->addChild(icon);
+                }
+                
+                break;
+            }
+        }
+        else { // 若无没有领取的，显示下一个目标
+            node = CCNode::create();
+
+            CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
+            CCSprite* box1 = CCSprite::create(boxName->getCString());
+            CCSprite* box2 = CCSprite::create(boxName->getCString());
+            box2->setScale(1.04);
+            CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
+            CCMenu* menu = CCMenu::createWithItem(btn);
+            menu->ignoreAnchorPointForPosition(false);
+            node->addChild(menu);
+            
+            
+            // 显示条件
+            CCString* strCondition = CCString::createWithFormat("%d", itemGoal);
+            
+            CCLabelTTF* lblCondition2 = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+            lblCondition2->setAnchorPoint(ccp(1, 0.5));
+            lblCondition2->setPosition(ccp(6, -16.8));
+            lblCondition2->setColor(ccGRAY);
+            lblCondition2->enableStroke(ccGRAY, 2.5);
+            node->addChild(lblCondition2);
+            
+            CCLabelTTF* lblCondition = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+            lblCondition->setAnchorPoint(ccp(1, 0.5));
+            lblCondition->setPosition(ccp(2, -15));
+//            lblCondition->enableShadow(CCSizeMake(2, 1), 1, 2);
+//            lblCondition->setColor(ccGREEN);
+            node->addChild(lblCondition);
+            
+
+            
+            
+            CCSprite* star = CCSprite::create("pic/taskScene/task_xing3.png");
+            star->setPosition(ccp(lblCondition->getPositionX() + 8, lblCondition->getPositionY() + 2));
+            star->setScale(0.66);
+            node->addChild(star);
+            
+            
+            break;
+        }
+        
+        
+        // 若无目标（全达成），显示最后一个的已领取状态
+        if (node == NULL) {
+            node = CCNode::create();
+            
+            CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d_taken.png", 2);
+            CCSprite* box1 = CCSprite::create(boxName->getCString());
+            CCSprite* box2 = CCSprite::create(boxName->getCString());
+            box2->setScale(1.04);
+            CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
+            CCMenu* menu = CCMenu::createWithItem(btn);
+            menu->ignoreAnchorPointForPosition(false);
+            node->addChild(menu);
+        }
+    }
+    
+    if (node) {
+        node->setPosition(50, DISPLAY->H() * 0.85);
+        node->setScale(1.3f);
+        this->addChild(node);
+    }
+}
+
 
 void BuildingLayer::building_shaking() {
     unschedule(SEL_SCHEDULE(&BuildingLayer::building_shaking));

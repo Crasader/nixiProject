@@ -101,9 +101,8 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["uuid"] = uuid;
     root["type"] = 1;
     root["channel"] = channel;
-//    root["ver"] = "10300";
-//    root["ver"] = "10401";
-    root["ver"] = "10500";
+//    root["ver"] = "10500";
+    root["ver"] = "10600";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -611,6 +610,15 @@ void NetManager::daily_share_321() {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(321, data);
+}
+
+void NetManager::commit_daily_signin_323() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(323, data);
 }
 
 void NetManager::take_gift_333(int ChannelId, const char *code) {

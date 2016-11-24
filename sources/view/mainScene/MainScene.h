@@ -147,8 +147,8 @@ public:
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
     void onEventCallback(CCObject* pSender);
-//    void openChat(CCObject* pSender);
-//    void displayChatItem();
+    void mysteryUnlockPrompt(CCObject* pSender);
+    
     void lingdang_callback(CCObject* pSender);
     void blankCallback();
     
@@ -219,22 +219,25 @@ public:
     CCPoint playerVelocity;
     
 private:
-    void showTrystEntrance();   // 显示约会入口
+    // 约会 [[
+    void showTrystEntrance();
     void onBtnStartTryst();
+    void after_fetch_tryst_info_620();
     void after_start_tryst_621();
     void check_tryst_progress();
-//    void update_tryst_progress(float dt);
-//    void showTrystProgress();   // 显示约会进度
+    // ]]
     
-    
+    // 各种检查 [[
     void update_news_status();
+    void check_dailysignin();
+    void update_dailysignin();
     void check_free_gashapon();
     void check_first_on();
     CCArray* rand_array(CCArray* arr);
     void play(CCSprite* spt);
     void delayPlay(float dt);
     void checkVersion();
-    
+    // ]]
 private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;

@@ -86,6 +86,7 @@ public:
     void commit_mystery_613(const char* category);
     void take_mystery_achv_615(const char* category, const char* achvId);
     
+    
     // 约会
     void fetch_tryst_info_620();
     void take_tryst_task_621();
@@ -121,6 +122,9 @@ public:
     void exchange_clothes_311(string clothesId);
     
     void daily_share_321();         // 每日分享
+    
+    void commit_daily_signin_323();     // 每日签到
+    
     void take_gift_333(int ChannelId, const char* code); // 礼包兑换
     void temp_signin_info_340();    // 节日临时签到信息
     void perform_temp_signin_341(string id);

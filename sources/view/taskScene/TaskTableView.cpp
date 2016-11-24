@@ -397,6 +397,7 @@ cocos2d::CCSize TaskTableView::cellSizeForTable(cocos2d::extension::CCTableView 
 cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx){
     CCTableViewCell* pCell = new CCTableViewCell();
     pCell->autorelease();
+    
     CCSprite* spr = CCSprite::create();
     
     CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(idx);
@@ -502,6 +503,30 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         button1->addChild(titleLabel, 12);
         
     }
+    
+    // >>>
+    CCArray* missions = CONFIG->mission();
+    CCDictionary* misson = NULL;
+    int count = missions->count();
+    for (int i = 0; i < count; i++) {
+        CCDictionary* dic = (CCDictionary* )missions->objectAtIndex(i);
+        int id = dic->valueForKey("id")->intValue();
+        if (id == taskId) {
+            misson = dic;
+            break;
+        }
+    }
+    
+    if (misson) {
+        const CCString* clothesReward = misson->valueForKey("clothes");
+        if (clothesReward && clothesReward->length() > 1) {
+            CCSprite* sptClothes = CCSprite::create("pic/clothesScene/gj_yichuan1.png");
+            sptClothes->setPosition(ccp(160, 90));
+            spr->addChild(sptClothes);
+        }
+    }
+    // <<<
+    
 
     spr->setTag(idx);
     if (selectedIndex == idx) {

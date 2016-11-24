@@ -36,6 +36,10 @@ bool QingjingScene::init(){
         return false;
     }
     
+    CCUserDefault::sharedUserDefault()->setBoolForKey("1002", false);
+    CCUserDefault::sharedUserDefault()->setBoolForKey("1009", false);
+    CCUserDefault::sharedUserDefault()->flush();
+    
     num_child = 0;
     
     storyIndex = 0;
@@ -273,6 +277,21 @@ void QingjingScene::creat_view(){
         label->setPosition(ccp(kuangSpr1->getContentSize().width* .5f, kuangSpr1->getContentSize().height* .5f));
         label->setColor(ccWHITE);
         kuangSpr1->addChild(label, 2);
+        
+        
+        CCLabelTTF* tishiLabel1 = CCLabelTTF::create("首次通关奖励20", DISPLAY->fangzhengFont(), 20);
+        tishiLabel1->setPosition(ccp(kuangSpr1->getContentSize().width* .86f, kuangSpr1->getContentSize().height* .3f));
+        tishiLabel1->setColor(ccWHITE);
+        kuangSpr1->addChild(tishiLabel1, 3);
+        CCLabelTTF* tishiLabel2 = CCLabelTTF::create("首次通关奖励20", DISPLAY->fangzhengFont(), 20);
+        tishiLabel2->setPosition(ccp(kuangSpr1->getContentSize().width* .86f + 2, kuangSpr1->getContentSize().height* .3f - 2));
+        tishiLabel2->setColor(ccBLACK);
+        kuangSpr1->addChild(tishiLabel2, 2);
+        CCSprite* tishiSpr = CCSprite::create("res/pic/clothesScene/gj_gold.png");
+        tishiSpr->setScale(.65f);
+        tishiSpr->setPosition(ccp(kuangSpr1->getContentSize().width* .86f + tishiLabel1->getContentSize().width* .5f + 13, kuangSpr1->getContentSize().height* .31));
+        kuangSpr1->addChild(tishiSpr, 2);
+        
         
         // 结局成就
         CCLabelTTF* titleLabel = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
@@ -573,9 +592,9 @@ void QingjingScene::startCallBack(CCObject* pSender){
     
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
+    bool tongguanBool = false;
     
     if (storyIndex > 0) {
-        bool tongguanBool = false;
         CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
         CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
         if (storyArr != NULL) {
@@ -593,6 +612,24 @@ void QingjingScene::startCallBack(CCObject* pSender){
         if (tongguanBool) {
             if (DATA->getPlayer()->energy >= 9) {
                 LOADING->show_loading();
+                
+                CCString* temp_index = CCString::createWithFormat("%d", storyIndex);
+                CCArray* tempArr = DATA->getStory()->story_achievments(temp_index->getCString());
+                if (tempArr == NULL) {
+                    DATA->setTheEndBool(false);
+                }else{
+                    for (int i = 0; i < tempArr->count(); i++) {
+                        DATA->setTheEndBool(false);
+                        CCString* tempStr1 = CCString::createWithFormat("-1");
+                        CCString* tempStr2 = (CCString* )tempArr->objectAtIndex(i);
+                        if (strcmp(tempStr1->getCString(), tempStr2->getCString()) == 0) {
+                            DATA->setTheEndBool(true);
+                        }else{
+                            
+                        }
+                    }
+                }
+                    
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
                 NET->start_story_501(indexStr->getCString());
             }else{
@@ -607,6 +644,24 @@ void QingjingScene::startCallBack(CCObject* pSender){
     }else{
         if (DATA->getPlayer()->energy >= 9) {
             LOADING->show_loading();
+            
+            CCString* temp_index = CCString::createWithFormat("%d", storyIndex);
+            CCArray* tempArr = DATA->getStory()->story_achievments(temp_index->getCString());
+            if (tempArr == NULL) {
+                DATA->setTheEndBool(false);
+            }else{
+                for (int i = 0; i < tempArr->count(); i++) {
+                    DATA->setTheEndBool(false);
+                    CCString* tempStr1 = CCString::createWithFormat("-1");
+                    CCString* tempStr2 = (CCString* )tempArr->objectAtIndex(i);
+                    if (strcmp(tempStr1->getCString(), tempStr2->getCString()) == 0) {
+                        DATA->setTheEndBool(true);
+                    }else{
+                        
+                    }
+                }
+            }
+            
             CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
             NET->start_story_501(indexStr->getCString());
         }else{

@@ -46,14 +46,15 @@ void ClothesScene::init_with_mystery(int _type_id, const char *category, const c
     this->init_with_type(_type_id, 1, 1);
 }
 
-ClothesScene* ClothesScene::create_with_tryst() {
+ClothesScene* ClothesScene::create_with_tryst(const char *tishi) {
     ClothesScene* rtn = ClothesScene::create();
-    rtn->init_with_tryst();
+    rtn->init_with_tryst(tishi);
     
     return rtn;
 }
 
-void ClothesScene::init_with_tryst() {
+void ClothesScene::init_with_tryst(const char *tishi) {
+    this->tishi = tishi;
     this->init_with_type(4, 1, 1);
 }
 
@@ -828,13 +829,23 @@ void ClothesScene::creat_ViewMethods(int index) {
     for (int i = 0; i < clothesArr->count(); i++) {
         CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
         int sale = clothDic->valueForKey("sale")->intValue();
-        int type = clothDic->valueForKey("type")->intValue();
         int id = clothDic->valueForKey("id")->intValue();
-        if (sale != 0) {
-            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//        int type = clothDic->valueForKey("type")->intValue();
+//        if (sale != 0) {
+//            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//                tempArr->addObject(clothDic);
+//            }
+//        }
+        
+        if (DATA->getClothes()->is_owned(index, id)) {
+            // 购买了
+            tempArr->addObject(clothDic);
+        }else{
+            if (sale != 0) {
                 tempArr->addObject(clothDic);
             }
         }
+        
     }
     DATA->setDataSource(tempArr);
     _delegate->updateTableView(index);
@@ -909,6 +920,23 @@ void ClothesScene::crate_Tishi(){
         float kuangWidth = renwukuangSpr1->getContentSize().width;
         float kuangHeight = renwukuangSpr1->getContentSize().height;
         CCLabelTTF* lblTishi = CCLabelTTF::create(this->tishi, DISPLAY->fangzhengFont(), 16, CCSizeMake(230, 50), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        lblTishi->setPosition(ccp(kuangWidth * 0.5, kuangHeight * 0.38));
+        lblTishi->setColor(ccc3(107, 89, 99));
+        renwukuangSpr1->addChild(lblTishi);
+    }
+    else if (clothesStatus == 4 && this->tishi != NULL) {
+        CCSprite* renwukuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCSprite* renwukuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCMenuItem* renwukuangItem = CCMenuItemSprite::create(renwukuangSpr1, renwukuangSpr2);
+        renwukuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
+        CCMenu* menu = CCMenu::create(renwukuangItem, NULL);
+        menu->setPosition(CCPointZero);
+        menu->setEnabled(false);
+        this->addChild(menu, 10);
+        
+        float kuangWidth = renwukuangSpr1->getContentSize().width;
+        float kuangHeight = renwukuangSpr1->getContentSize().height;
+        CCLabelTTF* lblTishi = CCLabelTTF::create(this->tishi, DISPLAY->fangzhengFont(), 16, CCSizeMake(230, 50), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         lblTishi->setPosition(ccp(kuangWidth * 0.5, kuangHeight * 0.38));
         lblTishi->setColor(ccc3(107, 89, 99));
         renwukuangSpr1->addChild(lblTishi);
@@ -1040,10 +1068,42 @@ void ClothesScene::renwukuangMethods(int index){
         int clothTag2 = clothDic->valueForKey("tag2")->intValue();
         int clothTag3 = clothDic->valueForKey("tag3")->intValue();
         int sale = clothDic->valueForKey("sale")->intValue();
-        int type = clothDic->valueForKey("type")->intValue();
         int id = clothDic->valueForKey("id")->intValue();
-        if (sale != 0) {
-            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//        int type = clothDic->valueForKey("type")->intValue();
+//        if (sale != 0) {
+//            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//                if (   (clothTag1 != 0 && clothTag1 == tag1)
+//                    || (clothTag1 != 0 && clothTag1 == tag2)
+//                    || (clothTag1 != 0 && clothTag1 == tag3)
+//                    || (clothTag2 != 0 && clothTag2 == tag1)
+//                    || (clothTag2 != 0 && clothTag2 == tag2)
+//                    || (clothTag2 != 0 && clothTag2 == tag3)
+//                    || (clothTag3 != 0 && clothTag3 == tag1)
+//                    || (clothTag3 != 0 && clothTag3 == tag2)
+//                    || (clothTag3 != 0 && clothTag3 == tag3)) {
+//                    tempArr->addObject(clothDic);
+//                }else if (clothTag1 == 0){
+//                    tempArr->addObject(clothDic);
+//                }
+//            }
+//        }
+        
+        if (DATA->getClothes()->is_owned(index, id)) {
+            if (   (clothTag1 != 0 && clothTag1 == tag1)
+                || (clothTag1 != 0 && clothTag1 == tag2)
+                || (clothTag1 != 0 && clothTag1 == tag3)
+                || (clothTag2 != 0 && clothTag2 == tag1)
+                || (clothTag2 != 0 && clothTag2 == tag2)
+                || (clothTag2 != 0 && clothTag2 == tag3)
+                || (clothTag3 != 0 && clothTag3 == tag1)
+                || (clothTag3 != 0 && clothTag3 == tag2)
+                || (clothTag3 != 0 && clothTag3 == tag3)) {
+                tempArr->addObject(clothDic);
+            }else if (clothTag1 == 0){
+                tempArr->addObject(clothDic);
+            }
+        }else{
+            if (sale != 0) {
                 if (   (clothTag1 != 0 && clothTag1 == tag1)
                     || (clothTag1 != 0 && clothTag1 == tag2)
                     || (clothTag1 != 0 && clothTag1 == tag3)
@@ -1569,8 +1629,17 @@ void ClothesScene::saveClothesMethods(){
         for (int j = 0; j < clothesArr->count(); j++) {
             CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
             int sale = clothDic->valueForKey("sale")->intValue();
-            if (sale != 0) {
+            int id = clothDic->valueForKey("id")->intValue();
+//            if (sale != 0) {
+//                tempArr->addObject(clothDic);
+//            }
+            if (DATA->getClothes()->is_owned(i, id)) {
+                // 购买了
                 tempArr->addObject(clothDic);
+            }else{
+                if (sale != 0) {
+                    tempArr->addObject(clothDic);
+                }
             }
         }
         for (int k = 0; k < tempArr->count(); k++) {
@@ -1579,7 +1648,8 @@ void ClothesScene::saveClothesMethods(){
             CCDictionary* shipinDic;
             if (i != Tag_CL_ShiPin) {
                 clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
-                if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
+                int id = dic->valueForKey("id")->intValue();
+                if (id == clothesTemp_id->getValue()) {
                     int phase = dic->valueForKey("phase")->intValue();
                     int cloth_type = dic->valueForKey("type")->intValue();
                     if (phase > DATA->getPlayer()->phase) {
@@ -1592,6 +1662,19 @@ void ClothesScene::saveClothesMethods(){
                         
                         PromptLayer* layer = PromptLayer::create();
                         layer->show_prompt(this->getScene(), "有不能购买的衣饰,已经送回商店!");
+                        
+                        continue;
+                    }else if (cloth_type == 10 && !DATA->getClothes()->is_owned(i, id)){
+                        phaseBool = true;
+                        
+                        CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                        CCString* keyStr = CCString::createWithFormat("%d", i);
+                        myClothesTempDic->setObject(cloth_integer, keyStr->getCString());
+                        this->ChangeClothes((CCObject* )updataClothes(i));
+                        
+                        PromptLayer* layer = PromptLayer::create();
+                        layer->show_prompt(this->getScene(), "有不能购买的衣饰,已经送回商店!");
+                        
                         continue;
                     }
                 }
@@ -1600,10 +1683,24 @@ void ClothesScene::saveClothesMethods(){
                 CCInteger* clothesTemp_id;
                 for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
-                    if (dic->valueForKey("id")->intValue() == clothesTemp_id->getValue()) {
-                        int phase = dic->valueForKey("phase")->intValue();
-                        int cloth_type = dic->valueForKey("type")->intValue();
+                    int phase = dic->valueForKey("phase")->intValue();
+                    int cloth_type = dic->valueForKey("type")->intValue();
+                    int id = dic->valueForKey("id")->intValue();
+                    if (id == clothesTemp_id->getValue()) {
                         if (phase > DATA->getPlayer()->phase) {
+                            phaseBool = true;
+                            
+                            CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                            CCString* keyStr = CCString::createWithFormat("%d", i);
+                            CCString* sub_part_keyStr = CCString::createWithFormat("%d", dic->valueForKey("sub_part")->intValue());
+                            CCDictionary* shipinDic2 = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+                            shipinDic2->setObject(cloth_integer, sub_part_keyStr->getCString());
+                            myClothesTempDic->setObject(shipinDic2, keyStr->getCString());
+                            
+                            this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
+                            
+                            continue;
+                        }else if (cloth_type == 10 && !DATA->getClothes()->is_owned(i, id)){
                             phaseBool = true;
                             
                             CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
@@ -3221,14 +3318,9 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     CCDictionary* result = (CCDictionary*)pObj;
     int rating = ((CCInteger*)result->objectForKey("rating"))->getValue();
     int coin = ((CCInteger*)result->objectForKey("coin"))->getValue();
+    const CCString* clothesId = result->valueForKey("clothes");
     int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
     bool levelup = ((CCBool*)result->objectForKey("levelup"))->getValue();
-    
-//    CCScene* scene = CCScene::create();
-//    TaskSettlementLayer* layer = TaskSettlementLayer::create(rating, coin, levelup);
-//    scene->addChild(layer);
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
     
     CCArray* taskArr = DATA->getTaskSource();
     CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index - 1);
@@ -3237,7 +3329,7 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     DATA->onCompleted(taskStr->getCString());
     
     CCScene* scene = CCScene::create();
-    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, levelup);
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, clothesId, levelup);
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

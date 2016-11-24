@@ -137,6 +137,10 @@ bool TrystView::init(const char *id) {
         _dataSource = CCArray::create();
         _dataSource->retain();
         
+        CCSprite* mask = CCSprite::create("pic/panel/dailysignin/ds_mask.png");
+        mask->setPosition(DISPLAY->center());
+        this->addChild(mask);
+        
         CCSprite* bg = CCSprite::create("pic/tryst/tryst_bg.png");
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);

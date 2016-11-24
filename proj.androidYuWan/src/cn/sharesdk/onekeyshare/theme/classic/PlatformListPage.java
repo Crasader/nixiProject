@@ -41,32 +41,32 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 	private Animation animHide;
 	private boolean finishing;
 	private LinearLayout llPage;
-
+	
 	public void onCreate() {
 		super.onCreate();
-
+		
 		finishing = false;
 		initPageView();
 		initAnim();
 		activity.setContentView(flPage);
-
+		
 		// set the data for platform gridview
 		grid.setData(shareParamsMap, silent);
 		grid.setHiddenPlatforms(hiddenPlatforms);
 		grid.setCustomerLogos(customerLogos);
 		grid.setParent(this);
 		btnCancel.setOnClickListener(this);
-
+		
 		// display gridviews
 		llPage.clearAnimation();
 		llPage.startAnimation(animShow);
 	}
-
+	
 	private void initPageView() {
 		flPage = new FrameLayout(getContext());
 		flPage.setOnClickListener(this);
 		flPage.setBackgroundDrawable(new ColorDrawable(0x55000000));
-
+		
 		// container of the platform gridview
 		llPage = new LinearLayout(getContext()) {
 			public boolean onTouchEvent(MotionEvent event) {
@@ -80,7 +80,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		lpLl.gravity = Gravity.BOTTOM;
 		llPage.setLayoutParams(lpLl);
 		flPage.addView(llPage);
-
+		
 		// gridview
 		grid = new PlatformGridView(getContext());
 		grid.setEditPageBackground(getBackgroundView());
@@ -88,7 +88,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 				LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		grid.setLayoutParams(lpWg);
 		llPage.addView(grid);
-
+		
 		// cancel button
 		btnCancel = new Button(getContext());
 		btnCancel.setTextColor(0xff3a65ff);
@@ -98,14 +98,14 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 			btnCancel.setText(resId);
 		}
 		btnCancel.setPadding(0, 0, 0, com.mob.tools.utils.R.dipToPx(getContext(), 5));
-
+		
 		resId = getBitmapRes(getContext(), "ssdk_oks_classic_platform_corners_bg");
 		if(resId > 0){
 			btnCancel.setBackgroundResource(resId);
 		}else {
 		    btnCancel.setBackgroundDrawable(new ColorDrawable(0xffffffff));
 		}
-
+		
 		LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, com.mob.tools.utils.R.dipToPx(getContext(), 45));
 		int dp_10 = com.mob.tools.utils.R.dipToPx(getContext(), 10);
@@ -113,7 +113,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		btnCancel.setLayoutParams(lpBtn);
 		llPage.addView(btnCancel);
 	}
-
+	
 	private void initAnim() {
 		animShow = new TranslateAnimation(
 				Animation.RELATIVE_TO_SELF, 0,
@@ -121,7 +121,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 				Animation.RELATIVE_TO_SELF, 1,
 				Animation.RELATIVE_TO_SELF, 0);
 		animShow.setDuration(300);
-
+		
 		animHide = new TranslateAnimation(
 				Animation.RELATIVE_TO_SELF, 0,
 				Animation.RELATIVE_TO_SELF, 0,
@@ -129,33 +129,33 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 				Animation.RELATIVE_TO_SELF, 1);
 		animHide.setDuration(300);
 	}
-
+	
 	public void onConfigurationChanged(Configuration newConfig) {
 		if (grid != null) {
 			grid.onConfigurationChanged();
 		}
 	}
-
+	
 	public boolean onFinish() {
 		if (finishing) {
 			return super.onFinish();
 		}
-
+		
 		if (animHide == null) {
 			finishing = true;
 			return false;
 		}
-
+		
 		finishing = true;
 		animHide.setAnimationListener(new Animation.AnimationListener() {
 			public void onAnimationStart(Animation animation) {
-
+				
 			}
-
+			
 			public void onAnimationRepeat(Animation animation) {
-
+				
 			}
-
+			
 			public void onAnimationEnd(Animation animation) {
 				flPage.setVisibility(View.GONE);
 				Tiegao.setShareStatus(3);
@@ -167,7 +167,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		//中断finish操作
 		return true;
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		if (v.equals(flPage) || v.equals(btnCancel)) {
@@ -177,7 +177,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 			finish();
 		}
 	}
-
+	
 	public void onPlatformIconClick(View v, ArrayList<Object> platforms) {
 		onShareButtonClick(v, platforms);
 	}

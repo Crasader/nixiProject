@@ -215,7 +215,7 @@ void StoryScene::dialogueControl(DialogItem* dialItem){
 //    CCLog("next ==== %d", dialItem->getNext());
     
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
-    
+    openStory = true;
     this->setTouchEnabled(false);
     logIndex = 0;
     
@@ -924,7 +924,11 @@ void StoryScene::logic(float dt){
     this->unschedule(schedule_selector(StoryScene::logic));
     
     if (!buttonBool1 && !buttonBool2) {
-        this->openTouch(0);
+        if (logicBool1 || logicBool2) {
+            
+        }else{
+            this->openTouch(0);
+        }
     }
     
     if (dialogItem->getName().length() <= 0) {
@@ -966,11 +970,14 @@ void StoryScene::logic(float dt){
                 }
                 
                 if (buttonBool3) {
+                    openStory = true;
                     this->setTouchEnabled(false);
                     
                     this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
                 }
             }else{
+                openStory = true;
+                
                 CCUserDefault::sharedUserDefault()->setBoolForKey("openCollect", true);
                 CCUserDefault::sharedUserDefault()->setBoolForKey(dialogItem->getNameId().c_str(), true);
                 CCUserDefault::sharedUserDefault()->flush();
@@ -991,6 +998,8 @@ void StoryScene::logic(float dt){
                 this->addChild(introSpr, 100);
                 
                 _dkSpr->runAction(CCSequence::create(CCDelayTime::create(.5f), CCHide::create(), NULL));
+                
+                this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), 1.5f);
             }
         }else{
             if (!quanBool) {
@@ -1000,6 +1009,7 @@ void StoryScene::logic(float dt){
             }
             
             if (buttonBool3) {
+                openStory = true;
                 this->setTouchEnabled(false);
                 
                 this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
@@ -1026,6 +1036,8 @@ void StoryScene::logic(float dt){
                     
                     this->schedule(schedule_selector(StoryScene::logic), .1f);
                 }else{
+                    openStory = true;
+                    
                     CCUserDefault::sharedUserDefault()->setBoolForKey(dialogItem->getNameId().c_str(), true);
                     CCUserDefault::sharedUserDefault()->flush();
                     introBool = true;
@@ -1058,9 +1070,10 @@ void StoryScene::logic(float dt){
                     recordBool1 = buttonBool1;
                     recordBool2 = buttonBool2;
                     recordBool3 = buttonBool3;
-                    this->setTouchEnabled(true);
                     kuaijinToggleItem->setSelectedIndex(0);
                     zidongToggleItem->setSelectedIndex(0);
+                    
+                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), 1.5f);
                 }
             }else{
                 wordCount = getContentLength();
@@ -1088,6 +1101,7 @@ void StoryScene::logic(float dt){
 
 
 void StoryScene::creatBg(){
+    openStory = true;
     this->setTouchEnabled(false);
     
     if (this->getChildByTag(Tag_GJ_bg) != NULL) {
@@ -1214,7 +1228,7 @@ void StoryScene::button1CallBack(CCObject* pSender){
             recordBool1 = buttonBool1;
             recordBool2 = buttonBool2;
             recordBool3 = buttonBool3;
-            
+            openStory = true;
             this->setTouchEnabled(false);
             
             kuaijinToggleItem->setSelectedIndex(1);
@@ -1235,7 +1249,7 @@ void StoryScene::button1CallBack(CCObject* pSender){
             recordBool1 = buttonBool1;
             recordBool2 = buttonBool2;
             recordBool3 = buttonBool3;
-            
+            openStory = false;
             this->setTouchEnabled(true);
             
             kuaijinToggleItem->setSelectedIndex(0);
@@ -1250,7 +1264,7 @@ void StoryScene::button1CallBack(CCObject* pSender){
         
         buttonBool1 = false;
         recordBool1 = buttonBool1;
-        
+        openStory = false;
         this->setTouchEnabled(true);
         
         kuaijinToggleItem->setSelectedIndex(0);
@@ -1270,7 +1284,7 @@ void StoryScene::button2CallBack(CCObject* pSender){
         recordBool1 = buttonBool1;
         recordBool2 = buttonBool2;
         recordBool3 = buttonBool3;
-        
+        openStory = true;
         this->setTouchEnabled(false);
         
         kuaijinToggleItem->setSelectedIndex(0);
@@ -1291,7 +1305,7 @@ void StoryScene::button2CallBack(CCObject* pSender){
         recordBool1 = buttonBool1;
         recordBool2 = buttonBool2;
         recordBool3 = buttonBool3;
-        
+        openStory = false;
         this->setTouchEnabled(true);
         
         kuaijinToggleItem->setSelectedIndex(0);
@@ -2091,6 +2105,7 @@ void StoryScene::keyBackStatus(float dt){
 }
 
 void StoryScene::onExit(){
+    openStory = true;
     this->setTouchEnabled(false);
     this->setAccelerometerEnabled(false);
     this->unscheduleAllSelectors();
@@ -2142,6 +2157,7 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
                 }
                 
                 if (buttonBool3) {
+                    openStory = true;
                     this->setTouchEnabled(false);
                     
                     this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), 1.f);
@@ -2164,20 +2180,31 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
                     if (dialogItem->getStates() != 4) {
                         if (wordCount < contentLength) {
                             wordCount = getContentLength();
+                            openStory = true;
                             this->setTouchEnabled(false);
                             
                             this->closeEyesAnimation();
                             
-                            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
-                            
+                            int nameId = atoi(dialogItem->getNameId().c_str());
+                            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+                                
+                                if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
+                                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                                }else{
+                                    openStory = true;
+                                }
+                            }else{
+                                this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                            }
                         }else{
-                            
+                            openStory = true;
                             this->setTouchEnabled(false);
                             
                             this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .5f);
                             
                         }
                     }else{
+                        openStory = true;
                         this->setTouchEnabled(false);
                         
                         this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .5f);
@@ -2190,20 +2217,32 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
                     if (dialogItem->getStates() != 4) {
                         if (wordCount < contentLength) {
                             wordCount = getContentLength();
+                            openStory = true;
                             this->setTouchEnabled(false);
                             
                             this->closeEyesAnimation();
                             
-                            this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                            int nameId = atoi(dialogItem->getNameId().c_str());
+                            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+                                
+                                if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
+                                    this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                                }else{
+                                    openStory = true;
+                                }
+                            }else{
+                                this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
+                            }
                             
                         }else{
-                            
+                            openStory = true;
                             this->setTouchEnabled(false);
                             
                             this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .3f);
                             
                         }
                     }else{
+                        openStory = true;
                         this->setTouchEnabled(false);
                         
                         this->scheduleOnce(SEL_SCHEDULE(&StoryScene::getIndex), .3f);
@@ -2218,6 +2257,7 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 
 void StoryScene::openTouch(float dt){
     logIndex = 0;
+    openStory = false;
     this->setTouchEnabled(true);
 }
 
@@ -2246,7 +2286,7 @@ void StoryScene::getIndex(float dt){
                     zidongToggleItem->setSelectedIndex(0);
                 }
             }
-            
+            openStory = true;
             this->setTouchEnabled(false);
             
             storyIndex = 1;
@@ -2270,7 +2310,7 @@ void StoryScene::getIndex(float dt){
                     zidongToggleItem->setSelectedIndex(0);
                 }
             }
-            
+            openStory = true;
             this->setTouchEnabled(false);
             endingStr = CCString::createWithFormat("%s", _achievement->getCString());
             endingStr->retain();
@@ -2373,14 +2413,16 @@ void StoryScene::LabelColorFhCallBack(CCObject* pSender){
     recordBool1 = buttonBool1;
     recordBool2 = buttonBool2;
     recordBool3 = buttonBool3;
-    
+    openStory = false;
     this->setTouchEnabled(true);
 }
 
 void StoryScene::_503CallBack(CCObject* pSender){
     LOADING->remove();
-//    CCLog("<><><>endingStr ==== %s", endingStr->getCString());
-    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString());
+    
+    CCDictionary* extra = (CCDictionary* )pSender;
+    CCInteger* goldIndex = (CCInteger* )extra->objectForKey("pass_reward");
+    StorySettlementOfTheAnimationLayer* layer = StorySettlementOfTheAnimationLayer::create_with_index(storyIndex, endingStr->getCString(), goldIndex->getValue());
     this->addChild(layer, 1000);
 }
 

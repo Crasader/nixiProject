@@ -209,6 +209,29 @@ void TopFloorCell::update_boxes() {
         
         box->setTag(i);
         _boxes->addObject(box);
+        
+        // 奖励内容
+        int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
+        CCString* strReward = CCString::createWithFormat("%d", rewardValue);
+        CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+        lblReward->setAnchorPoint(ccp(0.8, 0.5));
+        lblReward->setPosition(ccp(28, 22));
+        lblReward->enableShadow(CCSizeMake(2, 1), 1, 2);
+        box->addChild(lblReward);
+        
+        const CCString* rewardType = item->valueForKey("reward_type");
+        if (rewardType->compare("coin") == 0) {
+            CCSprite* icon = CCSprite::create("pic/common/coin2.png");
+            icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
+            icon->setScale(0.3);
+            box->addChild(icon);
+        }
+        else if (rewardType->compare("diam") == 0) {
+            CCSprite* icon = CCSprite::create("pic/common/diam2.png");
+            icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
+            icon->setScale(0.3);
+            box->addChild(icon);
+        }
     }
 }
 

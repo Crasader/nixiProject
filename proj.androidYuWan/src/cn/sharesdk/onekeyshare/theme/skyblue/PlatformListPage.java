@@ -24,48 +24,48 @@ import static cn.sharesdk.framework.utils.ShareSDKR.getStringRes;
 
 public class PlatformListPage extends PlatformListFakeActivity implements View.OnClickListener {
 	private PlatformGridViewAdapter gridViewAdapter;
-
+	
 	public void onCreate() {
 		super.onCreate();
 		activity.setContentView(getLayoutRes(activity, "ssdk_oks_skyblue_share_platform_list"));
-
+		
 		initView();
 	}
-
+	
 	private void initView() {
 		View backImageView = findViewByResName("backImageView");
 		backImageView.setTag(android.R.string.cancel);
 		backImageView.setOnClickListener(this);
-
+		
 		View okImageView = findViewByResName("okImageView");
 		okImageView.setTag(android.R.string.ok);
 		okImageView.setOnClickListener(this);
-
+		
 		gridViewAdapter = new PlatformGridViewAdapter(activity);
 		gridViewAdapter.setCustomerLogos(customerLogos);
-
+		
 		GridView gridView = (GridView) findViewByResName("gridView");
 		gridView.setAdapter(gridViewAdapter);
-
+		
 		new AsyncTask<Void, Void, Platform[]>() {
-
+			
 			@Override
 			protected Platform[] doInBackground(Void... params) {
 				return ShareSDK.getPlatformList();
 			}
-
+			
 			@Override
 			protected void onPostExecute(Platform[] platforms) {
 				gridViewAdapter.setData(platforms, hiddenPlatforms);
 			}
 		}.execute();
 	}
-
+	
 	public void onClick(View v) {
 		Object tag = v.getTag();
 		if(tag == null || !(tag instanceof Integer))
 			return;
-
+		
 		switch ((Integer)tag) {
 			case android.R.string.cancel:
 				setCanceled(true);
@@ -76,19 +76,19 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 				break;
 		}
 	}
-
+	
 	private void onShareButtonClick(View v) {
 		if(gridViewAdapter == null || "locked".equals(v.getTag()))
 			return;
-
+			
 		List<Object> checkedPlatforms = gridViewAdapter.getCheckedItems();
 		if(checkedPlatforms.size() == 0){
 			Toast.makeText(activity, getStringRes(activity, "ssdk_oks_select_one_plat_at_least"), Toast.LENGTH_SHORT).show();
 			return;
 		}
-
+		
 		v.setTag("locked");
 		onShareButtonClick(v, checkedPlatforms);
 	}
-
+	
 }

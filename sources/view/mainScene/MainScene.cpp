@@ -45,6 +45,7 @@
 #include "MysteryLayer.h"
 #include "TrystScene.h"
 #include "TrystProgress.h"
+#include "DailySigninRewardPanel.h"
 
 #include <time.h>
 
@@ -268,6 +269,7 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_fetch_mystery_info_610), "HTTP_FINISHED_610", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::after_fetch_tryst_info_620), "HTTP_FINISHED_620", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::after_start_tryst_621), "HTTP_FINISHED_621", NULL);
     
     
@@ -279,6 +281,9 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_free_gashapon), "CHECK_FREE_GASHAPON", NULL);
+    
+    // 监听是否从7日签到退出
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::check_dailysignin), "WHEN_SIGNIN7_EXIT", NULL);
     
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
@@ -317,22 +322,26 @@ void MainScene::onEnter(){
     this->scheduleOnce(SEL_SCHEDULE(&MainScene::keyBackStatus), .8f);
     
     if (DATA->current_guide_step() == 0) {
-        // 节日临时签到
-        if (DATA->getNews()->tempSignin == 1) {
-            this->show_guoqing_signin();
-        }
-        else if (DATA->getNews()->signin7 == 1) {
+//        // 节日临时签到
+//        if (DATA->getNews()->tempSignin == 1) {
+//            this->show_guoqing_signin();
+//        }
+        if (DATA->getNews()->signin7 == 1) {
             isOk = true;
             this->qiandaoCallBack(NULL);
+        }
+        else {
+            this->check_dailysignin();
         }
     }
     
     this->checkVersion();
     
-    //
-    this->showTrystEntrance();
-    //
-//    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
+
+    if (DATA->getNews()->trystOn == 1) {
+        this->showTrystEntrance();
+    }
+    NET->fetch_tryst_info_620();
 }
 
 void MainScene::checkVersion() {
@@ -492,10 +501,26 @@ void MainScene::creat_view(){
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
     
     //事件
+    CCMenuItem* eventItem = NULL;
     CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     eventSpr2->setScale(1.02f);
-    CCMenuItem* eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
+    if (DATA->isMysteryEventUnlocked()) {
+        eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
+    }
+    else {
+        eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::mysteryUnlockPrompt));
+        CCSprite* forbidden1 = CCSprite::create("pic/forbidden.png");
+        forbidden1->setScale(0.16);
+        forbidden1->setPosition(ccp(eventSpr1->getContentSize().width * 0.5 + 3, eventSpr1->getContentSize().height * 0.5 + 8));
+        eventSpr1->addChild(forbidden1);
+        
+        CCSprite* forbidden2 = CCSprite::create("pic/forbidden.png");
+        forbidden2->setScale(0.16);
+        forbidden2->setPosition(ccp(eventSpr2->getContentSize().width * 0.5 + 3, eventSpr2->getContentSize().height * 0.5 + 8));
+        eventSpr2->addChild(forbidden2);
+    }
+    
 
     // 聊天
 //    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -1033,8 +1058,6 @@ CCArray* MainScene::rand_array(CCArray *arr) {
         arrTemp->addObject(arr->objectAtIndex(i));
     }
     
-
-    
     return arrTemp;
 }
 
@@ -1420,6 +1443,11 @@ void MainScene::onEventCallback(CCObject *pSender) {
             NET->fetch_mystery_info_610(true);
         }
     }
+}
+
+void MainScene::mysteryUnlockPrompt(CCObject* pSender) {
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "完成公司日常“培训会”解锁");
 }
 
 //void MainScene::openChat(cocos2d::CCObject *pSender){
@@ -2202,7 +2230,7 @@ void MainScene::showTrystEntrance() {
     menuEntrance->setPosition(_layer_3->getContentSize().width * 0.5 - 13, DISPLAY->halfH() - 12);
     _layer_3->addChild(menuEntrance);
     // 时间文字
-    CCLabelTTF* timePeriod = CCLabelTTF::create("21:00 - 23:59开启", DISPLAY->fangzhengFont(), 13.f);
+    CCLabelTTF* timePeriod = CCLabelTTF::create("18:00 - 23:59开启", DISPLAY->fangzhengFont(), 13.f);
     timePeriod->setPosition(menuEntrance->getPosition() + ccp(0, -38));
     _layer_3->addChild(timePeriod);
 }
@@ -2210,15 +2238,14 @@ void MainScene::showTrystEntrance() {
 void MainScene::onBtnStartTryst() {
     DATA->onEvent("点击事件", "主界面", "点击 - 约会");
     if (isOk) {
-        if (DATA->getTryst()->isOngoing()) {
-            //
-        }
-        else {
-            AHMessageBox* mb = AHMessageBox::create_with_message("是否开始约会？", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-        }
+        AHMessageBox* mb = AHMessageBox::create_with_message("是否开始约会？", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
     }
+}
+
+void MainScene::after_fetch_tryst_info_620() {
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::check_tryst_progress), 1);
 }
 
 void MainScene::after_start_tryst_621() {
@@ -2321,6 +2348,16 @@ void MainScene::update_news_status() {
 //
 //        }
 //    }
+}
+
+void MainScene::check_dailysignin() {
+    this->scheduleOnce(SEL_SCHEDULE(&MainScene::update_dailysignin), 0.1);
+}
+
+void MainScene::update_dailysignin() {
+    if (DATA->getNews()->dailySignin == 1) { // 可签
+        DailySigninRewardPanel::show(this->getScene());
+    }
 }
 
 void MainScene::show_guoqing_signin() {
