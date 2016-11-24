@@ -18,6 +18,7 @@
 #include "BuildingLayer.h"
 #include "BuildingView.h"
 #include "UpgradeLayer.h"
+#include "RewardPanel.h"
 
 #include "ConfigManager.h"
 #include "JNIController.h"
@@ -105,6 +106,11 @@ void BuildingLayer::onEnter() {
         scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_phase_up), 1.0);
     }
     else {
+        if (DATA->getNeedShowUnlockMystery()) {
+            this->scheduleOnce(SEL_SCHEDULE(&BuildingLayer::show_mystery_unlock), 0.6);
+        }
+        
+        
         if (_phase == DATA->getPlayer()->phase) {
             // 公司奖励图标
             this->createCompanyRewardIcon();
@@ -112,11 +118,16 @@ void BuildingLayer::onEnter() {
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
             CoffersComp* coffers = DATA->getCoffers();
             if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
-//                this->show_arrow();
                 this->show_building();
             }
         }
     }
+}
+
+void BuildingLayer::show_mystery_unlock() {
+    RewardPanel* pannel = RewardPanel::createWithMystery();
+    this->getScene()->addChild(pannel);
+    DATA->setNeedShowUnlockMystery(false);
 }
 
 void BuildingLayer::onExit() {

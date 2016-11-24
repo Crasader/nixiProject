@@ -36,6 +36,8 @@ public:
     int             phase;              // 公司规模
     CCDictionary*   rating;             // 总任务评价(总星数)
     
+    int             mystery;
+    
     CC_SYNTHESIZE(int, _guide, Guide);  // 引导
     
 public:

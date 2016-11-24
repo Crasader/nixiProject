@@ -501,10 +501,26 @@ void MainScene::creat_view(){
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
     
     //事件
+    CCMenuItem* eventItem = NULL;
     CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     eventSpr2->setScale(1.02f);
-    CCMenuItem* eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
+    if (DATA->isMysteryEventUnlocked()) {
+        eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
+    }
+    else {
+        eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::mysteryUnlockPrompt));
+        CCSprite* forbidden1 = CCSprite::create("pic/forbidden.png");
+        forbidden1->setScale(0.16);
+        forbidden1->setPosition(ccp(eventSpr1->getContentSize().width * 0.5 + 3, eventSpr1->getContentSize().height * 0.5 + 8));
+        eventSpr1->addChild(forbidden1);
+        
+        CCSprite* forbidden2 = CCSprite::create("pic/forbidden.png");
+        forbidden2->setScale(0.16);
+        forbidden2->setPosition(ccp(eventSpr2->getContentSize().width * 0.5 + 3, eventSpr2->getContentSize().height * 0.5 + 8));
+        eventSpr2->addChild(forbidden2);
+    }
+    
 
     // 聊天
 //    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
@@ -1427,6 +1443,11 @@ void MainScene::onEventCallback(CCObject *pSender) {
             NET->fetch_mystery_info_610(true);
         }
     }
+}
+
+void MainScene::mysteryUnlockPrompt(CCObject* pSender) {
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "完成公司日常“培训会”解锁");
 }
 
 //void MainScene::openChat(cocos2d::CCObject *pSender){

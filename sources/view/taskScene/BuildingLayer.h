@@ -35,6 +35,8 @@ private:
     void show_building();
     void show_phase_up();
     
+    void show_mystery_unlock();
+    
     void on_construction_finish(CCNode* node);
     void on_phaseup_finish(CCNode* node);
     

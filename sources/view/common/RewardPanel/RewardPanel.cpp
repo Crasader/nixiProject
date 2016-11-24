@@ -36,6 +36,72 @@ void RewardPanel::show(CCNode* parent, string type, int value) {
 RewardPanel::~RewardPanel() {
 }
 
+RewardPanel* RewardPanel::createWithMystery() {
+    RewardPanel* rtn = new RewardPanel();
+    if (rtn && rtn->initWithMystery()) {
+        rtn->autorelease();
+    }
+    else {
+        CC_SAFE_RELEASE_NULL(rtn);
+    }
+    
+    return rtn;
+}
+
+bool RewardPanel::initWithMystery() {
+    if (! CCLayer::init()) {
+        return false;
+    }
+    
+    num_child = 0;
+    _couldExit = false;
+    
+    _type = "";
+    _value = 0;
+    
+    _panel = CCSprite::create("pic/gashapon/gashapon_kuang.png");
+    _panel->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75));
+    _panel->setVisible(false);
+    this->addChild(_panel);
+    
+    CCSize panelSize = _panel->boundingBox().size;
+    
+    CCSprite* light = CCSprite::create("pic/building/reward/light.png");
+    light->setPosition(ccp(panelSize.width* .5f, panelSize.height * 1.15));
+    _panel->addChild(light);
+    
+    CCSprite* spots = CCSprite::create("pic/building/reward/spots.png");
+    spots->setPosition(ccp(panelSize.width* .5f, panelSize.height * 1.15));
+    _panel->addChild(spots);
+    
+    CCSequence* seq = CCSequence::create(CCFadeIn::create(0.6), CCDelayTime::create(0.3), CCFadeOut::create(0.6), CCDelayTime::create(0.5), NULL);
+    spots->runAction(CCRepeatForever::create(seq));
+    
+//    CCSprite* title = CCSprite::create("pic/building/reward/title2.png");
+//    title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .92f));
+//    _panel->addChild(title);
+    
+    CCSprite* titleSpr = CCSprite::create("res/pic/gashapon/gashapon_title2.png");
+    titleSpr->setPosition(ccp(_panel->getContentSize().width* .5f, _panel->getContentSize().height* 1.02f));
+    _panel->addChild(titleSpr);
+    
+    CCSprite* plate = CCSprite::create("pic/building/reward/plate.png");
+    plate->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.5));
+    _panel->addChild(plate);
+    
+    CCSprite* coin = CCSprite::create("pic/mainScene/main_mystery.png");
+    coin->setPosition(ccp(panelSize.width* .5f - 3, panelSize.height * 0.5 + 2));
+    _panel->addChild(coin);
+    
+    CCLabelTTF* lbl = CCLabelTTF::create("解锁 －“事件”", DISPLAY->fangzhengFont(), 22);
+//    lbl->setColor(ccc3(107, 143, 190));
+    lbl->setAnchorPoint(ccp(0.5, 0.5));
+    lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * 0.05));
+    _panel->addChild(lbl);
+    
+    return true;
+}
+
 RewardPanel* RewardPanel::createWithReward(string type, int value) {
     RewardPanel* rtn = new RewardPanel();
     if (rtn && rtn->initWithReward(type, value)) {
