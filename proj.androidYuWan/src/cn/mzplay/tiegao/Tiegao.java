@@ -87,6 +87,8 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		
 		// 49AC41ECB2C5B4A961E00B2380C21E9F		美图
+		// 87EB2A02216D41878FAAA9493CA83984		美图 修正后
+		
 		// C5F4CD1E92B6718262FBF57950D8829D		百度
 		// DB61C0FF7AD0549C91DD4FB203139909		360
 		// 03BF303202380DA28B046607C2A79ABF		小米
@@ -101,7 +103,7 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
-		TalkingDataGA.init(instance, "9A0457376D9943DC8315A355AB88A8BA", "mzplay");
+		TalkingDataGA.init(instance, "87EB2A02216D41878FAAA9493CA83984", "mzplay");
 		
 	}
 	
