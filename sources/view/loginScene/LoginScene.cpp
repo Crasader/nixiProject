@@ -43,6 +43,10 @@ bool LoginScene::init() {
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);
         
+        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.2));
+        this->addChild(logo);
+        
         CCSprite* guangSpr = CCSprite::create("res/pic/loginScene/login_guang.png");
         guangSpr->setPosition(ccp(bg->boundingBox().size.width* .18f, bg->boundingBox().size.height* .22f));
         bg->addChild(guangSpr, 5);

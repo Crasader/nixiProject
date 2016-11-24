@@ -313,6 +313,36 @@ void BuildingLayer::createCompanyRewardIcon() {
                 menu->ignoreAnchorPointForPosition(false);
                 node->addChild(menu);
                 
+                // 显示奖励数量
+                int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
+                CCString* strReward = CCString::createWithFormat("%d", rewardValue);
+                
+                CCLabelTTF* lblReward2 = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+                lblReward2->setAnchorPoint(ccp(1, 0.5));
+                lblReward2->setPosition(ccp(8.8, -17.5));
+                lblReward2->setColor(ccGRAY);
+                lblReward2->enableStroke(ccGRAY, 2.5);
+                node->addChild(lblReward2);
+                
+                CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+                lblReward->setAnchorPoint(ccp(1, 0.5));
+                lblReward->setPosition(ccp(5, -15));
+                node->addChild(lblReward);
+                
+                const CCString* rewardType = item->valueForKey("reward_type");
+                if (rewardType->compare("coin") == 0) {
+                    CCSprite* icon = CCSprite::create("pic/common/coin2.png");
+                    icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
+                    icon->setScale(0.3);
+                    node->addChild(icon);
+                }
+                else if (rewardType->compare("diam") == 0) {
+                    CCSprite* icon = CCSprite::create("pic/common/diam2.png");
+                    icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
+                    icon->setScale(0.3);
+                    node->addChild(icon);
+                }
+                
                 break;
             }
         }
@@ -331,13 +361,23 @@ void BuildingLayer::createCompanyRewardIcon() {
             
             // 显示条件
             CCString* strCondition = CCString::createWithFormat("%d", itemGoal);
+            
+            CCLabelTTF* lblCondition2 = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
+            lblCondition2->setAnchorPoint(ccp(1, 0.5));
+            lblCondition2->setPosition(ccp(6, -16.8));
+            lblCondition2->setColor(ccGRAY);
+            lblCondition2->enableStroke(ccGRAY, 2.5);
+            node->addChild(lblCondition2);
+            
             CCLabelTTF* lblCondition = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
             lblCondition->setAnchorPoint(ccp(1, 0.5));
-            //lblCondition->setPosition(ccp(10, -36));
             lblCondition->setPosition(ccp(2, -15));
-//            lblCondition->setColor(ccc3(232,136,174));
-            lblCondition->setColor(ccGREEN);
+//            lblCondition->enableShadow(CCSizeMake(2, 1), 1, 2);
+//            lblCondition->setColor(ccGREEN);
             node->addChild(lblCondition);
+            
+
+            
             
             CCSprite* star = CCSprite::create("pic/taskScene/task_xing3.png");
             star->setPosition(ccp(lblCondition->getPositionX() + 8, lblCondition->getPositionY() + 2));

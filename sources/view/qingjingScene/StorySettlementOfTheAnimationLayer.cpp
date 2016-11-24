@@ -62,6 +62,7 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
 //    CCSprite* mask = CCSprite::create("res/pic/mask.png");
 //    mask->setPosition(DISPLAY->center());
 //    this->addChild(mask, 10);
+    _goldIndex = goldIndex;
     
     if (index == 1) {
         CCSprite* spr1 = CCSprite::create("res/pic/qingjingScene/animation/qj_wan.png");
@@ -123,7 +124,7 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
             callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
             seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
         }else{// 没有通关的章节，显示第一次通关奖励
-            if (goldIndex != 0) {// 显示
+            if (_goldIndex != 0) {// 显示
                 theEndBool = true;
                 callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::tishiCallBack));
                 seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.3f), callFunc, NULL);
@@ -226,8 +227,7 @@ void StorySettlementOfTheAnimationLayer::tishiCallBack(CCObject* pSender){
     diam->setPosition(ccp(panelSize.width* .5f, panelSize.height * .45f));
     _panel->addChild(diam);
     
-    CoffersComp* coffers = DATA->getCoffers();
-    CCString* str = CCString::createWithFormat("%d 钻石", coffers->profit);
+    CCString* str = CCString::createWithFormat("%d 钻石", _goldIndex);
     CCLabelTTF* lbl = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 24);
     lbl->setColor(ccc3(107, 143, 190));
     lbl->setPosition(ccp(panelSize.width* .5f, panelSize.height * .25f));

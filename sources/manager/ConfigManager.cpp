@@ -344,6 +344,7 @@ void ConfigManager::conf_mystery_dialog() {
 
 void ConfigManager::conf_tryst_dialog() {
     CSJson::Value root = AppUtil::read_json_file("conf/tryst_dialog");
+    CC_SAFE_RELEASE(_trystDialog);
     _trystDialog = AppUtil::dictionary_with_json(root);
     _trystDialog->retain();
 }

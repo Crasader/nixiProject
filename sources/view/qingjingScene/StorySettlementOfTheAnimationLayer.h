@@ -37,6 +37,7 @@ public:
     CREATE_FUNC(StorySettlementOfTheAnimationLayer);
     
 public:
+    int         _goldIndex;
     
     bool theEndBool;
     
