@@ -106,6 +106,8 @@ void CollectLayer::creat_view(){
             }
         }
     }
+    CCInteger* integer = CCInteger::create(2000);
+    collectArr->addObject(integer);
     DATA->setCollectSource(collectArr);
     
     CCInteger* bgIndex = (CCInteger* )collectArr->objectAtIndex(0);

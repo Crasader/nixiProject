@@ -1681,6 +1681,7 @@ void ClothesScene::saveClothesMethods(){
             }else{
                 shipinDic = (CCDictionary* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());// 获取所穿视频的字典
                 CCInteger* clothesTemp_id;
+                bool shipinBool = false;
                 for (int n = 11; n <= 20; n++) {
                     clothesTemp_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", n)->getCString());
                     int phase = dic->valueForKey("phase")->intValue();
@@ -1699,6 +1700,8 @@ void ClothesScene::saveClothesMethods(){
                             
                             this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
                             
+                            shipinBool = true;
+                            
                             continue;
                         }else if (cloth_type == 10 && !DATA->getClothes()->is_owned(i, id)){
                             phaseBool = true;
@@ -1712,9 +1715,15 @@ void ClothesScene::saveClothesMethods(){
                             
                             this->ChangeShipin(updataClothes(i), dic->valueForKey("sub_part")->intValue());
                             
+                            shipinBool = true;
+                            
                             continue;
                         }
                     }
+                }
+                if (shipinBool) {
+                    PromptLayer* layer = PromptLayer::create();
+                    layer->show_prompt(this->getScene(), "有不能购买的衣饰,已经送回商店!");
                 }
             }
         }
