@@ -1038,6 +1038,7 @@ void StoryScene::logic(float dt){
                 }else{
                     openStory = true;
                     
+                    CCUserDefault::sharedUserDefault()->setBoolForKey("openCollect", true);
                     CCUserDefault::sharedUserDefault()->setBoolForKey(dialogItem->getNameId().c_str(), true);
                     CCUserDefault::sharedUserDefault()->flush();
                     introBool = true;

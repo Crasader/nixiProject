@@ -263,6 +263,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/Qi
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/view/qingjingScene/StoryScene.h \
@@ -293,7 +294,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/qingjingScene/Qi
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
- jni/../../sources/view/panel/ChatPanel.h
+ jni/../../sources/view/panel/ChatPanel.h \
+ jni/../../sources/view/qingjingScene/CollectLayer.h
 
 jni/../../sources/view/qingjingScene/QingjingScene.h:
 
@@ -835,6 +837,8 @@ jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
 
+jni/../../sources/model/TrystComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/mainScene/MainScene.h:
@@ -896,3 +900,5 @@ jni/../../sources/manager/WSManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
 
 jni/../../sources/view/panel/ChatPanel.h:
+
+jni/../../sources/view/qingjingScene/CollectLayer.h:

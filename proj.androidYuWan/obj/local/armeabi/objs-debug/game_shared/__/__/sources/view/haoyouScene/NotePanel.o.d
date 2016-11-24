@@ -273,6 +273,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/NotePane
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
@@ -837,6 +838,8 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
+
+jni/../../sources/model/TrystComp.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
 

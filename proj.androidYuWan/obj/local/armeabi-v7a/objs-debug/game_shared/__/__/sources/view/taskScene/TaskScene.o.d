@@ -261,6 +261,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/NetManager.h \
@@ -274,9 +275,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSc
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/mainScene/MainScene.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/taskScene/TaskStoryScene.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/taskScene/PhoneLayer2.h \
  jni/../../sources/view/home/HomeLayer.h \
  jni/../../sources/view/home/HomeTableView.h \
@@ -832,6 +833,8 @@ jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
 
+jni/../../sources/model/TrystComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/ConfigManager.h:
@@ -858,11 +861,11 @@ jni/../../sources/manager/NetManager.h:
 
 jni/../../sources/view/mainScene/MainScene.h:
 
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
 jni/../../sources/view/common/Loading2/Loading2.h:
 
 jni/../../sources/view/taskScene/TaskStoryScene.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/view/taskScene/PhoneLayer2.h:
 

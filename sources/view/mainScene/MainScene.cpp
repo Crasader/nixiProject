@@ -337,7 +337,7 @@ void MainScene::onEnter(){
     
     this->checkVersion();
     
-    // 是否显示约会入口
+
     if (DATA->getNews()->trystOn == 1) {
         this->showTrystEntrance();
     }

@@ -259,6 +259,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/manager/NoticeManager
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
+ jni/../../sources/model/TrystComp.h \
  jni/../../sources/manager/ConfigManager.h
 
 jni/../../sources/manager/NoticeManager.h:
@@ -792,5 +793,7 @@ jni/../../sources/model/OperationComp.h:
 jni/../../sources/model/HomeComp.h:
 
 jni/../../sources/model/MysteryComp.h:
+
+jni/../../sources/model/TrystComp.h:
 
 jni/../../sources/manager/ConfigManager.h:
