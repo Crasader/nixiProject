@@ -36,6 +36,10 @@ bool QingjingScene::init(){
         return false;
     }
     
+    CCUserDefault::sharedUserDefault()->setBoolForKey("1002", false);
+    CCUserDefault::sharedUserDefault()->setBoolForKey("1009", false);
+    CCUserDefault::sharedUserDefault()->flush();
+    
     num_child = 0;
     
     storyIndex = 0;
@@ -333,14 +337,6 @@ void QingjingScene::creat_view(){
                     }else{
                         CCLog("不等于-1");
                     }
-                    
-                    if (j == 0) {
-                        if (tongguanBool) {
-                            DATA->setTheEndBool(true);
-                        }else{
-                            DATA->setTheEndBool(false);
-                        }
-                    }
                 }
             }
             
@@ -596,9 +592,9 @@ void QingjingScene::startCallBack(CCObject* pSender){
     
     CCMenuItem* item = (CCMenuItem* )pSender;
     storyIndex = item->getTag();
+    bool tongguanBool = false;
     
     if (storyIndex > 0) {
-        bool tongguanBool = false;
         CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
         CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
         if (storyArr != NULL) {
@@ -616,6 +612,24 @@ void QingjingScene::startCallBack(CCObject* pSender){
         if (tongguanBool) {
             if (DATA->getPlayer()->energy >= 9) {
                 LOADING->show_loading();
+                
+                CCString* temp_index = CCString::createWithFormat("%d", storyIndex);
+                CCArray* tempArr = DATA->getStory()->story_achievments(temp_index->getCString());
+                if (tempArr == NULL) {
+                    DATA->setTheEndBool(false);
+                }else{
+                    for (int i = 0; i < tempArr->count(); i++) {
+                        DATA->setTheEndBool(false);
+                        CCString* tempStr1 = CCString::createWithFormat("-1");
+                        CCString* tempStr2 = (CCString* )tempArr->objectAtIndex(i);
+                        if (strcmp(tempStr1->getCString(), tempStr2->getCString()) == 0) {
+                            DATA->setTheEndBool(true);
+                        }else{
+                            
+                        }
+                    }
+                }
+                    
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
                 NET->start_story_501(indexStr->getCString());
             }else{
@@ -630,6 +644,24 @@ void QingjingScene::startCallBack(CCObject* pSender){
     }else{
         if (DATA->getPlayer()->energy >= 9) {
             LOADING->show_loading();
+            
+            CCString* temp_index = CCString::createWithFormat("%d", storyIndex);
+            CCArray* tempArr = DATA->getStory()->story_achievments(temp_index->getCString());
+            if (tempArr == NULL) {
+                DATA->setTheEndBool(false);
+            }else{
+                for (int i = 0; i < tempArr->count(); i++) {
+                    DATA->setTheEndBool(false);
+                    CCString* tempStr1 = CCString::createWithFormat("-1");
+                    CCString* tempStr2 = (CCString* )tempArr->objectAtIndex(i);
+                    if (strcmp(tempStr1->getCString(), tempStr2->getCString()) == 0) {
+                        DATA->setTheEndBool(true);
+                    }else{
+                        
+                    }
+                }
+            }
+            
             CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
             NET->start_story_501(indexStr->getCString());
         }else{
