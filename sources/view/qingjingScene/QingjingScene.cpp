@@ -36,9 +36,6 @@ bool QingjingScene::init(){
         return false;
     }
     
-    CCUserDefault::sharedUserDefault()->setBoolForKey("1002", false);
-    CCUserDefault::sharedUserDefault()->setBoolForKey("1009", false);
-    CCUserDefault::sharedUserDefault()->flush();
     
     num_child = 0;
     

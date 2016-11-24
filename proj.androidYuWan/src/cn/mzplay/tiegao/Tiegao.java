@@ -101,7 +101,7 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
-		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
+		TalkingDataGA.init(instance, "9A0457376D9943DC8315A355AB88A8BA", "mzplay");
 		
 	}
 	
