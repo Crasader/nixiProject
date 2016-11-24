@@ -39,6 +39,10 @@ bool YiJieLoginScene::init() {
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);
         
+        CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
+        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.2));
+        this->addChild(logo);
+        
         return true;
     }
     else {
@@ -84,7 +88,7 @@ void YiJieLoginScene::create_views() {
     CCSprite* startSpr2 = CCSprite::create("res/pic/loginScene/login_btn_fast3.png");
     startSpr2->setScale(1.01f);
     startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(YiJieLoginScene::startCallBack));
-    startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .32f));
+    startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 160, DISPLAY->ScreenHeight()* .3f));;
     CCMenu* startMenu = CCMenu::create(startItem, NULL);
     startMenu->setPosition(CCPointZero);
     this->addChild(startMenu, 10);

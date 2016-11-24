@@ -2230,7 +2230,7 @@ void MainScene::showTrystEntrance() {
     menuEntrance->setPosition(_layer_3->getContentSize().width * 0.5 - 13, DISPLAY->halfH() - 12);
     _layer_3->addChild(menuEntrance);
     // 时间文字
-    CCLabelTTF* timePeriod = CCLabelTTF::create("21:00 - 23:59开启", DISPLAY->fangzhengFont(), 13.f);
+    CCLabelTTF* timePeriod = CCLabelTTF::create("18:00 - 23:59开启", DISPLAY->fangzhengFont(), 13.f);
     timePeriod->setPosition(menuEntrance->getPosition() + ccp(0, -38));
     _layer_3->addChild(timePeriod);
 }

@@ -334,12 +334,10 @@ void QingjingScene::creat_view(){
                         CCLog("不等于-1");
                     }
                     
-                    if (j == 0) {
-                        if (tongguanBool) {
-                            DATA->setTheEndBool(true);
-                        }else{
-                            DATA->setTheEndBool(false);
-                        }
+                    if (tongguanBool) {
+                        DATA->setTheEndBool(true);
+                    }else{
+                        DATA->setTheEndBool(false);
                     }
                 }
             }

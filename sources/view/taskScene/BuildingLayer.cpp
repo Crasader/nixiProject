@@ -279,11 +279,9 @@ void BuildingLayer::createCompanyRewardIcon() {
         int itemGoal = ((CCInteger*)item->objectForKey("goal"))->getValue();
         CCLOG("itemGoal = %d", itemGoal);
         // 优先显示当前阶段第一没有领取的
-//        if (totalRatings >= itemGoal) {
-        if (true) {
+        if (totalRatings >= itemGoal) {
             CCString* itemId = (CCString*)item->objectForKey("id");
-//            if (! coffers->has_taken_reward(itemId)) { // 没有领取
-            if (true) {
+            if (! coffers->has_taken_reward(itemId)) { // 没有领取
                 node = CCNode::create();
                 
                 CCString* lightName = CCString::createWithFormat("pic/building/progress/available_light_%d.png", i);

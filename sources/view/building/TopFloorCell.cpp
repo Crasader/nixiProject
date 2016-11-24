@@ -217,8 +217,6 @@ void TopFloorCell::update_boxes() {
         lblReward->setAnchorPoint(ccp(0.8, 0.5));
         lblReward->setPosition(ccp(28, 22));
         lblReward->enableShadow(CCSizeMake(2, 1), 1, 2);
-//        lblReward->enableStroke(ccGRAY, 3);
-//        lblReward->setColor(DISPLAY->dullBlueColor());
         box->addChild(lblReward);
         
         const CCString* rewardType = item->valueForKey("reward_type");
