@@ -49,6 +49,7 @@ bool BuildingLayer::init(int phase, bool isPhaseUp) {
     
     _isPhaseUp = isPhaseUp;
     _phase = phase;
+    _boxNode = NULL;
     
     CCSprite* bg = CCSprite::create("res/pic/taskScene/task_bg.png");
     bg->setPosition(DISPLAY->center());
@@ -86,6 +87,9 @@ void BuildingLayer::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_coffers_info_200), "HTTP_FINISHED_200", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::nc_take_income_203), "HTTP_FINISHED_203", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&BuildingLayer::createCompanyRewardIcon), "UPDATE_BOX_STATUS", NULL);
+    
+    
     if (_isPhaseUp) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         if (CONFIG->baiOrYijie == 0) {// 白包
@@ -116,8 +120,9 @@ void BuildingLayer::onEnter() {
             this->createCompanyRewardIcon();
             
             schedule(SEL_SCHEDULE(&BuildingLayer::building_shaking), 1.f);
+            int pahseTotalRationg = DATA->getPlayer()->ratings(DATA->getPlayer()->phase);
             CoffersComp* coffers = DATA->getCoffers();
-            if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+            if (coffers->have_untake_reward(_phase, pahseTotalRationg) || coffers->is_coffers_full()) {
                 this->show_building();
             }
         }
@@ -264,7 +269,15 @@ bool BuildingLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEv
 #pragma mark - inner
 
 void BuildingLayer::createCompanyRewardIcon() {
-    CCNode* node = NULL;
+    if (_boxNode == NULL) {
+        _boxNode = CCNode::create();
+        _boxNode->setPosition(50, DISPLAY->H() * 0.85);
+        _boxNode->setScale(1.3f);
+        this->addChild(_boxNode);
+    }
+    else {
+        _boxNode->removeAllChildrenWithCleanup(true);
+    }
     
     CoffersComp* coffers = DATA->getCoffers();
     int curPhase = _phase; //DATA->getPlayer()->phase;
@@ -282,11 +295,9 @@ void BuildingLayer::createCompanyRewardIcon() {
         if (totalRatings >= itemGoal) {
             CCString* itemId = (CCString*)item->objectForKey("id");
             if (! coffers->has_taken_reward(itemId)) { // 没有领取
-                node = CCNode::create();
-                
                 CCString* lightName = CCString::createWithFormat("pic/building/progress/available_light_%d.png", i);
                 CCSprite* light = CCSprite::create(lightName->getCString());
-                node->addChild(light);
+                _boxNode->addChild(light);
                 
                 CCSequence* seq = CCSequence::create(CCFadeOut::create(0.6), CCDelayTime::create(0.5), CCFadeIn::create(0.6), CCDelayTime::create(0.3), NULL);
                 light->runAction(CCRepeatForever::create(seq));
@@ -311,7 +322,7 @@ void BuildingLayer::createCompanyRewardIcon() {
                 CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
                 CCMenu* menu = CCMenu::createWithItem(btn);
                 menu->ignoreAnchorPointForPosition(false);
-                node->addChild(menu);
+                _boxNode->addChild(menu);
                 
                 // 显示奖励数量
                 int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
@@ -322,33 +333,31 @@ void BuildingLayer::createCompanyRewardIcon() {
                 lblReward2->setPosition(ccp(8.8, -17.5));
                 lblReward2->setColor(ccGRAY);
                 lblReward2->enableStroke(ccGRAY, 2.5);
-                node->addChild(lblReward2);
+                _boxNode->addChild(lblReward2);
                 
                 CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
                 lblReward->setAnchorPoint(ccp(1, 0.5));
                 lblReward->setPosition(ccp(5, -15));
-                node->addChild(lblReward);
+                _boxNode->addChild(lblReward);
                 
                 const CCString* rewardType = item->valueForKey("reward_type");
                 if (rewardType->compare("coin") == 0) {
                     CCSprite* icon = CCSprite::create("pic/common/coin2.png");
                     icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
                     icon->setScale(0.3);
-                    node->addChild(icon);
+                    _boxNode->addChild(icon);
                 }
                 else if (rewardType->compare("diam") == 0) {
                     CCSprite* icon = CCSprite::create("pic/common/diam2.png");
                     icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
                     icon->setScale(0.3);
-                    node->addChild(icon);
+                    _boxNode->addChild(icon);
                 }
                 
                 break;
             }
         }
         else { // 若无没有领取的，显示下一个目标
-            node = CCNode::create();
-
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
             CCSprite* box1 = CCSprite::create(boxName->getCString());
             CCSprite* box2 = CCSprite::create(boxName->getCString());
@@ -356,7 +365,7 @@ void BuildingLayer::createCompanyRewardIcon() {
             CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
             CCMenu* menu = CCMenu::createWithItem(btn);
             menu->ignoreAnchorPointForPosition(false);
-            node->addChild(menu);
+            _boxNode->addChild(menu);
             
             
             // 显示条件
@@ -367,14 +376,14 @@ void BuildingLayer::createCompanyRewardIcon() {
             lblCondition2->setPosition(ccp(6, -16.8));
             lblCondition2->setColor(ccGRAY);
             lblCondition2->enableStroke(ccGRAY, 2.5);
-            node->addChild(lblCondition2);
+            _boxNode->addChild(lblCondition2);
             
             CCLabelTTF* lblCondition = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
             lblCondition->setAnchorPoint(ccp(1, 0.5));
             lblCondition->setPosition(ccp(2, -15));
 //            lblCondition->enableShadow(CCSizeMake(2, 1), 1, 2);
 //            lblCondition->setColor(ccGREEN);
-            node->addChild(lblCondition);
+            _boxNode->addChild(lblCondition);
             
 
             
@@ -382,7 +391,7 @@ void BuildingLayer::createCompanyRewardIcon() {
             CCSprite* star = CCSprite::create("pic/taskScene/task_xing3.png");
             star->setPosition(ccp(lblCondition->getPositionX() + 8, lblCondition->getPositionY() + 2));
             star->setScale(0.66);
-            node->addChild(star);
+            _boxNode->addChild(star);
             
             
             break;
@@ -390,9 +399,7 @@ void BuildingLayer::createCompanyRewardIcon() {
         
         
         // 若无目标（全达成），显示最后一个的已领取状态
-        if (node == NULL) {
-            node = CCNode::create();
-            
+        if (_boxNode == NULL) {
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d_taken.png", 2);
             CCSprite* box1 = CCSprite::create(boxName->getCString());
             CCSprite* box2 = CCSprite::create(boxName->getCString());
@@ -400,14 +407,8 @@ void BuildingLayer::createCompanyRewardIcon() {
             CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
             CCMenu* menu = CCMenu::createWithItem(btn);
             menu->ignoreAnchorPointForPosition(false);
-            node->addChild(menu);
+            _boxNode->addChild(menu);
         }
-    }
-    
-    if (node) {
-        node->setPosition(50, DISPLAY->H() * 0.85);
-        node->setScale(1.3f);
-        this->addChild(node);
     }
 }
 
@@ -496,8 +497,9 @@ void BuildingLayer::on_phaseup_finish(CCNode* node) {
     
     this->_isAction = false;
     
+    int pahseTotalRationg = DATA->getPlayer()->ratings(DATA->getPlayer()->phase);
     CoffersComp* coffers = DATA->getCoffers();
-    if (coffers->have_untake_reward(_phase) || coffers->is_coffers_full()) {
+    if (coffers->have_untake_reward(_phase, pahseTotalRationg) || coffers->is_coffers_full()) {
 //        this->show_arrow();
         this->show_building();
     }

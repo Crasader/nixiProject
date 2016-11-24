@@ -60,6 +60,7 @@ private:
     CCSprite*           _bird_3;
     CCSprite*           _bird_4;
     bool                _isAction;
+    CCNode*             _boxNode;
 };
 
 #endif /* BuildingLayer_hpp */

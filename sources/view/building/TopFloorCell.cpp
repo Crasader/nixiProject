@@ -242,4 +242,5 @@ void TopFloorCell::nc_take_company_reward_205(CCObject *pObj) {
     CCInteger* num = (CCInteger*)dic->objectForKey("num");
     RewardPanel::show(this->getScene(), type->getCString(), num->getValue());
     this->update_boxes();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_BOX_STATUS");
 }
