@@ -284,6 +284,8 @@ void MainScene::onEnter(){
     
     // 监听是否从7日签到退出
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_dailysignin), "WHEN_SIGNIN7_EXIT", NULL);
+    // 是否从每日签到退出
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::purchaseAchievementCallBack), "DAILYSIGNIN_PANEL_EXIT", NULL);
     
     // 从别处调用签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::qiandaoCallBack), "NEED_SHOW_SIGNIN7", NULL);
@@ -1398,8 +1400,8 @@ void MainScene::energyLargessCallBack(CCObject *pSender) {
 }
 
 void MainScene::purchaseAchievementCallBack(CCObject *pSender) {
-    // talkingData
-    DATA->onEvent("点击事件", "主界面", "点击充值成就");
+//    // talkingData
+//    DATA->onEvent("点击事件", "主界面", "点击充值成就");  改动为必然弹出该面板了
     
     if (isOk) {
         AUDIO->comfirm_effect();

@@ -119,6 +119,7 @@ void DailySigninRewardPanel::create_best_show() {
 }
 
 void DailySigninRewardPanel::remove() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("DAILYSIGNIN_PANEL_EXIT");
     this->do_exit();
     this->removeFromParentAndCleanup(true);
 }
