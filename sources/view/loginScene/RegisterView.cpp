@@ -46,15 +46,15 @@ bool RegisterView::init()
 void RegisterView::create_view()
 {
     CCSprite* spt_inputbox = CCSprite::create("res/pic/loginScene/regist_box.png");
-    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.62f));
+    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.65f));
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;
     ccColor3B yanse = ccBLACK;
-    ccColor3B yanse2 = ccc3(199, 199, 213);
+    ccColor3B yanse2 = ccc3(178, 176, 176);
     
     //
-    CCSize size_bar = CCSizeMake(380, 44);
+    CCSize size_bar = CCSizeMake(380, 60);
     _tf_account = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
     _tf_account->setMaxLength(16);
     _tf_account->setFontColor(yanse);
@@ -64,7 +64,7 @@ void RegisterView::create_view()
     _tf_account->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_account->setReturnType(kKeyboardReturnTypeDone);
     _tf_account->setTag(tag_tf_account);
-    _tf_account->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.8));
+    _tf_account->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.858));
     _tf_account->setDelegate(this);
     spt_inputbox->addChild(_tf_account);
     
@@ -78,7 +78,7 @@ void RegisterView::create_view()
     _tf_password->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_password->setReturnType(kKeyboardReturnTypeDone);
     _tf_password->setTag(tag_tf_password);
-    _tf_password->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.63));
+    _tf_password->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.648));
     _tf_password->setDelegate(this);
     spt_inputbox->addChild(_tf_password);
     
@@ -92,7 +92,7 @@ void RegisterView::create_view()
     _tf_password2->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_password2->setReturnType(kKeyboardReturnTypeDone);
     _tf_password2->setTag(tag_tf_password2);
-    _tf_password2->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.45));
+    _tf_password2->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.435));
     _tf_password2->setDelegate(this);
     spt_inputbox->addChild(_tf_password2);
 
@@ -102,7 +102,7 @@ void RegisterView::create_view()
     regist_effect->setScale(DISPLAY->btn_scale());
     CCMenuItem* btn_regist = CCMenuItemSprite::create(regist_normal, regist_effect, this, SEL_MenuHandler(&RegisterView::send_register_request));
     CCMenu* menu_regist = CCMenu::createWithItem(btn_regist);
-    menu_regist->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.22));
+    menu_regist->setPosition(ccp(boxsize.width * 0.5, boxsize.height * 0.19));
     spt_inputbox->addChild(menu_regist);
     
     CCSprite* login_normal = CCSprite::create("res/pic/loginScene/login_return.png");
@@ -110,7 +110,7 @@ void RegisterView::create_view()
     login_effect->setScale(DISPLAY->btn_scale());
     CCMenuItem* btn_login = CCMenuItemSprite::create(login_normal, login_effect, this, SEL_MenuHandler(&RegisterView::shift_to_loginview));
     CCMenu* menu_login = CCMenu::createWithItem(btn_login);
-    menu_login->setPosition(ccp(boxsize.width * 0.08, boxsize.height * 0.05));
+    menu_login->setPosition(ccp(boxsize.width * 0.12, boxsize.height * 0.06));
     spt_inputbox->addChild(menu_login);
 }
 

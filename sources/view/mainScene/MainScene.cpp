@@ -513,12 +513,10 @@ void MainScene::creat_view(){
     else {
         eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::mysteryUnlockPrompt));
         CCSprite* forbidden1 = CCSprite::create("pic/forbidden.png");
-        forbidden1->setScale(0.16);
         forbidden1->setPosition(ccp(eventSpr1->getContentSize().width * 0.5 + 3, eventSpr1->getContentSize().height * 0.5 + 8));
         eventSpr1->addChild(forbidden1);
         
         CCSprite* forbidden2 = CCSprite::create("pic/forbidden.png");
-        forbidden2->setScale(0.16);
         forbidden2->setPosition(ccp(eventSpr2->getContentSize().width * 0.5 + 3, eventSpr2->getContentSize().height * 0.5 + 8));
         eventSpr2->addChild(forbidden2);
     }

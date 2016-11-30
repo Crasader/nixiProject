@@ -125,6 +125,23 @@ CCString* DataManager::clothes_icon_path_with_id(int clothesId) {
     return rtn;
 }
 
+const CCString* DataManager::clothes_name_with_id(int clothesId){
+    CCDictionary* dic = CONFIG->clothes();// 所有衣服
+    int part = clothesId / 10000;
+    CCArray* partClothes = (CCArray* )dic->objectForKey(part);// 获得当前类型所有衣服
+    int count = partClothes->count();
+    for (int i = 0; i < count; i++) {
+        CCDictionary* clothDic = (CCDictionary* )partClothes->objectAtIndex(i);
+        int id = clothDic->valueForKey("id")->intValue();
+        if (id == clothesId) {
+            return clothDic->valueForKey("name");
+        }
+    }
+    
+    return NULL;
+}
+
+
 CCString* DataManager::clothes_icon_path_with_uri(string &uri) {
     CCString* strUri = CCString::create(uri);
     int clothesId = strUri->intValue();

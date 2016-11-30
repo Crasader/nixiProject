@@ -249,9 +249,9 @@ void GashaponLayer::creat_View(){
         }
         this->schedule(SEL_SCHEDULE(&GashaponLayer::updateTime), 1.f);
     }
-    timeLabel = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 12, CCSizeMake(diSpr2->getContentSize().width* .95f, 12), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    timeLabel = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 14, CCSizeMake(diSpr2->getContentSize().width* .95f, 12), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     timeLabel->setPosition(ccp(diSpr2->getContentSize().width* .5f, diSpr2->getContentSize().height* .48f));
-    timeLabel->setColor(ccWHITE);
+    timeLabel->setColor(ccc3(134, 55, 55));
     diSpr2->addChild(timeLabel);
     
     
@@ -273,17 +273,9 @@ void GashaponLayer::creat_View(){
     bgSpr->addChild(menu, 30);
     
     //
-    CCSprite* plate = CCSprite::create("pic/gashapon/gashapon_di2.png");
-    plate->setPosition(ccp(bgSpr->getContentSize().width * 0.7f, bgSpr->getContentSize().height * 0.06f));
-    plate->setScale(1.6);
+    CCSprite* plate = CCSprite::create("pic/gashapon/gashapon_text.png");
+    plate->setPosition(ccp(bgSpr->getContentSize().width * 0.7f, bgSpr->getContentSize().height * 0.065f));
     bgSpr->addChild(plate);
-    
-    CCLabelTTF* lblTishi = CCLabelTTF::create("至少获得一件高级衣物", DISPLAY->fangzhengFont(), 14);
-    lblTishi->setAnchorPoint(ccp(0.5, 0.5));
-//    lblTishi->setPosition(ccp(plate->getContentSize().width * 0.5, plate->getContentSize().height * 0.5));
-    lblTishi->setPosition(ccp(bgSpr->getContentSize().width * 0.7f, bgSpr->getContentSize().height * 0.059f));
-    lblTishi->enableShadow(CCSizeMake(2, 1), 1, 2);
-    bgSpr->addChild(lblTishi);
     
     
     this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);

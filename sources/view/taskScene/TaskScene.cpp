@@ -601,7 +601,10 @@ void TaskScene::creat_historyview(){
     shangkuangSpr->setAnchorPoint(ccp(.5f, 0));
     shangkuangSpr->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height - 2));
     taskKuang->addChild(shangkuangSpr);
-    CCString* shangStr = CCString::createWithFormat("总星:%d/100", DATA->getPlayer()->ratings(taskPhase));
+    
+    int ratingsRequire = CONFIG->phase_up_required(taskPhase);
+    
+    CCString* shangStr = CCString::createWithFormat("总星:%d/%d", DATA->getPlayer()->ratings(taskPhase), ratingsRequire);
     CCLabelTTF* shangLabel = CCLabelTTF::create(shangStr->getCString(), DISPLAY->fangzhengFont(), 25);
     shangLabel->setAnchorPoint(ccp(0, .5f));
     shangLabel->setPosition(ccp(5.f, shangkuangSpr->getContentSize().height* .5f));
