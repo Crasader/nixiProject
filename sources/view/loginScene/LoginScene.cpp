@@ -44,7 +44,7 @@ bool LoginScene::init() {
         this->addChild(bg);
         
         CCSprite* logo = CCSprite::create("res/pic/loginScene/login_logo.png");
-        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.2));
+        logo->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.13));
         this->addChild(logo);
         
         CCSprite* guangSpr = CCSprite::create("res/pic/loginScene/login_guang.png");
@@ -279,7 +279,7 @@ void LoginScene::show_loginview() {
     fast2->setScale(DISPLAY->btn_scale());
     CCMenuItem* btn_fast = CCMenuItemSprite::create(fast1, fast2, this, SEL_MenuHandler(&LoginScene::fast_login));
     CCMenu* menu_fast = CCMenu::createWithItem(btn_fast);
-    menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.14));
+    menu_fast->setPosition(menu_fast->getPosition() - ccp(0, DISPLAY->H() * 0.16));
     _container->addChild(menu_fast);
 }
 

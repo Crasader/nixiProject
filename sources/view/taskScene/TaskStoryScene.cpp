@@ -151,40 +151,68 @@ bool TaskStoryScene::init(){
     startItem->setVisible(false);
     
     {
-        CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
-        renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .96f));
-        this->addChild(renwukuangSpr, 100);
-        
         CCArray* missions = CONFIG->mission();
         CCDictionary* misson = NULL;
-        int count = missions->count();
-        for (int i = 0; i < count; i++) {
-            CCDictionary* dic = (CCDictionary* )missions->objectAtIndex(i);
-            int id = dic->valueForKey("id")->intValue();
-            if (id == taskIndex) {
-                misson = dic;
-                break;
-            }
+//        CCString* taskID = (CCString* )missionDic->objectForKey("taskID");
+//        int count = missions->count();
+//        for (int i = 0; i < count; i++) {
+//            CCDictionary* dic = (CCDictionary* )missions->objectAtIndex(i);
+//            CCString* id = (CCString* )dic->objectForKey("id");
+//            if (taskID->compare(id->getCString()) == 0) {
+//                misson = dic;
+//                break;
+//            }
+//        }
+        int taskPhase = DATA->getTaskPhase();
+        if (taskPhase == 1) {
+            misson = (CCDictionary* )missions->objectAtIndex(taskIndex - 1);
+        }
+        else if (taskPhase == 2) {
+            misson = (CCDictionary* )missions->objectAtIndex(20 + taskIndex - 1);
+        }
+        else if (taskPhase == 3) {
+            misson = (CCDictionary* )missions->objectAtIndex(40 + taskIndex - 1);
         }
         
+        
         if (misson) {
+            CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang2.png");
+            renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .9f));
+            this->addChild(renwukuangSpr, 100);
+            
+            
+            CCLOG("Task mission id = %s", misson->valueForKey("id")->getCString());
             const CCString* clothesReward = misson->valueForKey("clothes");
             if (clothesReward && clothesReward->length() > 1) {
-                CCLabelTTF* lblClothes = CCLabelTTF::create("五星几率获得:", DISPLAY->fangzhengFont(), 22.f);
-                lblClothes->setAnchorPoint(ccp(1, 0.5));
-                lblClothes->setColor(DISPLAY->defalutColor());
-                lblClothes->setPosition(ccp(renwukuangSpr->getContentSize().width* .7f, renwukuangSpr->getContentSize().height* .38f));
+                CCLabelTTF* lblClothes = CCLabelTTF::create("五星几率获得:", DISPLAY->fangzhengFont(), 20.f);
+                lblClothes->setAnchorPoint(ccp(0.5, 0.5));
+                lblClothes->setColor(ccc3(77, 52, 59));
+                lblClothes->setPosition(ccp(renwukuangSpr->getContentSize().width* .5f, renwukuangSpr->getContentSize().height* .7f));
                 renwukuangSpr->addChild(lblClothes);
                 //
                 
                 CCSprite* icon = CCSprite::create(DATA->clothes_icon_path_with_id(clothesReward->intValue())->getCString());
                 if (icon) {
-                    icon->setScale(0.6);
-                    icon->setPosition(ccp(renwukuangSpr->getContentSize().width* .83f, renwukuangSpr->getContentSize().height* .3f));
+                    icon->setScale(0.7);
+                    icon->setPosition(ccp(renwukuangSpr->getContentSize().width* .5f, renwukuangSpr->getContentSize().height* .38f));
                     renwukuangSpr->addChild(icon);
+                }
+                
+                const CCString* clothesName = DATA->clothes_name_with_id(clothesReward->intValue());
+                if (clothesName) {
+                    CCLabelTTF* lblName = CCLabelTTF::create(clothesName->getCString(), DISPLAY->fangzhengFont(), 20.f);
+                    lblName->setAnchorPoint(ccp(0.5, 0.5));
+                    lblName->setAnchorPoint(ccp(0.5, 0.5));
+                    lblName->setColor(ccc3(126, 50, 88));
+                    lblName->setPosition(ccp(renwukuangSpr->getContentSize().width* .5f, renwukuangSpr->getContentSize().height* .1f));
+                    renwukuangSpr->addChild(lblName);
                 }
             }
             else {
+                CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+                renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .96f));
+                this->addChild(renwukuangSpr, 100);
+                
                 // 标签123
                 int tag1 = missionDic->valueForKey("tag1")->intValue();
                 int tag2 = missionDic->valueForKey("tag2")->intValue();

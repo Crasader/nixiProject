@@ -286,6 +286,8 @@ void BuildingLayer::createCompanyRewardIcon() {
     CCArray* items = coffers->phase_goals(curPhase);
     int count = items->count();
     
+    ccColor3B textColor = ccc3(127, 76, 76);
+    
     int i = 0;
     for (; i < count; i++) {
         CCDictionary* item = (CCDictionary*)items->objectAtIndex(i);
@@ -322,42 +324,49 @@ void BuildingLayer::createCompanyRewardIcon() {
                 CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
                 CCMenu* menu = CCMenu::createWithItem(btn);
                 menu->ignoreAnchorPointForPosition(false);
-                _boxNode->addChild(menu);
+                
                 
                 // 显示奖励数量
                 int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
                 CCString* strReward = CCString::createWithFormat("%d", rewardValue);
-                
-                CCLabelTTF* lblReward2 = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-                lblReward2->setAnchorPoint(ccp(1, 0.5));
-                lblReward2->setPosition(ccp(8.8, -17.5));
-                lblReward2->setColor(ccGRAY);
-                lblReward2->enableStroke(ccGRAY, 2.5);
-                _boxNode->addChild(lblReward2);
-                
                 CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-                lblReward->setAnchorPoint(ccp(1, 0.5));
-                lblReward->setPosition(ccp(5, -15));
-                _boxNode->addChild(lblReward);
                 
                 const CCString* rewardType = item->valueForKey("reward_type");
+                CCSprite* icon;
                 if (rewardType->compare("coin") == 0) {
-                    CCSprite* icon = CCSprite::create("pic/common/coin2.png");
-                    icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
-                    icon->setScale(0.3);
-                    _boxNode->addChild(icon);
+                    icon = CCSprite::create("pic/building/reward_coin.png");
+                    
                 }
                 else if (rewardType->compare("diam") == 0) {
-                    CCSprite* icon = CCSprite::create("pic/common/diam2.png");
-                    icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
-                    icon->setScale(0.3);
-                    _boxNode->addChild(icon);
+                    icon = CCSprite::create("pic/building/reward_diam.png");
                 }
+                
+                
+                CCSize plateSize = CCSizeMake((lblReward->getContentSize().width + icon->getContentSize().width + 18), 28);
+                CCScale9Sprite* plate = CCScale9Sprite::create("pic/building/progress/plate_99.png");
+                plate->setContentSize(plateSize);
+                plate->setPosition( ccp(0, -(box1->getContentSize().height * 0.5 + plateSize.height * 0.3)) );
+                
+                
+                lblReward->setAnchorPoint(ccp(0, 0.5));
+                lblReward->setPosition(ccp(10, plateSize.height * 0.5));
+                lblReward->setColor(textColor);
+                plate->addChild(lblReward);
+                
+
+                float iconX = lblReward->getPositionX() + lblReward->getContentSize().width + icon->getContentSize().width * 0.5 + 1;
+                icon->setPosition(ccp(iconX, plateSize.height * 0.5 + 2));
+                plate->addChild(icon);
+                
+                
+                _boxNode->addChild(plate);
+                _boxNode->addChild(menu);
                 
                 break;
             }
         }
         else { // 若无没有领取的，显示下一个目标
+            //
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
             CCSprite* box1 = CCSprite::create(boxName->getCString());
             CCSprite* box2 = CCSprite::create(boxName->getCString());
@@ -365,34 +374,32 @@ void BuildingLayer::createCompanyRewardIcon() {
             CCMenuItem* btn = CCMenuItemSprite::create(box1, box2, this, SEL_MenuHandler(&BuildingLayer::show_building));
             CCMenu* menu = CCMenu::createWithItem(btn);
             menu->ignoreAnchorPointForPosition(false);
-            _boxNode->addChild(menu);
-            
             
             // 显示条件
             CCString* strCondition = CCString::createWithFormat("%d", itemGoal);
-            
-            CCLabelTTF* lblCondition2 = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-            lblCondition2->setAnchorPoint(ccp(1, 0.5));
-            lblCondition2->setPosition(ccp(6, -16.8));
-            lblCondition2->setColor(ccGRAY);
-            lblCondition2->enableStroke(ccGRAY, 2.5);
-            _boxNode->addChild(lblCondition2);
-            
             CCLabelTTF* lblCondition = CCLabelTTF::create(strCondition->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-            lblCondition->setAnchorPoint(ccp(1, 0.5));
-            lblCondition->setPosition(ccp(2, -15));
-//            lblCondition->enableShadow(CCSizeMake(2, 1), 1, 2);
-//            lblCondition->setColor(ccGREEN);
-            _boxNode->addChild(lblCondition);
+            CCSprite* star = CCSprite::create("pic/building/progress/star2.png");
             
-
+            CCSize plateSize = CCSizeMake((lblCondition->getContentSize().width + star->getContentSize().width + 18), 28);
+            
+            CCScale9Sprite* plate = CCScale9Sprite::create("pic/building/progress/plate_99.png");
+            plate->setContentSize(plateSize);
+            plate->setPosition( ccp(0, -(box1->getContentSize().height * 0.5 + plateSize.height * 0.3)) );
             
             
-            CCSprite* star = CCSprite::create("pic/taskScene/task_xing3.png");
-            star->setPosition(ccp(lblCondition->getPositionX() + 8, lblCondition->getPositionY() + 2));
-            star->setScale(0.66);
-            _boxNode->addChild(star);
+            lblCondition->setAnchorPoint(ccp(0, 0.5));
+            lblCondition->setPosition(ccp(10, plateSize.height * 0.5));
+            lblCondition->setColor(textColor);
+            plate->addChild(lblCondition);
             
+            
+            float starX = lblCondition->getPositionX() + lblCondition->getContentSize().width + star->getContentSize().width * 0.5 + 1;
+            star->setPosition(ccp(starX, plateSize.height * 0.5 + 2));
+            plate->addChild(star);
+            
+            //
+            _boxNode->addChild(plate);
+            _boxNode->addChild(menu);
             
             break;
         }

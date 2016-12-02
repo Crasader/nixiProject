@@ -211,26 +211,29 @@ void TopFloorCell::update_boxes() {
         _boxes->addObject(box);
         
         // 奖励内容
+        CCSprite* plate = CCSprite::create("pic/building/reward_plate.png");
+        CCSize plateSize = plate->getContentSize();
+        plate->setPosition(ccp(plateSize.width * 0.5 - 10, 22));
+        box->addChild(plate);
+        
         int rewardValue = ((CCInteger*)item->objectForKey("reward_value"))->getValue();
         CCString* strReward = CCString::createWithFormat("%d", rewardValue);
         CCLabelTTF* lblReward = CCLabelTTF::create(strReward->getCString(), DISPLAY->fangzhengFont(), 18.0f);
-        lblReward->setAnchorPoint(ccp(0.8, 0.5));
-        lblReward->setPosition(ccp(28, 22));
-        lblReward->enableShadow(CCSizeMake(2, 1), 1, 2);
-        box->addChild(lblReward);
+        lblReward->setAnchorPoint(ccp(1, 0.5));
+        lblReward->setPosition(ccp(plateSize.width * 0.6, plateSize.height * 0.5 - 1));
+        lblReward->setColor(ccc3(127, 76, 76));
+        plate->addChild(lblReward);
         
         const CCString* rewardType = item->valueForKey("reward_type");
         if (rewardType->compare("coin") == 0) {
-            CCSprite* icon = CCSprite::create("pic/common/coin2.png");
-            icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
-            icon->setScale(0.3);
-            box->addChild(icon);
+            CCSprite* icon = CCSprite::create("pic/building/reward_coin.png");
+            icon->setPosition(ccp(lblReward->getPositionX() + 10, lblReward->getPositionY()));
+            plate->addChild(icon);
         }
         else if (rewardType->compare("diam") == 0) {
-            CCSprite* icon = CCSprite::create("pic/common/diam2.png");
-            icon->setPosition(ccp(lblReward->getPositionX() + 11, lblReward->getPositionY()));
-            icon->setScale(0.3);
-            box->addChild(icon);
+            CCSprite* icon = CCSprite::create("pic/building/reward_diam.png");
+            icon->setPosition(ccp(lblReward->getPositionX() + 10, lblReward->getPositionY()));
+            plate->addChild(icon);
         }
     }
 }

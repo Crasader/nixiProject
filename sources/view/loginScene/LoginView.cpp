@@ -44,15 +44,15 @@ void LoginView::create_view()
 {
     CCSprite* spt_inputbox = CCSprite::create("res/pic/loginScene/login_box.png");
 //    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 1.4f));
-    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.62f));
+    spt_inputbox->setPosition(ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.65f));
     this->addChild(spt_inputbox);
     
     CCSize boxsize = spt_inputbox->boundingBox().size;
     ccColor3B yanse = ccBLACK;
-    ccColor3B yanse2 = ccc3(199, 199, 213);
+    ccColor3B yanse2 = ccc3(178, 176, 176);
     
     //
-    CCSize size_bar = CCSizeMake(380, 44);
+    CCSize size_bar = CCSizeMake(380, 60);
     _tf_account = CCEditBox::create(CCSizeMake(size_bar.width - 20, size_bar.height), CCScale9Sprite::create("res/pic/loginScene/99.png"));
     _tf_account->setMaxLength(16);
     _tf_account->setFontColor(yanse);
@@ -63,7 +63,7 @@ void LoginView::create_view()
     _tf_account->setInputFlag(kEditBoxInputFlagSensitive);
     _tf_account->setReturnType(kKeyboardReturnTypeDone);
     _tf_account->setTag(tag_tf_account);
-    _tf_account->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.7));
+    _tf_account->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.76));
     _tf_account->setDelegate(this);
     spt_inputbox->addChild(_tf_account);
     
@@ -77,7 +77,7 @@ void LoginView::create_view()
     _tf_password->setInputMode(kEditBoxInputModeEmailAddr);
     _tf_password->setReturnType(kKeyboardReturnTypeDone);
     _tf_password->setTag(tag_tf_password);
-    _tf_password->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.46));
+    _tf_password->setPosition(ccp(boxsize.width * 0.58, boxsize.height * 0.5));
     _tf_password->setDelegate(this);
     spt_inputbox->addChild(_tf_password);
     
@@ -101,7 +101,7 @@ void LoginView::create_view()
     regist_effect->setScale(DISPLAY->btn_scale());
     CCMenuItem* btn_regist = CCMenuItemSprite::create(regist_normal, regist_effect, this, SEL_MenuHandler(&LoginView::shift_to_registerview));
     CCMenu* menu_regist = CCMenu::createWithItem(btn_regist);
-    menu_regist->setPosition(ccp(boxsize.width * 0.12, boxsize.height * 0.05));
+    menu_regist->setPosition(ccp(boxsize.width * 0.16, boxsize.height * 0.06));
     spt_inputbox->addChild(menu_regist);
     
     //

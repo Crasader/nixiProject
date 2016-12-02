@@ -37,7 +37,8 @@ bool TotalRechargePanel::init(){
     
     num_child = 0;
     
-    _curIndex = DATA->getOperation()->cur_purchase_achievement_template_index();;
+    _curIndex = DATA->getOperation()->getPurchaseAchievementTemplate()->count() - 1;
+    //DATA->getOperation()->cur_purchase_achievement_template_index();;
     
     CCSprite* mask = CCSprite::create("res/pic/mask.png");
     mask->setPosition(DISPLAY->center());

@@ -54,6 +54,7 @@ public:
     
     CCString* clothes_icon_path_with_id(int clothesId);
     CCString* clothes_icon_path_with_uri(string& uri);
+    const CCString* clothes_name_with_id(int clothesId);
     
     void relogin();
 
