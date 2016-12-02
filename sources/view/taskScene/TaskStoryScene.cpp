@@ -176,14 +176,14 @@ bool TaskStoryScene::init(){
         
         
         if (misson) {
-            CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang2.png");
-            renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .9f));
-            this->addChild(renwukuangSpr, 100);
-            
-            
             CCLOG("Task mission id = %s", misson->valueForKey("id")->getCString());
             const CCString* clothesReward = misson->valueForKey("clothes");
             if (clothesReward && clothesReward->length() > 1) {
+                CCSprite* renwukuangSpr = CCSprite::create("res/pic/clothesScene/gj_renwukuang2.png");
+                renwukuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .9f));
+                this->addChild(renwukuangSpr, 100);
+                
+                
                 CCLabelTTF* lblClothes = CCLabelTTF::create("五星几率获得:", DISPLAY->fangzhengFont(), 20.f);
                 lblClothes->setAnchorPoint(ccp(0.5, 0.5));
                 lblClothes->setColor(ccc3(77, 52, 59));
