@@ -251,15 +251,20 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
     }
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (CONFIG->baiOrYijie == 0) {// 白包
-        LOADING->show_loading();
-        string orderId = "";
-        
-        string orderId2 = DATA->getLogin()->obtain_UUID();
-        string productId = pro->id.c_str();
-        CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
-        DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
-        
-        NET->verify_order_iOS_107(orderId, pro->id);
+        if (CONFIG->openPay == 0) {
+            // talkingData
+            DATA->onEvent("支付意向", "支付界面", "点击购买钻石");
+        }else if (CONFIG->openPay == 1){
+            LOADING->show_loading();
+            string orderId = "";
+            
+            string orderId2 = DATA->getLogin()->obtain_UUID();
+            string productId = pro->id.c_str();
+            CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
+            DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
+            
+            NET->verify_order_iOS_107(orderId, pro->id);
+        }
     }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
         if (CONFIG->openPay == 0) {
             // talkingData

@@ -143,7 +143,7 @@ void DataManager::http_response_handle(int resp_code, string response) {
             CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
         }
         else {
-        
+            
         }
         
         return;
@@ -191,11 +191,11 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 900: {
             _login->init_with_json(content);
         } break;
-            
+        
         case 901: {
             _login->init_with_json(content);
         } break;
-            
+        
         case 902: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -210,36 +210,36 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             this->setFirstOnMainScene(true);
         } break;
-            
+        
         case 903: {
             _login->init_with_json(content);
         } break;
-            
+        
         case 904: {
             _show->init_with_json(content["show"]);
         } break;
-            
+        
         case 905: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
         }
-            
+        
         case 907: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _show->init_with_json(content["show"]);
         }
-            
+        
         case 910: {
             _coffers->reset_collected();
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 800: {
             _social->init_with_json(content["social"]);
         } break;
-            
+        
         case 801: {
 //            ShowComp* other = ShowComp::create();
 //            other->init_with_json(content["other"]);
@@ -247,97 +247,97 @@ void DataManager::handle_protocol(int cid, Value content) {
             CCString* id = ccs(content["other"].asString());
             pData = id;
         } break;
-            
+        
         case 802: {
             _social->update_strangers(content["strangers"]);
         } break;
-            
+        
         case 803: {
             _social->init_with_json(content["social"]);
         } break;
-            
+        
         case 804: {
             _message->init_with_json(content["messages"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 805: {
             _social->init_with_json(content["social"]);
             _message->init_with_json(content["messages"]);
         } break;
-            
+        
         case 806: {
             _social->init_friends(content["friends"]);
         } break;
-            
+        
         case 807: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _social->init_with_json(content["social"]);
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
-            
+        
         case 808: {
             _social->init_friends(content["friends"]);
             _paper->init_with_json(content["paper"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 809: {
             
         } break;
-            
+        
         case 811: {
             _paper->delete_paper(content["id"].asInt());
         } break;
-            
+        
         case 813: {
             _social->init_with_json(content["social"]);
             _social->init_friends(content["friends"]);
         } break;
-            
+        
         case 700: {
             _mail->init_with_json(content["mail"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 701: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
 //            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
-            
+        
         case 704: {
             _home->init_house_template(content["template"]);
             _home->replace_home_info(content["home"]);
         } break;
-            
+        
         case 705: {
             _player->init_with_json(content["player"]);
             _home->replace_home_info(content["home"]);
         } break;
-            
+        
         case 707: {
             _home->replace_home_info(content["home"]);
             pData = AppUtil::dictionary_with_json(content["first"]);
         } break;
-            
+        
         case 600: {
             _mission->init_with_json(content["mission"]);
             
             _coffers->init_company_template(content["template"]);
             _coffers->replace_user_data(content["coffers"]);
         } break;
-            
+        
         case 601: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
         } break;
-            
+        
         case 603: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -348,7 +348,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             bool mystery = ((CCBool*)((CCDictionary*)pData)->objectForKey("mystery"))->getValue();
             this->setNeedShowUnlockMystery(mystery);
         } break;
-            
+        
         case 605: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -356,18 +356,18 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 形如：{"rating":5,"levelup":false,"coin":50,"energy":6}.
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
+        
         case 610: {
             _mystery->init_template(content["template"]);
             _mystery->update_user_data(content["mystery"]);
         } break;
-            
+        
         case 611: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             pData = CCString::create(content["id"].asString());
         } break;
-            
+        
         case 613: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -383,22 +383,22 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             pData = CCString::create(content["category"].asString());
         } break;
-            
-            
+        
+        
         case 620: {
             _tryst->update_user_data(content["tryst"]);
         } break;
-            
+        
         case 621: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _tryst->update_user_data(content["tryst"]);
         } break;
-            
+        
         case 623: {
             _tryst->update_user_data(content["tryst"]);
         } break;
-            
+        
         case 625: {
             _tryst->update_user_data(content["tryst"]);
             _player->init_with_json(content["player"]);
@@ -406,54 +406,54 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 奖励信息
             pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
-            
+        
         
         case 500: {
             _story->init_with_json(content["story"]);
         } break;
-            
+        
         case 501: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
         } break;
-            
+        
         case 503: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->init_with_json(content["story"]);
             pData = AppUtil::dictionary_with_json(content["extra"]);
         } break;
-            
+        
         case 504: {
             _story->replace_story2_user(content["story2"]);
         } break;
-            
+        
         case 505: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->replace_story2_user(content["story2"]);
         } break;
-            
+        
         case 515: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _story->replace_story2_user(content["story2"]);
         } break;
-            
+        
         case 507: {
             _story->replace_story2_user(content["story2"]);
         } break;
-            
+        
         case 509: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
 //            _story->replace_story2_user(content["story2"]);
         } break;
-            
+        
         case 400: {
             _clothes->init_with_json(content["clothes"]);
         } break;
-            
+        
         case 401: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -461,11 +461,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_dressed(content["show"]);
             _clothes->update_clothes(content["newclothes"]);
         } break;
-            
+        
         case 300: {
             _ranking->init_with_json(content["ranking"]);
         } break;
-            
+        
         case 301: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -474,12 +474,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             pData = CCInteger::create(content["reward"].asInt());
         } break;
-            
+        
         case 302: {
             _signin->init_signin7_template(content["template"]);
             _signin->update_signin7_info(content["signin7"]);
         } break;
-            
+        
         case 303: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -488,23 +488,23 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 304: {
             _operation->init_purchase_achievement_template(content["template"]);
             _operation->replace_purchase_achievement(content["pAchievement"]);
         } break;
-            
+        
         case 305: {
             _operation->replace_purchase_achievement(content["pAchievement"]);
             _clothes->init_with_json(content["clothes"]);
         } break;
-            
+        
         case 306: {
             _operation->init_gashapon_template(content["template"]);
             _operation->init_costs(content["cost"]);
             _operation->replace_gashapon_user(content["gashapon"]);
         } break;
-            
+        
         case 307: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -541,13 +541,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
         } break;
-            
+        
         case 321: {
             _player->init_with_json(content["player"]);
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 323: {
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
@@ -556,17 +556,17 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 奖励信息
             pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
-            
+        
         case 333: {
             _player->init_with_json(content["player"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
+        
         case 340: {
             this->setTempSigninTemplate(AppUtil::array_with_json(content["template"]));
             this->setTempSigninUserdata(AppUtil::dictionary_with_json(content["info"]));
         } break;
-            
+        
         case 341: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -575,71 +575,71 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
-            
+        
         case 200: {
             _coffers->init_company_template(content["template"]);
             _coffers->replace_user_data(content["coffers"]);
         } break;
-            
+        
         case 201: {
             _coffers->replace_user_data(content["coffers"]);
         } break;
-            
+        
         case 203: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _coffers->replace_user_data(content["coffers"]);
         } break;
-            
+        
         case 205: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _coffers->replace_user_data(content["coffers"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
         } break;
-            
+        
         case 100: {
             _purchase->init_products(content);
         } break;
-            
+        
         case 101: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
         } break;
-            
+        
         case 103: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
         } break;
-            
+        
         case 105: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
         } break;
-            
+        
         case 107: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
         } break;
-            
+        
         case 109: {
             _story->replace_story2_user(content["story2"]);
             _purchase->init_purchase(content["purchase"]);
         } break;
-            
+        
         case 111: {
             _story->replace_story2_user(content["story2"]);
             _purchase->init_purchase(content["purchase"]);
         } break;
-            
+        
         case 113: {
             _story->replace_story2_user(content["story2"]);
         } break;
-            
+        
         default:
             break;
     }

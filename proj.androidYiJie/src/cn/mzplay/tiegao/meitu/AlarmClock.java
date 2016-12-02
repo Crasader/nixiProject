@@ -19,7 +19,7 @@ public class AlarmClock {
 	static String _nameStr;
 	
 	static int _hour = 0;
-	static int _minute = 0; 
+	static int _minute = 0;
 	static int _second = 0;
 	
 	public AlarmClock(Activity act){
@@ -35,7 +35,7 @@ public class AlarmClock {
 		consumeHandler.sendMessage(msg);
 	}
 	static Handler consumeHandler = new Handler(){
-		public void handleMessage(Message msg){ 
+		public void handleMessage(Message msg){
 			setTime(msg.arg1);
 			push_methods(_nameStr, msg.arg1, msg.arg2);
 		}
@@ -60,7 +60,7 @@ public class AlarmClock {
 		PendingIntent pendingIntent = PendingIntent.getService(instance, index, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 		
 		calend.setTimeInMillis(System.currentTimeMillis());
-			
+		
 		calend.set(Calendar.HOUR_OF_DAY, _hour);
 		
 		calend.set(Calendar.MINUTE, _minute);
@@ -69,10 +69,10 @@ public class AlarmClock {
 		if (System.currentTimeMillis() > calend.getTimeInMillis()) {
 			calend.set(Calendar.DAY_OF_YEAR, calend.get(Calendar.DAY_OF_YEAR) + 1);
 		}
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calend.getTimeInMillis(), INTERVAL, pendingIntent);	
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calend.getTimeInMillis(), INTERVAL, pendingIntent);
 	}
 	
-
+	
 	
 	public static void creatAlarmClock2(String nameStr, int index){
 		if (index != 0) {
@@ -85,7 +85,7 @@ public class AlarmClock {
 			PendingIntent pendingIntent = PendingIntent.getService(instance, index, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 			
 			calend.setTimeInMillis(System.currentTimeMillis());
-				
+			
 			calend.set(Calendar.HOUR_OF_DAY, _hour);
 			
 			calend.set(Calendar.MINUTE, _minute);
@@ -104,7 +104,7 @@ public class AlarmClock {
 		closePushHandler.sendMessage(msg);
 	}
 	static Handler closePushHandler = new Handler(){
-		public void handleMessage(Message msg){ 
+		public void handleMessage(Message msg){
 			closePush_Methods(msg.arg1);
 		}
 	};

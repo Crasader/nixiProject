@@ -23,29 +23,33 @@ THE SOFTWARE.
 ****************************************************************************/
 package cn.mzplay.tiegao;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
+import com.mob.tools.utils.UIHandler;
 import com.tendcloud.tenddata.TalkingDataGA;
 import com.yuwan8.middleware.YW;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class Tiegao extends Cocos2dxActivity {
+
+public class Tiegao extends Cocos2dxActivity implements PlatformActionListener, Callback{
 	public static Tiegao instance;
 	
 	private static AlarmClock alarmClock = null;
@@ -73,6 +77,11 @@ public class Tiegao extends Cocos2dxActivity {
 	public static int shareStatus = 0;
 	public static int payIndex = 0;
 	public static long creatTime = 0;
+	
+	
+	private static final int MSG_TOAST = 1;
+	private static final int MSG_ACTION_CCALLBACK = 2;
+	private static final int MSG_CANCEL_NOTIFY = 3;
 	
 	
 	@Override
@@ -104,7 +113,7 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试
 		TalkingDataGA.init(instance, "AF0BCB0920DE4FE3A663D840DC389E71", "mzplay");
-		
+		ShareSDK.initSDK(this);
 	}
 	
 	public Cocos2dxGLSurfaceView onCreateView() {
@@ -187,7 +196,7 @@ public class Tiegao extends Cocos2dxActivity {
 //		oks.show(instance);
 		
 		
-		ShareSDK.initSDK(instance);
+//		ShareSDK.initSDK(instance);
 		OnekeyShare oks = new OnekeyShare();
 		//关闭sso授权
 		oks.disableSSOWhenAuthorize(); 
@@ -195,16 +204,27 @@ public class Tiegao extends Cocos2dxActivity {
 		// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
 		//oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-//		oks.setTitle("男神日记");
+		oks.setTitle("女总裁的贴身高手");
 		// text是分享文本，所有平台都需要这个字段
-//		oks.setText("我是分享文本");
+//		oks.setText("女总裁的贴身高手");
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		oks.setImagePath(getShareImage());//确保SDcard下面存在此张图片
 		// url仅在微信（包括好友和朋友圈）中使用
 //		oks.setUrl("http://sharesdk.cn");
-		 
+		
 		// 启动分享GUI
 		oks.show(instance);
+
+//		ShareParams wechat = new ShareParams();
+//		wechat.setTitle("女总裁的贴身高手");	
+//		wechat.setText("最爱女总裁的贴身高手");
+//		wechat.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+//		wechat.setUrl("http://mob.com");
+//		wechat.setShareType(Platform.SHARE_WEBPAGE);
+//
+//		Platform weixin = ShareSDK.getPlatform(instance, Wechat.NAME);
+//		weixin.setPlatformActionListener(instance);
+//		weixin.share(wechat);
 	}
 	public static void setShareText(String str){
 		shareText = str;
@@ -444,6 +464,75 @@ public class Tiegao extends Cocos2dxActivity {
  			yuWanLayer.pay(msg.arg1);
  		}
  	};
+ 	
+ 	
+	@Override
+	public void onCancel(Platform platform, int action) {
+		// TODO Auto-generated method stub
+		// 取消
+		Message msg = new Message();
+		msg.what = MSG_ACTION_CCALLBACK;
+		msg.arg1 = 3;
+		msg.arg2 = action;
+		msg.obj = platform;
+		UIHandler.sendMessage(msg, instance);
+	}
+
+	@Override
+	public void onComplete(Platform platform, int action, HashMap<String, Object> arg2) {
+		// 成功
+		Message msg = new Message();
+		msg.what = MSG_ACTION_CCALLBACK;
+		msg.arg1 = 1;
+		msg.arg2 = action;
+		msg.obj = platform;
+		UIHandler.sendMessage(msg, instance);
+		
+	}
+
+	@Override
+	public void onError(Platform platform, int action, Throwable t) {
+		// 失敗
+		//打印错误信息,print the error msg
+		t.printStackTrace();
+		//错误监听,handle the error msg
+		Message msg = new Message();
+		msg.what = MSG_ACTION_CCALLBACK;
+		msg.arg1 = 2;
+		msg.arg2 = action;
+		msg.obj = t;
+		UIHandler.sendMessage(msg, instance);
+		
+	}
 	
+	@Override
+	public boolean handleMessage(Message msg) {	
+		switch (msg.arg1) {
+			case 1: {
+				// 成功
+				Toast.makeText(instance,"分享成功", 10000).show();
+				Log.i("main", "分享回调成功");
+                Tiegao.setShareStatus(1);
+			}
+			break;
+			case 2: {
+				// 失败
+				Toast.makeText(instance,"分享失败", 10000).show();
+				Log.i("main", "分享回调失败");
+                Tiegao.setShareStatus(2);
+			}
+			break;
+			case 3: {
+				// 取消
+				Toast.makeText(instance,"分享取消", 10000).show();
+				Log.i("main", "分享回调取消");
+                Tiegao.setShareStatus(3);
+			}
+			break;
+		}
+		
+		return false;
+	
+	}
 	
 }

@@ -789,17 +789,25 @@ void TaskSettlementLayer2::lingquCallBack(CCObject* pSender){
     this->nextAnimation1();
 }
 void TaskSettlementLayer2::shareCallBack(CCObject* pSender){
+    
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
     path.append("/share.png");
     
     CCLog("图片 === %s", path.c_str());
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     rt->saveToFile(path.c_str());
     
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
     JNIController::setShareImage(path.c_str());
     rt->saveToFile(path.c_str());
     

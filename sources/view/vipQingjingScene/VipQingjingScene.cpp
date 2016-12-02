@@ -479,9 +479,15 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
             if (CONFIG->baiOrYijie == 0) {// 白包
-                LOADING->show_loading();
-                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-                NET->buy_story2_505(indexStr1->getCString());
+                if (CONFIG->openPay == 0) {
+                    LOADING->show_loading();
+                    CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                    NET->buy_story2_505(indexStr1->getCString());
+                }else if (CONFIG->openPay == 1){
+                    LOADING->show_loading();
+                    CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                    NET->buy_story2_505(indexStr1->getCString());
+                }
             }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
                 if (CONFIG->openPay == 0) {
                     LOADING->show_loading();
@@ -536,9 +542,15 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
         
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         if (CONFIG->baiOrYijie == 0) {// 白包
-            LOADING->show_loading();
-            CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-            NET->buy_story2_505(indexStr1->getCString());
+            if (CONFIG->openPay == 0) {
+                LOADING->show_loading();
+                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                NET->buy_story2_505(indexStr1->getCString());
+            }else if (CONFIG->openPay == 1){
+                LOADING->show_loading();
+                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
+                NET->buy_story2_505(indexStr1->getCString());
+            }
         }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
             if (CONFIG->openPay == 0) {
                 LOADING->show_loading();
@@ -707,9 +719,15 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
 //    NET->buy_story2_505(indexStr->getCString());
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     if (CONFIG->baiOrYijie == 0) {// 白包
-        LOADING->show_loading();
-        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-        NET->buy_story2_505(indexStr->getCString());
+        if (CONFIG->openPay == 0) {
+            LOADING->show_loading();
+            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+            NET->buy_story2_505(indexStr->getCString());
+        }else if (CONFIG->openPay == 1){
+            LOADING->show_loading();
+            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+            NET->buy_story2_505(indexStr->getCString());
+        }
     }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
         if (CONFIG->openPay == 0) {
             LOADING->show_loading();

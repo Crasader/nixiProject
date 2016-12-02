@@ -103,7 +103,7 @@ com.mzplay.tiegao.vivo			vivo 	can 6  baiOrYijie 1
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.meitu.wxapi.WXEntryActivity" 
+     		android:name="cn.mzplay.tiegao.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 

@@ -602,17 +602,23 @@ void TotalRankScene::btn_share_callback(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "排行界面", "点击分享");
     
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
     path.append("/share.png");
     
     CCLog("图片 === %s", path.c_str());
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     rt->saveToFile(path.c_str());
     
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
     JNIController::setShareImage(path.c_str());
     rt->saveToFile(path.c_str());
     

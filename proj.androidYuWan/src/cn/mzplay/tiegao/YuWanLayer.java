@@ -249,7 +249,7 @@ public class YuWanLayer{
     			public void onSuccess(Null aNull) {
     				// Logic for pay success.
     		     	Tiegao.setSmsStatus(1);
-    		     	Log.e("main", "<><> onSuccess remain == " + aNull);
+//    		     	Log.e("main", "<><> onSuccess remain == " + aNull);
     			}
     			
     			@Override
@@ -277,7 +277,9 @@ public class YuWanLayer{
 		order.setCoinNum(Tiegao.getPlayerGold());					// 用户金钱数量
         // 测试的uid
 		String[] tempUserId = null;
-		tempUserId = Tiegao.getUserId().split("_");
+		tempUserId = Tiegao.getSessionid().split("_");
+//		Log.e("main", "<><> Tiegao.getSessionid() == " + Tiegao.getSessionid());
+//		Log.e("main", "<><> tempUserId == " + tempUserId);
 		order.setUid(tempUserId[1]);								// 登录验证时游戏服务端从中间件服务端获取到的uid
 		order.setGameName("女总裁的贴身高手");							// 游戏名称。最大16个中文字符
 		order.setRoleName(Tiegao.getUserId());						// 应用内用户id，如角色名称。最大16个中文字符

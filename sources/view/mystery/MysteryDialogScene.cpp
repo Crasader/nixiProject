@@ -88,7 +88,7 @@ bool MysteryDialogScene::init(const char* category, CCArray* dialogs){
     m_bIsKJSelect = false;
     buttonBool = false;
     startBool = false;
-
+    
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);

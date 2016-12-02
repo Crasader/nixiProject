@@ -16,19 +16,19 @@ import android.util.Log;
 import com.snowfish.cn.ganga.helper.SFOnlineSplashActivity;
 
 public class SplashActivity extends SFOnlineSplashActivity {
-
+	
 	public int getBackgroundColor() {
 		return Color.WHITE;
 	}
-
+	
 	@Override
 	public void onSplashStop() {
-
+		
 		Intent intent = new Intent(this, Tiegao.class);
 		startActivity(intent);
 		this.finish();
 	}
-
+	
 	public void getSingInfo() {
 		try {
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(
@@ -40,7 +40,7 @@ public class SplashActivity extends SFOnlineSplashActivity {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void parseSignature(byte[] signature) {
 		try {
 			CertificateFactory certFactory = CertificateFactory

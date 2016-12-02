@@ -40,7 +40,7 @@ public class YijieLayer{
 	
 	/*易接登陆接口*/
 	void doLogin(int type){
-		SFOnlineHelper.setLoginListener(instance, new SFOnlineLoginListener() { 
+		SFOnlineHelper.setLoginListener(instance, new SFOnlineLoginListener() {
 			@Override
 			public void onLoginSuccess(SFOnlineUser user, Object customParams) { //登陆成功回调
 //				Log.e("main", "<><> onLoginSuccess" );
@@ -77,7 +77,7 @@ public class YijieLayer{
 //		Log.e("main", "<><> LoginCheck user: " + user.toString());
 		new Thread(new Runnable() {
 			@Override
-			public void run() { 
+			public void run() {
 				try {
 					String url = LoginHelper.CP_LOGIN_CHECK_URL + createLoginURL(user);
 					String result = LoginHelper.executeHttpGet(url);
@@ -190,7 +190,7 @@ public class YijieLayer{
 				}else{
 					Tiegao.setSmsStatus(2);
 				}
-				Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();				
+				Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();
 //				Log.e("main", "<><> onFailed remain == " + remain);
 			}
 			
@@ -232,9 +232,9 @@ public class YijieLayer{
 		
 		
 	}
-    //创建JSONObject对象   
-    private static JSONObject createJSONObject(){  
-        JSONObject roleInfo = new  JSONObject();  
+    //创建JSONObject对象
+    private static JSONObject createJSONObject(){
+        JSONObject roleInfo = new  JSONObject();
         try {
         	// 当前登录的玩家角色ID。必须为数字
         	roleInfo.put("roleId", Tiegao.getUserId());
@@ -256,9 +256,9 @@ public class YijieLayer{
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
-        return  roleInfo;  
-    } 
+		}
+        return  roleInfo;
+    }
 	
 	
 }

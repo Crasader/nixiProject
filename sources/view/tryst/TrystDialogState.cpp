@@ -15,12 +15,12 @@ const char* TrystDialogState::StatePlaying = "PLAYING";
 const char* TrystDialogState::StateEnd = "END";
 
 TrystDialogState::~TrystDialogState() {
-
+    
 }
 
 TrystDialogState::TrystDialogState()
 : _curState(TrystDialogState::StateInit) {
-
+    
 }
 
 std::string const TrystDialogState::curState() {

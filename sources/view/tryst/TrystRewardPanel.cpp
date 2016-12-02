@@ -49,7 +49,7 @@ bool TrystRewardPanel::initWithReward(string type, int num) {
     rewardDisplay = NULL;
     this->type = string(type.c_str());
     this->num = num;
-
+    
 //    CCSprite* mask = CCSprite::create("res/pic/mask.png");
 //    mask->setPosition(DISPLAY->center());
 //    this->addChild(mask);
@@ -77,7 +77,7 @@ bool TrystRewardPanel::initWithReward(string type, int num) {
 //    CCSprite* title = CCSprite::create("pic/building/reward/title2.png");
 //    title->setPosition(ccp(panelSize.width* .5f, panelSize.height* .92f));
 //    panel->addChild(title);
-
+    
     
 //    if (_type.compare("coin") == 0) {
 //        CCSprite* plate = CCSprite::create("pic/building/reward/plate.png");

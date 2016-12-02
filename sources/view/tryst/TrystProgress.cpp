@@ -133,7 +133,7 @@ void TrystProgress::onEnter() {
 
 void TrystProgress::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-
+    
     CCNode::onExit();
 }
 
@@ -141,7 +141,7 @@ void TrystProgress::updateProgress(float dt) {
     time_t nowTS = DATA->cur_timestamp();
     time_t delta = nowTS - savedTs;
     time_t curLeftSencods = left - delta;
-
+    
     if (curLeftSencods > 0) {
         int minute = int(curLeftSencods) / 60;
         int second = int(curLeftSencods) % 60;

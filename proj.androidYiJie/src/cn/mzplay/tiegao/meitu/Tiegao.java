@@ -111,9 +111,9 @@ public class Tiegao extends Cocos2dxActivity {
 	public Cocos2dxGLSurfaceView onCreateView() {
 		Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
 		glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
-		return glSurfaceView; 
+		return glSurfaceView;
 	}
-
+	
 	
     static {
     	System.loadLibrary("game");
@@ -181,24 +181,35 @@ public class Tiegao extends Cocos2dxActivity {
 //		oks.show(instance);
 		
 		
-		ShareSDK.initSDK(instance);
+//		ShareSDK.initSDK(instance);
 		OnekeyShare oks = new OnekeyShare();
 		//关闭sso授权
-		oks.disableSSOWhenAuthorize(); 
-		 
+		oks.disableSSOWhenAuthorize();
+		
 		// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
 		//oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-//		oks.setTitle("男神日记");
+		oks.setTitle("女总裁的贴身高手");
 		// text是分享文本，所有平台都需要这个字段
-//		oks.setText("我是分享文本");
+//		oks.setText("女总裁的贴身高手");
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		oks.setImagePath(getShareImage());//确保SDcard下面存在此张图片
 		// url仅在微信（包括好友和朋友圈）中使用
 //		oks.setUrl("http://sharesdk.cn");
-		 
+		
 		// 启动分享GUI
 		oks.show(instance);
+		
+//		ShareParams wechat = new ShareParams();
+//		wechat.setTitle("女总裁的贴身高手");	
+//		wechat.setText("最爱女总裁的贴身高手");
+//		wechat.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+//		wechat.setUrl("http://mob.com");
+//		wechat.setShareType(Platform.SHARE_WEBPAGE);
+//
+//		Platform weixin = ShareSDK.getPlatform(instance, Wechat.NAME);
+//		weixin.setPlatformActionListener(instance);
+//		weixin.share(wechat);
 	}
 	public static void setShareText(String str){
 		shareText = str;
@@ -207,7 +218,7 @@ public class Tiegao extends Cocos2dxActivity {
 		shareTextHandler.sendEmptyMessage(0);
 	}
 	static Handler shareTextHandler = new Handler(){
-		public void handleMessage(Message msg){ 
+		public void handleMessage(Message msg){
 			Toast.makeText(instance, shareText, Toast.LENGTH_SHORT).show();
 		}
     };
@@ -332,20 +343,20 @@ public class Tiegao extends Cocos2dxActivity {
 	
 	// 判断网络
 	public static Boolean getNetworkAvailable(){
-		ConnectivityManager connectivityManager = (ConnectivityManager)instance.getSystemService(CONNECTIVITY_SERVICE);  
+		ConnectivityManager connectivityManager = (ConnectivityManager)instance.getSystemService(CONNECTIVITY_SERVICE);
 		if (connectivityManager == null) {
 			return false;
 		}else {
-			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();  
-			if(networkInfo == null || !networkInfo.isAvailable())  
-			{  
-			    //当前有可用网络  
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+			if(networkInfo == null || !networkInfo.isAvailable())
+			{
+			    //当前有可用网络
 				Log.i("main", "<><><><><><>当前有可用网络");
 				return true;
-			}  
-			else   
-			{  
-			    //当前无可用网络  
+			}
+			else
+			{
+			    //当前无可用网络
 				Log.i("main", "<><><><><><>当前无可用网络");
 				return false;
 			}
@@ -356,7 +367,7 @@ public class Tiegao extends Cocos2dxActivity {
 	// 登陆接口
 	public static void isLanding(int index){
 		Message msg = new Message();
-		msg.arg1 = index;			
+		msg.arg1 = index;
 		moreHandler1.sendMessage(msg);
 	}
  	static Handler moreHandler1 = new Handler(){
@@ -369,7 +380,7 @@ public class Tiegao extends Cocos2dxActivity {
  	// 退出游戏
  	public static void exitGame(int index){
  		Message msg = new Message();
- 		msg.arg1 = index;			
+ 		msg.arg1 = index;
  		exitHandler.sendMessage(msg);
  	}
  	static Handler exitHandler = new Handler(){
@@ -418,7 +429,7 @@ public class Tiegao extends Cocos2dxActivity {
  	// UC玩家信息接口
  	public static void isExtendData(){
  		Message msg = new Message();
- 		msg.arg1 = 1;			
+ 		msg.arg1 = 1;
  		extendDataHandler.sendMessage(msg);
  	}
  	static Handler extendDataHandler = new Handler(){
@@ -431,7 +442,7 @@ public class Tiegao extends Cocos2dxActivity {
  	// UC玩家信息接口
  	public static void setData(int index){
  		Message msg = new Message();
- 		msg.arg1 = index;			
+ 		msg.arg1 = index;
  		setDataHandler.sendMessage(msg);
  	}
  	static Handler setDataHandler = new Handler(){
@@ -449,7 +460,7 @@ public class Tiegao extends Cocos2dxActivity {
  		payHandler.sendMessage(msg);
  	}
  	static Handler payHandler = new Handler(){
- 		public void handleMessage(Message msg){ 
+ 		public void handleMessage(Message msg){
  			yijieLayer.pay(msg.arg1);
  		}
  	};

@@ -1,3 +1,5 @@
+package cn.mzplay.tiegao.meitu.wxapi;
+
 /*
  * 官网地站:http://www.mob.com
  * 技术支持QQ: 4006852216
@@ -6,7 +8,6 @@
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-package cn.mzplay.tiegao.meitu.wxapi;
 
 import android.content.Intent;
 import android.util.Log;
@@ -17,7 +18,7 @@ import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 
 /** 微信客户端回调activity示例 */
 public class WXEntryActivity extends WechatHandlerActivity {
-
+	
 	/**
 	 * 处理微信发出的向第三方应用请求app message
 	 * <p>
@@ -26,10 +27,12 @@ public class WXEntryActivity extends WechatHandlerActivity {
 	 * 做点其他的事情，包括根本不打开任何页面
 	 */
 	public void onGetMessageFromWXReq(WXMediaMessage msg) {
-		Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
-		startActivity(iLaunchMyself);
+		if (msg != null) {
+			Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
+			startActivity(iLaunchMyself);
+		}
 	}
-
+	
 	/**
 	 * 处理微信向第三方应用发起的消息
 	 * <p>
@@ -41,12 +44,11 @@ public class WXEntryActivity extends WechatHandlerActivity {
 	 * 本Demo只是将信息展示出来，但你可做点其他的事情，而不仅仅只是Toast
 	 */
 	public void onShowMessageFromWXReq(WXMediaMessage msg) {
-		if (msg != null && msg.mediaObject != null
-				&& (msg.mediaObject instanceof WXAppExtendObject)) {
+		if (msg != null && msg.mediaObject != null && (msg.mediaObject instanceof WXAppExtendObject)) {
 			WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
-			Log.i("main", "<><><><>" + obj.extInfo);
+            Log.i("main", "<><><><> share = " + obj.extInfo);
 			Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
 }

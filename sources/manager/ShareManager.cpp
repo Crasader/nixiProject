@@ -58,18 +58,18 @@ void shareResultHandler(C2DXResponseState state, C2DXPlatType platType, CCDictio
             ShareManager::get_instance()->stop_share();
             CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_SHARE_FINISH");
         } break;
-            
+        
         case C2DXResponseStateSuccess: {
             CCLog("ShareManager::分享成功");
             ShareManager::get_instance()->did_share_success();
             CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_SHARE_FINISH");
         } break;
-            
+        
         case C2DXResponseStateFail: {
             CCLog("ShareManager::分享失败");
             ShareManager::get_instance()->stop_share();
         } break;
-            
+        
         default:
             break;
     }
@@ -99,7 +99,7 @@ ShareManager* ShareManager::get_instance()
 
 void ShareManager::init()
 {
-
+    
 }
 
 void ShareManager::config() {

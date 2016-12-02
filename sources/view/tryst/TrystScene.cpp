@@ -78,7 +78,7 @@ void TrystScene::onEnter() {
 
 void TrystScene::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
-
+    
     CCScene::onExit();
 }
 

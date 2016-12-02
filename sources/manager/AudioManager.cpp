@@ -154,7 +154,7 @@ void AudioManager::set_effect_on(bool is_on)
 
 void AudioManager::purge()
 {
-
+    
 }
 
 
