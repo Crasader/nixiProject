@@ -83,12 +83,37 @@ const NSString* NOTIFICATION_KEY_NAME = @"name";
         return;
     }
     
-    [self dropAllLocalNotifications];
+//    [self dropAllLocalNotifications];
+    [self dropLocalNotificationByName:@"gashapon"];
     
     NSLog(@"secondDelta = %ld", secondDelta);
     NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta];
     NSLog(@"fireDate = %@", fireDate);
     NSString* alterBody = [NSString stringWithCString:"可以免费抽奖啦~!" encoding:NSUTF8StringEncoding];
+    
+    UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
+    [ln setFireDate:fireDate];
+    [ln setTimeZone:[NSTimeZone defaultTimeZone]];
+    [ln setRepeatInterval:NSCalendarUnitYear];
+    [ln setSoundName:UILocalNotificationDefaultSoundName];
+    [ln setAlertBody:alterBody];
+    [ln setApplicationIconBadgeNumber:1];
+    [ln setAlertLaunchImage:@"29x29.png"];
+    [self addLocalNotification:ln];
+}
+
+- (void)addTrystLN:(time_t)secondDelta {
+    if (secondDelta <= 0) {
+        return;
+    }
+    
+//    [self dropAllLocalNotifications];
+    [self dropLocalNotificationByName:@"tryst"];
+    
+    NSLog(@"secondDelta = %ld", secondDelta);
+    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:secondDelta];
+    NSLog(@"fireDate = %@", fireDate);
+    NSString* alterBody = [NSString stringWithCString:"浪~~~~~~漫的约会已经结束，亲~ 快来领取约会奖励吧!" encoding:NSUTF8StringEncoding];
     
     UILocalNotification* ln = [[[UILocalNotification alloc] init] autorelease];
     [ln setFireDate:fireDate];
