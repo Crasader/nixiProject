@@ -10,6 +10,7 @@ class LocalNotifMgr : public CCObject
 {
 public: // Export
     void addFreeGashaponLN(time_t secondDelta);
+    void addTrystLN(time_t secondDelta);
     void dropLocalNotificationByName(string name);
     void dropAllLocalNotifications();
     void resetIconBadgeNumber();
@@ -23,7 +24,7 @@ public:
     
 private:
     void nc_gashapon(CCObject* pObj);
-//    void _nc_gashapon();
+    void nc_tryst(CCObject* pObj);
     
 private:
     LocalNotifDelegate*     _delegate;

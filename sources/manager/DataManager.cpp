@@ -414,6 +414,13 @@ void DataManager::handle_protocol(int cid, Value content) {
         
         case 623: {
             _tryst->update_user_data(content["tryst"]);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            TrystUserdata* trystUserData = _tryst->getUserData();
+            CCDictionary* dic = CCDictionary::create();
+            dic->setObject(ccs("tryst"), "name");
+            dic->setObject(CCInteger::create(trystUserData->leftTime), "num");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("TRYST_ALERT", dic);
+#endif
         } break;
         
         case 625: {

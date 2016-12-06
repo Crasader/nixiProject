@@ -19,6 +19,8 @@
 
 - (void)addFreeGashaponLN:(time_t)secondDelta;
 
+- (void)addTrystLN:(time_t)secondDelta;
+
 - (void)resetIconBadgeNumber;
 
 - (void)dropAllLocalNotifications;
