@@ -223,7 +223,7 @@ void ClothesTableView::tableCellTouched(cocos2d::extension::CCTableView* table, 
                 kuangSpr9 = NULL;
             }
         }else if (sub_part == 20){
-            if (kuangSpr10 != NULL && kuangSpr9->getParent() != NULL) {
+            if (kuangSpr10 != NULL && kuangSpr10->getParent() != NULL) {
                 kuangSpr10->removeFromParentAndCleanup(true);
                 kuangSpr10 = NULL;
             }
