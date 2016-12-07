@@ -21,8 +21,8 @@ using namespace std;
 #endif
 
 /**  美图  **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
 
 /**  百度  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/baidu/Tiegao"
@@ -41,12 +41,22 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/wyx/AlarmClock"
 
 /**  vivo  **/
-//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/vivo/Tiegao"
-//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/vivo/AlarmClock"
+#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/vivo/Tiegao"
+#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/vivo/AlarmClock"
 
 /**  金山云  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/ksyun/mi/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
+
+
+/**  应用宝  **/
+//#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
+
+
+/**  UC  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/uc/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/uc/AlarmClock"
 
 
 /**  白包 鱼丸母包 **/

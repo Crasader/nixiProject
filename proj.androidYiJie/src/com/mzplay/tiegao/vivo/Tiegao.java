@@ -21,13 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.meitu;
+package com.mzplay.tiegao.vivo;
 
 import java.util.UUID;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
+import com.mzplay.tiegao.vivo.YijieLayer;
 import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
 import com.snowfish.cn.ganga.helper.SFOnlineHelper;
 import com.tendcloud.tenddata.TalkingDataGA;
@@ -43,7 +44,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.meitu.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -94,6 +94,8 @@ public class Tiegao extends Cocos2dxActivity {
 		// 03BF303202380DA28B046607C2A79ABF		小米
 		// C59DC7B087EEE431A985F76BBEEDC021		新浪
 		// 77E611BA3283B34C2124D21F0C99632F		vivo
+		// 390F4A5CC1E745A18A5FD5A0FD2B8BB2		应用宝
+		// F267A73DD42E495CA22458F1B3877DF4		UC
 		
 		
 		
@@ -104,7 +106,7 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试1
 		// 9C58D9E0BC45489B8920B2712A35AE35		测试2
-		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
+		TalkingDataGA.init(instance, "77E611BA3283B34C2124D21F0C99632F", "mzplay");
 		
 	}
 	
