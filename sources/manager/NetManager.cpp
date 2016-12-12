@@ -102,7 +102,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["type"] = 1;
     root["channel"] = channel;
 //    root["ver"] = "10500";
-    root["ver"] = "10600";
+    root["ver"] = "10602";
     string data = writer.write(root);
     this->post_data(900, data);
 }

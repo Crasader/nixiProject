@@ -220,12 +220,22 @@ void LoginScene::onEnter() {
         this->show_loginview();
     }
     
+    CCSize winsize = CCDirector::sharedDirector()->getWinSize();
+    ccColor3B color = ccc3(41, 21, 11);
     
-//    CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
-//    CCLabelTTF* lblVersion = CCLabelTTF::create(strVersion->getCString(), DISPLAY->fangzhengFont(), 20.f);
-//    lblVersion->setColor(ccORANGE);
-//    lblVersion->setPosition(ccp(DISPLAY->W() * 0.85, DISPLAY->H() * 0.04));
-//    this->addChild(lblVersion);
+    CCString* copyRight1 = CCString::createWithFormat("出版服务单位：北京艺术与科学电子出版社出版    出版物号：%s", "B2-20120196");
+    CCLabelTTF* lblCopyRight1 = CCLabelTTF::create(copyRight1->getCString(), "Arial", 16.f);
+    lblCopyRight1->setAnchorPoint(ccp(0.5, 0.5));
+    lblCopyRight1->setColor(color);
+    lblCopyRight1->setPosition(ccp(winsize.width * 0.5, winsize.height * 0.04));
+    this->addChild(lblCopyRight1);
+    
+    CCString* copyRight2 = CCString::createWithFormat("游戏著作权人：天津云端互娱网络技术有限公司    批准文号：%s", "京新广文【2016】939号");
+    CCLabelTTF* lblCopyRight2 = CCLabelTTF::create(copyRight2->getCString(), "Arial", 16.f);
+    lblCopyRight2->setAnchorPoint(ccp(0.5, 0.5));
+    lblCopyRight2->setColor(color);
+    lblCopyRight2->setPosition(ccp(winsize.width * 0.5, winsize.height * 0.02));
+    this->addChild(lblCopyRight2);
 }
 
 void LoginScene::onExit() {
