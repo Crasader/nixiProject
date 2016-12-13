@@ -59,7 +59,7 @@ void NetManager::post_data(int cid, string data)
 {
     LoginComp* login = DATA->getLogin();
     CCString* url = NULL;
-    if (900 == cid || 901 == cid || 903 == cid) {
+    if (999 == cid || 900 == cid || 901 == cid || 903 == cid) {
         url = this->obtain_login_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
     }
     else {
@@ -93,6 +93,10 @@ NetEnv NetManager::obtain_net_env() {
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return e_NetEnv_Unknown;
 #endif
+}
+
+void NetManager::get_info_999() {
+    this->post_data(999, string(""));
 }
 
 void NetManager::fast_login_900(const char* uuid, int channel) {

@@ -205,6 +205,10 @@ void DataManager::handle_protocol(int cid, Value content) {
     const char* notif_format = "HTTP_FINISHED_%d";
     CCObject* pData = NULL;
     switch (cid) {
+        case 999: {
+            pData = AppUtil::dictionary_with_json(content);
+        } break;
+            
         case 900: {
             _login->init_with_json(content);
         } break;

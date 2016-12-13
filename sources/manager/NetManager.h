@@ -35,6 +35,8 @@ public:
     
 public:
     NetEnv obtain_net_env();
+    //
+    void get_info_999();
     // channel : iOS = 0, 易接 = 1xx;
     void fast_login_900(const char* uuid, int channel);
     // 直接输入登录才用到
