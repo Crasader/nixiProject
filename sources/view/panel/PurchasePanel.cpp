@@ -54,11 +54,13 @@ bool PurchasePanel::init() {
 void PurchasePanel::onEnter() {
     CCLayer::onEnter();
     
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+//    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_133", NULL);
+    
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     if (CONFIG->baiOrYijie == 0) {// 白包
         nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
     }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
@@ -232,6 +234,12 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         if (d->canMakePurchases()) {
             CCLOG("can purchases");
             d->buyProduct(pro->id.c_str());
+
+            // TalkingData Record
+            string orderId2 = DATA->getLogin()->obtain_UUID();
+            string productId = pro->id.c_str();
+            CCString* iapId = CCString::createWithFormat("%d钻石", pro->diam);
+            DATA->onChargeRequest(orderId2, iapId->getCString(), pro->money, pro->diam);
         }
         else {
             LOADING->remove();

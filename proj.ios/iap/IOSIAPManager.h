@@ -42,17 +42,12 @@ public:
 
     void buyProductByIndex(int productIndex);
     void buyProduct(const char* productId);
-    void verifyTransaction(const char* proID, const char* transcationID, const char* receipt);
-
-    //Special Mothed
-    void buyYiyuangou();
-    //
+//    void verifyTransaction(const char* proID, const char* transcationID, const char* receipt);
     void printProducts();
     void printTransaction(CCStorePaymentTransaction* transaction);
 
-protected:
-    void notification_http_error(CCObject* pObj);
-    void notification_http_1001(CCObject* pObj);
+private:
+    void nc_verify_iOS_133(CCObject* pObj);
     
 private:
     CC_SYNTHESIZE_RETAIN(CCArray*, _products, Products);

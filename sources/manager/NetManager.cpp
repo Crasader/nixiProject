@@ -749,3 +749,14 @@ void NetManager::buchang_story2_113(const char *id) {
     this->post_data(113, data);
 }
 
+void NetManager::verify_order_iOS_133(string &orderId, string &productId, const char *receipt) {
+    FastWriter writer;
+    Value root;
+    root["order_id"] = orderId;
+    root["product_id"] = productId;
+    root["receipt"] = receipt;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(133, data);
+}
+
