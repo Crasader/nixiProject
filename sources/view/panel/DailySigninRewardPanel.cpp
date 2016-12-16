@@ -121,6 +121,7 @@ void DailySigninRewardPanel::create_best_show() {
 void DailySigninRewardPanel::remove() {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("DAILYSIGNIN_PANEL_EXIT");
     this->do_exit();
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -128,6 +129,7 @@ void DailySigninRewardPanel::keyBackClicked(){
     num_child++;
     CCLog("===== DailySigninRewardPanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

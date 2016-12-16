@@ -2372,6 +2372,7 @@ void StoryScene::keyBackClicked(){
     num_child++;
 //    CCLog("===== StoryScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -2398,6 +2399,7 @@ void StoryScene::fhCallBack(CCObject* pSender){
     }
     
     if (DATA->current_guide_step() == 0 || DATA->current_guide_step() != 8) {
+        num_child = 0;
         CCScene* scene = QingjingScene::scene();
         CCDirector::sharedDirector()->replaceScene(scene);
     }

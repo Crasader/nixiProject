@@ -217,7 +217,7 @@ void PurchasePanel::do_exit() {
 
 void PurchasePanel::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -323,6 +323,7 @@ void PurchasePanel::keyBackClicked(){
     num_child++;
     CCLog("===== PurchasePanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

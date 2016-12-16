@@ -180,6 +180,9 @@ public:
     // 第一次通关
     CC_SYNTHESIZE(bool, _theEndBool, TheEndBool);
     
+    // 专用
+    void updataLoginStatus(float dt);
+    
 private:
 
     

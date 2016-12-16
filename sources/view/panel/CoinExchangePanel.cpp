@@ -153,7 +153,7 @@ void CoinExchangePanel::do_exit() {
 
 void CoinExchangePanel::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -178,6 +178,7 @@ void CoinExchangePanel::keyBackClicked(){
     num_child++;
     CCLog("===== CoinExchangePanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

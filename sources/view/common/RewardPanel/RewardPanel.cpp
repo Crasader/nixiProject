@@ -248,6 +248,7 @@ bool RewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEven
 
 void RewardPanel::remove() {
     this->do_exit();
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
     CCNotificationCenter::sharedNotificationCenter()->postNotification("REWARDPANEL_REMOVED");
 }
@@ -256,6 +257,7 @@ void RewardPanel::keyBackClicked(){
     num_child++;
     CCLog("===== RewardPanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

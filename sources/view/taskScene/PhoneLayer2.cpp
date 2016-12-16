@@ -278,7 +278,7 @@ void PhoneLayer2::backCallBack(CCObject* pSender){
     
     // talkingData
     DATA->onEvent("点击事件", "phone界面", "点击退出");
-    
+    num_child = 0;
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -370,6 +370,7 @@ void PhoneLayer2::keyBackClicked(){
     num_child++;
     CCLog("===== PhoneLayer2  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

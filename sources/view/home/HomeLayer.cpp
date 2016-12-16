@@ -151,6 +151,7 @@ void HomeLayer::keyBackClicked(){
     num_child++;
     CCLog("===== HomeLayer  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -570,7 +571,7 @@ void HomeLayer::backCallBack(CCObject* pSender){
     
     // talkingData
     DATA->onEvent("点击事件", "home界面", "点击返回");
-    
+    num_child = 0;
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

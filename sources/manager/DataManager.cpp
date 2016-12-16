@@ -15,6 +15,8 @@
 #include "Loading2.h"
 #include "PromptLayer.h"
 #include "LoginScene.h"
+#include "JNIController.h"
+#include "YiJieLoginScene.h"
 
 #include "TDCCTalkingDataGA.h"
 #include "TDCCVirtualCurrency.h"
@@ -199,6 +201,17 @@ void DataManager::http_response_handle(int resp_code, string response) {
         }
     }
 }
+// 专用
+void DataManager::updataLoginStatus(float dt){
+    if (JNIController::getLandStatus() == 1) {
+        CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataLoginStatus), this);
+        DATA->relogin();
+        
+    }else if (JNIController::getLandStatus() == 2){
+        CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataLoginStatus), this);
+        DATA->relogin();
+    }
+}
 
 void DataManager::handle_protocol(int cid, Value content) {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
@@ -226,6 +239,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
+            
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updataLoginStatus), this, 1, false);
+#endif
+            
         } break;
         
         case 903: {
@@ -683,7 +701,11 @@ void DataManager::update(float dt) {
 void DataManager::relogin() {
     WS->disconnect();
     this->setHasLogin(false);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    CCDirector::sharedDirector()->replaceScene(YiJieLoginScene::scene());
+#endif
 }
 
 void DataManager::creat_Energy_Time(){

@@ -90,7 +90,7 @@ void FindPanel::find_callback_801(CCObject* obj){
 
 void FindPanel::btn_back_callback(){
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -229,6 +229,7 @@ void FindPanel::keyBackClicked(){
     num_child++;
     CCLog("===== FindPanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

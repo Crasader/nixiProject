@@ -146,7 +146,7 @@ void BuildingView::start() {
 
 void BuildingView::go_back() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -244,6 +244,7 @@ void BuildingView::keyBackClicked(){
     num_child++;
     CCLog("===== BuildingView  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

@@ -376,10 +376,11 @@ void MainScene::onExit(){
 
 void MainScene::keyBackClicked(){
     CCLog("===== MMChooseLayer::keyBackClicked");
-    if (DATA->current_guide_step() == 0) {
+    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() >= 7) {
         num_child++;
         CCLog("===== MainScene  children_num: %d", num_child);
         if (num_child> 1) {
+            num_child = 0;
             return;
         }
         
@@ -392,6 +393,7 @@ void MainScene::keyBackClicked(){
             JNIController::setPlayerGold(diamStr->getCString());
             JNIController::setData(4);
             
+            num_child = 0;
             JNIController::exitGame(0);
         }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
             JNIController::setUserId(DATA->getLogin()->obtain_sid());
@@ -402,6 +404,7 @@ void MainScene::keyBackClicked(){
             JNIController::setPlayerGold(diamStr->getCString());
             JNIController::setData(4);
             
+            num_child = 0;
             JNIController::exitGame(1);
         }
     }

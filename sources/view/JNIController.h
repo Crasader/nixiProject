@@ -41,8 +41,8 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/wyx/AlarmClock"
 
 /**  vivo  **/
-#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/vivo/Tiegao"
-#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/vivo/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/vivo/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/vivo/AlarmClock"
 
 /**  金山云  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/ksyun/mi/Tiegao"
@@ -57,6 +57,35 @@ using namespace std;
 /**  UC  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/uc/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/uc/AlarmClock"
+
+
+/**  华为  **/
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/huawei/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/huawei/AlarmClock"
+
+
+/**  oppo  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/nearme/gamecenter/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/nearme/gamecenter/AlarmClock"
+
+
+
+/**  乐视  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/leshi/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/leshi/AlarmClock"
+
+
+
+/**  魅族  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mz/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/mz/AlarmClock"
+
+
+
+/**  爱奇艺  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/PPS/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/PPS/AlarmClock"
+
 
 
 /**  白包 鱼丸母包 **/

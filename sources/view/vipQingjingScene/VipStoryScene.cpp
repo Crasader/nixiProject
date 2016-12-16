@@ -2075,6 +2075,7 @@ void VipStoryScene::keyBackClicked(){
     num_child++;
 //    CCLog("===== VipStoryScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -2095,7 +2096,7 @@ void VipStoryScene::fhCallBack(CCObject* pSender){
 //    AHMessageBox* mb = AHMessageBox::create_with_message(def_VipStoryScene_007, this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, true);
 //    mb->setPosition(Center);
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3010);
-    
+    num_child = 0;
     CCScene* scene = VipQingjingScene::scene();
     CCDirector::sharedDirector()->replaceScene(scene);
 }

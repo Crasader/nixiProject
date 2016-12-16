@@ -130,6 +130,7 @@ void TaskScene::keyBackClicked(){
     num_child++;
 //    CCLog("===== TaskScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -466,7 +467,7 @@ void TaskScene::backCallBack(CCObject* pSender){
     
     if (DATA->getHomeBool()) {
         DATA->setHomeBool(false);
-        
+        num_child = 0;
         CCScene* scene = HomeLayer::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -488,6 +489,7 @@ void TaskScene::backCallBack(CCObject* pSender){
             CCSpawn* spawn = CCSpawn::create(moveTo, scaleBy, NULL);
             taskKuang->runAction(CCSequence::create(CCDelayTime::create(.2f), spawn, callFunc, NULL));
         }else{
+            num_child = 0;
             CCScene* scene = MainScene::scene();
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);

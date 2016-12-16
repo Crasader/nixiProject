@@ -81,6 +81,7 @@ void BarrageView::keyBackClicked(){
     num_child++;
     CCLog("===== BarrageView  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -96,6 +97,7 @@ bool BarrageView::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEven
 
 void BarrageView::remove() {
 //    AUDIO->common_effect();
+    num_child = 0;
     WS->disconnect();
     this->removeFromParentAndCleanup(true);
 }

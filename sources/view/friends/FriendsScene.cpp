@@ -313,7 +313,7 @@ void FriendsScene::on_btn_back_to_social(CCMenuItem *menuItem) {
     
     // talkingData
     DATA->onEvent("点击事件", "好友界面", "点击返回");
-    
+    num_child = 0;
     CCScene* scene = HaoyouScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
@@ -477,6 +477,7 @@ void FriendsScene::keyBackClicked(){
     num_child++;
     CCLog("===== FriendsScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

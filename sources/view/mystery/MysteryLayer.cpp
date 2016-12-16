@@ -126,6 +126,7 @@ void MysteryLayer::do_exit() {
 }
 
 void MysteryLayer::remove() {
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -133,6 +134,7 @@ void MysteryLayer::keyBackClicked(){
     num_child++;
     CCLog("===== MysteryLayer  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

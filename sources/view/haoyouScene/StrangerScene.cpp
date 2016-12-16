@@ -235,6 +235,7 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
     DATA->onEvent("点击事件", "陌生人界面", "点击返回");
     
     if (!_enterType.empty() && _enterType.compare("main_friend") == 0) {
+        num_child = 0;
         CCScene* scene = HaoyouScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -242,6 +243,7 @@ void StrangerScene::btn_back_callback(CCObject* pSender){
 //        CCScene* scene = HaoyouRankLayer::scene();
 //        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
 //        CCDirector::sharedDirector()->replaceScene(trans);
+        num_child = 0;
         CCScene* scene = FriendsScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -857,6 +859,7 @@ void StrangerScene::keyBackClicked(){
     num_child++;
     CCLog("===== StrangerScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

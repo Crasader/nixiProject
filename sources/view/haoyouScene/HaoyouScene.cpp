@@ -336,6 +336,7 @@ void HaoyouScene::displayChatItem() {
 void HaoyouScene::_605CallBack(CCObject* pObj){
     LOADING->remove();
     
+    num_child = 0;
     DATA->setTaskPhase(DATA->getPlayer()->phase);
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
@@ -356,11 +357,12 @@ void HaoyouScene::backCallBack(CCObject* pSender){
     }else{
         if (DATA->getHomeBool()) {
             DATA->setHomeBool(false);
-            
+            num_child = 0;
             CCScene* scene = HomeLayer::scene();
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);
         }else{
+            num_child = 0;
             CCScene* scene = MainScene::scene();
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);
@@ -1099,6 +1101,7 @@ void HaoyouScene::keyBackClicked(){
     num_child++;
     CCLog("===== HaoyouScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

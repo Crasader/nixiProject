@@ -301,7 +301,7 @@ void TempSignin::signin_callback_341(){
 
 void TempSignin::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -309,6 +309,7 @@ void TempSignin::keyBackClicked(){
     num_child++;
     CCLog("===== TempSignin  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

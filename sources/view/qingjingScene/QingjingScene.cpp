@@ -127,6 +127,7 @@ void QingjingScene::keyBackClicked(){
     num_child++;
     CCLog("===== QingjingScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -553,7 +554,7 @@ void QingjingScene::backCallBack(CCObject* pSender){
     if (DATA->getOpenGuideBool9()) {
         DATA->setOpenGuideBool9(false);
     }
-    
+    num_child = 0;
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
