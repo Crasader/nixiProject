@@ -159,9 +159,6 @@ void DataManager::http_response_handle(int resp_code, string response) {
             this->setAutoLogin(false);
             CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
         }
-        else {
-            
-        }
         
         return;
     }

@@ -62,6 +62,7 @@ void BaseScene::onEnter(){
     //
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::on_reset_nickname), "ON_RESET_NICKNAME", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_reset_nickname_907), "HTTP_FINISHED_907", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_take_gift_333), "HTTP_FINISHED_333", NULL);
     
     // 从外部调用，打开充值面板
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::goldCallBack), "NEED_SHOW_PURCHASEPANEL", NULL);
@@ -448,6 +449,48 @@ void BaseScene::nc_reset_nickname_907(CCObject *pObje) {
     
     _nameLabel->setString(DATA->getShow()->nickname());
     this->updataMoney();
+}
+
+void BaseScene::nc_take_gift_333(CCObject *pObj) {
+    LOADING->remove();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        int coin = ((CCInteger*)dic->objectForKey("coin"))->getValue();
+        int diam = ((CCInteger*)dic->objectForKey("diam"))->getValue();
+        int energy = ((CCInteger*)dic->objectForKey("energy"))->getValue();
+        
+        if (diam > 0) {
+            CCString* diamStr = CCString::createWithFormat("礼包赠予%d钻石", diam);
+            DATA->onReward(diam, diamStr->getCString());
+        }
+        
+        CCString* str = NULL;
+        if (coin > 0) {
+            if (diam > 0) {
+                if (energy > 0) {
+                    str = CCString::createWithFormat("成功领取 %d金币、%d钻石、%d体力~!", coin, diam, energy);
+                }
+                else {
+                    str = CCString::createWithFormat("成功领取 %d金币、%d钻石~!", coin, diam);
+                }
+            }
+            else {
+                str = CCString::createWithFormat("成功领取 %d金币~!", coin);
+            }
+        }
+        else if (diam > 0) {
+            if (energy > 0) {
+                str = CCString::createWithFormat("成功领取 %d钻石、%d体力~!", diam, energy);
+            }
+            else {
+                str = CCString::createWithFormat("成功领取 %d钻石~!", diam);
+            }
+        }
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), str->getCString());
+    }
 }
 
 void BaseScene::nc_need_coin_fly(CCObject *pObj) {

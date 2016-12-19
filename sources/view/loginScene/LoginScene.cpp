@@ -183,7 +183,7 @@ void LoginScene::onEnter() {
     }
     CCLOG("%s", env_info.c_str());
     
-    NET->get_info_999();
+//    NET->get_info_999();
     
     bool autoLogin = DATA->getAutoLogin();
     bool hasSavedAccount = CONFIG->has_saved_account();

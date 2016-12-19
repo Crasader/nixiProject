@@ -44,7 +44,7 @@ IOSIAPManager* IOSIAPManager::Inst() {
         
         CCNotificationCenter::sharedNotificationCenter()->addObserver(_instance, SEL_CallFuncO(&IOSIAPManager::nc_verify_iOS_133), "HTTP_FINISHED_133", NULL);
         
-        CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
+//        CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice, false);
         CCStore::sharedStore()->setReceiptVerifyServerUrl(APPSTORE_RECEIPT_VERIFY_URL);
         
 //        CCDictionary* conf = DATA->getLogin()->config();
@@ -113,7 +113,7 @@ void IOSIAPManager::transactionCompleted(CCStorePaymentTransaction* transaction)
     }
     
     if (transaction->getTransactionState() == 2) {
-        if (transaction->getReceiptVerifyStatus() == 0) { // 本机验证成功
+//        if (transaction->getReceiptVerifyStatus() == 0) { // 本机验证成功
             std::string orderId = transaction->getTransactionIdentifier();
             std::string productId = transaction->getProductIdentifier();
 //            if (productId.compare("tiegao_story") == 0) {
@@ -131,11 +131,11 @@ void IOSIAPManager::transactionCompleted(CCStorePaymentTransaction* transaction)
             
 //            }
 
-        }
-        else {
-            CCNative::createAlert("支付失败", "验证失败~!", "OK");
-            CCNative::showAlert();
-        }
+//        }
+//        else {
+//            CCNative::createAlert("支付失败", "验证失败~!", "OK");
+//            CCNative::showAlert();
+//        }
     }
 }
 
