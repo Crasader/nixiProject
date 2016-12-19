@@ -279,6 +279,8 @@ void BuildingLayer::createCompanyRewardIcon() {
         _boxNode->removeAllChildrenWithCleanup(true);
     }
     
+    bool is_show = false;
+    
     CoffersComp* coffers = DATA->getCoffers();
     int curPhase = _phase; //DATA->getPlayer()->phase;
     int totalRatings = DATA->getPlayer()->ratings(curPhase);
@@ -297,6 +299,8 @@ void BuildingLayer::createCompanyRewardIcon() {
         if (totalRatings >= itemGoal) {
             CCString* itemId = (CCString*)item->objectForKey("id");
             if (! coffers->has_taken_reward(itemId)) { // 没有领取
+                is_show = true;
+                
                 CCString* lightName = CCString::createWithFormat("pic/building/progress/available_light_%d.png", i);
                 CCSprite* light = CCSprite::create(lightName->getCString());
                 _boxNode->addChild(light);
@@ -366,6 +370,7 @@ void BuildingLayer::createCompanyRewardIcon() {
             }
         }
         else { // 若无没有领取的，显示下一个目标
+            is_show = true;
             //
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
             CCSprite* box1 = CCSprite::create(boxName->getCString());
@@ -406,7 +411,7 @@ void BuildingLayer::createCompanyRewardIcon() {
         
         
         // 若无目标（全达成），显示最后一个的已领取状态
-        if (_boxNode == NULL) {
+        if (is_show == false) {
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d_taken.png", 2);
             CCSprite* box1 = CCSprite::create(boxName->getCString());
             CCSprite* box2 = CCSprite::create(boxName->getCString());

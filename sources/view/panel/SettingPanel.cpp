@@ -69,7 +69,7 @@ bool SettingPanel::init(const char *cost) {
             }
         }
 
-        if (! needOpenGift) {
+        if (needOpenGift) {
             CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
             CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
             relogin2->setScale(1.02f);
