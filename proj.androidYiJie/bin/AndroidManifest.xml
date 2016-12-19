@@ -19,14 +19,15 @@ com.mzplay.tiegao.nearme.gamecenter			oppo	can 10 	baiOrYijie 1
 cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
 cn.mzplay.tiegao.mz							魅族		can 12	baiOrYijie 1
 cn.mzplay.tiegao.PPS						爱奇艺	can 13	baiOrYijie 1
+com.iddgame.mzplay.tiegao					东东		can 14	baiOrYijie 1
 
 
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao.huawei"
-    android:versionCode="63"
-    android:versionName="1.6.3">
+    package="cn.mzplay.tiegao.mz"
+    android:versionCode="66"
+    android:versionName="1.6.6">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -111,7 +112,7 @@ cn.mzplay.tiegao.PPS						爱奇艺	can 13	baiOrYijie 1
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.huawei.wxapi.WXEntryActivity" 
+     		android:name="cn.mzplay.tiegao.mz.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
@@ -121,7 +122,7 @@ cn.mzplay.tiegao.PPS						爱奇艺	can 13	baiOrYijie 1
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="cn.mzplay.tiegao.huawei.ActionService" /> 
+				<action android:name="cn.mzplay.tiegao.mz.ActionService" /> 
 			</intent-filter> 
         </service>
         

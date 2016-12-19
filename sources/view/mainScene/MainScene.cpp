@@ -199,8 +199,11 @@ bool MainScene::init(){
                 this->scheduleOnce(SEL_SCHEDULE(&MainScene::setStartGameData), .5f);
             }
         }
+    }else if (CONFIG->baiOrYijie == 3) {// 单独支付
+        JNIController::setUserId(DATA->getLogin()->obtain_sid());
     }
 #endif
+    
     
     
     

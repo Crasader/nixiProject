@@ -20,7 +20,7 @@ void LocalNotifMgr::addFreeGashaponLN(time_t secondDelta) {
 
 void LocalNotifMgr::addTrystLN(time_t secondDelta) {
     if (_delegate) {
-        [_delegate addFreeGashaponLN:secondDelta];
+        [_delegate addTrystLN:secondDelta];
     }
 }
 
@@ -93,5 +93,5 @@ void LocalNotifMgr::nc_tryst(CCObject *pObj) {
     const CCString* name = (CCString*)dic->valueForKey("name");
     CCInteger* nmu = (CCInteger*)dic->objectForKey("num");
     this->dropLocalNotificationByName(name->getCString());
-    this->addFreeGashaponLN(nmu->getValue());
+    this->addTrystLN(nmu->getValue());
 }

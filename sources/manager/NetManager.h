@@ -35,6 +35,8 @@ public:
     
 public:
     NetEnv obtain_net_env();
+    //
+    void get_info_999();
     // channel : iOS = 0, 易接 = 1xx;
     void fast_login_900(const char* uuid, int channel);
     // 直接输入登录才用到
@@ -138,6 +140,7 @@ public:
     void buy_energy_101();
     void exchange_coin_103();
     void verify_order_android_105(string& orderId, string& productId);
+    // 107又给Andoird用了，iOS换乘133
     void verify_order_iOS_107(string& orderId, string& productId);
     // 4 Andoird 旧版使用
     void buy_fee_story_109(const char* id, string& orderId);
@@ -145,6 +148,8 @@ public:
     void buy_fee_story2_111(const char* id, string& orderId);
     // 4 Andoird 补偿使用
     void buchang_story2_113(const char* id);
+    // iOS新支付验证
+    void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
     
 private:
     string generate_sign(int cid, const char* data);

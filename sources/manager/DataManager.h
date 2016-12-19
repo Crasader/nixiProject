@@ -180,8 +180,10 @@ public:
     // 第一次通关
     CC_SYNTHESIZE(bool, _theEndBool, TheEndBool);
     
-    // 专用
-    void updataLoginStatus(float dt);
+    
+    // 监听切换账号
+    void openUpdata();
+    void update(float dt);
     
 private:
 
@@ -190,7 +192,7 @@ private:
     void init_data();
     void handle_protocol(int cid, Value content);
     void start_check_news();
-    void update(float dt);
+    void update_901(float dt);
     
 };
 

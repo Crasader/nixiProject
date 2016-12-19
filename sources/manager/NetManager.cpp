@@ -59,7 +59,7 @@ void NetManager::post_data(int cid, string data)
 {
     LoginComp* login = DATA->getLogin();
     CCString* url = NULL;
-    if (900 == cid || 901 == cid || 903 == cid) {
+    if (999 == cid || 900 == cid || 901 == cid || 903 == cid) {
         url = this->obtain_login_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
     }
     else {
@@ -95,6 +95,10 @@ NetEnv NetManager::obtain_net_env() {
 #endif
 }
 
+void NetManager::get_info_999() {
+    this->post_data(999, string(""));
+}
+
 void NetManager::fast_login_900(const char* uuid, int channel) {
     FastWriter writer;
     Value root;
@@ -102,7 +106,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["type"] = 1;
     root["channel"] = channel;
 //    root["ver"] = "10500";
-    root["ver"] = "10600";
+    root["ver"] = "10602";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -747,5 +751,16 @@ void NetManager::buchang_story2_113(const char *id) {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(113, data);
+}
+
+void NetManager::verify_order_iOS_133(string &orderId, string &productId, const char *receipt) {
+    FastWriter writer;
+    Value root;
+    root["order_id"] = orderId;
+    root["product_id"] = productId;
+    root["receipt"] = receipt;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(133, data);
 }
 

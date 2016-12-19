@@ -48,43 +48,49 @@ using namespace std;
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/ksyun/mi/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
 
-
 /**  应用宝  **/
 //#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
 //#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
-
 
 /**  UC  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/uc/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/uc/AlarmClock"
 
-
 /**  华为  **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/huawei/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/huawei/AlarmClock"
-
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/huawei/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/huawei/AlarmClock"
 
 /**  oppo  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/nearme/gamecenter/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/nearme/gamecenter/AlarmClock"
-
-
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/nearme/gamecenter/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/nearme/gamecenter/AlarmClock"
 
 /**  乐视  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/leshi/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/leshi/AlarmClock"
 
-
-
 /**  魅族  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mz/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/mz/AlarmClock"
-
-
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mz/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/mz/AlarmClock"
 
 /**  爱奇艺  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/PPS/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/PPS/AlarmClock"
+
+/**  东东  **/
+//#define  SDK_TIEGAO_CLASS "com/iddgame/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/iddgame/mzplay/tiegao/AlarmClock"
+
+
+
+
+
+
+/**  单独支付  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/taptap/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/taptap/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+
 
 
 

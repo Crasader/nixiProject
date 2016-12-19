@@ -61,7 +61,7 @@ bool LoginScene::init() {
         CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
         CCLabelTTF* lblVersion = CCLabelTTF::create(strVersion->getCString(), DISPLAY->fangzhengFont(), 20.f);
         lblVersion->setColor(ccORANGE);
-        lblVersion->setPosition(ccp(DISPLAY->W() * 0.85, DISPLAY->H() * 0.04));
+        lblVersion->setPosition(ccp(DISPLAY->W() * 0.85, DISPLAY->H() * 0.055));
         this->addChild(lblVersion);
         
         for (int i = 1; i <= 6; i++) {
@@ -75,7 +75,6 @@ bool LoginScene::init() {
         _views = NULL;
         _temp_account_pwd = NULL;
         _container = NULL;
-        
         
         return true;
     }
@@ -156,6 +155,7 @@ void LoginScene::onEnter() {
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::start_login), "start_login", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::start_regist), "start_regist", NULL);
     
+    nc->addObserver(this, SEL_CallFuncO(&LoginScene::get_info_999), "HTTP_FINISHED_999", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::fast_login_callback_900), "HTTP_FINISHED_900", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::account_login_callback_901), "HTTP_FINISHED_901", NULL);
     nc->addObserver(this, SEL_CallFuncO(&LoginScene::game_login_callback_902), "HTTP_FINISHED_902", NULL);
@@ -182,6 +182,8 @@ void LoginScene::onEnter() {
             break;
     }
     CCLOG("%s", env_info.c_str());
+    
+    NET->get_info_999();
     
     bool autoLogin = DATA->getAutoLogin();
     bool hasSavedAccount = CONFIG->has_saved_account();
@@ -219,13 +221,6 @@ void LoginScene::onEnter() {
         this->show_registview();
         this->show_loginview();
     }
-    
-    
-//    CCString* strVersion = CCString::createWithFormat("v%s - %d", CONFIG->version.c_str(), CONFIG->netId);
-//    CCLabelTTF* lblVersion = CCLabelTTF::create(strVersion->getCString(), DISPLAY->fangzhengFont(), 20.f);
-//    lblVersion->setColor(ccORANGE);
-//    lblVersion->setPosition(ccp(DISPLAY->W() * 0.85, DISPLAY->H() * 0.04));
-//    this->addChild(lblVersion);
 }
 
 void LoginScene::onExit() {
@@ -331,6 +326,28 @@ void LoginScene::start_regist(CCObject *pObj) {
     LOADING->show_loading();
     NET->account_regist_903(account->getCString(), password->getCString(), CONFIG->channelId);
 }
+                                                      
+void LoginScene::get_info_999(CCObject *pObj) {
+    CCDictionary* info = (CCDictionary* )pObj;
+    CCString* copyRight1 = (CCString* )info->objectForKey("copy_right1");
+    CCString* copyRight2 = (CCString* )info->objectForKey("copy_right2");
+    
+    CCSize winsize = CCDirector::sharedDirector()->getWinSize();
+    ccColor3B color = ccc3(41, 21, 11);
+    
+    CCLabelTTF* lblCopyRight1 = CCLabelTTF::create(copyRight1->getCString(), "Arial", 16.f);
+    lblCopyRight1->setAnchorPoint(ccp(0.5, 0.5));
+    lblCopyRight1->setColor(color);
+    lblCopyRight1->setPosition(ccp(winsize.width * 0.5, winsize.height * 0.025));
+    this->addChild(lblCopyRight1);
+    
+    CCLabelTTF* lblCopyRight2 = CCLabelTTF::create(copyRight2->getCString(), "Arial", 16.f);
+    lblCopyRight2->setAnchorPoint(ccp(0.5, 0.5));
+    lblCopyRight2->setColor(color);
+    lblCopyRight2->setPosition(ccp(winsize.width * 0.5, winsize.height * 0.01));
+    this->addChild(lblCopyRight2);
+}
+
 
 void LoginScene::fast_login_callback_900(CCObject *pObj) {
     LOADING->remove();

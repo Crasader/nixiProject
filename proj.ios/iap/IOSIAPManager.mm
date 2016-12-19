@@ -42,16 +42,21 @@ IOSIAPManager* IOSIAPManager::Inst() {
         _instance->_transactions = CCDictionary::create();
         _instance->_transactions->retain();
         
-        CCDictionary* conf = DATA->getLogin()->config();
-        CCInteger* formal = (CCInteger*)conf->objectForKey("formal");
-        if (formal->getValue() == 0) {
-            CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
-            CCStore::sharedStore()->setReceiptVerifyServerUrl(SANDBOX_RECEIPT_VERIFY_URL);
-        }
-        else {
-            CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
-            CCStore::sharedStore()->setReceiptVerifyServerUrl(APPSTORE_RECEIPT_VERIFY_URL);
-        }
+        CCNotificationCenter::sharedNotificationCenter()->addObserver(_instance, SEL_CallFuncO(&IOSIAPManager::nc_verify_iOS_133), "HTTP_FINISHED_133", NULL);
+        
+        CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
+        CCStore::sharedStore()->setReceiptVerifyServerUrl(APPSTORE_RECEIPT_VERIFY_URL);
+        
+//        CCDictionary* conf = DATA->getLogin()->config();
+//        CCInteger* formal = (CCInteger*)conf->objectForKey("formal");
+//        if (formal->getValue() == 0) {
+//            CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
+//            CCStore::sharedStore()->setReceiptVerifyServerUrl(SANDBOX_RECEIPT_VERIFY_URL);
+//        }
+//        else {
+//            CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice);
+//            CCStore::sharedStore()->setReceiptVerifyServerUrl(APPSTORE_RECEIPT_VERIFY_URL);
+//        }
         
         CCStore::sharedStore()->postInitWithTransactionObserver(_instance);
         CCLOG("URL:: %s", CCStore::sharedStore()->getReceiptVerifyServerUrl());
@@ -108,31 +113,30 @@ void IOSIAPManager::transactionCompleted(CCStorePaymentTransaction* transaction)
     }
     
     if (transaction->getTransactionState() == 2) {
-//        this->verifyTransaction(transaction->getProductIdentifier().c_str(),  transaction->getTransactionIdentifier().c_str(), [IOSIAPUtil getReceiptByProductId:transaction]);
-        if (transaction->getReceiptVerifyStatus() == 0) {
+        if (transaction->getReceiptVerifyStatus() == 0) { // 本机验证成功
             std::string orderId = transaction->getTransactionIdentifier();
             std::string productId = transaction->getProductIdentifier();
-            if (productId.compare("tiegao_story") == 0) {
-                CCLOG("购买剧情~");
-                DATA->onChargeRequest(orderId, productId, 0, 0);
-                DATA->onChargeSuccess(orderId);
-                CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_BUY_FINISHED");
-            }
-            else {
-                DATA->onChargeRequest(orderId, productId, 0, 0);
-                DATA->onChargeSuccess(orderId);
-                NET->verify_order_iOS_107(orderId, productId);
-            }
+//            if (productId.compare("tiegao_story") == 0) {
+//                CCLOG("购买剧情~");
+//                DATA->onChargeRequest(orderId, productId, 0, 0);
+//                DATA->onChargeSuccess(orderId);
+//                CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_BUY_FINISHED");
+//            }
+//            else {
+            // 保存待服务器验证的订单
+            _transactions->setObject(transaction, orderId);
+            // 服务器二次验证
+            NET->verify_order_iOS_133(orderId, productId, [IOSIAPUtil getReceiptByProductId:transaction]);
+            this->printTransaction(transaction);
             
-            CCStore::sharedStore()->finishTransaction(transaction);
+//            }
+
         }
         else {
             CCNative::createAlert("支付失败", "验证失败~!", "OK");
             CCNative::showAlert();
         }
     }
-    
-    this->printTransaction(transaction);
 }
 
 void IOSIAPManager::transactionFailed(CCStorePaymentTransaction* transaction) {
@@ -186,10 +190,20 @@ bool IOSIAPManager::isProductLoaded(const char *productId) {
     return CCStore::sharedStore()->isProductLoaded(productId);
 }
 
-void IOSIAPManager::verifyTransaction(const char* proID,
-                                           const char* transcationID,
-                                           const char* receipt) {
-//    MMNetManager::get_instance()->http_1001_check_iOS_order(transcationID, proID, receipt);
+void IOSIAPManager::nc_verify_iOS_133(CCObject* pObj) {
+    CCString* orderId = (CCString* )pObj;
+    CCStorePaymentTransaction* transaction = (CCStorePaymentTransaction* )_transactions->objectForKey(orderId->getCString());
+    if (transaction) {
+        CCStore::sharedStore()->finishTransaction(transaction);
+    }
+    //
+    LOADING->remove();
+    
+    string orderId2 = DATA->getLogin()->obtain_UUID();
+    DATA->onChargeSuccess(orderId2);
+    
+    // TalkingData
+    DATA->onChargeSuccess(orderId->getCString());
 }
 
 void IOSIAPManager::printProducts() {

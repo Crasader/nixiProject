@@ -37,6 +37,8 @@ DataManager* DataManager::Inst() {
     if (_instance == nullptr) {
         _instance = new DataManager();
         _instance->init_data();
+        
+        _instance->openUpdata();
     }
     
     return _instance;
@@ -202,22 +204,33 @@ void DataManager::http_response_handle(int resp_code, string response) {
     }
 }
 // 专用
-void DataManager::updataLoginStatus(float dt){
-    if (JNIController::getLandStatus() == 1) {
-        CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataLoginStatus), this);
-        DATA->relogin();
+void DataManager::openUpdata(){
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if (CONFIG->channelId != 0) {
+        CCDirector::sharedDirector()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
+    }
+#endif
+}
+void DataManager::update(float delta){
+    
+    if (JNIController::getRestartApplication() == 1) {
+        JNIController::setRestartApplication(0);
         
-    }else if (JNIController::getLandStatus() == 2){
-        CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::updataLoginStatus), this);
         DATA->relogin();
     }
 }
+
 
 void DataManager::handle_protocol(int cid, Value content) {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     const char* notif_format = "HTTP_FINISHED_%d";
     CCObject* pData = NULL;
     switch (cid) {
+        case 999: {
+            pData = AppUtil::dictionary_with_json(content);
+        } break;
+            
         case 900: {
             _login->init_with_json(content);
         } break;
@@ -240,9 +253,6 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             this->setFirstOnMainScene(true);
             
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updataLoginStatus), this, 1, false);
-#endif
             
         } break;
         
@@ -681,6 +691,14 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 113: {
             _story->replace_story2_user(content["story2"]);
         } break;
+            
+        case 133: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+            // 返回订单号
+            pData = ccs(content["order_id"].asString());
+        } break;
         
         default:
             break;
@@ -691,10 +709,9 @@ void DataManager::handle_protocol(int cid, Value content) {
 
 void DataManager::start_check_news() {
     CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::update), this);
-    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update_901), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
 }
-
-void DataManager::update(float dt) {
+void DataManager::update_901(float dt){
     NET->check_news_910();
 }
 

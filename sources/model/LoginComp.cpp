@@ -37,7 +37,7 @@ void LoginComp::config_UUID() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     _uuid = cocos2d::extra::CCNative::getOpenUDID();
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    if (CONFIG->baiOrYijie == 0) {// 白包
+    if (CONFIG->baiOrYijie == 0 || CONFIG->baiOrYijie == 3) {// 白包=0、 单独支付=3
         _uuid = JNIController::getOpenId();
     }else if (CONFIG->baiOrYijie == 1){// 易接
         

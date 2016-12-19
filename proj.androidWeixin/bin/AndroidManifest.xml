@@ -4,6 +4,8 @@ cn.mzplay.tiegao
 
 cn.mzplay.tiegao.ksyun.mi					金山云	can 7  	baiOrYijie 1
 
+cn.mzplay.tiegao.taptap						taptap	can 50	baiOrYijie 3
+
 
 cn.mzplay.tiegao.meitu  					美图		can 1  	baiOrYijie 1
 cn.mzplay.tiegao.baidu						百度		can 2  	baiOrYijie 1
@@ -23,7 +25,7 @@ cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao.leshi"
+    package="cn.mzplay.tiegao"
     android:versionCode="61"
     android:versionName="1.6.1">
 	
@@ -57,34 +59,33 @@ cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.GET_TASKS"  />
 	
+	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+	
     <application
-        android:name="com.snowfish.cn.ganga.helper.SFOnlineApplication"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:icon="@drawable/icon" >
         
-        <!-- SplashActivity为闪屏Activity,继承com.snowfish.cn.ganga.helper.SFOnlineSplashActivity
-         并将该Activity设置为程序启动时的Activity -->
-		<activity android:name=".SplashActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden|screenSize" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-		
+        
         <activity android:name=".Tiegao"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask" >
+            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>  
+               <action android:name="android.intent.action.VIEW"/>  
+               <category android:name="android.intent.category.DEFAULT"/>  
+               <data android:scheme="wxec273f8180ceeffb"/>  
+           </intent-filter> 
         </activity>
         
-        <activity
+        <!-- <activity
      		android:name="com.mob.tools.MobUIShell" 
     	 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
@@ -99,71 +100,35 @@ cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
          		<category android:name="android.intent.category.DEFAULT" />
      		</intent-filter>
  			
-    		<!-- 调用新浪原生SDK，需要注册的回调activity -->
+    		调用新浪原生SDK，需要注册的回调activity
     		<intent-filter>
         		<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
         		<category android:name="android.intent.category.DEFAULT" />
     		</intent-filter>
-		</activity>
+		</activity> -->
 		
         
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.leshi.wxapi.WXEntryActivity" 
+     		android:name="cn.mzplay.tiegao.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
      		android:screenOrientation="portrait" 
      		android:launchMode="singleTop" />
  		
+ 		<activity
+            android:name="cn.mzplay.tiegao.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+ 		
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="cn.mzplay.tiegao.leshi.ActionService" /> 
+				<action android:name="cn.mzplay.tiegao.ActionService" /> 
 			</intent-filter> 
         </service>
-        
-        
-        <!-- SNOWFISH SDK -->
-       	
-        
-        <service
-            android:name="com.snowfish.a.a.s.ABGSvc" 
-            android:enabled="true" 
-            android:process="com.snowfish.a.a.bg" >
-            <intent-filter>
-                <action android:name="com.snowfish.a.a.s.ABGSvc" />
-				
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
-        
-        <!-- android:value="{E309AE84-C1785CF4}" >  女  -->
-        <!-- android:value="{2BDCA7CB-81082F19}" >  男  -->
-        <meta-data
-            android:name="com.snowfish.appid" 
-            android:value="{E309AE84-C1785CF4}" >
-        </meta-data>
-        
-        <meta-data
-            android:name="com.snowfish.channelid" 
-            android:value="{4ff036a1-3254eafe}" >
-        </meta-data>
-        
-        <meta-data
-            android:name="com.snowfish.customer" 
-            android:value="SNOWFISH" >
-        </meta-data>
-        <meta-data
-            android:name="com.snowfish.channel" 
-            android:value="SNOWFISH" >
-        </meta-data>
-        <meta-data
-            android:name="com.snowfish.sdk.version" 
-            android:value="1" >
-        </meta-data>
-        <!-- SNOWFISH SDK -->
         
         
         

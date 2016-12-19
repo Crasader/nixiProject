@@ -23,7 +23,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.huawei.Tiegao;
+import cn.mzplay.tiegao.mz.Tiegao;
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
