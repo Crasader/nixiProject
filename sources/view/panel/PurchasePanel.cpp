@@ -108,6 +108,15 @@ void PurchasePanel::init_content() {
     _panel->setPosition(DISPLAY->center());
     _content->addChild(_panel);
     
+    CCSize panelsize = _panel->boundingBox().size;
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCLabelTTF* lblTiShi = CCLabelTTF::create("购买的钻石会通过邮件发放!", DISPLAY->fangzhengFont(), 20);
+    lblTiShi->setColor(DISPLAY->defalutColor());
+    lblTiShi->setPosition(ccp(panelsize.width * 0.5, panelsize.height * 0.93));
+    _panel->addChild(lblTiShi);
+#endif
+    
     CCSprite* txt_close = CCSprite::create("res/pic/txt_close.png");
     txt_close->setPosition(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.14));
     _content->addChild(txt_close);
@@ -305,6 +314,7 @@ void PurchasePanel::send105(){
     
     NET->verify_order_android_105(orderId, productId);
 }
+
 void PurchasePanel::updatePay(float dt){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (JNIController::getSmsStatus() == 1) {
