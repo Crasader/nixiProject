@@ -31,6 +31,7 @@ public:
     void show_from(CCPoint from);
     
     void updatePay(float dt);
+    void sendPay(float dt);
     void send105();
     
 private:

@@ -12,9 +12,13 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -143,44 +147,8 @@ public class WeixinPay {
 		Log.i("main", "<><><><><> tempError0 == " + tempError[0]);
 		if (tempError[0].equals("200")) {
 			try {
-//				Tiegao.setSessionid(tempError[1]);
-//				Tiegao.setLandStatus(1);
-//				
-//				LoginHelper.showMessage("登录成功", instance);
-				
-//				200;
-//				"otherId":"yi34mv5n2qgxbrblzafv1bg6hlv9w6ow",
-//				"return_code":"SUCCESS",
-//				"return_msg":"OK",
-//				"appid":"wxec273f8180ceeffb",
-//				"mch_id":"1421934502",
-//				"nonce_str":"A7PIXmGQm7Q29UnW",
-//				"sign":"2459ED36889E9C8F9F03A248A2110519",
-//				"result_code":"SUCCESS",
-//				"prepay_id":"wx2016121903052715beaaea2e0071969432",
-//				"trade_type":"APP"
-				
-//				"otherId":"yi34mv5n2qgxbrblzafv1bg6hlv9w6ow",
-//				"return_code":"SUCCESS",
-//				"return_msg":"OK",
-//				"appid":"wxec273f8180ceeffb",
-//				"mch_id":"1421934502",
-//				"nonce_str":"DYmNvJztimO2Swgt",
-//				"sign":"E7B7729B5EF43BE3E87A488CDAF3042E",
-//				"result_code":"SUCCESS",
-//				"prepay_id":"wx20161219170927e5c343154f0810594117",
-//				"trade_type":"APP"
-				
 				resultunifiedorder = new HashMap<String, String>();
 				resultunifiedorder = GsonUtil.fromJson(tempError[1], Map.class);
-//				String partnerid = maps.get("mch_id");							// partnerid 
-//				String prepayid = maps.get("prepay_id");						// prepayid
-//				String noncestr = maps.get("nonce_str");						// noncestr
-//				String otherId = maps.get("otherId");
-//				Log.i("main", "<><><><><> partnerid == " + partnerid);
-//				Log.i("main", "<><><><><> prepayid == " + prepayid);
-//				Log.i("main", "<><><><><> noncestr == " + noncestr);
-//				Log.i("main", "<><><><><> otherId == " + otherId);
 				
 				weChatPay();
             } catch (Exception e) {
@@ -188,48 +156,49 @@ public class WeixinPay {
             }
 			return;
 		}else{
-//			Tiegao.setLandStatus(2);
-//			LoginHelper.showMessage("未登录", instance);
+			if (Tiegao.getSmsStatus() == 1) {
+				Tiegao.setSmsStatus(1);
+			}else{
+				Tiegao.setSmsStatus(2);
+			}
+			Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();
+			
 			return;
 		}
 	}
 	
 	
-	
-	
-	
-
-	/** 
-	 * 获取ip地址 
-	 * @return 
-	 */  
-	public static String getHostIP() {  
-	  
-	    String hostIp = "127.0.0.1";
-	    try {  
-	        Enumeration nis = NetworkInterface.getNetworkInterfaces();  
-	        InetAddress ia = null;  
-	        while (nis.hasMoreElements()) {  
-	            NetworkInterface ni = (NetworkInterface) nis.nextElement();  
-	            Enumeration<InetAddress> ias = ni.getInetAddresses();  
-	            while (ias.hasMoreElements()) {  
-	                ia = ias.nextElement();  
-	                if (ia instanceof Inet6Address) {  
-	                    continue;// skip ipv6  
-	                }  
-	                String ip = ia.getHostAddress();  
-	                if (!"127.0.0.1".equals(ip)) {  
-	                    hostIp = ia.getHostAddress();  
-	                    break;  
-	                }  
-	            }  
-	        }  
-	    } catch (SocketException e) {  
-	        Log.i("yao", "SocketException");  
-	        e.printStackTrace();  
-	    }  
-	    return hostIp;  
-	  
+	/**
+	 * 获取ip地址
+	 * @return
+	 */
+	public static String getHostIP() {
+		
+		String hostIp = "127.0.0.1";
+	    try {
+	        Enumeration nis = NetworkInterface.getNetworkInterfaces();
+	        InetAddress ia = null;
+	        while (nis.hasMoreElements()) {
+	            NetworkInterface ni = (NetworkInterface) nis.nextElement();
+	            Enumeration<InetAddress> ias = ni.getInetAddresses();
+	            while (ias.hasMoreElements()) {
+	                ia = ias.nextElement();
+	                if (ia instanceof Inet6Address) {
+	                    continue;// skip ipv6
+	                }
+	                String ip = ia.getHostAddress();
+	                if (!"127.0.0.1".equals(ip)) {
+	                    hostIp = ia.getHostAddress();
+	                    break;
+	                }
+	            }
+	        }
+	    } catch (SocketException e) {
+	        Log.i("yao", "SocketException");
+	        e.printStackTrace();
+	    }
+	    return hostIp;
+	    
 	}
 	
 	
@@ -260,9 +229,6 @@ public class WeixinPay {
 //		price = 1;
 		Log.e("main", "<><> productName == " + productName);
 		
-//		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();
-//		String mzStr = Tiegao.getProductId() + "";
-		
 		LoginCheck();
 	}
 	
@@ -277,51 +243,58 @@ public class WeixinPay {
             payRequest.nonceStr = resultunifiedorder.get("nonce_str");
 			payRequest.partnerId = resultunifiedorder.get("mch_id");
 			payRequest.prepayId = resultunifiedorder.get("prepay_id");
-			payRequest.packageValue = "Sign=WXPay";
-//			payRequest.packageValue = "prepay_id=" + resultunifiedorder.get("prepay_id");
-			
+			payRequest.packageValue = "Sign=WXPay";			
 		}else {
 			Toast.makeText(instance, "请重新支付", Toast.LENGTH_SHORT).show();
 		}
 				
-		payRequest.timeStamp = String.valueOf(genTimeStamp());;
+		payRequest.timeStamp = String.valueOf(genTimeStamp());
+		
 		Log.i("main", "<><><><><> payRequest.timeStamp == " + payRequest.timeStamp);
 		
-		
 		// 本地再次签名
-        List<NameValuePair> signParams = new LinkedList<NameValuePair>();
-        signParams.add(new BasicNameValuePair("appid", payRequest.appId));
-        signParams.add(new BasicNameValuePair("noncestr", payRequest.nonceStr));
-        signParams.add(new BasicNameValuePair("package", payRequest.packageValue));
-        signParams.add(new BasicNameValuePair("partnerid", payRequest.partnerId));
-        signParams.add(new BasicNameValuePair("prepayid", payRequest.prepayId));
-        signParams.add(new BasicNameValuePair("timestamp", payRequest.timeStamp));
-//        payRequest.sign = genAppSign(signParams, resultunifiedorder.get("otherId"));
-//        APPKey:				yi34mv5n2qgxbrblzafv1bg6hlv9w6ow
-        payRequest.sign = genAppSign(signParams, "yi34mv5n2qgxbrblzafv1bg6hlv9w6ow");
+		SortedMap<Object,Object> signParams = new TreeMap<Object,Object>();
+		signParams.put("appid", "" + payRequest.appId);  
+		signParams.put("noncestr", "" + payRequest.nonceStr);  
+		signParams.put("package", "" + payRequest.packageValue);  
+		signParams.put("partnerid", "" + payRequest.partnerId);  
+		signParams.put("prepayid", "" + payRequest.prepayId);
+		signParams.put("timestamp", "" + payRequest.timeStamp);
+        payRequest.sign = createSign(signParams, "UTF-8", resultunifiedorder.get("otherId"));
         payRequest.extData = "app data";
+        Log.e("main", "<><><> sign === " + payRequest.sign);
         
 		// 最后发起请求就可以了
-        msgApi.registerApp(APP_ID);  
+        msgApi.registerApp(APP_ID);
         msgApi.sendReq(payRequest);
 	}
-	private static String genAppSign(List<NameValuePair> params, String otherId) {
-		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 0; i < params.size(); i++) {
-			sb.append(params.get(i).getName());
-			sb.append('=');
-			sb.append(params.get(i).getValue());
-			sb.append('&');
-		}
-		sb.append("key=");
-		sb.append(otherId);
-		
-		sb.append("sign str\n" + sb.toString() + "\n\n");
-		String appSign = MD5.getMessageDigest(sb.toString().getBytes());
-		Log.e("orion", appSign);
-		return appSign;
-	}
+	
+	/**
+     * 微信支付签名算法sign
+     * @param characterEncoding
+     * @param parameters
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static String createSign(SortedMap<Object,Object> parameters, String characterEncoding, String otherId){
+        StringBuffer sb = new StringBuffer();
+        Set es = parameters.entrySet();//所有参与传参的参数按照accsii排序（升序）
+        Iterator it = es.iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            String k = (String)entry.getKey();
+            Object v = entry.getValue();
+            if(null != v && !"".equals(v)
+                    && !"sign".equals(k) && !"key".equals(k)) {
+                sb.append(k + "=" + v + "&");
+            }
+        }
+        sb.append("key=" + otherId);
+        Log.e("main", "<><><> sb === " + sb.toString());
+        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();  
+        
+        return sign;
+    }
 	
 	
 }

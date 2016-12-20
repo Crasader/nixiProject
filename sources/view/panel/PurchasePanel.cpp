@@ -314,7 +314,15 @@ void PurchasePanel::updatePay(float dt){
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
         
         LOADING->show_loading();
-        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
+        string orderId = JNIController::getCpOrderId();
+        string productId = JNIController::getProductId();
+        CCString* iapId = CCString::createWithFormat("%d钻石", JNIController::getGoldStatus());
+        
+        DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus()/100, JNIController::getGoldStatus());
+        
+        
+//        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
+        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::sendPay), 2.f);
     }else if (JNIController::getSmsStatus() == 2) {
         LOADING->remove();
         
@@ -325,6 +333,17 @@ void PurchasePanel::updatePay(float dt){
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
     }
 #endif
+}
+void PurchasePanel::sendPay(float dt){
+    LOADING->remove();
+    this->update_content();
+    
+    string orderId = JNIController::getCpOrderId();
+    DATA->onChargeSuccess(orderId);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "钻石购买成功~!\n稍后请去邮件查收.");
 }
 
 void PurchasePanel::keyBackClicked(){

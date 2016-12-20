@@ -80,7 +80,9 @@ using namespace std;
 //#define  SDK_TIEGAO_CLASS "com/iddgame/mzplay/tiegao/Tiegao"
 //#define  SDK_CLOCK_CLASS "com/iddgame/mzplay/tiegao/AlarmClock"
 
-
+/**  当乐  **/
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/downjoy/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/downjoy/AlarmClock"
 
 
 

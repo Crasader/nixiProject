@@ -59,20 +59,44 @@ bool SettingPanel::init(const char *cost) {
         _panel->addChild(menu);
         
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
-        CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
-        relogin2->setScale(1.02f);
-        CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
+        bool needOpenGift = false;
         
-        CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
-        CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
-        gift2->setScale(1.02f);
-        CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+        CCDictionary* conf = DATA->getLogin()->config();
+        if (conf) {
+            CCInteger* formal = (CCInteger*)conf->objectForKey("formal");
+            if (formal && formal->getValue() == 1) {
+                needOpenGift = true;
+            }
+        }
+
+        if (! needOpenGift) {
+            CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
+            CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
+            relogin2->setScale(1.02f);
+            CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
+            
+            CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
+            CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
+            gift2->setScale(1.02f);
+            CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+            
+            CCMenu* menuBottom = CCMenu::create(btnGift, btnRelogin, NULL);
+            menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
+            menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+            _panel->addChild(menuBottom);
+        }
+        else {
+            CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
+            CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
+            relogin2->setScale(1.02f);
+            CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
+            
+            CCMenu* menuBottom = CCMenu::create(btnRelogin, NULL);
+            menuBottom->setPosition(ccp(panelSize.width * 0.82, panelSize.height * 0.14));
+            _panel->addChild(menuBottom);
+        }
+
         
-        CCMenu* menuBottom = CCMenu::create(btnGift, btnRelogin, NULL);
-        menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
-        menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
-        _panel->addChild(menuBottom);
         
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");

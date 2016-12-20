@@ -24,9 +24,24 @@ void Reward::init_with_json(Value json) {
         return;
     }
     
-    coin = json["coin"].asInt();
-    diam = json["diam"].asInt();
-    energy = json["energy"].asInt();
+    if (json.isMember("coin")) {
+        coin = json["coin"].asInt();
+    }
+    else {
+        coin = 0;
+    }
+    if (json.isMember("diam")) {
+        diam = json["diam"].asInt();
+    }
+    else {
+        diam = 0;
+    }
+    if (json.isMember("energy")) {
+        energy = json["energy"].asInt();
+    }
+    else {
+        energy = 0;
+    }
 }
 
 void Reward::print_self() {

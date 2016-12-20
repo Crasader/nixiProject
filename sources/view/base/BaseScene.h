@@ -88,6 +88,8 @@ private:
     void nc_gold_fly_completed(CCObject* pObj);
     void nc_energy_fly_completed(CCObject* pObj);
     
+    void nc_take_gift_333(CCObject *pObj);
+    
 private:
     CCSprite*                   _phaseStar;
     CCProgressTimer*            _progress;
