@@ -13,6 +13,7 @@
 #include "AudioManager.h"
 #include "Reward.h"
 #include "Loading2.h"
+#include "PromptLayer.h"
 
 #define CELL_WIDTH          542
 #define CELL_HEIGHT         228
@@ -191,17 +192,38 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     }
     cell->setUserObject(reward_icons);
     
-    CCSprite* delete1 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
-    CCSprite* delete2 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
-    delete2->setScale(DISPLAY->btn_scale());
-    CCMenuItemSprite* btn_delete = CCMenuItemSprite::create(delete1, delete2, this, SEL_MenuHandler(&MailPanel::on_mail_delete));
-    btn_delete->setUserData(&(item->id));
+    // 支付邮件去掉删除按钮
+    if (item->sender.compare("sys_order") == 0) {
+        CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+        CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+        take2->setScale(DISPLAY->btn_scale());
+        CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&MailPanel::on_mail_take));
+        btn_take->setUserData(&(item->id));
+        
+        CCMenu* menu = CCMenu::create(btn_take, NULL);
+        menu->setPosition(ccp(CELL_WIDTH * 0.76, CELL_HEIGHT * 0.18));
+        cell->addChild(menu);
+    }
+    else {
+        CCSprite* delete1 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
+        CCSprite* delete2 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
+        delete2->setScale(DISPLAY->btn_scale());
+        CCMenuItemSprite* btn_delete = CCMenuItemSprite::create(delete1, delete2, this, SEL_MenuHandler(&MailPanel::on_mail_delete));
+        btn_delete->setUserData(&(item->id));
+        
+        CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+        CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
+        take2->setScale(DISPLAY->btn_scale());
+        CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&MailPanel::on_mail_take));
+        btn_take->setUserData(&(item->id));
+        
+        CCMenu* menu = CCMenu::create(btn_delete, btn_take, NULL);
+        menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.32);
+        menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
+        cell->addChild(menu);
+    }
     
-    CCSprite* take1 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
-    CCSprite* take2 = CCSprite::create("res/pic/panel/mail/mail_btn_take.png");
-    take2->setScale(DISPLAY->btn_scale());
-    CCMenuItemSprite* btn_take = CCMenuItemSprite::create(take1, take2, this, SEL_MenuHandler(&MailPanel::on_mail_take));
-    btn_take->setUserData(&(item->id));
+
     /* 去掉回复按钮
     CCSprite* reply1 = CCSprite::create("res/pic/panel/mail/mail_btn_reply.png");
     CCSprite* reply2 = CCSprite::create("res/pic/panel/mail/mail_btn_reply.png");
@@ -214,10 +236,6 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
     cell->addChild(menu);
     */
-    CCMenu* menu = CCMenu::create(btn_delete, btn_take, NULL);
-    menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.32);
-    menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
-    cell->addChild(menu);
 }
 
 void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
@@ -250,6 +268,9 @@ void MailPanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
         _tv->reloadData();
         LOADING->remove();
     }
+    
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "操作成功~!");
 }
 
 void MailPanel::display_reward_take(int mail_id) {
