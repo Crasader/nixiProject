@@ -1,5 +1,7 @@
 package cn.mzplay.tiegao;
 
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +53,7 @@ public class WeixinPay {
 	private static int price;
 	
 	private static Map<String,String> resultunifiedorder;
-	   
+	
 	public WeixinPay(Activity act){
 		instance = act;
 		
@@ -72,11 +74,11 @@ public class WeixinPay {
         //Post运作传送变数必须用NameValuePair[]阵列储存
         //传参数 服务端获取的方法为request.getParameter("name")
         List <NameValuePair> params = new ArrayList<NameValuePair>();
-        Log.i("main", "<><><><><> IP === " + getHostIP());
+//        Log.i("main", "<><><><><> IP === " + getHostIP());
         params.add(new BasicNameValuePair("ip", "" + getHostIP())); //对应参数 属性， value
         params.add(new BasicNameValuePair("product_id", "" + Tiegao.getProductId()));
         params.add(new BasicNameValuePair("sid", "" + Tiegao.getUserId()));
-        Log.i("main","<<<<<<<< params >>>>>>>>");
+//        Log.i("main","<<<<<<<< params >>>>>>>>");
         try{
         	
         	//发出HTTP request
@@ -91,12 +93,12 @@ public class WeixinPay {
             }
             InputStream reader = httpResponse.getEntity().getContent();
             if (reader != null) {
-            	Log.i("main","<<<<<<<< Receive the server data successfully >>>>>>>>");
+//            	Log.i("main","<<<<<<<< Receive the server data successfully >>>>>>>>");
             	String aa = convertStreamToString(reader);
             	isAnalyticString(aa);
             }else {
             	
-            	Log.i("main","<<<<<<<< Receive data server failure >>>>>>>>");
+//            	Log.i("main","<<<<<<<< Receive data server failure >>>>>>>>");
             }
         }catch(ClientProtocolException e){
         	
@@ -135,7 +137,7 @@ public class WeixinPay {
 			}
 		}
 		String isReader = sb.toString();
-		Log.e("main", "<<<<<<<< isReadersb.toString() ======== " + isReader + " >>>>>>>>");
+//		Log.e("main", "<<<<<<<< isReadersb.toString() ======== " + isReader + " >>>>>>>>");
 		return isReader;
 	}
 	
@@ -143,10 +145,11 @@ public class WeixinPay {
 		String[] tempError = null;
 		tempError = str.split(";");
 		
-		Log.i("main","<<<<<<<< tempError ===== " + tempError + " >>>>>>>>");
-		Log.i("main", "<><><><><> tempError0 == " + tempError[0]);
+//		Log.i("main","<<<<<<<< tempError ===== " + tempError + " >>>>>>>>");
+//		Log.i("main", "<><><><><> tempError0 == " + tempError[0]);
 		if (tempError[0].equals("200")) {
 			try {
+				
 				resultunifiedorder = new HashMap<String, String>();
 				resultunifiedorder = GsonUtil.fromJson(tempError[1], Map.class);
 				
@@ -156,16 +159,15 @@ public class WeixinPay {
             }
 			return;
 		}else{
-			if (Tiegao.getSmsStatus() == 1) {
-				Tiegao.setSmsStatus(1);
-			}else{
-				Tiegao.setSmsStatus(2);
-			}
-			Toast.makeText(instance, "支付失败", Toast.LENGTH_LONG).show();
-			
+//			Tiegao.setLandStatus(2);
+//			LoginHelper.showMessage("未登录", instance);
 			return;
 		}
 	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -174,7 +176,7 @@ public class WeixinPay {
 	 */
 	public static String getHostIP() {
 		
-		String hostIp = "127.0.0.1";
+	    String hostIp = "127.0.0.1";
 	    try {
 	        Enumeration nis = NetworkInterface.getNetworkInterfaces();
 	        InetAddress ia = null;
@@ -198,7 +200,7 @@ public class WeixinPay {
 	        e.printStackTrace();
 	    }
 	    return hostIp;
-	    
+	  
 	}
 	
 	
@@ -227,7 +229,10 @@ public class WeixinPay {
 		
 		price = Tiegao.getMoneyStatus();
 //		price = 1;
-		Log.e("main", "<><> productName == " + productName);
+//		Log.e("main", "<><> productName == " + productName);
+		
+//		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();
+//		String mzStr = Tiegao.getProductId() + "";
 		
 		LoginCheck();
 	}
@@ -236,33 +241,35 @@ public class WeixinPay {
 	private static long genTimeStamp() {
 		return System.currentTimeMillis() / 1000;
 	}
-	public static void weChatPay(){		
+	public static void weChatPay(){
 		PayReq payRequest = new PayReq();
 		payRequest.appId = APP_ID;
 		if (resultunifiedorder != null) {
             payRequest.nonceStr = resultunifiedorder.get("nonce_str");
 			payRequest.partnerId = resultunifiedorder.get("mch_id");
 			payRequest.prepayId = resultunifiedorder.get("prepay_id");
-			payRequest.packageValue = "Sign=WXPay";			
+			payRequest.packageValue = "Sign=WXPay";
 		}else {
 			Toast.makeText(instance, "请重新支付", Toast.LENGTH_SHORT).show();
 		}
-				
+		
 		payRequest.timeStamp = String.valueOf(genTimeStamp());
 		
-		Log.i("main", "<><><><><> payRequest.timeStamp == " + payRequest.timeStamp);
+//		Log.i("main", "<><><><><> payRequest.timeStamp == " + payRequest.timeStamp);
 		
 		// 本地再次签名
 		SortedMap<Object,Object> signParams = new TreeMap<Object,Object>();
-		signParams.put("appid", "" + payRequest.appId);  
-		signParams.put("noncestr", "" + payRequest.nonceStr);  
-		signParams.put("package", "" + payRequest.packageValue);  
-		signParams.put("partnerid", "" + payRequest.partnerId);  
+		signParams.put("appid", "" + payRequest.appId);
+		signParams.put("noncestr", "" + payRequest.nonceStr);
+		signParams.put("package", "" + payRequest.packageValue);
+		signParams.put("partnerid", "" + payRequest.partnerId);
 		signParams.put("prepayid", "" + payRequest.prepayId);
 		signParams.put("timestamp", "" + payRequest.timeStamp);
         payRequest.sign = createSign(signParams, "UTF-8", resultunifiedorder.get("otherId"));
         payRequest.extData = "app data";
-        Log.e("main", "<><><> sign === " + payRequest.sign);
+//        Log.e("main", "<><><> sign === " + payRequest.sign);
+        
+        Tiegao.setCpOrderId("" + payRequest.prepayId);
         
 		// 最后发起请求就可以了
         msgApi.registerApp(APP_ID);
@@ -291,7 +298,7 @@ public class WeixinPay {
         }
         sb.append("key=" + otherId);
         Log.e("main", "<><><> sb === " + sb.toString());
-        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();  
+        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         
         return sign;
     }

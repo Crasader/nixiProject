@@ -70,6 +70,7 @@ public class Tiegao extends Cocos2dxActivity {
 	public static int goldStatus = 0;
 	public static int shareStatus = 0;
 	public static int payIndex = 0;
+	public static int channelId = 0;
 	
 	
 	@Override
@@ -96,6 +97,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// 16366125DB1F4C8F8D0D2FB72AB03F5A		华为
 		// E16E462BDA5642D7B47D28E24779DBDA		oppo
 		// DE07CD19F8CF42B191BC300FB25268FB		乐视
+		// 65007806CDEB494CA09C780487E3580D		taptap
 		
 		
 		// 3812FAF07E794E8FA24F1C8B5F1D8554 	鱼丸
@@ -105,7 +107,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试1
 		// 9C58D9E0BC45489B8920B2712A35AE35		测试2
 		
-		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
+		TalkingDataGA.init(instance, "65007806CDEB494CA09C780487E3580D", "mzplay");
 		
 	}
 	
@@ -226,7 +228,15 @@ public class Tiegao extends Cocos2dxActivity {
 	}
 	
 	
-	
+
+    // 获取channelId
+    public static int getChannelId(){
+        return channelId;
+    }
+    public static void setChannelId(int index){
+        channelId = index;
+    }
+
 	// 获取用户信息
 	public static String getShareImage(){
 		return shareImage;

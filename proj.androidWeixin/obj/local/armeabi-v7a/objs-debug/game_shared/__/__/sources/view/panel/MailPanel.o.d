@@ -275,7 +275,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/panel/MailPanel.
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/model/Reward.h \
- jni/../../sources/view/common/Loading2/Loading2.h
+ jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/panel/MailPanel.h:
 
@@ -842,3 +843,5 @@ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 jni/../../sources/model/Reward.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

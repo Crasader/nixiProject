@@ -331,6 +331,16 @@ extern "C"
     	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
 #endif
     }
+    void JNIController::setChannelId(int channelId){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    	JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "setChannelId", "(I)V")){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID, jni_methodInfo.methodID,channelId);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
     int  JNIController::getSmsStatus(){
         int ret = 0;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

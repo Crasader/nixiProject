@@ -88,8 +88,6 @@ using namespace std;
 
 
 /**  单独支付  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/taptap/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/taptap/AlarmClock"
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
@@ -151,6 +149,7 @@ extern "C"
         
         // 支付
         static void isGamePay(int smsIndex);
+        static void setChannelId(int channelId);
         static int  getSmsStatus();
         static void setSmsStatus(int status);
         static void setProductId(char const*  str);

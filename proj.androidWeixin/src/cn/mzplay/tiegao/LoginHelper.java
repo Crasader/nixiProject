@@ -23,7 +23,8 @@ public class LoginHelper {
 		public String orderId;
 	}
     //	创建
-	static public final String CP_ORDER_URL = "http://192.168.1.234:9765/weixin/order";
+//	static public final String CP_ORDER_URL = "http://nixi.yunlookgame.cn:9765/weixin/order";
+	static public final String CP_ORDER_URL = "http://tiegao.yunlookgame.cn:9765/weixin/order";
 	
 	public static final boolean DEBUG	= false;
     private static LoginHelper instance = null;

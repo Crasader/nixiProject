@@ -27,8 +27,8 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.mzplay.tiegao.mz"
-    android:versionCode="66"
-    android:versionName="1.6.6">
+    android:versionCode="67"
+    android:versionName="1.6.7">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />

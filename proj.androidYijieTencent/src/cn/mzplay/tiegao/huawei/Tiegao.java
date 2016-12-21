@@ -232,8 +232,16 @@ public class Tiegao extends Cocos2dxActivity {
 		shareStatus = status;
 	}
 	
-	
-	
+
+
+    // 获取channelId
+    public static int getChannelId(){
+        return channelId;
+    }
+    public static void setChannelId(int index){
+        channelId = index;
+    }
+
 	// 获取用户信息
 	public static String getShareImage(){
 		return shareImage;

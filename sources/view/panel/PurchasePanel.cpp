@@ -288,6 +288,8 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
             DATA->onEvent("支付意向", "支付界面", "点击购买钻石");
         }else if (CONFIG->openPay == 1){
             LOADING->show_loading();
+            
+            JNIController::setChannelId(CONFIG->channelId);
             JNIController::setMoneyStatus(pro->money * 100);
             JNIController::setGoldStatus(pro->diam);
             JNIController::setPlayerName(DATA->getShow()->nickname());
@@ -353,7 +355,7 @@ void PurchasePanel::sendPay(float dt){
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "钻石购买成功~!\n稍后请去邮件查收.");
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "购买成功~!稍后请去邮件查收.");
 }
 
 void PurchasePanel::keyBackClicked(){

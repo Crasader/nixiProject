@@ -74,6 +74,7 @@ public class Tiegao extends Cocos2dxActivity {
 	public static int shareStatus = 0;
 	public static int payIndex = 0;
 	public static int baiduIndex = 0;
+	public static int channelId = 0;
 	
 	public static boolean openProductId;
 	
@@ -255,6 +256,14 @@ public class Tiegao extends Cocos2dxActivity {
 	}
 	
 	
+	// 获取channelId
+	public static int getChannelId(){
+		return channelId;
+	}
+	public static void setChannelId(int index){
+		channelId = index;
+	}
+		
 	
 	// 获取用户信息
 	public static String getShareImage(){

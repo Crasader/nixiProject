@@ -5,7 +5,7 @@ package cn.mzplay.tiegao;
 import java.security.MessageDigest;
 
 public class MD5 {
-
+	
 	private MD5() {}
 	
 	public final static String getMessageDigest(byte[] buffer) {

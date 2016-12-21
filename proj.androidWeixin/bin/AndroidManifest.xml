@@ -4,7 +4,7 @@ cn.mzplay.tiegao
 
 cn.mzplay.tiegao.ksyun.mi					金山云	can 7  	baiOrYijie 1
 
-cn.mzplay.tiegao.taptap						taptap	can 50	baiOrYijie 3
+cn.mzplay.tiegao							taptap	can 50	baiOrYijie 3
 
 
 cn.mzplay.tiegao.meitu  					美图		can 1  	baiOrYijie 1
@@ -26,8 +26,8 @@ cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.mzplay.tiegao"
-    android:versionCode="62"
-    android:versionName="1.6.2">
+    android:versionCode="65"
+    android:versionName="1.6.5">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -85,7 +85,7 @@ cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
            </intent-filter> 
         </activity>
         
-        <!-- <activity
+        <activity
      		android:name="com.mob.tools.MobUIShell" 
     	 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
@@ -100,12 +100,12 @@ cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
          		<category android:name="android.intent.category.DEFAULT" />
      		</intent-filter>
  			
-    		调用新浪原生SDK，需要注册的回调activity
+    		<!-- 调用新浪原生SDK，需要注册的回调activity -->
     		<intent-filter>
         		<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
         		<category android:name="android.intent.category.DEFAULT" />
     		</intent-filter>
-		</activity> -->
+		</activity>
 		
         
         

@@ -231,12 +231,14 @@ public class YijieLayer{
 		}
 		
 		
-		price = Tiegao.getMoneyStatus()/100;
+		price = Tiegao.getMoneyStatus();
 //		price = 1;
-		Log.e("main", "<><> price == " + price);
+//		Log.e("main", "<><> price == " + price);
+		
+		String channelStr = "" + Tiegao.getChannelId();
 		
 //		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();// 普通发送
-		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId() + ";" + "12";// 邮件发送
+		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId() + ";" + channelStr;// 邮件发送
 //		String mzStr = Tiegao.getProductId() + "";
 		
 		// 其它
