@@ -8,6 +8,7 @@
 
 #include "ConfigManager.h"
 #include "DataManager.h"
+#include "WSManager.h"
 #include "AudioManager.h"
 #include "SpecialManager.h"
 #include "LogoScene.h"
@@ -183,6 +184,7 @@ void AppDelegate::applicationDidEnterBackground()
     AUDIO->pause_effects();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_BACKGROUND_EVENT");
     DATA->setChatOut(true);
+    WSManager::Inst()->disconnect();
 }
 
 // this function will be called when the app is active again
@@ -196,6 +198,7 @@ void AppDelegate::applicationWillEnterForeground()
     AUDIO->resume_all_effects();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_FOREGROUND_EVENT");
     DATA->setChatOut(false);
+    WSManager::Inst()->connect();
 }
 
 void AppDelegate::setProjectConfig(const ProjectConfig& config)
