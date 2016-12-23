@@ -69,11 +69,12 @@ void GashaponLayer::keyBackClicked(){
     num_child++;
     CCLog("===== GashaponLayer  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 

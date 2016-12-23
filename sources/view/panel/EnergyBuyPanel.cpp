@@ -166,7 +166,7 @@ void EnergyBuyPanel::do_exit() {
 
 void EnergyBuyPanel::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -191,6 +191,7 @@ void EnergyBuyPanel::keyBackClicked(){
     num_child++;
     CCLog("===== EnergyBuyPanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

@@ -230,7 +230,7 @@ void PurchasePanel::do_exit() {
 
 void PurchasePanel::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -284,12 +284,14 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
             
             NET->verify_order_iOS_107(orderId, pro->id);
         }
-    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
+    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2 || CONFIG->baiOrYijie == 3){// 易接
         if (CONFIG->openPay == 0) {
             // talkingData
             DATA->onEvent("支付意向", "支付界面", "点击购买钻石");
         }else if (CONFIG->openPay == 1){
             LOADING->show_loading();
+            
+            JNIController::setChannelId(CONFIG->channelId);
             JNIController::setMoneyStatus(pro->money * 100);
             JNIController::setGoldStatus(pro->diam);
             JNIController::setPlayerName(DATA->getShow()->nickname());
@@ -326,7 +328,15 @@ void PurchasePanel::updatePay(float dt){
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
         
         LOADING->show_loading();
-        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
+        string orderId = JNIController::getCpOrderId();
+        string productId = JNIController::getProductId();
+        CCString* iapId = CCString::createWithFormat("%d钻石", JNIController::getGoldStatus());
+        
+        DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus()/100, JNIController::getGoldStatus());
+        
+        
+//        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
+        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::sendPay), 2.f);
     }else if (JNIController::getSmsStatus() == 2) {
         LOADING->remove();
         
@@ -338,11 +348,23 @@ void PurchasePanel::updatePay(float dt){
     }
 #endif
 }
+void PurchasePanel::sendPay(float dt){
+    LOADING->remove();
+    this->update_content();
+    
+    string orderId = JNIController::getCpOrderId();
+    DATA->onChargeSuccess(orderId);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "购买成功~!稍后请去邮件查收.");
+}
 
 void PurchasePanel::keyBackClicked(){
     num_child++;
     CCLog("===== PurchasePanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

@@ -15,6 +15,8 @@
 #include "Loading2.h"
 #include "PromptLayer.h"
 #include "LoginScene.h"
+#include "JNIController.h"
+#include "YiJieLoginScene.h"
 
 #include "TDCCTalkingDataGA.h"
 #include "TDCCVirtualCurrency.h"
@@ -35,6 +37,8 @@ DataManager* DataManager::Inst() {
     if (_instance == nullptr) {
         _instance = new DataManager();
         _instance->init_data();
+        
+        _instance->openUpdata();
     }
     
     return _instance;
@@ -196,6 +200,24 @@ void DataManager::http_response_handle(int resp_code, string response) {
         }
     }
 }
+// 专用
+void DataManager::openUpdata(){
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if (CONFIG->channelId != 0) {
+        CCDirector::sharedDirector()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
+    }
+#endif
+}
+void DataManager::update(float delta){
+    
+    if (JNIController::getRestartApplication() == 1) {
+        JNIController::setRestartApplication(0);
+        
+        DATA->relogin();
+    }
+}
+
 
 void DataManager::handle_protocol(int cid, Value content) {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
@@ -228,6 +250,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
+            
+            
         } break;
         
         case 903: {
@@ -687,17 +711,20 @@ void DataManager::handle_protocol(int cid, Value content) {
 
 void DataManager::start_check_news() {
     CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::update), this);
-    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update_901), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
 }
-
-void DataManager::update(float dt) {
+void DataManager::update_901(float dt){
     NET->check_news_910();
 }
 
 void DataManager::relogin() {
     WS->disconnect();
     this->setHasLogin(false);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCDirector::sharedDirector()->replaceScene(LoginScene::scene());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    CCDirector::sharedDirector()->replaceScene(YiJieLoginScene::scene());
+#endif
 }
 
 void DataManager::creat_Energy_Time(){

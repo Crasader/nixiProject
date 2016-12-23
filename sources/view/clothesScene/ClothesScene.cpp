@@ -208,6 +208,7 @@ void ClothesScene::keyBackClicked(){
     num_child++;
     CCLog("===== ClothesScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -1267,6 +1268,7 @@ void ClothesScene::guideButtonCallBack(){
 void ClothesScene::_605CallBack(CCObject* pObj){
     LOADING->remove();
     
+    num_child = 0;
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -1291,11 +1293,13 @@ void ClothesScene::backCallBack(CCObject* pSender){
         if (DATA->getHomeBool()) {
             DATA->setHomeBool(false);
             
+            num_child = 0;
             CCScene* scene = HomeLayer::scene();
             CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
             CCDirector::sharedDirector()->replaceScene(trans);
         }else{
             if (clothesStatus == 1) {// 任务
+                num_child = 0;
                 CCLayer* layer = TaskScene::create(false);
                 CCScene* scene = CCScene::create();
                 scene->addChild(layer);
@@ -1310,6 +1314,7 @@ void ClothesScene::backCallBack(CCObject* pSender){
                 }else if (DATA->current_guide_step() == 4){
                     
                 }else{
+                    num_child = 0;
                     CCScene* scene = MainScene::scene();
                     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                     CCDirector::sharedDirector()->replaceScene(trans);

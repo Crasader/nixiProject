@@ -313,6 +313,7 @@ void TaskStoryScene::keyBackClicked(){
     num_child++;
 //    CCLog("===== TaskStoryScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -406,6 +407,7 @@ void TaskStoryScene::backCallBack(CCObject* pSender){
 }
 
 void TaskStoryScene::goTaskScene(){
+    num_child = 0;
     CCLayer* layer = TaskScene::create(false);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

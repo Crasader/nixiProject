@@ -218,6 +218,7 @@ void TaskSettlementLayer2::keyBackClicked(){
     num_child++;
     CCLog("===== TaskSettlementLayer2  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -286,11 +287,13 @@ void TaskSettlementLayer2::exit() {
     AUDIO->goback_effect();
     
     if (this->is_mystery) {
+        num_child = 0;
         CCScene* scene = MainScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
     else {
+        num_child = 0;
         CCLayer* layer = TaskScene::create(_isPhaseUP);
         CCScene* scene = CCScene::create();
         scene->addChild(layer);

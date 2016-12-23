@@ -87,6 +87,7 @@ void TaskSettlementLayer::keyBackClicked(){
     num_child++;
     CCLog("===== TaskSettlementLayer  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -803,7 +804,7 @@ void TaskSettlementLayer::initClothes(){//穿衣服
 
 void TaskSettlementLayer::exit() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     CCLayer* layer = TaskScene::create(1);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

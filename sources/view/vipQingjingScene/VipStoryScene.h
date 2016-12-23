@@ -207,6 +207,33 @@ public:
     void LabelColorFhCallBack(CCObject* pSender);
     
     void _507CallBack(CCObject* pSender);
+    
+    
+    
+    bool judge_biaoqing(VipDialogItem* dialItem, int index);
+    void init_biaoqing(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation20(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation21(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation22(VipDialogItem* dialItem, int index, CCSprite* spr);
+    CCSprite* _22Spr1;
+    void _22CallFunc();
+    void creat_Animation30(VipDialogItem* dialItem, int index, CCSprite* spr);
+    CCSprite* _30Spr2;
+    void _30CallFunc();
+    void creat_Animation50(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation60(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation70(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void _70CallFunc();
+    void creat_Animation71(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation72(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation73(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation74(VipDialogItem* dialItem, int index, CCSprite* spr);
+    void creat_Animation75(VipDialogItem* dialItem, int index, CCSprite* spr);
+    CCSprite* _75Spr1;
+    void _75CallFunc();
+    void creat_Animation76(VipDialogItem* dialItem, int index, CCSprite* spr);
+    int animation77Index;
+    void creat_Animation77(VipDialogItem* dialItem, int index, CCSprite* spr);
 };
 
 #endif /* defined(__mm3c__VipStoryScene__) */

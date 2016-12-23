@@ -160,6 +160,7 @@ bool TrystRewardPanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *
 
 void TrystRewardPanel::remove() {
     this->do_exit();
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -167,6 +168,7 @@ void TrystRewardPanel::keyBackClicked(){
     num_child++;
     CCLog("===== TrystRewardPanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

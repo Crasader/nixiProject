@@ -17,6 +17,7 @@
 #include "VipStorySettlementOfTheAnimationLayer.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "StringUtil.h"
 
 
 VipStoryScene::VipStoryScene(){
@@ -454,6 +455,12 @@ void VipStoryScene::creatMan(float dt){
         headSpr1->setVisible(false);
         this->addChild(headSpr1, 6);
         
+        
+        if (judge_biaoqing(vipDialogItem, 1)) {
+            this->init_biaoqing(vipDialogItem, 1, headSpr1);
+        }
+        
+        
         if (manString2.empty()) {
             if (manString1.empty()) {
                 manString1 = vipDialogItem->getVipZishi_1();
@@ -522,7 +529,12 @@ void VipStoryScene::creatPassersbyMan(float dt){
 //            headSpr1->setScale(.7f);
             headSpr1->setTag(Tag_GJ_head1);
             headSpr1->setVisible(false);
-            this->addChild(headSpr1, 7);
+            if (judge_biaoqing(vipDialogItem, 1)) {
+                this->addChild(headSpr1, 8);
+                this->init_biaoqing(vipDialogItem, 1, headSpr1);
+            }else{
+                this->addChild(headSpr1, 7);
+            }
             
             //2号 一般大的
             CCString* zsStr2 = CCString::createWithFormat("res/pic/qingjingScene/zishi/%s.png", vipDialogItem->getVipZishi_2().c_str());
@@ -539,7 +551,12 @@ void VipStoryScene::creatPassersbyMan(float dt){
 //            headSpr2->setScale(.7f);
             headSpr2->setTag(Tag_GJ_head2);
             headSpr2->setVisible(false);
-            this->addChild(headSpr2, 7);
+            if (judge_biaoqing(vipDialogItem, 2)) {
+                this->addChild(headSpr2, 8);
+                this->init_biaoqing(vipDialogItem, 2, headSpr2);
+            }else{
+                this->addChild(headSpr2, 7);
+            }
             
             if (manString2.empty()) {
                 manString1 = vipDialogItem->getVipZishi_1();
@@ -612,7 +629,12 @@ void VipStoryScene::creatPassersbyMan(float dt){
 //                headSpr1->setScale(.7f);
                 headSpr1->setTag(Tag_GJ_head1);
                 headSpr1->setVisible(false);
-                this->addChild(headSpr1, 6);
+                if (judge_biaoqing(vipDialogItem, 1)) {
+                    this->addChild(headSpr1, 8);
+                    this->init_biaoqing(vipDialogItem, 1, headSpr1);
+                }else{
+                    this->addChild(headSpr1, 7);
+                }
                 
                 if (manString1 == vipDialogItem->getVipZishi_1()) {
                     manSpr1->setVisible(true);
@@ -652,7 +674,12 @@ void VipStoryScene::creatPassersbyMan(float dt){
 //                headSpr2->setScale(.7f);
                 headSpr2->setTag(Tag_GJ_head2);
                 headSpr2->setVisible(false);
-                this->addChild(headSpr2, 6);
+                if (judge_biaoqing(vipDialogItem, 2)) {
+                    this->addChild(headSpr2, 8);
+                    this->init_biaoqing(vipDialogItem, 2, headSpr2);
+                }else{
+                    this->addChild(headSpr2, 7);
+                }
                 
                 if (manString2 == vipDialogItem->getVipZishi_2()) {
                     manSpr2->setVisible(true);
@@ -2075,6 +2102,7 @@ void VipStoryScene::keyBackClicked(){
     num_child++;
 //    CCLog("===== VipStoryScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -2095,7 +2123,7 @@ void VipStoryScene::fhCallBack(CCObject* pSender){
 //    AHMessageBox* mb = AHMessageBox::create_with_message(def_VipStoryScene_007, this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, true);
 //    mb->setPosition(Center);
 //    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3010);
-    
+    num_child = 0;
     CCScene* scene = VipQingjingScene::scene();
     CCDirector::sharedDirector()->replaceScene(scene);
 }
@@ -2126,5 +2154,2038 @@ void VipStoryScene::_507CallBack(CCObject* pSender){
 
 
 
+bool VipStoryScene::judge_biaoqing(VipDialogItem* dialItem, int index){
+    if (index == 1) {
+        if (dialItem->getBiaoqing_1() == 0) {
+            return false;
+        }else{
+            return true;
+        }
+    }else if (index == 2){
+        if (dialItem->getBiaoqing_2() == 0) {
+            return false;
+        }else{
+            return true;
+        }
+    }else{
+        return false;
+    }
+}
+// 表情
+void VipStoryScene::init_biaoqing(VipDialogItem* dialItem, int index, CCSprite* spr){
+    int bqIndex = 0;
+    if (index == 1) {
+        bqIndex = dialItem->getBiaoqing_1();
+    }else if (index == 2){
+        bqIndex = dialItem->getBiaoqing_2();
+    }
+    
+    if (bqIndex == 20) {
+        this->creat_Animation20(dialItem, index, spr);
+    }else if (bqIndex == 21){
+        this->creat_Animation21(dialItem, index, spr);
+    }else if (bqIndex == 22){
+        this->creat_Animation22(dialItem, index, spr);
+    }else if (bqIndex == 30){
+        this->creat_Animation30(dialItem, index, spr);
+    }else if (bqIndex == 50){
+        this->creat_Animation50(dialItem, index, spr);
+    }else if (bqIndex == 60){
+        this->creat_Animation60(dialItem, index, spr);
+    }else if (bqIndex == 70){
+        this->creat_Animation70(dialItem, index, spr);
+    }else if (bqIndex == 71){
+        this->creat_Animation71(dialItem, index, spr);
+    }else if (bqIndex == 72){
+        this->creat_Animation72(dialItem, index, spr);
+    }else if (bqIndex == 73){
+        this->creat_Animation73(dialItem, index, spr);
+    }else if (bqIndex == 74){
+        this->creat_Animation74(dialItem, index, spr);
+    }else if (bqIndex == 75){
+        this->creat_Animation75(dialItem, index, spr);
+    }else if (bqIndex == 76){
+        this->creat_Animation76(dialItem, index, spr);
+    }else if (bqIndex == 77){
+        this->creat_Animation77(dialItem, index, spr);
+    }
+}
+
+
+void VipStoryScene::creat_Animation20(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1007) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _20Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/20.png");
+        if (index == 1) {
+            _20Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .55f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _20Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_20Spr);
+    }else{
+        CCSprite* _20Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/20.png");
+        if (index == 1) {
+            _20Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .55f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _20Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        _20Spr->setScale(.2f);
+        qipaoSpr->addChild(_20Spr);
+        
+        CCScaleTo* scaleTo1 = CCScaleTo::create(.2f, 1.2f);
+        CCScaleTo* scaleTo2 = CCScaleTo::create(.1f, 1.f);
+        CCScaleTo* scaleTo3 = CCScaleTo::create(.2f, 1.2f);
+        CCScaleTo* scaleTo4 = CCScaleTo::create(.1f, 1.f);
+        CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(scaleTo1, scaleTo2, scaleTo3, scaleTo4, CCDelayTime::create(.3f), NULL));
+        _20Spr->runAction(rep);
+    }
+}
+void VipStoryScene::creat_Animation21(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1007) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _21Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/21.png");
+        if (index == 1) {
+            _21Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .55f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _21Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_21Spr);
+    }else{
+        CCSprite* _21Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/21.png");
+        if (index == 1) {
+            _21Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .55f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _21Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_21Spr);
+        
+        CCRotateTo* rotateTo1 = CCRotateTo::create(.2f, -20);
+        CCRotateTo* rotateTo2 = CCRotateTo::create(.1f, -15);
+        CCRotateTo* rotateTo3 = CCRotateTo::create(.1f, -20);
+        CCRotateTo* rotateTo4 = CCRotateTo::create(.2f, 10);
+        CCRotateTo* rotateTo5 = CCRotateTo::create(.1f, 5);
+        CCRotateTo* rotateTo6 = CCRotateTo::create(.1f, 10);
+        CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(rotateTo1, rotateTo2, rotateTo3, CCDelayTime::create(.2f), rotateTo4, rotateTo5, rotateTo6, CCDelayTime::create(.2f), NULL));
+        _21Spr->runAction(rep);
+    }
+}
+void VipStoryScene::creat_Animation22(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    CCSprite* _22Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/22.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-8);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .56f, spr->getContentSize().height* .78f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(8);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .45f, spr->getContentSize().height* .78f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-10);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .58f, spr->getContentSize().height* .92f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(10);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .92f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-8);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .59f, spr->getContentSize().height* .71f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(18);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .475f, spr->getContentSize().height* .72f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-7);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .55f, spr->getContentSize().height* .79f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(7);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .44f, spr->getContentSize().height* .79f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-9);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .59f, spr->getContentSize().height* .85f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(9);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .85f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-8);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .55f, spr->getContentSize().height* .76f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(23);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .762f));
+        }
+    }else if (manIndex == 1007){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-12);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .558f, spr->getContentSize().height* .877f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(15);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .485f, spr->getContentSize().height* .875f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-10);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .58f, spr->getContentSize().height* .68f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(12);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .68f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-5);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .58f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(14);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .475f, spr->getContentSize().height* .81f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-5);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .55f, spr->getContentSize().height* .68f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(18);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .44f, spr->getContentSize().height* .695f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+        _22Spr2->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-5);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .59f, spr->getContentSize().height* .71f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(23);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .725f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-5);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .57f, spr->getContentSize().height* .76f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(23);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .46f, spr->getContentSize().height* .77f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+        
+        if (index == 1) {
+            _22Spr2->setRotation(-3);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .905f));
+        }else if (index == 2) {
+            _22Spr2->setFlipX(true);
+            _22Spr2->setRotation(15);
+            _22Spr2->setPosition(ccp(spr->getContentSize().width* .43f, spr->getContentSize().height* .905f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _22Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/21.png");
+        if (index == 1) {
+            _22Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .55f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _22Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_22Spr1);
+        
+        spr->addChild(_22Spr2);
+    }else{
+        _22Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/21.png");
+        if (index == 1) {
+            _22Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .55f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _22Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->setVisible(false);
+        qipaoSpr->addChild(_22Spr1);
+        
+        _22Spr2->setVisible(false);
+        spr->addChild(_22Spr2);
+        
+        CCCallFunc* callFunc = CCCallFunc::create(this, callfunc_selector(VipStoryScene::_22CallFunc));
+        _22Spr2->runAction(CCSequence::create(CCShow::create(), CCDelayTime::create(.1f), CCHide::create(), CCDelayTime::create(.1f), CCShow::create(), CCDelayTime::create(.1f), CCHide::create(), CCDelayTime::create(.1f), CCShow::create(), NULL));
+        qipaoSpr->runAction(CCSequence::create(CCDelayTime::create(.8f), CCShow::create(), callFunc, NULL));
+    }
+}
+void VipStoryScene::_22CallFunc(){
+    
+    CCRotateTo* rotateTo1 = CCRotateTo::create(.2f, -20);
+    CCRotateTo* rotateTo2 = CCRotateTo::create(.1f, -15);
+    CCRotateTo* rotateTo3 = CCRotateTo::create(.1f, -20);
+    CCRotateTo* rotateTo4 = CCRotateTo::create(.2f, 10);
+    CCRotateTo* rotateTo5 = CCRotateTo::create(.1f, 5);
+    CCRotateTo* rotateTo6 = CCRotateTo::create(.1f, 10);
+    CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(rotateTo1, rotateTo2, rotateTo3, CCDelayTime::create(.2f), rotateTo4, rotateTo5, rotateTo6, CCDelayTime::create(.2f), NULL));
+    _22Spr1->runAction(rep);
+}
+void VipStoryScene::creat_Animation30(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _30Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/30_1.png");
+        CCSprite* _30Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/30_2.png");
+        CCSprite* _30Spr3 = CCSprite::create("res/pic/qingjingScene/biaoqing/30_3.png");
+        if (manIndex == 101) {
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .67f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .67f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .67f));
+        }else if (manIndex == 1002) {
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .82f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .82f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .82f));
+        }else if (manIndex == 1003){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .62f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .62f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .62f));
+        }else if (manIndex == 1004){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+        }else if (manIndex == 1005){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .74f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .74f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .74f));
+        }else if (manIndex == 1006){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .67f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .67f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .67f));
+        }else if (manIndex == 1007){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .77f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .77f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .77f));
+        }else if (manIndex == 1008){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .58f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .58f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .58f));
+        }else if (manIndex == 1009){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+        }else if (manIndex == 1010){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .58f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .58f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .58f));
+        }else if (manIndex == 1015){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+        }else if (manIndex == 1020){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .61f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .61f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .61f));
+        }else if (manIndex == 1021){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+        }else if (manIndex == 1102){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .79f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .79f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .79f));
+        }
+        spr->addChild(_30Spr1);
+        spr->addChild(_30Spr2);
+        spr->addChild(_30Spr3);
+    }else{
+        CCSprite* _30Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/30_1.png");
+        _30Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/30_2.png");
+        CCSprite* _30Spr3 = CCSprite::create("res/pic/qingjingScene/biaoqing/30_3.png");
+        if (manIndex == 101) {
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .67f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .67f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .67f));
+        }else if (manIndex == 1002) {
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .82f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .82f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .82f));
+        }else if (manIndex == 1003){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .62f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .62f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .62f));
+        }else if (manIndex == 1004){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+        }else if (manIndex == 1005){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .74f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .74f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .74f));
+        }else if (manIndex == 1006){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .67f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .67f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .67f));
+        }else if (manIndex == 1007){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .77f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .77f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .77f));
+        }else if (manIndex == 1008){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .58f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .58f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .58f));
+        }else if (manIndex == 1009){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+        }else if (manIndex == 1010){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .58f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .58f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .58f));
+        }else if (manIndex == 1015){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+        }else if (manIndex == 1020){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .61f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .61f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .61f));
+        }else if (manIndex == 1021){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+        }else if (manIndex == 1102){
+            _30Spr1->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .79f));
+            _30Spr2->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .79f));
+            _30Spr3->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .79f));
+        }
+        _30Spr1->setVisible(false);
+        _30Spr2->setVisible(false);
+        _30Spr3->setVisible(false);
+        spr->addChild(_30Spr1);
+        spr->addChild(_30Spr2);
+        spr->addChild(_30Spr3);
+        
+        _30Spr1->runAction(CCSequence::create(CCDelayTime::create(.4f), CCShow::create(), NULL));
+        _30Spr3->runAction(CCSequence::create(CCDelayTime::create(.6f), CCShow::create(), NULL));
+        CCCallFunc* callFunc = CCCallFunc::create(this, callfunc_selector(VipStoryScene::_30CallFunc));
+        _30Spr2->runAction(CCSequence::create(CCDelayTime::create(1.1f), CCShow::create(), callFunc, NULL));
+    }
+}
+void VipStoryScene::_30CallFunc(){
+    CCScaleTo* scaleTo1 = CCScaleTo::create(.1f, .96f);
+    CCScaleTo* scaleTo2 = CCScaleTo::create(.1f, 1.f);
+    CCScaleTo* scaleTo3 = CCScaleTo::create(.1f, .96f);
+    CCScaleTo* scaleTo4 = CCScaleTo::create(.1f, 1.f);
+    CCScaleTo* scaleTo5 = CCScaleTo::create(.1f, .96f);
+    CCScaleTo* scaleTo6 = CCScaleTo::create(.1f, 1.f);
+    CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(scaleTo1, scaleTo2, scaleTo3, scaleTo4, scaleTo5, scaleTo6, CCDelayTime::create(.6f), NULL));
+    _30Spr2->runAction(rep);
+}
+void VipStoryScene::creat_Animation50(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* _50Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/50.png");
+    CCSprite* _50Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/50.png");
+    if (manIndex == 101) {
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .476f, spr->getContentSize().height* .642f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .547f, spr->getContentSize().height* .637f));
+    }else if (manIndex == 1002) {
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .481f, spr->getContentSize().height* .758f));
+        _50Spr1->setRotation(2);
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .558f, spr->getContentSize().height* .753f));
+        _50Spr1->setRotation(5);
+    }else if (manIndex == 1003){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .587f));
+        _50Spr1->setRotation(20);
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .554f, spr->getContentSize().height* .568f));
+        _50Spr2->setRotation(15);
+    }else if (manIndex == 1004){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .475f, spr->getContentSize().height* .65f));
+        _50Spr1->setRotation(15);
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .543f, spr->getContentSize().height* .635f));
+        _50Spr2->setScaleX(.5f);
+    }else if (manIndex == 1005){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .537f, spr->getContentSize().height* .72f));
+        _50Spr1->setRotation(15);
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1006){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .462f, spr->getContentSize().height* .62f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .543f, spr->getContentSize().height* .62f));
+    }else if (manIndex == 1007){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .485f, spr->getContentSize().height* .74f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .555f, spr->getContentSize().height* .74f));
+    }else if (manIndex == 1008){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .477f, spr->getContentSize().height* .555f));
+        _50Spr1->setRotation(15);
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .559f, spr->getContentSize().height* .54f));
+        _50Spr2->setRotation(15);
+    }else if (manIndex == 1009){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .468f, spr->getContentSize().height* .668f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .543f, spr->getContentSize().height* .668f));
+    }else if (manIndex == 1010){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .495f, spr->getContentSize().height* .538f));
+        _50Spr1->setRotation(-30);
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .555f, spr->getContentSize().height* .577f));
+        _50Spr2->setScaleX(.5f);
+        _50Spr2->setRotation(-25);
+    }else if (manIndex == 1015){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .454f, spr->getContentSize().height* .549f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .548f, spr->getContentSize().height* .55f));
+    }else if (manIndex == 1021){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .455f, spr->getContentSize().height* .575f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .553f, spr->getContentSize().height* .575f));
+    }else if (manIndex == 1102){
+        _50Spr1->setPosition(ccp(spr->getContentSize().width* .475f, spr->getContentSize().height* .747f));
+        _50Spr2->setPosition(ccp(spr->getContentSize().width* .542f, spr->getContentSize().height* .759f));
+        _50Spr2->setScaleX(.6f);
+        _50Spr2->setRotation(-20);
+    }
+    
+    
+    if (buttonBool1) {// 快进中
+        _50Spr1->setOpacity(177);
+        spr->addChild(_50Spr1);
+        _50Spr2->setOpacity(177);
+        spr->addChild(_50Spr2);
+        
+    }else{
+        _50Spr1->setOpacity(0);
+        spr->addChild(_50Spr1);
+        _50Spr2->setOpacity(0);
+        spr->addChild(_50Spr2);
+        
+        CCFadeTo* fadeTo1_1 = CCFadeTo::create(1.5f, 177);
+        CCFadeTo* fadeTo2_1 = CCFadeTo::create(1.5f, 177);
+        _50Spr1->runAction(CCSequence::create(CCDelayTime::create(.5f), fadeTo1_1, NULL));
+        _50Spr2->runAction(CCSequence::create(CCDelayTime::create(.5f), fadeTo2_1, NULL));
+    }
+}
+void VipStoryScene::creat_Animation60(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1007) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _60Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/60.png");
+        if (index == 1) {
+            _60Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _60Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_60Spr);
+    }else{
+        CCSprite* _60Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/60.png");
+        if (index == 1) {
+            _60Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _60Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_60Spr);
+        
+        CCRotateTo* rotateTo1 = CCRotateTo::create(.2f, -20);
+        CCRotateTo* rotateTo2 = CCRotateTo::create(.1f, -15);
+        CCRotateTo* rotateTo3 = CCRotateTo::create(.1f, -20);
+        CCRotateTo* rotateTo4 = CCRotateTo::create(.2f, 10);
+        CCRotateTo* rotateTo5 = CCRotateTo::create(.1f, 5);
+        CCRotateTo* rotateTo6 = CCRotateTo::create(.1f, 10);
+        CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(rotateTo1, rotateTo2, rotateTo3, CCDelayTime::create(.2f), rotateTo4, rotateTo5, rotateTo6, CCDelayTime::create(.2f), NULL));
+        _60Spr->runAction(rep);
+    }
+}
+void VipStoryScene::creat_Animation70(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        animation77Index = 1;
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        animation77Index = 2;
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* _70Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/70_2.png");
+    CCSprite* _70Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/70_3.png");
+    CCProgressTimer* _70Progress = CCProgressTimer::create(_70Spr2);
+    if (manIndex == 101) {
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .71f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .7f));
+    }else if (manIndex == 1002) {
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .84f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .84f));
+    }else if (manIndex == 1003){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .64f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .64f));
+    }else if (manIndex == 1004){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .725f));
+        _70Spr1->setRotation(5);
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .71f));
+        _70Progress->setRotation(5);
+    }else if (manIndex == 1005){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .77f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .77f));
+    }else if (manIndex == 1006){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .69f));
+    }else if (manIndex == 1007){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .8f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .8f));
+    }else if (manIndex == 1008){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .61f));
+        _70Spr1->setRotation(10);
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .535f, spr->getContentSize().height* .59f));
+        _70Progress->setRotation(10);
+    }else if (manIndex == 1009){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .73f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .73f));
+    }else if (manIndex == 1010){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .61f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .61f));
+    }else if (manIndex == 1015){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .64f));
+    }else if (manIndex == 1021){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .69f));
+    }else if (manIndex == 1102){
+        _70Spr1->setPosition(ccp(spr->getContentSize().width* .46f, spr->getContentSize().height* .83f));
+        _70Progress->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .83f));
+    }
+    spr->addChild(_70Spr1);
+    spr->addChild(_70Progress);
+    
+    if (buttonBool1) {// 快进中
+        
+    }else{
+        CCArray* animations = CCArray::createWithCapacity(5);
+        char strPei[100] = {};
+        for (int i = 1; i <= 2; i++) {
+            
+            sprintf(strPei, "res/pic/qingjingScene/biaoqing/70_%d.png", i);
+            CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 182, 84));
+            animations->addObject(frame);
+        }
+        CCAnimation* animation = CCAnimation::createWithSpriteFrames(animations, .5f);
+        CCAnimate* animate = CCAnimate::create(animation);
+        CCSequence* seq = CCSequence::create(animate, NULL);
+        CCDirector::sharedDirector()->getActionManager()->addAction(seq, _70Spr1, false);
+        
+        
+        //设置进度条的模式
+        //kCCProgressTimerTypeBar表示条形模式
+        _70Progress->setType(kCCProgressTimerTypeBar);
+        //设置进度条变化的方向
+        //ccp(0,1)表示沿着y轴变化
+        _70Progress->setBarChangeRate(ccp(0, 1));
+        //设置进度条的起始位置
+        //ccp(0,0)表示下面
+        _70Progress->setMidpoint(ccp(0, 1));
+        //设置进度条的ID
+        _70Progress->setTag(100);
+        
+        //创建一个定时器
+        this->schedule(SEL_SCHEDULE(&VipStoryScene::_70CallFunc), .01f);
+    }
+}
+void VipStoryScene::_70CallFunc(){
+    CCNode* node;
+    if (animation77Index == 1) {
+        node = this->getChildByTag(Tag_GJ_head1);
+    }else if (animation77Index == 2){
+        node = this->getChildByTag(Tag_GJ_head2);
+    }
+    
+    //通过进度条的ID得到进度条
+    CCProgressTimer* progress = (CCProgressTimer*)node->getChildByTag(100);
+    
+    //设置progress的进度，每调用一次进度加一
+    progress->setPercentage(progress->getPercentage() + 3);
+    
+    //当进度大于或者等于100时
+    if(progress->getPercentage() >= 100)
+    {
+        //终止定时器
+        this->unschedule(SEL_SCHEDULE(&VipStoryScene::_70CallFunc));
+    }
+}
+void VipStoryScene::creat_Animation71(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* _71Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/71_1.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .63f, spr->getContentSize().height* .76f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .76f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .89f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .89f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .69f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .69f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .63f, spr->getContentSize().height* .77f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .35f, spr->getContentSize().height* .77f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .82f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .39f, spr->getContentSize().height* .82f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .61f, spr->getContentSize().height* .75f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .75f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1007){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .85f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .39f, spr->getContentSize().height* .85f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .67f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .41f, spr->getContentSize().height* .67f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .78f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .78f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .61f, spr->getContentSize().height* .67f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .335f, spr->getContentSize().height* .67f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1015){
+        _71Spr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .71f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .71f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .75f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .75f));
+            _71Spr->setRotation(-10);
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .62f, spr->getContentSize().height* .89f));
+            _71Spr->setRotation(40);
+        }else if (index == 2){
+            _71Spr->setPosition(ccp(spr->getContentSize().width* .34f, spr->getContentSize().height* .89f));
+            _71Spr->setRotation(-10);
+        }
+    }
+    spr->addChild(_71Spr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _71Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/71_2.png");
+        _71Spr2->setAnchorPoint(CCPointZero);
+        _71Spr2->setPosition(CCPointZero);
+        _71Spr->addChild(_71Spr2);
+    }else{
+        CCSprite* _71Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/71_2.png");
+        _71Spr2->setAnchorPoint(CCPointZero);
+        _71Spr2->setPosition(CCPointZero);
+        _71Spr2->setVisible(false);
+        _71Spr->addChild(_71Spr2);
+        
+        CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(CCShow::create(), CCDelayTime::create(.4f), CCHide::create(), CCDelayTime::create(.2f), NULL));
+        _71Spr2->runAction(rep);
+    }
+}
+void VipStoryScene::creat_Animation72(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* _72Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/72_5.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .62f, spr->getContentSize().height* .76f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .39f, spr->getContentSize().height* .76f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .89f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .4f, spr->getContentSize().height* .89f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .64f, spr->getContentSize().height* .69f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .69f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .62f, spr->getContentSize().height* .77f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .77f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .82f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .41f, spr->getContentSize().height* .82f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .6f, spr->getContentSize().height* .75f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .39f, spr->getContentSize().height* .75f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1007){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .63f, spr->getContentSize().height* .85f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .41f, spr->getContentSize().height* .85f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .63f, spr->getContentSize().height* .67f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .42f, spr->getContentSize().height* .67f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .78f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .39f, spr->getContentSize().height* .78f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .6f, spr->getContentSize().height* .67f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .35f, spr->getContentSize().height* .67f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1015){
+        _72Spr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .64f, spr->getContentSize().height* .71f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .71f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .64f, spr->getContentSize().height* .75f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .39f, spr->getContentSize().height* .75f));
+            _72Spr->setRotation(5);
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .61f, spr->getContentSize().height* .89f));
+            _72Spr->setRotation(-3);
+        }else if (index == 2){
+            _72Spr->setFlipX(true);
+            _72Spr->setPosition(ccp(spr->getContentSize().width* .34f, spr->getContentSize().height* .89f));
+            _72Spr->setRotation(5);
+        }
+    }
+    spr->addChild(_72Spr);
+    
+    if (buttonBool1) {// 快进中
+        
+    }else{
+        CCArray* animations = CCArray::createWithCapacity(10);
+        char strPei[100] = {};
+        for (int i = 1; i <= 6; i++) {
+            
+            sprintf(strPei, "res/pic/qingjingScene/biaoqing/72_%d.png", i);
+            CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 54, 75));
+            animations->addObject(frame);
+        }
+        CCAnimation* animation = CCAnimation::createWithSpriteFrames(animations, .3f);
+        CCAnimate* animate = CCAnimate::create(animation);
+        CCRepeatForever* rep = CCRepeatForever::create(animate);
+        CCDirector::sharedDirector()->getActionManager()->addAction(rep, _72Spr, false);
+    }
+}
+void VipStoryScene::creat_Animation73(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1007) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _73Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/73_3.png");
+        _73Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        qipaoSpr->addChild(_73Spr);
+    }else{
+        CCSprite* _73Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/73_3.png");
+        if (index == 1) {
+            _73Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _73Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_73Spr);
+        
+        CCArray* animations = CCArray::createWithCapacity(5);
+        char strPei[100] = {};
+        for (int i = 1; i <= 3; i++) {
+            
+            sprintf(strPei, "res/pic/qingjingScene/biaoqing/73_%d.png", i);
+            CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 62, 14));
+            animations->addObject(frame);
+        }
+        CCAnimation* animation = CCAnimation::createWithSpriteFrames(animations, .3f);
+        CCAnimate* animate = CCAnimate::create(animation);
+        CCRepeatForever* rep = CCRepeatForever::create(animate);
+        CCDirector::sharedDirector()->getActionManager()->addAction(rep, _73Spr, false);
+    }
+}
+void VipStoryScene::creat_Animation74(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1007) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _74Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/74.png");
+        if (index == 1) {
+            _74Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _74Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_74Spr);
+    }else{
+        CCSprite* _74Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/74.png");
+        if (index == 1) {
+            _74Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _74Spr->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->addChild(_74Spr);
+        
+        CCRotateTo* rotateTo1 = CCRotateTo::create(.2f, -35);
+        CCRotateTo* rotateTo2 = CCRotateTo::create(.1f, -30);
+        CCRotateTo* rotateTo3 = CCRotateTo::create(.1f, -35);
+        CCRotateTo* rotateTo4 = CCRotateTo::create(.2f, 10);
+        CCRotateTo* rotateTo5 = CCRotateTo::create(.1f, 5);
+        CCRotateTo* rotateTo6 = CCRotateTo::create(.1f, 10);
+        CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(rotateTo1, rotateTo2, rotateTo3, CCDelayTime::create(.2f), rotateTo4, rotateTo5, rotateTo6, CCDelayTime::create(.2f), NULL));
+        _74Spr->runAction(rep);
+    }
+}
+void VipStoryScene::creat_Animation75(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* qipaoSpr = CCSprite::create("res/pic/qingjingScene/biaoqing/qj_qipao.png");
+    CCSprite* _75Spr2 = CCSprite::create("res/pic/qingjingScene/biaoqing/75_1.png");
+    if (manIndex == 101) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .74f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .74f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-13);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .768f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(11);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .455f, spr->getContentSize().height* .765f));
+        }
+    }else if (manIndex == 1002) {
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .68f, spr->getContentSize().height* .87f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .375f, spr->getContentSize().height* .87f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-11);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .56f, spr->getContentSize().height* .89f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(7);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .895f));
+        }
+    }else if (manIndex == 1003){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .678f, spr->getContentSize().height* .672f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .362f, spr->getContentSize().height* .672f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-9);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .57f, spr->getContentSize().height* .7f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(10);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .46f, spr->getContentSize().height* .702f));
+        }
+    }else if (manIndex == 1004){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .65f, spr->getContentSize().height* .75f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .346f, spr->getContentSize().height* .75f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-12);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .778f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(5);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .437f, spr->getContentSize().height* .772f));
+        }
+    }else if (manIndex == 1005){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .69f, spr->getContentSize().height* .8f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .8f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-15);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .57f, spr->getContentSize().height* .837f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(8);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .473f, spr->getContentSize().height* .829f));
+        }
+    }else if (manIndex == 1006){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .635f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .365f, spr->getContentSize().height* .735f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-18);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .747f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(14);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .46f, spr->getContentSize().height* .746f));
+        }
+    }else if (manIndex == 1007){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .66f, spr->getContentSize().height* .84f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .38f, spr->getContentSize().height* .84f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-15);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .538f, spr->getContentSize().height* .857f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(11);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .478f, spr->getContentSize().height* .857f));
+        }
+    }else if (manIndex == 1008){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .672f, spr->getContentSize().height* .65f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .378f, spr->getContentSize().height* .65f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-17);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .56f, spr->getContentSize().height* .67f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(10);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .665f));
+        }
+    }else if (manIndex == 1009){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .685f, spr->getContentSize().height* .77f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .37f, spr->getContentSize().height* .77f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-5);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .56f, spr->getContentSize().height* .79f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(6);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .791f));
+        }
+    }else if (manIndex == 1010){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .615f, spr->getContentSize().height* .665f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .32f, spr->getContentSize().height* .665f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-8);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .515f, spr->getContentSize().height* .67f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(11);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .43f, spr->getContentSize().height* .674f));
+        }
+    }else if (manIndex == 1015){
+        qipaoSpr->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+        _75Spr2->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .675f, spr->getContentSize().height* .695f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .695f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-5);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .57f, spr->getContentSize().height* .7f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(13);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .713f));
+        }
+    }else if (manIndex == 1021){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .67f, spr->getContentSize().height* .735f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .36f, spr->getContentSize().height* .735f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-8);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .55f, spr->getContentSize().height* .743f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(8);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .465f, spr->getContentSize().height* .74f));
+        }
+    }else if (manIndex == 1102){
+        if (index == 1) {
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .625f, spr->getContentSize().height* .88f));
+        }else if (index == 2) {
+            qipaoSpr->setFlipX(true);
+            qipaoSpr->setPosition(ccp(spr->getContentSize().width* .325f, spr->getContentSize().height* .88f));
+        }
+        
+        if (index == 1) {
+            _75Spr2->setRotation(-5);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .89f));
+        }else if (index == 2) {
+            _75Spr2->setFlipX(true);
+            _75Spr2->setRotation(6);
+            _75Spr2->setPosition(ccp(spr->getContentSize().width* .425f, spr->getContentSize().height* .885f));
+        }
+    }
+    spr->addChild(qipaoSpr);
+    
+    if (buttonBool1) {// 快进中
+        CCSprite* _75Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/75.png");
+        _75Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        qipaoSpr->addChild(_75Spr1);
+        
+        spr->addChild(_75Spr2);
+    }else{
+        _75Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/75.png");
+        if (index == 1) {
+            _75Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .555f, qipaoSpr->getContentSize().height* .5f));
+        }else if (index == 2){
+            _75Spr1->setPosition(ccp(qipaoSpr->getContentSize().width* .44f, qipaoSpr->getContentSize().height* .5f));
+        }
+        qipaoSpr->setVisible(false);
+        qipaoSpr->addChild(_75Spr1);
+        
+        _75Spr2->setVisible(false);
+        spr->addChild(_75Spr2);
+        
+        CCCallFunc* callFunc = CCCallFunc::create(this, callfunc_selector(VipStoryScene::_75CallFunc));
+        _75Spr2->runAction(CCSequence::create(CCShow::create(), CCDelayTime::create(.1f), CCHide::create(), CCDelayTime::create(.1f), CCShow::create(), CCDelayTime::create(.1f), CCHide::create(), CCDelayTime::create(.1f), CCShow::create(), NULL));
+        qipaoSpr->runAction(CCSequence::create(CCDelayTime::create(.8f), CCShow::create(), callFunc, NULL));
+    }
+}
+void VipStoryScene::_75CallFunc(){
+    CCRotateTo* rotateTo1 = CCRotateTo::create(.2f, -20);
+    CCRotateTo* rotateTo2 = CCRotateTo::create(.1f, -15);
+    CCRotateTo* rotateTo3 = CCRotateTo::create(.1f, -20);
+    CCRotateTo* rotateTo4 = CCRotateTo::create(.2f, 10);
+    CCRotateTo* rotateTo5 = CCRotateTo::create(.1f, 5);
+    CCRotateTo* rotateTo6 = CCRotateTo::create(.1f, 10);
+    CCRepeatForever* rep = CCRepeatForever::create(CCSequence::create(rotateTo1, rotateTo2, rotateTo3, CCDelayTime::create(.2f), rotateTo4, rotateTo5, rotateTo6, CCDelayTime::create(.2f), NULL));
+    _75Spr1->runAction(rep);
+}
+
+void VipStoryScene::creat_Animation76(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* _76Spr1 = CCSprite::create("res/pic/qingjingScene/biaoqing/70_2.png");
+    if (manIndex == 101) {
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .71f));
+    }else if (manIndex == 1002) {
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .84f));
+    }else if (manIndex == 1003){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .64f));
+    }else if (manIndex == 1004){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .725f));
+        _76Spr1->setRotation(5);
+    }else if (manIndex == 1005){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .77f));
+    }else if (manIndex == 1006){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .7f));
+    }else if (manIndex == 1007){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .8f));
+    }else if (manIndex == 1008){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .54f, spr->getContentSize().height* .61f));
+        _76Spr1->setRotation(10);
+    }else if (manIndex == 1009){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .73f));
+    }else if (manIndex == 1010){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .47f, spr->getContentSize().height* .61f));
+    }else if (manIndex == 1015){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .65f));
+    }else if (manIndex == 1021){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .69f));
+    }else if (manIndex == 1102){
+        _76Spr1->setPosition(ccp(spr->getContentSize().width* .46f, spr->getContentSize().height* .83f));
+    }
+    spr->addChild(_76Spr1);
+    
+    if (buttonBool1) {// 快进中
+        
+    }else{
+        CCArray* animations = CCArray::createWithCapacity(5);
+        char strPei[100] = {};
+        for (int i = 1; i <= 2; i++) {
+            
+            sprintf(strPei, "res/pic/qingjingScene/biaoqing/70_%d.png", i);
+            CCSpriteFrame *frame = CCSpriteFrame::create(strPei,CCRectMake(0, 0, 182, 84));
+            animations->addObject(frame);
+        }
+        CCAnimation* animation = CCAnimation::createWithSpriteFrames(animations, .5f);
+        CCAnimate* animate = CCAnimate::create(animation);
+        CCSequence* seq = CCSequence::create(animate, NULL);
+        CCDirector::sharedDirector()->getActionManager()->addAction(seq, _76Spr1, false);
+    }
+}
+void VipStoryScene::creat_Animation77(VipDialogItem* dialItem, int index, CCSprite* spr){
+    CCArray* strList;
+    if (index == 1) {
+        animation77Index = 1;
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_1().c_str(), "_");
+    }else if (index == 2){
+        animation77Index = 2;
+        strList = StringUtil::sharedStrUtil()->split(dialItem->getVipHead_2().c_str(), "_");
+    }
+    CCString* str = (CCString* )strList->objectAtIndex(0);
+    int manIndex = atoi(str->getCString());
+    
+    CCSprite* _77Spr = CCSprite::create("res/pic/qingjingScene/biaoqing/70_3.png");
+    CCProgressTimer* _77Progress = CCProgressTimer::create(_77Spr);
+    if (manIndex == 101) {
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .7f));
+    }else if (manIndex == 1002) {
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .84f));
+    }else if (manIndex == 1003){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .64f));
+    }else if (manIndex == 1004){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .71f));
+        _77Progress->setRotation(5);
+    }else if (manIndex == 1005){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .53f, spr->getContentSize().height* .77f));
+    }else if (manIndex == 1006){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .49f, spr->getContentSize().height* .69f));
+    }else if (manIndex == 1007){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .8f));
+    }else if (manIndex == 1008){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .535f, spr->getContentSize().height* .59f));
+        _77Progress->setRotation(10);
+    }else if (manIndex == 1009){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .51f, spr->getContentSize().height* .73f));
+    }else if (manIndex == 1010){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .61f));
+    }else if (manIndex == 1015){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* 3.f, spr->getContentSize().height* 3.f));
+    }else if (manIndex == 1020){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .64f));
+    }else if (manIndex == 1021){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .52f, spr->getContentSize().height* .69f));
+    }else if (manIndex == 1102){
+        _77Progress->setPosition(ccp(spr->getContentSize().width* .48f, spr->getContentSize().height* .83f));
+    }
+    _77Progress->setTag(77);
+    spr->addChild(_77Progress);
+    
+    if (buttonBool1) {// 快进中
+        
+    }else{
+        //设置进度条的模式
+        //kCCProgressTimerTypeBar表示条形模式
+        _77Progress->setType(kCCProgressTimerTypeBar);
+        //设置进度条变化的方向
+        //ccp(0,1)表示沿着y轴变化
+        _77Progress->setBarChangeRate(ccp(0, 1));
+        //设置进度条的起始位置
+        //ccp(0,0)表示下面
+        _77Progress->setMidpoint(ccp(0, 1));
+        //设置进度条的ID
+        _77Progress->setTag(100);
+        
+        //创建一个定时器
+        this->schedule(SEL_SCHEDULE(&VipStoryScene::_70CallFunc), .01f);
+    }
+}
 
 

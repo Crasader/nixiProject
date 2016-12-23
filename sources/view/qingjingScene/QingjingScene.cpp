@@ -127,6 +127,7 @@ void QingjingScene::keyBackClicked(){
     num_child++;
     CCLog("===== QingjingScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -430,7 +431,21 @@ void QingjingScene::creat_view(){
         CCMenu* startMenu = CCMenu::create(startItem, NULL);
         startMenu->setPosition(CCPointZero);
         kuangSpr->addChild(startMenu);
+        
+        
+        
+        // 显示体力数
+        CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 23);
+        engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .8f));
+        engLabel->setColor(ccc3(80, 63, 68));
+        startItem->addChild(engLabel);
+        
+        CCSprite* engSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
+        engSpr->setScale(.75f);
+        engSpr->setPosition(ccp(startItem->getContentSize().width* .6f, startItem->getContentSize().height* .8f));
+        startItem->addChild(engSpr);
     }
+    
     
     qingjingCoverView->setPosition(swRect.origin);
     qingjingCoverView->setTag(0x77777);
@@ -553,7 +568,7 @@ void QingjingScene::backCallBack(CCObject* pSender){
     if (DATA->getOpenGuideBool9()) {
         DATA->setOpenGuideBool9(false);
     }
-    
+    num_child = 0;
     CCScene* scene = MainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

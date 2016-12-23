@@ -58,7 +58,7 @@ void LogoScene::next_scene(){
     CCScene* pScene = LoginScene::scene();
     CCDirector::sharedDirector()->replaceScene(pScene);
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if (CONFIG->baiOrYijie == 0) {// 白包
+    if (CONFIG->baiOrYijie == 0 || CONFIG->baiOrYijie == 3) {// 白包=0, 单独支付=3
         CCScene* pScene = LoginScene::scene();
         CCDirector::sharedDirector()->replaceScene(pScene);
     }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接

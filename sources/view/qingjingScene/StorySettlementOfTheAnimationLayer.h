@@ -40,10 +40,12 @@ public:
     int         _goldIndex;
     
     bool theEndBool;
+    bool tishiBool;
     
     void openTouch(float dt);
     void closeCallBack(CCObject* pSender);
     void tishiCallBack(CCObject* pSender);
+    void upTishiBool(float dt);
     
     void creatStar1(float dt);
     void creatStar2(float dt);

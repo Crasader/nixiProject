@@ -98,6 +98,23 @@ bool MainScene::init(){
             account->setLevel(DATA->getTaskTalkingdataID());
             account->setAccountName(accountNameStr->getCString());
         }
+    }else{
+        // talkingData初始化玩家信息
+        CCString* accountStr = NULL;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+#endif
+        DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+        
+        if (accountStr != NULL) {
+            
+            DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+            
+            TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
+            account->setLevel(DATA->getTaskTalkingdataID());
+        }
     }
     
     
@@ -199,8 +216,11 @@ bool MainScene::init(){
                 this->scheduleOnce(SEL_SCHEDULE(&MainScene::setStartGameData), .5f);
             }
         }
+    }else if (CONFIG->baiOrYijie == 3) {// 单独支付
+        JNIController::setUserId(DATA->getLogin()->obtain_sid());
     }
 #endif
+    
     
     
     
@@ -375,10 +395,11 @@ void MainScene::onExit(){
 
 void MainScene::keyBackClicked(){
     CCLog("===== MMChooseLayer::keyBackClicked");
-    if (DATA->current_guide_step() == 0) {
+    if (DATA->current_guide_step() == 0 || DATA->current_guide_step() >= 7) {
         num_child++;
         CCLog("===== MainScene  children_num: %d", num_child);
         if (num_child> 1) {
+            num_child = 0;
             return;
         }
         
@@ -391,6 +412,7 @@ void MainScene::keyBackClicked(){
             JNIController::setPlayerGold(diamStr->getCString());
             JNIController::setData(4);
             
+            num_child = 0;
             JNIController::exitGame(0);
         }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
             JNIController::setUserId(DATA->getLogin()->obtain_sid());
@@ -401,6 +423,10 @@ void MainScene::keyBackClicked(){
             JNIController::setPlayerGold(diamStr->getCString());
             JNIController::setData(4);
             
+            num_child = 0;
+            JNIController::exitGame(1);
+        }else if (CONFIG->baiOrYijie == 3){
+            num_child = 0;
             JNIController::exitGame(1);
         }
     }

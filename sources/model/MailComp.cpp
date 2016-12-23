@@ -97,7 +97,7 @@ void MailComp::handle_mail_oper(int id, int oper) {
             
             if (item->reward != NULL) {
                 Reward* reward = item->reward;
-                if (reward->diam > 0) {
+                if (reward->diam > 0 && item->sender.compare("sys_order") != 0) {
                     CCString* diamStr = CCString::createWithFormat("邮件赠予%d钻石", reward->diam);
                     DATA->onReward(reward->diam, diamStr->getCString());
                 }

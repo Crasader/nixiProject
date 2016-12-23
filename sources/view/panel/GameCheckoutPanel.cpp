@@ -252,6 +252,7 @@ void GameCheckoutPanel::remove() {
             NET->commit_extra_mission_605(DATA->getTaskTempID(), 5, gameScore);
         }
     }else{
+        num_child = 0;
         CCScene* scene = HomeLayer::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
@@ -272,6 +273,7 @@ void GameCheckoutPanel::keyBackClicked(){
     num_child++;
     CCLog("===== GameCheckoutPanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

@@ -21,16 +21,16 @@ using namespace std;
 #endif
 
 /**  美图  **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/meitu/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
 
 /**  百度  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/baidu/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/baidu/AlarmClock"
 
 /**  360  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/qihu360/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/qihu360/AlarmClock"
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/qihu360/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/qihu360/AlarmClock"
 
 /**  小米  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mi/Tiegao"
@@ -47,6 +47,51 @@ using namespace std;
 /**  金山云  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/ksyun/mi/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
+
+/**  应用宝  **/
+//#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
+
+/**  UC  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/uc/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/uc/AlarmClock"
+
+/**  华为  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/huawei/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/huawei/AlarmClock"
+
+/**  oppo  **/
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/nearme/gamecenter/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/nearme/gamecenter/AlarmClock"
+
+/**  乐视  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/leshi/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/leshi/AlarmClock"
+
+/**  魅族  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mz/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/mz/AlarmClock"
+
+/**  爱奇艺  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/PPS/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/PPS/AlarmClock"
+
+/**  东东  **/
+//#define  SDK_TIEGAO_CLASS "com/iddgame/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/iddgame/mzplay/tiegao/AlarmClock"
+
+/**  当乐  **/
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/downjoy/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/downjoy/AlarmClock"
+
+
+
+
+/**  单独支付Taptap  **/
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+
+
 
 
 /**  白包 鱼丸母包 **/
@@ -104,6 +149,7 @@ extern "C"
         
         // 支付
         static void isGamePay(int smsIndex);
+        static void setChannelId(int channelId);
         static int  getSmsStatus();
         static void setSmsStatus(int status);
         static void setProductId(char const*  str);

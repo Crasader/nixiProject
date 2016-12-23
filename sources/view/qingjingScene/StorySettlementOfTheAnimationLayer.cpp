@@ -38,6 +38,7 @@ bool StorySettlementOfTheAnimationLayer::init(){
         CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(0, 0, 0, 0), DISPLAY->ScreenWidth(), DISPLAY->ScreenHeight()));
         
         theEndBool = false;
+        tishiBool = false;
         
         this->setTouchSwallowEnabled(true);
         this->setTouchMode(kCCTouchesOneByOne);
@@ -246,17 +247,26 @@ void StorySettlementOfTheAnimationLayer::tishiCallBack(CCObject* pSender){
     CCScaleTo* scaleto2 = CCScaleTo::create(duration2, 1);
     CCSpawn* spawn2 = CCSpawn::create(moveto2, scaleto2, NULL);
     
-    _panel->runAction(CCEaseSineIn::create(CCSequence::create(spawn1, spawn2, NULL)));
+    CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::upTishiBool));
+    
+    _panel->runAction(CCEaseSineIn::create(CCSequence::create(spawn1, spawn2, callFunc, NULL)));
+}
+
+void StorySettlementOfTheAnimationLayer::upTishiBool(float dt){
+    tishiBool = true;
 }
 
 bool StorySettlementOfTheAnimationLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     
     if (theEndBool) {
-        theEndBool = false;
-        
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
-        
-        this->closeCallBack(NULL);
+        if (tishiBool) {
+            tishiBool = false;
+            theEndBool = false;
+            
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+            
+            this->closeCallBack(NULL);
+        }
     }else{
         CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
         

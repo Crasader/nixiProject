@@ -228,7 +228,7 @@ bool TotalRechargePanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent
 
 void TotalRechargePanel::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -236,6 +236,7 @@ void TotalRechargePanel::keyBackClicked(){
     num_child++;
     CCLog("===== TotalRechargePanel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

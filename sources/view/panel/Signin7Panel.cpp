@@ -295,7 +295,7 @@ void Signin7Panel::signin_callback_303(){
 
 void Signin7Panel::remove() {
     AUDIO->goback_effect();
-    
+    num_child = 0;
     this->removeFromParentAndCleanup(true);
 }
 
@@ -303,6 +303,7 @@ void Signin7Panel::keyBackClicked(){
     num_child++;
     CCLog("===== Signin7Panel  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     

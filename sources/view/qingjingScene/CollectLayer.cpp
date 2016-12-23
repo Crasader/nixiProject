@@ -62,6 +62,7 @@ void CollectLayer::keyBackClicked(){
     num_child++;
     CCLog("===== CollectLayer  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
     
@@ -72,6 +73,7 @@ void CollectLayer::keyBackClicked(){
 void CollectLayer::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
+    num_child = 0;
     CCScene* scene = QingjingScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

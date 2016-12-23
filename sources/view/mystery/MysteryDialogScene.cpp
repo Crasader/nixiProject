@@ -210,6 +210,7 @@ void MysteryDialogScene::keyBackClicked(){
     num_child++;
     CCLog("===== MysteryDialogScene  children_num: %d", num_child);
     if (num_child> 1) {
+        num_child = 0;
         return;
     }
 }
