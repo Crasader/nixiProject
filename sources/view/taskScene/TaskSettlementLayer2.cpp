@@ -246,21 +246,29 @@ bool TaskSettlementLayer2::ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent){
 }
 
 void TaskSettlementLayer2::nextAnimation1(){
+    /** 去掉回赠体力显示条
     CCSprite* tiliSpr = CCSprite::create("res/pic/taskSettlement/ts_tili.png");
     tiliSpr->setScale(.3f);
     tiliSpr->setVisible(false);
     tiliSpr->setPosition(ccp(renSpr->getContentSize().width* .5f, renSpr->getContentSize().height* .58f));
     renSpr->addChild(tiliSpr, 5);
     
+    
     CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(TaskSettlementLayer2::nextAnimation2));
     CCMoveTo* moveTo = CCMoveTo::create(.7f, ccp(renSpr->getContentSize().width + kuangSpr1->getContentSize().width* .55f, renSpr->getContentSize().height* .58f));
     CCScaleTo* scaleTo = CCScaleTo::create(.7f, 1.f);
     CCSpawn* spawn = CCSpawn::create(CCShow::create(), moveTo, scaleTo, NULL);
     tiliSpr->runAction(CCSequence::create(spawn, callFuncN, NULL));
+    */
+    
+    this->nextAnimation2();
 }
 
 void TaskSettlementLayer2::nextAnimation2(){
+    /** 去掉回赠体力飞出
     SPECIAL->show_energy_reward(this, _energy, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+    */
+    SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
     
     if (_clothesId != 0) {
         RewardPanel::show(this->getScene(), "clothes", _clothesId);
@@ -782,7 +790,7 @@ void TaskSettlementLayer2::lingquCallBack(CCObject* pSender){
     item->setEnabled(false);
     logic_open_bool = false;
     lingquBool = true;
-    SPECIAL->show_coin_reward(this, _coin, ccp(DISPLAY->halfW() + 200, DISPLAY->H() * 0.15), ccp(DISPLAY->halfW() + 150, DISPLAY->H() * 0.25));
+
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "领取成功!");
     

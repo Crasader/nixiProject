@@ -22,6 +22,7 @@ public:
     CREATE_FUNC(PlayerComp);
     bool init();
     void init_with_json(Value json);
+    void init_custom(Value json);
     
 public:
     long long int   update;
@@ -39,6 +40,12 @@ public:
     int             mystery;
     
     CC_SYNTHESIZE(int, _guide, Guide);  // 引导
+    
+    int             missionEnergyCost;
+    int             mysteryEnergyCost;
+    int             trystEnergyCost;
+    int             storyEnergyCost;
+    int             vipStoryBuyCost;
     
 public:
     int total_ratings();         // 所有阶段总星数

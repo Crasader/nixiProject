@@ -45,6 +45,18 @@ void PlayerComp::init_with_json(Value json) {
 //    this->test();
 }
 
+void PlayerComp::init_custom(CSJson::Value json) {
+    if (json.type() == nullValue) {
+        return;
+    }
+    
+    this->missionEnergyCost = json["mission_c"].asInt();
+    this->mystery = json["mystery_c"].asInt();
+    this->trystEnergyCost = json["tryst_c"].asInt();
+    this->storyEnergyCost = json["story_c"].asInt();
+    this->vipStoryBuyCost = json["story_vip_b"].asInt();
+}
+
 int PlayerComp::total_ratings() {
     int rtn = 0;
     if (rating) {

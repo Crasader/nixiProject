@@ -216,6 +216,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         
         case 902: {
             _player->init_with_json(content["player"]);
+            _player->init_custom(content["custom"]);
             this->creat_Energy_Time();
             _show->init_with_json(content["show"]);
             _clothes->init_dressed(content["show"]);
@@ -439,7 +440,6 @@ void DataManager::handle_protocol(int cid, Value content) {
         
         case 500: {
             _story->init_with_json(content["story"]);
-            _story->setStoryEnergyCost(content["cost"].asInt());
         } break;
         
         case 501: {
