@@ -2243,8 +2243,7 @@ void MainScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
             LOADING->show_loading();
-//            NET->take_tryst_task_621();
-            after_start_tryst_621();
+            NET->take_tryst_task_621();
         }
     }
 }
