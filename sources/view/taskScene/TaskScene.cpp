@@ -654,7 +654,7 @@ void TaskScene::creat_Tishi(){
         }
     }
     int unlockCondition = dic->valueForKey("require")->intValue();
-    int tiliIndex = 12;
+    int tiliIndex = DATA->getPlayer()->missionEnergyCost;
     
     kuangSpr = CCSprite::create("res/pic/taskScene/task_dikuang2.png");
     kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() + 500, DISPLAY->ScreenHeight()* .12f));

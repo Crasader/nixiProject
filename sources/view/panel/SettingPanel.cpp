@@ -42,7 +42,16 @@ bool SettingPanel::init(const char *cost) {
         
         this->create_nickname_reset_bar(panelSize, cost);
         
+        // 玩家ID
+        CCString* id = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+        CCLabelTTF* lblId = CCLabelTTF::create(id->getCString(), DISPLAY->fangzhengFont(), 24.f);
+        lblId->setColor(ccc3(255, 85, 132));
+        lblId->setAnchorPoint(ccp(0, 0.5));
+        lblId->setPosition(ccp(panelSize.width * 0.22, panelSize.height * 0.85));
+        _panel->addChild(lblId);
+
         
+        //
         CCMenuItemImage* btn_music_off = CCMenuItemImage::create("res/pic/panel/setting/set_music_off.png", "res/pic/panel/setting/set_music_off.png");
         CCMenuItemImage* btn_music_on = CCMenuItemImage::create("res/pic/panel/setting/set_music_on.png", "res/pic/panel/setting/set_music_on.png");
         CCMenuItemToggle* toggle_music = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_music), btn_music_off, btn_music_on, NULL);

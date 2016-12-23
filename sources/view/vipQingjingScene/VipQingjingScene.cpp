@@ -345,6 +345,26 @@ void VipQingjingScene::creat_view(){
             buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
             buyItem->setTag(i+1000);
             
+            // 购买花费
+            CCString* strCost = CCString::createWithFormat("%d", DATA->getPlayer()->vipStoryBuyCost);
+            ccColor3B lblColor = ccc3(147, 174, 251);
+            CCSize btnSize = buySpr1->getContentSize();
+
+            {
+                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
+                lblBuyCost->setColor(lblColor);
+                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
+                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
+                buySpr1->addChild(lblBuyCost);
+            }
+            {
+                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
+                lblBuyCost->setColor(lblColor);
+                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
+                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
+                buySpr2->addChild(lblBuyCost);
+            }
+            
             startItem->setVisible(false);
             buyItem->setVisible(true);
             

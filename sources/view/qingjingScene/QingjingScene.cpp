@@ -433,9 +433,9 @@ void QingjingScene::creat_view(){
         kuangSpr->addChild(startMenu);
         
         
-        
+        CCString* strCost = CCString::createWithFormat("%d", DATA->getPlayer()->storyEnergyCost);
         // 显示体力数
-        CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 23);
+        CCLabelTTF* engLabel = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 23);
         engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .8f));
         engLabel->setColor(ccc3(80, 63, 68));
         startItem->addChild(engLabel);
@@ -622,7 +622,7 @@ void QingjingScene::startCallBack(CCObject* pSender){
             }
         }
         if (tongguanBool) {
-            if (DATA->getPlayer()->energy >= 9) {
+            if (DATA->getPlayer()->energy >= DATA->getPlayer()->storyEnergyCost) {
                 LOADING->show_loading();
                 
                 CCString* temp_index = CCString::createWithFormat("%d", storyIndex);
@@ -654,7 +654,7 @@ void QingjingScene::startCallBack(CCObject* pSender){
             layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
         }
     }else{
-        if (DATA->getPlayer()->energy >= 9) {
+        if (DATA->getPlayer()->energy >= DATA->getPlayer()->storyEnergyCost) {
             LOADING->show_loading();
             
             CCString* temp_index = CCString::createWithFormat("%d", storyIndex);

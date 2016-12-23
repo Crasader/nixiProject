@@ -148,6 +148,7 @@ public:
     void gashaponCallBack(CCObject* pSender);
     void onEventCallback(CCObject* pSender);
     void mysteryUnlockPrompt(CCObject* pSender);
+    void welfareCallBack(CCObject* pSender);
     
     void lingdang_callback(CCObject* pSender);
     void blankCallback();
@@ -232,18 +233,19 @@ private:
     void check_dailysignin();
     void update_dailysignin();
     void check_free_gashapon();
-    void check_first_on();
+//    void check_first_on();
     CCArray* rand_array(CCArray* arr);
     void play(CCSprite* spt);
     void delayPlay(float dt);
     void checkVersion();
+    void check_welfare_new();
     // ]]
 private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;
     CCMenuItem*         _shezhiItem;
     CCMenuItem*         _qiandaoItem;
-    CCMenuItem*         _huodongItem;
+    CCMenuItem*         _welfareItem;
     
     CCMenuItem*         _btnGashapon;
     CCMenuItem*         _btnEnergyLargess;

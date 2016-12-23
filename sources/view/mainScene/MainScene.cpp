@@ -46,6 +46,7 @@
 #include "TrystScene.h"
 #include "TrystProgress.h"
 #include "DailySigninRewardPanel.h"
+#include "WelfarePanel.h"
 
 #include <time.h>
 
@@ -328,8 +329,8 @@ void MainScene::onEnter(){
     this->update_news_status();
     // 检查是否有可用的免费抽奖
     this->check_free_gashapon();
-    // 每次登入显示一次活动红点
-    this->check_first_on();
+    //
+    this->check_welfare_new();
     
     this->setArrPlay(this->rand_array(_arrGroup1));
     this->schedule(SEL_SCHEDULE(&MainScene::delayPlay), 10, kCCRepeatForever, 3);
@@ -476,8 +477,7 @@ void MainScene::creat_view(){
     CCSprite* hdSpr1 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     CCSprite* hdSpr2 = CCSprite::create("res/pic/mainScene/main_huodong.png");
     hdSpr2->setScale(1.02f);
-    _huodongItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::huodongCallBack));
-//    huodongItem->setPosition(ccp(DISPLAY->ScreenWidth()* .93f, DISPLAY->ScreenHeight()* .54));
+    _welfareItem = CCMenuItemSprite::create(hdSpr1, hdSpr2, this, menu_selector(MainScene::welfareCallBack));
 
     // 签到
     CCSprite* qdSpr1 = CCSprite::create("res/pic/mainScene/main_qiandao.png");
@@ -999,7 +999,7 @@ void MainScene::creat_view(){
     menu = CCMenu::create(        _qiandaoItem,
                                   huanzhuangItem,
                                   btnPurchaseAchievement,
-                                  _huodongItem,
+                                  _welfareItem,
                                   _btnEnergyLargess,
                                   _btnGashapon,
                                   eventItem,
@@ -1014,11 +1014,11 @@ void MainScene::creat_view(){
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, _huodongItem->getContentSize().width, _huodongItem->getContentSize().height* 8 + 40));
+    stencil->setTextureRect(CCRect(0, 0, _welfareItem->getContentSize().width, _welfareItem->getContentSize().height* 8 + 40));
     stencil->setColor(ccGRAY);
     node = CCClippingNode::create(stencil);
     node->setColor(ccGRAY);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - _huodongItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _welfareItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
@@ -1372,7 +1372,17 @@ void MainScene::huodongCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
         OperationPanel::show();
-        this->check_first_on();
+    }
+}
+
+void MainScene::welfareCallBack(CCObject* pSender){
+    // talkingData
+    DATA->onEvent("点击事件", "主界面", "点击福利");
+    
+    if (isOk) {
+        AUDIO->comfirm_effect();
+        WelfarePanel::show();
+        this->check_welfare_new();
     }
 }
 
@@ -2367,15 +2377,32 @@ void MainScene::check_free_gashapon() {
     }
 }
 
-void MainScene::check_first_on() {
+//void MainScene::check_first_on() {
+//    if (DATA->getFirstOnMainScene() == true) {
+//        CCSprite* spt = CCSprite::create("res/pic/new.png");
+//        spt->setPosition(ccp(20, 74));
+//        spt->setTag(183);
+//        _welfareItem->addChild(spt);
+//    }
+//    else {
+//        CCNode* hongDian = _welfareItem->getChildByTag(183);
+//        if (NULL != hongDian) {
+//            hongDian->removeFromParent();
+//        }
+//    }
+//    
+//    DATA->setFirstOnMainScene(false);
+//}
+
+void MainScene::check_welfare_new() {
     if (DATA->getFirstOnMainScene() == true) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(20, 74));
         spt->setTag(183);
-        _huodongItem->addChild(spt);
+        _welfareItem->addChild(spt);
     }
     else {
-        CCNode* hongDian = _huodongItem->getChildByTag(183);
+        CCNode* hongDian = _welfareItem->getChildByTag(183);
         if (NULL != hongDian) {
             hongDian->removeFromParent();
         }

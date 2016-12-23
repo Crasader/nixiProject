@@ -70,6 +70,7 @@ void DataManager::init_data() {
     this->setHome(HomeComp::create());
     this->setMystery(MysteryComp::create());
     this->setTryst(TrystComp::create());
+    this->setWelfare(WelfareComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {

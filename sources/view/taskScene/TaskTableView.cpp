@@ -447,14 +447,13 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
         titleLabel->setTag(idx + 20000);
         button->addChild(titleLabel, 10);
         
-        
+        int tiliIndex = DATA->getPlayer()->missionEnergyCost;
         // 消耗体力
         CCSprite* tiliSpr = CCSprite::create("res/pic/taskScene/task_tili_bar.png");
         tiliSpr->setPosition(ccp(button->getContentSize().width* .33f, button->getContentSize().height* .32f));
         tiliSpr->setTag(idx + 30000);
         button->addChild(tiliSpr);
         // 体力数
-        int tiliIndex = 12;
         CCString* labStr4 = CCString::createWithFormat("%d", tiliIndex);
         CCLabelTTF* tiliLabel = CCLabelTTF::create(labStr4->getCString(), DISPLAY->fangzhengFont(), 15);
         tiliLabel->setPosition(ccp(tiliSpr->getContentSize().width* .685f, tiliSpr->getContentSize().height* .45f));
