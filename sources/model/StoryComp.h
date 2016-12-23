@@ -25,6 +25,8 @@ public: // Export
     CCArray* story_achievments(const char* story_index); // 剧情已获得成就列表(CCString)
     int story2_state(const char* story2_index);
     
+    CC_SYNTHESIZE(int, _storyEnergyCost, StoryEnergyCost);
+    
 public:
     ~StoryComp();
     CREATE_FUNC(StoryComp);
