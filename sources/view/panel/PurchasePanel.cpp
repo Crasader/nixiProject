@@ -58,6 +58,8 @@ void PurchasePanel::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 //    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_107", NULL);
     nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::nc_verify_iOS_107), "HTTP_FINISHED_133", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&PurchasePanel::update_content), "UPDATE_MAIL_PURCHASE", NULL);
+    
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();

@@ -98,6 +98,23 @@ bool MainScene::init(){
             account->setLevel(DATA->getTaskTalkingdataID());
             account->setAccountName(accountNameStr->getCString());
         }
+    }else{
+        // talkingData初始化玩家信息
+        CCString* accountStr = NULL;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+        accountStr = CCString::createWithFormat("%s", DATA->getLogin()->obtain_sid());
+#endif
+        DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+        
+        if (accountStr != NULL) {
+            
+            DATA->setTaskTalkingdataID(DATA->getPlayer()->mission - 1);
+            
+            TDCCAccount* account = TDCCAccount::setAccount(accountStr->getCString());
+            account->setLevel(DATA->getTaskTalkingdataID());
+        }
     }
     
     
@@ -406,6 +423,9 @@ void MainScene::keyBackClicked(){
             JNIController::setPlayerGold(diamStr->getCString());
             JNIController::setData(4);
             
+            num_child = 0;
+            JNIController::exitGame(1);
+        }else if (CONFIG->baiOrYijie == 3){
             num_child = 0;
             JNIController::exitGame(1);
         }
@@ -2223,7 +2243,8 @@ void MainScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYP
     if (button_type == AH_BUTTON_TYPE_YESNO) {
         if (button_tag == AH_BUTTON_TAG_YES) {
             LOADING->show_loading();
-            NET->take_tryst_task_621();
+//            NET->take_tryst_task_621();
+            after_start_tryst_621();
         }
     }
 }

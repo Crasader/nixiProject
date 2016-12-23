@@ -391,13 +391,24 @@ public class Tiegao extends Cocos2dxActivity {
  	}
  	static Handler exitHandler = new Handler(){
  		public void handleMessage(Message msg){
- 			if (msg.arg1 == 0) {
- 				instance.finish();
-				System.exit(0);
- 			}else if (msg.arg1 == 1){
- 				instance.finish();
-				System.exit(0);
- 			}
+ 			new AlertDialog.Builder(instance).setTitle("是否退出游戏?") 
+            .setIcon(android.R.drawable.ic_dialog_info) 
+            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            	
+            	@Override
+                public void onClick(DialogInterface dialog, int which) {
+                	// 点击“确认”后的操作
+            		instance.finish();
+    				System.exit(0);
+                }
+            }) 
+            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            	
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                	// 点击“返回”后的操作,这里不设置没有任何操作
+                }
+            }).show();
  		}
  	};
 	

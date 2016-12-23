@@ -62,6 +62,8 @@ void VipDialogItem::config_static_with_json(CSJson::Value value)
     _figure_1 = ccs(value["figure_1"].asString())->intValue();
     // 姿势
     _zishi_1 = value["zishi_1"].asString();
+    // 表情
+    _biaoqing_1 = ccs(value["biaoqing_1"].asString())->intValue();
     
     //<><><>第二个人要显示的人<><><>//
     // 头像
@@ -70,6 +72,8 @@ void VipDialogItem::config_static_with_json(CSJson::Value value)
     _figure_2 = ccs(value["figure_2"].asString())->intValue();
     // 姿势
     _zishi_2 = value["zishi_2"].asString();
+    // 表情
+    _biaoqing_2 = ccs(value["biaoqing_2"].asString())->intValue();
     
     //<><><>第一个选择对话内容<><><>//
     // 说的话

@@ -297,7 +297,7 @@ public class WeixinPay {
             }
         }
         sb.append("key=" + otherId);
-        Log.e("main", "<><><> sb === " + sb.toString());
+//        Log.e("main", "<><><> sb === " + sb.toString());
         String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         
         return sign;

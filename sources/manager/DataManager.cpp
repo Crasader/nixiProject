@@ -349,9 +349,13 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 701: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
-//            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
+            _purchase->init_purchase(content["purchase"]);
+            //
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_MAIL_PURCHASE"),
+            //
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
+            //            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
         
         case 704: {
             _home->init_house_template(content["template"]);

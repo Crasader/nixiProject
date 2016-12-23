@@ -431,7 +431,21 @@ void QingjingScene::creat_view(){
         CCMenu* startMenu = CCMenu::create(startItem, NULL);
         startMenu->setPosition(CCPointZero);
         kuangSpr->addChild(startMenu);
+        
+        
+        
+        // 显示体力数
+        CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 23);
+        engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .8f));
+        engLabel->setColor(ccc3(80, 63, 68));
+        startItem->addChild(engLabel);
+        
+        CCSprite* engSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
+        engSpr->setScale(.75f);
+        engSpr->setPosition(ccp(startItem->getContentSize().width* .6f, startItem->getContentSize().height* .8f));
+        startItem->addChild(engSpr);
     }
+    
     
     qingjingCoverView->setPosition(swRect.origin);
     qingjingCoverView->setTag(0x77777);

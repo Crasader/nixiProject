@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.mz;
+package cn.mzplay.tiegao.qihu360;
 
 import java.util.UUID;
 
@@ -43,7 +43,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.mz.YijieLayer;
+import cn.mzplay.tiegao.qihu360.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -103,7 +103,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// 16366125DB1F4C8F8D0D2FB72AB03F5A		华为
 		// E16E462BDA5642D7B47D28E24779DBDA		oppo
 		// DE07CD19F8CF42B191BC300FB25268FB		乐视
-		// 8D8EC1F3F40244DDB62E288C82BA12BC		魅族
+		// AD4E23F681D342929E53042A6D833ADA		魅族
 		// 2FE94C00154F41A383268CBA6D7BFF01		爱奇艺
 		// E40DBB6DB5324C0898168BF55C4728F3		东东
 		// F2535A634D60400796233DA475293730		当乐
@@ -121,9 +121,9 @@ public class Tiegao extends Cocos2dxActivity {
 //		setBaiduIndex(1);  // baidu
 		setBaiduIndex(0);  // other
 		
-//		openProductId = false;//不需要在易接工具内添加计费点的
-		openProductId = true;//需要在易接工具内添加计费点的(乐视、魅族、)
-		TalkingDataGA.init(instance, "8D8EC1F3F40244DDB62E288C82BA12BC", "mzplay");
+		openProductId = false;//不需要在易接工具内添加计费点的
+//		openProductId = true;//需要在易接工具内添加计费点的(乐视、魅族、)
+		TalkingDataGA.init(instance, "DB61C0FF7AD0549C91DD4FB203139909", "mzplay");
 		
 	}
 	public static int getBaiduIndex(){

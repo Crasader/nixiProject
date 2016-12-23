@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.mz;
+package cn.mzplay.tiegao.qihu360;
 
 
 import java.io.ByteArrayInputStream;
