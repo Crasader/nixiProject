@@ -291,7 +291,8 @@ void MainScene::onEnter(){
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::after_fetch_tryst_info_620), "HTTP_FINISHED_620", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::after_start_tryst_621), "HTTP_FINISHED_621", NULL);
-    
+
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_welfare_user_info), "HTTP_FINISHED_630", NULL);
     
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
@@ -1381,9 +1382,13 @@ void MainScene::welfareCallBack(CCObject* pSender){
     
     if (isOk) {
         AUDIO->comfirm_effect();
-        WelfarePanel::show();
-        this->check_welfare_new();
+        NET->welfare_info_630();
     }
+}
+
+void MainScene::nc_welfare_user_info(CCObject *pObj) {
+    LOADING->remove();
+    WelfarePanel::show();
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){

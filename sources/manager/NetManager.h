@@ -95,6 +95,11 @@ public:
     void start_tryst_task_623();
     void receive_tryst_reward_625();
     
+    // 福利
+    void welfare_info_630();
+    void take_welfare_item_reward_631(const char* itemId);
+    void take_welfare_total_reward_633(const char* progressId);
+    
     void completed_story_500();
     void start_story_501(const char* id);
     void commit_story_503(const char* id, const char* flag);

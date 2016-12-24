@@ -22,10 +22,19 @@ class WelfareCell : public CCTableViewCell
 public:
     ~WelfareCell();
     
+//    void onEnter();
     void configWithWelfareItem(int idx, WelfareItem* item, float cellWidth, float cellHeight);
     
+    void goStar(int idx, int progress, int goal, int status);
+    
 private:
+    void moveFinish(CCObject* pObj);
+    
     CCProgressTimer*        _progress;
+    CCMenu*                 _menuBtn;
+    CCSprite*               _sptButton1;
+    CCSprite*               _sptButton2;
+    CCSprite*               _star;
 };
 
 #endif /* WelfareCell_hpp */

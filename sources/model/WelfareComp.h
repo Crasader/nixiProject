@@ -17,39 +17,55 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace CSJson;
 
-class WelfareItem : public CCObject
+class WelfareStatisItem : public CCObject
 {
 public:
-    bool init_with_json(Value json);
-    void print_self();
-    
+    ~WelfareStatisItem() {}
+    CREATE_FUNC(WelfareStatisItem);
+    bool init() { return true; }
+    void config(Value json);
+    string id;
+    int goal;
+    int status;
+};
+
+class WelfareItem : public CCObject
+{
 public:
     ~WelfareItem() {}
     CREATE_FUNC(WelfareItem);
     virtual bool init() { return true; }
+    void config(Value json);
+    string id;
     string name;
-    string chat;
+    int status;
+    int progress;
+    int goal;
+    string rewardType;
+    int rewardNum;
 };
+
 
 class WelfareComp : public CCObject
 {
 public:
-    void addItem(WelfareItem* item);
-    CCColor3bObject* randColor();
-    CC_SYNTHESIZE(int, _interval, Interval);
-    CC_SYNTHESIZE(int, _newChatCount, NewChatCount);    // 刷新后新消息的条数
-    
-public:
     ~WelfareComp();
     CREATE_FUNC(WelfareComp);
     bool init();
-    void initColors();
     
-    CC_SYNTHESIZE_RETAIN(CCArray*, _colors, Colors);
-    CC_SYNTHESIZE_RETAIN(CCArray*, _items, Items);
+    void update_statis(Value json);
+    void update_items(Value json);
     
+    int obtainTotalProgress();
+    WelfareStatisItem* fetchStatisItem(int idx);
+    
+    int itemCount();
+    WelfareItem* fetchWelfareItem(int idx);
+
 private:
-    
+    int                     _totalProgress;
+    CCDictionary*           _statis;
+    CCArray*                _items;
 };
 
 #endif /* WelfareComp_hpp */

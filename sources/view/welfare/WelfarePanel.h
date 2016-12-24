@@ -15,6 +15,8 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+class WelfareComp;
+
 class WelfarePanel
     : public CCLayer
     , CCTableViewDataSource
@@ -53,15 +55,11 @@ private:
     
     void init_header();
     
-    void on_purchase();
-    void on_purchase_achievement();
-    void on_signin7();
-    void on_energy_largess();
-    void on_gashapon();
-    
+
 private:
+    WelfareComp*        _dataSource;
     
-    int num_child;
+    int                 num_child;
     
     CCPoint             _touchLocation;
     CCLayer*            _content;

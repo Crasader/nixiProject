@@ -407,6 +407,29 @@ void NetManager::receive_tryst_reward_625() {
 }
 
 
+void NetManager::welfare_info_630() {
+    this->post_data(630, string(""));
+}
+
+void NetManager::take_welfare_item_reward_631(const char *itemId) {
+    FastWriter writer;
+    Value root;
+    root["id"] = itemId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(631, data);
+}
+
+void NetManager::take_welfare_total_reward_633(const char *progressId) {
+    FastWriter writer;
+    Value root;
+    root["id"] = progressId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(633, data);
+}
+
+
 void NetManager::completed_story_500() {
     this->post_data(500, string(""));
 }

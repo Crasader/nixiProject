@@ -7,112 +7,108 @@
 //
 
 #include "WelfareComp.h"
+#include "AppUtil.h"
 
-bool WelfareItem::init_with_json(Value json) {
-    bool btn = true;
-    if (json.type() == nullValue || json.type() != objectValue) {
-        CCLOG("ChatItem::init_with_json() json object error.");
-        btn = false;
-    }
-    else  {
-        Value name = json["name"];
-        if (name.type() != nullValue) {
-            this->name = name.asString();
-        }
-        else {
-            btn = false;
-        }
-        
-        Value chat = json["chat"];
-        if (name.type() != nullValue) {
-            this->chat = chat.asString();
-        }
-        else {
-            btn = false;
-        }
-    }
-
-    return btn;
+void WelfareStatisItem::config(Value json) {
+    this->id = json["id"].asString();
+    this->goal = json["goal"].asInt();
+    this->status = json["status"].asInt();
 }
 
-void WelfareItem::print_self() {
-    CCLOG("    ChatItem:");
-    CCLOG("        name = %s", name.c_str());
-    CCLOG("        chat = %s", chat.c_str());
+void WelfareItem::config(Value json) {
+    this->id = json["id"].asString();
+    this->name = json["name"].asString();
+    this->status = json["status"].asInt();
+    this->progress = 2;//json["progress"].asInt();
+    this->goal = json["goal"].asInt();
+    this->rewardType = json["type"].asString();
+    this->rewardNum = json["num"].asInt();
 }
+
 
 #pragma mark -
 
-void WelfareComp::addItem(WelfareItem* item) {
-    if (_items) {
-        _items->addObject(item);
-    }
+int WelfareComp::obtainTotalProgress() {
+    return _totalProgress;
+}
+
+WelfareStatisItem* WelfareComp::fetchStatisItem(int idx) {
+    CCString* strId = CCString::createWithFormat("%d", idx + 1);
+    return (WelfareStatisItem* )_statis->objectForKey(strId->getCString());
+}
+
+int WelfareComp::itemCount() {
+    return _items->count();
+}
+
+WelfareItem* WelfareComp::fetchWelfareItem(int idx) {
+//    CCString* strId = CCString::createWithFormat("%d", idx + 1);
+//    return (WelfareItem* )_items->objectForKey(strId->getCString());
+    return (WelfareItem* )(_items->objectAtIndex(idx));
 }
 
 WelfareComp::~WelfareComp() {
+    CC_SAFE_DELETE(_statis);
     CC_SAFE_DELETE(_items);
-    CC_SAFE_DELETE(_colors);
+}
+
+void WelfareComp::update_statis(Value json) {
+    if (json.type() == CSJson::nullValue) {
+        return;
+    }
+    
+    _totalProgress = json["total_progress"].asInt();
+    
+    CCDictionary* statis = CCDictionary::create();
+    
+    for (int i = 0; i < 3; i++) {
+        WelfareStatisItem* item = WelfareStatisItem::create();
+        CCString* strId = CCString::createWithFormat("%d", i + 1);
+        item->config(json[strId->getCString()]);
+        statis->setObject(item, strId->getCString());
+    }
+    
+    CC_SAFE_RELEASE(_statis);
+    _statis = statis;
+    CC_SAFE_RETAIN(_statis);
+}
+
+void WelfareComp::update_items(Value json) {
+    if (json.type() == CSJson::nullValue) {
+        return;
+    }
+    
+    CCArray* items = CCArray::create();
+    std::vector<std::string> keys = json.getMemberNames();
+    for (std::vector<std::string>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+        std::string key = (std::string)* iterator;
+        CSJson::Value value = json.get(key, value.jsonNull);
+        
+        WelfareItem* item = WelfareItem::create();
+        item->config(value);
+//        CCLOG("id = %s", item->id.c_str());
+        items->addObject(item);
+    }
+    
+//    int size = items->count();
+//    for (int i = 0; i < size - 1; ++i) {
+//        WelfareItem* pA = (WelfareItem* )items->objectAtIndex(i);
+//        for (int j = i + 1; j < size; ++j) {
+//            WelfareItem* pB = (WelfareItem* )items->objectAtIndex(j);
+//            if (pA->status > pB->status) {
+//                items->exchangeObjectAtIndex(i, j);
+//            }
+//        }
+//    }
+    
+    CC_SAFE_RELEASE(_items);
+    _items = items;
+//    CC_SAFE_RETAIN(_items);
+    _items->retain();
 }
 
 bool WelfareComp::init() {
-    this->setItems(CCArray::create());
-    this->setColors(CCArray::create());
-    this->initColors();
-    this->setNewChatCount(0);
     
     return true;
 }
 
-CCColor3bObject* WelfareComp::randColor() {
-    if (_colors) {
-        return (CCColor3bObject*)_colors->randomObject();
-    }
-    
-    CCColor3bObject* color = new CCColor3bObject(ccBLUE);
-    color->release();
-    return color;
-}
-
-void WelfareComp::initColors() {
-    CCColor3bObject* color1 = new CCColor3bObject(ccc3(95, 246, 255));
-    _colors->addObject(color1);
-    
-    CCColor3bObject* color2 = new CCColor3bObject(ccc3(173, 228, 200));
-    _colors->addObject(color2);
-    
-    CCColor3bObject* color3 = new CCColor3bObject(ccc3(254, 187, 200));
-    _colors->addObject(color3);
-    
-    CCColor3bObject* color4 = new CCColor3bObject(ccc3(254, 187, 252));
-    _colors->addObject(color4);
-    
-    CCColor3bObject* color5 = new CCColor3bObject(ccc3(255, 254, 254));
-    _colors->addObject(color5);
-    
-    CCColor3bObject* color6 = new CCColor3bObject(ccc3(187, 254, 247));
-    _colors->addObject(color6);
-    
-    CCColor3bObject* color7 = new CCColor3bObject(ccc3(168, 205, 254));
-    _colors->addObject(color7);
-    
-    CCColor3bObject* color8 = new CCColor3bObject(ccc3(98, 203, 150));
-    _colors->addObject(color8);
-    
-    CCColor3bObject* color9 = new CCColor3bObject(ccc3(203, 45, 74));
-    _colors->addObject(color9);
-    
-    CCColor3bObject* color10 = new CCColor3bObject(ccc3(235, 212, 107));
-    _colors->addObject(color10);
-    
-    CCColor3bObject* color_name = new CCColor3bObject(ccc3(248, 83, 18));
-    _colors->addObject(color_name);
-    
-    CCColor3bObject* color_selfname = new CCColor3bObject(ccc3(84, 118, 245));
-    _colors->addObject(color_selfname);
-    
-    CCColor3bObject* color_11 = new CCColor3bObject(ccc3(240, 88, 116));
-    _colors->addObject(color_11);
-    
-    CCColor3bObject* color_12 = new CCColor3bObject(ccc3(171, 107, 119));
-    _colors->addObject(color_12);
-}

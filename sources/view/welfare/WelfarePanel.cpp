@@ -18,7 +18,7 @@
 
 #include "Loading2.h"
 
-const float CELL_WIDTH = 468;
+const float CELL_WIDTH = 482;
 const float CELL_HEIGHT = 110;
 
 
@@ -37,6 +37,8 @@ WelfarePanel::~WelfarePanel() {
 bool WelfarePanel::init() {
     if (CCLayer::init()) {
         num_child = 0;
+        
+        _dataSource = DATA->getWelfare();
         
         CCSprite* mask = CCSprite::create("res/pic/mask.png");
         mask->setPosition(DISPLAY->center());
@@ -232,26 +234,6 @@ void WelfarePanel::init_header() {
 //    }
 }
 
-void WelfarePanel::on_purchase() {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_PURCHASEPANEL");
-}
-
-void WelfarePanel::on_purchase_achievement() {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_RECHARTE");
-}
-
-void WelfarePanel::on_energy_largess() {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_ENERGY_GARLESS");
-}
-
-void WelfarePanel::on_signin7() {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_SIGNIN7");
-}
-
-void WelfarePanel::on_gashapon() {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_SHOW_GASHAPON");
-}
-
 void WelfarePanel::keyBackClicked(){
     num_child++;
     CCLog("===== WelfarePanel  children_num: %d", num_child);
@@ -275,13 +257,14 @@ CCSize WelfarePanel::cellSizeForTable(CCTableView *table) {
 
 CCTableViewCell* WelfarePanel::tableCellAtIndex(CCTableView *table, unsigned int idx) {
     WelfareCell* cell = new WelfareCell();
-    cell->configWithWelfareItem((int)idx, NULL, CELL_WIDTH, CELL_HEIGHT);
+    WelfareItem* item = _dataSource->fetchWelfareItem(idx);
+    cell->configWithWelfareItem((int)idx, item, CELL_WIDTH, CELL_HEIGHT);
     
     return cell;
 }
 
 unsigned int WelfarePanel::numberOfCellsInTableView(CCTableView *table) {
-    return 10;
+    return _dataSource->itemCount();
 }
 
 #pragma mark - CCTableViewDelegate

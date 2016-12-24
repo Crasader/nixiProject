@@ -461,7 +461,39 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 奖励信息
             pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
-        
+            
+            
+        case 630: {
+            if (content["welfare"].type() == CSJson::nullValue) {
+                CCLOGWARN("DataManager handle 630, welfare is json null.");
+            }
+            else {
+                _welfare->update_statis(content["welfare"]["statis"]);
+                _welfare->update_items(content["welfare"]["items"]);
+            }
+            
+        } break;
+            
+        case 631: {
+            if (content["welfare"].type() == CSJson::nullValue) {
+                CCLOGWARN("DataManager handle 631, welfare is json null.");
+            }
+            else {
+                _welfare->update_statis(content["welfare"]["statis"]);
+                _welfare->update_items(content["welfare"]["items"]);
+            }
+        } break;
+            
+        case 633: {
+            if (content["welfare"].type() == CSJson::nullValue) {
+                CCLOGWARN("DataManager handle 633, welfare is json null.");
+            }
+            else {
+                _welfare->update_statis(content["welfare"]["statis"]);
+                _welfare->update_items(content["welfare"]["items"]);
+            }
+        } break;
+            
         
         case 500: {
             _story->init_with_json(content["story"]);
