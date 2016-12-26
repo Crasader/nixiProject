@@ -69,8 +69,11 @@ private:
     
     int                     _curIndex;
     
+    CCMenuItem*             _btnTakeEnergy;
     CCMenuItem*             _btnPaper;
     CCMenuItem*             _btnDelete;
+    
+    CCLabelTTF*             _lblEnergy;
     
     CCMenuItemToggle*       _btnSelfPanel;
     CCMenuItemImage*        _selfPanelNormal;

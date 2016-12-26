@@ -111,7 +111,6 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
     _progress->setType(kCCProgressTimerTypeBar);
     _progress->setMidpoint(ccp(0, 0.5));
     _progress->setBarChangeRate(ccp(1, 0));
-    _progress->setPercentage(100);
     this->addChild(_progress);
     
     

@@ -116,21 +116,21 @@ bool FriendsListView::init() {
         _tv->setDelegate(this);
         this->addChild(_tv);
         
-        // 滚动边框
-        CCSprite* bottom_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
-        bottom_spr->setAnchorPoint(ccp(1, 0.5));
-        bottom_spr->setPosition(ccp(_tv->getPosition().x, _tv->getPosition().y - 12));
-        this->addChild(bottom_spr);
-        
-        CCSprite* top_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
-        top_spr->setFlipY(true);
-        top_spr->setAnchorPoint(ccp(1, 0.5));
-        top_spr->setPosition(ccp(_tv->getPosition().x, bottom_spr->getPosition().y + panelH + 15));
-        this->addChild(top_spr);
-        
-        float barScale = CELL_WIDTH / bottom_spr->getContentSize().width * 0.975;
-        bottom_spr->setScale(barScale);
-        top_spr->setScale(barScale);
+//        // 滚动边框
+//        CCSprite* bottom_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+//        bottom_spr->setAnchorPoint(ccp(1, 0.5));
+//        bottom_spr->setPosition(ccp(_tv->getPosition().x, _tv->getPosition().y - 12));
+//        this->addChild(bottom_spr);
+//        
+//        CCSprite* top_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+//        top_spr->setFlipY(true);
+//        top_spr->setAnchorPoint(ccp(1, 0.5));
+//        top_spr->setPosition(ccp(_tv->getPosition().x, bottom_spr->getPosition().y + panelH + 15));
+//        this->addChild(top_spr);
+//        
+//        float barScale = CELL_WIDTH / bottom_spr->getContentSize().width * 0.975;
+//        bottom_spr->setScale(barScale);
+//        top_spr->setScale(barScale);
         
         return true;
     }

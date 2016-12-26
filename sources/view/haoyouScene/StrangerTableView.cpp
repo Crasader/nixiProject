@@ -45,13 +45,13 @@ bool StrangerTableView::init(){
     
     this->addChild(pTableView);
     
-    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
-    di_spr->setAnchorPoint(CCPoint(1, 0));
-    di_spr->setPosition(ccp(pTableView->getContentSize().width, 0));
-    this->addChild(di_spr);
-    if (allNumber == 0) {
-        di_spr->setVisible(false);
-    }
+//    CCSprite* di_spr = CCSprite::create("res/pic/haoyoupaihang/di_bar.png");
+//    di_spr->setAnchorPoint(CCPoint(1, 0));
+//    di_spr->setPosition(ccp(pTableView->getContentSize().width, 0));
+//    this->addChild(di_spr);
+//    if (allNumber == 0) {
+//        di_spr->setVisible(false);
+//    }
     
     pTableView->setVerticalFillOrder(kCCTableViewFillTopDown);
     pTableView->reloadData();
