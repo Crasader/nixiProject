@@ -9,20 +9,46 @@
 #include "WelfareCell.h"
 
 #include "DisplayManager.h"
+#include "NetManager.h"
 
 #include "WelfareComp.h"
+#include "Loading2.h"
 
 WelfareCell::~WelfareCell() {
 
 }
 
+WelfareCell* WelfareCell::create(const char *pszFileName) {
+    WelfareCell* pRet = new WelfareCell();
+    if (pRet && pRet->init(pszFileName))
+    {
+        pRet->autorelease();
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
+}
+
+bool WelfareCell::init(const char *pszFileName) {
+    if (!CCSprite::initWithFile(pszFileName)) {
+        return false;
+    }
+    
+    return true;
+}
+
+
 void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWidth, float cellHeight) {
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
-    CCSprite* spt = CCSprite::create("pic/welfare/welfare_plane.png");;
-    spt->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
-    this->addChild(spt);
+//    CCSprite* spt = CCSprite::create();;
+//    spt->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
+//    this->addChild(spt);
     
     
     CCLabelTTF* lblName = CCLabelTTF::create(item->name.c_str(), DISPLAY->fangzhengFont(), 26);
@@ -34,22 +60,25 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
     
     CCString* strIcon = CCString::createWithFormat("pic/welfare/welfare_reward_plate_%s.png", item->rewardType.c_str());
     if (strIcon) {
-        CCSprite* rewardIcon = CCSprite::create(strIcon->getCString());
-        rewardIcon->setPosition(ccp(cellWidth * 0.65, halfCellHeight));
-        this->addChild(rewardIcon);
+        _rewardIcon = CCSprite::create(strIcon->getCString());
+        _rewardIcon->setPosition(ccp(cellWidth * 0.65, halfCellHeight));
+        this->addChild(_rewardIcon);
         
         CCString* strNum = CCString::createWithFormat("%d", item->rewardNum);
         CCLabelTTF* lblRewardNum = CCLabelTTF::create(strNum->getCString(), DISPLAY->fangzhengFont(), 20);
         lblRewardNum->setColor(ccc3(227, 112, 86));
-        lblRewardNum->setPosition(rewardIcon->getPosition() + ccp(17, -2));
+        lblRewardNum->setPosition(_rewardIcon->getPosition() + ccp(17, -2));
         this->addChild(lblRewardNum);
     }
-    
+    else {
+        _rewardIcon = NULL;
+    }
     
     _sptButton1 = CCSprite::create("pic/welfare/welfare_btn_take.png");
     _sptButton2 = CCSprite::create("pic/welfare/welfare_btn_take.png");
-    _sptButton2->setScale(1.02);
-    CCMenuItem* btn = CCMenuItemSprite::create(_sptButton1, _sptButton2);
+    _sptButton2->setScale(1.005);
+    CCMenuItem* btn = CCMenuItemSprite::create(_sptButton1, _sptButton2, this, SEL_MenuHandler(&WelfareCell::on_btn_take));
+    btn->setUserObject(ccs(item->id));
     _menuBtn = CCMenu::createWithItem(btn);
     _menuBtn->setPosition(ccp(cellWidth * 0.88, halfCellHeight));
     _menuBtn->setEnabled(false);
@@ -114,15 +143,68 @@ void WelfareCell::moveFinish(CCObject* pObj) {
     if (pObj) {
         int status = ((CCInteger* )pObj)->getValue();
         if (status == 0) {
-            
+            _menuBtn->setEnabled(false);
         }
         else if (status == 1 && _star) {
             _star->runAction(CCRepeatForever::create( CCRotateBy::create(1.2, 360)) );
-        }
-        else if (status == 2) {
             
+            _sptButton1->removeAllChildren();
+            CCLabelTTF* lblTake1 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
+            lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
+            _sptButton1->addChild(lblTake1);
+            
+            CCLabelTTF* lblTake2 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
+            lblTake2->setPosition(lblTake1->getPosition());
+            _sptButton2->addChild(lblTake2);
+            
+            _menuBtn->setEnabled(true);
+        }
+        else if (status == -1) {
+            _sptButton1->removeAllChildren();
+            CCLabelTTF* lblTake1 = CCLabelTTF::create("已领", DISPLAY->fangzhengFont(), 30);
+            lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
+            _sptButton1->addChild(lblTake1);
+            
+            _menuBtn->setEnabled(false);
+//            _sptButton1->removeAllChildren();
+//            CCSprite* gougou = CCSprite::create("pic/welfare/welfare_done.png");
+//            gougou->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
+//            _sptButton1->addChild(gougou);
+//            
+//            _menuBtn->setEnabled(false);
         }
     }
 }
 
+void WelfareCell::on_btn_take(CCMenuItem *btn) {
+    LOADING->show_loading();
+    CCString* id = (CCString* )btn->getUserObject();
+    NET->take_welfare_item_reward_631(id->getCString());
+}
 
+void WelfareCell::showRewardAction(WelfareItem *item) {
+    if (! _rewardIcon) {
+        return;
+    }
+    
+    CCDictionary* postData = CCDictionary::create();
+    postData->setObject(CCInteger::create( item->rewardNum ), "num");
+    CCPoint pos = _rewardIcon->getPosition();
+    CCPoint worldPos = this->convertToWorldSpace(pos);
+    CCString* from = CCString::createWithFormat("{%f,%f}", worldPos.x, worldPos.y);
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    
+    if (item->rewardType.compare("coin") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+    }
+    else if (item->rewardType.compare("diam") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+    }
+    else if (item->rewardType.compare("energy") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
+    }
+    else if (item->rewardType.compare("piece") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
+    }
+}

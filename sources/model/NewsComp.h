@@ -40,6 +40,8 @@ public:
     int dailySignin;     // 每日签到：1可签，0已签
     int trystOn;         // 约会时间
     int tempSignin;      // 节日临时签到
+    int welfare;         // 每日福利
+    int achievement;     // 成就
     
     void print_news();
 

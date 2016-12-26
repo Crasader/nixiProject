@@ -84,9 +84,12 @@ private:
     void nc_need_coin_fly(CCObject* pObj);
     void nc_need_gold_fly(CCObject* pObj);
     void nc_need_energy_fly(CCObject* pObj);
+    void nc_need_piece_fly(CCObject* pObj);
+    
     void nc_coin_fly_completed(CCObject* pObj);
     void nc_gold_fly_completed(CCObject* pObj);
     void nc_energy_fly_completed(CCObject* pObj);
+    void nc_piece_fly_completed(CCObject* pObj);
     
     void nc_take_gift_333(CCObject *pObj);
     

@@ -1449,6 +1449,8 @@ void TaskScene::init_phone(){
     int renwuIndex = 0;
     int phaseIndex = 0;
     int allNumber = 0;
+    
+    bool isPhoneEffect = false;
     // 显示的任务的结局
     CSJson::Value taskConditionsData = AppUtil::read_json_file("res/story/taskConditions");
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
@@ -1467,6 +1469,7 @@ void TaskScene::init_phone(){
             if (storyArr == NULL) {
                 now_task_index = i;
                 
+                isPhoneEffect = true;
                 this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_phone_music), .5f);
                 if (DATA->current_guide_step() == 9) {
                     for (int i = 0; i < 10; i++) {
@@ -1485,17 +1488,19 @@ void TaskScene::init_phone(){
                 }
                 
                 break;
-            }else{
-                this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
             }
-        }else{
-            this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
         }
     }
+    
+    if (! isPhoneEffect){
+        this->scheduleOnce(SEL_SCHEDULE(&TaskScene::play_music), .5f);
+    }
 }
+
 void TaskScene::play_phone_music(float dt){
     AUDIO->enterThePhone_effect();
 }
+
 void TaskScene::creat_phone(){
     CCSprite* phoneDiSpr = CCSprite::create("res/pic/taskScene/animation/task_phoneDi.png");
     phoneDiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .542f, DISPLAY->ScreenHeight()* .22f));

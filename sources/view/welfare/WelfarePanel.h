@@ -16,6 +16,8 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 class WelfareComp;
+class WelfareCell;
+class WelfareStatisItem;
 
 class WelfarePanel
     : public CCLayer
@@ -54,7 +56,16 @@ private:
     void remove();
     
     void init_header();
+    void update_statis_rewards();
+    CCNode* createStatisRewardContent(string& type, int num);
+
+    void nc_take_welfare_item_reward_631(CCObject* pObj);
+    void nc_take_welfare_statis_reward_633(CCObject* pObj);
     
+    void disappear_cell(WelfareCell* cell);
+    void disappear_finished();
+    
+    void showRewardTake(WelfareStatisItem* item);
 
 private:
     WelfareComp*        _dataSource;

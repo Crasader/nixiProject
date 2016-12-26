@@ -27,6 +27,8 @@ public:
     string id;
     int goal;
     int status;
+    string rewardType;
+    int rewardNum;
 };
 
 class WelfareItem : public CCObject
@@ -43,6 +45,8 @@ public:
     int goal;
     string rewardType;
     int rewardNum;
+    
+    CC_SYNTHESIZE(int, _idx, Idx);
 };
 
 
@@ -58,9 +62,11 @@ public:
     
     int obtainTotalProgress();
     WelfareStatisItem* fetchStatisItem(int idx);
+    WelfareStatisItem* fetchStatisItemWithId(const char* id);
     
     int itemCount();
     WelfareItem* fetchWelfareItem(int idx);
+    WelfareItem* fetchWelfareItemWithId(const char* itemId);
 
 private:
     int                     _totalProgress;

@@ -482,6 +482,10 @@ void DataManager::handle_protocol(int cid, Value content) {
                 _welfare->update_statis(content["welfare"]["statis"]);
                 _welfare->update_items(content["welfare"]["items"]);
             }
+            
+            _player->init_with_json(content["player"]);
+            
+            pData = ccs( content["id"].asString());
         } break;
             
         case 633: {
@@ -492,6 +496,11 @@ void DataManager::handle_protocol(int cid, Value content) {
                 _welfare->update_statis(content["welfare"]["statis"]);
                 _welfare->update_items(content["welfare"]["items"]);
             }
+            
+            _player->init_with_json(content["player"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
+            
+            pData = ccs( content["id"].asString());
         } break;
             
         

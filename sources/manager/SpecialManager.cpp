@@ -206,6 +206,27 @@ void SpecialManager::show_energy_reward(CCNode *parent, int num, CCPoint start, 
     this->reward_display(energy, lbl, end, complete, duration);
 }
 
+void SpecialManager::show_piece_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration) {
+    int zOrder = 1000;
+    // piece
+    CCSprite* piece = CCSprite::create("res/pic/gashapon/gashapon_suipian2.png");
+    piece->setPosition(start);
+    CCAnimate* flap = CCAnimate::create(AppUtil::animationWithPics("res/pic/common/fly_piece_%d.png", 2, 1, 0.3f));
+    piece->runAction(CCRepeatForever::create(flap));
+    parent->addChild(piece, zOrder);
+    
+    CCLabelAtlas* lbl = NULL;
+    if (num > 0) {
+        // num
+        CCString* str_num = CCString::createWithFormat("%d", num);
+        lbl = CCLabelAtlas::create(str_num->getCString(), "res/pic/baseScene/base_number.png", 14, 20, '0');
+        parent->addChild(lbl, zOrder);
+    }
+    
+    CCCallFuncN* complete = CCCallFuncN::create(this, SEL_CallFuncN(&SpecialManager::energy_animation_completed));
+    this->reward_display(piece, lbl, end, complete, duration);
+}
+
 #pragma - Inner
 
 CCAnimation* SpecialManager::animationByName(const char* name) {
@@ -272,6 +293,13 @@ void SpecialManager::gold_animation_completed(CCNode* node) {
 
 void SpecialManager::energy_animation_completed(CCNode* node) {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("ENERGY_FLY_COMPLETED");
+    //
+    node->stopAllActions();
+    node->removeFromParentAndCleanup(true);
+}
+
+void SpecialManager::piece_animation_completed(CCNode* node) {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("PIECE_FLY_COMPLETED");
     //
     node->stopAllActions();
     node->removeFromParentAndCleanup(true);

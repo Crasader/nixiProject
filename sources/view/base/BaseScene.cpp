@@ -74,9 +74,12 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_coin_fly), "NEED_COIN_FLY", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_gold_fly), "NEED_GOLD_FLY", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_energy_fly), "NEED_ENERGY_FLY", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_need_piece_fly), "NEED_PIECE_FLY", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_coin_fly_completed), "COIN_FLY_COMPLETED", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_gold_fly_completed), "GOLD_FLY_COMPLETED", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_energy_fly_completed), "ENERGY_FLY_COMPLETED", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_piece_fly_completed), "PIECE_FLY_COMPLETED", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::push_Android), "Push_Android", NULL);
     
@@ -523,6 +526,16 @@ void BaseScene::nc_need_energy_fly(CCObject *pObj) {
     }
 }
 
+void BaseScene::nc_need_piece_fly(CCObject *pObj) {
+    CCDictionary* dic = (CCDictionary*)pObj;
+    if (dic) {
+        CCInteger* num = (CCInteger*)dic->objectForKey("num");
+        CCString* from = (CCString*)dic->objectForKey("from");
+        CCPoint end = nameItem->getPosition() + DISPLAY->center() - ccp(60, 50);
+        SPECIAL->show_piece_reward(this->getScene(), num->getValue(), CCPointFromString(from->getCString()), end);
+    }
+}
+
 void BaseScene::nc_coin_fly_completed(CCObject *pObj) {
     updataMoney();
 }
@@ -533,6 +546,10 @@ void BaseScene::nc_gold_fly_completed(CCObject *pObj) {
 
 void BaseScene::nc_energy_fly_completed(CCObject *pObj) {
     updataMoney();
+}
+
+void BaseScene::nc_piece_fly_completed(CCObject *pObj) {
+
 }
 
 void BaseScene::push_Android(CCObject* pObj){

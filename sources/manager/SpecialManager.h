@@ -34,6 +34,7 @@ public:
     void show_coin_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration=1.2f);
     void show_gold_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration=1.2f);
     void show_energy_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration=1.2f);
+    void show_piece_reward(CCNode *parent, int num, CCPoint start, CCPoint end, float duration=1.2f);
     
 private:
     CCAnimation* animationByName(const char* name);
@@ -45,9 +46,11 @@ private:
     void reward_display(CCNode* icon, CCNode* num, CCPoint end, CCCallFuncN* complete, float duration);
     CCActionInterval* fly_action(CCPoint start, CCPoint end, float duration);
     void show_flower(CCNode* node);
+    
     void coin_animation_completed(CCNode* node);
     void gold_animation_completed(CCNode* node);
     void energy_animation_completed(CCNode* node);
+    void piece_animation_completed(CCNode* node);
     
 private:
     CCDictionary*           _specials;

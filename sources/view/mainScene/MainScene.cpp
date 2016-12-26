@@ -2315,7 +2315,7 @@ void MainScene::update_news_status() {
         }
     }
     // 签到
-    if (DATA->getNews()->signin7 == 1) { // 可签
+    if (news->signin7 == 1) { // 可签
         CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(20, 74));
         spt->setTag(175);
@@ -2327,6 +2327,21 @@ void MainScene::update_news_status() {
             hongDian->removeFromParent();
         }
     }
+    // 每日福利
+    if (news->welfare == 1) {
+        CCSprite* spt = CCSprite::create("res/pic/new.png");
+        spt->setPosition(ccp(20, 74));
+        spt->setTag(185);
+        _welfareItem->addChild(spt);
+    }
+    else {
+        CCNode* hongDian = _welfareItem->getChildByTag(185);
+        if (NULL != hongDian) {
+            hongDian->removeFromParent();
+        }
+    }
+    
+    
 //    // 国庆临时签到
 //    if (DATA->current_guide_step() == 0) {
 //        float scale = 1;
