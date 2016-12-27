@@ -52,14 +52,13 @@ bool TaskScene::init(bool isPhaseUP){
     }
     
     num_child = 0;
-    
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
-//    CCLOG("_isPhaseUP = %d", _isPhaseUP);
-    _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
-    _buildingLayer->setTag(0x55555);
-    this->addChild(_buildingLayer);
-    
+    CCLOG("_isPhaseUP = %d", _isPhaseUP);
     if (_isPhaseUP == true) {
+        _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), _isPhaseUP);
+        _buildingLayer->setTag(0x55555);
+        this->addChild(_buildingLayer);
+        
         CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&TaskScene::nc_phase_up_finished), "Phase_Up_Finished", NULL);
     }
     else {

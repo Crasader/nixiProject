@@ -323,7 +323,6 @@ void TaskStoryScene::keyBackClicked(){
 }
 
 void TaskStoryScene::creat_view(){
-//    taskPhase = DATA->getPlayer()->phase;
     taskPhase = DATA->getTaskPhase();
     CCArray* tempArr = CCArray::create();
     for (int i = 0; i < taskArr->count(); i++) {
@@ -340,17 +339,23 @@ void TaskStoryScene::creat_view(){
     bg->setPosition(DISPLAY->center());
     this->addChild(bg);
     
-    CCString* str = NULL;
-    if (taskPhase < 3) {
-        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", taskPhase);
+    if (taskPhase < 4) {
+        CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", taskPhase);
+        CCSprite* building = CCSprite::create(str->getCString());
+        building->setAnchorPoint(CCPointZero);
+        building->setPosition(ccp(0, DISPLAY->H() * 0.22));
+        this->addChild(building);
     }
     else {
-        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
+        CCSprite* phaseBg = CCSprite::create("pic/taskScene/task_phase_bg.png");
+        phaseBg->setPosition(DISPLAY->center());
+        this->addChild(phaseBg);
+        
+        CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", 4);
+        CCSprite* building = CCSprite::create(str->getCString());
+        building->setPosition(DISPLAY->center());
+        this->addChild(building);
     }
-    CCSprite* _building = CCSprite::create(str->getCString());
-    _building->setAnchorPoint(CCPointZero);
-    _building->setPosition(ccp(0, DISPLAY->H() * 0.22));
-    this->addChild(_building);
     
     CCSprite* fountain = CCSprite::create("res/pic/taskScene/task_fountain.png");
     fountain->setPosition(ccp(DISPLAY->halfW() + 175, DISPLAY->H() * 0.287));

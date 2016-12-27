@@ -59,18 +59,23 @@ bool BuildingLayer::init(int phase, bool isPhaseUp) {
     this->addAction();
     this->scheduleUpdate();
     
-    CCString* str = NULL;
-    if (_phase < 3) {
-        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", _phase);
+    if (_phase < 4) {
+        CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", _phase);
+        _building = CCSprite::create(str->getCString());
+        _building->setAnchorPoint(CCPointZero);
+        _building->setPosition(ccp(0, DISPLAY->H() * 0.22));
+        this->addChild(_building);
     }
     else {
-        str = CCString::createWithFormat("res/pic/taskScene/task_building_%d.png", 3);
+        CCSprite* phaseBg = CCSprite::create("pic/taskScene/task_phase_bg.png");
+        phaseBg->setPosition(DISPLAY->center());
+        this->addChild(phaseBg);
+        
+        CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", 4);
+        _building = CCSprite::create(str->getCString());
+        _building->setPosition(DISPLAY->center());
+        this->addChild(_building);
     }
-    
-    _building = CCSprite::create(str->getCString());
-    _building->setAnchorPoint(CCPointZero);
-    _building->setPosition(ccp(0, DISPLAY->H() * 0.22));
-    this->addChild(_building);
     
     CCSprite* fountain = CCSprite::create("res/pic/taskScene/task_fountain.png");
     fountain->setPosition(ccp(DISPLAY->halfW() + 175, DISPLAY->H() * 0.287));
