@@ -46,11 +46,6 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
-//    CCSprite* spt = CCSprite::create();;
-//    spt->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
-//    this->addChild(spt);
-    
-    
     CCLabelTTF* lblName = CCLabelTTF::create(item->name.c_str(), DISPLAY->fangzhengFont(), 26);
     lblName->setAnchorPoint(ccp(0, 0.5));
     lblName->setColor(ccc3(159, 55, 98));
@@ -112,6 +107,13 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
     _progress->setMidpoint(ccp(0, 0.5));
     _progress->setBarChangeRate(ccp(1, 0));
     this->addChild(_progress);
+    
+    //
+    if (item->status == -1) {
+        CCSprite* sptMask = CCSprite::create("pic/welfare/welfare_mask.png");
+        sptMask->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
+        this->addChild(sptMask);
+    }
     
     
     this->goStar(idx, item->progress, item->goal, item->status);

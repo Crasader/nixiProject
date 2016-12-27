@@ -21,6 +21,7 @@
 const float CELL_WIDTH = 482;
 const float CELL_HEIGHT = 110;
 
+const int HEADER_START_ZORDER = 10;
 
 #pragma mark - Export
 
@@ -165,7 +166,7 @@ void WelfarePanel::init_header() {
     _totalProgress->runAction(CCProgressFromTo::create(duration, 0, per * 100));
     
     CCSprite* star = CCSprite::create("pic/welfare/welfare_star2.png");
-    _totalProgress->addChild(star);
+    _totalProgress->addChild(star, HEADER_START_ZORDER);
     CCSize progressSize = _totalProgress->getContentSize();
     float toX = progressSize.width * per;
     
@@ -198,7 +199,7 @@ void WelfarePanel::update_statis_rewards() {
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
             box = CCSprite::create(boxName->getCString());
             box->setPosition(ccp(barSize.width * precent, baseHeight));
-            _totalProgress->addChild(box);
+            _totalProgress->addChild(box, HEADER_START_ZORDER-1);
             
             CCDictionary* data = CCDictionary::create();
             data->setObject(ccs(item->id), "id");
@@ -232,7 +233,7 @@ void WelfarePanel::update_statis_rewards() {
             CCString* boxName = CCString::createWithFormat("pic/building/progress/pack_%d.png", i);
             box = CCSprite::create(boxName->getCString());
             box->setPosition(ccp(barSize.width * precent, baseHeight));
-            _totalProgress->addChild(box);
+            _totalProgress->addChild(box, HEADER_START_ZORDER-1);
             
             CCRect spt_rect = box->getTextureRect();
             
@@ -258,7 +259,7 @@ void WelfarePanel::update_statis_rewards() {
             box = CCSprite::create(boxName->getCString());
             box->setPosition(ccp(barSize.width * precent, baseHeight));
             box->setUserObject(CCBool::create(false));
-            _totalProgress->addChild(box);
+            _totalProgress->addChild(box, HEADER_START_ZORDER-1);
             
             CCDictionary* data = CCDictionary::create();
             data->setObject(ccs(item->id), "id");
@@ -270,8 +271,9 @@ void WelfarePanel::update_statis_rewards() {
             _boxes->addObject(box);
             
             CCNode* reward = this->createStatisRewardContent(item->rewardType, item->rewardNum);
+            reward->setPosition(box->getPosition() + ccp(0, -15));
             if (reward) {
-                box->addChild(reward);
+                _totalProgress->addChild(reward, HEADER_START_ZORDER+1);
             }
         }
         
