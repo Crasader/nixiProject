@@ -1,25 +1,25 @@
 //
-//  WelfareCell.cpp
+//  AchievementCell.cpp
 //  tiegao
 //
 //  Created by mac on 16/12/24.
 //
 //
 
-#include "WelfareCell.h"
+#include "AchievementCell.h"
 
 #include "DisplayManager.h"
 #include "NetManager.h"
 
-#include "WelfareComp.h"
+#include "AchievementComp.h"
 #include "Loading2.h"
 
-WelfareCell::~WelfareCell() {
+AchievementCell::~AchievementCell() {
 
 }
 
-WelfareCell* WelfareCell::create(const char *pszFileName) {
-    WelfareCell* pRet = new WelfareCell();
+AchievementCell* AchievementCell::create(const char *pszFileName) {
+    AchievementCell* pRet = new AchievementCell();
     if (pRet && pRet->init(pszFileName))
     {
         pRet->autorelease();
@@ -33,7 +33,7 @@ WelfareCell* WelfareCell::create(const char *pszFileName) {
     }
 }
 
-bool WelfareCell::init(const char *pszFileName) {
+bool AchievementCell::init(const char *pszFileName) {
     if (!CCSprite::initWithFile(pszFileName)) {
         return false;
     }
@@ -42,38 +42,31 @@ bool WelfareCell::init(const char *pszFileName) {
 }
 
 
-void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWidth, float cellHeight) {
+void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, float cellWidth, float cellHeight) {
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
-    CCLabelTTF* lblName = CCLabelTTF::create(item->name.c_str(), DISPLAY->fangzhengFont(), 26);
+    CCLabelTTF* lblName = CCLabelTTF::create(item->getDesc().c_str(), DISPLAY->fangzhengFont(), 26);
     lblName->setAnchorPoint(ccp(0, 0.5));
     lblName->setColor(ccc3(159, 55, 98));
     lblName->setPosition(ccp(cellWidth * 0.03, halfCellHeight));
     this->addChild(lblName);
     
+    _rewardIcon = CCSprite::create("pic/welfare/welfare_reward_plate_diam.png");
+    _rewardIcon->setPosition(ccp(cellWidth * 0.65, halfCellHeight));
+    this->addChild(_rewardIcon);
     
-    CCString* strIcon = CCString::createWithFormat("pic/welfare/welfare_reward_plate_%s.png", item->rewardType.c_str());
-    if (strIcon) {
-        _rewardIcon = CCSprite::create(strIcon->getCString());
-        _rewardIcon->setPosition(ccp(cellWidth * 0.65, halfCellHeight));
-        this->addChild(_rewardIcon);
-        
-        CCString* strNum = CCString::createWithFormat("%d", item->rewardNum);
-        CCLabelTTF* lblRewardNum = CCLabelTTF::create(strNum->getCString(), DISPLAY->fangzhengFont(), 20);
-        lblRewardNum->setColor(ccc3(227, 112, 86));
-        lblRewardNum->setPosition(_rewardIcon->getPosition() + ccp(17, -2));
-        this->addChild(lblRewardNum);
-    }
-    else {
-        _rewardIcon = NULL;
-    }
+    CCString* strNum = CCString::createWithFormat("%d", item->getNum());
+    CCLabelTTF* lblRewardNum = CCLabelTTF::create(strNum->getCString(), DISPLAY->fangzhengFont(), 20);
+    lblRewardNum->setColor(ccc3(227, 112, 86));
+    lblRewardNum->setPosition(_rewardIcon->getPosition() + ccp(17, -2));
+    this->addChild(lblRewardNum);
     
     _sptButton1 = CCSprite::create("pic/welfare/welfare_btn_take.png");
     _sptButton2 = CCSprite::create("pic/welfare/welfare_btn_take.png");
     _sptButton2->setScale(1.005);
-    CCMenuItem* btn = CCMenuItemSprite::create(_sptButton1, _sptButton2, this, SEL_MenuHandler(&WelfareCell::on_btn_take));
-    btn->setUserObject(ccs(item->id));
+    CCMenuItem* btn = CCMenuItemSprite::create(_sptButton1, _sptButton2, this, SEL_MenuHandler(&AchievementCell::on_btn_take));
+    btn->setUserObject(CCInteger::create(item->getId()));
     _menuBtn = CCMenu::createWithItem(btn);
     _menuBtn->setPosition(ccp(cellWidth * 0.88, halfCellHeight));
     _menuBtn->setEnabled(false);
@@ -82,18 +75,18 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
     
     float progressFontSize = 30.f;
     
-    CCString* strProgressHead = CCString::createWithFormat("%d", item->progress);
-    CCLabelTTF* lblProgressHead = CCLabelTTF::create(strProgressHead->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
-    lblProgressHead->setColor(ccc3(246, 255, 4));
-    lblProgressHead->setAnchorPoint(ccp(1, 0.5));
-    lblProgressHead->setPosition(ccp(_sptButton1->getContentSize().width * 0.45, _sptButton1->getContentSize().height * 0.5));
-    _sptButton1->addChild(lblProgressHead);
-    
-    CCString* strProgressTail = CCString::createWithFormat("/%d", item->goal);
-    CCLabelTTF* lblProgressTail = CCLabelTTF::create(strProgressTail->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
-    lblProgressTail->setAnchorPoint(ccp(0, 0.5));
-    lblProgressTail->setPosition(lblProgressHead->getPosition());
-    _sptButton1->addChild(lblProgressTail);
+//    CCString* strProgressHead = CCString::createWithFormat("%d", item->progress);
+//    CCLabelTTF* lblProgressHead = CCLabelTTF::create(strProgressHead->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
+//    lblProgressHead->setColor(ccc3(246, 255, 4));
+//    lblProgressHead->setAnchorPoint(ccp(1, 0.5));
+//    lblProgressHead->setPosition(ccp(_sptButton1->getContentSize().width * 0.45, _sptButton1->getContentSize().height * 0.5));
+//    _sptButton1->addChild(lblProgressHead);
+//    
+//    CCString* strProgressTail = CCString::createWithFormat("/%d", item->goal);
+//    CCLabelTTF* lblProgressTail = CCLabelTTF::create(strProgressTail->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
+//    lblProgressTail->setAnchorPoint(ccp(0, 0.5));
+//    lblProgressTail->setPosition(lblProgressHead->getPosition());
+//    _sptButton1->addChild(lblProgressTail);
     
     CCSprite* progressBottom = CCSprite::create("pic/welfare/welfare_item_bar_1.png");
     progressBottom->setPosition(ccp(halfCellWidth, cellHeight * 0.15));
@@ -109,22 +102,22 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
     this->addChild(_progress);
     
     //
-    if (item->status == -1) {
-        CCSprite* sptMask = CCSprite::create("pic/welfare/welfare_mask.png");
-        sptMask->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
-        this->addChild(sptMask);
-    }
-    
-    
-    this->goStar(idx, item->progress, item->goal, item->status);
+//    if (item->status == -1) {
+//        CCSprite* sptMask = CCSprite::create("pic/welfare/welfare_mask.png");
+//        sptMask->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
+//        this->addChild(sptMask);
+//    }
+//    
+//    
+//    this->goStar(idx, item->progress, item->goal, item->status);
 }
 
-//void WelfareCell::onEnter() {
+//void AchievementCell::onEnter() {
 //    this->goStar();
 //}
 
 
-void WelfareCell::goStar(int idx, int progress, int goal, int status) {
+void AchievementCell::goStar(int idx, int progress, int goal, int status) {
     float per = MIN(progress * 0.1 / goal * 10, 1.0);
     float duration = 1.f * per;
 
@@ -135,12 +128,12 @@ void WelfareCell::goStar(int idx, int progress, int goal, int status) {
     CCSize progressSize = _progress->getContentSize();
     float toX = progressSize.width * per;
     
-    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&WelfareCell::moveFinish), CCInteger::create(status));
+    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&AchievementCell::moveFinish), CCInteger::create(status));
     CCSequence* starSeq = CCSequence::create(CCPlace::create(ccp(0, progressSize.height * 0.5)), CCMoveTo::create(duration, ccp(toX, progressSize.height * 0.5)), finish, NULL);
     _star->runAction(starSeq);
 }
 
-void WelfareCell::moveFinish(CCObject* pObj) {
+void AchievementCell::moveFinish(CCObject* pObj) {
     if (pObj) {
         int status = ((CCInteger* )pObj)->getValue();
         if (status == 0) {
@@ -177,35 +170,36 @@ void WelfareCell::moveFinish(CCObject* pObj) {
     }
 }
 
-void WelfareCell::on_btn_take(CCMenuItem *btn) {
+void AchievementCell::on_btn_take(CCMenuItem *btn) {
     LOADING->show_loading();
     CCString* id = (CCString* )btn->getUserObject();
     NET->take_welfare_item_reward_631(id->getCString());
 }
 
-void WelfareCell::showRewardAction(WelfareItem *item) {
+void AchievementCell::showRewardAction(AchievementItem *item) {
     if (! _rewardIcon) {
         return;
     }
     
     CCDictionary* postData = CCDictionary::create();
-    postData->setObject(CCInteger::create( item->rewardNum ), "num");
+    postData->setObject(CCInteger::create( item->getNum() ), "num");
     CCPoint pos = _rewardIcon->getPosition();
     CCPoint worldPos = this->convertToWorldSpace(pos);
     CCString* from = CCString::createWithFormat("{%f,%f}", worldPos.x, worldPos.y);
     CCLOG("from -- %s", from->getCString());
     postData->setObject(from, "from");
     
-    if (item->rewardType.compare("coin") == 0) {
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
-    }
-    else if (item->rewardType.compare("diam") == 0) {
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
-    }
-    else if (item->rewardType.compare("energy") == 0) {
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
-    }
-    else if (item->rewardType.compare("piece") == 0) {
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
-    }
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+//    if (item->rewardType.compare("coin") == 0) {
+//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+//    }
+//    else if (item->rewardType.compare("diam") == 0) {
+//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+//    }
+//    else if (item->rewardType.compare("energy") == 0) {
+//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
+//    }
+//    else if (item->rewardType.compare("piece") == 0) {
+//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
+//    }
 }

@@ -46,6 +46,9 @@ private:
     int                         num_child;
     DailyWelfareLayer*          _dailywelfare;
     AchievementLayer*           _achievement;
+    
+    CCMenuItemToggle*           _btnDaily;
+    CCMenuItemToggle*           _btnAchieve;
 };
 
 #endif /* WelfarePanel_hpp */

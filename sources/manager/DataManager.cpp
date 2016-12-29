@@ -71,6 +71,7 @@ void DataManager::init_data() {
     this->setMystery(MysteryComp::create());
     this->setTryst(TrystComp::create());
     this->setWelfare(WelfareComp::create());
+    this->setAchievement(AchievementComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -501,6 +502,11 @@ void DataManager::handle_protocol(int cid, Value content) {
             _operation->replace_gashapon_user(content["gashapon"]);
             
             pData = ccs( content["id"].asString());
+        } break;
+            
+        case 640: {
+            _achievement->init_template(content["template"]);
+            
         } break;
             
         

@@ -246,6 +246,9 @@ void ConfigManager::conf_login_addr(int net) {
         case 234:
             login_addr = "http://192.168.1.234:9765/account";
             break;
+        case 127:
+            login_addr = "http://127.0.0.1:9765/account";
+            break;
         default:
             login_addr = "";
             break;
@@ -266,6 +269,9 @@ void ConfigManager::conf_chat_addr(int chat) {
             break;
         case 234:
             chator_addr = "ws://192.168.1.234:20168/chator";
+            break;
+        case 127:
+            chator_addr = "ws://127.0.0.1:20168/chator";
             break;
         default:
             chator_addr = "";

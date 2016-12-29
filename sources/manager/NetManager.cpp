@@ -429,6 +429,24 @@ void NetManager::take_welfare_total_reward_633(const char *progressId) {
     this->post_data(633, data);
 }
 
+void NetManager::achievement_info_640(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(640, data);
+}
+
+void NetManager::take_achievement_reward_641(const char *achieveId) {
+    FastWriter writer;
+    Value root;
+    root["id"] = achieveId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(641, data);
+}
+
 
 void NetManager::completed_story_500() {
     this->post_data(500, string(""));

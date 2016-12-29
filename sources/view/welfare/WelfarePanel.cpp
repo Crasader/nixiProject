@@ -47,15 +47,15 @@ bool WelfarePanel::init() {
         
         CCMenuItemImage* dailyItem1 = CCMenuItemImage::create("pic/welfare/panel_btn_daily1.png", "pic/welfare/panel_btn_daily1.png");
         CCMenuItemImage* dailyItem2 = CCMenuItemImage::create("pic/welfare/panel_btn_daily2.png", "pic/welfare/panel_btn_daily2.png");
-        CCMenuItemToggle* daily = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&WelfarePanel::onDailyToggle), dailyItem1, dailyItem2, NULL);
+        _btnDaily = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&WelfarePanel::onDailyToggle), dailyItem1, dailyItem2, NULL);
         
         CCMenuItemImage* achieveItem1 = CCMenuItemImage::create("pic/welfare/panel_btn_achieve1.png", "pic/welfare/panel_btn_achieve1.png");
         CCMenuItemImage* achieveItem2 = CCMenuItemImage::create("pic/welfare/panel_btn_achieve2.png", "pic/welfare/panel_btn_achieve2.png");
-        CCMenuItemToggle* achieve = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&WelfarePanel::onAchieveToggle), achieveItem1, achieveItem2, NULL);
+        _btnAchieve = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&WelfarePanel::onAchieveToggle), achieveItem1, achieveItem2, NULL);
         
-        CCMenu* menu = CCMenu::create(daily, achieve, NULL);
+        CCMenu* menu = CCMenu::create(_btnDaily, _btnAchieve, NULL);
         menu->alignItemsVertically();
-        menu->setPosition(menu->getPosition() + ccp(panelSize.width * 0.488, panelSize.height * 0.28));
+        menu->setPosition(menu->getPosition() + ccp(panelSize.width * 0.5, panelSize.height * 0.28));
         this->addChild(menu);
         
         CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
@@ -68,7 +68,7 @@ bool WelfarePanel::init() {
         
         _dailywelfare = DailyWelfareLayer::create();
         this->addChild(_dailywelfare, LAYER_ZORDER);
-        daily->setSelectedIndex(1);
+        _btnDaily->setSelectedIndex(1);
         
         return true;
     }
@@ -129,15 +129,38 @@ void WelfarePanel::keyBackClicked(){
 }
 
 void WelfarePanel::onDailyToggle(CCMenuItemToggle *btn) {
-    bool isVisible = btn->getSelectedIndex() == 1 ? true : false;
-    _dailywelfare->setVisible(isVisible);
-
+    if (btn->getSelectedIndex() == 0) {
+        btn->setSelectedIndex(1);
+        return;
+    }
+    if (_dailywelfare) {
+        _dailywelfare->setVisible(true);
+    }
+    if (_achievement) {
+        _achievement->setVisible(false);
+        _btnAchieve->setSelectedIndex(0);
+        _btnAchieve->setEnabled(true);
+    }
 }
 
 void WelfarePanel::onAchieveToggle(CCMenuItemToggle *btn) {
     if (! _achievement) {
         _achievement = AchievementLayer::create();
         this->addChild(_achievement, LAYER_ZORDER);
+    }
+    
+    if (btn->getSelectedIndex() == 0) {
+        btn->setSelectedIndex(1);
+        return;
+    }
+    
+    if (_achievement) {
+        _achievement->setVisible(true);
+    }
+    if (_dailywelfare) {
+        _dailywelfare->setVisible(false);
+        _btnDaily->setSelectedIndex(0);
+        _btnDaily->setEnabled(true);
     }
 }
 

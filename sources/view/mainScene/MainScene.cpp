@@ -1389,6 +1389,7 @@ void MainScene::welfareCallBack(CCObject* pSender){
 void MainScene::nc_welfare_user_info(CCObject *pObj) {
     LOADING->remove();
     WelfarePanel::show();
+    NET->achievement_info_640(true);
 }
 
 void MainScene::qiandaoCallBack(CCObject* pSender){

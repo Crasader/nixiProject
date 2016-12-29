@@ -15,9 +15,8 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class WelfareComp;
-class WelfareCell;
-class WelfareStatisItem;
+class AchievementComp;
+class AchievementCell;
 
 class AchievementLayer
 : public CCLayer
@@ -52,17 +51,12 @@ private:
     void do_enter();
     void do_exit();
     void remove();
-    
-    void nc_take_welfare_item_reward_631(CCObject* pObj);
-    void nc_take_welfare_statis_reward_633(CCObject* pObj);
-    
-    void disappear_cell(WelfareCell* cell);
+        
+    void disappear_cell(AchievementCell* cell);
     void disappear_finished();
     
-    void showRewardTake(WelfareStatisItem* item);
-    
 private:
-    WelfareComp*        _dataSource;
+    AchievementComp*    _dataSource;
     
     int                 num_child;
     

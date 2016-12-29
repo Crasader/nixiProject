@@ -100,6 +100,11 @@ public:
     void take_welfare_item_reward_631(const char* itemId);
     void take_welfare_total_reward_633(const char* progressId);
     
+    //成就
+    void achievement_info_640(bool full);
+    void take_achievement_reward_641(const char* achieveId);
+    
+    
     void completed_story_500();
     void start_story_501(const char* id);
     void commit_story_503(const char* id, const char* flag);
