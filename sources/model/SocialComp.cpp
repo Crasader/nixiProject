@@ -233,8 +233,8 @@ CCArray* SocialComp::sort_friends_by_collected(CCDictionary* dic) {
         }
         
         for (int i = size - 1; i >= 0; i--) {
-            ShowComp* show1 = (ShowComp*)rtn->objectAtIndex(i);
             for (int j = i - 1; j >= 0; j--) {
+                ShowComp* show1 = (ShowComp*)rtn->objectAtIndex(i);
                 ShowComp* show2 = (ShowComp*)rtn->objectAtIndex(j);
                 if (show1->collected() > show2->collected()) {
                     rtn->exchangeObjectAtIndex(i, j);
