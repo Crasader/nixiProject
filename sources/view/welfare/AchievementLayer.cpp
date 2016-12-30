@@ -53,7 +53,7 @@ bool AchievementLayer::init() {
 
         // tableview
         float panelW = CELL_WIDTH;
-        float panelH = 640;
+        float panelH = 644;
         _tv = CCTableView::create(this, CCSizeMake(panelW, panelH));
         _tv->setDirection(kCCScrollViewDirectionVertical);
         _tv->setVerticalFillOrder(kCCTableViewFillTopDown);
@@ -124,7 +124,8 @@ CCTableViewCell* AchievementLayer::tableCellAtIndex(CCTableView *table, unsigned
     AchievementItem* item = _dataSource->fetchItem(idx);
     
     AchievementCell* itemCell = AchievementCell::create("pic/welfare/welfare_plane.png");
-    itemCell->configWithAchievementItem((int)idx, item, CELL_WIDTH, CELL_HEIGHT);
+    int status = _dataSource->fetchItemState(item->getId());
+    itemCell->configWithAchievementItem((int)idx, item, CELL_WIDTH, CELL_HEIGHT, status);
     itemCell->setAnchorPoint(ccp(0.5f, 0.5f));
     itemCell->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     itemCell->setTag(1);

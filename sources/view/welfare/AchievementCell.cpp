@@ -9,6 +9,7 @@
 #include "AchievementCell.h"
 
 #include "DisplayManager.h"
+#include "DataManager.h"
 #include "NetManager.h"
 
 #include "AchievementComp.h"
@@ -42,7 +43,7 @@ bool AchievementCell::init(const char *pszFileName) {
 }
 
 
-void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, float cellWidth, float cellHeight) {
+void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, float cellWidth, float cellHeight, int status) {
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
@@ -75,19 +76,6 @@ void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, 
     
     float progressFontSize = 30.f;
     
-//    CCString* strProgressHead = CCString::createWithFormat("%d", item->progress);
-//    CCLabelTTF* lblProgressHead = CCLabelTTF::create(strProgressHead->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
-//    lblProgressHead->setColor(ccc3(246, 255, 4));
-//    lblProgressHead->setAnchorPoint(ccp(1, 0.5));
-//    lblProgressHead->setPosition(ccp(_sptButton1->getContentSize().width * 0.45, _sptButton1->getContentSize().height * 0.5));
-//    _sptButton1->addChild(lblProgressHead);
-//    
-//    CCString* strProgressTail = CCString::createWithFormat("/%d", item->goal);
-//    CCLabelTTF* lblProgressTail = CCLabelTTF::create(strProgressTail->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
-//    lblProgressTail->setAnchorPoint(ccp(0, 0.5));
-//    lblProgressTail->setPosition(lblProgressHead->getPosition());
-//    _sptButton1->addChild(lblProgressTail);
-    
     CCSprite* progressBottom = CCSprite::create("pic/welfare/welfare_item_bar_1.png");
     progressBottom->setPosition(ccp(halfCellWidth, cellHeight * 0.15));
     this->addChild(progressBottom);
@@ -101,21 +89,57 @@ void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, 
     _progress->setBarChangeRate(ccp(1, 0));
     this->addChild(_progress);
     
-    //
-//    if (item->status == -1) {
-//        CCSprite* sptMask = CCSprite::create("pic/welfare/welfare_mask.png");
-//        sptMask->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
-//        this->addChild(sptMask);
-//    }
-//    
-//    
-//    this->goStar(idx, item->progress, item->goal, item->status);
+    _star = CCSprite::create("pic/welfare/welfare_star1.png");
+    _progress->addChild(_star);
+    
+    if (status == 1) {
+        CCLabelTTF* lblTake1 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
+        lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
+        _sptButton1->addChild(lblTake1);
+        
+        CCLabelTTF* lblTake2 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
+        lblTake2->setPosition(lblTake1->getPosition());
+        _sptButton2->addChild(lblTake2);
+        
+        _star->setPosition(ccp(_progress->getContentSize().width, barSize.height * 0.5));
+        _star->runAction(CCRepeatForever::create( CCRotateBy::create(1.2, 360)) );
+        _progress->setPercentage(100);
+        _menuBtn->setEnabled(true);
+    }
+    else if (status == -1) {
+        CCLabelTTF* lblTake1 = CCLabelTTF::create("已领", DISPLAY->fangzhengFont(), 30);
+        lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
+        _sptButton1->addChild(lblTake1);
+        
+        _star->setPosition(ccp(_progress->getContentSize().width, barSize.height * 0.5));
+        _progress->setPercentage(100);
+        _menuBtn->setEnabled(false);
+        
+        CCSprite* sptMask = CCSprite::create("pic/welfare/welfare_mask.png");
+        sptMask->setPosition(ccp(cellWidth * 0.5, cellHeight * 0.5));
+        this->addChild(sptMask);
+    }
+    else {
+        int accumulate = DATA->getAchievement()->fetchItemAccumulate(item->getId());
+        CCString* strProgressHead = CCString::createWithFormat("%d", accumulate);
+        CCLabelTTF* lblProgressHead = CCLabelTTF::create(strProgressHead->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
+        lblProgressHead->setColor(ccc3(246, 255, 4));
+        lblProgressHead->setAnchorPoint(ccp(1, 0.5));
+        lblProgressHead->setPosition(ccp(_sptButton1->getContentSize().width * 0.45, _sptButton1->getContentSize().height * 0.5));
+        _sptButton1->addChild(lblProgressHead);
+        
+        CCString* strProgressTail = CCString::createWithFormat("/%d", item->getGoal());
+        CCLabelTTF* lblProgressTail = CCLabelTTF::create(strProgressTail->getCString(), DISPLAY->fangzhengFont(), progressFontSize);
+        lblProgressTail->setAnchorPoint(ccp(0, 0.5));
+        lblProgressTail->setPosition(lblProgressHead->getPosition());
+        _sptButton1->addChild(lblProgressTail);
+        
+        float per = accumulate * 0.1 / item->getGoal() * 10;
+        _progress->setPercentage(per * 100) ;
+        _star->setPosition(ccp(_progress->getContentSize().width * per, barSize.height * 0.5));
+        _menuBtn->setEnabled(false);
+    }
 }
-
-//void AchievementCell::onEnter() {
-//    this->goStar();
-//}
-
 
 void AchievementCell::goStar(int idx, int progress, int goal, int status) {
     float per = MIN(progress * 0.1 / goal * 10, 1.0);

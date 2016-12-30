@@ -42,12 +42,21 @@ public:
     bool init();
     
     void init_template(Value json);
+    void update_user_accumulated(Value json);
+    void update_user_achieved(Value json);
+    void update_user_finished(Value json);
     int itemCount();
     AchievementItem* fetchItem(int idx);
-
+    int fetchItemState(int id);
+    int fetchItemAccumulate(int id);
+    
 private:
     int                     _totalProgress;
     CCArray*                _items;
+    
+    CCDictionary*           _accumulated;
+    CCArray*                _achieved;
+    CCArray*                _finished;
 };
 
 #endif /* AchievementComp_hpp */

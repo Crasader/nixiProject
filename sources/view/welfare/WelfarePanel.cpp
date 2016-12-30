@@ -101,6 +101,11 @@ bool WelfarePanel::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEve
             remove();
         }
     }
+    else if (_achievement->isVisible()) {
+        if (! _achievement->getBoundary().containsPoint(touchLocation)) {
+            remove();
+        }
+    }
     
     return true;
 }

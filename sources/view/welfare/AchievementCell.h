@@ -26,7 +26,7 @@ public:
     ~AchievementCell();
     static AchievementCell* create(const char *pszFileName);
     bool init(const char *pszFileName);
-    void configWithAchievementItem(int idx, AchievementItem* item, float cellWidth, float cellHeight);
+    void configWithAchievementItem(int idx, AchievementItem* item, float cellWidth, float cellHeight, int status);
     
     void goStar(int idx, int progress, int goal, int status);
     

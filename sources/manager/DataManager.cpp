@@ -506,7 +506,9 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 640: {
             _achievement->init_template(content["template"]);
-            
+            _achievement->update_user_accumulated(content["accumulated"]);
+            _achievement->update_user_achieved(content["achieved"]);
+            _achievement->update_user_finished(content["finished"]);
         } break;
             
         
