@@ -51,7 +51,8 @@ private:
     void do_enter();
     void do_exit();
     void remove();
-        
+    
+    void nc_take_achievement_reward_641(CCObject* pObj);
     void disappear_cell(AchievementCell* cell);
     void disappear_finished();
     

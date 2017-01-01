@@ -77,7 +77,8 @@ bool AchievementLayer::init() {
 void AchievementLayer::onEnter() {
     CCLayer::onEnter();
     
-//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&AchievementLayer::nc_take_achievement_reward_641), "HTTP_FINISHED_641", NULL);
 }
 
 void AchievementLayer::onExit() {
@@ -98,6 +99,26 @@ void AchievementLayer::remove() {
     //    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_REMOVE");
 }
 
+void AchievementLayer::nc_take_achievement_reward_641(CCObject *pObj) {
+    LOADING->remove();
+    CCDictionary* result = (CCDictionary* )pObj;
+    CCInteger* id = (CCInteger* )result->objectForKey("id");
+    CCString* type = (CCString* )result->objectForKey("type");
+    CCInteger* num = (CCInteger* )result->objectForKey("num");
+    
+    int idx = _dataSource->fetchItemIndex(id->getValue());
+    if (idx != -1) {
+        CCTableViewCell* cell = _tv->cellAtIndex(idx);
+        if (cell) {
+            AchievementCell* node = (AchievementCell* )cell->getChildByTag(1);
+            if (node) {
+                node->showRewardAction(type->getCString(), num->getValue());
+                this->disappear_cell(node);
+            }
+        }
+    }
+}
+
 void AchievementLayer::disappear_cell(AchievementCell* node) {
     CCCallFunc* finished = CCCallFunc::create(this, SEL_CallFunc(&AchievementLayer::disappear_finished));
     
@@ -106,6 +127,7 @@ void AchievementLayer::disappear_cell(AchievementCell* node) {
 }
 
 void AchievementLayer::disappear_finished() {
+    _dataSource->update_sorted_item_keys();        // important
     _tv->reloadData();
 }
 
@@ -122,10 +144,10 @@ CCSize AchievementLayer::cellSizeForTable(CCTableView *table) {
 CCTableViewCell* AchievementLayer::tableCellAtIndex(CCTableView *table, unsigned int idx) {
     CCTableViewCell* cell = new CCTableViewCell();
     AchievementItem* item = _dataSource->fetchItem(idx);
+    CCLOG("index = %d, id = %d, order = %d", idx, item->getId(), item->getOrder());
     
     AchievementCell* itemCell = AchievementCell::create("pic/welfare/welfare_plane.png");
-    int status = _dataSource->fetchItemState(item->getId());
-    itemCell->configWithAchievementItem((int)idx, item, CELL_WIDTH, CELL_HEIGHT, status);
+    itemCell->configWithAchievementItem((int)idx, item, CELL_WIDTH, CELL_HEIGHT);
     itemCell->setAnchorPoint(ccp(0.5f, 0.5f));
     itemCell->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     itemCell->setTag(1);

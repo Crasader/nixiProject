@@ -102,7 +102,7 @@ public:
     
     //成就
     void achievement_info_640(bool full);
-    void take_achievement_reward_641(const char* achieveId);
+    void take_achievement_reward_641(int achieveId);
     
     
     void completed_story_500();

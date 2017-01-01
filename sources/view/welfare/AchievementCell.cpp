@@ -43,7 +43,7 @@ bool AchievementCell::init(const char *pszFileName) {
 }
 
 
-void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, float cellWidth, float cellHeight, int status) {
+void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, float cellWidth, float cellHeight) {
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
@@ -92,6 +92,7 @@ void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, 
     _star = CCSprite::create("pic/welfare/welfare_star1.png");
     _progress->addChild(_star);
     
+    int status = item->getStatus();
     if (status == 1) {
         CCLabelTTF* lblTake1 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
         lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
@@ -196,17 +197,17 @@ void AchievementCell::moveFinish(CCObject* pObj) {
 
 void AchievementCell::on_btn_take(CCMenuItem *btn) {
     LOADING->show_loading();
-    CCString* id = (CCString* )btn->getUserObject();
-    NET->take_welfare_item_reward_631(id->getCString());
+    CCInteger* id = (CCInteger* )btn->getUserObject();
+    NET->take_achievement_reward_641(id->getValue());
 }
 
-void AchievementCell::showRewardAction(AchievementItem *item) {
+void AchievementCell::showRewardAction(const char* type, int num) {
     if (! _rewardIcon) {
         return;
     }
     
     CCDictionary* postData = CCDictionary::create();
-    postData->setObject(CCInteger::create( item->getNum() ), "num");
+    postData->setObject(CCInteger::create(num), "num");
     CCPoint pos = _rewardIcon->getPosition();
     CCPoint worldPos = this->convertToWorldSpace(pos);
     CCString* from = CCString::createWithFormat("{%f,%f}", worldPos.x, worldPos.y);
@@ -214,16 +215,20 @@ void AchievementCell::showRewardAction(AchievementItem *item) {
     postData->setObject(from, "from");
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
-//    if (item->rewardType.compare("coin") == 0) {
-//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
-//    }
-//    else if (item->rewardType.compare("diam") == 0) {
-//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
-//    }
-//    else if (item->rewardType.compare("energy") == 0) {
-//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
-//    }
-//    else if (item->rewardType.compare("piece") == 0) {
-//        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
-//    }
+    if (strcmp(type, "coin") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+    }
+    else if (strcmp(type, "diam") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+    }
+    else if (strcmp(type, "energy") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
+    }
+    else if (strcmp(type, "piece") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
+    }
 }
+
+
+
+

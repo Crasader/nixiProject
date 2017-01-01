@@ -31,6 +31,7 @@ public:
     CC_SYNTHESIZE(int, _num, Num);
     CC_SYNTHESIZE_PASS_BY_REF(string, _desc, Desc);
     CC_SYNTHESIZE(int, _status, Status);
+    CC_SYNTHESIZE(int, _order, Order);     // 排序用
 };
 
 
@@ -45,18 +46,22 @@ public:
     void update_user_accumulated(Value json);
     void update_user_achieved(Value json);
     void update_user_finished(Value json);
+    void update_sorted_item_keys();
+    
     int itemCount();
     AchievementItem* fetchItem(int idx);
-    int fetchItemState(int id);
+//    int fetchItemState(int id);
+    int fetchItemIndex(int id);
     int fetchItemAccumulate(int id);
     
 private:
     int                     _totalProgress;
-    CCArray*                _items;
+    CCDictionary*           _items;
     
     CCDictionary*           _accumulated;
-    CCArray*                _achieved;
-    CCArray*                _finished;
+//    CCArray*                _achieved;
+//    CCArray*                _finished;
+    CCArray*                _sortedItemKeys;
 };
 
 #endif /* AchievementComp_hpp */

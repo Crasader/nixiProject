@@ -438,7 +438,7 @@ void NetManager::achievement_info_640(bool full) {
     this->post_data(640, data);
 }
 
-void NetManager::take_achievement_reward_641(const char *achieveId) {
+void NetManager::take_achievement_reward_641(int achieveId) {
     FastWriter writer;
     Value root;
     root["id"] = achieveId;

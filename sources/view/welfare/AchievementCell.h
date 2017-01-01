@@ -20,13 +20,13 @@ class AchievementItem;
 class AchievementCell : public CCSprite
 {
 public:
-    void showRewardAction(AchievementItem* item);
+    void showRewardAction(const char* type, int num);
 
 public:
     ~AchievementCell();
     static AchievementCell* create(const char *pszFileName);
     bool init(const char *pszFileName);
-    void configWithAchievementItem(int idx, AchievementItem* item, float cellWidth, float cellHeight, int status);
+    void configWithAchievementItem(int idx, AchievementItem* item, float cellWidth, float cellHeight);
     
     void goStar(int idx, int progress, int goal, int status);
     

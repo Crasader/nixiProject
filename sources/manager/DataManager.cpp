@@ -509,8 +509,17 @@ void DataManager::handle_protocol(int cid, Value content) {
             _achievement->update_user_accumulated(content["accumulated"]);
             _achievement->update_user_achieved(content["achieved"]);
             _achievement->update_user_finished(content["finished"]);
+            _achievement->update_sorted_item_keys();        // important
         } break;
             
+        case 641: {
+            _player->init_with_json(content["player"]);
+            
+            _achievement->update_user_achieved(content["achieved"]);
+            _achievement->update_user_finished(content["finished"]);
+            
+            pData = AppUtil::dictionary_with_json(content["result"]);
+        }
         
         case 500: {
             _story->init_with_json(content["story"]);

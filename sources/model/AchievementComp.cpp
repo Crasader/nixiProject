@@ -9,6 +9,7 @@
 #include "AchievementComp.h"
 #include "AppUtil.h"
 
+const int ECHELON_ONE_ORDER = 0;
 
 void AchievementItem::config(Value json) {
     this->setId(json[0].asInt());
@@ -20,11 +21,12 @@ void AchievementItem::config(Value json) {
 #pragma mark -
 
 int AchievementComp::itemCount() {
-    return _items->count();
+    return _sortedItemKeys->count();
 }
 
 AchievementComp::~AchievementComp() {
     CC_SAFE_DELETE(_items);
+    CC_SAFE_DELETE(_sortedItemKeys);
 }
 
 void AchievementComp::init_template(Value json) {
@@ -32,7 +34,7 @@ void AchievementComp::init_template(Value json) {
         return;
     }
     
-    CCArray* items = CCArray::create();
+    CCDictionary* items = CCDictionary::create();
     std::vector<std::string> keys = json.getMemberNames();
     for (std::vector<std::string>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
         std::string key = (std::string)* iterator;
@@ -46,7 +48,14 @@ void AchievementComp::init_template(Value json) {
                 item->config(list[i]);
                 CCString* strDesc = CCString::createWithFormat(desc.c_str(), item->getGoal());
                 item->setDesc(strDesc->getCString());
-                items->addObject(item);
+                item->setStatus(0);
+                if (i == 0) {
+                    item->setOrder(ECHELON_ONE_ORDER);
+                }
+                else {
+                    item->setOrder(item->getId());
+                }
+                items->setObject(item, item->getId());
             }
         }
     }
@@ -73,10 +82,19 @@ void AchievementComp::update_user_achieved(CSJson::Value json) {
         return;
     }
     
-    CCArray* arr = AppUtil::array_with_json(json);
-    CC_SAFE_RELEASE(_achieved);
-    _achieved = arr;
-    CC_SAFE_RETAIN(_achieved);
+//    CCArray* arr = AppUtil::array_with_json(json);
+//    CC_SAFE_RELEASE(_achieved);
+//    _achieved = arr;
+//    CC_SAFE_RETAIN(_achieved);
+    
+    int count = json.size();
+    for (int i = 0; i < count; i++) {
+        int id = json[i].asInt();
+        AchievementItem* item = (AchievementItem* )_items->objectForKey(id);
+        if (item) {
+            item->setStatus(1);
+        }
+    }
 }
 
 void AchievementComp::update_user_finished(CSJson::Value json) {
@@ -84,33 +102,87 @@ void AchievementComp::update_user_finished(CSJson::Value json) {
         return;
     }
     
-    CCArray* arr = AppUtil::array_with_json(json);
-    CC_SAFE_RELEASE(_finished);
-    _finished = arr;
-    CC_SAFE_RETAIN(_finished);
-}
-
-AchievementItem* AchievementComp::fetchItem(int idx) {
-    return (AchievementItem* )_items->objectAtIndex(idx);
-}
-
-int AchievementComp::fetchItemState(int id) {
-    CCObject* pObj = NULL;
-    CCARRAY_FOREACH(_finished, pObj) {
-        CCInteger* value = (CCInteger* )pObj;
-        if (value->getValue() == id) {
-            return -1;
+//    CCArray* arr = AppUtil::array_with_json(json);
+//    CC_SAFE_RELEASE(_finished);
+//    _finished = arr;
+//    CC_SAFE_RETAIN(_finished);
+    int count = json.size();
+    for (int i = 0; i < count; i++) {
+        int id = json[i].asInt();
+        AchievementItem* item = (AchievementItem* )_items->objectForKey(id);
+        if (item) {
+            item->setStatus(-1);
+            item->setOrder(item->getId() * 10);
+            //
+            AchievementItem* nextItem = (AchievementItem* )_items->objectForKey(item->getId() + 1);
+            if (nextItem) {
+                nextItem->setOrder(ECHELON_ONE_ORDER);
+            }
         }
     }
-    CCARRAY_FOREACH(_achieved, pObj) {
-        CCInteger* value = (CCInteger* )pObj;
-        if (value->getValue() == id) {
-            return 1;
+}
+
+void AchievementComp::update_sorted_item_keys() {
+    CCArray* keys = _items->allKeys();
+    int count = keys->count();
+    
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            int keyI = ( (CCInteger* )keys->objectAtIndex(i) )->getValue();
+            int keyJ = ( (CCInteger* )keys->objectAtIndex(j) )->getValue();
+            AchievementItem* itemI = (AchievementItem* )_items->objectForKey(keyI);
+            AchievementItem* itemJ = (AchievementItem* )_items->objectForKey(keyJ);
+            if (itemJ->getOrder() < itemI->getOrder()) {
+                keys->exchangeObjectAtIndex(i, j);
+            }
         }
     }
     
-    return 0;
+    CC_SAFE_RELEASE(_sortedItemKeys);
+    _sortedItemKeys = keys;
+    CC_SAFE_RETAIN(_sortedItemKeys);
+//    for (int i = 0; i < count; i++) {
+//        CCInteger* id = (CCInteger* )_sortedItemKeys->objectAtIndex(i);
+//        CCLOG("index = %d, id = %d", i, id->getValue());
+//    }
 }
+
+AchievementItem* AchievementComp::fetchItem(int idx) {
+    CCInteger* itemKey = (CCInteger* )_sortedItemKeys->objectAtIndex(idx);
+    return (AchievementItem* )_items->objectForKey(itemKey->getValue());
+}
+
+int AchievementComp::fetchItemIndex(int id) {
+    int rtn = -1;
+    int count = _sortedItemKeys->count();
+    for (int i = 0; i < count; i++) {
+        CCInteger* idd = (CCInteger* )_sortedItemKeys->objectAtIndex(i);
+        if (idd->getValue() == id) {
+            rtn = i;
+            break;
+        }
+    }
+    
+    return rtn;
+}
+
+//int AchievementComp::fetchItemState(int id) {
+//    CCObject* pObj = NULL;
+//    CCARRAY_FOREACH(_finished, pObj) {
+//        CCInteger* value = (CCInteger* )pObj;
+//        if (value->getValue() == id) {
+//            return -1;
+//        }
+//    }
+//    CCARRAY_FOREACH(_achieved, pObj) {
+//        CCInteger* value = (CCInteger* )pObj;
+//        if (value->getValue() == id) {
+//            return 1;
+//        }
+//    }
+//    
+//    return 0;
+//}
 
 int AchievementComp::fetchItemAccumulate(int id) {
     CCString* strAchieveId = CCString::createWithFormat("%d", id / 100);
