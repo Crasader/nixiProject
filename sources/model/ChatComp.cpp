@@ -30,6 +30,14 @@ bool ChatItem::init_with_json(Value json) {
         else {
             btn = false;
         }
+        
+        Value id = json["id"];
+        if (id.type() != nullValue) {
+            this->id = id.asString();
+        }
+        else {
+            this->id = "";
+        }
     }
 
     return btn;
@@ -39,6 +47,7 @@ void ChatItem::print_self() {
     CCLOG("    ChatItem:");
     CCLOG("        name = %s", name.c_str());
     CCLOG("        chat = %s", chat.c_str());
+    CCLOG("        id = %s", id.c_str());
 }
 
 #pragma mark -

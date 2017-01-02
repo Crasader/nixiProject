@@ -300,7 +300,6 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
-    
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_free_gashapon), "CHECK_FREE_GASHAPON", NULL);
     
     // 监听是否从7日签到退出
@@ -331,7 +330,7 @@ void MainScene::onEnter(){
     // 检查是否有可用的免费抽奖
     this->check_free_gashapon();
     //
-    this->check_welfare_new();
+    this->schedule(SEL_SCHEDULE(&MainScene::check_welfare_new), 1);
     
     this->setArrPlay(this->rand_array(_arrGroup1));
     this->schedule(SEL_SCHEDULE(&MainScene::delayPlay), 10, kCCRepeatForever, 3);
@@ -2304,10 +2303,13 @@ void MainScene::update_news_status() {
     }
     // 体力奖励
     if (news->energy1 == 1 || news->energy2 == 1) {
-        CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(24, 74));
-        spt->setTag(174);
-        _btnEnergyLargess->addChild(spt);
+        CCNode* hongDian = _btnEnergyLargess->getChildByTag(174);
+        if (! hongDian) {
+            CCSprite* spt = CCSprite::create("res/pic/new.png");
+            spt->setPosition(ccp(24, 74));
+            spt->setTag(174);
+            _btnEnergyLargess->addChild(spt);
+        }
     }
     else {
         CCNode* hongDian = _btnEnergyLargess->getChildByTag(174);
@@ -2328,21 +2330,7 @@ void MainScene::update_news_status() {
             hongDian->removeFromParent();
         }
     }
-    // 每日福利
-    if (news->welfare == 1) {
-        CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(20, 74));
-        spt->setTag(185);
-        _welfareItem->addChild(spt);
-    }
-    else {
-        CCNode* hongDian = _welfareItem->getChildByTag(185);
-        if (NULL != hongDian) {
-            hongDian->removeFromParent();
-        }
-    }
-    
-    
+
 //    // 国庆临时签到
 //    if (DATA->current_guide_step() == 0) {
 //        float scale = 1;
@@ -2416,20 +2404,20 @@ void MainScene::check_free_gashapon() {
 //}
 
 void MainScene::check_welfare_new() {
-    if (DATA->getFirstOnMainScene() == true) {
+    //    if (news->welfare == 1) {
+    int newCount = DATA->getWelfare()->getNewCount() + DATA->getAchievement()->getNewCount();
+    if (newCount > 0) {
         CCSprite* spt = CCSprite::create("res/pic/new.png");
         spt->setPosition(ccp(20, 74));
-        spt->setTag(183);
+        spt->setTag(185);
         _welfareItem->addChild(spt);
     }
     else {
-        CCNode* hongDian = _welfareItem->getChildByTag(183);
+        CCNode* hongDian = _welfareItem->getChildByTag(185);
         if (NULL != hongDian) {
             hongDian->removeFromParent();
         }
     }
-    
-    DATA->setFirstOnMainScene(false);
 }
 
 void MainScene::linshiMethod(CCObject *pObj){

@@ -87,12 +87,14 @@ void AchievementComp::update_user_achieved(CSJson::Value json) {
 //    _achieved = arr;
 //    CC_SAFE_RETAIN(_achieved);
     
+    _newCount = 0;
     int count = json.size();
     for (int i = 0; i < count; i++) {
         int id = json[i].asInt();
         AchievementItem* item = (AchievementItem* )_items->objectForKey(id);
         if (item) {
             item->setStatus(1);
+            _newCount++;
         }
     }
 }
@@ -107,7 +109,7 @@ void AchievementComp::update_user_finished(CSJson::Value json) {
 //    _finished = arr;
 //    CC_SAFE_RETAIN(_finished);
     int count = json.size();
-    for (int i = 0; i < count; i++) {
+    for (int i = count - 1; i >= 0; i--) {
         int id = json[i].asInt();
         AchievementItem* item = (AchievementItem* )_items->objectForKey(id);
         if (item) {
@@ -145,6 +147,10 @@ void AchievementComp::update_sorted_item_keys() {
 //        CCInteger* id = (CCInteger* )_sortedItemKeys->objectAtIndex(i);
 //        CCLOG("index = %d, id = %d", i, id->getValue());
 //    }
+}
+
+int AchievementComp::getNewCount() {
+    return _newCount;
 }
 
 AchievementItem* AchievementComp::fetchItem(int idx) {
@@ -196,6 +202,7 @@ int AchievementComp::fetchItemAccumulate(int id) {
 }
 
 bool AchievementComp::init() {
+    _newCount = 0;
     
     return true;
 }

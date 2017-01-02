@@ -29,6 +29,7 @@ public:
     virtual bool init() { return true; }
     string name;
     string chat;
+    string id;
 };
 
 class ChatComp : public CCObject

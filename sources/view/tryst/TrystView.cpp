@@ -35,7 +35,7 @@ void TrystInputBar::startInput(const char *text) {
     _origText = text;
     _lbl->setString("");
     
-    this->schedule(SEL_SCHEDULE(&TrystInputBar::gogogo), 0.3);
+    this->schedule(SEL_SCHEDULE(&TrystInputBar::gogogo), 0.15);
 }
 
 

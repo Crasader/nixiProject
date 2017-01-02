@@ -724,7 +724,7 @@ void TotalRankTableView::toBeFriend(CCMenuItem* btn){
 
 void TotalRankTableView::tobeFriend_callback_803(){
     PromptLayer* tip = PromptLayer::create();
-    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "成功添加好友~!");
 }
 
 CCSprite* TotalRankTableView::getNumSprite(int num){

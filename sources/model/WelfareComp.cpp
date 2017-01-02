@@ -65,6 +65,7 @@ void WelfareComp::update_statis(Value json) {
     
     _totalProgress = json["total_progress"].asInt();
     
+    _statisNewCount = 0;
     CCDictionary* statis = CCDictionary::create();
     
     for (int i = 0; i < 3; i++) {
@@ -72,6 +73,9 @@ void WelfareComp::update_statis(Value json) {
         CCString* strId = CCString::createWithFormat("%d", i + 1);
         item->config(json[strId->getCString()]);
         statis->setObject(item, strId->getCString());
+        if (item->status == 1) {
+            _statisNewCount++;
+        }
     }
     
     CC_SAFE_RELEASE(_statis);
@@ -84,6 +88,7 @@ void WelfareComp::update_items(Value json) {
         return;
     }
     
+    _itemsNewCount = 0;
     CCArray* items = CCArray::create();
     std::vector<std::string> keys = json.getMemberNames();
     for (std::vector<std::string>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
@@ -93,6 +98,9 @@ void WelfareComp::update_items(Value json) {
         WelfareItem* item = WelfareItem::create();
         item->config(value);
         items->addObject(item);
+        if (item->status == 1) {
+            _itemsNewCount++;
+        }
     }
     
     int size = items->count();
@@ -112,6 +120,10 @@ void WelfareComp::update_items(Value json) {
     _items->retain();
 }
 
+int WelfareComp::getNewCount() {
+    return _statisNewCount + _itemsNewCount;
+}
+
 WelfareItem* WelfareComp::fetchWelfareItemWithId(const char *itemId) {
     int count = _items->count();
     for (int i = 0; i < count; i++) {
@@ -125,6 +137,8 @@ WelfareItem* WelfareComp::fetchWelfareItemWithId(const char *itemId) {
 }
 
 bool WelfareComp::init() {
+    _statisNewCount = 0;
+    _itemsNewCount = 0;
     
     return true;
 }

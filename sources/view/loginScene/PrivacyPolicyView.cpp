@@ -36,6 +36,8 @@ bool PrivacyPolicyView::init(){
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
     
+    this->setPosition(this->getPosition() + ccp(0, 50));
+    
     return true;
 }
 

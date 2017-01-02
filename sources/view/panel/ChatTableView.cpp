@@ -10,6 +10,10 @@
 #include "DisplayManager.h"
 #include "ChatComp.h"
 #include "DataManager.h"
+#include "NetManager.h"
+
+#include "UnderlineLabel.h"
+#include "PromptLayer.h"
 
 const float CELL_WIDTH = 400;
 const float CELL_HEIGHT = 60;
@@ -48,11 +52,30 @@ void ChatTableView::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&ChatTableView::insertMessage), "NEW_CHAT", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&ChatTableView::addfriend_callback_803), "HTTP_FINISHED_803", NULL);
 }
 
 void ChatTableView::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     CCLayer::onExit();
+}
+
+void ChatTableView::message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag) {
+    if (button_type == AH_BUTTON_TYPE_YESNO) {
+        if (button_tag == AH_BUTTON_TAG_YES) {
+            CCString* otherId = (CCString* )box->getUserObject();
+            if (otherId) {
+                NET->send_message_803(otherId->getCString(), 1);
+            }
+        }
+    }
+    
+    box->animation_out();
+}
+
+void ChatTableView::addfriend_callback_803(CCObject* pObj) {
+    PromptLayer* tip = PromptLayer::create();
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "成功添加好友~!");
 }
 
 void ChatTableView::insertMessage(CCObject *pObj){
@@ -64,13 +87,22 @@ void ChatTableView::insertMessage(CCObject *pObj){
 //    pTableView->insertCellAtIndex(DATA->getChat()->getItems()->count());
 //    pTableView->insertCellAtIndex(0);
 //    pTableView->setContentOffset(CCPoint(0, -73));
+    
+    
+    
+//    pTableView->reloadData();
+//    pTableView->setContentOffset(ccp(0, 0));
+//    if (DATA->getChat()->getItems()->count() <= 6) {
+//        pTableView->setTouchEnabled(false);
+//    }else{
+//        pTableView->setTouchEnabled(true);
+//    }
     pTableView->reloadData();
     pTableView->setContentOffset(ccp(0, 0));
-    if (DATA->getChat()->getItems()->count() <= 6) {
-        pTableView->setTouchEnabled(false);
-    }else{
-        pTableView->setTouchEnabled(true);
-    }
+    pTableView->setTouchEnabled(true);
+
+    
+    
 //    if (DATA->getChat()->getItems()->count() == 1) {
 //        pTableView->reloadData();
 //        pTableView->setContentOffset(ccp(0, 0));
@@ -110,6 +142,7 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     const char* insert_name = chat->name.c_str();
     const char* insert_chat = chat->chat.c_str();
     
+    
     CCLabelTTF* text = CCLabelTTF::create(insert_chat, DISPLAY->fangzhengFont(), 18);
     float lab_size_height = 0;
     float lab_size_width = 0;
@@ -129,7 +162,18 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     }
     
     CCString* str = CCString::createWithFormat("%s:", insert_name);
-    CCLabelTTF* nickname = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 20);
+    UnderlineLabel* nickname = UnderlineLabel::create(str->getCString(), DISPLAY->fangzhengFont(), 20);
+    nickname->setBehindInterval(-6);
+    nickname->setUnderlineSize(3);
+    nickname->setUnderlineHeight(2);
+    nickname->setUnderlineColor(ccc4(112, 146, 192, 250));
+    if (! chat->id.empty() && chat->id.compare(DATA->getLogin()->obtain_sid()) != 0) {
+        nickname->setUnderlineEnabled(true);
+    }
+    else {
+        nickname->setUnderlineEnabled(false);
+    }
+//    CCLabelTTF* nickname = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 20);
     nickname->setAnchorPoint(ccp(0, 0.5));
     nickname->setColor(ccc3(112, 146, 192));
     nickname->setPosition(ccp(CELL_WIDTH* .025f, cellHeight - 15));
@@ -156,7 +200,15 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
 }
 
 void ChatTableView::tableCellTouched(cocos2d::extension::CCTableView *table, cocos2d::extension::CCTableViewCell *cell){
-    
+    int idx = cell->getIdx();
+    ChatItem* chat = (ChatItem*)DATA->getChat()->getItems()->objectAtIndex(idx);
+    if (! chat->id.empty() && chat->id.compare(DATA->getLogin()->obtain_sid()) != 0) {
+        CCString* msg = CCString::createWithFormat("是否添加 '%s' 为好友？", chat->name.c_str());
+        AHMessageBox* mb = AHMessageBox::create_with_message(msg->getCString(), this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+        mb->setUserObject(ccs(chat->id));
+        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    }
 }
 
 CCSize ChatTableView::cellSizeForTable(cocos2d::extension::CCTableView *table){

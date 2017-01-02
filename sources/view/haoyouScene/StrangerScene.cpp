@@ -259,7 +259,7 @@ void StrangerScene::result_tip(){
     DATA->setTaskGameIndex4(goldIndex);
     
     PromptLayer* tip = PromptLayer::create();
-    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "好友请求发送成功");
+    tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "成功添加好友~!");
 }
 
 void StrangerScene::exitMan(){

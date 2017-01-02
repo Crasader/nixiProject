@@ -264,6 +264,7 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
         }else{
             root["name"] = DATA->getShow()->nickname();
             root["chat"] = content;
+            root["id"] = DATA->getShow()->getShowID();
             string data = writer.write(root);
             WS->send(data);
             

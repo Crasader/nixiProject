@@ -48,6 +48,7 @@ public:
     void update_user_finished(Value json);
     void update_sorted_item_keys();
     
+    int getNewCount();
     int itemCount();
     AchievementItem* fetchItem(int idx);
 //    int fetchItemState(int id);
@@ -59,9 +60,8 @@ private:
     CCDictionary*           _items;
     
     CCDictionary*           _accumulated;
-//    CCArray*                _achieved;
-//    CCArray*                _finished;
     CCArray*                _sortedItemKeys;
+    int                     _newCount;
 };
 
 #endif /* AchievementComp_hpp */

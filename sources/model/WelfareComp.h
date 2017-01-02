@@ -60,6 +60,7 @@ public:
     void update_statis(Value json);
     void update_items(Value json);
     
+    int getNewCount();
     int obtainTotalProgress();
     WelfareStatisItem* fetchStatisItem(int idx);
     WelfareStatisItem* fetchStatisItemWithId(const char* id);
@@ -72,6 +73,8 @@ private:
     int                     _totalProgress;
     CCDictionary*           _statis;
     CCArray*                _items;
+    int                     _statisNewCount;
+    int                     _itemsNewCount;
 };
 
 #endif /* WelfareComp_hpp */
