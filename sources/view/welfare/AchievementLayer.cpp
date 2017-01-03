@@ -146,7 +146,7 @@ CCTableViewCell* AchievementLayer::tableCellAtIndex(CCTableView *table, unsigned
     AchievementItem* item = _dataSource->fetchItem(idx);
     CCLOG("index = %d, id = %d, order = %d", idx, item->getId(), item->getOrder());
     
-    AchievementCell* itemCell = AchievementCell::create("pic/welfare/welfare_plane.png");
+    AchievementCell* itemCell = AchievementCell::create("pic/welfare/welfare_plane2.png");
     itemCell->configWithAchievementItem((int)idx, item, CELL_WIDTH, CELL_HEIGHT);
     itemCell->setAnchorPoint(ccp(0.5f, 0.5f));
     itemCell->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));

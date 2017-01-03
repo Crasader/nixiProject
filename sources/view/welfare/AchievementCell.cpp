@@ -58,7 +58,11 @@ void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, 
     this->addChild(_rewardIcon);
     
     CCString* strNum = CCString::createWithFormat("%d", item->getNum());
-    CCLabelTTF* lblRewardNum = CCLabelTTF::create(strNum->getCString(), DISPLAY->fangzhengFont(), 20);
+    float fontSize = 20.f;
+    if (item->getNum() > 999) {
+        fontSize = 18.f;
+    }
+    CCLabelTTF* lblRewardNum = CCLabelTTF::create(strNum->getCString(), DISPLAY->fangzhengFont(), fontSize);
     lblRewardNum->setColor(ccc3(227, 112, 86));
     lblRewardNum->setPosition(_rewardIcon->getPosition() + ccp(17, -2));
     this->addChild(lblRewardNum);
@@ -74,7 +78,7 @@ void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, 
     this->addChild(_menuBtn);
     
     
-    float progressFontSize = 30.f;
+    float progressFontSize = 23.f;
     
     CCSprite* progressBottom = CCSprite::create("pic/welfare/welfare_item_bar_1.png");
     progressBottom->setPosition(ccp(halfCellWidth, cellHeight * 0.15));
