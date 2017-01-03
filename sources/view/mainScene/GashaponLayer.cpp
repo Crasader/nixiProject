@@ -75,7 +75,8 @@ void GashaponLayer::keyBackClicked(){
     
     AUDIO->goback_effect();
     num_child = 0;
-    this->removeFromParentAndCleanup(true);
+//    this->removeFromParentAndCleanup(true);
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("GashaponBack");
 }
 
 bool GashaponLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
@@ -83,7 +84,8 @@ bool GashaponLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     if (! bgSpr->boundingBox().containsPoint(location)) {
         AUDIO->goback_effect();
         
-        this->removeFromParentAndCleanup(true);
+//        this->removeFromParentAndCleanup(true);
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("GashaponBack");
     }
     
     return true;

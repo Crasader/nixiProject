@@ -17,6 +17,7 @@
 #include "NoticeManager.h"
 #include "AudioManager.h"
 #include "WSManager.h"
+#include "GashaponScene.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -39,8 +40,6 @@
 #include "Signin7Panel.h"
 #include "HomeLayer.h"
 #include "EnergyLargessPanel.h"
-#include "GashaponLayer.h"
-#include "ExchangeLayer.h"
 #include "TempSignin.h"
 #include "MysteryLayer.h"
 #include "TrystScene.h"
@@ -296,8 +295,6 @@ void MainScene::onEnter(){
     
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
-    
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::creat_Exchange), "Creat_Exchange", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_free_gashapon), "CHECK_FREE_GASHAPON", NULL);
@@ -1528,6 +1525,9 @@ void MainScene::huanzhuangCallBack(CCObject* pSender){
 
 void MainScene::_huanzhuangCallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
+    
+    DATA->setClothesBool(true);
+    
     CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
@@ -1566,12 +1566,10 @@ void MainScene::nc_signin_info_302(CCObject *pObj) {
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {
     LOADING->remove();
     
-    GashaponLayer* layer = GashaponLayer::create();
-    this->getScene()->addChild(layer);
-}
-void MainScene::creat_Exchange(){
-    ExchangeLayer* layer = ExchangeLayer::create();
-    this->getScene()->addChild(layer);
+    CCLayer* layer = GashaponScene::create();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){

@@ -232,6 +232,7 @@ public:
     
     int haveEnoughCoin();
     int haveEnoughGold();
+    int haveEnoughDebris();
     int updataClothes(int type);
     
     int getTaskId(int index);

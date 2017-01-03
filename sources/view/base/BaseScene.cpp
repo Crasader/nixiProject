@@ -119,54 +119,80 @@ void BaseScene::init_UI(){
     
     
     // 体力框
-    CCSprite* tiliSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
-    CCSprite* tiliSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
-    tiliItem = CCMenuItemSprite::create(tiliSpr1, tiliSpr2, this, menu_selector(BaseScene::tiliCallBack));
-    tiliItem->setAnchorPoint(ccp(1, 1));
-    tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 2, DISPLAY->ScreenHeight()* .5f - 5));
-    CCSprite* tiliIconSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
-    tiliIconSpr->setScale(1.1f);
-    tiliIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
-    tiliItem->addChild(tiliIconSpr);
-    
-    tili_num = DATA->getPlayer()->energy;
-    CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
-    m_tili_num = CCLabelTTF::create(tiliStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(110, 22), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
-    m_tili_num->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .5f));
-    m_tili_num->setColor(ccc3(113, 89, 102));
-    tiliItem->addChild(m_tili_num);
-    // 倒计时
-    timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
-    timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -13));
-    tiliItem->addChild(timeKuangSpr);
-    
-    _minute = DATA->getTiliMinute();
-    _second = DATA->getTiliSecond();
-    CCString* timeStr;
-    if (_second == 0) {
-        timeStr = CCString::createWithFormat("%d:00", _minute);
-    }else{
-        if (_second < 10) {
-            timeStr = CCString::createWithFormat("%d:0%d", _minute, _second);
+    if (DATA->getClothesBool()) {
+        CCSprite* debrisSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
+        CCSprite* debrisSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
+        tiliItem = CCMenuItemSprite::create(debrisSpr1, debrisSpr2, this, NULL);
+        tiliItem->setAnchorPoint(ccp(1, 1));
+        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 2, DISPLAY->ScreenHeight()* .5f - 5));
+        CCSprite* debrisIconSpr = CCSprite::create("res/pic/clothesScene/gj_debris.png");
+        debrisIconSpr->setScale(1.1f);
+        debrisIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
+        tiliItem->addChild(debrisIconSpr);
+        
+        
+        CCString* debrisStr = CCString::createWithFormat("%d", DATA->getOperation()->getPiece());
+        m_lbl_debris = FlashNumberLabel3::create_with_atlas3("res/pic/baseScene/base_number.png", debrisStr->getCString(), 0, .01f);
+        if (DATA->getPlayer()->diam > 9999999) {
+            m_lbl_debris->setAnchorPoint(ccp(0, .5f));
+            m_lbl_debris->set_delegate3(this); // 设置代理
+            m_lbl_debris->setPosition(ccp(tiliItem->getContentSize().width* .13f, tiliItem->getContentSize().height* .51f));
         }else{
-            timeStr = CCString::createWithFormat("%d:%d", _minute, _second);
+            m_lbl_debris->setAnchorPoint(ccp(.5f, .5f));
+            m_lbl_debris->set_delegate3(this); // 设置代理
+            m_lbl_debris->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .51f));
         }
-    }
-    m_time_num = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 20);
-    m_time_num->setPosition(ccp(timeKuangSpr->getContentSize().width* .5f, timeKuangSpr->getContentSize().height* .5f));
-    m_time_num->setColor(ccWHITE);
-    timeKuangSpr->addChild(m_time_num);
-    
-    if (tili_num < def_TiliMax) {
-        m_time_num->setVisible(true);
-        timeKuangSpr->setVisible(true);
-        
-        this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
+        tiliItem->addChild(m_lbl_debris, 1);
     }else{
-        m_time_num->setVisible(false);
-        timeKuangSpr->setVisible(false);
+        CCSprite* tiliSpr1 = CCSprite::create("res/pic/baseScene/base_bar.png");
+        CCSprite* tiliSpr2 = CCSprite::create("res/pic/baseScene/base_bar.png");
+        tiliItem = CCMenuItemSprite::create(tiliSpr1, tiliSpr2, this, menu_selector(BaseScene::tiliCallBack));
+        tiliItem->setAnchorPoint(ccp(1, 1));
+        tiliItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 2, DISPLAY->ScreenHeight()* .5f - 5));
+        CCSprite* tiliIconSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
+        tiliIconSpr->setScale(1.1f);
+        tiliIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
+        tiliItem->addChild(tiliIconSpr);
         
-        this->unschedule(schedule_selector(BaseScene::updataTileTime));
+        tili_num = DATA->getPlayer()->energy;
+        CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
+        m_tili_num = CCLabelTTF::create(tiliStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(110, 22), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
+        m_tili_num->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .5f));
+        m_tili_num->setColor(ccc3(113, 89, 102));
+        tiliItem->addChild(m_tili_num);
+        // 倒计时
+        timeKuangSpr = CCSprite::create("res/pic/baseScene/base_timekuang.png");
+        timeKuangSpr->setPosition(ccp(tiliItem->getContentSize().width* .65f, -13));
+        tiliItem->addChild(timeKuangSpr);
+        
+        _minute = DATA->getTiliMinute();
+        _second = DATA->getTiliSecond();
+        CCString* timeStr;
+        if (_second == 0) {
+            timeStr = CCString::createWithFormat("%d:00", _minute);
+        }else{
+            if (_second < 10) {
+                timeStr = CCString::createWithFormat("%d:0%d", _minute, _second);
+            }else{
+                timeStr = CCString::createWithFormat("%d:%d", _minute, _second);
+            }
+        }
+        m_time_num = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 20);
+        m_time_num->setPosition(ccp(timeKuangSpr->getContentSize().width* .5f, timeKuangSpr->getContentSize().height* .5f));
+        m_time_num->setColor(ccWHITE);
+        timeKuangSpr->addChild(m_time_num);
+        
+        if (tili_num < def_TiliMax) {
+            m_time_num->setVisible(true);
+            timeKuangSpr->setVisible(true);
+            
+            this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
+        }else{
+            m_time_num->setVisible(false);
+            timeKuangSpr->setVisible(false);
+            
+            this->unschedule(schedule_selector(BaseScene::updataTileTime));
+        }
     }
     
     
@@ -282,33 +308,40 @@ void BaseScene::updataTileTime(float dt){
 }
 
 void BaseScene::updataMoney(){
-    uint energy = DATA->getPlayer()->energy;
-    tili_num = energy;
-    CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
-    m_tili_num->setString(tiliStr->getCString());
     
-    if (energy >= def_TiliMax) {
-        this->unschedule(schedule_selector(BaseScene::updataTileTime));
-        
-        DATA->closeTiliTime();
-        
-        m_time_num->setVisible(false);
-        timeKuangSpr->setVisible(false);
-    }else{
-        _minute = DATA->getTiliMinute();
-        _second = DATA->getTiliSecond();
-        
-        this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
-        
-        m_time_num->setVisible(true);
-        timeKuangSpr->setVisible(true);
-    }
     
     CCString* coinStr = CCString::createWithFormat("%d", DATA->getPlayer()->coin);
     m_lbl_coin->set_new_number(coinStr->getCString());
     
     CCString* goldStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
     m_lbl_gold->set_new_number2(goldStr->getCString());
+    
+    if (DATA->getClothesBool()) {
+        CCString* debrisStr = CCString::createWithFormat("%d", DATA->getOperation()->getPiece());
+        m_lbl_debris->set_new_number3(debrisStr->getCString());
+    }else{
+        uint energy = DATA->getPlayer()->energy;
+        tili_num = energy;
+        CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
+        m_tili_num->setString(tiliStr->getCString());
+        
+        if (energy >= def_TiliMax) {
+            this->unschedule(schedule_selector(BaseScene::updataTileTime));
+            
+            DATA->closeTiliTime();
+            
+            m_time_num->setVisible(false);
+            timeKuangSpr->setVisible(false);
+        }else{
+            _minute = DATA->getTiliMinute();
+            _second = DATA->getTiliSecond();
+            
+            this->schedule(schedule_selector(BaseScene::updataTileTime), 1.f);
+            
+            m_time_num->setVisible(true);
+            timeKuangSpr->setVisible(true);
+        }
+    }
 }
 
 void BaseScene::hideBaseScene(){

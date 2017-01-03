@@ -14,6 +14,7 @@
 #include "cocos-ext.h"
 #include "FlashNumberLabel.h"
 #include "FlashNumberLabel2.h"
+#include "FlashNumberLabel3.h"
 
 USING_NS_CC;
 using namespace extension;
@@ -24,6 +25,7 @@ class BaseScene
 : public CCLayer
 , public FlashNumberLabelDelegate
 , public FlashNumberLabel2Delegate
+, public FlashNumberLabel3Delegate
 {
 public:
     ~BaseScene();
@@ -64,10 +66,12 @@ public:
     int _minute, _second;
     CCLabelTTF* m_time_num, *m_tili_num;
     unsigned tili_num;
+    unsigned debris_num;
     void updataTileTime(float dt);
     
     FlashNumberLabel* m_lbl_coin;
     FlashNumberLabel2* m_lbl_gold;
+    FlashNumberLabel3* m_lbl_debris;
     void updataMoney();
     
     

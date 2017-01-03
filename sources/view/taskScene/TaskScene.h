@@ -24,7 +24,6 @@ public:
     ~TaskScene();
     static TaskScene* create(bool isPhaseUP);
     virtual bool init(bool isPhaseUP);
-    static CCScene* scene();
     
     virtual void onEnter();
     virtual void onExit();

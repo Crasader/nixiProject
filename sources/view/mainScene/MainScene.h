@@ -179,7 +179,6 @@ public:
     void _905CallBack(CCObject *pObj);
     void isTxt_Bar();
     
-    void creat_Exchange();
     void linshiMethod(CCObject *pObj);
     
     void setStartGameData(float dt);
