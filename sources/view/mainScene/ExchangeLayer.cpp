@@ -81,7 +81,8 @@ bool ExchangeLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     if (touchBool) {
         CCPoint location = pTouch->getLocation();
         if (! dikuangSpr->boundingBox().containsPoint(location)) {
-            this->removeFromParentAndCleanup(true);
+//            this->removeFromParentAndCleanup(true);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("GashaponBack");
         }
     }
     
@@ -136,13 +137,15 @@ void ExchangeLayer::creat_View(){
         int idIndex = atoi(id->getCString());
         CCSprite* diSpr = CCSprite::create("res/pic/gashapon/exchange/exchange_di.png");
         float heightFloat = .2f;
-        if (i == 1 || i == 3 || i == 5) {
+        if (i == 1 || i == 3 || i == 5 || i == 7) {
             if (i == 1) {
                 diSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .85f, dikuangSpr->getContentSize().height* (.86f - heightFloat* 0)));
             }else if (i == 3){
                 diSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .85f, dikuangSpr->getContentSize().height* (.86f - heightFloat* 1)));
             }else if (i == 5){
                 diSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .85f, dikuangSpr->getContentSize().height* (.86f - heightFloat* 2)));
+            }else if (i == 7){
+                diSpr->setPosition(ccp(dikuangSpr->getContentSize().width* .85f, dikuangSpr->getContentSize().height* (.86f - heightFloat* 3)));
             }
         }else{
             if (i == 0) {

@@ -183,6 +183,8 @@ public:
     CC_SYNTHESIZE(int, _taskTalkingdataID, TaskTalkingdataID);
     // 第一次通关
     CC_SYNTHESIZE(bool, _theEndBool, TheEndBool);
+    // 进入穿衣界面
+    CC_SYNTHESIZE(bool, _ClothesBool, ClothesBool);
     
     
     // 监听切换账号

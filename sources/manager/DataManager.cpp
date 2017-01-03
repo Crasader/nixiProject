@@ -459,6 +459,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             dic->setObject(ccs("tryst"), "name");
             dic->setObject(CCInteger::create(trystUserData->leftTime), "num");
             CCNotificationCenter::sharedNotificationCenter()->postNotification("TRYST_ALERT", dic);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+            TrystUserdata* trystUserData = _tryst->getUserData();
+            CCDictionary* dic = CCDictionary::create();
+            dic->setObject(ccs("tryst"), "name");
+            dic->setObject(CCInteger::create(trystUserData->leftTime), "num");
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("Push_Android2", dic);
 #endif
         } break;
         

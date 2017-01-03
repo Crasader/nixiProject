@@ -47,6 +47,8 @@ public class AlarmClock {
 			creatAlarmClock1(nameStr, index);
 		}else if (index == 2) {
 			creatAlarmClock2(nameStr, index);
+		}else if (index == 3) {
+			creatAlarmClock3(nameStr, index);
 		}
 	}
 	
@@ -95,6 +97,23 @@ public class AlarmClock {
 				calend.set(Calendar.DAY_OF_YEAR, calend.get(Calendar.DAY_OF_YEAR) + 1);
 			}
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calend.getTimeInMillis(), INTERVAL, pendingIntent);
+		}
+	}
+	
+	
+	public static void creatAlarmClock3(String nameStr, int index){
+		if (index != 0) {
+			Calendar calend = Calendar.getInstance();
+			AlarmManager alarmManager = (AlarmManager)instance.getSystemService(instance.ALARM_SERVICE);
+			Intent intent = new Intent(instance, ActionService.class);
+			intent.setAction("naozhong3");
+			intent.setFlags(index);
+			intent.putExtra("index", ""+index);
+			PendingIntent pendingIntent = PendingIntent.getService(instance, index, intent, 0);
+			
+			calend.setTimeInMillis(System.currentTimeMillis());
+			calend.add(Calendar.SECOND, _minute);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, calend.getTimeInMillis(), pendingIntent);
 		}
 	}
 	
