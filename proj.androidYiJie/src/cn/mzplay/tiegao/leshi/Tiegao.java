@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.qihu360;
+package cn.mzplay.tiegao.leshi;
 
 import java.util.UUID;
 
@@ -43,7 +43,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.qihu360.YijieLayer;
+import cn.mzplay.tiegao.leshi.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -74,6 +74,7 @@ public class Tiegao extends Cocos2dxActivity {
 	public static int shareStatus = 0;
 	public static int payIndex = 0;
 	public static int baiduIndex = 0;
+	public static int putongIndex = 0;
 	public static int channelId = 0;
 	
 	public static boolean openProductId;
@@ -121,9 +122,12 @@ public class Tiegao extends Cocos2dxActivity {
 //		setBaiduIndex(1);  // baidu
 		setBaiduIndex(0);  // other
 		
-		openProductId = false;//不需要在易接工具内添加计费点的
-//		openProductId = true;//需要在易接工具内添加计费点的(乐视、魅族、)
-		TalkingDataGA.init(instance, "DB61C0FF7AD0549C91DD4FB203139909", "mzplay");
+		setPutongIndex(1);  // 邮件发送
+//		setPutongIndex(0);  // 普通发送
+		
+		openProductId = false;//不需要在易接工具内添加计费点的(乐视 有计费点，但是需要选择false)
+//		openProductId = true;//需要在易接工具内添加计费点的(魅族、)
+		TalkingDataGA.init(instance, "DE07CD19F8CF42B191BC300FB25268FB", "mzplay");
 		
 	}
 	public static int getBaiduIndex(){
@@ -133,6 +137,12 @@ public class Tiegao extends Cocos2dxActivity {
 		baiduIndex = status;
 	}
 	
+	public static int getPutongIndex(){
+		return putongIndex;
+	}
+	public static void setPutongIndex(int status){
+		putongIndex = status;
+	}
 	
 	public Cocos2dxGLSurfaceView onCreateView() {
 		Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
@@ -227,12 +237,12 @@ public class Tiegao extends Cocos2dxActivity {
 		oks.show(instance);
 		
 //		ShareParams wechat = new ShareParams();
-//		wechat.setTitle("女总裁的贴身高手");	
+//		wechat.setTitle("女总裁的贴身高手");
 //		wechat.setText("最爱女总裁的贴身高手");
 //		wechat.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
 //		wechat.setUrl("http://mob.com");
 //		wechat.setShareType(Platform.SHARE_WEBPAGE);
-//
+//		
 //		Platform weixin = ShareSDK.getPlatform(instance, Wechat.NAME);
 //		weixin.setPlatformActionListener(instance);
 //		weixin.share(wechat);
@@ -263,7 +273,7 @@ public class Tiegao extends Cocos2dxActivity {
 	public static void setChannelId(int index){
 		channelId = index;
 	}
-		
+	
 	
 	// 获取用户信息
 	public static String getShareImage(){

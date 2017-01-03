@@ -1450,7 +1450,7 @@ void ClothesScene::startMethods(){
     bool phaseBool = false;
     
     //////
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -1565,7 +1565,7 @@ void ClothesScene::buyCallBack(CCObject* pSender){
     bool buyBool = false;// 为true表示有未购买衣服
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         if (i != Tag_CL_ShiPin) {
             CCInteger* clothesTemp_id = (CCInteger* )myClothesTempDic->objectForKey(CCString::createWithFormat("%d", i)->getCString());
             if (clothesTemp_id->getValue() != i* 10000) {
@@ -1628,7 +1628,7 @@ void ClothesScene::saveClothesMethods(){
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     bool phaseBool = false;
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -3106,7 +3106,7 @@ void ClothesScene::reductionShipin(int index){
 void ClothesScene::buttonStatus(){
     CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
     
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         if (i == Tag_CL_TouFa) {
             CCInteger* clothesTemp_id = ((CCInteger*)clothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString()));
             if (clothesTemp_id->getValue() == 10000) {
@@ -3386,7 +3386,7 @@ int ClothesScene::haveEnoughCoin(){
     
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -3438,7 +3438,7 @@ int ClothesScene::haveEnoughGold(){
         
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
@@ -3587,7 +3587,7 @@ void ClothesScene::buyClothesMethods(){
     
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
     
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_Bao; i++) {
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
         CCArray* tempArr = CCArray::create();
         for (int j = 0; j < clothesArr->count(); j++) {
