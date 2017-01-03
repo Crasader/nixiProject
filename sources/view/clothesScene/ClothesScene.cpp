@@ -183,6 +183,8 @@ void ClothesScene::onEnter(){
     
     
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_403), "HTTP_FINISHED_403", NULL);
+    
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::_605CallBack), "HTTP_FINISHED_605", NULL);
@@ -3287,6 +3289,11 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
         layer->show_prompt(this->getScene(), "保存成功!");
     }
 }
+
+void ClothesScene::Http_Finished_403(cocos2d::CCObject *pObj) {
+    this->Http_Finished_401(pObj);
+}
+
 void ClothesScene::create_buySuccess(){
     animationBool = true;
     
