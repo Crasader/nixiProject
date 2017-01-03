@@ -545,24 +545,33 @@ void NetManager::save_dressed_401(CCDictionary *dressed) {
             root["ondress"][key] = ((CCInteger* )dressed->objectForKey(key))->getValue();
         }
     }
-//    CCDictElement* pElem = NULL;
-//    CCDICT_FOREACH(dressed, pElem) {
-//        const char* key = pElem->getStrKey();
-//        if (strcmp(key, "7") == 0) {
-//            CCDictionary* part7 = (CCDictionary* )dressed->objectForKey(key);
-//            int count = part7->count();
-//            CCArray* keys = part7->allKeys();
-//            for (int i = 0; i < count; i++) {
-//                CCString* key2 = (CCString* )keys->objectAtIndex(i);
-//                root[key][key2->getCString()] = ((CCInteger* )part7->objectForKey(key2->getCString()))->getValue();
-//            }
-//        }
-//        else {
-//            root[key] = ((CCInteger* )dressed->objectForKey(key))->getValue();
-//        }
-//    }
+
     string data = writer.write(root);
     this->post_data(401, data);
+}
+
+void NetManager::new_save_dressed_403(CCDictionary *dressed) {
+    FastWriter writer;
+    Value root;
+    CCDictElement* pElem = NULL;
+    CCDICT_FOREACH(dressed, pElem) {
+        const char* key = pElem->getStrKey();
+        if (strcmp(key, "7") == 0) {
+            CCDictionary* part7 = (CCDictionary* )dressed->objectForKey(key);
+            int count = part7->count();
+            CCArray* keys = part7->allKeys();
+            for (int i = 0; i < count; i++) {
+                CCString* key2 = (CCString* )keys->objectAtIndex(i);
+                root["ornaments"][key2->getCString()] = ((CCInteger* )part7->objectForKey(key2->getCString()))->getValue();
+            }
+        }
+        else {
+            root["ondress"][key] = ((CCInteger* )dressed->objectForKey(key))->getValue();
+        }
+    }
+    
+    string data = writer.write(root);
+    this->post_data(403, data);
 }
 
 

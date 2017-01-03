@@ -587,6 +587,16 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_dressed(content["show"]);
             _clothes->update_clothes(content["newclothes"]);
         } break;
+            
+        case 403: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _show->init_with_json(content["show"]);
+            _clothes->init_dressed(content["show"]);
+            _clothes->update_clothes(content["newclothes"]);
+            
+            _operation->replace_gashapon_user(content["gashapon"]);
+        } break;
         
         case 300: {
             _ranking->init_with_json(content["ranking"]);

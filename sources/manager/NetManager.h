@@ -117,7 +117,8 @@ public:
     void submit_story_danmaku_511(const char* storyId, const char* lineId, const char* words);
     
     void owned_clothes_400();
-    void save_dressed_401(CCDictionary* dressed);
+    void save_dressed_401(CCDictionary* dressed);  // 保留以兼容旧版
+    void new_save_dressed_403(CCDictionary* dressed);
     
     void ranking_list_300();
     // 每日体力奖励
