@@ -15,6 +15,15 @@ bool MysteryComp::hasInitAchvTemplate() {
     return mysteryAchvTemplate != nullptr;
 }
 
+CCDictionary* MysteryComp::fetchPrecondition(const char *category) {
+    CCDictionary* rtn = NULL;
+    if (mysteryPrecondition) {
+        rtn = (CCDictionary* )mysteryPrecondition->objectForKey(category);
+    }
+    
+    return rtn;
+}
+
 CCArray* MysteryComp::fetchAchvTemplate(const char *category) {
     return dynamic_cast<CCArray*>(mysteryAchvTemplate->objectForKey(category));
 }
@@ -46,6 +55,7 @@ int MysteryComp::userAchvStateOfCategory(const char *category, const char *achvI
 MysteryComp::~MysteryComp() {
     CC_SAFE_DELETE(mysteryAchvTemplate);
     CC_SAFE_DELETE(mysteryUserdata);
+    CC_SAFE_DELETE(mysteryPrecondition);
 }
 
 bool MysteryComp::init() {
@@ -53,6 +63,17 @@ bool MysteryComp::init() {
     mysteryUserdata = nullptr;
     
     return true;
+}
+
+void MysteryComp::init_precondition(Value json) {
+    if (json.type() == nullValue) {
+        CCLOG("<ERROR> MysteryComp::init_precondition() json object error.");
+        return;
+    }
+    
+    CC_SAFE_RELEASE(mysteryPrecondition);
+    mysteryPrecondition = AppUtil::dictionary_with_json(json);
+    CC_SAFE_RETAIN(mysteryPrecondition);
 }
 
 void MysteryComp::init_template(Value json) {

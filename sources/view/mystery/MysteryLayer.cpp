@@ -38,11 +38,15 @@ void MysteryLayer::show(CCNode* parent) {
 #pragma mark - Inherit
 
 MysteryLayer::~MysteryLayer() {
+    CC_SAFE_DELETE(_savedBtns);
 }
 
 bool MysteryLayer::init() {
     if (CCLayer::init()) {
         num_child = 0;
+        
+        _savedBtns = CCDictionary::create();
+        CC_SAFE_RETAIN(_savedBtns);
         
         CCSprite* mask = CCSprite::create("pic/mask.png");
         mask->setPosition(DISPLAY->center());
@@ -208,21 +212,23 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     // 任务开始按钮
     CCMenuItem* btn = NULL;
     float btnScale = 1.002;
+    CCSprite* btn1 = NULL;
+    CCSprite* btn2 = NULL;
     if (category->compare("1") == 0) {
-        CCSprite* btn1 = CCSprite::create("pic/mystery/my_btn_1.png");
-        CCSprite* btn2 = CCSprite::create("pic/mystery/my_btn_1.png");
+        btn1 = CCSprite::create("pic/mystery/my_btn_1.png");
+        btn2 = CCSprite::create("pic/mystery/my_btn_1.png");
         btn2->setScale(btnScale);
         btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&MysteryLayer::on_start_task));
     }
     else if (category->compare("2") == 0) {
-        CCSprite* btn1 = CCSprite::create("pic/mystery/my_btn_2.png");
-        CCSprite* btn2 = CCSprite::create("pic/mystery/my_btn_2.png");
+        btn1 = CCSprite::create("pic/mystery/my_btn_2.png");
+        btn2 = CCSprite::create("pic/mystery/my_btn_2.png");
         btn2->setScale(btnScale);
         btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&MysteryLayer::on_start_task));
     }
     else if (category->compare("3") == 0) {
-        CCSprite* btn1 = CCSprite::create("pic/mystery/my_btn_3.png");
-        CCSprite* btn2 = CCSprite::create("pic/mystery/my_btn_3.png");
+        btn1 = CCSprite::create("pic/mystery/my_btn_3.png");
+        btn2 = CCSprite::create("pic/mystery/my_btn_3.png");
         btn2->setScale(btnScale);
         btn = CCMenuItemSprite::create(btn1, btn2, this, SEL_MenuHandler(&MysteryLayer::on_start_task));
     }
@@ -232,6 +238,20 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
         CCMenu* menu = CCMenu::createWithItem(btn);
         menu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT - 63));
         plane->addChild(menu);
+        
+        // 解锁状态
+        CCDictionary* precondition = comp->fetchPrecondition(category->getCString());
+        CCInteger* status = (CCInteger* )precondition->objectForKey("status");
+        if (status->getValue() == 0) {
+            CCSize btnSize = btn1->getContentSize();
+            CCSprite* forbidden1 = CCSprite::create("pic/forbidden.png");
+            forbidden1->setPosition(ccp(btnSize.width * 0.5, btnSize.height * 0.15));
+            btn1->addChild(forbidden1);
+            
+            CCSprite* forbidden2 = CCSprite::create("pic/forbidden.png");
+            forbidden2->setPosition(ccp(btnSize.width * 0.5, btnSize.height * 0.15));
+            btn2->addChild(forbidden2);
+        }
     }
     
     // 进度数值表示
@@ -278,6 +298,8 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     itemUserData_0->setObject(ccs(achvId_0->getCString()), "achvId");
     btn_0->setUserObject(itemUserData_0);
     
+    _savedBtns->setObject(btn_0, achvId_0->getCString());
+    
     CCString* strBtnImage_1 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_1);
     CCMenuItem* btn_1 = CCMenuItemImage::create(strBtnImage_1->getCString(), strBtnImage_1->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
     btn_1->setEnabled(state_1 == 1);
@@ -285,6 +307,8 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     itemUserData_1->setObject(ccs(category->getCString()), "category");
     itemUserData_1->setObject(ccs(achvId_1->getCString()), "achvId");
     btn_1->setUserObject(itemUserData_1);
+    
+    _savedBtns->setObject(btn_1, achvId_1->getCString());
     
     CCString* strBtnImage_2 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_2);
     CCMenuItem* btn_2 = CCMenuItemImage::create(strBtnImage_2->getCString(), strBtnImage_2->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
@@ -294,6 +318,8 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     itemUserData_2->setObject(ccs(achvId_2->getCString()), "achvId");
     btn_2->setUserObject(itemUserData_2);
     
+    _savedBtns->setObject(btn_2, achvId_2->getCString());
+    
     CCString* strBtnImage_3 = CCString::createWithFormat("pic/mystery/my_plate_%d.png", state_3);
     CCMenuItem* btn_3 = CCMenuItemImage::create(strBtnImage_3->getCString(), strBtnImage_3->getCString(), this, SEL_MenuHandler(&MysteryLayer::on_take_achv));
     btn_3->setEnabled(state_3 == 1);
@@ -301,6 +327,8 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     itemUserData_3->setObject(ccs(category->getCString()), "category");
     itemUserData_3->setObject(ccs(achvId_3->getCString()), "achvId");
     btn_3->setUserObject(itemUserData_3);
+    
+    _savedBtns->setObject(btn_3, achvId_3->getCString());
     
     CCMenu* btnMenu = CCMenu::create(btn_0, btn_1, btn_2, btn_3, NULL);
     btnMenu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.25 - 94);
@@ -318,6 +346,18 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     int num_1 = ((CCInteger*)item_1->objectForKey("num"))->getValue();
     int num_2 = ((CCInteger*)item_2->objectForKey("num"))->getValue();
     int num_3 = ((CCInteger*)item_3->objectForKey("num"))->getValue();
+    
+    itemUserData_0->setObject(ccs(type_0->getCString()), "type");
+    itemUserData_0->setObject(CCInteger::create(num_0), "num");
+    
+    itemUserData_1->setObject(ccs(type_1->getCString()), "type");
+    itemUserData_1->setObject(CCInteger::create(num_1), "num");
+    
+    itemUserData_2->setObject(ccs(type_2->getCString()), "type");
+    itemUserData_2->setObject(CCInteger::create(num_2), "num");
+    
+    itemUserData_3->setObject(ccs(type_3->getCString()), "type");
+    itemUserData_3->setObject(CCInteger::create(num_3), "num");
     
     CCSprite* rewardIcon_0 = this->createRewardIcon(type_0, num_0);
     if (rewardIcon_0 != NULL) {
@@ -389,20 +429,28 @@ CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
 
 void MysteryLayer::on_start_task(CCMenuItem *pObj) {
     AUDIO->common_effect();
-    //
-    if (DATA->getPlayer()->energy < 12) {
-//        AHMessageBox* mb = AHMessageBox::create_with_message("体力不够，是否购买体力?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-//        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-//        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    CCString* category = dynamic_cast<CCString*>(pObj->getUserObject());
+    
+    // 解锁状态
+    CCDictionary* precondition = DATA->getMystery()->fetchPrecondition(category->getCString());
+    CCInteger* status = (CCInteger* )precondition->objectForKey("status");
+    if (status->getValue() == 0) {
+//        CCString* id = (CCString* )precondition->objectForKey("id");
+        CCString* desc = (CCString* )precondition->objectForKey("desc");
         PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this->getScene(), "体力不够啦~~!");
+        layer->show_prompt(this->getScene(), desc->getCString());
     }
     else {
-        LOADING->show_loading();
-        CCString* category = dynamic_cast<CCString*>(pObj->getUserObject());
-        this->setCategoryTempSaved(category);
-        
-        NET->start_mystery_611(category->getCString());
+        if (DATA->getPlayer()->energy < 6) {
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "体力不够啦~~!");
+        }
+        else {
+            LOADING->show_loading();
+            
+            this->setCategoryTempSaved(category);
+            NET->start_mystery_611(category->getCString());
+        }
     }
 }
 
@@ -439,15 +487,47 @@ void MysteryLayer::after_start_mystery_611(CCObject *pObj) {
 
 void MysteryLayer::after_take_mystery_achv_615(CCObject *pObj) {
     LOADING->remove();
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
-    CCString* category = dynamic_cast<CCString*>(pObj);
-    int idx = category->intValue() - 1;
-    if (idx >= 0) {
-        _tv->updateCellAtIndex(idx);
+    CCString* achvId = dynamic_cast<CCString*>(pObj);
+    CCMenuItem* btn = (CCMenuItem* )_savedBtns->objectForKey(achvId->getCString());
+    if (btn) {
+        CCDictionary* userObj = (CCDictionary* )btn->getUserObject();
+        CCString* category = (CCString* )userObj->objectForKey("category");
+        CCString* type = (CCString* )userObj->objectForKey("type");
+        CCInteger* num = (CCInteger* )userObj->objectForKey("num");
+        
+        int idx = category->intValue() - 1;
+        if (idx >= 0) {
+            _tv->updateCellAtIndex(idx);
+        }
+        
+        CCDictionary* postData = CCDictionary::create();
+        postData->setObject(CCInteger::create(num->getValue()), "num");
+        CCPoint pos = btn->getPosition();
+        CCPoint worldPos = btn->getParent()->convertToWorldSpace(pos);
+        CCString* from = CCString::createWithFormat("{%f,%f}", worldPos.x, worldPos.y);
+        CCLOG("from -- %s", from->getCString());
+        postData->setObject(from, "from");
+        
+        if (type->compare("coin") == 0) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+        }
+        else if (type->compare("diam") == 0) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+        }
+        else if (type->compare("energy") == 0) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
+        }
+        else if (type->compare("piece") == 0) {
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
+        }
     }
-    
-    PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(this->getScene(), "成功领取奖励~!");
+    else {
+        _tv->reloadData();
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getScene(), "成功领取奖励~!");
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    }
 }
 
 #pragma mark - CCTableViewDataSource

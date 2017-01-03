@@ -20,6 +20,7 @@ class MysteryComp : public CCObject
 {
 public: // Export
     bool hasInitAchvTemplate();
+    CCDictionary* fetchPrecondition(const char* category);
     // category: "1","2","3"
     CCArray* fetchAchvTemplate(const char* category);
     int userRatingOfCategory(const char* category);
@@ -30,10 +31,12 @@ public:
     ~MysteryComp();
     CREATE_FUNC(MysteryComp);
     bool init();
+    void init_precondition(Value json);
     void init_template(Value json);
     void update_user_data(Value json);
     
 private:
+    CCDictionary*           mysteryPrecondition;
     CCDictionary*           mysteryAchvTemplate;
     CCDictionary*           mysteryUserdata;
 };

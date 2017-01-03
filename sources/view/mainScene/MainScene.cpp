@@ -532,19 +532,7 @@ void MainScene::creat_view(){
     CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     eventSpr2->setScale(1.02f);
-    if (DATA->isMysteryEventUnlocked()) {
-        eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
-    }
-    else {
-        eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::mysteryUnlockPrompt));
-        CCSprite* forbidden1 = CCSprite::create("pic/forbidden.png");
-        forbidden1->setPosition(ccp(eventSpr1->getContentSize().width * 0.5 + 3, eventSpr1->getContentSize().height * 0.5 + 8));
-        eventSpr1->addChild(forbidden1);
-        
-        CCSprite* forbidden2 = CCSprite::create("pic/forbidden.png");
-        forbidden2->setPosition(ccp(eventSpr2->getContentSize().width * 0.5 + 3, eventSpr2->getContentSize().height * 0.5 + 8));
-        eventSpr2->addChild(forbidden2);
-    }
+    eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
     
 
     // 聊天
@@ -1477,7 +1465,7 @@ void MainScene::onEventCallback(CCObject *pSender) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
         if (DATA->getMystery()->hasInitAchvTemplate()) {
-            this->nc_fetch_mystery_info_610(NULL);
+            NET->fetch_mystery_info_610(false);
         }
         else {
             NET->fetch_mystery_info_610(true);
@@ -1485,10 +1473,10 @@ void MainScene::onEventCallback(CCObject *pSender) {
     }
 }
 
-void MainScene::mysteryUnlockPrompt(CCObject* pSender) {
-    PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(this->getScene(), "完成公司日常“培训会”解锁");
-}
+//void MainScene::mysteryUnlockPrompt(CCObject* pSender) {
+//    PromptLayer* prompt = PromptLayer::create();
+//    prompt->show_prompt(this->getScene(), "完成公司日常“培训会”解锁");
+//}
 
 //void MainScene::openChat(cocos2d::CCObject *pSender){
 //    // talkingData

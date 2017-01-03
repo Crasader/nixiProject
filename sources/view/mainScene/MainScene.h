@@ -147,7 +147,7 @@ public:
     void purchaseAchievementCallBack(CCObject* pSender);
     void gashaponCallBack(CCObject* pSender);
     void onEventCallback(CCObject* pSender);
-    void mysteryUnlockPrompt(CCObject* pSender);
+//    void mysteryUnlockPrompt(CCObject* pSender);
     void welfareCallBack(CCObject* pSender);
     
     void lingdang_callback(CCObject* pSender);

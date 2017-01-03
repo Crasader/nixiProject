@@ -407,6 +407,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
         
         case 610: {
+            _mystery->init_precondition(content["precon"]);
             _mystery->init_template(content["template"]);
             _mystery->update_user_data(content["mystery"]);
         } break;
@@ -430,7 +431,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]); // 不必然
             _mystery->update_user_data(content["mystery"]);
             
-            pData = CCString::create(content["category"].asString());
+            if (content["id"] != CSJson::nullValue) {
+                pData = CCString::create(content["id"].asString());
+            }
+            else { // 兼容旧版本
+                pData = CCString::create(content["category"].asString());
+            }
+            
         } break;
         
         

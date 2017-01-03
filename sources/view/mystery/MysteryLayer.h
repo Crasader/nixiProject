@@ -66,6 +66,8 @@ private:
     
     CCSprite*           _panel;
     CCTableView*        _tv;
+    
+    CCDictionary*       _savedBtns;
 };
 
 #endif /* MysteryLayer_hpp */
