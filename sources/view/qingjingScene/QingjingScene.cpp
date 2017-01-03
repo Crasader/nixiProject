@@ -393,12 +393,18 @@ void QingjingScene::creat_view(){
             tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
             tishiLabel->addChild(tongguanSpr);
             
-            startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-            startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
+            startSpr1 = CCSprite::create("res/pic/common/btn_startstory2.png");
+            startSpr2 = CCSprite::create("res/pic/common/btn_startstory2.png");
             startSpr2->setScale(1.02f);
             startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
             startItem->setPosition(ccp(kuangSpr->getContentSize().width* .86f, kuangSpr->getContentSize().height* .26f));
             startItem->setTag(i);
+            
+            // 显示体力数
+            CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 24);
+            engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .32f));
+            engLabel->setColor(ccWHITE);
+            startItem->addChild(engLabel);
         }else{
             if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
                 CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
@@ -407,12 +413,18 @@ void QingjingScene::creat_view(){
                 jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
                 tishiLabel->addChild(jiesuoSpr);
                 
-                startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-                startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
+                startSpr1 = CCSprite::create("res/pic/common/btn_startstory2.png");
+                startSpr2 = CCSprite::create("res/pic/common/btn_startstory2.png");
                 startSpr2->setScale(1.02f);
                 startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(QingjingScene::startCallBack));
                 startItem->setPosition(ccp(kuangSpr->getContentSize().width* .86f, kuangSpr->getContentSize().height* .26f));
                 startItem->setTag(i);
+                
+                // 显示体力数
+                CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 24);
+                engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .32f));
+                engLabel->setColor(ccWHITE);
+                startItem->addChild(engLabel);
             }else{
                 CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_weijiesuo.png");
                 jiesuoSpr->setScale(.7f);
@@ -420,30 +432,23 @@ void QingjingScene::creat_view(){
                 jiesuoSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
                 tishiLabel->addChild(jiesuoSpr);
                 
-                startSpr1 = CCSprite::create("res/pic/common/btn_startstory.png");
-                startSpr2 = CCSprite::create("res/pic/common/btn_startstory.png");
+                startSpr1 = CCSprite::create("res/pic/common/btn_startstory2.png");
+                startSpr2 = CCSprite::create("res/pic/common/btn_startstory2.png");
                 startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, NULL);
                 startItem->setPosition(ccp(kuangSpr->getContentSize().width* .86f, kuangSpr->getContentSize().height* .26f));
                 startItem->setColor(ccGRAY);
                 startItem->setTag(i);
+                
+                // 显示体力数
+                CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 24);
+                engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .32f));
+                engLabel->setColor(ccGRAY);
+                startItem->addChild(engLabel);
             }
         }
         CCMenu* startMenu = CCMenu::create(startItem, NULL);
         startMenu->setPosition(CCPointZero);
         kuangSpr->addChild(startMenu);
-        
-        
-        
-        // 显示体力数
-        CCLabelTTF* engLabel = CCLabelTTF::create("9", DISPLAY->fangzhengFont(), 23);
-        engLabel->setPosition(ccp(startItem->getContentSize().width* .4f, startItem->getContentSize().height* .8f));
-        engLabel->setColor(ccc3(80, 63, 68));
-        startItem->addChild(engLabel);
-        
-        CCSprite* engSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
-        engSpr->setScale(.75f);
-        engSpr->setPosition(ccp(startItem->getContentSize().width* .6f, startItem->getContentSize().height* .8f));
-        startItem->addChild(engSpr);
     }
     
     

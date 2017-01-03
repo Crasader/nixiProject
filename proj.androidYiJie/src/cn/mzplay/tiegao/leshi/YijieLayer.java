@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.qihu360;
+package cn.mzplay.tiegao.leshi;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -237,8 +237,12 @@ public class YijieLayer{
 		
 		String channelStr = "" + Tiegao.getChannelId();
 		
-//		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();// 普通发送
-		String mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId() + ";" + channelStr;// 邮件发送
+		String mzStr;
+		if (Tiegao.getPutongIndex() == 1) {// 邮件发送
+			mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId() + ";" + channelStr;
+		}else{// 普通发送
+			mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();
+		}
 //		String mzStr = Tiegao.getProductId() + "";
 		
 		// 其它

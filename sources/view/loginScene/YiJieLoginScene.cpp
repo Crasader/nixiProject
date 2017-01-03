@@ -123,6 +123,7 @@ void YiJieLoginScene::startCallBack(CCObject* pSender){
 void YiJieLoginScene::updataLoginStatus(float dt){
     if (JNIController::getLandStatus() == 1) {
         JNIController::setLandStatus(0);
+        LOADING->remove();
         this->unschedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus));
         startItem->setVisible(false);
         
@@ -136,6 +137,7 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         NET->fast_login_900(seccionStr->getCString(), CONFIG->channelId);
     }else if (JNIController::getLandStatus() == 2){
         JNIController::setLandStatus(0);
+        LOADING->remove();
         this->unschedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus));
         startItem->setVisible(true);
         
@@ -153,6 +155,7 @@ void YiJieLoginScene::message_box_did_selected_button(AHMessageBox* box, AH_BUTT
         if (button_tag == AH_BUTTON_TAG_YES) {
             startCallBack(NULL);
         }else if (button_tag == AH_BUTTON_TAG_NO){
+            LOADING->remove();
             JNIController::exitGame(CONFIG->baiOrYijie);
         }
     }

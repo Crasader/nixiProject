@@ -553,7 +553,23 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
             costLabel->setColor(ccWHITE);
             jgkuang->addChild(costLabel);
             
+        }else if (cloth_type == 3){
+            CCSprite* jgkuang = CCSprite::create("res/pic/clothesScene/gj_dikuang2.png");
+            jgkuang->setPosition(ccp(clothSpr->getContentSize().width* .5f, clothSpr->getContentSize().height* .22f));
+            clothSpr->addChild(jgkuang);
+            
+            CCSprite* costSpr = CCSprite::create("res/pic/clothesScene/gj_debris.png");
+            costSpr->setPosition(ccp(jgkuang->getContentSize().width* .1f, jgkuang->getContentSize().height* .5f));
+            costSpr->setScale(.75f);
+            jgkuang->addChild(costSpr, 10);
+            const CCString* costStr = dic->valueForKey("cost");
+            CCLabelTTF* costLabel = CCLabelTTF::create(costStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(80, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+            costLabel->setPosition(ccp(jgkuang->getContentSize().width* .55f, jgkuang->getContentSize().height* .48f));
+            costLabel->setColor(ccWHITE);
+            jgkuang->addChild(costLabel);
+            
         }
+        
 //        else if (cloth_type == 10){
 //            CCString* cloth_label = (CCString*)dic->valueForKey("label");
 //            CCLog("cloth_label == %s", cloth_label->getCString());

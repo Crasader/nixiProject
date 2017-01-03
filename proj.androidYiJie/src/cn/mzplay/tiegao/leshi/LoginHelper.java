@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.qihu360;
+package cn.mzplay.tiegao.leshi;
 
 import java.io.BufferedReader;
 import java.io.IOException;

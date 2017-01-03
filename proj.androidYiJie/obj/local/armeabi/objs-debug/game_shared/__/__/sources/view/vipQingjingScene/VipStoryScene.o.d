@@ -285,7 +285,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/vipQingjingScene/Vip
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/manager/AudioManager.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
+ jni/../../sources/view/qingjingScene/StringUtil.h
 
 jni/../../sources/view/vipQingjingScene/VipStoryScene.h:
 
@@ -872,3 +873,5 @@ jni/../../sources/manager/AudioManager.h:
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
 jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
+jni/../../sources/view/qingjingScene/StringUtil.h:
