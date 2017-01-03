@@ -82,6 +82,7 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::nc_piece_fly_completed), "PIECE_FLY_COMPLETED", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::push_Android), "Push_Android", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&BaseScene::push_Android2), "Push_Android2", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::show_chat_panel), "ON_CHAT_BAR_CLICKED", NULL);
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::on_chat_panel_close), "ON_CHAT_PANEL_CLOSE", NULL);
@@ -593,6 +594,18 @@ void BaseScene::push_Android(CCObject* pObj){
     CCString* name = (CCString*)dic->valueForKey("name");
     CCInteger* num = (CCInteger*)dic->objectForKey("num");
     CCInteger* index = CCInteger::create(1);
+    
+    CCLog("str == %s, num == %d, index == %d", name->getCString(), num->getValue(), index->getValue());
+    
+    JNIController::push_Android(name->getCString(), num->getValue(), index->getValue());
+#endif
+}
+void BaseScene::push_Android2(CCObject* pObj){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCDictionary* dic = (CCDictionary* )pObj;
+    CCString* name = (CCString*)dic->valueForKey("name");
+    CCInteger* num = (CCInteger*)dic->objectForKey("num");
+    CCInteger* index = CCInteger::create(3);
     
     CCLog("str == %s, num == %d, index == %d", name->getCString(), num->getValue(), index->getValue());
     

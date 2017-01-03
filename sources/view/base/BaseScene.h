@@ -77,6 +77,7 @@ public:
     
     // 推送
     void push_Android(CCObject* pObj);
+    void push_Android2(CCObject* pObj);
     
 private:
     void show_purchase_panel();

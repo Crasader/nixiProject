@@ -237,7 +237,6 @@ bool MainScene::init(){
 //    CCLog("<><><><> time == %ld", now.tv_sec * 1000 + now.tv_usec / 1000);
     
     
-    
     return true;
 }
 void MainScene::setStartGameData(float dt){
