@@ -254,9 +254,16 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
     
     CCString* text_str = CCString::createWithFormat("%s", _input_text->getString());
     
-    if (text_str->compare("") == 0) {
+    if (text_str->compare(" ") == 0) {
         
-    }else{
+    }
+    else if (text_str->compare("  ") == 0) {
+        
+    }
+    else if (text_str->compare("   ") == 0) {
+        
+    }
+    else{
         const char* content = _input_text->getString();
         if (FILEM->is_blanked_illegal(content) == true) {
             PromptLayer* tip = PromptLayer::create();
@@ -267,12 +274,12 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
             root["id"] = DATA->getShow()->getShowID();
             string data = writer.write(root);
             WS->send(data);
-            
-            _input_text->setString("");
-            _input_text->setAnchorPoint(CCPoint(0, 0.5));
-            _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
         }
     }
+    
+    _input_text->setString("");
+    _input_text->setAnchorPoint(CCPoint(0, 0.5));
+    _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){

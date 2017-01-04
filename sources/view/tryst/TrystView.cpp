@@ -35,7 +35,7 @@ void TrystInputBar::startInput(const char *text) {
     _origText = text;
     _lbl->setString("");
     
-    this->schedule(SEL_SCHEDULE(&TrystInputBar::gogogo), 0.15);
+    this->schedule(SEL_SCHEDULE(&TrystInputBar::gogogo), 0.12);
 }
 
 
@@ -137,7 +137,7 @@ bool TrystView::init(const char *id) {
         _dataSource = CCArray::create();
         _dataSource->retain();
         
-        CCSprite* mask = CCSprite::create("pic/panel/dailysignin/ds_mask.png");
+        CCSprite* mask = CCSprite::create("pic/tryst/tryst_bottom.png");
         mask->setPosition(DISPLAY->center());
         this->addChild(mask);
         
@@ -301,7 +301,7 @@ void TrystView::appearDialog(CCLayerColor *dialogDisplay) {
     
     if (dialogDisplay != NULL) {
         CCCallFunc* done = CCCallFunc::create(this, SEL_CallFunc(&TrystView::whenDialogAppeared));
-        CCSequence* seq = CCSequence::create(CCDelayTime::create(1), done, NULL);
+        CCSequence* seq = CCSequence::create(CCDelayTime::create(0.7), done, NULL);
         dialogDisplay->runAction(seq);
     }
 }

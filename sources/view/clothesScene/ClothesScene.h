@@ -249,6 +249,8 @@ public:
     
 private:
     void Http_Finished_401(CCObject* pObj);
+    void Http_Finished_403(CCObject* pObj);
+    
 //    void Http_Finished_601(CCObject* pObj);
     void Http_Finished_603(CCObject* pObj);
     void _605CallBack(CCObject* pObj);

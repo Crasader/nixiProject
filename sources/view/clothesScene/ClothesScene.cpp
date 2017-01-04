@@ -183,6 +183,8 @@ void ClothesScene::onEnter(){
     
     
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_403), "HTTP_FINISHED_403", NULL);
+    
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::_605CallBack), "HTTP_FINISHED_605", NULL);
@@ -1557,7 +1559,9 @@ void ClothesScene::startMethods(){
             
             startTask = true;
             LOADING->show_loading();
-            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+//            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+            NET->new_save_dressed_403(DATA->getClothes()->MyClothesTemp());
+            
         }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
             if (DATA->getPlayer()->diam < haveEnoughGold()) {
                 AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
@@ -1776,7 +1780,9 @@ void ClothesScene::saveClothesMethods(){
             this->buyClothesMethods();
             
             LOADING->show_loading();
-            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+//            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
+            NET->new_save_dressed_403(DATA->getClothes()->MyClothesTemp());
+            
         }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold() || DATA->getOperation()->getPiece() < haveEnoughDebris()){
             if (DATA->getPlayer()->diam < haveEnoughGold()) {
                 AHMessageBox* mb = AHMessageBox::create_with_message("钻石不够,是否充值,亲?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO2, false);
@@ -3283,6 +3289,11 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
         layer->show_prompt(this->getScene(), "保存成功!");
     }
 }
+
+void ClothesScene::Http_Finished_403(cocos2d::CCObject *pObj) {
+    this->Http_Finished_401(pObj);
+}
+
 void ClothesScene::create_buySuccess(){
     animationBool = true;
     

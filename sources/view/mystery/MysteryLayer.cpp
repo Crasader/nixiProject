@@ -236,7 +236,7 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     if (btn != NULL) {
         btn->setUserObject(category);
         CCMenu* menu = CCMenu::createWithItem(btn);
-        menu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT - 63));
+        menu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT - 68));
         plane->addChild(menu);
         
         // 解锁状态
@@ -244,13 +244,16 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
         CCInteger* status = (CCInteger* )precondition->objectForKey("status");
         if (status->getValue() == 0) {
             CCSize btnSize = btn1->getContentSize();
-            CCSprite* forbidden1 = CCSprite::create("pic/forbidden.png");
-            forbidden1->setPosition(ccp(btnSize.width * 0.5, btnSize.height * 0.15));
-            btn1->addChild(forbidden1);
+            CCSprite* mask = CCSprite::create("pic/mystery/my_mask.png");
+            mask->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+            cell->addChild(mask);
             
-            CCSprite* forbidden2 = CCSprite::create("pic/forbidden.png");
-            forbidden2->setPosition(ccp(btnSize.width * 0.5, btnSize.height * 0.15));
-            btn2->addChild(forbidden2);
+            CCString* desc = (CCString* )precondition->objectForKey("desc");
+            CCLabelTTF* lblDesc = CCLabelTTF::create(desc->getCString(), DISPLAY->fangzhengFont(), 24.f);
+            lblDesc->setPosition(ccp(mask->getContentSize().width * 0.5, mask->getContentSize().height * 0.5));
+            mask->addChild(lblDesc);
+            
+            btn->setEnabled(false);
         }
     }
     
@@ -430,27 +433,15 @@ CCSprite* MysteryLayer::createRewardIcon(CCString* type, int num) {
 void MysteryLayer::on_start_task(CCMenuItem *pObj) {
     AUDIO->common_effect();
     CCString* category = dynamic_cast<CCString*>(pObj->getUserObject());
-    
-    // 解锁状态
-    CCDictionary* precondition = DATA->getMystery()->fetchPrecondition(category->getCString());
-    CCInteger* status = (CCInteger* )precondition->objectForKey("status");
-    if (status->getValue() == 0) {
-//        CCString* id = (CCString* )precondition->objectForKey("id");
-        CCString* desc = (CCString* )precondition->objectForKey("desc");
+    if (DATA->getPlayer()->energy < 6) {
         PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this->getScene(), desc->getCString());
+        layer->show_prompt(this->getScene(), "体力不够啦~~!");
     }
     else {
-        if (DATA->getPlayer()->energy < 6) {
-            PromptLayer* layer = PromptLayer::create();
-            layer->show_prompt(this->getScene(), "体力不够啦~~!");
-        }
-        else {
-            LOADING->show_loading();
-            
-            this->setCategoryTempSaved(category);
-            NET->start_mystery_611(category->getCString());
-        }
+        LOADING->show_loading();
+        
+        this->setCategoryTempSaved(category);
+        NET->start_mystery_611(category->getCString());
     }
 }
 

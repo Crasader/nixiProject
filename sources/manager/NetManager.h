@@ -70,6 +70,8 @@ public:
     void delete_paper_811(int id);
     void friend_break_813(const char* other_sid);
     
+    void competition_info_820();
+    
     void all_mails_700();
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void home_info_704(bool full);
@@ -117,7 +119,8 @@ public:
     void submit_story_danmaku_511(const char* storyId, const char* lineId, const char* words);
     
     void owned_clothes_400();
-    void save_dressed_401(CCDictionary* dressed);
+    void save_dressed_401(CCDictionary* dressed);  // 保留以兼容旧版
+    void new_save_dressed_403(CCDictionary* dressed);
     
     void ranking_list_300();
     // 每日体力奖励
