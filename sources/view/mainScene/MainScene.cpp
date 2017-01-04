@@ -23,7 +23,8 @@
 #include "Shower.h"
 
 #include "StrangerScene.h"
-#include "TotalRankScene.h"
+//#include "TotalRankScene.h"
+#include "RankListScene.h"
 #include "HaoyouScene.h"
 
 #include "DragLayer.h"
@@ -1541,7 +1542,6 @@ void MainScene::blankCallback() {
 void MainScene::paihangCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击排行");
-    
     if (isOk) {
         LOADING->show_loading();
         NET->ranking_list_300();
@@ -1574,9 +1574,13 @@ void MainScene::nc_gashapon_info_306(CCObject *pObj) {
 void MainScene::all_friends_callback_806(CCObject *pObj){
     AUDIO->comfirm_effect();
     LOADING->remove();
-    CCLayer* layer = TotalRankScene::create_with_type(1);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
+//    CCLayer* layer = TotalRankScene::create_with_type(1);
+//    CCScene* scene = CCScene::create();
+//    scene->addChild(layer);
+//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
+
+    CCScene* scene = RankListScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

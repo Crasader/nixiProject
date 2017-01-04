@@ -801,6 +801,7 @@ void TotalRankScene::enterMan(){
     CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
     _ManSpr->runAction(seq);
 }
+
 void TotalRankScene::exitMan(){
     CCPlace* pl = CCPlace::create(ccp(-500, _ManSpr->getPositionY()));
     CCCallFunc* callFunc1 = CCCallFunc::create(this, SEL_CallFunc(&TotalRankScene::removeMan));
