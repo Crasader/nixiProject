@@ -70,6 +70,8 @@ public:
     void delete_paper_811(int id);
     void friend_break_813(const char* other_sid);
     
+    void competition_info_820();
+    
     void all_mails_700();
     void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void home_info_704(bool full);

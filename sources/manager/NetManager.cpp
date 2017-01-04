@@ -257,6 +257,9 @@ void NetManager::friend_break_813(const char *other_sid) {
     this->post_data(813, data);
 }
 
+void NetManager::competition_info_820() {
+    this->post_data(820, string(""));
+}
 
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
