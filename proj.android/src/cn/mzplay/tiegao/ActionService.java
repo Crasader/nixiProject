@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao;
+package cn.mzplay.tiegao.leshi;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import cn.mzplay.tiegao.leshi.R;
 
 
 public class ActionService extends Service {
@@ -15,12 +16,12 @@ public class ActionService extends Service {
 	
 	MediaPlayer mediaPlayer = null;
     int pet_id = 0;
-
+    
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-
+	
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
@@ -40,7 +41,7 @@ public class ActionService extends Service {
 		}
 		
 	}
-
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		return super.onStartCommand(intent, flags, startId);
@@ -64,19 +65,19 @@ public class ActionService extends Service {
 //		Bitmap btm = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
 //		//对Builder进行配置
 //		Notification.Builder mBuilder = new Notification.Builder(ActionService.this)
-//		.setContentTitle(titleStr1)//设置通知栏标题 
+//		.setContentTitle(titleStr1)//设置通知栏标题
 //		.setContentText(titleStr1) //设置通知栏显示内容
-//		.setTicker(titleStr2); //通知首次出现在通知栏,带上升动画效果的 
-//		mBuilder.setWhen(System.currentTimeMillis());//通知产生的时间,会在通知信息里显示,一般是系统获取到的时间 
+//		.setTicker(titleStr2); //通知首次出现在通知栏,带上升动画效果的
+//		mBuilder.setWhen(System.currentTimeMillis());//通知产生的时间,会在通知信息里显示,一般是系统获取到的时间
 //		mBuilder.setPriority(Notification.PRIORITY_DEFAULT); //设置该通知优先级
 //		mBuilder.setOngoing(false);//ture,设置他为一个正在进行的通知
 //		mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置,使用defaults属性,可以组合
-//		//Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission  
-//		mBuilder.setLargeIcon(btm);//设置通知小ICON  
+//		//Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+//		mBuilder.setLargeIcon(btm);//设置通知小ICON
 //		mBuilder.setVibrate(new long[] {0,300,500,700});//设置震动方式
 //		
 //		
-//		//设置通知显示的参数 
+//		//设置通知显示的参数
 //		Intent intent = new Intent(ActionService.this,Mm3c.class);
 //		PendingIntent m_PendingIntent = PendingIntent.getActivity(ActionService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //		// 设置通知主题的意图
@@ -87,22 +88,22 @@ public class ActionService extends Service {
 //		notificationManager.notify(0, mBuilder.build());
 		
 		Intent intent = new Intent(ActionService.this, Tiegao.class);
-		PendingIntent pintent = PendingIntent.getActivity(ActionService.this, 0, intent, 0); 
-		Builder builder = new Notification.Builder(ActionService.this); 
-		builder.setSmallIcon(R.drawable.icon);//设置图标   
-		builder.setTicker(titleStr1);//手机状态栏的提示；   
-		builder.setWhen(System.currentTimeMillis());//设置时间   
-		builder.setContentTitle(titleStr1);//设置标题   
-		builder.setContentText(titleStr2);//设置通知内容   
-		builder.setContentIntent(pintent);//点击后的意图 
-		//  builder.setDefaults(Notification.DEFAULT_SOUND);//设置提示声音 
-		//  builder.setDefaults(Notification.DEFAULT_LIGHTS);//设置指示灯 
-		//  builder.setDefaults(Notification.DEFAULT_VIBRATE);//设置震动   
-		builder.setDefaults(Notification.DEFAULT_ALL);//设置震动   
+		PendingIntent pintent = PendingIntent.getActivity(ActionService.this, 0, intent, 0);
+		Builder builder = new Notification.Builder(ActionService.this);
+		builder.setSmallIcon(R.drawable.icon);//设置图标
+		builder.setTicker(titleStr1);//手机状态栏的提示；
+		builder.setWhen(System.currentTimeMillis());//设置时间
+		builder.setContentTitle(titleStr1);//设置标题
+		builder.setContentText(titleStr2);//设置通知内容
+		builder.setContentIntent(pintent);//点击后的意图
+		//  builder.setDefaults(Notification.DEFAULT_SOUND);//设置提示声音
+		//  builder.setDefaults(Notification.DEFAULT_LIGHTS);//设置指示灯
+		//  builder.setDefaults(Notification.DEFAULT_VIBRATE);//设置震动
+		builder.setDefaults(Notification.DEFAULT_ALL);//设置震动
 		Notification notification = builder.build();//4.1以上
 		
 		NotificationManager notificationManager = (NotificationManager)getSystemService(ActionService.this.NOTIFICATION_SERVICE);
-		notificationManager.notify(0, notification); 
+		notificationManager.notify(0, notification);
 	}
-
+	
 }

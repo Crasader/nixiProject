@@ -234,6 +234,18 @@ void MysteryLayer::config_cell(CCTableViewCell *cell, int idx) {
     }
     
     if (btn != NULL) {
+        
+        CCString* strCost = CCString::createWithFormat("每次消耗 %d", DATA->getPlayer()->mysteryEnergyCost);
+        CCLabelTTF* engLabel = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 20);
+        engLabel->setPosition(ccp(btn->getContentSize().width* .85f, btn->getContentSize().height* .37f));
+        engLabel->setColor(ccWHITE);
+        btn->addChild(engLabel, 3);
+        CCSprite* xinSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
+        xinSpr->setScale(.85f);
+        xinSpr->setPosition(ccp(btn->getContentSize().width* .85f + engLabel->getContentSize().width* .5f + 16, btn->getContentSize().height* .38f));
+        btn->addChild(xinSpr, 2);
+        
+        
         btn->setUserObject(category);
         CCMenu* menu = CCMenu::createWithItem(btn);
         menu->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT - 68));
