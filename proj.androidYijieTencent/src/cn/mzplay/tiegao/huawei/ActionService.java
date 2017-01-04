@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.huawei;
+package cn.mzplay.tiegao.leshi;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -8,7 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import cn.mzplay.tiegao.huawei.R;
+import cn.mzplay.tiegao.leshi.R;
 
 
 public class ActionService extends Service {

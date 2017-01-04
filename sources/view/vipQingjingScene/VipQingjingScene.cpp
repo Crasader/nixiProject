@@ -1422,8 +1422,17 @@ void VipQingjingScene::jiantou2CallBack(CCObject* pSender){
         }
         this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::updataButton), .3f);
     }else{
-        PromptLayer* layer = PromptLayer::create();
-        layer->show_prompt(this->getScene(), "敬请期待!");
+        CSJson::Value taskConditionsData = AppUtil::read_json_file("res/vipStory/vip_taskConditions");
+        CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
+        int tempNumber = taskConditionsDic->count();
+        
+        if (allNumber < tempNumber) {
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "购买后开启新章节!");
+        }else{
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(this->getScene(), "敬请期待!");
+        }
     }
 }
 void VipQingjingScene::closeButton(){
