@@ -311,6 +311,7 @@ void HomeLayer::creat_View(){
     sleepSpr2->setScale(1.02f);
     CCMenuItem* sleepItem;
     
+    // 公司星级,用于开启游戏
     CSJson::Value missionData = AppUtil::read_json_file("res/mission/mission");
     CCDictionary* missionDic = AppUtil::dictionary_with_json(missionData);
     for (int i = 0; i < missionDic->count(); i++) {
