@@ -794,7 +794,7 @@ void VipQingjingScene::_505CallBack(CCObject* pSender){
         // 0为未购买 非0已购买 -1通关
         int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
         if (tempIndex == 0) {
-            if (i < dicCount-1) {
+            if (i <= dicCount-1) {
                 allNumber = (i*3) + 1;
             }else{
                 allNumber = taskConditionsDic->count();
