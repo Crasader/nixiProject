@@ -224,6 +224,7 @@ void TaskScene::creat_view(){
     for (int i = 0; i < taskArr->count(); i++) {
         CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(i);
         int phase = dic->valueForKey("phase")->intValue();
+        CCLog("phase == %d", phase);
         if (phase == taskPhase) {
             tempArr->addObject(dic);
         }

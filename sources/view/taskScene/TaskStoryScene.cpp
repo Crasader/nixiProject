@@ -173,6 +173,9 @@ bool TaskStoryScene::init(){
         else if (taskPhase == 3) {
             misson = (CCDictionary* )missions->objectAtIndex(40 + taskIndex - 1);
         }
+        else if (taskPhase == 4) {
+            misson = (CCDictionary* )missions->objectAtIndex(66 + taskIndex - 1);
+        }
         
         
         if (misson) {
