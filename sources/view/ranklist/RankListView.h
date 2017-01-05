@@ -53,17 +53,25 @@ public:
     virtual void tableCellUnhighlight(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell);
     
 private:
+    void showEmptyTip();
+    void hideEmptyTip();
+    
+    void showUpdateDays();
+    
     RankListCell* createItemCell(unsigned int idx);
     
     void onTitleToggle(CCMenuItemToggle* btn);
-    void onSelfBarToggle(CCMenuItemToggle* btn);
+    void onSelfBarToggle();
     
     void tobeFriend_callback_803();
     
 private:
+    bool            _isShowCompetition;
     CCTableView*    _tv;
     int             _selectedIndex;
     CCMenuItemToggle* _toggleSelf;
+    CCNode*         _emptyTip;
+    CCSprite*       _competitionUpdateTip;
 };
 
 

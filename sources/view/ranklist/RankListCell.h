@@ -26,7 +26,8 @@ public:
     ~RankListCell();
     static RankListCell* create(const char *pszFileName);
     bool init(const char *pszFileName);
-    void config(int idx, ShowComp* show, float cellWidth, float cellHeight);
+    // type 0-比拼；1-衣服收集
+    void config(int idx, ShowComp* show, float cellWidth, float cellHeight, int type);
     
     void goStar(int idx, int progress, int goal, int status);
     

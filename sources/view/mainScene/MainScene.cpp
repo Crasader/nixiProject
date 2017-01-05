@@ -280,7 +280,9 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::competition_callback_820), "HTTP_FINISHED_820", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_recharge_info_304), "HTTP_FINISHED_304", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
@@ -1544,11 +1546,16 @@ void MainScene::paihangCallBack(CCObject* pSender){
     DATA->onEvent("点击事件", "主界面", "点击排行");
     if (isOk) {
         LOADING->show_loading();
-        NET->ranking_list_300();
+//        NET->ranking_list_300();
+        NET->competition_info_820();
     }
 }
 
-void MainScene::rankList_callback_300(CCObject *pObj){
+//void MainScene::rankList_callback_300(CCObject *pObj){
+//    NET->all_friends_806();
+//}
+
+void MainScene::competition_callback_820(CCObject *pObj) {
     NET->all_friends_806();
 }
 

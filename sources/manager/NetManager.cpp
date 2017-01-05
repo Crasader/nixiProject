@@ -207,7 +207,7 @@ void NetManager::all_messages_804() {
     this->post_data(804, string(""));
 }
 
-void NetManager::response_message_805(int id, int oper) {
+void NetManager::response_message_805(CSJson::UInt64 id, int oper) {
     FastWriter writer;
     Value root;
     root["id"] = id;
@@ -241,7 +241,7 @@ void NetManager::send_papar_809(const char *other_sid, const char *contents) {
     this->post_data(809, data);
 }
 
-void NetManager::delete_paper_811(int id) {
+void NetManager::delete_paper_811(CSJson::UInt64 id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
@@ -265,7 +265,7 @@ void NetManager::all_mails_700() {
     this->post_data(700, string(""));
 }
 
-void NetManager::response_mail_701(int id, int oper) {
+void NetManager::response_mail_701(CSJson::UInt64 id, int oper) {
     FastWriter writer;
     Value root;
     root["id"] = id;

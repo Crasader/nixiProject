@@ -24,7 +24,7 @@ void MailItem::init_with_json(Value json) {
         return;
     }
     
-    id = json["id"].asInt();
+    id = json["id"].asUInt64();
     send_time = json["send_time"].asInt();
     sender = json["sender"].asString();
     title = json["title"].asString();
@@ -35,7 +35,7 @@ void MailItem::init_with_json(Value json) {
 }
 
 void MailItem::print_self() {
-    CCLOG("====== mail: < %d > ======", id);
+    CCLOG("====== mail: < %lld > ======", id);
     CCLOG("    send_time = %d", send_time);
     CCLOG("    sender = %s", sender.c_str());
     CCLOG("    title = %s", title.c_str());
@@ -89,7 +89,7 @@ void MailComp::print_mails() {
     }
 }
 
-void MailComp::handle_mail_oper(int id, int oper) {
+void MailComp::handle_mail_oper(CSJson::UInt64 id, int oper) {
     int size = _mails->count();
     for (int i = 0; i < size; i++) {
         MailItem* item = (MailItem* )_mails->objectAtIndex(i);
@@ -109,7 +109,7 @@ void MailComp::handle_mail_oper(int id, int oper) {
     }
 }
 
-int MailComp::item_index_by_mail_id(int id) {
+int MailComp::item_index_by_mail_id(CSJson::UInt64 id) {
     int size = _mails->count();
     for (int i = 0; i < size; i++) {
         MailItem* item = (MailItem* )_mails->objectAtIndex(i);

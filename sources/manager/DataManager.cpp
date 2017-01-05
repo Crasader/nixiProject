@@ -72,6 +72,7 @@ void DataManager::init_data() {
     this->setTryst(TrystComp::create());
     this->setWelfare(WelfareComp::create());
     this->setAchievement(AchievementComp::create());
+    this->setCompetition(CompetitionComp::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -341,6 +342,13 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 813: {
             _social->init_with_json(content["social"]);
             _social->init_friends(content["friends"]);
+        } break;
+            
+        case 820: {
+            _competition->createThemeInfo(content["theme"]);
+            _competition->createSelfInfo(content["competition"]);
+            _competition->createRanklist(content["ranklist"]);
+            
         } break;
         
         case 700: {

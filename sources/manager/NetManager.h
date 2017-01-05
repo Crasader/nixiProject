@@ -11,9 +11,11 @@
 
 #include "cocos2d.h"
 #include "network/CCHTTPRequest.h"
+#include "json_lib.h"
 
 USING_NS_CC;
 USING_NS_CC_EXTRA;
+using namespace CSJson;
 
 #define NET         NetManager::Inst()
 
@@ -62,18 +64,20 @@ public:
 //    } MesssageType;
     void send_message_803(const char* other_sid, int type);
     void all_messages_804();
-    void response_message_805(int id, int oper);      // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
+    void response_message_805(CSJson::UInt64, int oper);      // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void all_friends_806();
     void take_energy_807();
     void all_paper_808();
     void send_papar_809(const char* other_sid, const char* contents);
-    void delete_paper_811(int id);
+    void delete_paper_811(CSJson::UInt64 id);
     void friend_break_813(const char* other_sid);
     
     void competition_info_820();
     
+    
+    
     void all_mails_700();
-    void response_mail_701(int id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
+    void response_mail_701(CSJson::UInt64 id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
     void home_info_704(bool full);
     void change_house_705(string id);
     void commit_game_707(string gameId, int score);

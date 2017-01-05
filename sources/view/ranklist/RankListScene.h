@@ -36,10 +36,8 @@ public:
     virtual void keyBackClicked();
     
 private: // old
-    CCSprite* fetchNumSprite(int num);
     void btn_share_callback(CCObject* pSender);
     void shareStatus(float dt);
-    void _321CallBack(CCObject* pSender);
     void btn_note_callback(CCObject* pSender);
     void btn_back_callback(CCObject* pSender);
 
@@ -54,8 +52,10 @@ private:
     void changeShower(ShowComp* shower);
     void addFriend(CCMenuItem *btn);
     
+    void afterHttp300(CCObject* pObj);
+    void afterHttp321(CCObject* pObj);
+    
 private:
-    bool                _isShowCompetition;
     ShowerView*         _shower;
     RankListView*       _rlv;
     NotePanel*          _note;

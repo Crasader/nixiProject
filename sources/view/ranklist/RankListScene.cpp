@@ -66,24 +66,20 @@ void RankListScene::createShower() {
 }
 
 void RankListScene::initDefaultRL() {
-    _isShowCompetition = false;
     _rlv = RankListView::create();
-    _rlv->setDatasource(DATA->getRanking()->ranking());
     this->addChild(_rlv);
-    
-    _rlv->reload();
-}
-
-void RankListScene::switchRankList() {
-    
 }
 
 void RankListScene::onEnter() {
     BaseScene::onEnter();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&RankListScene::_321CallBack), "HTTP_FINISHED_321", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp321), "HTTP_FINISHED_321", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&RankListScene::keyBackStatus), .8f);
+    
+    // 静默发送
+    NET->ranking_list_300();
 }
 
 void RankListScene::onExit(){
@@ -141,46 +137,6 @@ void RankListScene::createUI(){
     this->addChild(menu_back, totalRank_z_oder);
 }
 
-CCSprite* RankListScene::fetchNumSprite(int num){
-    CCSprite* spr;
-    switch (num) {
-        case 0:
-            spr =CCSprite::create("pic/haoyoupaihang/num_0.png");
-            break;
-        case 1:
-            spr =CCSprite::create("pic/haoyoupaihang/num_1.png");
-            break;
-        case 2:
-            spr =CCSprite::create("pic/haoyoupaihang/num_2.png");
-            break;
-        case 3:
-            spr =CCSprite::create("pic/haoyoupaihang/num_3.png");
-            break;
-        case 4:
-            spr =CCSprite::create("pic/haoyoupaihang/num_4.png");
-            break;
-        case 5:
-            spr =CCSprite::create("pic/haoyoupaihang/num_5.png");
-            break;
-        case 6:
-            spr =CCSprite::create("pic/haoyoupaihang/num_6.png");
-            break;
-        case 7:
-            spr =CCSprite::create("pic/haoyoupaihang/num_7.png");
-            break;
-        case 8:
-            spr =CCSprite::create("pic/haoyoupaihang/num_8.png");
-            break;
-        case 9:
-            spr =CCSprite::create("pic/haoyoupaihang/num_9.png");
-            break;
-        default:
-            break;
-    }
-    
-    return spr;
-}
-
 void RankListScene::btn_share_callback(CCObject* pSender){
     AUDIO->common_effect();
     // talkingData
@@ -228,7 +184,11 @@ void RankListScene::shareStatus(float dt){
     }
 }
 
-void RankListScene::_321CallBack(CCObject* pSender){
+void RankListScene::afterHttp300(CCObject* pObj) {
+    
+}
+
+void RankListScene::afterHttp321(CCObject* pObj) {
     LOADING->remove();
     
     if (this->getChildByTag(0x334455) != NULL) {

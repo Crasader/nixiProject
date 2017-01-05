@@ -164,7 +164,9 @@ public:
     void all_mail_callback_700(CCObject* pObj);
     void social_info_callback_800(CCObject* pObj);
     void all_friends_callback_806(CCObject* pObj);
-    void rankList_callback_300(CCObject* pObj);
+//    void rankList_callback_300(CCObject* pObj);
+    void competition_callback_820(CCObject* pObj);
+    
     void nc_signin_info_302(CCObject* pObj);
     void nc_gashapon_info_306(CCObject *pObj);
     void nc_recharge_info_304(CCObject *pObj);

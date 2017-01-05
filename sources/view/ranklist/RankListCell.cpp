@@ -44,15 +44,13 @@ bool RankListCell::init(const char *pszFileName) {
 }
 
 
-void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHeight) {
+void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHeight, int type) {
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
     this->setPosition(ccp(halfCellWidth, halfCellHeight));
     
     const char* nickname = show->nickname();
-    int collect = show->collected();
-    
     
     CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     name->setPosition(ccp(cellWidth * 0.75f, cellHeight * 0.68f));
@@ -60,17 +58,34 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
     name->setTag(0x10500);
     this->addChild(name);
     
-    CCSprite* flag = CCSprite::create("res/pic/haoyoupaihang/text_collected_nor.png");
-    flag->setPosition(ccp(cellWidth * .6f, cellHeight* .38));
-    flag->setTag(0x10111);
-    this->addChild((flag));
-    
-    CCString* collect_str = CCString::createWithFormat("%d", collect);
-    CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
-    cloth_count->setPosition(ccp(cellWidth * .78f, cellHeight * .36f));
-    cloth_count->setAnchorPoint(CCPoint(0, 0.5));
-    cloth_count->setTag(0x10300);
-    this->addChild(cloth_count);
+    if (type == 1) {
+        CCSprite* flag = CCSprite::create("pic/ranklist/rl_text_competition.png");
+        flag->setPosition(ccp(cellWidth * 0.8f, cellHeight* .375));
+        flag->setAnchorPoint(ccp(1, 0.5));
+        flag->setTag(0x10111);
+        this->addChild((flag));
+        
+        CCString* collect_str = CCString::createWithFormat("%d", show->competition());
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
+        cloth_count->setPosition(flag->getPosition());
+        cloth_count->setAnchorPoint(CCPoint(0, 0.45));
+        cloth_count->setTag(0x10300);
+        this->addChild(cloth_count);
+    }
+    else {
+        CCSprite* flag = CCSprite::create("pic/haoyoupaihang/text_collected_nor.png");
+        flag->setPosition(ccp(cellWidth * 0.8f, cellHeight* .375));
+        flag->setAnchorPoint(ccp(1, 0.5));
+        flag->setTag(0x10111);
+        this->addChild((flag));
+        
+        CCString* collect_str = CCString::createWithFormat("%d", show->collected());
+        CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
+        cloth_count->setPosition(flag->getPosition());
+        cloth_count->setAnchorPoint(CCPoint(0, 0.45));
+        cloth_count->setTag(0x10300);
+        this->addChild(cloth_count);
+    }
     
     int num = idx + 4;
     if (num >= 4 && num <= 9) {

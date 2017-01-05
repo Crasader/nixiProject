@@ -35,7 +35,9 @@ bool RankListView::init() {
     }
     
     _datasource = NULL;
+    _isShowCompetition = false;
     _selectedIndex = 0;
+    _emptyTip = NULL;
     
     CCSprite* panel = CCSprite::create("pic/ranklist/rl_panel.png");
     CCSize panelSize = panel->getContentSize();
@@ -46,7 +48,7 @@ bool RankListView::init() {
     {
         CCMenuItem* titleCompetition = CCMenuItemImage::create("pic/ranklist/rl_title_1.png", "pic/ranklist/rl_title_1.png");
         CCMenuItem* titleCollection = CCMenuItemImage::create("pic/ranklist/rl_title_2.png", "pic/ranklist/rl_title_2.png");
-        CCMenuItemToggle* toggleTitle = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&RankListView::onTitleToggle), titleCollection, titleCompetition, NULL);
+        CCMenuItemToggle* toggleTitle = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&RankListView::onTitleToggle), titleCompetition, titleCollection, NULL);
         CCMenu* menuTitle = CCMenu::createWithItem(toggleTitle);
         menuTitle->setPosition(ccp(panelSize.width * 0.52, panelSize.height * 0.95));
         panel->addChild(menuTitle);
@@ -58,10 +60,10 @@ bool RankListView::init() {
         RankListCell* sel3 = RankListCell::create("pic/ranklist/rl_bar_self.png");
         RankListCell* sel4 = RankListCell::create("pic/ranklist/rl_bar_self.png");
         
-        sel1->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT);
-        sel2->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT);
-        sel3->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT);
-        sel4->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT);
+        sel1->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        sel2->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        sel3->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        sel4->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
         
         sel1->setPosition(CCPointZero);
         sel2->setPosition(CCPointZero);
@@ -93,6 +95,8 @@ bool RankListView::init() {
         panel->addChild(_tv);
     }
     
+    this->onTitleToggle(NULL);
+    
     return true;
 }
 
@@ -105,6 +109,44 @@ void RankListView::onEnter(){
 void RankListView::onExit(){
     CCLayer::onExit();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+}
+
+void RankListView::showEmptyTip() {
+    if (! _emptyTip) {
+        _emptyTip = CCNode::create();
+        _emptyTip->setPosition(ccp(CELL_WIDTH * 0.5, -220));
+        _tv->addChild(_emptyTip);
+        
+        CCLabelTTF* lblTip = CCLabelTTF::create("暂无数据", DISPLAY->fangzhengFont(), 24);
+        lblTip->setColor(DISPLAY->dullBlueColor());
+        _emptyTip->addChild(lblTip);
+    }
+    
+    _emptyTip->setVisible(true);
+}
+
+void RankListView::hideEmptyTip() {
+    if (_emptyTip) {
+        _emptyTip->setVisible(false);
+    }
+}
+
+void RankListView::showUpdateDays() {
+    if (! _competitionUpdateTip) {
+        CCNode* panel = _tv->getParent();
+        _competitionUpdateTip = CCSprite::create("pic/ranklist/rl_competition_tip.png");
+        _competitionUpdateTip->setPosition(panel->getPosition() + ccp(2, panel->getContentSize().height + 16));
+        this->addChild(_competitionUpdateTip);
+        
+        int day = DATA->getCompetition()->getTheme()->getDay() + 1;
+        CCString* strDays = CCString::createWithFormat("%d", day);
+        CCLabelTTF* lblTip = CCLabelTTF::create(strDays->getCString(), DISPLAY->fangzhengFont(), 20);
+        lblTip->setColor(ccc3(255, 46, 46));
+        lblTip->setPosition(ccp(_competitionUpdateTip->getContentSize().width * 0.755, _competitionUpdateTip->getContentSize().height * 0.5));
+        _competitionUpdateTip->addChild(lblTip);
+    }
+    
+    _competitionUpdateTip->setVisible(_isShowCompetition);
 }
 
 RankListCell* RankListView::createItemCell(unsigned int idx) {
@@ -123,18 +165,38 @@ RankListCell* RankListView::createItemCell(unsigned int idx) {
     }
     
     ShowComp* show = (ShowComp* )_datasource->objectAtIndex(idx);
-    rtn->config(idx, show, CELL_WIDTH, CELL_HEIGHT);
+    rtn->config(idx, show, CELL_WIDTH, CELL_HEIGHT, (int)_isShowCompetition);
     
     return rtn;
 }
 
 void RankListView::onTitleToggle(CCMenuItemToggle *btn) {
+    if (_isShowCompetition) {
+        _isShowCompetition = false;
+        this->setDatasource(DATA->getRanking()->ranking());
+        this->reload();
+    }
+    else {
+        _isShowCompetition = true;
+        this->setDatasource(DATA->getCompetition()->getRanklist());
+        this->reload();
+    }
     
+    if (!_datasource || (_datasource && _datasource->count() == 0)) {
+        this->showEmptyTip();
+        _toggleSelf->setSelectedIndex(1);
+        _toggleSelf->setEnabled(false);
+    }
+    else {
+        this->hideEmptyTip();
+    }
+    
+    this->showUpdateDays();
 }
 
-void RankListView::onSelfBarToggle(CCMenuItemToggle *btn) {
+void RankListView::onSelfBarToggle() {
     int oldSelected = _selectedIndex;
-    if (btn->getSelectedIndex() == 1) {
+    if (_toggleSelf->getSelectedIndex() == 1) {
         if (oldSelected != -1) {
             _selectedIndex = -1;
             _tv->updateCellAtIndex(oldSelected);

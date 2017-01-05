@@ -21,13 +21,13 @@ void MessageItem::init_with_json(Value json) {
         return;
     }
     
-    id = json["id"].asInt();
+    id = json["id"].asUInt64();
     type = json["type"].asInt();
     sender = json["sender"].asString();
 }
 
 void MessageItem::print_self() {
-    CCLOG("====== message: < %d > ======", id);
+    CCLOG("====== message: < %lld > ======", id);
     CCLOG("    type = %d", type);
     CCLOG("    sender = %s", sender.c_str());
 }
