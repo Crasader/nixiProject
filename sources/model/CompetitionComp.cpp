@@ -25,6 +25,8 @@ void CompetitionThemeInfo::config(Value json) {
     }
     
     this->setThemeName(json["name"].asString());
+    this->setTags(AppUtil::array_with_json(json["tags"]));
+    this->setRule(AppUtil::array_with_json(json["rule"]));
     this->setDay(json["D"].asInt());
     this->setHour(json["H"].asInt());
     this->setMinu(json["M"].asInt());

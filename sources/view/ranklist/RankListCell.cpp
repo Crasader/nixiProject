@@ -67,8 +67,8 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
         
         CCString* collect_str = CCString::createWithFormat("%d", show->competition());
         CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
-        cloth_count->setPosition(flag->getPosition());
-        cloth_count->setAnchorPoint(CCPoint(0, 0.45));
+        cloth_count->setPosition(flag->getPosition() + ccp(2, -1.5));
+        cloth_count->setAnchorPoint(CCPoint(0, 0.5));
         cloth_count->setTag(0x10300);
         this->addChild(cloth_count);
     }
@@ -81,29 +81,53 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
         
         CCString* collect_str = CCString::createWithFormat("%d", show->collected());
         CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
-        cloth_count->setPosition(flag->getPosition());
-        cloth_count->setAnchorPoint(CCPoint(0, 0.45));
+        cloth_count->setPosition(flag->getPosition() + ccp(2, -1.5));
+        cloth_count->setAnchorPoint(CCPoint(0, 0.5));
         cloth_count->setTag(0x10300);
         this->addChild(cloth_count);
     }
     
-    int num = idx + 4;
-    if (num >= 4 && num <= 9) {
+    int num = idx + 1;
+//    if (num == 1) {
+//        
+//    }
+//    else if (num == 2) {
+//        
+//    }
+//    else if (num == 3) {
+//        
+//    }
+    float numSprPosX = cellWidth * 0.17f;
+    if (num < 10) {
         CCSprite* spr = this->getNumSprite(num);
-        spr->setPosition(ccp(cellWidth * .325f, cellHeight* .5f));
-        spr->setTag(0x10400);
+        spr->setPosition(ccp(numSprPosX, cellHeight* .5f));
         this->addChild(spr);
-    }else{
+    }
+    else if (num < 100) {
         CCSprite* spr1 = this->getNumSprite((int)floor(num/10));
-        spr1->setPosition(ccp(cellWidth * .325f - 8, cellHeight* .5f));
-        spr1->setTag(0x10600);
+        spr1->setPosition(ccp(numSprPosX - 7, halfCellHeight));
         this->addChild(spr1);
         CCSprite* spr2 = this->getNumSprite((int)floor(num%10));
-        spr2->setPosition(ccp(cellWidth * .325f + 8, cellHeight* .5f));
-        spr2->setTag(0x10700);
+        spr2->setPosition(ccp(numSprPosX + 7, halfCellHeight));
         this->addChild(spr2);
     }
-    
+    else if (num < 1000) {
+        int baiwei = (int)floor(num / 100);
+        CCSprite* spr1 = this->getNumSprite(baiwei);
+        spr1->setPosition(ccp(numSprPosX - 12, halfCellHeight));
+        this->addChild(spr1);
+        
+        int shiwei = (int)floor((num - baiwei * 100) / 10);
+        CCSprite* spr2 = this->getNumSprite(shiwei);
+        spr2->setPosition(ccp(numSprPosX, halfCellHeight));
+        this->addChild(spr2);
+        
+        int gewei = (int)floor(num % 10);
+        CCSprite* spr3 = this->getNumSprite(gewei);
+        spr3->setPosition(ccp(numSprPosX + 12, halfCellHeight));
+        this->addChild(spr3);
+    }
+
     
     CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
     CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");

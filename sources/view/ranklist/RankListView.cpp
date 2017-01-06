@@ -60,10 +60,11 @@ bool RankListView::init() {
         RankListCell* sel3 = RankListCell::create("pic/ranklist/rl_bar_self.png");
         RankListCell* sel4 = RankListCell::create("pic/ranklist/rl_bar_self.png");
         
-        sel1->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-        sel2->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-        sel3->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-        sel4->config(-1, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        int selfIndex = -1;
+        sel1->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        sel2->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        sel3->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
+        sel4->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
         
         sel1->setPosition(CCPointZero);
         sel2->setPosition(CCPointZero);
