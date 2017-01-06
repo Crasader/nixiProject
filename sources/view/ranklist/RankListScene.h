@@ -51,9 +51,12 @@ private:
     void switchRankList();
     void changeShower(ShowComp* shower);
     void addFriend(CCMenuItem *btn);
+    void gotoPkScene(CCMenuItem* btn);
     
     void afterHttp300(CCObject* pObj);
     void afterHttp321(CCObject* pObj);
+    
+    void testPK();
     
 private:
     ShowerView*         _shower;

@@ -89,6 +89,7 @@ bool RankListView::init() {
         _tv = CCTableView::create(this, CCSizeMake(CELL_WIDTH, 686));
         _tv->setDirection(kCCScrollViewDirectionVertical);
         _tv->setVerticalFillOrder(kCCTableViewFillTopDown);
+        _tv->setBounceable(false);
         _tv->ignoreAnchorPointForPosition(false);
         _tv->setAnchorPoint(ccp(0, 0));
         _tv->setPosition(ccp(5, 2));
@@ -272,15 +273,8 @@ void RankListView::tableCellUnhighlight(CCTableView* table, CCTableViewCell* cel
 
 #pragma mark - CCScrollViewDelegate
 
-void RankListView::scrollViewDidScroll(CCScrollView* view){
-    CCPoint contOffsetPos = _tv->getContentOffset();
-    if (_datasource->count() > 6) {
-        if (contOffsetPos.y < _tv->minContainerOffset().y) {
-            _tv->setContentOffset(CCPoint(contOffsetPos.x, _tv->minContainerOffset().y));
-        }else if (contOffsetPos.y > _tv->maxContainerOffset().y){
-            _tv->setContentOffset(CCPoint(contOffsetPos.x, _tv->maxContainerOffset().y));
-        }
-    }
+void RankListView::scrollViewDidScroll(CCScrollView* view) {
+
 }
 
 void RankListView::scrollViewDidZoom(CCScrollView* view) {

@@ -109,7 +109,7 @@ void RankListScene::createUI(){
     CCSprite* shareSpr2 = CCSprite::create("pic/ranklist/rl_share.png");
     shareSpr2->setScale(1.02f);
     
-    CCMenuItemSprite* item_share = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RankListScene::btn_share_callback));
+    CCMenuItemSprite* item_share = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RankListScene::testPK));
     item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);
@@ -135,6 +135,27 @@ void RankListScene::createUI(){
     CCMenu* menu_back = CCMenu::create(item_back, NULL);
     menu_back->setPosition(CCPointZero);
     this->addChild(menu_back, totalRank_z_oder);
+    
+    // 比拼入口
+    CCSprite* tiny = CCSprite::create("pic/ranklist/rl_tiny_0.png");
+    tiny->setPosition(ccp(DISPLAY->W() - 116, DISPLAY->H() * 0.11));
+    this->addChild(tiny);
+    CCAnimate* anim = CCAnimate::create(AppUtil::animationWithPics("pic/ranklist/rl_tiny_%d.png", 1, 0, 0.5f));
+    tiny->runAction(CCRepeatForever::create(anim));
+    
+    CCSprite* sptPlate1 = CCSprite::create("pic/ranklist/rl_tiny_plane.png");
+    CCSprite* sptPlate2 = CCSprite::create("pic/ranklist/rl_tiny_plane.png");
+    sptPlate2->setScale(1.01f);
+    CCMenuItemSprite* btnPlate = CCMenuItemSprite::create(sptPlate1, sptPlate2, this, menu_selector(RankListScene::gotoPkScene));
+    btnPlate->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
+    CCMenu* menuPlate = CCMenu::createWithItem(btnPlate);
+    menuPlate->setPosition(ccp(-8, - sptPlate1->getContentSize().height * 0.125));
+    tiny->addChild(menuPlate);
+}
+
+void RankListScene::gotoPkScene(CCMenuItem *btn) {
+    CCLOG("RankListScene::gotoPkScene() ...");
+    NET->competition_search_opponent_821();
 }
 
 void RankListScene::btn_share_callback(CCObject* pSender){
@@ -165,8 +186,8 @@ void RankListScene::btn_share_callback(CCObject* pSender){
     JNIController::showShare();
     this->schedule(SEL_SCHEDULE(&RankListScene::shareStatus), .1f);
 #endif
-    
 }
+
 void RankListScene::shareStatus(float dt){
     
     if (JNIController::getShareStatus() == 1) {
@@ -185,7 +206,7 @@ void RankListScene::shareStatus(float dt){
 }
 
 void RankListScene::afterHttp300(CCObject* pObj) {
-    
+    // 啥都不做
 }
 
 void RankListScene::afterHttp321(CCObject* pObj) {
@@ -262,5 +283,14 @@ void RankListScene::addFriend(CCMenuItem *btn){
     btn->selected();
     
     NET->send_message_803(other->getShowID().c_str(), 1);
+}
+
+void RankListScene::testPK() {
+    CCLOG("测试比拼结果 ...");
+    const string opponentId = DATA->getCompetition()->getOpponent()->getId();
+    if (! opponentId.empty()) {
+        NET->competition_start_825(opponentId.c_str());
+    }
+    
 }
 
