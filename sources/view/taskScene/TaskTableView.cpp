@@ -261,7 +261,10 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
             titleLabel1->setTag(selectedIndex + 20000);
             button1->addChild(titleLabel1, 10);
             
-            CCString* selectedIndexStr = CCString::createWithFormat("%d", selectedIndex+1);
+            
+            CCDictionary* tempDic222 = (CCDictionary* )taskMission->objectAtIndex(selectedIndex);
+            int tempIndex= tempDic222->valueForKey("id")->intValue();
+            CCString* selectedIndexStr = CCString::createWithFormat("%d", tempIndex);
             int num = DATA->getMission()->mission_rating(selectedIndexStr->getCString());
 //            num = 5;
             if (num == 5) {
