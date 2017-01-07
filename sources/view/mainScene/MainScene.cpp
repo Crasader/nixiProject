@@ -2402,16 +2402,18 @@ void MainScene::check_free_gashapon() {
 void MainScene::check_welfare_new() {
     //    if (news->welfare == 1) {
     int newCount = DATA->getWelfare()->getNewCount() + DATA->getAchievement()->getNewCount();
+    CCNode* oldHongDian = _welfareItem->getChildByTag(185);
     if (newCount > 0) {
-        CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(20, 74));
-        spt->setTag(185);
-        _welfareItem->addChild(spt);
+        if (! oldHongDian) {
+            CCSprite* spt = CCSprite::create("res/pic/new.png");
+            spt->setPosition(ccp(20, 74));
+            spt->setTag(185);
+            _welfareItem->addChild(spt);
+        }
     }
     else {
-        CCNode* hongDian = _welfareItem->getChildByTag(185);
-        if (NULL != hongDian) {
-            hongDian->removeFromParent();
+        if (oldHongDian) {
+            oldHongDian->removeFromParent();
         }
     }
 }

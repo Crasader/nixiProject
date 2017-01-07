@@ -28,8 +28,6 @@ public:
     CC_SYNTHESIZE(int, _minu, Minu);
     CC_SYNTHESIZE(int, _secd, Secd);
     
-    CC_SYNTHESIZE_RETAIN(CCDictionary*, _buffs, Buffs); // 祝福Buffs，待定
-    
 public:
     ~CompetitionThemeInfo() {}
     CREATE_FUNC(CompetitionThemeInfo);
@@ -48,13 +46,22 @@ public:
     CC_SYNTHESIZE_RETAIN(CCDictionary*, _ornaments, Ornaments); // 同show的首饰
     
     CC_SYNTHESIZE(int, _dailyTimes, DailyTimes);    // 今日主动挑战次数
-    CC_SYNTHESIZE_RETAIN(CCArray*, _buffs, Buffs);  // 使用中的祝福能力 Ids
     CC_SYNTHESIZE_RETAIN(CCArray*, _dailyOpponents, DailyOpponents); // 今日挑战过的对手
+    
+    CC_SYNTHESIZE(int, _searchCost, SearchCost);    // 查找对手钻石花费
+    CC_SYNTHESIZE(int, _startCost, StartCost);      // 开始钻石花费
+    CC_SYNTHESIZE(int, _score, Score);              // 当前累计得分
     
     CC_SYNTHESIZE(int, _match, Match);              // 搭配分
     CC_SYNTHESIZE(int, _puplar, Puplar);            // 人气分
     CC_SYNTHESIZE(int, _charm, Charm);              // 魅力分
     CC_SYNTHESIZE(int, _luck, Luck);                // 运气分
+    
+    CC_SYNTHESIZE(int, _buffId, BuffId);           // 祝福Buff，玩家自己的, 0表示无
+    CC_SYNTHESIZE_PASS_BY_REF(string, _buffDesc, BuffDesc); // 玩家自己的祝福描述, _fuffId=0时为空串
+    
+    CC_SYNTHESIZE(int, _buffedId, BuffedId);       // 本对象表示对手信息时，为对手的祝福效果ID，0表示无
+    CC_SYNTHESIZE_PASS_BY_REF(string, _buffedDesc, BuffedDesc); // 对手的祝福描述, _buffedId=0时为空串
     
 public:
     ~CompetitionItem() {}

@@ -287,10 +287,15 @@ void RankListScene::addFriend(CCMenuItem *btn){
 
 void RankListScene::testPK() {
     CCLOG("测试比拼结果 ...");
-    const string opponentId = DATA->getCompetition()->getOpponent()->getId();
-    if (! opponentId.empty()) {
+    CompetitionItem* opponent = DATA->getCompetition()->getOpponent();
+    if (opponent) {
+        // 开始PK
+        const string opponentId = opponent->getId();
         NET->competition_start_825(opponentId.c_str());
     }
-    
+    else {
+        // 祝福
+        NET->competition_bless_823();
+    }
 }
 

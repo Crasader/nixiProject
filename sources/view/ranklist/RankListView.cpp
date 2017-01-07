@@ -116,10 +116,10 @@ void RankListView::onExit(){
 void RankListView::showEmptyTip() {
     if (! _emptyTip) {
         _emptyTip = CCNode::create();
-        _emptyTip->setPosition(ccp(CELL_WIDTH * 0.5, -220));
-        _tv->addChild(_emptyTip);
+        _emptyTip->setPosition(ccp(DISPLAY->W() - CELL_WIDTH * 0.5, DISPLAY->H() * 0.6));
+        this->addChild(_emptyTip, 100);
         
-        CCLabelTTF* lblTip = CCLabelTTF::create("暂无数据", DISPLAY->fangzhengFont(), 24);
+        CCLabelTTF* lblTip = CCLabelTTF::create("-* 暂无数据 *-", DISPLAY->fangzhengFont(), 24);
         lblTip->setColor(DISPLAY->dullBlueColor());
         _emptyTip->addChild(lblTip);
     }

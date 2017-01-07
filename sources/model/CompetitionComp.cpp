@@ -46,13 +46,21 @@ void CompetitionItem::config(Value json) {
     this->setOrnaments(AppUtil::dictionary_with_json(json["ornaments"]));
     
     this->setDailyTimes(json["daily_times"].asInt());
-    this->setBuffs(AppUtil::array_with_json(json["buffs"]));
     this->setDailyOpponents(AppUtil::array_with_json(json["daily_opponents"]));
+    
+    this->setSearchCost(json["search_cost"].asInt());
+    this->setStartCost(json["start_cost"].asInt());
+    this->setScore(json["score"].asInt());
     
     this->setMatch(json["s_match"].asInt());
     this->setPuplar(json["s_popular"].asInt());
     this->setCharm(json["s_charm"].asInt());
     this->setLuck(json["s_luck"].asInt());
+    
+    this->setBuffId(json["buff"].asInt());
+    this->setBuffDesc(json["buff_desc"].asString());
+    this->setBuffedId(json["buffed"].asInt());
+    this->setBuffedDesc(json["buffed_desc"].asString());
 }
 
 

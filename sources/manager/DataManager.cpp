@@ -249,12 +249,16 @@ void DataManager::handle_protocol(int cid, Value content) {
             _news->init_with_json(content["news"]);
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
+            
+            _welfare->update_statis(content["welfare"]["statis"]);
+            _welfare->update_items(content["welfare"]["items"]);
+            _achievement->update_user_achieved(content["achieved"]);
+            
             _notif = content["notif"].asString();
+            
             this->start_check_news();
             
             this->setFirstOnMainScene(true);
-            
-            
         } break;
         
         case 903: {
@@ -357,10 +361,12 @@ void DataManager::handle_protocol(int cid, Value content) {
         } break;
             
         case 823: {
+            _player->init_with_json(content["player"]);
             _competition->createSelfInfo(content["competition"]);
         } break;
             
         case 825: {
+            _player->init_with_json(content["player"]);
             _competition->createSelfInfo(content["competition"]);
         } break;
         

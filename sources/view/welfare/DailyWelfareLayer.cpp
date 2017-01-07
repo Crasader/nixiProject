@@ -330,6 +330,8 @@ void DailyWelfareLayer::nc_take_welfare_statis_reward_633(CCObject *pObj) {
     this->showRewardTake(item);
     
     this->update_statis_rewards();
+    // 更新按钮红点
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_UPDATE_HONGDIAN");
 }
 
 void DailyWelfareLayer::showRewardTake(WelfareStatisItem *item) {

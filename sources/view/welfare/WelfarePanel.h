@@ -40,6 +40,8 @@ private:
     
     void onDailyToggle(CCMenuItemToggle* btn);
     void onAchieveToggle(CCMenuItemToggle* btn);
+    
+    void updateHongDian();
 
 private:
     CCSprite*                   _panel;
