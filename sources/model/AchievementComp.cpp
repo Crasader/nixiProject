@@ -81,12 +81,7 @@ void AchievementComp::update_user_achieved(CSJson::Value json) {
     if (json.type() == CSJson::nullValue) {
         return;
     }
-    
-//    CCArray* arr = AppUtil::array_with_json(json);
-//    CC_SAFE_RELEASE(_achieved);
-//    _achieved = arr;
-//    CC_SAFE_RETAIN(_achieved);
-    
+
     _newCount = 0;
     int count = json.size();
     for (int i = 0; i < count; i++) {
@@ -97,6 +92,14 @@ void AchievementComp::update_user_achieved(CSJson::Value json) {
             _newCount++;
         }
     }
+}
+
+void AchievementComp::just_update_new_count(CSJson::Value json) {
+    if (json.type() == CSJson::nullValue) {
+        return;
+    }
+    
+    _newCount = json.size();
 }
 
 void AchievementComp::update_user_finished(CSJson::Value json) {

@@ -79,15 +79,15 @@ bool WelfarePanel::init() {
 }
 
 void WelfarePanel::updateHongDian() {
-    CCNode* oldDailyHongDian = _btnDaily->getChildByTag(100);
-    CCNode* oldAchieveHongDian = _btnAchieve->getChildByTag(200);
+    CCNode* oldDailyHongDian = this->getChildByTag(100);
+    CCNode* oldAchieveHongDian = this->getChildByTag(200);
     
     if (DATA->getWelfare()->getNewCount() > 0) {
         if (! oldDailyHongDian) {
             CCSprite* spt = CCSprite::create("res/pic/new.png");
-            spt->setPosition(ccp(55, 84));
+            spt->setPosition(_btnDaily->getParent()->getPosition() + ccp(28, 84));
             spt->setTag(100);
-            _btnDaily->addChild(spt);
+            this->addChild(spt);
         }
     }
     else {
@@ -99,9 +99,9 @@ void WelfarePanel::updateHongDian() {
     if (DATA->getAchievement()->getNewCount()) {
         if (! oldAchieveHongDian) {
             CCSprite* spt = CCSprite::create("res/pic/new.png");
-            spt->setPosition(ccp(55, 84));
+            spt->setPosition(_btnAchieve->getParent()->getPosition() + ccp(28, -4));
             spt->setTag(200);
-            _btnAchieve->addChild(spt);
+            this->addChild(spt);
         }
     }
     else {

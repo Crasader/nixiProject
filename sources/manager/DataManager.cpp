@@ -252,7 +252,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             _welfare->update_statis(content["welfare"]["statis"]);
             _welfare->update_items(content["welfare"]["items"]);
-            _achievement->update_user_achieved(content["achieved"]);
+            _achievement->just_update_new_count(content["achieved"]);
             
             _notif = content["notif"].asString();
             
