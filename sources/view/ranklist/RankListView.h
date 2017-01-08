@@ -58,6 +58,7 @@ private:
     
     void showUpdateDays();
     
+    CCSprite* createSelfPlate(unsigned int idx, int type);
     RankListCell* createItemCell(unsigned int idx);
     
     void onTitleToggle(CCMenuItemToggle* btn);

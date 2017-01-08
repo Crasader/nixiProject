@@ -16,6 +16,48 @@
 
 #include "Loading2.h"
 
+CCSprite* RankListCell::getNumSprite(int num){
+    CCSprite* spr;
+    switch (num) {
+        case 0:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_0.png");
+            break;
+        case 1:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_1.png");
+            break;
+        case 2:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_2.png");
+            break;
+        case 3:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_3.png");
+            break;
+        case 4:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_4.png");
+            break;
+        case 5:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_5.png");
+            break;
+        case 6:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_6.png");
+            break;
+        case 7:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_7.png");
+            break;
+        case 8:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_8.png");
+            break;
+        case 9:
+            spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
+            break;
+        default:
+            break;
+    }
+    
+    return spr;
+}
+
+
+
 RankListCell::~RankListCell() {
 
 }
@@ -88,42 +130,33 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
     }
     
     int num = idx + 1;
-//    if (num == 1) {
-//        
-//    }
-//    else if (num == 2) {
-//        
-//    }
-//    else if (num == 3) {
-//        
-//    }
     float numSprPosX = cellWidth * 0.17f;
     if (num < 10) {
-        CCSprite* spr = this->getNumSprite(num);
+        CCSprite* spr = RankListCell::getNumSprite(num);
         spr->setPosition(ccp(numSprPosX, cellHeight* .5f));
         this->addChild(spr);
     }
     else if (num < 100) {
-        CCSprite* spr1 = this->getNumSprite((int)floor(num/10));
+        CCSprite* spr1 = RankListCell::getNumSprite((int)floor(num/10));
         spr1->setPosition(ccp(numSprPosX - 7, halfCellHeight));
         this->addChild(spr1);
-        CCSprite* spr2 = this->getNumSprite((int)floor(num%10));
+        CCSprite* spr2 = RankListCell::getNumSprite((int)floor(num%10));
         spr2->setPosition(ccp(numSprPosX + 7, halfCellHeight));
         this->addChild(spr2);
     }
     else if (num < 1000) {
         int baiwei = (int)floor(num / 100);
-        CCSprite* spr1 = this->getNumSprite(baiwei);
+        CCSprite* spr1 = RankListCell::getNumSprite(baiwei);
         spr1->setPosition(ccp(numSprPosX - 12, halfCellHeight));
         this->addChild(spr1);
         
         int shiwei = (int)floor((num - baiwei * 100) / 10);
-        CCSprite* spr2 = this->getNumSprite(shiwei);
+        CCSprite* spr2 = RankListCell::getNumSprite(shiwei);
         spr2->setPosition(ccp(numSprPosX, halfCellHeight));
         this->addChild(spr2);
         
         int gewei = (int)floor(num % 10);
-        CCSprite* spr3 = this->getNumSprite(gewei);
+        CCSprite* spr3 = RankListCell::getNumSprite(gewei);
         spr3->setPosition(ccp(numSprPosX + 12, halfCellHeight));
         this->addChild(spr3);
     }
@@ -281,44 +314,6 @@ void RankListCell::toBeFriend(CCMenuItem* btn){
 //    }
 //}
 
-CCSprite* RankListCell::getNumSprite(int num){
-    CCSprite* spr;
-    switch (num) {
-        case 0:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_0.png");
-            break;
-        case 1:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_1.png");
-            break;
-        case 2:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_2.png");
-            break;
-        case 3:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_3.png");
-            break;
-        case 4:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_4.png");
-            break;
-        case 5:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_5.png");
-            break;
-        case 6:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_6.png");
-            break;
-        case 7:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_7.png");
-            break;
-        case 8:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_8.png");
-            break;
-        case 9:
-            spr =CCSprite::create("res/pic/haoyoupaihang/num_9.png");
-            break;
-        default:
-            break;
-    }
-    
-    return spr;
-}
+
 
 

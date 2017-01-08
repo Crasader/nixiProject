@@ -20,6 +20,7 @@ class ShowComp;
 class RankListCell : public CCSprite
 {
 public:
+    static CCSprite* getNumSprite(int num);
     void showRewardAction(const char* type, int num);
 
 public:
@@ -32,7 +33,6 @@ public:
     void goStar(int idx, int progress, int goal, int status);
     
 private:
-    CCSprite* getNumSprite(int num);
     void moveFinish(CCObject* pObj);
     void toBeFriend(CCMenuItem* btn);
     

@@ -44,18 +44,16 @@ bool RankListScene::init() {
         return false;
     }
     
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListScene::changeShower), "NEED_CHANGE_SHOWER", NULL);
     num_child = 0;
     
     CCSprite* background = CCSprite::create("pic/haoyoupaihang/rank_bg_1.png");
     background->setPosition(ccp(DISPLAY->ScreenWidth()*.5, DISPLAY->ScreenHeight()*.5));
     this->addChild(background);
     
-    this->initDefaultRL();
     this->createShower();
+    this->initDefaultRL();
     this->createUI();
-    
-    ShowComp* selfShow = DATA->getShow();
-    _shower->change_shower(selfShow->ondress());
     
     return true;
 }
@@ -63,6 +61,9 @@ bool RankListScene::init() {
 void RankListScene::createShower() {
     _shower = ShowerView::create();
     this->addChild(_shower);
+    
+//    ShowComp* selfShow = DATA->getShow();
+//    _shower->change_shower(selfShow->ondress());
 }
 
 void RankListScene::initDefaultRL() {
@@ -271,7 +272,13 @@ void RankListScene::btn_back_callback(CCObject* pSender){
 }
 
 void RankListScene::changeShower(ShowComp* shower) {
-
+    if (shower) {
+//        CCLOG("RankListScene::changeShower() - nickname = %s", shower->nickname());
+        _shower->change_shower(shower->ondress());
+    }
+    else {
+        CCLOG("ERROR:: RankListScene::changeShower(ShowComp* shower) - shower is nil~");
+    }
 }
 
 void RankListScene::addFriend(CCMenuItem *btn){
