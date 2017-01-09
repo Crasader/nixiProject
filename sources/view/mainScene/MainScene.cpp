@@ -58,6 +58,8 @@
 
 
 // --------------- test ----------------
+#include "pkScene.h"
+
 
 
 MainScene::MainScene(){
@@ -1363,10 +1365,14 @@ void MainScene::welfareCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击福利");
     
-    if (isOk) {
-        AUDIO->comfirm_effect();
-        NET->welfare_info_630();
-    }
+//    if (isOk) {
+//        AUDIO->comfirm_effect();
+//        NET->welfare_info_630();
+//    }
+    
+    
+    CCScene* scene = pkScene::scene();
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::nc_welfare_user_info(CCObject *pObj) {

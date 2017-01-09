@@ -23,6 +23,8 @@
 #include "AudioManager.h"
 #include "GuideLayer.h"
 #include "StringUtil.h"
+#include "pkScene.h"
+
 
 
 ClothesScene::ClothesScene(){
@@ -95,7 +97,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
-    if (clothesStatus == 2){// 换装
+    if (clothesStatus == 2 || clothesStatus == 5){// 换装=2, pk=5
         CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
         CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
@@ -1350,7 +1352,14 @@ void ClothesScene::backCallBack(CCObject* pSender){
                 }
             }
             else if (clothesStatus == 3 || clothesStatus == 4){// 神秘事件和约会
+                num_child = 0;
                 CCScene* scene = MainScene::scene();
+                CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+                CCDirector::sharedDirector()->replaceScene(trans);
+            }
+            else if (clothesStatus == 5){// pk
+                num_child = 0;
+                CCScene* scene = pkScene::scene();
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                 CCDirector::sharedDirector()->replaceScene(trans);
             }
@@ -1649,7 +1658,7 @@ void ClothesScene::saveCallBack(CCObject* pSender){
     this->saveClothesMethods();
 }
 void ClothesScene::updataSaveItemStatus(){
-    if (clothesStatus == 2){// 换装
+    if (clothesStatus == 2 || clothesStatus == 5){// 换装
         saveItem->setEnabled(true);
     }
 }
@@ -3250,7 +3259,7 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
             LOADING->remove();
         }
     }
-    else if (clothesStatus == 2){// 换装
+    else if (clothesStatus == 2 || clothesStatus == 5){// 换装
         LOADING->remove();
     }
     else if (clothesStatus == 3){// 神秘事件
