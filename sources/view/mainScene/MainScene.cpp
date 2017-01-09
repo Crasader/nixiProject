@@ -1367,8 +1367,14 @@ void MainScene::welfareCallBack(CCObject* pSender){
     DATA->onEvent("点击事件", "主界面", "点击福利");
     
     if (isOk) {
+        LOADING->show_loading();
         AUDIO->comfirm_effect();
         NET->welfare_info_630();
+        //
+        CCMenuItem* btn = (CCMenuItem* )pSender;
+        btn->setEnabled(false);
+        CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+        btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
     }
 }
 
@@ -1391,6 +1397,11 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
         else {
             NET->signin7_info_302(true);
         }
+        
+        CCMenuItem* btn = (CCMenuItem* )pSender;
+        btn->setEnabled(false);
+        CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+        btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
     }
 }
 
@@ -1421,6 +1432,11 @@ void MainScene::energyLargessCallBack(CCObject *pSender) {
     
     if (isOk) {
         EnergyLargessPanel::show(this->getScene());
+        //
+        CCMenuItem* btn = (CCMenuItem* )pSender;
+        btn->setEnabled(false);
+        CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+        btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
     }
 }
 
@@ -1470,6 +1486,11 @@ void MainScene::onEventCallback(CCObject *pSender) {
             NET->fetch_mystery_info_610(true);
         }
     }
+}
+
+void MainScene::afterMenuItemCalled(CCMenuItem* btn) {
+    CCLOG("MainScene::afterMenuItemCalled()");
+    btn->setEnabled(true);
 }
 
 //void MainScene::mysteryUnlockPrompt(CCObject* pSender) {
