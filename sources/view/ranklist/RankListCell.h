@@ -21,6 +21,8 @@ class RankListCell : public CCSprite
 {
 public:
     static CCSprite* getNumSprite(int num);
+    void selected();
+    void unselected();
     void showRewardAction(const char* type, int num);
 
 public:
@@ -29,20 +31,12 @@ public:
     bool init(const char *pszFileName);
     // type 0-比拼；1-衣服收集
     void config(int idx, ShowComp* show, float cellWidth, float cellHeight, int type);
-    
-    void goStar(int idx, int progress, int goal, int status);
-    
+        
 private:
-    void moveFinish(CCObject* pObj);
     void toBeFriend(CCMenuItem* btn);
-    
-    CCProgressTimer*        _progress;
-    CCMenu*                 _menuBtn;
-    CCSprite*               _sptButton1;
-    CCSprite*               _sptButton2;
-    CCSprite*               _star;
-    
-    CCSprite*               _rewardIcon;
+
+private:
+    int             _idx;
 };
 
 #endif /* RankListCell_hpp */

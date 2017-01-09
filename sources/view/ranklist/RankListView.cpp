@@ -197,6 +197,8 @@ CCSprite* RankListView::createSelfPlate(unsigned int idx, int type) {
 void RankListView::onEnter(){
     CCLayer::onEnter();
     
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::onAddFriend), "ON_ADD_FRIEND", NULL);
+    
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);
 }
 
@@ -314,7 +316,21 @@ void RankListView::onSelfBarToggle() {
     }
 }
 
+void RankListView::onAddFriend(CCInteger* pIdx) {
+    int index = pIdx->getValue();
+    ShowComp* other = (ShowComp* )_datasource->objectAtIndex(index);
+    if (other) {
+        NET->send_message_803(other->getShowID().c_str(), 1);
+    }
+}
+
 void RankListView::tobeFriend_callback_803(){
+    if (_selectedIndex >= 0) {
+        _tv->updateCellAtIndex(_selectedIndex);
+        ShowComp* other = (ShowComp* )_datasource->objectAtIndex(_selectedIndex);
+        other->isadd = 1;
+    }
+    
     PromptLayer* tip = PromptLayer::create();
     tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "成功添加好友~!");
 }
@@ -333,7 +349,7 @@ unsigned int RankListView::numberOfCellsInTableView(CCTableView *table){
 
 //每个cell的size
 cocos2d::CCSize RankListView::cellSizeForTable(CCTableView *table){
-    return CCSizeMake(CELL_WIDTH, CELL_HEIGHT);
+    return CCSizeMake(CELL_WIDTH, CELL_HEIGHT + 10);
 }
 
 //生成cell
@@ -343,9 +359,10 @@ CCTableViewCell* RankListView::tableCellAtIndex(CCTableView *table, unsigned int
     RankListCell* itemCell = this->createItemCell(idx);
     pCell->addChild(itemCell, 2, ITEM_CELL_TAG);
     if (idx == _selectedIndex) {
-        CCSprite* sel = CCSprite::create("pic/ranklist/rl_bar_selected.png");
-        sel->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
-        itemCell->addChild(sel, -1);
+        itemCell->selected();
+    }
+    else {
+        itemCell->unselected();
     }
     
     return pCell;
@@ -365,7 +382,6 @@ void RankListView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
         // 需要切换按钮状态
         RankListCell* itemCell = (RankListCell* )cell->getChildByTag(ITEM_CELL_TAG);
         if (itemCell) {
-            
         }
         
         // 通知切换shower

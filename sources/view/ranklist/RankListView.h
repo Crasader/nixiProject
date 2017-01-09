@@ -64,6 +64,7 @@ private:
     void onTitleToggle(CCMenuItemToggle* btn);
     void onSelfBarToggle();
     
+    void onAddFriend(CCInteger* pIdx);
     void tobeFriend_callback_803();
     
 private:

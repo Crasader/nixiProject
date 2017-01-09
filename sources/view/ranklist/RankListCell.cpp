@@ -56,7 +56,29 @@ CCSprite* RankListCell::getNumSprite(int num){
     return spr;
 }
 
+void RankListCell::selected() {
+    CCNode* sel = this->getChildByTag(0x10800);
+    if (sel) {
+        sel->setVisible(true);
+    }
 
+    CCNode* btn = this->getChildByTag(0x10900);
+    if (btn) {
+        btn->setVisible(true);
+    }
+}
+
+void RankListCell::unselected() {
+    CCNode* sel = this->getChildByTag(0x10800);
+    if (sel) {
+        sel->setVisible(false);
+    }
+    
+    CCNode* btn = this->getChildByTag(0x10900);
+    if (btn) {
+        btn->setVisible(false);
+    }
+}
 
 RankListCell::~RankListCell() {
 
@@ -82,11 +104,13 @@ bool RankListCell::init(const char *pszFileName) {
         return false;
     }
     
+    _idx = -1;
     return true;
 }
 
 
 void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHeight, int type) {
+    _idx = idx;
     float halfCellWidth = cellWidth * 0.5;
     float halfCellHeight = cellHeight * 0.5;
     
@@ -161,13 +185,20 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
         this->addChild(spr3);
     }
 
+    // 选中效果
+    CCSprite* sel = CCSprite::create("pic/ranklist/rl_bar_selected.png");
+    sel->setPosition(ccp(halfCellWidth, halfCellHeight));
+    sel->setVisible(false);
+    sel->setTag(0x10800);
+    this->addChild(sel, -1);
     
-    CCSprite* add_spr1 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-    CCSprite* add_spr2 = CCSprite::create("res/pic/haoyoupaihang/addFriend.png");
-    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/add_finish.png");
-    CCSprite* add_spr5 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
-    CCSprite* add_spr6 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
+    //
+    CCSprite* add_spr1 = CCSprite::create("pic/haoyoupaihang/addFriend.png");
+    CCSprite* add_spr2 = CCSprite::create("pic/haoyoupaihang/addFriend.png");
+    CCSprite* add_spr3 = CCSprite::create("pic/haoyoupaihang/add_finish.png");
+    CCSprite* add_spr4 = CCSprite::create("pic/haoyoupaihang/add_finish.png");
+//    CCSprite* add_spr5 = CCSprite::create("pic/haoyoupaihang/friend_requested.png");
+//    CCSprite* add_spr6 = CCSprite::create("pic/haoyoupaihang/friend_requested.png");
     add_spr2->setScale(1.02f);
     CCMenuItemSprite* item_add;
     
@@ -175,7 +206,7 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
         //这是我自己
         
     }else {
-        if (DATA->getSocial()->is_friend(show->getShowID().c_str())) {
+        if (DATA->getSocial()->is_friend(show->getShowID().c_str()) || show->isadd == 1) {
             //是好友
             item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
             item_add->setTag(idx);
@@ -185,105 +216,28 @@ void RankListCell::config(int idx, ShowComp *show, float cellWidth, float cellHe
             menu_add->setTag(0x10900);
             menu_add->setVisible(false);
             this->addChild(menu_add);
-        }else{
-            bool hasRequested = DATA->getSocial()->is_requested(show->getShowID().c_str());
-            //不是好友
-            if (! hasRequested || show->isadd == 0) {
-                item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(RankListCell::toBeFriend));
-                item_add->setTag(idx);
-                item_add->setUserObject(CCInteger::create(idx + 3));
-                CCMenu* menu_add = CCMenu::create(item_add, NULL);
-                menu_add->setPosition(ccp(cellWidth  - add_spr1->getContentSize().width/2 -10, 8));
-                menu_add->setTag(0x10900);
-                menu_add->setVisible(false);
-                this->addChild(menu_add);
-            }else{
-                item_add = CCMenuItemSprite::create(add_spr5, add_spr6, this, NULL);
-                item_add->setTag(idx);
-                item_add->setUserObject(CCInteger::create(idx + 3));
-                CCMenu* menu_add = CCMenu::create(item_add, NULL);
-                menu_add->setPosition(ccp(cellWidth  - add_spr3->getContentSize().width/2 -10, 8));
-                menu_add->setTag(0x10900);
-                menu_add->setVisible(false);
-                this->addChild(menu_add);
-            }
         }
-    }
-}
-
-void RankListCell::goStar(int idx, int progress, int goal, int status) {
-    float per = MIN(progress * 0.1 / goal * 10, 1.0);
-    float duration = 1.f * per;
-
-    _progress->runAction(CCProgressFromTo::create(duration, 0, per * 100));
-    
-    _star = CCSprite::create("pic/welfare/welfare_star1.png");
-    _progress->addChild(_star);
-    CCSize progressSize = _progress->getContentSize();
-    float toX = progressSize.width * per;
-    
-    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&RankListCell::moveFinish), CCInteger::create(status));
-    CCSequence* starSeq = CCSequence::create(CCPlace::create(ccp(0, progressSize.height * 0.5)), CCMoveTo::create(duration, ccp(toX, progressSize.height * 0.5)), finish, NULL);
-    _star->runAction(starSeq);
-}
-
-void RankListCell::moveFinish(CCObject* pObj) {
-    if (pObj) {
-        int status = ((CCInteger* )pObj)->getValue();
-        if (status == 0) {
-            _menuBtn->setEnabled(false);
-        }
-        else if (status == 1 && _star) {
-            _star->runAction(CCRepeatForever::create( CCRotateBy::create(1.2, 360)) );
-            
-            _sptButton1->removeAllChildren();
-            CCLabelTTF* lblTake1 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
-            lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
-            _sptButton1->addChild(lblTake1);
-            
-            CCLabelTTF* lblTake2 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
-            lblTake2->setPosition(lblTake1->getPosition());
-            _sptButton2->addChild(lblTake2);
-            
-            _menuBtn->setEnabled(true);
-        }
-        else if (status == -1) {
-            _sptButton1->removeAllChildren();
-            CCLabelTTF* lblTake1 = CCLabelTTF::create("已领", DISPLAY->fangzhengFont(), 30);
-            lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
-            _sptButton1->addChild(lblTake1);
-            
-            _menuBtn->setEnabled(false);
-//            _sptButton1->removeAllChildren();
-//            CCSprite* gougou = CCSprite::create("pic/welfare/welfare_done.png");
-//            gougou->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
-//            _sptButton1->addChild(gougou);
-//            
-//            _menuBtn->setEnabled(false);
+        else{
+            item_add = CCMenuItemSprite::create(add_spr1, add_spr2, this, menu_selector(RankListCell::toBeFriend));
+            item_add->setTag(idx);
+            item_add->setUserObject(CCInteger::create(idx + 3));
+            CCMenu* menu_add = CCMenu::create(item_add, NULL);
+            menu_add->setPosition(ccp(cellWidth  - add_spr1->getContentSize().width/2 -10, 8));
+            menu_add->setTag(0x10900);
+            menu_add->setVisible(false);
+            this->addChild(menu_add);
         }
     }
 }
 
 void RankListCell::toBeFriend(CCMenuItem* btn){
     CCMenuItem* item = (CCMenuItem* )btn;
-    int idx = ((CCInteger*)item->getUserObject())->getValue();
+//    int idx = ((CCInteger*)item->getUserObject())->getValue();
     
-    //    CCNode* bg = (CCNode* )item->getParent()->getParent();
-    //    bg->removeChildByTag(0x10900, true);
-    //    CCArray* rankers = DATA->getRanking()->ranking();
-    //    ShowComp* other = (ShowComp*)rankers->objectAtidx(idx);
-    //    other->isadd = 1;
-    //
-    //    CCSprite* add_spr3 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
-    //    CCSprite* add_spr4 = CCSprite::create("res/pic/haoyoupaihang/friend_requested.png");
-    //    CCMenuItemSprite* item_add;
-    //    item_add = CCMenuItemSprite::create(add_spr3, add_spr4, this, NULL);
-    //    CCMenu* menu_add = CCMenu::create(item_add, NULL);
-    //    menu_add->setPosition(ccp(bg->getContentSize().width - add_spr3->getContentSize().width/2 -10, 8));
-    //    menu_add->setTag(0X10900);
-    //    bg->addChild(menu_add);
-    //
-    //    NET->send_message_803(other->getShowID().c_str(), 1);
+    CCNode* bg = (CCNode* )item->getParent()->getParent();
+    bg->removeChildByTag(0x10900, true);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("ON_ADD_FRIEND", CCInteger::create(_idx));
 }
 
 //void RankListCell::showRewardAction(const char* type, int num) {

@@ -150,7 +150,7 @@ void RankListScene::createUI(){
     CCMenuItemSprite* btnPlate = CCMenuItemSprite::create(sptPlate1, sptPlate2, this, menu_selector(RankListScene::gotoPkScene));
     btnPlate->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menuPlate = CCMenu::createWithItem(btnPlate);
-    menuPlate->setPosition(ccp(-8, - sptPlate1->getContentSize().height * 0.125));
+    menuPlate->setPosition(ccp(-4, - sptPlate1->getContentSize().height * 0.125));
     tiny->addChild(menuPlate);
 }
 
@@ -172,8 +172,7 @@ void RankListScene::btn_share_callback(CCObject* pSender){
     CCLog("图片 === %s", path.c_str());
     
     rt->saveToFile(path.c_str());
-    
-    
+
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
@@ -279,17 +278,6 @@ void RankListScene::changeShower(ShowComp* shower) {
     else {
         CCLOG("ERROR:: RankListScene::changeShower(ShowComp* shower) - shower is nil~");
     }
-}
-
-void RankListScene::addFriend(CCMenuItem *btn){
-    int index = ((CCInteger*)btn->getUserObject())->getValue();
-    
-    CCArray* rankers = DATA->getRanking()->ranking();
-    ShowComp* other = (ShowComp*)rankers->objectAtIndex(index);
-    
-    btn->selected();
-    
-    NET->send_message_803(other->getShowID().c_str(), 1);
 }
 
 void RankListScene::testPK() {

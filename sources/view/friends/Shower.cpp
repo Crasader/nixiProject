@@ -27,11 +27,16 @@ Shower::~Shower() {
 
 bool Shower::init() {
     if (CCSprite::init()) {
-        CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
+        CCSprite* shadowSpr = CCSprite::create("pic/house/house_shadow.png");
+        shadowSpr->setPosition(ccp(DISPLAY->ScreenWidth()* (widthFolt - .11f), DISPLAY->ScreenHeight()* (heightFloat - .425f)));
+        this->addChild(shadowSpr);
+        
+        
+        CCSprite* manSpr = CCSprite::create("pic/clothesScene/man/gj_man.png");
         manSpr->setScale(scaleFloat);
         manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
         this->addChild(manSpr, 200);
-        _touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
+        _touSpr = CCSprite::create("pic/clothesScene/man/gj_lian.png");
         _touSpr->setScale(scaleFloat);
         _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
         this->addChild(_touSpr, 210);
