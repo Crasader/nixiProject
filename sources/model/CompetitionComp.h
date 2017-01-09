@@ -49,7 +49,9 @@ public:
     CC_SYNTHESIZE_RETAIN(CCDictionary*, _ondress, Ondress);     // 同show的衣着
     CC_SYNTHESIZE_RETAIN(CCDictionary*, _ornaments, Ornaments); // 同show的首饰
     
-    CC_SYNTHESIZE(int, _dailyTimes, DailyTimes);    // 今日主动挑战次数
+    CC_SYNTHESIZE(int, _searchTimes, SearchTimes);  // 今日主动挑战次数
+    CC_SYNTHESIZE(int, _startTimes, StartTimes);    // 今日主动挑战次数
+    CC_SYNTHESIZE_PASS_BY_REF(string, _curOpponent, CurOpponent);    // 当前对手sid
     CC_SYNTHESIZE_RETAIN(CCArray*, _dailyOpponents, DailyOpponents); // 今日挑战过的对手
     
     CC_SYNTHESIZE(int, _searchCost, SearchCost);    // 查找对手钻石花费

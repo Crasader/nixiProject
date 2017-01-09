@@ -48,7 +48,9 @@ void CompetitionItem::config(Value json) {
     this->setOndress(AppUtil::dictionary_with_json(json["ondress"]));
     this->setOrnaments(AppUtil::dictionary_with_json(json["ornaments"]));
     
-    this->setDailyTimes(json["daily_times"].asInt());
+    this->setSearchTimes(json["daily_search"].asInt());
+    this->setStartTimes(json["daily_start"].asInt());
+    this->setCurOpponent(json["cur_opponent"].asString());
     this->setDailyOpponents(AppUtil::array_with_json(json["daily_opponents"]));
     
     this->setSearchCost(json["search_cost"].asInt());
