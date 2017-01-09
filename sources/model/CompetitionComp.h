@@ -23,6 +23,10 @@ public:
     CC_SYNTHESIZE_PASS_BY_REF(string, _themeName, ThemeName);
     CC_SYNTHESIZE_RETAIN(CCArray*, _tags, Tags);        // 搭配标签要求
     CC_SYNTHESIZE_RETAIN(CCArray*, _rule, Rule);        // 得分规则：3个CCString
+    
+    CC_SYNTHESIZE(int, _searchFreeCount, SearchFreeCount);  // 免费搜索对手次数
+    CC_SYNTHESIZE(int, _startFreeCount, StartFreeCount);    // 免费开始次数
+    
     CC_SYNTHESIZE(int, _day, Day);
     CC_SYNTHESIZE(int, _hour, Hour);
     CC_SYNTHESIZE(int, _minu, Minu);
