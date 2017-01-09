@@ -14,6 +14,7 @@
 #include "Reward.h"
 #include "Loading2.h"
 #include "PromptLayer.h"
+#include "AppUtil.h"
 
 #define CELL_WIDTH          542
 #define CELL_HEIGHT         228
@@ -139,7 +140,12 @@ void MailPanel::remove() {
 }
 
 void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
-    CCSprite* plate = CCSprite::create("res/pic/panel/mail/mail_plate.png");
+    
+//    CCSprite* plate = CCSprite::create("res/pic/panel/mail/mail_plate.png");
+//    plate->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+//    cell->addChild(plate);
+    
+    CCScale9Sprite* plate = CCScale9Sprite::create("res/pic/panel/mail/mail_plate.png");
     plate->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
     cell->addChild(plate);
     
@@ -152,7 +158,10 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     lbl_title->setPosition(ccp(CELL_WIDTH * 0.12, CELL_HEIGHT * 0.82));
     cell->addChild(lbl_title);
     
-    CCLabelTTF* lbl_content = CCLabelTTF::create(item->content.c_str(), DISPLAY->fangzhengFont(), 22, CCSizeMake(CELL_WIDTH * (1 - 0.14 * 2), CELL_HEIGHT * 0.3), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    size_t lineCount = AppUtil::countOfSubstr(item->content, "\n");
+
+    float fontSize = 22.f;
+    CCLabelTTF* lbl_content = CCLabelTTF::create(item->content.c_str(), DISPLAY->fangzhengFont(), fontSize, CCSizeMake(CELL_WIDTH * (1 - 0.14 * 2), (fontSize + 3) * lineCount), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     lbl_content->setColor(ccORANGE);
     lbl_content->setAnchorPoint(ccp(0, 0.5));
     lbl_content->setPosition(ccp(CELL_WIDTH * 0.14, CELL_HEIGHT * 0.6));

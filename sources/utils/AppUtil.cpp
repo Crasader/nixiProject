@@ -232,3 +232,15 @@ void AppUtil::split(std::string src, const char* token, vector<string>& vect) {
     }
 }
 
+size_t AppUtil::countOfSubstr(std::string src, const char *token) {
+    //查找s 中flag 出现的所有位置。
+    size_t pos = 0;
+    size_t count = 1;
+    while((pos = src.find_first_of(token, pos)) != string::npos)
+    {
+        pos++;
+        count++;
+    }
+    return count;
+}
+
