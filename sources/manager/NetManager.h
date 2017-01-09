@@ -73,10 +73,10 @@ public:
     void friend_break_813(const char* other_sid);
     
     // 比拼
-    void competition_info_820();
-    void competition_search_opponent_821();
-    void competition_bless_823();
-    void competition_start_825(const char* opponentId);
+    void competition_info_820();   // 获取所有pk信息
+    void competition_search_opponent_821(); // 查找pk对手 or 换一个pk对手
+    void competition_bless_823();   // 祝福
+    void competition_start_825(const char* opponentId); // 开始pk
     
     void all_mails_700();
     void response_mail_701(CSJson::UInt64 id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；

@@ -59,7 +59,7 @@
 
 
 // --------------- test ----------------
-#include "pkScene.h"
+
 
 
 
@@ -1374,8 +1374,6 @@ void MainScene::welfareCallBack(CCObject* pSender){
 //    }
     
     
-    CCScene* scene = pkScene::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::nc_welfare_user_info(CCObject *pObj) {

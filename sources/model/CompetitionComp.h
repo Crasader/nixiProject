@@ -47,13 +47,12 @@ public:
     CC_SYNTHESIZE(int, _collected, Collected);      // 衣服收集
     CC_SYNTHESIZE(int, _lastRank, LastRank);        // 上期名次
     CC_SYNTHESIZE_RETAIN(CCDictionary*, _ondress, Ondress);     // 同show的衣着
-    CC_SYNTHESIZE_RETAIN(CCDictionary*, _ornaments, Ornaments); // 同show的首饰
     
     CC_SYNTHESIZE(int, _dailyTimes, DailyTimes);    // 今日主动挑战次数
     CC_SYNTHESIZE_RETAIN(CCArray*, _dailyOpponents, DailyOpponents); // 今日挑战过的对手
     
-    CC_SYNTHESIZE(int, _searchCost, SearchCost);    // 查找对手钻石花费
-    CC_SYNTHESIZE(int, _startCost, StartCost);      // 开始钻石花费
+    CC_SYNTHESIZE(int, _searchCost, SearchCost);    // 查找对手钻石花费 5
+    CC_SYNTHESIZE(int, _startCost, StartCost);      // 开始钻石花费 20
     CC_SYNTHESIZE(int, _score, Score);              // 当前累计得分
     
     CC_SYNTHESIZE(int, _match, Match);              // 搭配分
@@ -62,7 +61,7 @@ public:
     CC_SYNTHESIZE(int, _luck, Luck);                // 运气分
     
     CC_SYNTHESIZE(int, _buffId, BuffId);           // 祝福Buff，玩家自己的, 0表示无
-    CC_SYNTHESIZE_PASS_BY_REF(string, _buffDesc, BuffDesc); // 玩家自己的祝福描述, _fuffId=0时为空串
+    CC_SYNTHESIZE_PASS_BY_REF(string, _buffDesc, BuffDesc); // 玩家自己的祝福描述, _buffId=0时为空串
     
     CC_SYNTHESIZE(int, _buffedId, BuffedId);       // 本对象表示对手信息时，为对手的祝福效果ID，0表示无
     CC_SYNTHESIZE_PASS_BY_REF(string, _buffedDesc, BuffedDesc); // 对手的祝福描述, _buffedId=0时为空串

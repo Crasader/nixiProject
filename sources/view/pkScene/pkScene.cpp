@@ -43,6 +43,8 @@ bool pkScene::init(){
     xingBool2_3 = false;
     
     allClothesDic = CONFIG->clothes();// 所有衣服
+    themeInfo = DATA->getCompetition()->getTheme();
+    selfItem = DATA->getCompetition()->getSelf();
     
     this->creatAnimation();
     this->creat_view();
@@ -64,7 +66,8 @@ void pkScene::onEnter(){
     BaseScene::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&QingjingScene::_501CallBack), "HTTP_FINISHED_501", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&pkScene::_821Callback), "HTTP_FINISHED_821", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&pkScene::_823Callback), "HTTP_FINISHED_823", NULL);
     
     
     this->scheduleOnce(SEL_SCHEDULE(&pkScene::keyBackStatus), .8f);
@@ -195,6 +198,8 @@ void pkScene::creat_view(){
     zhufuItem->setVisible(false);
 }
 void pkScene::creatScore(CCSprite* tishiKuangSpr){
+    CCArray* ruleArr = themeInfo->getRule();
+    
     CCLabelTTF* tishiLabel1 = CCLabelTTF::create("得分结果", DISPLAY->fangzhengFont(), 24, CCSizeMake(tishiKuangSpr->getContentSize().width* .9f, 24), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     tishiLabel1->setPosition(ccp(tishiKuangSpr->getContentSize().width* .5f, tishiKuangSpr->getContentSize().height* .83f));
     tishiLabel1->setColor(ccc3(173, 109, 93));
@@ -206,7 +211,9 @@ void pkScene::creatScore(CCSprite* tishiKuangSpr){
     slLabel->setPosition(ccp(7.f, tishiKuangSpr->getContentSize().height* .56f));
     slLabel->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(slLabel);
-    CCString* slStr = CCString::createWithFormat("%s", "99999");
+    
+    CCString* slStr = (CCString* )ruleArr->objectAtIndex(0);
+//    CCString* slStr = CCString::createWithFormat("%s", "99999");
     slScore = CCLabelTTF::create(slStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(tishiKuangSpr->getContentSize().width* .6f, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     slScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .725f, tishiKuangSpr->getContentSize().height* .56f));
     slScore->setColor(ccc3(201, 128, 110));
@@ -218,7 +225,9 @@ void pkScene::creatScore(CCSprite* tishiKuangSpr){
     pjLabel->setPosition(ccp(7.f, tishiKuangSpr->getContentSize().height* .34f));
     pjLabel->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(pjLabel);
-    CCString* pjStr = CCString::createWithFormat("%s", "99999");
+    
+    CCString* pjStr = (CCString* )ruleArr->objectAtIndex(1);
+//    CCString* pjStr = CCString::createWithFormat("%s", "99999");
     pjScore = CCLabelTTF::create(pjStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(tishiKuangSpr->getContentSize().width* .6f, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     pjScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .725f, tishiKuangSpr->getContentSize().height* .34f));
     pjScore->setColor(ccc3(201, 128, 110));
@@ -230,7 +239,9 @@ void pkScene::creatScore(CCSprite* tishiKuangSpr){
     sbLabel->setPosition(ccp(7.f, tishiKuangSpr->getContentSize().height* .12f));
     sbLabel->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(sbLabel);
-    CCString* sbStr = CCString::createWithFormat("%s", "99999");
+    
+    CCString* sbStr = (CCString* )ruleArr->objectAtIndex(2);
+//    CCString* sbStr = CCString::createWithFormat("%s", "99999");
     sbScore = CCLabelTTF::create(sbStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(tishiKuangSpr->getContentSize().width* .6f, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     sbScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .725f, tishiKuangSpr->getContentSize().height* .12f));
     sbScore->setColor(ccc3(201, 128, 110));
@@ -267,7 +278,7 @@ void pkScene::creatHuangguan(CCSprite* huangguanSpr){
     huangguanSpr2->setPosition(ccp(huangguanSpr->getContentSize().width* .503f, huangguanSpr->getContentSize().height* .1f));
     huangguanSpr->addChild(huangguanSpr2, 5);
     
-    int paimingIndex = 0;// 排名
+    int paimingIndex = selfItem->getLastRank();// 排名
     int paimingFloat = 0;// 字体大小
     CCString* paimingStr;
     if (paimingIndex > 0) {
@@ -344,7 +355,7 @@ void pkScene::creatRenwuKuang(){
     kuangSpr2_3 = CCSprite::create("res/pic/pk/pk_kuang1.png");
     kuangSpr2_3->setPosition(ccp(kuangSpr2_2->getContentSize().width* .5f, -kuangSpr2_3->getContentSize().height* .53f));
     kuangSpr2_2->addChild(kuangSpr2_3, 11);
-    this->creatName2(kuangSpr2_3);
+    this->creatName2(kuangSpr2_3, NULL);
     
     
     xingSpr2_1 = CCSprite::create("res/pic/pk/pk_xing1.png");
@@ -382,38 +393,61 @@ void pkScene::creatRenwuKuang(){
     this->schedule(SEL_SCHEDULE(&pkScene::updateOpacity), .1f);
 }
 void pkScene::creatName1(CCSprite* kuangSpr){
-    CCString* nameStr1 = CCString::createWithFormat("%s", DATA->getShow()->nickname());
+    CCString* nicknameStr = CCString::createWithFormat("%s", selfItem->getNickname().c_str());
+    CCString* nameStr1 = CCString::createWithFormat("%s", nicknameStr->getCString());
     CCLabelTTF* nameLabel1 = CCLabelTTF::create(nameStr1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
     nameLabel1->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .73f));
     nameLabel1->setColor(ccc3(255, 255, 255));
     kuangSpr->addChild(nameLabel1);
     
-    CCString* nameStr2 = CCString::createWithFormat("服装收集:  %d", 99999);
+    int collected = selfItem->getCollected();
+    CCString* nameStr2 = CCString::createWithFormat("服装收集:  %d", collected);
     CCLabelTTF* nameLabel2 = CCLabelTTF::create(nameStr2->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .55f, kuangSpr->getContentSize().height* .4f));
     nameLabel2->setColor(ccc3(166, 103, 87));
     kuangSpr->addChild(nameLabel2);
     
-    CCString* nameStr3 = CCString::createWithFormat("累计得分:  %d", 999999);
+    int score = selfItem->getScore();
+    CCString* nameStr3 = CCString::createWithFormat("累计得分:  %d", score);
     CCLabelTTF* nameLabel3 = CCLabelTTF::create(nameStr3->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .55f, kuangSpr->getContentSize().height* .15f));
     nameLabel3->setColor(ccc3(166, 103, 87));
     kuangSpr->addChild(nameLabel3);
 }
-void pkScene::creatName2(CCSprite* kuangSpr){
-    CCString* nameStr = CCString::createWithFormat("%s", "?????");
+void pkScene::creatName2(CCSprite* kuangSpr, CompetitionItem* item){
+    CCString* nameStr;
+    if (item == NULL) {
+        nameStr = CCString::createWithFormat("%s", "?????");
+    }else{
+        CCString* nicknameStr = CCString::createWithFormat("%s", item->getNickname().c_str());
+        nameStr = CCString::createWithFormat("%s", nicknameStr->getCString());
+    }
     CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentCenter,kCCVerticalTextAlignmentCenter);
     nameLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .73f));
     nameLabel->setColor(ccc3(255, 255, 255));
     kuangSpr->addChild(nameLabel);
     
-    CCString* nameStr2 = CCString::createWithFormat("服装收集:  %s", "?????");
+    
+    CCString* nameStr2;
+    if (item == NULL) {
+        nameStr2 = CCString::createWithFormat("服装收集:  %s", "?????");
+    }else{
+        int collected = item->getCollected();
+        nameStr2 = CCString::createWithFormat("服装收集:  %d", collected);
+    }
     CCLabelTTF* nameLabel2 = CCLabelTTF::create(nameStr2->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .55f, kuangSpr->getContentSize().height* .4f));
     nameLabel2->setColor(ccc3(166, 103, 87));
     kuangSpr->addChild(nameLabel2);
     
-    CCString* nameStr3 = CCString::createWithFormat("累计得分:  %s", "?????");
+    
+    CCString* nameStr3;
+    if (item == NULL) {
+        nameStr3 = CCString::createWithFormat("累计得分:  %s", "?????");
+    }else{
+        int score = item->getScore();
+        nameStr3 = CCString::createWithFormat("服装收集:  %d", score);
+    }
     CCLabelTTF* nameLabel3 = CCLabelTTF::create(nameStr3->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .55f, kuangSpr->getContentSize().height* .15f));
     nameLabel3->setColor(ccc3(166, 103, 87));
@@ -459,8 +493,8 @@ void pkScene::creatKuangButton(){
     }
 }
 void pkScene::buttonCallBack(CCObject* pSender){
-    CCNode* node = this->getChildByTag(0x99999);
-    node->removeAllChildren();
+//    CCNode* node = this->getChildByTag(0x99999);
+//    node->removeAllChildren();
     
 }
 
@@ -497,44 +531,54 @@ void pkScene::creatDuijue(){
     duijueGuangSpr2->runAction(CCRepeatForever::create(duijueGuangSeq));
 }
 void pkScene::creatZhuti(){
+    CCArray* tagArr = themeInfo->getTags();
+    
     // 主题
     CCSprite* zhutiSpr = CCSprite::create("res/pic/pk/pk_zhuti.png");
     zhutiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .28f));
     this->addChild(zhutiSpr, 10);
     
-    CCString* biaoqianStr1 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", 101);
-    CCSprite* biaoqianSpr1 = CCSprite::create(biaoqianStr1->getCString());
-    biaoqianSpr1->setPosition(ccp(zhutiSpr->getContentSize().width* .58f, zhutiSpr->getContentSize().height* .4f));
-    zhutiSpr->addChild(biaoqianSpr1);
-    
-    CCString* biaoqianStr2 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", 102);
-    CCSprite* biaoqianSpr2 = CCSprite::create(biaoqianStr2->getCString());
-    biaoqianSpr2->setPosition(ccp(zhutiSpr->getContentSize().width* .82f, zhutiSpr->getContentSize().height* .4f));
-    zhutiSpr->addChild(biaoqianSpr2);
-    
-    
+    if (tagArr->count() > 0) {
+        int biaoqianTag1 = ((CCInteger* )tagArr->objectAtIndex(0))->getValue();
+        CCString* biaoqianStr1 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", biaoqianTag1);
+        CCSprite* biaoqianSpr1 = CCSprite::create(biaoqianStr1->getCString());
+        biaoqianSpr1->setPosition(ccp(zhutiSpr->getContentSize().width* .58f, zhutiSpr->getContentSize().height* .4f));
+        zhutiSpr->addChild(biaoqianSpr1);
+        
+        int biaoqianTag2 = ((CCInteger* )tagArr->objectAtIndex(1))->getValue();
+        CCString* biaoqianStr2 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", biaoqianTag2);
+        CCSprite* biaoqianSpr2 = CCSprite::create(biaoqianStr2->getCString());
+        biaoqianSpr2->setPosition(ccp(zhutiSpr->getContentSize().width* .82f, zhutiSpr->getContentSize().height* .4f));
+        zhutiSpr->addChild(biaoqianSpr2);
+    }else{
+        CCLabelTTF* biaoqianLabel = CCLabelTTF::create("没有主题", DISPLAY->fangzhengFont(), 30);
+        biaoqianLabel->setPosition(ccp(zhutiSpr->getContentSize().width* .68f, zhutiSpr->getContentSize().height* .4f));
+        biaoqianLabel->setColor(ccc3(255, 37, 37));
+        zhutiSpr->addChild(biaoqianLabel);
+    }
+
     // 天
     CCSprite* diSpr = CCSprite::create("res/pic/pk/pk_di1.png");
     diSpr->setPosition(ccp(zhutiSpr->getContentSize().width* .5f, -diSpr->getContentSize().height* .5f));
     zhutiSpr->addChild(diSpr);
-    CCString* dayStr = CCString::createWithFormat("%d", 5);
+    CCString* dayStr = CCString::createWithFormat("%d", themeInfo->getDay());
     CCLabelTTF* dayLabel = CCLabelTTF::create(dayStr->getCString(), DISPLAY->fangzhengFont(), 24);
     dayLabel->setPosition(ccp(diSpr->getContentSize().width* .83f, diSpr->getContentSize().height* .5f));
     dayLabel->setColor(ccc3(255, 37, 37));
     diSpr->addChild(dayLabel);
 }
 void pkScene::creatStart(){
-    int startIndex = 5;
+    int startIndex = selfItem->getDailyTimes();
     CCString* startStr;
     if (startIndex > 0) {
-        startStr = CCString::createWithFormat("%d/%d", startIndex, 5);
+        startStr = CCString::createWithFormat("%d/%d", startIndex, themeInfo->getStartFreeCount());
         
         CCLabelTTF* startLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 23);
         startLabel->setPosition(ccp(startItem->getContentSize().width* .5f, startItem->getContentSize().height* .24f));
         startLabel->setColor(ccc3(180, 37, 8));
         startItem->addChild(startLabel);
     }else{
-        startStr = CCString::createWithFormat("%d", 20);
+        startStr = CCString::createWithFormat("%d", selfItem->getStartCost());
         
         CCLabelTTF* startLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 23);
         startLabel->setPosition(ccp(startItem->getContentSize().width* .43f, startItem->getContentSize().height* .24f));
@@ -551,7 +595,7 @@ void pkScene::creatZhufu(CCMenuItem *item){
     zhufuKuangSpr->setPosition(ccp(item->getContentSize().width* .5f, -zhufuKuangSpr->getContentSize().height* .5f));
     item->addChild(zhufuKuangSpr);
     
-    CCString* zhufuStr = CCString::createWithFormat("什么什么增加%d%%", 10);
+    CCString* zhufuStr = CCString::createWithFormat("无");
     zhufuLabel = CCLabelTTF::create(zhufuStr->getCString(), DISPLAY->fangzhengFont(), 24, CCSizeMake(zhufuKuangSpr->getContentSize().width, 24), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     zhufuLabel->setPosition(ccp(zhufuKuangSpr->getContentSize().width* .5f, zhufuKuangSpr->getContentSize().height* .5f));
     zhufuLabel->setColor(ccc3(151, 58, 26));
@@ -570,10 +614,29 @@ void pkScene::huanzhuangCallback(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void pkScene::huanhaoCallback(CCObject* pSender){
+    
+    LOADING->show_loading();
+    NET->competition_search_opponent_821();
+}
+void pkScene::_821Callback(CCObject *pObj){
+    LOADING->remove();
+    
+    opponentItem = DATA->getCompetition()->getOpponent();
+    kuangSpr2_3->removeAllChildren();
+    if (this->getChildByTag(0x88888) != NULL) {
+        this->removeChildByTag(0x88888);
+    }
+    if (this->getChildByTag(0x99999) != NULL) {
+        this->removeChildByTag(0x99999);
+    }
+    
+    
     hzItem->setVisible(false);
     hhItem->setVisible(false);
     startItem->setVisible(true);
     zhufuItem->setVisible(true);
+    
+    this->creatName2(kuangSpr2_3, opponentItem);
     
     this->creat_Man2();
     this->creatKuangButton();
@@ -583,9 +646,23 @@ void pkScene::startCallback(CCObject* pSender){
 }
 void pkScene::zhufuCallback(CCObject* pSender){
     
-    CCString* zhufuStr = CCString::createWithFormat("什么什么增加%d%%", 1 + rand()%10);
-    zhufuLabel->setString(zhufuStr->getCString());
+    LOADING->show_loading();
+    NET->competition_bless_823();
 }
+void pkScene::_823Callback(CCObject *pObj){
+    LOADING->remove();
+    
+    selfItem = DATA->getCompetition()->getSelf();
+    if (selfItem->getBuffId() != 0) {
+        CCString* zhufuStr = CCString::createWithFormat("%s", selfItem->getBuffDesc().c_str());
+        zhufuLabel->setString(zhufuStr->getCString());
+    }else{
+        CCString* zhufuStr = CCString::createWithFormat("无");
+        zhufuLabel->setString(zhufuStr->getCString());
+    }
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
+
 void pkScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
@@ -781,7 +858,9 @@ void pkScene::creat_Man1()
     touSpr->setPosition(ccp(holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
-    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool);
+    
+    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 
 
@@ -821,11 +900,11 @@ void pkScene::creat_Man2(){
     holesClipper->addChild(touSpr, 210);
     
     
-    
-    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool);
+    CCDictionary* clothesDic = opponentItem->getOndress(); // 男宠衣着
+    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
-void pkScene::initClothes(CCClippingNode * _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool){//穿衣服
-    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+void pkScene::initClothes(CCClippingNode * _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* myClothesTemp){//穿衣服
+    
     int sub_part = 0;
     
     for (int i = Tag_PK_TouFa; i <= Tag_PK_ZhuangRong; i++) {

@@ -13,6 +13,8 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "AHMessageBox.h"
+#include "CompetitionComp.h"
+
 
 USING_NS_CC;
 
@@ -86,7 +88,7 @@ public:
     void creatHuangguan(CCSprite* huangguanSpr);
     void creatRenwuKuang();
     void creatName1(CCSprite* kuangSpr);
-    void creatName2(CCSprite* kuangSpr);
+    void creatName2(CCSprite* kuangSpr, CompetitionItem* item);
     void creatKuangButton();
     void creatDuijue();
     void creatZhuti();
@@ -96,7 +98,7 @@ public:
     
     void creat_Man1();
     void creat_Man2();
-    void initClothes(CCClippingNode* _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool);
+    void initClothes(CCClippingNode* _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* dic);
     
     
     void backCallBack(CCObject* pSender);
@@ -106,6 +108,10 @@ public:
     void zhufuCallback(CCObject* pSender);
     void buttonCallBack(CCObject* pSender);
     
+    
+    
+    void _821Callback(CCObject *pObj);
+    void _823Callback(CCObject *pObj);
     
 public:
     int num_child;
@@ -126,6 +132,10 @@ public:
     CCLabelTTF* zhufuLabel;
     
     CCMenuItem *hzItem, *hhItem, *startItem, *zhufuItem;
+    
+    
+    CompetitionThemeInfo* themeInfo;
+    CompetitionItem* selfItem,* opponentItem;
     
 };
 #endif /* defined(__tiegao__pkScene__) */
