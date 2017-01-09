@@ -11,9 +11,11 @@
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
+#include "json_lib.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
+using namespace CSJson;
 
 class MailPanel
 : public CCLayer
@@ -50,7 +52,7 @@ private:
     void on_mail_take(CCMenuItem* btn);
     
     void hanle_mail_oper(CCObject* pObj);
-    void display_reward_take(int mail_id);
+    void display_reward_take(CSJson::UInt64 mail_id);
     void take_reward_done();
     
     void whether_mailbox_empty();

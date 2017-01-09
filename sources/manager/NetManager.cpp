@@ -207,7 +207,7 @@ void NetManager::all_messages_804() {
     this->post_data(804, string(""));
 }
 
-void NetManager::response_message_805(int id, int oper) {
+void NetManager::response_message_805(CSJson::UInt64 id, int oper) {
     FastWriter writer;
     Value root;
     root["id"] = id;
@@ -241,7 +241,7 @@ void NetManager::send_papar_809(const char *other_sid, const char *contents) {
     this->post_data(809, data);
 }
 
-void NetManager::delete_paper_811(int id) {
+void NetManager::delete_paper_811(CSJson::UInt64 id) {
     FastWriter writer;
     Value root;
     root["id"] = id;
@@ -261,11 +261,39 @@ void NetManager::competition_info_820() {
     this->post_data(820, string(""));
 }
 
+void NetManager::competition_search_opponent_821() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(821, data);
+}
+
+void NetManager::competition_bless_823() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(823, data);
+}
+
+void NetManager::competition_start_825(const char *opponentId) {
+    FastWriter writer;
+    Value root;
+    root["id"] = opponentId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(825, data);
+}
+
+
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
 }
 
-void NetManager::response_mail_701(int id, int oper) {
+void NetManager::response_mail_701(CSJson::UInt64 id, int oper) {
     FastWriter writer;
     Value root;
     root["id"] = id;

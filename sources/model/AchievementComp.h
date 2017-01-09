@@ -46,6 +46,7 @@ public:
     void update_user_accumulated(Value json);
     void update_user_achieved(Value json);
     void update_user_finished(Value json);
+    void just_update_new_count(Value json);
     void update_sorted_item_keys();
     
     int getNewCount();

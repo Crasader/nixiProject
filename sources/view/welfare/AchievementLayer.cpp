@@ -117,6 +117,9 @@ void AchievementLayer::nc_take_achievement_reward_641(CCObject *pObj) {
             }
         }
     }
+    
+    // 更新按钮红点
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_UPDATE_HONGDIAN");
 }
 
 void AchievementLayer::disappear_cell(AchievementCell* node) {

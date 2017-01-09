@@ -25,7 +25,7 @@ public:
     
 public:
     void print_self();
-    int             id;
+    CSJson::UInt64  id;
     int             type;
     string          sender;
     

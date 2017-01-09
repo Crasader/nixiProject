@@ -21,14 +21,14 @@ void PaperItem::init_with_json(Value json) {
         return;
     }
     
-    id = json["id"].asInt();
+    id = json["id"].asUInt64();
     sender = json["sender"].asString();
     sender_name = json["sender_name"].asString();
     content = json["content"].asString();
 }
 
 void PaperItem::print_self() {
-    CCLOG("====== Paper: < %d > ======", id);
+    CCLOG("====== Paper: < %lld > ======", id);
     CCLOG("    sender = %s", sender.c_str());
     CCLOG("    content = %s", content.c_str());
 }
@@ -76,7 +76,7 @@ void PaperComp::print_papers() {
     }
 }
 
-void PaperComp::delete_paper(int id) {
+void PaperComp::delete_paper(CSJson::UInt64 id) {
     int count = _papers->count();
     for (int i = 0; i < count; i++) {
         PaperItem* item = (PaperItem* )_papers->objectAtIndex(i);

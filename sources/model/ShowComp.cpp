@@ -31,6 +31,7 @@ void ShowComp::init_with_json(Value json) {
     _nickname = json["nickname"].asString();
     _id = json["id"].asString();
     _collected = json["collected"].asInt();
+    _competition = json["competition"].asInt();
     _ranking = json["ranking"].asInt();
     _reset = json["reset"].asInt();
     
@@ -67,6 +68,10 @@ const char* ShowComp::nickname() {
 
 int ShowComp::collected() {
     return _collected;
+}
+
+int ShowComp::competition() {
+    return _competition;
 }
 
 int ShowComp::ranking() {

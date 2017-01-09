@@ -240,7 +240,7 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
 
 void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
     LOADING->show_loading();
-    int* id = (int*)btn->getUserData();
+    CSJson::UInt64* id = (CSJson::UInt64*)btn->getUserData();
     NET->response_mail_701(*id, 2);
     if (this->numberOfCellsInTableView(NULL) == 0) {
         CCSprite* empty = CCSprite::create("res/pic/haoyouScene/message_ren.png");
@@ -251,14 +251,14 @@ void MailPanel::on_mail_delete(cocos2d::CCMenuItem *btn) {
 
 void MailPanel::on_mail_take(cocos2d::CCMenuItem *btn) {
     LOADING->show_loading();
-    int* id = (int*)btn->getUserData();
+    CSJson::UInt64* id = (CSJson::UInt64*)btn->getUserData();
     NET->response_mail_701(*id, 1);
 }
 
 void MailPanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
     LOADING->stop_loading();
     CCDictionary* dic = (CCDictionary* )pObj;
-    int id = ((CCInteger* )dic->objectForKey("id"))->getValue();
+    CSJson::UInt64 id = ((CCInteger* )dic->objectForKey("id"))->getValue();
     int oper = ((CCInteger* )dic->objectForKey("oper"))->getValue();
     if (oper == 1) {
         this->display_reward_take(id);
@@ -273,7 +273,7 @@ void MailPanel::hanle_mail_oper(cocos2d::CCObject *pObj) {
     prompt->show_prompt(this->getScene(), "操作成功~!");
 }
 
-void MailPanel::display_reward_take(int mail_id) {
+void MailPanel::display_reward_take(CSJson::UInt64 mail_id) {
     int index = DATA->getMail()->item_index_by_mail_id(mail_id);
     DATA->getMail()->handle_mail_oper(mail_id, 1);
     

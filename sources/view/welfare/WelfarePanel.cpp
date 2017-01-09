@@ -9,6 +9,7 @@
 #include "WelfarePanel.h"
 
 #include "DisplayManager.h"
+#include "DataManager.h"
 #include "AudioManager.h"
 
 #include "DailyWelfareLayer.h"
@@ -55,7 +56,7 @@ bool WelfarePanel::init() {
         
         CCMenu* menu = CCMenu::create(_btnDaily, _btnAchieve, NULL);
         menu->alignItemsVertically();
-        menu->setPosition(menu->getPosition() + ccp(panelSize.width * 0.5, panelSize.height * 0.28));
+        menu->setPosition(menu->getPosition() + ccp(panelSize.width * 0.49, panelSize.height * 0.28));
         this->addChild(menu);
         
         CCSprite* txt_close = CCSprite::create("pic/txt_close.png");
@@ -77,14 +78,49 @@ bool WelfarePanel::init() {
     }
 }
 
+void WelfarePanel::updateHongDian() {
+    CCNode* oldDailyHongDian = this->getChildByTag(100);
+    CCNode* oldAchieveHongDian = this->getChildByTag(200);
+    
+    if (DATA->getWelfare()->getNewCount() > 0) {
+        if (! oldDailyHongDian) {
+            CCSprite* spt = CCSprite::create("res/pic/new.png");
+            spt->setPosition(_btnDaily->getParent()->getPosition() + ccp(28, 84));
+            spt->setTag(100);
+            this->addChild(spt);
+        }
+    }
+    else {
+        if (oldDailyHongDian) {
+            oldDailyHongDian->removeFromParent();
+        }
+    }
+    
+    if (DATA->getAchievement()->getNewCount()) {
+        if (! oldAchieveHongDian) {
+            CCSprite* spt = CCSprite::create("res/pic/new.png");
+            spt->setPosition(_btnAchieve->getParent()->getPosition() + ccp(28, -4));
+            spt->setTag(200);
+            this->addChild(spt);
+        }
+    }
+    else {
+        if (oldAchieveHongDian) {
+            oldAchieveHongDian->removeFromParent();
+        }
+    }
+}
+
 void WelfarePanel::onEnter() {
     CCLayer::onEnter();
     
+    this->updateHongDian();
+    
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&WelfarePanel::remove), "NEED_REMOVE", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&WelfarePanel::updateHongDian), "NEED_UPDATE_HONGDIAN", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&WelfarePanel::keyBackStatus), .8f);
-    
 }
 
 void WelfarePanel::onExit() {

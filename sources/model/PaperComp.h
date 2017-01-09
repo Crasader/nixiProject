@@ -26,7 +26,7 @@ public:
 public:
     void print_self();
     
-    int             id;
+    CSJson::UInt64  id;
     string          sender;
     string          sender_name;
     string          content;
@@ -50,7 +50,7 @@ public:
     CC_SYNTHESIZE(const char*, _replyID, ReplyID);
     CC_SYNTHESIZE(const char*, _nickname, NickName);
     
-    void delete_paper(int id);
+    void delete_paper(CSJson::UInt64 id);
 
 protected:
     

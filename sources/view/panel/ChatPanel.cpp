@@ -265,7 +265,7 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
     }
     else{
         const char* content = _input_text->getString();
-        if (FILEM->is_blanked_illegal(content) == true) {
+        if (FILEM->is_illegal(content) == true) {
             PromptLayer* tip = PromptLayer::create();
             tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不能使用不文明及敏感文字~!");
         }else{

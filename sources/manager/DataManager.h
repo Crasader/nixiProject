@@ -36,9 +36,9 @@
 #include "TrystComp.h"
 #include "WelfareComp.h"
 #include "AchievementComp.h"
+#include "CompetitionComp.h"
 
 USING_NS_CC;
-//USING_NS_CC_EXT;
 using namespace CSJson;
 
 #define DATA         DataManager::Inst()
@@ -84,6 +84,7 @@ public:
     CC_SYNTHESIZE_RETAIN(TrystComp*, _tryst, Tryst);
     CC_SYNTHESIZE_RETAIN(WelfareComp*, _welfare, Welfare);
     CC_SYNTHESIZE_RETAIN(AchievementComp*, _achievement, Achievement);
+    CC_SYNTHESIZE_RETAIN(CompetitionComp*, _competition, Competition);
     
     // 国庆签到信息
     CC_SYNTHESIZE_RETAIN(CCArray*, _tempSigninTemplate, TempSigninTemplate);

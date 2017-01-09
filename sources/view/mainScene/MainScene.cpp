@@ -23,7 +23,8 @@
 #include "Shower.h"
 
 #include "StrangerScene.h"
-#include "TotalRankScene.h"
+//#include "TotalRankScene.h"
+#include "RankListScene.h"
 #include "HaoyouScene.h"
 
 #include "DragLayer.h"
@@ -281,7 +282,9 @@ void MainScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_600CallBack), "HTTP_FINISHED_600", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::social_info_callback_800), "HTTP_FINISHED_800", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::all_friends_callback_806), "HTTP_FINISHED_806", NULL);
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
+//    nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::competition_callback_820), "HTTP_FINISHED_820", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_recharge_info_304), "HTTP_FINISHED_304", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
@@ -1547,14 +1550,18 @@ void MainScene::blankCallback() {
 void MainScene::paihangCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击排行");
-    
     if (isOk) {
         LOADING->show_loading();
-        NET->ranking_list_300();
+//        NET->ranking_list_300();
+        NET->competition_info_820();
     }
 }
 
-void MainScene::rankList_callback_300(CCObject *pObj){
+//void MainScene::rankList_callback_300(CCObject *pObj){
+//    NET->all_friends_806();
+//}
+
+void MainScene::competition_callback_820(CCObject *pObj) {
     NET->all_friends_806();
 }
 
@@ -1580,9 +1587,13 @@ void MainScene::nc_gashapon_info_306(CCObject *pObj) {
 void MainScene::all_friends_callback_806(CCObject *pObj){
     AUDIO->comfirm_effect();
     LOADING->remove();
-    CCLayer* layer = TotalRankScene::create_with_type(1);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
+//    CCLayer* layer = TotalRankScene::create_with_type(1);
+//    CCScene* scene = CCScene::create();
+//    scene->addChild(layer);
+//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//    CCDirector::sharedDirector()->replaceScene(trans);
+
+    CCScene* scene = RankListScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
@@ -2397,16 +2408,18 @@ void MainScene::check_free_gashapon() {
 void MainScene::check_welfare_new() {
     //    if (news->welfare == 1) {
     int newCount = DATA->getWelfare()->getNewCount() + DATA->getAchievement()->getNewCount();
+    CCNode* oldHongDian = _welfareItem->getChildByTag(185);
     if (newCount > 0) {
-        CCSprite* spt = CCSprite::create("res/pic/new.png");
-        spt->setPosition(ccp(20, 74));
-        spt->setTag(185);
-        _welfareItem->addChild(spt);
+        if (! oldHongDian) {
+            CCSprite* spt = CCSprite::create("res/pic/new.png");
+            spt->setPosition(ccp(20, 74));
+            spt->setTag(185);
+            _welfareItem->addChild(spt);
+        }
     }
     else {
-        CCNode* hongDian = _welfareItem->getChildByTag(185);
-        if (NULL != hongDian) {
-            hongDian->removeFromParent();
+        if (oldHongDian) {
+            oldHongDian->removeFromParent();
         }
     }
 }

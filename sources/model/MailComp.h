@@ -27,7 +27,7 @@ public:
     
 public:
     void print_self();
-    int             id;
+    CSJson::UInt64  id;
     int             send_time;
     string          sender;
     string          title;
@@ -49,8 +49,8 @@ public:
 public:
     CCArray* mails() const;
     void print_mails();
-    void handle_mail_oper(int id, int oper);
-    int item_index_by_mail_id(int id);
+    void handle_mail_oper(CSJson::UInt64 id, int oper);
+    int item_index_by_mail_id(CSJson::UInt64 id);
     
 protected:
     
