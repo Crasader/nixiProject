@@ -8,12 +8,10 @@
 
 #include "IdentityPanel.h"
 #include "DisplayManager.h"
-#include "AudioManager.h"
 #include "DataManager.h"
-#include "FileManager.h"
 
 #include "PromptLayer.h"
-#include "GiftPanel.h"
+
 
 IdentityPanel::~IdentityPanel() {
 }
@@ -47,45 +45,53 @@ void IdentityPanel::create_panel() {
     
     CCSize panelSize = _panel->boundingBox().size;
     
+    _sex = 0;
+    int num = DATA->getPlayer()->identityDiamReward;
+    
     // 提示
-    CCString* strTip = CCString::createWithFormat("完善资料即可获得%s", DATA->getLogin()->obtain_sid());
+    CCString* strTip = CCString::createWithFormat("完善资料即可获得%d", num);
     CCLabelTTF* lblTip = CCLabelTTF::create(strTip->getCString(), DISPLAY->fangzhengFont(), 19.f);
     lblTip->setColor(ccc3(255, 69, 143));
     lblTip->setAnchorPoint(ccp(0, 0.5));
     lblTip->setPosition(ccp(panelSize.width * 0.26, panelSize.height * 0.84));
     _panel->addChild(lblTip);
-    
+    //
+    CCSprite* diamIcon1 = CCSprite::create("pic/panel/identity/inde_diam_1.png");
+    diamIcon1->setAnchorPoint(ccp(0, 0.5));
+    diamIcon1->setPosition(lblTip->getPosition() + ccp(lblTip->getContentSize().width + 1.5, 4));
+    _panel->addChild(diamIcon1);
     
     //
     CCMenuItemImage* btnFemaleNor = CCMenuItemImage::create("pic/panel/identity/inde_female_nor.png", "pic/panel/identity/inde_female_nor.png");
     CCMenuItemImage* btnFemaleSlt = CCMenuItemImage::create("pic/panel/identity/inde_female_slt.png", "pic/panel/identity/inde_female_slt.png");
-    CCMenuItemToggle* btnFemale = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&IdentityPanel::on_music), btnFemaleNor, btnFemaleSlt, NULL);
+    _btnFemale = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&IdentityPanel::onCheckSex), btnFemaleNor, btnFemaleSlt, NULL);
+    _btnFemale->setTag(2);
     
     CCMenuItemImage* btnMaleNor = CCMenuItemImage::create("pic/panel/identity/inde_male_nor.png", "pic/panel/identity/inde_male_nor.png");
     CCMenuItemImage* btnMaleSlt = CCMenuItemImage::create("pic/panel/identity/inde_male_slt.png", "pic/panel/identity/inde_male_slt.png");
-    CCMenuItemToggle* btnMale = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&IdentityPanel::on_effect), btnMaleNor, btnMaleSlt, NULL);
+    _btnMale = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&IdentityPanel::onCheckSex), btnMaleNor, btnMaleSlt, NULL);
+    _btnMale->setTag(1);
     
-    CCMenu* menu = CCMenu::create(btnFemale, btnMale, NULL);
-    menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.5));
-    menu->ignoreAnchorPointForPosition(false);
-    menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.22);
+    CCMenu* menu = CCMenu::create(_btnFemale, _btnMale, NULL);
+    menu->setPosition(ccp(panelSize.width * 0.6, panelSize.height * 0.53));
+    menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.14);
     _panel->addChild(menu);
     
     // name
-    _inputName = CCEditBox::create(CCSizeMake(92, 40), CCScale9Sprite::create("pic/panel/identity/inde_input_name.png"));
+    _inputName = CCEditBox::create(CCSizeMake(92, 32), CCScale9Sprite::create("pic/panel/identity/inde_input_name.png"));
     _inputName->setAnchorPoint(ccp(0, 0.5));
-    _inputName->setMaxLength(11);
+    _inputName->setMaxLength(12);
     _inputName->setFontColor(DISPLAY->defalutColor());
     _inputName->setFontName(DISPLAY->fangzhengFont());
-    _inputName->setInputMode(kEditBoxInputModePhoneNumber);
+    _inputName->setInputMode(kEditBoxInputModeAny);
     _inputName->setReturnType(kKeyboardReturnTypeDone);
     _inputName->setPosition(ccp(panelSize.width * 0.32, panelSize.height * 0.69));
     _panel->addChild(_inputName);
     
     // age
-    _inputAge = CCEditBox::create(CCSizeMake(92, 40), CCScale9Sprite::create("pic/panel/identity/inde_input_name.png"));
+    _inputAge = CCEditBox::create(CCSizeMake(92, 32), CCScale9Sprite::create("pic/panel/identity/inde_input_age.png"));
     _inputAge->setAnchorPoint(ccp(0, 0.5));
-    _inputAge->setMaxLength(11);
+    _inputAge->setMaxLength(2);
     _inputAge->setFontColor(DISPLAY->defalutColor());
     _inputAge->setFontName(DISPLAY->fangzhengFont());
     _inputAge->setInputMode(kEditBoxInputModePhoneNumber);
@@ -95,7 +101,7 @@ void IdentityPanel::create_panel() {
     
     
     // phone
-    CCSize size_bar = CCSizeMake(190, 40);
+    CCSize size_bar = CCSizeMake(190, 32);
     _inputPhone = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/setting/nnr_bar.png"));
     _inputPhone->setAnchorPoint(ccp(0, 0.5));
     _inputPhone->setMaxLength(11);
@@ -109,16 +115,21 @@ void IdentityPanel::create_panel() {
     CCSprite* spt1 = CCSprite::create("pic/panel/identity/inde_btn_commit.png");
     CCSprite* spt2 = CCSprite::create("pic/panel/identity/inde_btn_commit.png");
     spt2->setScale(DISPLAY->btn_scale());
-    CCMenuItem* btnCommit = CCMenuItemSprite::create(spt1, spt2, this, SEL_MenuHandler(&IdentityPanel::on_take_gift));
+    CCMenuItem* btnCommit = CCMenuItemSprite::create(spt1, spt2, this, SEL_MenuHandler(&IdentityPanel::onCommit));
     CCMenu* menuCommit = CCMenu::createWithItem(btnCommit);
-    menuCommit->ignoreAnchorPointForPosition(true);
     menuCommit->setPosition(ccp(panelSize.width * 0.5f, panelSize.height * 0.15f));
     _panel->addChild(menuCommit);
     
-    CCLabelTTF* lblNum = CCLabelTTF::create("获得20", DISPLAY->fangzhengFont(), 15);
-    lblNum->setAnchorPoint(ccp(0.5, 0.5));
-    lblNum->setPosition(ccp(spt1->getContentSize().width * 0.5, spt1->getContentSize().height * 0.25));
+    CCString* strNum = CCString::createWithFormat("获得%d", num);
+    CCLabelTTF* lblNum = CCLabelTTF::create(strNum->getCString(), DISPLAY->fangzhengFont(), 15);
+    lblNum->setAnchorPoint(ccp(1, 0.5));
+    lblNum->setPosition(ccp(spt1->getContentSize().width * 0.7, spt1->getContentSize().height * 0.25));
     btnCommit->addChild(lblNum);
+    //
+    CCSprite* diamIcon2 = CCSprite::create("pic/panel/identity/inde_diam_2.png");
+    diamIcon2->setAnchorPoint(ccp(0, 0.5));
+    diamIcon2->setPosition(lblNum->getPosition() + ccp(1, 3));
+    btnCommit->addChild(diamIcon2);
 }
 
 void IdentityPanel::onEnter() {
@@ -167,7 +178,7 @@ void IdentityPanel::do_enter() {
     _panel->setScale(0.3f);
     //
     float duration = 0.5f;
-    CCEaseBounce* moveto = CCEaseBounce::create(CCMoveTo::create(duration, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.65)));
+    CCEaseBounce* moveto = CCEaseBounce::create(CCMoveTo::create(duration, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.6)));
     CCEaseBounce* scaleto = CCEaseBounce::create(CCScaleTo::create(duration, 1.0));
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
     _panel->runAction(CCEaseBounce::create(spawn));
@@ -187,25 +198,54 @@ void IdentityPanel::remove() {
     this->removeFromParentAndCleanup(true);
 }
 
-void IdentityPanel::on_music(cocos2d::CCMenuItem *btn) {
-    //    CCDirector::sharedDirector()->replaceScene(scene);
-    CCMenuItemToggle* item = (CCMenuItemToggle*)btn;
-    int index = item->getSelectedIndex();
-    CCLOG("music getSelectedIndex = %d", index);
-    AUDIO->set_music_on((bool)index);
+bool IdentityPanel::checkFilled() {
+    bool rtn = false;
+    
+    return rtn;
 }
 
-void IdentityPanel::on_effect(cocos2d::CCMenuItem *btn) {
-    CCMenuItemToggle* item = (CCMenuItemToggle*)btn;
-    int index = item->getSelectedIndex();
-    CCLOG("effect getSelectedIndex = %d", index);
-    AUDIO->set_effect_on((bool)index);
+bool IdentityPanel::checkName() {
+    bool rtn = false;
+    
+    return rtn;
 }
 
-void IdentityPanel::on_take_gift(CCMenuItem *btn) {
-    GiftPanel* giftPanel = GiftPanel::create();
-    this->getScene()->addChild(giftPanel);
-    this->remove();
+bool IdentityPanel::checkAge() {
+    bool rtn = false;
+    
+    return rtn;
+}
+
+bool IdentityPanel::checkSex() {
+    bool rtn = false;
+    
+    return rtn;
+}
+
+bool IdentityPanel::checkPhone() {
+    bool rtn = false;
+    
+    return rtn;
+}
+
+void IdentityPanel::onCheckSex(cocos2d::CCMenuItem *btn) {
+    CCMenuItemToggle* item = (CCMenuItemToggle*)btn;
+    if (item->getSelectedIndex() == 1) {
+        item->setEnabled(false);
+        _sex = item->getTag();
+        if (_sex == 1) {
+            _btnFemale->setSelectedIndex(0);
+            _btnFemale->setEnabled(true);
+        }
+        else if (_sex == 2) {
+            _btnMale->setSelectedIndex(0);
+            _btnMale->setEnabled(true);
+        }
+    }
+}
+
+void IdentityPanel::onCommit(CCMenuItem *btn) {
+
 }
 
 void IdentityPanel::keyBackClicked(){

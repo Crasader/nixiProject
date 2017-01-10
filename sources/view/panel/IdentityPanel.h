@@ -38,9 +38,14 @@ private:
     void do_exit();
     void remove();
     
-    void on_music(CCMenuItem* btn);
-    void on_effect(CCMenuItem* btn);
-    void on_take_gift(CCMenuItem* btn);
+    bool checkFilled();
+    bool checkName();
+    bool checkAge();
+    bool checkSex();
+    bool checkPhone();
+    
+    void onCheckSex(CCMenuItem* btn);
+    void onCommit(CCMenuItem* btn);
     
 private:
     int num_child;
@@ -48,6 +53,11 @@ private:
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;
+    
+    CCMenuItemToggle*   _btnFemale;
+    CCMenuItemToggle*   _btnMale;
+    
+    int                 _sex;
     
     CCEditBox*          _inputName;
     CCEditBox*          _inputAge;

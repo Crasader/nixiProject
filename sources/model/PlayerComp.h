@@ -47,6 +47,8 @@ public:
     int             storyEnergyCost;
     int             vipStoryBuyCost;
     
+    int             identityDiamReward;
+    
 public:
     bool hasCommitIdentity();    // 是否完善资料
     int total_ratings();         // 所有阶段总星数

@@ -62,6 +62,8 @@ void PlayerComp::init_custom(CSJson::Value json) {
     this->trystEnergyCost = json["tryst_c"].asInt();
     this->storyEnergyCost = json["story_c"].asInt();
     this->vipStoryBuyCost = json["story_vip_b"].asInt();
+    
+    this->identityDiamReward = json["identity_r"].asInt();
 }
 
 bool PlayerComp::hasCommitIdentity() {
