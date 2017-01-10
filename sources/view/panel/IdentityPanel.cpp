@@ -53,7 +53,7 @@ void IdentityPanel::create_panel() {
     CCLabelTTF* lblTip = CCLabelTTF::create(strTip->getCString(), DISPLAY->fangzhengFont(), 19.f);
     lblTip->setColor(ccc3(255, 69, 143));
     lblTip->setAnchorPoint(ccp(0, 0.5));
-    lblTip->setPosition(ccp(panelSize.width * 0.26, panelSize.height * 0.84));
+    lblTip->setPosition(ccp(panelSize.width * 0.3, panelSize.height * 0.84));
     _panel->addChild(lblTip);
     //
     CCSprite* diamIcon1 = CCSprite::create("pic/panel/identity/inde_diam_1.png");
@@ -199,31 +199,91 @@ void IdentityPanel::remove() {
 }
 
 bool IdentityPanel::checkFilled() {
-    bool rtn = false;
-    
-    return rtn;
+    return (this->checkName() && this->checkAge() && this->checkSex() && this->checkPhone());
 }
 
 bool IdentityPanel::checkName() {
-    bool rtn = false;
+    bool rtn = true;
+    string text = _inputName->getText();
+    size_t len = text.length();
     
+    if (text.empty() || len == 0) {
+        rtn = false;
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "姓名不能为空~!");
+    }
+    else if (len > 12 || len % 3 != 0) {
+        rtn = false;
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的姓名~!");
+    }
+
+    for (size_t i = 0; i<len; i++) {
+        if (text[i] >= 0 && text[i] <= 127) {
+            rtn = false;
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "姓名错误, 请检查后重新输入~!");
+            break;
+        }
+    }
+
     return rtn;
 }
 
 bool IdentityPanel::checkAge() {
-    bool rtn = false;
+    bool rtn = true;
+    string text = _inputAge->getText();
+    size_t len = text.length();
+    
+    if (text.empty() || len == 0 || len > 3) {
+        rtn = false;
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的年龄~!");
+    }
+    
+    for (size_t i = 0; i<len; i++) {
+        CCLOG("text[i] = %c", text[i]);
+        if (text[i] < '0' || text[i] > '9') {
+            rtn = false;
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "年龄错误, 请检查后重新输入~!");
+            break;
+        }
+    }
     
     return rtn;
 }
 
 bool IdentityPanel::checkSex() {
-    bool rtn = false;
-    
-    return rtn;
+    if (_sex == 1 || _sex == 2) {
+        return true;
+    }
+    else {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请选择您的性别~!");
+        return false;
+    }
 }
 
 bool IdentityPanel::checkPhone() {
-    bool rtn = false;
+    bool rtn = true;
+    string text = _inputPhone->getText();
+    size_t len = text.length();
+    
+    if (text.empty() || len == 0 || len > 11 || text[0] != '1') {
+        rtn = false;
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的手机号码~!");
+    }
+    
+    for (size_t i = 0; i<len; i++) {
+        if (text[i] < '0' || text[i] > '9') {
+            rtn = false;
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "手机号码错误, 请检查后重新输入~!");
+            break;
+        }
+    }
     
     return rtn;
 }
@@ -245,7 +305,9 @@ void IdentityPanel::onCheckSex(cocos2d::CCMenuItem *btn) {
 }
 
 void IdentityPanel::onCommit(CCMenuItem *btn) {
-
+    if (this->checkFilled()) {
+        
+    }
 }
 
 void IdentityPanel::keyBackClicked(){

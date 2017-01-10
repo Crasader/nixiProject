@@ -30,6 +30,8 @@ void ShowerView::change_shower(CCDictionary *clothes) {
     newShower->runAction(seq);
     
     _curShower = newShower;
+    //
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
 }
 
 #pragma mark - Super API

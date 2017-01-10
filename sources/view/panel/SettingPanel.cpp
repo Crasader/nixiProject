@@ -148,7 +148,7 @@ void SettingPanel::create_nickname_reset_bar(CCSize panelSize, const char *cost)
     _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/setting/nnr_bar.png"));
     _eb->setMaxLength(12);
     _eb->setFontColor(DISPLAY->defalutColor());
-    _eb->setPlaceHolder("点此输入昵称");
+    _eb->setPlaceHolder("点此输入新昵称");
     _eb->setFontName(DISPLAY->fangzhengFont());
     _eb->setInputMode(kEditBoxInputModeAny);
     _eb->setReturnType(kKeyboardReturnTypeDone);
