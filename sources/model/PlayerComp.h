@@ -37,7 +37,7 @@ public:
     int             phase;              // 公司规模
     CCDictionary*   rating;             // 总任务评价(总星数)
     
-    int             mystery;
+    int             mystery;            // 兼容旧版事件解锁
     
     CC_SYNTHESIZE(int, _guide, Guide);  // 引导
     
@@ -48,10 +48,13 @@ public:
     int             vipStoryBuyCost;
     
 public:
+    bool hasCommitIdentity();    // 是否完善资料
     int total_ratings();         // 所有阶段总星数
     int ratings(int phase);      // 某阶段星数
 
-protected:
+private:
+    int             _identity;          // 是否完善资料
+
     
 private:
     void test();

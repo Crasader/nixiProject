@@ -897,6 +897,7 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
+// 兼容旧版
 bool DataManager::isMysteryEventUnlocked() {
     if (_player && _player->mystery == 1) {
         return true;

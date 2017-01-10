@@ -1372,9 +1372,11 @@ void MainScene::welfareCallBack(CCObject* pSender){
         NET->welfare_info_630();
         //
         CCMenuItem* btn = (CCMenuItem* )pSender;
-        btn->setEnabled(false);
-        CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
-        btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+        if (btn) {
+            btn->setEnabled(false);
+            CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+            btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+        }
     }
 }
 
@@ -1399,9 +1401,11 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
         }
         
         CCMenuItem* btn = (CCMenuItem* )pSender;
-        btn->setEnabled(false);
-        CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
-        btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+        if (btn) {
+            btn->setEnabled(false);
+            CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+            btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+        }
     }
 }
 
@@ -1434,9 +1438,11 @@ void MainScene::energyLargessCallBack(CCObject *pSender) {
         EnergyLargessPanel::show(this->getScene());
         //
         CCMenuItem* btn = (CCMenuItem* )pSender;
-        btn->setEnabled(false);
-        CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
-        btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+        if (btn) {
+            btn->setEnabled(false);
+            CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+            btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+        }
     }
 }
 
@@ -2254,8 +2260,18 @@ void MainScene::onBtnStartTryst() {
     DATA->onEvent("点击事件", "主界面", "点击 - 约会");
     if (isOk) {
         AHMessageBox* mb = AHMessageBox::create_with_message("是否开始约会？", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        mb->setPosition(ccp(DISPLAY->ScreenWidth() * .5f, DISPLAY->ScreenHeight() * .5f));
         CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+        // 体力消耗显示
+        CCString* strCost = CCString::createWithFormat("每次消耗 %d", DATA->getPlayer()->trystEnergyCost);
+        CCLabelTTF* engLabel = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 20);
+        engLabel->setPosition(ccp(DISPLAY->halfW(), mb->getContentSize().height * 0.48f));
+        engLabel->setColor(ccWHITE);
+        mb->addChild(engLabel, 3);
+        CCSprite* xinSpr = CCSprite::create("res/pic/clothesScene/gj_xin.png");
+        xinSpr->setScale(.85f);
+        xinSpr->setPosition(ccp(DISPLAY->halfW() + engLabel->getContentSize().width * 0.5f + 16, mb->getContentSize().height * 0.48f));
+        mb->addChild(xinSpr, 2);
     }
 }
 

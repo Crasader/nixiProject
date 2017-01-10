@@ -24,6 +24,7 @@
 
 #include "ChatBar.h"
 #include "ChatPanel.h"
+#include "CCShake.h"
 
 
 BaseScene::~BaseScene(){
@@ -118,6 +119,15 @@ void BaseScene::init_UI(){
     _nameLabel->setColor(ccc3(113, 89, 102));
     nameItem->addChild(_nameLabel);
     
+    // 完善资料获取钻石提示
+    if (! DATA->getPlayer()->hasCommitIdentity()) {
+        CCSprite* freeDiam = CCSprite::create("pic/baseScene/free_diam.png");
+        freeDiam->setPosition(ccp(nameSpr1->getContentSize().width * 0.1, nameSpr1->getContentSize().height * 0.8));
+        freeDiam->setScale(0.6f);
+        nameSpr1->addChild(freeDiam, 10);
+        freeDiam->runAction(CCRepeatForever::create( CCShake::create(1, 2)) );
+    }
+
     
     // 体力框
     if (DATA->getClothesBool()) {

@@ -9,6 +9,7 @@
 #include "PlayerComp.h"
 #include "AppUtil.h"
 
+
 PlayerComp::~PlayerComp() {
     CC_SAFE_DELETE(rating);
 }
@@ -36,6 +37,12 @@ void PlayerComp::init_with_json(Value json) {
     _guide = json["guide"].asInt();
     
     mystery = json["mystery"].asInt();
+    if (json["identity"] != CSJson::nullValue) {
+        _identity = json["identity"].asInt();
+    }
+    else {
+        _identity = 0;
+    }
     
     
     CC_SAFE_RELEASE(rating);
@@ -51,10 +58,14 @@ void PlayerComp::init_custom(CSJson::Value json) {
     }
     
     this->missionEnergyCost = json["mission_c"].asInt();
-    this->mystery = json["mystery_c"].asInt();
+    this->mysteryEnergyCost = json["mystery_c"].asInt();
     this->trystEnergyCost = json["tryst_c"].asInt();
     this->storyEnergyCost = json["story_c"].asInt();
     this->vipStoryBuyCost = json["story_vip_b"].asInt();
+}
+
+bool PlayerComp::hasCommitIdentity() {
+    return _identity == 1;
 }
 
 int PlayerComp::total_ratings() {
