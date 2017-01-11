@@ -98,7 +98,7 @@ public:
     
     void creat_Man1();
     void creat_Man2();
-    void initClothes(CCClippingNode* _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* dic);
+    void initClothes(CCClippingNode* _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* myClothesTemp);
     
     
     void backCallBack(CCObject* pSender);
@@ -109,9 +109,11 @@ public:
     void buttonCallBack(CCObject* pSender);
     
     
-    
     void _821Callback(CCObject *pObj);
     void _823Callback(CCObject *pObj);
+    void _825Callback(CCObject *pObj);
+    void _827Callback(CCObject *pObj);
+    
     
 public:
     int num_child;

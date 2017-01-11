@@ -47,6 +47,7 @@ private:
     void remove();
     
     void config_cell(CCTableViewCell* cell, int idx);
+    float calcCellHeight(int idx);
     
     void on_mail_delete(CCMenuItem* btn);
     void on_mail_take(CCMenuItem* btn);

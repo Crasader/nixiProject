@@ -49,7 +49,9 @@ void CompetitionItem::config(Value json) {
     CCDictionary* dic = AppUtil::dictionary_with_json(json["ornaments"]);
     _ondress->setObject(dic, "7");
     
-    this->setDailyTimes(json["daily_times"].asInt());
+    this->setSearchTimes(json["daily_search"].asInt());
+    this->setStartTimes(json["daily_start"].asInt());
+    this->setCurOpponent(json["cur_opponent"].asString());
     this->setDailyOpponents(AppUtil::array_with_json(json["daily_opponents"]));
     
     this->setSearchCost(json["search_cost"].asInt());

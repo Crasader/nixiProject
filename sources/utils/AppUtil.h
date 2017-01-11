@@ -53,6 +53,7 @@ public:
     
     // 字符串操作
     static void split(std::string src, const char* token, vector<string>& vect);
+    static size_t countOfSubstr(std::string src, const char* token);
     
 protected:
     

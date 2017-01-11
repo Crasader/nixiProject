@@ -24,8 +24,8 @@ public:
     CC_SYNTHESIZE_RETAIN(CCArray*, _tags, Tags);        // 搭配标签要求
     CC_SYNTHESIZE_RETAIN(CCArray*, _rule, Rule);        // 得分规则：3个CCString
     
-    CC_SYNTHESIZE(int, _searchFreeCount, SearchFreeCount);  // 免费搜索对手次数
-    CC_SYNTHESIZE(int, _startFreeCount, StartFreeCount);    // 免费开始次数
+    CC_SYNTHESIZE(int, _searchFreeCount, SearchFreeCount);  // 免费搜索对手次数的最大值
+    CC_SYNTHESIZE(int, _startFreeCount, StartFreeCount);    // 免费开始次数的最大值
     
     CC_SYNTHESIZE(int, _day, Day);
     CC_SYNTHESIZE(int, _hour, Hour);
@@ -48,7 +48,9 @@ public:
     CC_SYNTHESIZE(int, _lastRank, LastRank);        // 上期名次
     CC_SYNTHESIZE_RETAIN(CCDictionary*, _ondress, Ondress);     // 同show的衣着
     
-    CC_SYNTHESIZE(int, _dailyTimes, DailyTimes);    // 今日主动挑战次数
+    CC_SYNTHESIZE(int, _searchTimes, SearchTimes);  // 今日主动搜索次数(没有上线)(从0开始计算，>=最大值花钻石)
+    CC_SYNTHESIZE(int, _startTimes, StartTimes);    // 今日主动挑战次数(从0开始计算，>=最大值花钻石)
+    CC_SYNTHESIZE_PASS_BY_REF(string, _curOpponent, CurOpponent);    // 当前对手sid
     CC_SYNTHESIZE_RETAIN(CCArray*, _dailyOpponents, DailyOpponents); // 今日挑战过的对手
     
     CC_SYNTHESIZE(int, _searchCost, SearchCost);    // 查找对手钻石花费 5

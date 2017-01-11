@@ -158,7 +158,6 @@ void RankListScene::createUI(){
 
 void RankListScene::gotoPkScene(CCMenuItem *btn) {
     CCLOG("RankListScene::gotoPkScene() ...");
-//    NET->competition_search_opponent_821();
     
     CCScene* scene = pkScene::scene();
     CCDirector::sharedDirector()->replaceScene(scene);
@@ -287,15 +286,6 @@ void RankListScene::changeShower(ShowComp* shower) {
 
 void RankListScene::testPK() {
     CCLOG("测试比拼结果 ...");
-    CompetitionItem* opponent = DATA->getCompetition()->getOpponent();
-    if (opponent) {
-        // 开始PK
-        const string opponentId = opponent->getId();
-        NET->competition_start_825(opponentId.c_str());
-    }
-    else {
-        // 祝福
-        NET->competition_bless_823();
-    }
+    NET->competition_start_825();
 }
 

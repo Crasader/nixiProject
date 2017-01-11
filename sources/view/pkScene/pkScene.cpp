@@ -16,9 +16,8 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
-#include "MainScene.h"
 #include "ClothesScene.h"
-
+#include "PkLayer.h"
 
 
 
@@ -66,8 +65,11 @@ void pkScene::onEnter(){
     BaseScene::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&pkScene::_821Callback), "HTTP_FINISHED_821", NULL);
+    
     nc->addObserver(this, SEL_CallFuncO(&pkScene::_823Callback), "HTTP_FINISHED_823", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&pkScene::_821Callback), "HTTP_FINISHED_821", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&pkScene::_825Callback), "HTTP_FINISHED_825", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&pkScene::_827Callback), "HTTP_FINISHED_827", NULL);
     
     
     this->scheduleOnce(SEL_SCHEDULE(&pkScene::keyBackStatus), .8f);
@@ -446,7 +448,7 @@ void pkScene::creatName2(CCSprite* kuangSpr, CompetitionItem* item){
         nameStr3 = CCString::createWithFormat("累计得分:  %s", "?????");
     }else{
         int score = item->getScore();
-        nameStr3 = CCString::createWithFormat("服装收集:  %d", score);
+        nameStr3 = CCString::createWithFormat("累计得分:  %d", score);
     }
     CCLabelTTF* nameLabel3 = CCLabelTTF::create(nameStr3->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel3->setPosition(ccp(kuangSpr->getContentSize().width* .55f, kuangSpr->getContentSize().height* .15f));
@@ -469,22 +471,22 @@ void pkScene::creatKuangButton(){
     kuangSpr->addChild(menu);
     
     
-    int startIndex = 0;
+    int searchIndex = selfItem->getSearchTimes();
     CCString* startStr;
-    if (startIndex > 0) {
-        startStr = CCString::createWithFormat("%d/%d", startIndex, 3);
+    if (searchIndex < themeInfo->getSearchFreeCount()) {
+        startStr = CCString::createWithFormat("%d/%d", searchIndex, themeInfo->getSearchFreeCount());
         
-        CCLabelTTF* startLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 16);
-        startLabel->setPosition(ccp(item->getContentSize().width* .5f, item->getContentSize().height* .3f));
-        startLabel->setColor(ccc3(219, 50, 8));
-        item->addChild(startLabel);
+        CCLabelTTF* searchLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 16);
+        searchLabel->setPosition(ccp(item->getContentSize().width* .5f, item->getContentSize().height* .3f));
+        searchLabel->setColor(ccc3(219, 50, 8));
+        item->addChild(searchLabel);
     }else{
-        startStr = CCString::createWithFormat("%d", 5);
+        startStr = CCString::createWithFormat("%d", selfItem->getSearchCost());
         
-        CCLabelTTF* startLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 16);
-        startLabel->setPosition(ccp(item->getContentSize().width* .42f, item->getContentSize().height* .3f));
-        startLabel->setColor(ccc3(219, 50, 8));
-        item->addChild(startLabel);
+        CCLabelTTF* searchLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 16);
+        searchLabel->setPosition(ccp(item->getContentSize().width* .42f, item->getContentSize().height* .3f));
+        searchLabel->setColor(ccc3(219, 50, 8));
+        item->addChild(searchLabel);
         
         CCSprite* goldSpr = CCSprite::create("res/pic/pk/pk_gold.png");
         goldSpr->setScale(.7f);
@@ -493,11 +495,21 @@ void pkScene::creatKuangButton(){
     }
 }
 void pkScene::buttonCallBack(CCObject* pSender){
-//    CCNode* node = this->getChildByTag(0x99999);
-//    node->removeAllChildren();
-    
+    LOADING->show_loading();
+    NET->competition_search_opponent_821();
 }
-
+void pkScene::_821Callback(CCObject *pObj){
+    LOADING->remove();
+    
+    if (this->getChildByTag(0x99999) != NULL) {
+        CCNode* node = this->getChildByTag(0x99999);
+        node->removeAllChildren();
+        this->removeChildByTag(0x99999);
+    }
+    selfItem = DATA->getCompetition()->getSelf();
+    this->creatKuangButton();
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
 
 void pkScene::creatDuijue(){
     CCSprite* duijueSpr1 = CCSprite::create("res/pic/pk/pk_duijue1.png");
@@ -568,9 +580,9 @@ void pkScene::creatZhuti(){
     diSpr->addChild(dayLabel);
 }
 void pkScene::creatStart(){
-    int startIndex = selfItem->getDailyTimes();
+    int startIndex = selfItem->getStartTimes();
     CCString* startStr;
-    if (startIndex > 0) {
+    if (startIndex < themeInfo->getStartFreeCount()) {
         startStr = CCString::createWithFormat("%d/%d", startIndex, themeInfo->getStartFreeCount());
         
         CCLabelTTF* startLabel = CCLabelTTF::create(startStr->getCString(), DISPLAY->fangzhengFont(), 23);
@@ -616,12 +628,13 @@ void pkScene::huanzhuangCallback(CCObject* pSender){
 void pkScene::huanhaoCallback(CCObject* pSender){
     
     LOADING->show_loading();
-    NET->competition_search_opponent_821();
+    NET->competition_prepare_827();
 }
-void pkScene::_821Callback(CCObject *pObj){
+void pkScene::_827Callback(CCObject *pObj){
     LOADING->remove();
     
     opponentItem = DATA->getCompetition()->getOpponent();
+    selfItem = DATA->getCompetition()->getSelf();
     kuangSpr2_3->removeAllChildren();
     if (this->getChildByTag(0x88888) != NULL) {
         this->removeChildByTag(0x88888);
@@ -642,8 +655,16 @@ void pkScene::_821Callback(CCObject *pObj){
     this->creatKuangButton();
 }
 void pkScene::startCallback(CCObject* pSender){
-    
+    LOADING->show_loading();
+    NET->competition_start_825();
 }
+void pkScene::_825Callback(CCObject *pObj){
+    LOADING->remove();
+    
+    CCScene* scene = PkLayer::scene();
+    CCDirector::sharedDirector()->replaceScene(scene);
+}
+
 void pkScene::zhufuCallback(CCObject* pSender){
     
     LOADING->show_loading();

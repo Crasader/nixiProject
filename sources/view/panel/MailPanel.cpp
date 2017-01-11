@@ -14,10 +14,12 @@
 #include "Reward.h"
 #include "Loading2.h"
 #include "PromptLayer.h"
+#include "AppUtil.h"
 
 #define CELL_WIDTH          542
 #define CELL_HEIGHT         228
 
+const float CellContentWidht = 463.f;
 
 MailPanel::~MailPanel() {
 }
@@ -138,9 +140,23 @@ void MailPanel::remove() {
     this->removeFromParentAndCleanup(true);
 }
 
+float MailPanel::calcCellHeight(int idx) {
+    CCArray* mails = DATA->getMail()->mails();
+    MailItem* item = (MailItem* )mails->objectAtIndex(idx);
+    size_t lineCount = AppUtil::countOfSubstr(item->content, "\n");
+    lineCount = lineCount + item->content.length() / (16 * 3);
+    float contentHeight = 22 * lineCount;
+    return contentHeight + 210;
+}
+
 void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
-    CCSprite* plate = CCSprite::create("res/pic/panel/mail/mail_plate.png");
-    plate->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    float cellContentHeight = this->calcCellHeight(idx);
+    
+    CCRect rect = CCRectMake(0, 0, CellContentWidht, 209);
+    CCRect capInsets = CCRectMake(36, 36, CellContentWidht - 36 * 2, 209 - 36 * 2);
+    CCScale9Sprite* plate = CCScale9Sprite::create("pic/panel/mail/mail_plate.png", rect, capInsets);
+    plate->setPreferredSize(CCSizeMake(CellContentWidht, cellContentHeight));
+    plate->setPosition(ccp(CELL_WIDTH * 0.5, cellContentHeight * 0.5));
     cell->addChild(plate);
     
     CCArray* mails = DATA->getMail()->mails();
@@ -148,15 +164,25 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     
     CCLabelTTF* lbl_title = CCLabelTTF::create(item->title.c_str(), DISPLAY->fangzhengFont(), 24);
     lbl_title->setColor(ccc3(140, 82, 82));
-    lbl_title->setAnchorPoint(ccp(0, 0.5));
-    lbl_title->setPosition(ccp(CELL_WIDTH * 0.12, CELL_HEIGHT * 0.82));
-    cell->addChild(lbl_title);
+    lbl_title->setAnchorPoint(ccp(0.5, 1));
+    lbl_title->setPosition(ccp(CellContentWidht * 0.5, cellContentHeight - 20));
+    plate->addChild(lbl_title);
     
-    CCLabelTTF* lbl_content = CCLabelTTF::create(item->content.c_str(), DISPLAY->fangzhengFont(), 22, CCSizeMake(CELL_WIDTH * (1 - 0.14 * 2), CELL_HEIGHT * 0.3), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    size_t lineCount = AppUtil::countOfSubstr(item->content, "\n");
+    float fontSize = 22.f;
+    float contentWidth = CellContentWidht * 0.82;
+    lineCount = lineCount + item->content.length() / (16 * 3);
+    float contentHeight = fontSize * lineCount;
+    CCLabelTTF* lbl_content = CCLabelTTF::create(item->content.c_str(), DISPLAY->fangzhengFont(), fontSize, CCSizeMake(contentWidth, contentHeight), kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
     lbl_content->setColor(ccORANGE);
-    lbl_content->setAnchorPoint(ccp(0, 0.5));
-    lbl_content->setPosition(ccp(CELL_WIDTH * 0.14, CELL_HEIGHT * 0.6));
-    cell->addChild(lbl_content);
+    lbl_content->setAnchorPoint(ccp(0.5, 1));
+    lbl_content->setPosition(ccp(CellContentWidht * 0.5, cellContentHeight - 60));
+    plate->addChild(lbl_content);
+    
+    //
+    CCSprite* line = CCSprite::create("pic/panel/mail/mail_line.png");
+    line->setPosition(ccp(CellContentWidht * 0.5, 64));
+    plate->addChild(line);
     
     // reward
     CCArray* reward_icons = CCArray::createWithCapacity(4);
@@ -180,15 +206,15 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     int icon_count = reward_icons->count();
     for (int i = 0; i < icon_count; i++) {
         CCNode* node = (CCNode* )reward_icons->objectAtIndex(i);
-        node->setPosition(ccp(CELL_WIDTH * (0.2 + 0.2 * i), CELL_HEIGHT * 0.4));
-        cell->addChild(node);
+        node->setPosition(ccp(CellContentWidht * (0.2 + 0.2 * i), line->getPositionY() + 32));
+        plate->addChild(node);
         //
         CCString* num = (CCString* )reward_num->objectAtIndex(i);
         CCLabelTTF* lbl_num = CCLabelTTF::create(num->getCString(), DISPLAY->fangzhengFont(), 20);
         lbl_num->setColor(ccORANGE);
         lbl_num->setAnchorPoint(ccp(0, 0.5));
         lbl_num->setPosition(node->getPosition() + ccp(22, -8));
-        cell->addChild(lbl_num);
+        plate->addChild(lbl_num);
     }
     cell->setUserObject(reward_icons);
     
@@ -201,8 +227,8 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
         btn_take->setUserData(&(item->id));
         
         CCMenu* menu = CCMenu::create(btn_take, NULL);
-        menu->setPosition(ccp(CELL_WIDTH * 0.76, CELL_HEIGHT * 0.18));
-        cell->addChild(menu);
+        menu->setPosition(ccp(CellContentWidht * 0.76, 40));
+        plate->addChild(menu);
     }
     else {
         CCSprite* delete1 = CCSprite::create("res/pic/panel/mail/mail_btn_delete.png");
@@ -218,9 +244,9 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
         btn_take->setUserData(&(item->id));
         
         CCMenu* menu = CCMenu::create(btn_delete, btn_take, NULL);
-        menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.32);
-        menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
-        cell->addChild(menu);
+        menu->alignItemsHorizontallyWithPadding(CellContentWidht * 0.32);
+        menu->setPosition(ccp(CellContentWidht * 0.49, 40));
+        plate->addChild(menu);
     }
     
 
@@ -233,7 +259,7 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
     
     CCMenu* menu = CCMenu::create(btn_delete, btn_take, btn_reply, NULL);
     menu->alignItemsHorizontallyWithPadding(CELL_WIDTH * 0.13);
-    menu->setPosition(ccp(CELL_WIDTH * 0.49, CELL_HEIGHT * 0.18));
+    menu->setPosition(ccp(CELL_WIDTH * 0.49, 32));
     cell->addChild(menu);
     */
 }
@@ -317,7 +343,8 @@ void MailPanel::take_reward_done() {
 #pragma mark - CCTableViewDataSource
 
 CCSize MailPanel::tableCellSizeForIndex(CCTableView *table, unsigned int idx) {
-    return this->cellSizeForTable(table);
+    return CCSizeMake(CELL_WIDTH, this->calcCellHeight(idx));
+//    return this->cellSizeForTable(table);
 }
 
 CCSize MailPanel::cellSizeForTable(CCTableView *table) {

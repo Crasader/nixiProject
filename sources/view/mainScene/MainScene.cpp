@@ -59,7 +59,7 @@
 
 
 // --------------- test ----------------
-
+#include "PkLayer.h"
 
 
 
@@ -1373,7 +1373,8 @@ void MainScene::welfareCallBack(CCObject* pSender){
 //        NET->welfare_info_630();
 //    }
     
-    
+    CCScene* scene = PkLayer::scene();
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::nc_welfare_user_info(CCObject *pObj) {
