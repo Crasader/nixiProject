@@ -724,6 +724,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 奖励信息
             pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
+            
+        case 325: {
+            _player->init_with_json(content["player"]);
+            // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
+        } break;
+        
         
         case 333: {
             _player->init_with_json(content["player"]);
@@ -897,6 +904,7 @@ bool DataManager::could_prduce() {
     return (getNews()->coin - getCoffers()->collected) > 0;
 }
 
+// 兼容旧版
 bool DataManager::isMysteryEventUnlocked() {
     if (_player && _player->mystery == 1) {
         return true;

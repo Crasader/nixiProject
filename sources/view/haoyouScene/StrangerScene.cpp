@@ -278,6 +278,8 @@ void StrangerScene::exitMan(){
     CCCallFunc* callFunc2 = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::enterMan));
     CCSequence* seq = CCSequence::create(pl, CCDelayTime::create(.1f), callFunc1, CCDelayTime::create(.1f), callFunc2, NULL);
     _ManSpr->runAction(seq);
+    //
+    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
 }
 
 void StrangerScene::enterMan(){

@@ -242,6 +242,9 @@ private:
     void checkVersion();
     void check_welfare_new();
     // ]]
+    
+    void afterMenuItemCalled(CCMenuItem* btn);
+    
 private:
     CCMenuItem*         _youjianItem;
     CCMenuItem*         _haoyouItem;

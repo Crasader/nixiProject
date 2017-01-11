@@ -42,6 +42,7 @@ private:
     void on_effect(CCMenuItem* btn);
     void on_back(CCMenuItem* btn);
     void on_take_gift(CCMenuItem* btn);
+    void on_free_diam(CCMenuItem* btn);
     void onBtnCommitRest(CCMenuItem *btn);
     
 private:

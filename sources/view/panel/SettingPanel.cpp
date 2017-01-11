@@ -14,6 +14,7 @@
 
 #include "PromptLayer.h"
 #include "GiftPanel.h"
+#include "IdentityPanel.h"
 
 SettingPanel::~SettingPanel() {
 }
@@ -52,13 +53,13 @@ bool SettingPanel::init(const char *cost) {
 
         
         //
-        CCMenuItemImage* btn_music_off = CCMenuItemImage::create("res/pic/panel/setting/set_music_off.png", "res/pic/panel/setting/set_music_off.png");
-        CCMenuItemImage* btn_music_on = CCMenuItemImage::create("res/pic/panel/setting/set_music_on.png", "res/pic/panel/setting/set_music_on.png");
+        CCMenuItemImage* btn_music_off = CCMenuItemImage::create("pic/panel/setting/set_music_off.png", "pic/panel/setting/set_music_off.png");
+        CCMenuItemImage* btn_music_on = CCMenuItemImage::create("pic/panel/setting/set_music_on.png", "pic/panel/setting/set_music_on.png");
         CCMenuItemToggle* toggle_music = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_music), btn_music_off, btn_music_on, NULL);
         toggle_music->setSelectedIndex((int)AUDIO->is_music_on());
         
-        CCMenuItemImage* btn_effect_off = CCMenuItemImage::create("res/pic/panel/setting/set_effect_off.png", "res/pic/panel/setting/set_effect_off.png");
-        CCMenuItemImage* btn_effect_on = CCMenuItemImage::create("res/pic/panel/setting/set_effect_on.png", "res/pic/panel/setting/set_effect_on.png");
+        CCMenuItemImage* btn_effect_off = CCMenuItemImage::create("pic/panel/setting/set_effect_off.png", "pic/panel/setting/set_effect_off.png");
+        CCMenuItemImage* btn_effect_on = CCMenuItemImage::create("pic/panel/setting/set_effect_on.png", "pic/panel/setting/set_effect_on.png");
         CCMenuItemToggle* toggle_effect = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&SettingPanel::on_effect), btn_effect_off, btn_effect_on, NULL);
         toggle_effect->setSelectedIndex((int)AUDIO->is_effect_on());
         
@@ -79,24 +80,53 @@ bool SettingPanel::init(const char *cost) {
         }
 
         if (needOpenGift) {
-            CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
-            CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
-            relogin2->setScale(1.02f);
-            CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
-            
-            CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
-            CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
-            gift2->setScale(1.02f);
-            CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
-            
-            CCMenu* menuBottom = CCMenu::create(btnGift, btnRelogin, NULL);
-            menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
-            menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
-            _panel->addChild(menuBottom);
+            if (DATA->getPlayer()->hasCommitIdentity()) {
+                CCSprite* gift1 = CCSprite::create("pic/panel/setting/set_gift.png");
+                CCSprite* gift2 = CCSprite::create("pic/panel/setting/set_gift.png");
+                gift2->setScale(1.02f);
+                CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+                
+                CCSprite* relogin1 = CCSprite::create("pic/panel/setting/relogin.png");
+                CCSprite* relogin2 = CCSprite::create("pic/panel/setting/relogin.png");
+                relogin2->setScale(1.02f);
+                CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
+                
+                CCMenu* menuBottom = CCMenu::create(btnGift, btnRelogin, NULL);
+                menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
+                menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+                _panel->addChild(menuBottom);
+            }
+            else {
+                CCSprite* freeDiam1 = CCSprite::create("pic/panel/setting/set_free.png");
+                CCSprite* freeDiam2 = CCSprite::create("pic/panel/setting/set_free.png");
+                freeDiam2->setScale(1.02f);
+                CCMenuItemSprite* btnFreeDiam = CCMenuItemSprite::create(freeDiam1, freeDiam2, this, menu_selector(SettingPanel::on_free_diam));
+                
+                CCLabelTTF* lbl1 = CCLabelTTF::create("免费获取", DISPLAY->fangzhengFont(), 20.f);
+                lbl1->setAnchorPoint(ccp(1, 0.5));
+                lbl1->setPosition(ccp(freeDiam1->getContentSize().width * 0.8, freeDiam1->getContentSize().height * 0.5));
+                btnFreeDiam->addChild(lbl1);
+                
+                CCSprite* diamIcon = CCSprite::create("pic/panel/setting/inde_diam_3.png");
+                diamIcon->setAnchorPoint(ccp(0, 0.5));
+                diamIcon->setPosition(lbl1->getPosition() + ccp(-2, 4));
+                btnFreeDiam->addChild(diamIcon);
+
+                
+                CCSprite* relogin1 = CCSprite::create("pic/panel/setting/relogin.png");
+                CCSprite* relogin2 = CCSprite::create("pic/panel/setting/relogin.png");
+                relogin2->setScale(1.02f);
+                CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
+                
+                CCMenu* menuBottom = CCMenu::create(btnFreeDiam, btnRelogin, NULL);
+                menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
+                menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+                _panel->addChild(menuBottom);
+            }
         }
         else {
-            CCSprite* relogin1 = CCSprite::create("res/pic/panel/setting/relogin.png");
-            CCSprite* relogin2 = CCSprite::create("res/pic/panel/setting/relogin.png");
+            CCSprite* relogin1 = CCSprite::create("pic/panel/setting/relogin.png");
+            CCSprite* relogin2 = CCSprite::create("pic/panel/setting/relogin.png");
             relogin2->setScale(1.02f);
             CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
             
@@ -106,21 +136,46 @@ bool SettingPanel::init(const char *cost) {
         }
 
         
-        
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-        CCSprite* gift1 = CCSprite::create("res/pic/panel/setting/set_gift.png");
-        CCSprite* gift2 = CCSprite::create("res/pic/panel/setting/set_gift.png");
-        gift2->setScale(1.02f);
-        CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
-        
-        CCMenu* menu_back = CCMenu::create(btnGift, NULL);
-        menu_back->alignItemsHorizontallyWithPadding(panelSize.width * 0.36);
-        menu_back->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.18));
-        _panel->addChild(menu_back);
+        if (DATA->getPlayer()->hasCommitIdentity()) {
+            CCSprite* gift1 = CCSprite::create("pic/panel/setting/set_gift.png");
+            CCSprite* gift2 = CCSprite::create("pic/panel/setting/set_gift.png");
+            gift2->setScale(1.02f);
+            CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+            
+            CCMenu* menu = CCMenu::create(btnGift, NULL);
+            menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
+            menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+            _panel->addChild(menu);
+        }
+        else {
+            CCSprite* gift1 = CCSprite::create("pic/panel/setting/set_gift.png");
+            CCSprite* gift2 = CCSprite::create("pic/panel/setting/set_gift.png");
+            gift2->setScale(1.02f);
+            CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+            
+            CCSprite* freeDiam1 = CCSprite::create("pic/panel/setting/set_free.png");
+            CCSprite* freeDiam2 = CCSprite::create("pic/panel/setting/set_free.png");
+            freeDiam2->setScale(1.02f);
+            CCMenuItemSprite* btnFreeDiam = CCMenuItemSprite::create(freeDiam1, freeDiam2, this, menu_selector(SettingPanel::on_free_diam));
+            
+            CCLabelTTF* lbl1 = CCLabelTTF::create("免费获取", DISPLAY->fangzhengFont(), 20.f);
+            lbl1->setAnchorPoint(ccp(1, 0.5));
+            lbl1->setPosition(ccp(freeDiam1->getContentSize().width * 0.8, freeDiam1->getContentSize().height * 0.5));
+            btnFreeDiam->addChild(lbl1);
+            
+            CCSprite* diamIcon = CCSprite::create("pic/panel/setting/inde_diam_3.png");
+            diamIcon->setAnchorPoint(ccp(0, 0.5));
+            diamIcon->setPosition(lbl1->getPosition() + ccp(-2, 4));
+            btnFreeDiam->addChild(diamIcon);
+            
+            
+            CCMenu* menuBottom = CCMenu::create(btnGift, btnFreeDiam, NULL);
+            menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
+            menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+            _panel->addChild(menuBottom);
+        }
 #endif
-        
-
-        
         return true;
     }
     else {
@@ -133,7 +188,7 @@ void SettingPanel::create_nickname_reset_bar(CCSize panelSize, const char *cost)
     _eb = CCEditBox::create(CCSizeMake(size_bar.width, size_bar.height), CCScale9Sprite::create("pic/panel/setting/nnr_bar.png"));
     _eb->setMaxLength(12);
     _eb->setFontColor(DISPLAY->defalutColor());
-    _eb->setPlaceHolder("点此输入昵称");
+    _eb->setPlaceHolder("点此输入新昵称");
     _eb->setFontName(DISPLAY->fangzhengFont());
     _eb->setInputMode(kEditBoxInputModeAny);
     _eb->setReturnType(kKeyboardReturnTypeDone);
@@ -245,6 +300,12 @@ void SettingPanel::on_take_gift(CCMenuItem *btn) {
     GiftPanel* giftPanel = GiftPanel::create();
     this->getScene()->addChild(giftPanel);
     this->remove();
+}
+
+void SettingPanel::on_free_diam(CCMenuItem *btn) {
+    this->removeFromParent();
+    IdentityPanel* panel = IdentityPanel::create();
+    panel->show_from(ccp(DISPLAY->halfW(), DISPLAY->H() * 0.75f));
 }
 
 void SettingPanel::keyBackClicked(){
