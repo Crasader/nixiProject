@@ -54,7 +54,7 @@ bool ShowerView::init() {
 void ShowerView::onEnter() {
     CCLayer::onEnter();
     
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+//    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
 }
 
 void ShowerView::onExit() {
@@ -67,6 +67,7 @@ void ShowerView::onExit() {
 #pragma mark - Inner API
 
 void ShowerView::change_finish() {
+    _curShower->blink();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("CHANGE_SHOWER_FINISHED", NULL);
 }
 

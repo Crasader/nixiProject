@@ -464,7 +464,7 @@ void PkLayer::creatJiesuan(){
     selfLabel1->setAnchorPoint(ccp(.5f, .5f));
     selfLabel1->setVisible(false);
     selfLabel1->setScale(.2f);
-    selfLabel1->set_delegate(this); // 设置代理
+    selfLabel1->set_delegate(NULL); // 设置代理
     selfLabel1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .765f));
     selfLabel1->setTag(0x111);
     jiesuanKuangSpr->addChild(selfLabel1, 1);
@@ -481,7 +481,7 @@ void PkLayer::creatJiesuan(){
     selfLabel2->setAnchorPoint(ccp(.5f, .5f));
     selfLabel2->setVisible(false);
     selfLabel2->setScale(.2f);
-    selfLabel2->set_delegate(this); // 设置代理
+    selfLabel2->set_delegate(NULL); // 设置代理
     selfLabel2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .595f));
     selfLabel2->setTag(0x222);
     jiesuanKuangSpr->addChild(selfLabel2, 1);
@@ -498,7 +498,7 @@ void PkLayer::creatJiesuan(){
     selfLabel3->setAnchorPoint(ccp(.5f, .5f));
     selfLabel3->setVisible(false);
     selfLabel3->setScale(.2f);
-    selfLabel3->set_delegate(this); // 设置代理
+    selfLabel3->set_delegate(NULL); // 设置代理
     selfLabel3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .43f));
     selfLabel3->setTag(0x333);
     jiesuanKuangSpr->addChild(selfLabel3, 1);
@@ -515,7 +515,7 @@ void PkLayer::creatJiesuan(){
     selfLabel4->setAnchorPoint(ccp(.5f, .5f));
     selfLabel4->setVisible(false);
     selfLabel4->setScale(.2f);
-    selfLabel4->set_delegate(this); // 设置代理
+    selfLabel4->set_delegate(NULL); // 设置代理
     selfLabel4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .26f));
     selfLabel4->setTag(0x444);
     jiesuanKuangSpr->addChild(selfLabel4, 1);
@@ -534,7 +534,7 @@ void PkLayer::creatJiesuan(){
     opponentLabel1->setAnchorPoint(ccp(.5f, .5f));
     opponentLabel1->setVisible(false);
     opponentLabel1->setScale(.2f);
-    opponentLabel1->set_delegate(this); // 设置代理
+    opponentLabel1->set_delegate(NULL); // 设置代理
     opponentLabel1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .765f));
     opponentLabel1->setTag(0x555);
     jiesuanKuangSpr->addChild(opponentLabel1, 1);
@@ -551,7 +551,7 @@ void PkLayer::creatJiesuan(){
     opponentLabel2->setAnchorPoint(ccp(.5f, .5f));
     opponentLabel2->setVisible(false);
     opponentLabel2->setScale(.2f);
-    opponentLabel2->set_delegate(this); // 设置代理
+    opponentLabel2->set_delegate(NULL); // 设置代理
     opponentLabel2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .595f));
     opponentLabel2->setTag(0x666);
     jiesuanKuangSpr->addChild(opponentLabel2, 1);
@@ -568,7 +568,7 @@ void PkLayer::creatJiesuan(){
     opponentLabel3->setAnchorPoint(ccp(.5f, .5f));
     opponentLabel3->setVisible(false);
     opponentLabel3->setScale(.2f);
-    opponentLabel3->set_delegate(this); // 设置代理
+    opponentLabel3->set_delegate(NULL); // 设置代理
     opponentLabel3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .43f));
     opponentLabel3->setTag(0x777);
     jiesuanKuangSpr->addChild(opponentLabel3, 1);
@@ -585,7 +585,7 @@ void PkLayer::creatJiesuan(){
     opponentLabel4->setAnchorPoint(ccp(.5f, .5f));
     opponentLabel4->setVisible(false);
     opponentLabel4->setScale(.2f);
-    opponentLabel4->set_delegate(this); // 设置代理
+    opponentLabel4->set_delegate(NULL); // 设置代理
     opponentLabel4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .26f));
     opponentLabel4->setTag(0x888);
     jiesuanKuangSpr->addChild(opponentLabel4, 1);

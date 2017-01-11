@@ -17,7 +17,49 @@ const bool flipxBool = false;
 
 #pragma mark - Export API
 
-
+void Shower::blink() {
+    if (_zrSpr1) {
+        if (_curZRId != _savedZRId) {
+            _savedZRId = _curZRId;
+            CCArray* arrFrame = CCArray::createWithCapacity(3);
+            
+            CCString* str1 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
+            CCSpriteFrame* frame1 = CCSpriteFrame::create(str1->getCString(), CCRectMake(0, 0, 900, 1136));
+            arrFrame->addObject(frame1);
+            
+            CCString* str2 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_1.png", _curZRId);
+            CCSpriteFrame* frame2 = CCSpriteFrame::create(str2->getCString(), CCRectMake(0, 0, 900, 1136));
+            arrFrame->addObject(frame2);
+            
+            CCString* str3 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_2.png", _curZRId);
+            CCSpriteFrame* frame3 = CCSpriteFrame::create(str3->getCString(), CCRectMake(0, 0, 900, 1136));
+            arrFrame->addObject(frame3);
+            
+            if (_curZRId == 90006 || _curZRId == 90007 || _curZRId == 90009 || _curZRId == 900010) {
+                CCString* str4 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_3.png", _curZRId);
+                CCSpriteFrame* frame4 = CCSpriteFrame::create(str4->getCString(), CCRectMake(0, 0, 900, 1136));
+                arrFrame->addObject(frame4);
+                
+                CCString* str5 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
+                CCSpriteFrame* frame5 = CCSpriteFrame::create(str5->getCString(), CCRectMake(0, 0, 900, 1136));
+                arrFrame->addObject(frame5);
+            }
+            else {
+                CCString* str4 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
+                CCSpriteFrame* frame4 = CCSpriteFrame::create(str4->getCString(), CCRectMake(0, 0, 900, 1136));
+                arrFrame->addObject(frame4);
+            }
+            
+            CCAnimation* animation = CCAnimation::createWithSpriteFrames(arrFrame, 0.1);
+            this->setBlinkAnim(CCAnimate::create(animation));
+        }
+        
+        if (_blinkAnim) {
+            _zrSpr1->stopAllActions();
+            _zrSpr1->runAction(_blinkAnim);
+        }
+    }
+}
 
 #pragma mark - Super API
 
@@ -27,10 +69,12 @@ Shower::~Shower() {
 
 bool Shower::init() {
     if (CCSprite::init()) {
+        _curZRId = 90000;
+        _savedZRId = 0;
+        
         CCSprite* shadowSpr = CCSprite::create("pic/house/house_shadow.png");
         shadowSpr->setPosition(ccp(DISPLAY->ScreenWidth()* (widthFolt - .11f), DISPLAY->ScreenHeight()* (heightFloat - .425f)));
         this->addChild(shadowSpr);
-        
         
         CCSprite* manSpr = CCSprite::create("pic/clothesScene/man/gj_man.png");
         manSpr->setScale(scaleFloat);
@@ -533,6 +577,8 @@ void Shower::ondress(CCDictionary *clothes){ //穿衣服
                     if (now_clothes_Id == cloth_id->getValue()) {
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         if (layer1->compare("") != 0) {
+                            _curZRId = layer1->intValue();
+                            
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _zrSpr1 = CCSprite::create(str1->getCString());
                             _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));

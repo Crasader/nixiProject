@@ -31,7 +31,6 @@ FlashNumberLabel* FlashNumberLabel::create_with_atlas(const char *atlas, const c
     return NULL;
 }
 
-
 bool FlashNumberLabel::init_with_atlas(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap, int step, float frame_duration)
 {
     if(!CCLabelAtlas::initWithString(string, charMapFile, itemWidth, itemHeight, '0')) {
@@ -52,12 +51,10 @@ bool FlashNumberLabel::init_with_atlas(const char *string, const char *charMapFi
     return true;
 }
 
-
 void FlashNumberLabel::set_delegate(FlashNumberLabelDelegate *delegate)
 {
     m_delegate = delegate;
 }
-
 
 void FlashNumberLabel::set_new_number(const char *label)
 {
