@@ -160,7 +160,6 @@ public:
     // 聊天计时
     CC_SYNTHESIZE(time_t, _beginTime, BeginTime);
     //
-    
     CC_SYNTHESIZE(bool, _chatOut, ChatOut);
     
     bool could_prduce();
