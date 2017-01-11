@@ -79,8 +79,11 @@ void FlashNumberLabel2::set_new_number2(const char *label)
         return;
     }
     
-    if (abs(m_new_num2 - m_old_num2) >= 1000) {
+    if (abs(m_new_num2 - m_old_num2) >= 5000) {
         m_step2 = 123;
+    }
+    else if (abs(m_new_num2 - m_old_num2) >= 1000) {
+        m_step2 = 22;
     }
     else if (abs(m_new_num2 - m_old_num2) >= 200) {
         m_step2 = 13;

@@ -25,6 +25,8 @@
 #include "Loading2.h"
 #include "PromptLayer.h"
 
+#include "pkScene.h"
+
 
 const float totalRank_z_oder = 20.f;
 
@@ -156,7 +158,9 @@ void RankListScene::createUI(){
 
 void RankListScene::gotoPkScene(CCMenuItem *btn) {
     CCLOG("RankListScene::gotoPkScene() ...");
-    NET->competition_prepare_827();
+    
+    CCScene* scene = pkScene::scene();
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void RankListScene::btn_share_callback(CCObject* pSender){

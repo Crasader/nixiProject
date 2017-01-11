@@ -59,6 +59,8 @@
 
 
 // --------------- test ----------------
+#include "PkLayer.h"
+
 
 
 MainScene::MainScene(){
@@ -1366,18 +1368,21 @@ void MainScene::welfareCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击福利");
     
-    if (isOk) {
-        LOADING->show_loading();
-        AUDIO->comfirm_effect();
-        NET->welfare_info_630();
-        //
-        CCMenuItem* btn = (CCMenuItem* )pSender;
-        if (btn) {
-            btn->setEnabled(false);
-            CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
-            btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
-        }
-    }
+//    if (isOk) {
+//        LOADING->show_loading();
+//        AUDIO->comfirm_effect();
+//        NET->welfare_info_630();
+//        //
+//        CCMenuItem* btn = (CCMenuItem* )pSender;
+//        if (btn) {
+//            btn->setEnabled(false);
+//            CCCallFuncN* afterCalled = CCCallFuncN::create(this, SEL_CallFuncN(&MainScene::afterMenuItemCalled));
+//            btn->runAction(CCSequence::create(CCDelayTime::create(1.f), afterCalled, NULL));
+//        }
+//    }
+    
+    CCScene* scene = PkLayer::scene();
+    CCDirector::sharedDirector()->replaceScene(scene);
 }
 
 void MainScene::nc_welfare_user_info(CCObject *pObj) {

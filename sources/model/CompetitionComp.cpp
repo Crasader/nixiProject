@@ -46,7 +46,8 @@ void CompetitionItem::config(Value json) {
     this->setCollected(json["collected"].asInt());
     this->setLastRank(json["last_rank"].asInt());
     this->setOndress(AppUtil::dictionary_with_json(json["ondress"]));
-    this->setOrnaments(AppUtil::dictionary_with_json(json["ornaments"]));
+    CCDictionary* dic = AppUtil::dictionary_with_json(json["ornaments"]);
+    _ondress->setObject(dic, "7");
     
     this->setSearchTimes(json["daily_search"].asInt());
     this->setStartTimes(json["daily_start"].asInt());
