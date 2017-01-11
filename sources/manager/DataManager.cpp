@@ -49,6 +49,10 @@ void DataManager::init_data() {
     this->setAutoLogin(true);
     this->setHasLogin(false);
     
+    this->setChatInterval(0);
+    this->setLastTime(0);
+    this->setDeltaTime(0);
+    
     this->setLogin(LoginComp::create());
     this->setPlayer(PlayerComp::create());
     this->setClothes(ClothesComp::create());

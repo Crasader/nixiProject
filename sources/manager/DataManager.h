@@ -157,9 +157,13 @@ public:
     // 陌生人刷新计时
     CC_SYNTHESIZE(time_t, _refreshTimeStampe, RefreshTimeStampe);
     
-    // 聊天计时
-    CC_SYNTHESIZE(time_t, _beginTime, BeginTime);
-    //
+    // 记录最近连续发言的次数
+    CC_SYNTHESIZE(int, _chatInterval, ChatInterval);
+    // 最近三次发言的时间差之和
+    CC_SYNTHESIZE(time_t, _deltaTime, DeltaTime);
+    // 最近发言的时间
+    CC_SYNTHESIZE(time_t, _lastTime, LastTime);
+    // 是否退出了聊天
     CC_SYNTHESIZE(bool, _chatOut, ChatOut);
     
     bool could_prduce();
