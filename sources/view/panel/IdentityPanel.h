@@ -47,6 +47,8 @@ private:
     void onCheckSex(CCMenuItem* btn);
     void onCommit(CCMenuItem* btn);
     
+    void nc_commit_identity_325(CCObject* pObj);
+    
 private:
     int num_child;
     

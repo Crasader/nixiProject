@@ -8,8 +8,10 @@
 
 #include "IdentityPanel.h"
 #include "DisplayManager.h"
+#include "NetManager.h"
 #include "DataManager.h"
 
+#include "Loading2.h"
 #include "PromptLayer.h"
 
 
@@ -139,11 +141,14 @@ void IdentityPanel::onEnter() {
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
     
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&IdentityPanel::nc_commit_identity_325), "HTTP_FINISHED_325", NULL);
+    
     this->create_panel();
     this->do_enter();
     
     this->scheduleOnce(SEL_SCHEDULE(&IdentityPanel::keyBackStatus), .8f);
 }
+
 void IdentityPanel::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
@@ -178,8 +183,8 @@ void IdentityPanel::do_enter() {
     _panel->setScale(0.3f);
     //
     float duration = 0.5f;
-    CCEaseBounce* moveto = CCEaseBounce::create(CCMoveTo::create(duration, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.6)));
-    CCEaseBounce* scaleto = CCEaseBounce::create(CCScaleTo::create(duration, 1.0));
+    CCEaseElasticOut* moveto = CCEaseElasticOut::create(CCMoveTo::create(duration, ccp(DISPLAY->halfW(), DISPLAY->H() * 0.6)));
+    CCEaseElasticOut* scaleto = CCEaseElasticOut::create(CCScaleTo::create(duration, 1.0));
     CCSpawn* spawn = CCSpawn::create(moveto, scaleto, NULL);
     _panel->runAction(CCEaseBounce::create(spawn));
 }
@@ -187,8 +192,8 @@ void IdentityPanel::do_enter() {
 void IdentityPanel::do_exit() {
     float duration = 0.5f;
     CCMoveTo* moveto = CCMoveTo::create(duration, _enter_pos);
-    CCEaseBounce* seq = CCEaseBounce::create(CCSequence::create(moveto, CCCallFunc::create(this, SEL_CallFunc(&IdentityPanel::remove)), NULL));
-    CCEaseBounce* scaleto = CCEaseBounce::create(CCScaleTo::create(duration, 0.3));
+    CCEaseElasticOut* seq = CCEaseElasticOut::create(CCSequence::create(moveto, CCCallFunc::create(this, SEL_CallFunc(&IdentityPanel::remove)), NULL));
+    CCEaseElasticOut* scaleto = CCEaseElasticOut::create(CCScaleTo::create(duration, 0.3));
     CCSpawn* spawn = CCSpawn::create(seq, scaleto, NULL);
     _panel->runAction(spawn);
 }
@@ -306,8 +311,38 @@ void IdentityPanel::onCheckSex(cocos2d::CCMenuItem *btn) {
 
 void IdentityPanel::onCommit(CCMenuItem *btn) {
     if (this->checkFilled()) {
-        
+        LOADING->show_loading();
+        NET->commit_identity_325();
     }
+}
+
+void IdentityPanel::nc_commit_identity_325(CCObject *pObj) {
+    LOADING->remove();
+    
+    CCDictionary* reward = dynamic_cast<CCDictionary*>(pObj);
+    CCString* type = (CCString* )reward->valueForKey("type");
+    CCInteger* num = (CCInteger*)reward->objectForKey("num");
+    
+    CCDictionary* postData = CCDictionary::create();
+    postData->setObject(CCInteger::create(num->getValue()), "num");
+    CCString* from = CCString::createWithFormat("{%f,%f}", DISPLAY->halfW(), DISPLAY->halfH());
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    
+    if (type->compare("coin") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_COIN_FLY", postData);
+    }
+    else if (type->compare("diam") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+    }
+    else if (type->compare("energy") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_ENERGY_FLY", postData);
+    }
+    else if (type->compare("piece") == 0) {
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
+    }
+    
+    this->do_exit();
 }
 
 void IdentityPanel::keyBackClicked(){

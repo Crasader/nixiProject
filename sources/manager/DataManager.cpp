@@ -724,6 +724,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 奖励信息
             pData = AppUtil::dictionary_with_json(content["reward"]);
         } break;
+            
+        case 325: {
+            _player->init_with_json(content["player"]);
+            // 奖励信息
+            pData = AppUtil::dictionary_with_json(content["reward"]);
+        } break;
+        
         
         case 333: {
             _player->init_with_json(content["player"]);

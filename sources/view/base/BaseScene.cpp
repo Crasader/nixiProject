@@ -24,7 +24,8 @@
 
 #include "ChatBar.h"
 #include "ChatPanel.h"
-#include "CCShake.h"
+//#include "CCShake.h"
+#include "AppUtil.h"
 
 
 BaseScene::~BaseScene(){
@@ -122,10 +123,21 @@ void BaseScene::init_UI(){
     // 完善资料获取钻石提示
     if (! DATA->getPlayer()->hasCommitIdentity()) {
         CCSprite* freeDiam = CCSprite::create("pic/baseScene/free_diam.png");
-        freeDiam->setPosition(ccp(nameSpr1->getContentSize().width * 0.1, nameSpr1->getContentSize().height * 0.8));
-        freeDiam->setScale(0.6f);
-        nameSpr1->addChild(freeDiam, 10);
-        freeDiam->runAction(CCRepeatForever::create( CCShake::create(1, 2)) );
+        freeDiam->setPosition(ccp(nameSpr1->getContentSize().width * 0.08, nameSpr1->getContentSize().height * 0.8));
+        freeDiam->setScale(0.66f);
+        nameItem->addChild(freeDiam, 10);
+//        freeDiam->runAction(CCRepeatForever::create( CCShake::create(1, 2)) );
+        
+        CCSprite* freeDiam2 = AppUtil::get_self_sprite("pic/baseScene/free_diam.png");
+        freeDiam->addChild(freeDiam2);
+        freeDiam2->runAction(CCRepeatForever::create(AppUtil::action_expand_fade_out()));
+        
+        CCSprite* flash = CCSprite::create("pic/baseScene/diam_flash.png");
+        flash->setPosition(ccp(nameSpr1->getContentSize().width * 0.1, nameSpr1->getContentSize().height * 0.8));
+        flash->setScale(0.6f);
+        freeDiam->addChild(flash);
+        CCSequence* seq = CCSequence::create(CCFadeOut::create(0.8), CCDelayTime::create(0.4), CCFadeIn::create(0.8), CCDelayTime::create(0.4), NULL);
+        flash->runAction(CCRepeatForever::create(seq));
     }
 
     
