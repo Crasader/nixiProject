@@ -326,9 +326,10 @@ void RankListView::onAddFriend(CCInteger* pIdx) {
 
 void RankListView::tobeFriend_callback_803(){
     if (_selectedIndex >= 0) {
-        _tv->updateCellAtIndex(_selectedIndex);
         ShowComp* other = (ShowComp* )_datasource->objectAtIndex(_selectedIndex);
         other->isadd = 1;
+        //
+        _tv->updateCellAtIndex(_selectedIndex);
     }
     
     PromptLayer* tip = PromptLayer::create();
