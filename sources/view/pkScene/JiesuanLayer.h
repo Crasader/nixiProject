@@ -103,6 +103,8 @@ public:
     void creatAnimation();
     void creat_view();
     void creat_jiesuan();
+    void creat_nameKuang();
+    void creat_lingqu(CCMenuItem* item, int type);
     
     void creat_Man1();
     void creat_Man2();
@@ -110,6 +112,7 @@ public:
     
     
     void lingquCallback(CCObject* pSender);
+    void lingquCallback2(float dt);
 };
 
 

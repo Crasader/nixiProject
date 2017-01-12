@@ -9,14 +9,13 @@
 #include "JiesuanLayer.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
-#include "MainScene.h"
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
-
+#include "RankListScene.h"
 
 
 JiesuanLayer::JiesuanLayer(){
@@ -102,6 +101,7 @@ void JiesuanLayer::init_with_Layer(int selfTempScore, int opponentTempScore, int
     
     this->creatAnimation();
     this->creat_view();
+    this->creat_nameKuang();
     
     this->creat_Man1();
     this->creat_Man2();
@@ -166,6 +166,31 @@ void JiesuanLayer::creat_view(){
     huangguanSpr->addChild(scoreLabel2, 1);
     
 }
+void JiesuanLayer::creat_nameKuang(){
+    CCSprite* nameKuangSpr1 = CCSprite::create("res/pic/pk/pk_kuang7.png");
+    nameKuangSpr1->setAnchorPoint(ccp(.5f, 1.f));
+    nameKuangSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .22f, DISPLAY->ScreenHeight() - 15.f));
+    this->addChild(nameKuangSpr1, 5);
+    
+    CCString* nameStr1 = CCString::createWithFormat("%s", selfItem->getNickname().c_str());
+    CCLabelTTF* nameLabel1 = CCLabelTTF::create(nameStr1->getCString(), DISPLAY->fangzhengFont(), 27, CCSizeMake(nameKuangSpr1->getContentSize().width* .8f, 27), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    nameLabel1->setPosition(ccp(nameKuangSpr1->getContentSize().width* .56f, nameKuangSpr1->getContentSize().height* .5f));
+    nameLabel1->setColor(ccc3(191, 71, 99));
+    nameKuangSpr1->addChild(nameLabel1);
+    
+    
+    CCSprite* nameKuangSpr2 = CCSprite::create("res/pic/pk/pk_kuang7.png");
+    nameKuangSpr2->setFlipX(true);
+    nameKuangSpr2->setAnchorPoint(ccp(.5f, 1.f));
+    nameKuangSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .78f, DISPLAY->ScreenHeight() - 15.f));
+    this->addChild(nameKuangSpr2, 5);
+    
+    CCString* nameStr2 = CCString::createWithFormat("%s", opponentItem->getNickname().c_str());
+    CCLabelTTF* nameLabel2 = CCLabelTTF::create(nameStr2->getCString(), DISPLAY->fangzhengFont(), 27, CCSizeMake(nameKuangSpr1->getContentSize().width* .8f, 27), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    nameLabel2->setPosition(ccp(nameKuangSpr2->getContentSize().width* .45f, nameKuangSpr2->getContentSize().height* .5f));
+    nameLabel2->setColor(ccc3(191, 71, 99));
+    nameKuangSpr2->addChild(nameLabel2);
+}
 
 void JiesuanLayer::creat_jiesuan(){
     CCSprite* jiesuanSpr1 = CCSprite::create("res/pic/pk/jiesuan/pk_diban.png");
@@ -189,6 +214,7 @@ void JiesuanLayer::creat_jiesuan(){
     this->addChild(menu, 20);
     
     
+    
     if (selfScore > opponentScore) {
         CCSprite* jiesuanSpr2 = CCSprite::create("res/pic/pk/jiesuan/pk_shengli.png");
         jiesuanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .47f, DISPLAY->ScreenHeight()* .65f));
@@ -200,6 +226,8 @@ void JiesuanLayer::creat_jiesuan(){
         CCAnimation* jiesuanXingAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("jiesuanXingStr");
         CCAnimate* jiesuanXingAnimate = CCAnimate::create(jiesuanXingAnimation);
         jiesuanXingSpr->runAction(CCRepeatForever::create(jiesuanXingAnimate));
+        
+        this->creat_lingqu(lingquItem, 1);
     }else if (selfScore < opponentScore){
         CCSprite* jiesuanSpr2 = CCSprite::create("res/pic/pk/jiesuan/pk_shibai.png");
         jiesuanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .53f, DISPLAY->ScreenHeight()* .65f));
@@ -220,7 +248,7 @@ void JiesuanLayer::creat_jiesuan(){
         CCAnimate* rightSuiAnimate = CCAnimate::create(rightSuiAnimation);
         rightSuiSpr->runAction(CCRepeatForever::create(rightSuiAnimate));
         
-        
+        this->creat_lingqu(lingquItem, 2);
     }else if (selfScore == opponentScore){
         CCSprite* jiesuanSpr2 = CCSprite::create("res/pic/pk/jiesuan/pk_pingju.png");
         jiesuanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .65f));
@@ -232,15 +260,22 @@ void JiesuanLayer::creat_jiesuan(){
         CCAnimation* jiesuanXingAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("jiesuanXingStr");
         CCAnimate* jiesuanXingAnimate = CCAnimate::create(jiesuanXingAnimation);
         jiesuanXingSpr->runAction(CCRepeatForever::create(jiesuanXingAnimate));
+        
+        this->creat_lingqu(lingquItem, 0);
     }
-    
-    
-    
 }
 
 void JiesuanLayer::lingquCallback(CCObject* pSender){
     
+    LOADING->show_loading();
+    this->scheduleOnce(SEL_SCHEDULE(&JiesuanLayer::lingquCallback2), .5f);
+}
+void JiesuanLayer::lingquCallback2(float dt){
+    LOADING->remove();
     
+    CCScene* scene = RankListScene::scene();
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 
@@ -918,7 +953,53 @@ void JiesuanLayer::initClothes(CCClippingNode* _ManSpr, float widthFolt, float h
 
 
 
-
+void JiesuanLayer::creat_lingqu(CCMenuItem* item, int type){
+    CCArray* ruleArr = themeInfo->getRule();
+    
+    if (type == 1) {
+        CCDictionary* slDic = (CCDictionary* )ruleArr->objectAtIndex(0);
+        CCInteger* slScoreInteger = (CCInteger* )slDic->objectForKey("score");
+        CCInteger* slNumInteger = (CCInteger* )slDic->objectForKey("num");
+        CCString* slStr2 = (CCString* )slDic->objectForKey("type");
+        CCString* slStr = CCString::createWithFormat("%d分%d", slScoreInteger->getValue(), slNumInteger->getValue());
+        CCLabelTTF* slScore = CCLabelTTF::create(slStr->getCString(), DISPLAY->fangzhengFont(), 22);
+        slScore->setPosition(ccp(item->getContentSize().width* .45f, item->getContentSize().height* .35f));
+        slScore->setColor(ccc3(201, 128, 110));
+        item->addChild(slScore);
+        if (strcmp(slStr2->getCString(), "diam") == 0) {// 钻石
+            CCSprite* goldSpr = CCSprite::create("res/pic/pk/pk_gold.png");
+            goldSpr->setScale(.9f);
+            goldSpr->setPosition(ccp(slScore->getContentSize().width + 10, slScore->getContentSize().height* .5f));
+            slScore->addChild(goldSpr);
+        }else if (strcmp(slStr2->getCString(), "coin") == 0){// 金币
+            CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
+            coinSpr->setScale(.6f);
+            coinSpr->setPosition(ccp(slScore->getContentSize().width + 10, slScore->getContentSize().height* .52f));
+            slScore->addChild(coinSpr);
+        }else if (strcmp(slStr2->getCString(), "piece") == 0){// 碎片
+            CCSprite* debrisSpr = CCSprite::create("res/pic/clothesScene/gj_debris.png");
+            debrisSpr->setScale(.6f);
+            debrisSpr->setPosition(ccp(slScore->getContentSize().width + 10, slScore->getContentSize().height* .52f));
+            slScore->addChild(debrisSpr);
+        }
+    }else if (type == 2){
+        CCDictionary* pjDic = (CCDictionary* )ruleArr->objectAtIndex(1);
+        CCInteger* pjScoreInteger = (CCInteger* )pjDic->objectForKey("score");
+        CCString* pjStr = CCString::createWithFormat("%d分", pjScoreInteger->getValue());
+        CCLabelTTF* pjScore = CCLabelTTF::create(pjStr->getCString(), DISPLAY->fangzhengFont(), 22);
+        pjScore->setPosition(ccp(item->getContentSize().width* .5f, item->getContentSize().height* .35f));
+        pjScore->setColor(ccc3(201, 128, 110));
+        item->addChild(pjScore);
+    }else if (type == 0){
+        CCDictionary* sbDic = (CCDictionary* )ruleArr->objectAtIndex(2);
+        CCInteger* sbScoreInteger = (CCInteger* )sbDic->objectForKey("score");
+        CCString* sbStr = CCString::createWithFormat("%d分", sbScoreInteger->getValue());
+        CCLabelTTF* sbScore = CCLabelTTF::create(sbStr->getCString(), DISPLAY->fangzhengFont(), 22);
+        sbScore->setPosition(ccp(item->getContentSize().width* .5f, item->getContentSize().height* .35f));
+        sbScore->setColor(ccc3(201, 128, 110));
+        item->addChild(sbScore);
+    }
+}
 
 
 

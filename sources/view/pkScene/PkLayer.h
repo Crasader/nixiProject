@@ -70,6 +70,9 @@ public:
     
     virtual bool init();
     static CCScene* scene();
+    
+    static PkLayer* create_with_Layer(int selfIndex1, int selfIndex2, int opponentIndex1, int opponentIndex2);
+    void init_with_Layer(int selfIndex1, int selfIndex2, int opponentIndex1, int opponentIndex2);
     CREATE_FUNC(PkLayer);
     
     virtual void onEnter();
@@ -121,6 +124,11 @@ public:
     
 public:
     int num_child;
+    
+    int temSelfIndex1;
+    int temSelfIndex2;
+    int temOpponentIndex1;
+    int temOpponentIndex2;
     
     int bgIndex;
     int selfScore;

@@ -117,6 +117,10 @@ public:
     
 public:
     int num_child;
+    int temSelfIndex1;
+    int temSelfIndex2;
+    int temOpponentIndex1;
+    int temOpponentIndex2;
     
     CCDictionary* allClothesDic;
     
