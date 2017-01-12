@@ -317,10 +317,10 @@ void PkLayer::creatScoreKuang(int type){
     CCSprite* dapeiSpr2_2;
     bool actionBool = false;
     if (type == 1) {// 搭配
-        selfIndex1 = 999;
-        opponentIndex1 = 888;
-        tempSelfScore = 999;
-        tempOpponentScore = 888;
+        selfIndex1 = selfItem->getMatch();
+        opponentIndex1 = opponentItem->getMatch();
+        tempSelfScore = selfItem->getMatch();
+        tempOpponentScore = opponentItem->getMatch();
         if (tempSelfScore > tempOpponentScore) {
             actionBool = true;
         }else{
@@ -331,10 +331,10 @@ void PkLayer::creatScoreKuang(int type){
         dapeiSpr2_1 = CCSprite::create("res/pic/pk/pk_dapei2.png");
         dapeiSpr2_2 = CCSprite::create("res/pic/pk/pk_dapei1.png");
     }else if (type == 2){// 魅力
-        selfIndex2 = 333;
-        opponentIndex2 = 555;
-        tempSelfScore = 333;
-        tempOpponentScore = 555;
+        selfIndex2 = selfItem->getCharm();
+        opponentIndex2 = opponentItem->getCharm();
+        tempSelfScore = selfItem->getCharm();
+        tempOpponentScore = opponentItem->getCharm();
         if (tempSelfScore > tempOpponentScore) {
             actionBool = true;
         }else{
@@ -345,10 +345,10 @@ void PkLayer::creatScoreKuang(int type){
         dapeiSpr2_1 = CCSprite::create("res/pic/pk/pk_meili2.png");
         dapeiSpr2_2 = CCSprite::create("res/pic/pk/pk_meili1.png");
     }else if (type == 3){// 人气
-        selfIndex3 = 222;
-        opponentIndex3 = 115;
-        tempSelfScore = 222;
-        tempOpponentScore = 115;
+        selfIndex3 = selfItem->getPuplar();
+        opponentIndex3 = opponentItem->getPuplar();
+        tempSelfScore = selfItem->getPuplar();
+        tempOpponentScore = opponentItem->getPuplar();
         if (tempSelfScore > tempOpponentScore) {
             actionBool = true;
         }else{
@@ -359,10 +359,10 @@ void PkLayer::creatScoreKuang(int type){
         dapeiSpr2_1 = CCSprite::create("res/pic/pk/pk_renqi2.png");
         dapeiSpr2_2 = CCSprite::create("res/pic/pk/pk_renqi1.png");
     }else if (type == 4){// 幸运
-        selfIndex4 = 123;
-        opponentIndex4 = 122;
-        tempSelfScore = 123;
-        tempOpponentScore = 122;
+        selfIndex4 = selfItem->getLuck();
+        opponentIndex4 = opponentItem->getLuck();
+        tempSelfScore = selfItem->getLuck();
+        tempOpponentScore = opponentItem->getLuck();
         if (tempSelfScore > tempOpponentScore) {
             actionBool = true;
         }else{
@@ -669,10 +669,14 @@ void PkLayer::jiesuanAnimation(CCSprite* spr, FlashNumberLabel* label, int type)
     }
 }
 void PkLayer::creatJiesuan2(){
-    int temSelfIndex1 = 1;
-    int temSelfIndex2 = 10;
-    int temOpponentIndex1 = 4;
-    int temOpponentIndex2 = 10;
+//    int a = 230;
+//    CCLog(" == %d", a/100); 2
+//    CCLog(" == %d", a%100); 30
+    
+    int temSelfIndex1 = selfItem->getBuffId()/100;
+    int temSelfIndex2 = selfItem->getBuffId()%100;
+    int temOpponentIndex1 = opponentItem->getBuffedId()/100;
+    int temOpponentIndex2 = opponentItem->getBuffedId()%100;
     
     if (temSelfIndex1 == 1) {
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x111);
@@ -1339,8 +1343,8 @@ void PkLayer::creat_Man1(){
     holesClipper->addChild(touSpr, 210);
     
     
-//    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
-//    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
+    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 void PkLayer::creat_Man2(){
     float widthFolt = .91f;
@@ -1399,8 +1403,8 @@ void PkLayer::creat_Man2(){
     holesClipper->addChild(touSpr, 210);
     
     
-//    CCDictionary* clothesDic = opponentItem->getOndress(); // 男宠衣着
-//    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
+    CCDictionary* clothesDic = opponentItem->getOndress(); // 男宠衣着
+    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 
 void PkLayer::initClothes(CCClippingNode* _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* myClothesTemp){//穿衣服
