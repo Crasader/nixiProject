@@ -1107,7 +1107,14 @@ void PkLayer::creatJiesuan3(){
         scaleTo2 = CCScaleTo::create(.3f, 1.1f);
         scaleTo3 = CCScaleTo::create(.5f, 1.05f);
         scaleTo4 = CCScaleTo::create(.3f, 1.f);
-    }else{
+    }else if (selfScore == opponentScore){
+        jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
+        jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
+        scaleTo1 = CCScaleTo::create(.5f, 1.05f);
+        scaleTo2 = CCScaleTo::create(.3f, 1.f);
+        scaleTo3 = CCScaleTo::create(.5f, 1.05f);
+        scaleTo4 = CCScaleTo::create(.3f, 1.1f);
+    }else if (selfScore < opponentScore) {
         jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
         jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/jiesuan/pk_number.png", 26, 35, '0');
         scaleTo1 = CCScaleTo::create(.5f, 1.05f);
