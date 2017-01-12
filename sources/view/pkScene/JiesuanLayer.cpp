@@ -100,9 +100,6 @@ void JiesuanLayer::init_with_Layer(int selfTempScore, int opponentTempScore, int
     opponentScore = opponentTempScore;
     bgIndex = index;
     
-    selfScore = 755;
-    opponentScore = 777;
-    
     this->creatAnimation();
     this->creat_view();
     
@@ -323,8 +320,8 @@ void JiesuanLayer::creat_Man1(){
     touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
-//    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
-//    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
+    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 void JiesuanLayer::creat_Man2(){
     
@@ -405,8 +402,8 @@ void JiesuanLayer::creat_Man2(){
     touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
-//    CCDictionary* clothesDic = opponentItem->getOndress(); // 男宠衣着
-//    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
+    CCDictionary* clothesDic = opponentItem->getOndress(); // 男宠衣着
+    this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 
 void JiesuanLayer::initClothes(CCClippingNode* _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* myClothesTemp){//穿衣服
