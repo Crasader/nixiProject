@@ -926,7 +926,7 @@ void pkScene::creat_Man1()
     holesClipper->addChild(touSpr, 210);
     
     
-    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    CCDictionary* clothesDic = DATA->getCompetition()->getSelf()->getOndress();
     this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 

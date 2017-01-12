@@ -355,7 +355,7 @@ void JiesuanLayer::creat_Man1(){
     touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
-    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    CCDictionary* clothesDic = DATA->getCompetition()->getSelf()->getOndress();
     this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 void JiesuanLayer::creat_Man2(){

@@ -154,6 +154,12 @@ void RankListScene::createUI(){
     CCMenu* menuPlate = CCMenu::createWithItem(btnPlate);
     menuPlate->setPosition(ccp(-4, - sptPlate1->getContentSize().height * 0.125));
     tiny->addChild(menuPlate);
+    
+    // 自个分数
+    CCString* strScore = CCString::createWithFormat("分数: %d", DATA->getShow()->competition());
+    CCLabelTTF* lblScore = CCLabelTTF::create(strScore->getCString(), DISPLAY->fangzhengFont(), 22);
+    lblScore->setPosition(ccp(sptPlate1->getContentSize().width * 0.5f, sptPlate1->getContentSize().height * 0.23f));
+    btnPlate->addChild(lblScore);
 }
 
 void RankListScene::gotoPkScene(CCMenuItem *btn) {
