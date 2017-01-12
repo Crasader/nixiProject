@@ -506,7 +506,22 @@ void pkScene::_821Callback(CCObject *pObj){
         node->removeAllChildren();
         this->removeChildByTag(0x99999);
     }
+    if (this->getChildByTag(0x88888) != NULL) {
+        this->removeChildByTag(0x88888);
+    }
+    
     selfItem = DATA->getCompetition()->getSelf();
+    opponentItem = DATA->getCompetition()->getOpponent();
+    kuangSpr2_3->removeAllChildren();
+    
+    hzItem->setVisible(false);
+    hhItem->setVisible(false);
+    startItem->setVisible(true);
+    zhufuItem->setVisible(true);
+    
+    this->creatName2(kuangSpr2_3, opponentItem);
+    
+    this->creat_Man2();
     this->creatKuangButton();
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
 }
