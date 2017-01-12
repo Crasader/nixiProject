@@ -1239,8 +1239,16 @@ void PkLayer::creatJiesuan3(){
     
     CCSequence* seq3 = CCSequence::create(scaleTo3, scaleTo4, NULL);
     CCSpawn* spawn2 = CCSpawn::create(CCShow::create(), seq3, NULL);
-    CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::creatJiesuan4));
-    CCSequence* seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, callFuncN, NULL);
+    CCSequence* seq4;
+    if (selfScore > opponentScore) {
+        CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::creatJiesuan4));
+        seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, callFuncN, NULL);
+    }else if (selfScore == opponentScore){
+        seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, NULL);
+    }else if (selfScore < opponentScore) {
+        CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::creatJiesuan4));
+        seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, callFuncN, NULL);
+    }
     jiesuanScoreLabel2->runAction(seq4);
     
     
