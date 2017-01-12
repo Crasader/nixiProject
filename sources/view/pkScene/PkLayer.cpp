@@ -40,6 +40,21 @@ bool PkLayer::init(){
     selfItem = DATA->getCompetition()->getSelf();
     opponentItem = DATA->getCompetition()->getOpponent();
     
+    return true;
+}
+PkLayer* PkLayer::create_with_Layer(int selfIndex1, int selfIndex2, int opponentIndex1, int opponentIndex2){
+    PkLayer* rtn = PkLayer::create();
+    rtn->init_with_Layer(selfIndex1, selfIndex2, opponentIndex1, opponentIndex2);
+    
+    return rtn;
+}
+void PkLayer::init_with_Layer(int selfIndex1, int selfIndex2, int opponentIndex1, int opponentIndex2){
+    
+    temSelfIndex1 = selfIndex1;
+    temSelfIndex2 = selfIndex2;
+    temOpponentIndex1 = opponentIndex1;
+    temOpponentIndex2 = opponentIndex2;
+    
     this->creatAnimation();
     
     this->creat_view();
@@ -54,9 +69,9 @@ bool PkLayer::init(){
     
     
     this->scheduleOnce(SEL_SCHEDULE(&PkLayer::creatScoreAnimation1), .5f);
-    
-    return true;
 }
+
+
 void PkLayer::creatAnimation(){
     CCArray* arrowAnimations = CCArray::createWithCapacity(10);
     char arrowStr[100] = {};
@@ -201,7 +216,8 @@ void PkLayer::creat_nameKuang(){
     nameKuangSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .22f, DISPLAY->ScreenHeight() - 15.f));
     this->addChild(nameKuangSpr1, 5);
     
-    CCLabelTTF* nameLabel1 = CCLabelTTF::create("mingzimdms", DISPLAY->fangzhengFont(), 27, CCSizeMake(nameKuangSpr1->getContentSize().width* .7f, 27), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCString* nameStr1 = CCString::createWithFormat("%s", selfItem->getNickname().c_str());
+    CCLabelTTF* nameLabel1 = CCLabelTTF::create(nameStr1->getCString(), DISPLAY->fangzhengFont(), 27, CCSizeMake(nameKuangSpr1->getContentSize().width* .8f, 27), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     nameLabel1->setPosition(ccp(nameKuangSpr1->getContentSize().width* .56f, nameKuangSpr1->getContentSize().height* .5f));
     nameLabel1->setColor(ccc3(191, 71, 99));
     nameKuangSpr1->addChild(nameLabel1);
@@ -213,7 +229,8 @@ void PkLayer::creat_nameKuang(){
     nameKuangSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .78f, DISPLAY->ScreenHeight() - 15.f));
     this->addChild(nameKuangSpr2, 5);
     
-    CCLabelTTF* nameLabel2 = CCLabelTTF::create("mingzimdms", DISPLAY->fangzhengFont(), 27, CCSizeMake(nameKuangSpr1->getContentSize().width* .7f, 27), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCString* nameStr2 = CCString::createWithFormat("%s", opponentItem->getNickname().c_str());
+    CCLabelTTF* nameLabel2 = CCLabelTTF::create(nameStr2->getCString(), DISPLAY->fangzhengFont(), 27, CCSizeMake(nameKuangSpr1->getContentSize().width* .8f, 27), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     nameLabel2->setPosition(ccp(nameKuangSpr2->getContentSize().width* .45f, nameKuangSpr2->getContentSize().height* .5f));
     nameLabel2->setColor(ccc3(191, 71, 99));
     nameKuangSpr2->addChild(nameLabel2);
@@ -224,7 +241,21 @@ void PkLayer::creat_zhufuKuang(){
     zhufuKuangSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 3, 2.f));
     this->addChild(zhufuKuangSpr1, 5);
     
-    CCLabelTTF* zhufuLabel1 = CCLabelTTF::create("魅力增加50%", DISPLAY->fangzhengFont(), 25, CCSizeMake(zhufuKuangSpr1->getContentSize().width* .9f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCString* zhufuStr1;
+    if (temSelfIndex1 == 1) {// 搭配
+        zhufuStr1 = CCString::createWithFormat("搭配增加%d%%", temSelfIndex2);
+    }else if (temSelfIndex1 == 2){// 人气
+        zhufuStr1 = CCString::createWithFormat("人气增加%d%%", temSelfIndex2);
+    }else if (temSelfIndex1 == 3){// 魅力
+        zhufuStr1 = CCString::createWithFormat("魅力增加%d%%", temSelfIndex2);
+    }else if (temSelfIndex1 == 4){// 运气
+        zhufuStr1 = CCString::createWithFormat("运气增加%d%%", temSelfIndex2);
+    }else if (temSelfIndex1 == 5){// 总分
+        zhufuStr1 = CCString::createWithFormat("总分增加%d%%", temSelfIndex2);
+    }else{
+        zhufuStr1 = CCString::createWithFormat("无");
+    }
+    CCLabelTTF* zhufuLabel1 = CCLabelTTF::create(zhufuStr1->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(zhufuKuangSpr1->getContentSize().width* .9f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     zhufuLabel1->setPosition(ccp(zhufuKuangSpr1->getContentSize().width* .5f, zhufuKuangSpr1->getContentSize().height* .46f));
     zhufuLabel1->setColor(ccc3(231, 161, 127));
     zhufuKuangSpr1->addChild(zhufuLabel1);
@@ -236,7 +267,21 @@ void PkLayer::creat_zhufuKuang(){
     zhufuKuangSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 3, 2.f));
     this->addChild(zhufuKuangSpr2, 5);
     
-    CCLabelTTF* zhufuLabel2 = CCLabelTTF::create("魅力增加20%", DISPLAY->fangzhengFont(), 25, CCSizeMake(zhufuKuangSpr2->getContentSize().width* .9f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCString* zhufuStr2;
+    if (temOpponentIndex1 == 1) {// 搭配
+        zhufuStr2 = CCString::createWithFormat("搭配增加%d%%", temOpponentIndex2);
+    }else if (temOpponentIndex1 == 2){// 人气
+        zhufuStr2 = CCString::createWithFormat("人气增加%d%%", temOpponentIndex2);
+    }else if (temOpponentIndex1 == 3){// 魅力
+        zhufuStr2 = CCString::createWithFormat("魅力增加%d%%", temOpponentIndex2);
+    }else if (temOpponentIndex1 == 4){// 运气
+        zhufuStr2 = CCString::createWithFormat("运气增加%d%%", temOpponentIndex2);
+    }else if (temOpponentIndex1 == 5){// 总分
+        zhufuStr2 = CCString::createWithFormat("总分增加%d%%", temOpponentIndex2);
+    }else{
+        zhufuStr2 = CCString::createWithFormat("无");
+    }
+    CCLabelTTF* zhufuLabel2 = CCLabelTTF::create(zhufuStr2->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(zhufuKuangSpr2->getContentSize().width* .9f, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     zhufuLabel2->setPosition(ccp(zhufuKuangSpr2->getContentSize().width* .5f, zhufuKuangSpr2->getContentSize().height* .46f));
     zhufuLabel2->setColor(ccc3(231, 161, 127));
     zhufuKuangSpr2->addChild(zhufuLabel2);
@@ -315,16 +360,18 @@ void PkLayer::creatScoreKuang(int type){
     CCSprite* dapeiSpr1_2;
     CCSprite* dapeiSpr2_1;
     CCSprite* dapeiSpr2_2;
-    bool actionBool = false;
+    int actionIndex = 0;
     if (type == 1) {// 搭配
         selfIndex1 = selfItem->getMatch();
         opponentIndex1 = opponentItem->getMatch();
         tempSelfScore = selfItem->getMatch();
         tempOpponentScore = opponentItem->getMatch();
         if (tempSelfScore > tempOpponentScore) {
-            actionBool = true;
+            actionIndex = 1;
+        }else if (tempSelfScore == tempOpponentScore){
+            actionIndex = 2;
         }else{
-            actionBool = false;
+            actionIndex = 0;
         }
         dapeiSpr1_1 = CCSprite::create("res/pic/pk/pk_dapei2.png");
         dapeiSpr1_2 = CCSprite::create("res/pic/pk/pk_dapei1.png");
@@ -336,9 +383,11 @@ void PkLayer::creatScoreKuang(int type){
         tempSelfScore = selfItem->getCharm();
         tempOpponentScore = opponentItem->getCharm();
         if (tempSelfScore > tempOpponentScore) {
-            actionBool = true;
+            actionIndex = 1;
+        }else if (tempSelfScore == tempOpponentScore){
+            actionIndex = 2;
         }else{
-            actionBool = false;
+            actionIndex = 0;
         }
         dapeiSpr1_1 = CCSprite::create("res/pic/pk/pk_meili2.png");
         dapeiSpr1_2 = CCSprite::create("res/pic/pk/pk_meili1.png");
@@ -350,9 +399,11 @@ void PkLayer::creatScoreKuang(int type){
         tempSelfScore = selfItem->getPuplar();
         tempOpponentScore = opponentItem->getPuplar();
         if (tempSelfScore > tempOpponentScore) {
-            actionBool = true;
+            actionIndex = 1;
+        }else if (tempSelfScore == tempOpponentScore){
+            actionIndex = 2;
         }else{
-            actionBool = false;
+            actionIndex = 0;
         }
         dapeiSpr1_1 = CCSprite::create("res/pic/pk/pk_renqi2.png");
         dapeiSpr1_2 = CCSprite::create("res/pic/pk/pk_renqi1.png");
@@ -364,9 +415,11 @@ void PkLayer::creatScoreKuang(int type){
         tempSelfScore = selfItem->getLuck();
         tempOpponentScore = opponentItem->getLuck();
         if (tempSelfScore > tempOpponentScore) {
-            actionBool = true;
+            actionIndex = 1;
+        }else if (tempSelfScore == tempOpponentScore){
+            actionIndex = 2;
         }else{
-            actionBool = false;
+            actionIndex = 0;
         }
         dapeiSpr1_1 = CCSprite::create("res/pic/pk/pk_xingyun2.png");
         dapeiSpr1_2 = CCSprite::create("res/pic/pk/pk_xingyun1.png");
@@ -414,7 +467,7 @@ void PkLayer::creatScoreKuang(int type){
     CCMoveTo* moveTo2_4 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .4f));
     CCSequence* seq2_1 = CCSequence::create(moveTo2_1, moveTo2_2, moveTo2_3, moveTo2_4, NULL);
     
-    if (actionBool) {
+    if (actionIndex == 1) {
         //
         CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .8f));
         CCFadeOut* fadeOut1_1 = CCFadeOut::create(.3f);
@@ -446,7 +499,39 @@ void PkLayer::creatScoreKuang(int type){
         CCFadeOut* fadeOut2_3 = CCFadeOut::create(.3f);
         CCSequence* seq9 = CCSequence::create(CCDelayTime::create(.9f), CCDelayTime::create(.4f), fadeOut2_3, NULL);
         dapeiLabel2->runAction(seq9);
-    }else{
+    }else if (actionIndex == 2){
+        //
+        CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .55f));
+        CCFadeOut* fadeOut1 = CCFadeOut::create(.3f);
+        CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::updateScore));
+        CCSequence* seq1 = CCSequence::create(CCDelayTime::create(.5f), callFuncN, NULL);
+        CCSequence* seq2 = CCSequence::create(CCDelayTime::create(.4f), fadeOut1, NULL);
+        CCSpawn* spawn1 = CCSpawn::create(moveTo1, seq1, seq2, NULL);
+        CCSequence* seq3 = CCSequence::create(seq1_1, spawn1, NULL);
+        dapeiSpr1_1->runAction(seq3);
+        
+        CCFadeOut* fadeOut1_2 = CCFadeOut::create(.3f);
+        CCSequence* seq4 = CCSequence::create(CCDelayTime::create(.9f), CCDelayTime::create(.4f), fadeOut1_2, NULL);
+        dapeiSpr1_2->runAction(seq4);
+        CCFadeOut* fadeOut1_3 = CCFadeOut::create(.3f);
+        CCSequence* seq5 = CCSequence::create(CCDelayTime::create(.9f), CCDelayTime::create(.4f), fadeOut1_3, NULL);
+        dapeiLabel1->runAction(seq5);
+        
+        //
+        CCMoveTo* moveTo2 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .55f));
+        CCFadeOut* fadeOut2 = CCFadeOut::create(.3f);
+        CCSequence* seq6 = CCSequence::create(CCDelayTime::create(.4f), fadeOut2, NULL);
+        CCSpawn* spawn2 = CCSpawn::create(moveTo2, seq6, NULL);
+        CCSequence* seq7 = CCSequence::create(seq2_1, spawn2, NULL);
+        dapeiSpr2_1->runAction(seq7);
+        
+        CCFadeOut* fadeOut2_2 = CCFadeOut::create(.3f);
+        CCSequence* seq8 = CCSequence::create(CCDelayTime::create(.9f), CCDelayTime::create(.4f), fadeOut2_2, NULL);
+        dapeiSpr2_2->runAction(seq8);
+        CCFadeOut* fadeOut2_3 = CCFadeOut::create(.3f);
+        CCSequence* seq9 = CCSequence::create(CCDelayTime::create(.9f), CCDelayTime::create(.4f), fadeOut2_3, NULL);
+        dapeiLabel2->runAction(seq9);
+    }else if (actionIndex == 0) {
         //
         CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .55f));
         CCFadeOut* fadeOut1 = CCFadeOut::create(.3f);
@@ -516,7 +601,7 @@ void PkLayer::creatJiesuan(){
     
     
     // self
-    CCString* selfStr1 = CCString::createWithFormat("%d", 999);
+    CCString* selfStr1 = CCString::createWithFormat("%d", selfItem->getMatch());
 //    CCLabelAtlas* selfLabel1 = CCLabelAtlas::create(selfStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    selfLabel1->setVisible(false);
 //    selfLabel1->setScale(.2f);
@@ -533,7 +618,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(selfLabel1, 1);
     this->jiesuanAnimation(NULL, selfLabel1, 2);
     
-    CCString* selfStr2 = CCString::createWithFormat("%d", 333);
+    CCString* selfStr2 = CCString::createWithFormat("%d", selfItem->getPuplar());
 //    CCLabelAtlas* selfLabel2 = CCLabelAtlas::create(selfStr2->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    selfLabel2->setVisible(false);
 //    selfLabel2->setScale(.2f);
@@ -550,7 +635,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(selfLabel2, 1);
     this->jiesuanAnimation(NULL, selfLabel2, 2);
     
-    CCString* selfStr3 = CCString::createWithFormat("%d", 222);
+    CCString* selfStr3 = CCString::createWithFormat("%d", selfItem->getCharm());
 //    CCLabelAtlas* selfLabel3 = CCLabelAtlas::create(selfStr3->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    selfLabel3->setVisible(false);
 //    selfLabel3->setScale(.2f);
@@ -567,7 +652,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(selfLabel3, 1);
     this->jiesuanAnimation(NULL, selfLabel3, 2);
     
-    CCString* selfStr4 = CCString::createWithFormat("%d", 123);
+    CCString* selfStr4 = CCString::createWithFormat("%d", selfItem->getLuck());
 //    CCLabelAtlas* selfLabel4 = CCLabelAtlas::create(selfStr4->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    selfLabel4->setVisible(false);
 //    selfLabel4->setScale(.2f);
@@ -586,7 +671,7 @@ void PkLayer::creatJiesuan(){
     
     
     //opponent
-    CCString* opponentStr1 = CCString::createWithFormat("%d", 888);
+    CCString* opponentStr1 = CCString::createWithFormat("%d", opponentItem->getMatch());
 //    CCLabelAtlas* opponentLabel1 = CCLabelAtlas::create(opponentStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    opponentLabel1->setVisible(false);
 //    opponentLabel1->setScale(.2f);
@@ -603,7 +688,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(opponentLabel1, 1);
     this->jiesuanAnimation(NULL, opponentLabel1, 2);
     
-    CCString* opponentStr2 = CCString::createWithFormat("%d", 555);
+    CCString* opponentStr2 = CCString::createWithFormat("%d", opponentItem->getPuplar());
 //    CCLabelAtlas* opponentLabel2 = CCLabelAtlas::create(opponentStr2->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    opponentLabel2->setVisible(false);
 //    opponentLabel2->setScale(.2f);
@@ -620,7 +705,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(opponentLabel2, 1);
     this->jiesuanAnimation(NULL, opponentLabel2, 2);
     
-    CCString* opponentStr3 = CCString::createWithFormat("%d", 115);
+    CCString* opponentStr3 = CCString::createWithFormat("%d", opponentItem->getCharm());
 //    CCLabelAtlas* opponentLabel3 = CCLabelAtlas::create(opponentStr3->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    opponentLabel3->setVisible(false);
 //    opponentLabel3->setScale(.2f);
@@ -637,7 +722,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(opponentLabel3, 1);
     this->jiesuanAnimation(NULL, opponentLabel3, 2);
     
-    CCString* opponentStr4 = CCString::createWithFormat("%d", 122);
+    CCString* opponentStr4 = CCString::createWithFormat("%d", opponentItem->getLuck());
 //    CCLabelAtlas* opponentLabel4 = CCLabelAtlas::create(opponentStr4->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
 //    opponentLabel4->setVisible(false);
 //    opponentLabel4->setScale(.2f);
@@ -669,20 +754,13 @@ void PkLayer::jiesuanAnimation(CCSprite* spr, FlashNumberLabel* label, int type)
     }
 }
 void PkLayer::creatJiesuan2(){
-//    int a = 230;
-//    CCLog(" == %d", a/100); 2
-//    CCLog(" == %d", a%100); 30
-    
-    int temSelfIndex1 = selfItem->getBuffId()/100;
-    int temSelfIndex2 = selfItem->getBuffId()%100;
-    int temOpponentIndex1 = opponentItem->getBuffedId()/100;
-    int temOpponentIndex2 = opponentItem->getBuffedId()%100;
     
     if (temSelfIndex1 == 1) {
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x111);
-        CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(selfIndex1 += selfIndex1*(temSelfIndex2* 0.01)));
-        label1->set_new_number(scoreStr1->getCString());
-        
+        if (selfIndex1 > 0) {
+            CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(selfIndex1 += selfIndex1*(temSelfIndex2* 0.01)));
+            label1->set_new_number(scoreStr1->getCString());
+        }
         CCString* labStr1 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr1 = CCSprite::create(labStr1->getCString());
         labSpr1->setScale(.8f);
@@ -710,9 +788,10 @@ void PkLayer::creatJiesuan2(){
         leftXinStr1->runAction(CCRepeatForever::create(quanAnimate1));
     }else if (temSelfIndex1 == 2){
         FlashNumberLabel* label2 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x222);
-        CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(selfIndex2 += selfIndex2*(temSelfIndex2* 0.01)));
-        label2->set_new_number(scoreStr2->getCString());
-        
+        if (selfIndex2 > 0) {
+            CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(selfIndex2 += selfIndex2*(temSelfIndex2* 0.01)));
+            label2->set_new_number(scoreStr2->getCString());
+        }
         CCString* labStr2 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr2 = CCSprite::create(labStr2->getCString());
         labSpr2->setScale(.8f);
@@ -740,9 +819,10 @@ void PkLayer::creatJiesuan2(){
         leftXinStr2->runAction(CCRepeatForever::create(quanAnimate2));
     }else if (temSelfIndex1 == 3){
         FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x333);
-        CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(selfIndex3 += selfIndex3*(temSelfIndex2* 0.01)));
-        label3->set_new_number(scoreStr3->getCString());
-        
+        if (selfIndex3 > 0) {
+            CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(selfIndex3 += selfIndex3*(temSelfIndex2* 0.01)));
+            label3->set_new_number(scoreStr3->getCString());
+        }
         CCString* labStr3 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr3 = CCSprite::create(labStr3->getCString());
         labSpr3->setScale(.8f);
@@ -770,9 +850,10 @@ void PkLayer::creatJiesuan2(){
         leftXinStr3->runAction(CCRepeatForever::create(quanAnimate3));
     }else if (temSelfIndex1 == 4){
         FlashNumberLabel* label4 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x444);
-        CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(selfIndex4 += selfIndex4*(temSelfIndex2* 0.01)));
-        label4->set_new_number(scoreStr4->getCString());
-        
+        if (selfIndex4 > 0) {
+            CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(selfIndex4 += selfIndex4*(temSelfIndex2* 0.01)));
+            label4->set_new_number(scoreStr4->getCString());
+        }
         CCString* labStr4 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr4 = CCSprite::create(labStr4->getCString());
         labSpr4->setScale(.8f);
@@ -801,9 +882,10 @@ void PkLayer::creatJiesuan2(){
     }else if (temSelfIndex1 == 5){
         //
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x111);
-        CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(selfIndex1 += selfIndex1*(temSelfIndex2* 0.01)));
-        label1->set_new_number(scoreStr1->getCString());
-        
+        if (selfIndex1 > 0) {
+            CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(selfIndex1 += selfIndex1*(temSelfIndex2* 0.01)));
+            label1->set_new_number(scoreStr1->getCString());
+        }
         CCString* labStr1 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr1 = CCSprite::create(labStr1->getCString());
         labSpr1->setScale(.8f);
@@ -813,9 +895,10 @@ void PkLayer::creatJiesuan2(){
         
         //
         FlashNumberLabel* label2 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x222);
-        CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(selfIndex2 += selfIndex2*(temSelfIndex2* 0.01)));
-        label2->set_new_number(scoreStr2->getCString());
-        
+        if (selfIndex2 > 0) {
+            CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(selfIndex2 += selfIndex2*(temSelfIndex2* 0.01)));
+            label2->set_new_number(scoreStr2->getCString());
+        }
         CCString* labStr2 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr2 = CCSprite::create(labStr2->getCString());
         labSpr2->setScale(.8f);
@@ -825,9 +908,10 @@ void PkLayer::creatJiesuan2(){
         
         //
         FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x333);
-        CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(selfIndex3 += selfIndex3*(temSelfIndex2* 0.01)));
-        label3->set_new_number(scoreStr3->getCString());
-        
+        if (selfIndex3 > 0) {
+            CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(selfIndex3 += selfIndex3*(temSelfIndex2* 0.01)));
+            label3->set_new_number(scoreStr3->getCString());
+        }
         CCString* labStr3 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr3 = CCSprite::create(labStr3->getCString());
         labSpr3->setScale(.8f);
@@ -837,9 +921,10 @@ void PkLayer::creatJiesuan2(){
         
         //
         FlashNumberLabel* label4 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x444);
-        CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(selfIndex4 += selfIndex4*(temSelfIndex2* 0.01)));
-        label4->set_new_number(scoreStr4->getCString());
-        
+        if (selfIndex4 > 0) {
+            CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(selfIndex4 += selfIndex4*(temSelfIndex2* 0.01)));
+            label4->set_new_number(scoreStr4->getCString());
+        }
         CCString* labStr4 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temSelfIndex2);
         CCSprite* labSpr4 = CCSprite::create(labStr4->getCString());
         labSpr4->setScale(.8f);
@@ -880,9 +965,10 @@ void PkLayer::creatJiesuan2(){
     
     if (temOpponentIndex1 == 1) {
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x555);
-        CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(opponentIndex1 += opponentIndex1*(temOpponentIndex2* 0.01)));
-        label1->set_new_number(scoreStr1->getCString());
-        
+        if (opponentIndex1 > 0) {
+            CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(opponentIndex1 += opponentIndex1*(temOpponentIndex2* 0.01)));
+            label1->set_new_number(scoreStr1->getCString());
+        }
         CCString* labStr1 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr1 = CCSprite::create(labStr1->getCString());
         labSpr1->setScale(.8f);
@@ -910,9 +996,10 @@ void PkLayer::creatJiesuan2(){
         rightXinStr1->runAction(CCRepeatForever::create(quanAnimate1));
     }else if (temOpponentIndex1 == 2){
         FlashNumberLabel* label2 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x666);
-        CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(opponentIndex2 += opponentIndex2*(temOpponentIndex2* 0.01)));
-        label2->set_new_number(scoreStr2->getCString());
-        
+        if (opponentIndex2 > 0) {
+            CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(opponentIndex2 += opponentIndex2*(temOpponentIndex2* 0.01)));
+            label2->set_new_number(scoreStr2->getCString());
+        }
         CCString* labStr2 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr2 = CCSprite::create(labStr2->getCString());
         labSpr2->setScale(.8f);
@@ -940,9 +1027,10 @@ void PkLayer::creatJiesuan2(){
         rightXinStr2->runAction(CCRepeatForever::create(quanAnimate2));
     }else if (temOpponentIndex1 == 3){
         FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x777);
-        CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(opponentIndex3 += opponentIndex3*(temOpponentIndex2* 0.01)));
-        label3->set_new_number(scoreStr3->getCString());
-        
+        if (opponentIndex3 > 0) {
+            CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(opponentIndex3 += opponentIndex3*(temOpponentIndex2* 0.01)));
+            label3->set_new_number(scoreStr3->getCString());
+        }
         CCString* labStr3 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr3 = CCSprite::create(labStr3->getCString());
         labSpr3->setScale(.8f);
@@ -970,9 +1058,10 @@ void PkLayer::creatJiesuan2(){
         rightXinStr3->runAction(CCRepeatForever::create(quanAnimate3));
     }else if (temOpponentIndex1 == 4){
         FlashNumberLabel* label4 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x888);
-        CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(opponentIndex4 += opponentIndex4*(temOpponentIndex2* 0.01)));
-        label4->set_new_number(scoreStr4->getCString());
-        
+        if (opponentIndex4 > 0) {
+            CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(opponentIndex4 += opponentIndex4*(temOpponentIndex2* 0.01)));
+            label4->set_new_number(scoreStr4->getCString());
+        }
         CCString* labStr4 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr4 = CCSprite::create(labStr4->getCString());
         labSpr4->setScale(.8f);
@@ -1001,9 +1090,10 @@ void PkLayer::creatJiesuan2(){
     }else if (temOpponentIndex1 == 5){
         //
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x555);
-        CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(opponentIndex1 += opponentIndex1*(temOpponentIndex2* 0.01)));
-        label1->set_new_number(scoreStr1->getCString());
-        
+        if (opponentIndex1 > 0) {
+            CCString* scoreStr1 = CCString::createWithFormat("%d", (int)(opponentIndex1 += opponentIndex1*(temOpponentIndex2* 0.01)));
+            label1->set_new_number(scoreStr1->getCString());
+        }
         CCString* labStr1 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr1 = CCSprite::create(labStr1->getCString());
         labSpr1->setScale(.8f);
@@ -1011,11 +1101,13 @@ void PkLayer::creatJiesuan2(){
         jiesuanKuangSpr->addChild(labSpr1);
         this->flashNumberAnimation(labSpr1, 2);
         
+        
         //
         FlashNumberLabel* label2 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x666);
-        CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(opponentIndex2 += opponentIndex2*(temOpponentIndex2* 0.01)));
-        label2->set_new_number(scoreStr2->getCString());
-        
+        if (opponentIndex2 > 0) {
+            CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(opponentIndex2 += opponentIndex2*(temOpponentIndex2* 0.01)));
+            label2->set_new_number(scoreStr2->getCString());
+        }
         CCString* labStr2 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr2 = CCSprite::create(labStr2->getCString());
         labSpr2->setScale(.8f);
@@ -1023,11 +1115,13 @@ void PkLayer::creatJiesuan2(){
         jiesuanKuangSpr->addChild(labSpr2);
         this->flashNumberAnimation(labSpr2, 2);
         
-        FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x777);
-        CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(opponentIndex3 += opponentIndex3*(temOpponentIndex2* 0.01)));
-        label3->set_new_number(scoreStr3->getCString());
         
         //
+        FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x777);
+        if (opponentIndex3 > 0) {
+            CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(opponentIndex3 += opponentIndex3*(temOpponentIndex2* 0.01)));
+            label3->set_new_number(scoreStr3->getCString());
+        }
         CCString* labStr3 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr3 = CCSprite::create(labStr3->getCString());
         labSpr3->setScale(.8f);
@@ -1035,11 +1129,13 @@ void PkLayer::creatJiesuan2(){
         jiesuanKuangSpr->addChild(labSpr3);
         this->flashNumberAnimation(labSpr3, 2);
         
+        
         //
         FlashNumberLabel* label4 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x888);
-        CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(opponentIndex4 += opponentIndex4*(temOpponentIndex2* 0.01)));
-        label4->set_new_number(scoreStr4->getCString());
-        
+        if (opponentIndex4 > 0) {
+            CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(opponentIndex4 += opponentIndex4*(temOpponentIndex2* 0.01)));
+            label4->set_new_number(scoreStr4->getCString());
+        }
         CCString* labStr4 = CCString::createWithFormat("res/pic/pk/pk_%d.png", temOpponentIndex2);
         CCSprite* labSpr4 = CCSprite::create(labStr4->getCString());
         labSpr4->setScale(.8f);
@@ -1291,7 +1387,7 @@ void PkLayer::creatJiesuan4(){
 }
 void PkLayer::nextLayer1(){
     LOADING->show_loading();
-    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::nextLayer2), .8f);
+    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::nextLayer2), .5f);
 }
 void PkLayer::nextLayer2(){
     LOADING->remove();

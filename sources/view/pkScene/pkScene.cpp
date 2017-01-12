@@ -202,24 +202,44 @@ void pkScene::creat_view(){
 void pkScene::creatScore(CCSprite* tishiKuangSpr){
     CCArray* ruleArr = themeInfo->getRule();
     
-    CCLabelTTF* tishiLabel1 = CCLabelTTF::create("得分结果", DISPLAY->fangzhengFont(), 24, CCSizeMake(tishiKuangSpr->getContentSize().width* .9f, 24), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF* tishiLabel1 = CCLabelTTF::create("得分规则", DISPLAY->fangzhengFont(), 24, CCSizeMake(tishiKuangSpr->getContentSize().width* .9f, 24), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     tishiLabel1->setPosition(ccp(tishiKuangSpr->getContentSize().width* .5f, tishiKuangSpr->getContentSize().height* .83f));
     tishiLabel1->setColor(ccc3(173, 109, 93));
     tishiKuangSpr->addChild(tishiLabel1);
     
-    
+
     CCLabelTTF* slLabel = CCLabelTTF::create("胜利:", DISPLAY->fangzhengFont(), 22);
     slLabel->setAnchorPoint(ccp(0.f, .5f));
     slLabel->setPosition(ccp(7.f, tishiKuangSpr->getContentSize().height* .56f));
     slLabel->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(slLabel);
     
-    CCString* slStr = (CCString* )ruleArr->objectAtIndex(0);
-//    CCString* slStr = CCString::createWithFormat("%s", "99999");
-    slScore = CCLabelTTF::create(slStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(tishiKuangSpr->getContentSize().width* .6f, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    slScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .725f, tishiKuangSpr->getContentSize().height* .56f));
+    
+    CCDictionary* slDic = (CCDictionary* )ruleArr->objectAtIndex(0);
+    CCInteger* slScoreInteger = (CCInteger* )slDic->objectForKey("score");
+    CCInteger* slNumInteger = (CCInteger* )slDic->objectForKey("num");
+    CCString* slStr2 = (CCString* )slDic->objectForKey("type");
+    CCString* slStr = CCString::createWithFormat("%d分%d", slScoreInteger->getValue(), slNumInteger->getValue());
+    slScore = CCLabelTTF::create(slStr->getCString(), DISPLAY->fangzhengFont(), 22);
+    slScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .65f, tishiKuangSpr->getContentSize().height* .56f));
     slScore->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(slScore);
+    if (strcmp(slStr2->getCString(), "diam") == 0) {// 钻石
+        CCSprite* goldSpr = CCSprite::create("res/pic/pk/pk_gold.png");
+        goldSpr->setScale(.9f);
+        goldSpr->setPosition(ccp(slScore->getContentSize().width + 10, slScore->getContentSize().height* .5f));
+        slScore->addChild(goldSpr);
+    }else if (strcmp(slStr2->getCString(), "coin") == 0){// 金币
+        CCSprite* coinSpr = CCSprite::create("res/pic/clothesScene/gj_coin.png");
+        coinSpr->setScale(.6f);
+        coinSpr->setPosition(ccp(slScore->getContentSize().width + 10, slScore->getContentSize().height* .52f));
+        slScore->addChild(coinSpr);
+    }else if (strcmp(slStr2->getCString(), "piece") == 0){// 碎片
+        CCSprite* debrisSpr = CCSprite::create("res/pic/clothesScene/gj_debris.png");
+        debrisSpr->setScale(.6f);
+        debrisSpr->setPosition(ccp(slScore->getContentSize().width + 10, slScore->getContentSize().height* .52f));
+        slScore->addChild(debrisSpr);
+    }
     
     
     CCLabelTTF* pjLabel = CCLabelTTF::create("平局:", DISPLAY->fangzhengFont(), 22);
@@ -228,10 +248,11 @@ void pkScene::creatScore(CCSprite* tishiKuangSpr){
     pjLabel->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(pjLabel);
     
-    CCString* pjStr = (CCString* )ruleArr->objectAtIndex(1);
-//    CCString* pjStr = CCString::createWithFormat("%s", "99999");
-    pjScore = CCLabelTTF::create(pjStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(tishiKuangSpr->getContentSize().width* .6f, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    pjScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .725f, tishiKuangSpr->getContentSize().height* .34f));
+    CCDictionary* pjDic = (CCDictionary* )ruleArr->objectAtIndex(1);
+    CCInteger* pjScoreInteger = (CCInteger* )pjDic->objectForKey("score");
+    CCString* pjStr = CCString::createWithFormat("%d分", pjScoreInteger->getValue());
+    pjScore = CCLabelTTF::create(pjStr->getCString(), DISPLAY->fangzhengFont(), 22);
+    pjScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .65f, tishiKuangSpr->getContentSize().height* .34f));
     pjScore->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(pjScore);
     
@@ -242,10 +263,11 @@ void pkScene::creatScore(CCSprite* tishiKuangSpr){
     sbLabel->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(sbLabel);
     
-    CCString* sbStr = (CCString* )ruleArr->objectAtIndex(2);
-//    CCString* sbStr = CCString::createWithFormat("%s", "99999");
-    sbScore = CCLabelTTF::create(sbStr->getCString(), DISPLAY->fangzhengFont(), 22, CCSizeMake(tishiKuangSpr->getContentSize().width* .6f, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-    sbScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .725f, tishiKuangSpr->getContentSize().height* .12f));
+    CCDictionary* sbDic = (CCDictionary* )ruleArr->objectAtIndex(2);
+    CCInteger* sbScoreInteger = (CCInteger* )sbDic->objectForKey("score");
+    CCString* sbStr = CCString::createWithFormat("%d分", sbScoreInteger->getValue());
+    sbScore = CCLabelTTF::create(sbStr->getCString(), DISPLAY->fangzhengFont(), 22);
+    sbScore->setPosition(ccp(tishiKuangSpr->getContentSize().width* .65f, tishiKuangSpr->getContentSize().height* .12f));
     sbScore->setColor(ccc3(201, 128, 110));
     tishiKuangSpr->addChild(sbScore);
 }
@@ -402,7 +424,8 @@ void pkScene::creatName1(CCSprite* kuangSpr){
     nameLabel1->setColor(ccc3(255, 255, 255));
     kuangSpr->addChild(nameLabel1);
     
-    int collected = selfItem->getCollected();
+    
+    int collected = DATA->getShow()->collected();
     CCString* nameStr2 = CCString::createWithFormat("服装收集:  %d", collected);
     CCLabelTTF* nameLabel2 = CCLabelTTF::create(nameStr2->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(kuangSpr->getContentSize().width* .9f, 20), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
     nameLabel2->setPosition(ccp(kuangSpr->getContentSize().width* .55f, kuangSpr->getContentSize().height* .4f));
@@ -671,13 +694,21 @@ void pkScene::_827Callback(CCObject *pObj){
 }
 void pkScene::startCallback(CCObject* pSender){
     LOADING->show_loading();
+    
+    temSelfIndex1 = selfItem->getBuffId()/100;
+    temSelfIndex2 = selfItem->getBuffId()%100;
+    temOpponentIndex1 = opponentItem->getBuffedId()/100;
+    temOpponentIndex2 = opponentItem->getBuffedId()%100;
+    
     NET->competition_start_825();
 }
 void pkScene::_825Callback(CCObject *pObj){
     LOADING->remove();
     
-    CCScene* scene = PkLayer::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
+    CCScene* pScene = CCScene::create();
+    PkLayer* layer = PkLayer::create_with_Layer(temSelfIndex1, temSelfIndex2, temOpponentIndex1, temOpponentIndex2);
+    pScene->addChild(layer);
+    CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
 void pkScene::zhufuCallback(CCObject* pSender){
