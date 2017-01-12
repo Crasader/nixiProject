@@ -983,7 +983,7 @@ void JiesuanLayer::creat_lingqu(CCMenuItem* item, int type){
             slScore->addChild(debrisSpr);
         }
     }else if (type == 2){
-        CCDictionary* pjDic = (CCDictionary* )ruleArr->objectAtIndex(1);
+        CCDictionary* pjDic = (CCDictionary* )ruleArr->objectAtIndex(2);
         CCInteger* pjScoreInteger = (CCInteger* )pjDic->objectForKey("score");
         CCString* pjStr = CCString::createWithFormat("%d分", pjScoreInteger->getValue());
         CCLabelTTF* pjScore = CCLabelTTF::create(pjStr->getCString(), DISPLAY->fangzhengFont(), 22);
@@ -991,7 +991,7 @@ void JiesuanLayer::creat_lingqu(CCMenuItem* item, int type){
         pjScore->setColor(ccc3(201, 128, 110));
         item->addChild(pjScore);
     }else if (type == 0){
-        CCDictionary* sbDic = (CCDictionary* )ruleArr->objectAtIndex(2);
+        CCDictionary* sbDic = (CCDictionary* )ruleArr->objectAtIndex(1);
         CCInteger* sbScoreInteger = (CCInteger* )sbDic->objectForKey("score");
         CCString* sbStr = CCString::createWithFormat("%d分", sbScoreInteger->getValue());
         CCLabelTTF* sbScore = CCLabelTTF::create(sbStr->getCString(), DISPLAY->fangzhengFont(), 22);
