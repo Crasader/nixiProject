@@ -19,47 +19,69 @@ const bool flipxBool = false;
 
 void Shower::blink() {
     if (_zrSpr1) {
+        
         if (_curZRId != _savedZRId) {
+            float interval = 0.1;
+            float intervalTimes = 0;
+            
+            float rand1 = CCRANDOM_0_1();
+            int delayTimes = rand1 < 0.33 ? 1 : (rand1 < 0.66 ? 2 : 3);
             _savedZRId = _curZRId;
             CCArray* arrFrame = CCArray::createWithCapacity(3);
             
             CCString* str1 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
             CCSpriteFrame* frame1 = CCSpriteFrame::create(str1->getCString(), CCRectMake(0, 0, 900, 1136));
             arrFrame->addObject(frame1);
+            intervalTimes++;
             
             CCString* str2 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_1.png", _curZRId);
             CCSpriteFrame* frame2 = CCSpriteFrame::create(str2->getCString(), CCRectMake(0, 0, 900, 1136));
             arrFrame->addObject(frame2);
-            
-            CCString* str3 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_2.png", _curZRId);
-            CCSpriteFrame* frame3 = CCSpriteFrame::create(str3->getCString(), CCRectMake(0, 0, 900, 1136));
-            arrFrame->addObject(frame3);
+            intervalTimes++;
             
             if (_curZRId == 90006 || _curZRId == 90007 || _curZRId == 90009 || _curZRId == 900010) {
-                CCString* str4 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_3.png", _curZRId);
-                CCSpriteFrame* frame4 = CCSpriteFrame::create(str4->getCString(), CCRectMake(0, 0, 900, 1136));
-                arrFrame->addObject(frame4);
                 
-                CCString* str5 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
-                CCSpriteFrame* frame5 = CCSpriteFrame::create(str5->getCString(), CCRectMake(0, 0, 900, 1136));
-                arrFrame->addObject(frame5);
+                CCString* str3 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_2.png", _curZRId);
+                CCSpriteFrame* frame3 = CCSpriteFrame::create(str3->getCString(), CCRectMake(0, 0, 900, 1136));
+                arrFrame->addObject(frame3);
+                intervalTimes++;
+                
+                for (int i = 0; i < delayTimes; i++) {
+                    CCString* str4 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_3.png", _curZRId);
+                    CCSpriteFrame* frame4 = CCSpriteFrame::create(str4->getCString(), CCRectMake(0, 0, 900, 1136));
+                    arrFrame->addObject(frame4);
+                    intervalTimes++;
+                }
             }
             else {
-                CCString* str4 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
-                CCSpriteFrame* frame4 = CCSpriteFrame::create(str4->getCString(), CCRectMake(0, 0, 900, 1136));
-                arrFrame->addObject(frame4);
+                for (int i = 0; i < delayTimes; i++) {
+                    CCString* str3 = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d_2.png", _curZRId);
+                    CCSpriteFrame* frame3 = CCSpriteFrame::create(str3->getCString(), CCRectMake(0, 0, 900, 1136));
+                    arrFrame->addObject(frame3);
+                    intervalTimes++;
+                }
             }
+            
+            CCString* strRenew = CCString::createWithFormat("pic/clothesScene/clothes/9zhuangrong/%d.png", _curZRId);
+            CCSpriteFrame* frameRenew = CCSpriteFrame::create(strRenew->getCString(), CCRectMake(0, 0, 900, 1136));
+            arrFrame->addObject(frameRenew);
+            intervalTimes++;
             
             CCAnimation* animation = CCAnimation::createWithSpriteFrames(arrFrame, 0.1);
             this->setBlinkAnim(CCAnimate::create(animation));
+            
+            _nextInterval = intervalTimes * interval;
         }
         
         if (_blinkAnim) {
+            this->unschedule(SEL_SCHEDULE(&Shower::blink));
             _zrSpr1->stopAllActions();
             _zrSpr1->runAction(_blinkAnim);
+            this->schedule(SEL_SCHEDULE(&Shower::blink), _nextInterval + CCRANDOM_0_1() * 6);
         }
     }
 }
+
 
 #pragma mark - Super API
 

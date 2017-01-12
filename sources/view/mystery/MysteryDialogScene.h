@@ -109,6 +109,7 @@ public:
     virtual bool init(const char* category, CCArray* dialogs);
     
     virtual void onEnter();
+    virtual void onExitTransitionDidStart();
     virtual void onExit();
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);

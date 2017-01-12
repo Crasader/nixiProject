@@ -29,7 +29,7 @@ public:
     virtual bool init();
     
     virtual void onEnter();
-    
+    virtual void onExitTransitionDidStart();
     virtual void onExit();
     
     virtual void message_box_did_selected_button(AHMessageBox* box, AH_BUTTON_TYPE button_type, AH_BUTTON_TAGS button_tag);

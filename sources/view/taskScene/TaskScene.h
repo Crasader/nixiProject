@@ -26,6 +26,7 @@ public:
     virtual bool init(bool isPhaseUP);
     
     virtual void onEnter();
+    virtual void onExitTransitionDidStart();
     virtual void onExit();
     
     void keyBackStatus(float dt);
@@ -125,5 +126,6 @@ private:
 private:
     BuildingLayer*      _buildingLayer;
     bool                _isPhaseUP;
+    bool                _gotoDialog;
 };
 #endif /* defined(__tiegao__TaskScene__) */

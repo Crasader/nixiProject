@@ -15,7 +15,7 @@ USING_NS_CC;
 
 #define DISPLAY         DisplayManager::Inst()
 
-class DisplayManager
+class DisplayManager: public CCObject
 {
 public:
     ~DisplayManager();
@@ -23,6 +23,7 @@ public:
     void init();
     
 public:
+
     const char*         fangzhengFont();
     
     ccColor3B           defalutColor();
@@ -48,6 +49,20 @@ public:
 private:
     float               _width;
     float               _height;
+   
+// >> blink
+public:
+    void blink();
+    void stopBlink();
+    
+    CC_SYNTHESIZE(int, _curZRId, CurZRId);
+    CC_SYNTHESIZE(int, _savedZRId, SavedZRId);
+    CC_SYNTHESIZE(CCSprite*, _zrSpr1, ZRSpr);
+    CC_SYNTHESIZE_RETAIN(CCAnimate*, _blinkAnim, BlinkAnim);
+
+private:
+    float               _nextInterval;
+// <<
 };
 
 #endif /* DisplayManager_hpp */

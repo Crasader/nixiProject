@@ -305,13 +305,23 @@ void TaskStoryScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskStoryScene::LabelColorFhCallBack), "TaskLabelColorFhCallBack", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskStoryScene::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
 }
+
 void TaskStoryScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
+
+void TaskStoryScene::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
+}
+
 void TaskStoryScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+
     BaseScene::onExit();
 }
 
@@ -369,7 +379,6 @@ void TaskStoryScene::creat_view(){
 }
 void TaskStoryScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
-    
     // talkingData
     DATA->onEvent("点击事件", "日常对话界面", "点击退出");
     
@@ -992,6 +1001,9 @@ void TaskStoryScene::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr1->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
+                DISPLAY->setZRSpr(_zrSpr1);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -1008,6 +1020,9 @@ void TaskStoryScene::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr1->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
+                            DISPLAY->setZRSpr(_zrSpr1);
                         }
                         break;
                     }

@@ -35,6 +35,7 @@ public:
     virtual bool init(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP);
     //
     virtual void onEnter();
+    virtual void onExitTransitionDidStart();
     virtual void onExit();
     void keyBackStatus(float dt);
     virtual void keyBackClicked();

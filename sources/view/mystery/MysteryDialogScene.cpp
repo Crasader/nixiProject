@@ -194,6 +194,13 @@ void MysteryDialogScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&MysteryDialogScene::nc_clothes_info_400), "HTTP_FINISHED_400", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&MysteryDialogScene::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
+}
+
+void MysteryDialogScene::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
 }
 
 void MysteryDialogScene::keyBackStatus(float dt){
@@ -879,6 +886,8 @@ void MysteryDialogScene::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr1->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -895,6 +904,8 @@ void MysteryDialogScene::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr1->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
                         }
                         break;
                     }

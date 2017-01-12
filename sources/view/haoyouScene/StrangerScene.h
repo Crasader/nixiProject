@@ -66,6 +66,7 @@ public:
     CREATE_FUNC(StrangerScene);
     
     virtual void onEnter();
+    virtual void onExitTransitionDidStart();
     virtual void onExit();
     
     void keyBackStatus(float dt);

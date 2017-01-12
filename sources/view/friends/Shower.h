@@ -73,8 +73,9 @@ private:
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
     
-    int       _curZRId;
-    int       _savedZRId;
+    int         _curZRId;
+    int         _savedZRId;
+    float       _nextInterval;
     
     CCSprite* _tfSpr1; // 头发
     CCSprite* _tfSpr2;
