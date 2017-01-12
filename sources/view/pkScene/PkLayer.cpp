@@ -16,6 +16,7 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "JiesuanLayer.h"
 
 
 
@@ -67,6 +68,66 @@ void PkLayer::creatAnimation(){
     }
     CCAnimation* arrowAnimation = CCAnimation::createWithSpriteFrames(arrowAnimations, .4f);
     CCAnimationCache::sharedAnimationCache()->addAnimation(arrowAnimation, "quanStr");
+    
+    
+    CCArray* arrowAnimations2 = CCArray::createWithCapacity(10);
+    char arrowStr2[100] = {};
+    for (int i = 1; i <= 6; i++) {
+        
+        sprintf(arrowStr2, "res/pic/pk/animation/pk_huangguan%d.png", i);
+        CCSpriteFrame* arrowFrame2 = CCSpriteFrame::create(arrowStr2, CCRectMake(0, 0, 44, 42));
+        arrowAnimations2->addObject(arrowFrame2);
+    }
+    CCAnimation* arrowAnimation2 = CCAnimation::createWithSpriteFrames(arrowAnimations2, .2f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(arrowAnimation2, "huangguanStr");
+    
+    
+    CCArray* arrowAnimations3 = CCArray::createWithCapacity(10);
+    char arrowStr3[100] = {};
+    for (int i = 1; i <= 5; i++) {
+        
+        sprintf(arrowStr3, "res/pic/pk/animation/pk_leftXin%d.png", i);
+        CCSpriteFrame* arrowFrame3 = CCSpriteFrame::create(arrowStr3, CCRectMake(0, 0, 71, 73));
+        arrowAnimations3->addObject(arrowFrame3);
+    }
+    CCAnimation* arrowAnimation3 = CCAnimation::createWithSpriteFrames(arrowAnimations3, .3f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(arrowAnimation3, "leftXinStr");
+    
+    
+    CCArray* arrowAnimations4 = CCArray::createWithCapacity(10);
+    char arrowStr4[100] = {};
+    for (int i = 1; i <= 5; i++) {
+        
+        sprintf(arrowStr4, "res/pic/pk/animation/pk_rightXin%d.png", i);
+        CCSpriteFrame* arrowFrame4 = CCSpriteFrame::create(arrowStr4, CCRectMake(0, 0, 76, 61));
+        arrowAnimations4->addObject(arrowFrame4);
+    }
+    CCAnimation* arrowAnimation4 = CCAnimation::createWithSpriteFrames(arrowAnimations4, .3f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(arrowAnimation4, "rightXinStr");
+    
+    
+    CCArray* arrowAnimations5 = CCArray::createWithCapacity(10);
+    char arrowStr5[100] = {};
+    for (int i = 1; i <= 3; i++) {
+        
+        sprintf(arrowStr5, "res/pic/pk/animation/pk_leftSui%d.png", i);
+        CCSpriteFrame* arrowFrame5 = CCSpriteFrame::create(arrowStr5, CCRectMake(0, 0, 74, 55));
+        arrowAnimations5->addObject(arrowFrame5);
+    }
+    CCAnimation* arrowAnimation5 = CCAnimation::createWithSpriteFrames(arrowAnimations5, .3f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(arrowAnimation5, "leftSuiStr");
+    
+    
+    CCArray* arrowAnimations6 = CCArray::createWithCapacity(10);
+    char arrowStr6[100] = {};
+    for (int i = 1; i <= 3; i++) {
+        
+        sprintf(arrowStr6, "res/pic/pk/animation/pk_rightSui%d.png", i);
+        CCSpriteFrame* arrowFrame6 = CCSpriteFrame::create(arrowStr6, CCRectMake(0, 0, 74, 55));
+        arrowAnimations6->addObject(arrowFrame6);
+    }
+    CCAnimation* arrowAnimation6 = CCAnimation::createWithSpriteFrames(arrowAnimations6, .3f);
+    CCAnimationCache::sharedAnimationCache()->addAnimation(arrowAnimation6, "rightSuiStr");
 }
 CCScene* PkLayer::scene(){
     CCScene* scene = CCScene::create();
@@ -122,14 +183,14 @@ void PkLayer::creat_view(){
     CCString* selfScoreStr = CCString::createWithFormat("%d", selfScore);
     scoreLabel1 = FlashNumberLabel::create_with_atlas("res/pic/pk/pk_number1.png", selfScoreStr->getCString(), 0, .01f);
     scoreLabel1->setAnchorPoint(ccp(.5f, .5f));
-    scoreLabel1->set_delegate(this); // 设置代理
+    scoreLabel1->set_delegate(NULL); // 设置代理
     scoreLabel1->setPosition(ccp(huangguanSpr->getContentSize().width* .28f, huangguanSpr->getContentSize().height* .908f));
     huangguanSpr->addChild(scoreLabel1, 1);
     
     CCString* opponentScoreStr = CCString::createWithFormat("%d", opponentScore);
     scoreLabel2 = FlashNumberLabel2::create_with_atlas2("res/pic/pk/pk_number1.png", opponentScoreStr->getCString(), 0, .01f);
     scoreLabel2->setAnchorPoint(ccp(.5f, .5f));
-    scoreLabel2->set_delegate2(this); // 设置代理
+    scoreLabel2->set_delegate2(NULL); // 设置代理
     scoreLabel2->setPosition(ccp(huangguanSpr->getContentSize().width* .72f, huangguanSpr->getContentSize().height* .908f));
     huangguanSpr->addChild(scoreLabel2, 1);
     
@@ -341,21 +402,21 @@ void PkLayer::creatScoreKuang(int type){
     dapeiSpr2_1->addChild(dapeiLabel2);
     
     
-    CCMoveTo* moveTo1_1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .35f + 15.f));
-    CCMoveTo* moveTo1_2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .35f));
-    CCMoveTo* moveTo1_3 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .35f + 15.f));
-    CCMoveTo* moveTo1_4 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .35f));
+    CCMoveTo* moveTo1_1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .4f + 15.f));
+    CCMoveTo* moveTo1_2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .4f));
+    CCMoveTo* moveTo1_3 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .4f + 15.f));
+    CCMoveTo* moveTo1_4 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .4f));
     CCSequence* seq1_1 = CCSequence::create(moveTo1_1, moveTo1_2, moveTo1_3, moveTo1_4, NULL);
     
-    CCMoveTo* moveTo2_1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .35f + 15.f));
-    CCMoveTo* moveTo2_2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .35f));
-    CCMoveTo* moveTo2_3 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .35f + 15.f));
-    CCMoveTo* moveTo2_4 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .35f));
+    CCMoveTo* moveTo2_1 = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .4f + 15.f));
+    CCMoveTo* moveTo2_2 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .4f));
+    CCMoveTo* moveTo2_3 = CCMoveTo::create(.2f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .4f + 15.f));
+    CCMoveTo* moveTo2_4 = CCMoveTo::create(.1f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .4f));
     CCSequence* seq2_1 = CCSequence::create(moveTo2_1, moveTo2_2, moveTo2_3, moveTo2_4, NULL);
     
     if (actionBool) {
         //
-        CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .75f));
+        CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .8f));
         CCFadeOut* fadeOut1_1 = CCFadeOut::create(.3f);
         CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::updateScore));
         CCSequence* seq1 = CCSequence::create(CCDelayTime::create(.5f), callFuncN, NULL);
@@ -372,7 +433,7 @@ void PkLayer::creatScoreKuang(int type){
         dapeiLabel1->runAction(seq5);
         
         //
-        CCMoveTo* moveTo2 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .5f));
+        CCMoveTo* moveTo2 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .55f));
         CCFadeOut* fadeOut2 = CCFadeOut::create(.3f);
         CCSequence* seq6 = CCSequence::create(CCDelayTime::create(.4f), fadeOut2, NULL);
         CCSpawn* spawn2 = CCSpawn::create(moveTo2, seq6, NULL);
@@ -387,7 +448,7 @@ void PkLayer::creatScoreKuang(int type){
         dapeiLabel2->runAction(seq9);
     }else{
         //
-        CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .5f));
+        CCMoveTo* moveTo1 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .25f, DISPLAY->ScreenHeight()* .55f));
         CCFadeOut* fadeOut1 = CCFadeOut::create(.3f);
         CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::updateScore));
         CCSequence* seq1 = CCSequence::create(CCDelayTime::create(.5f), callFuncN, NULL);
@@ -404,7 +465,7 @@ void PkLayer::creatScoreKuang(int type){
         dapeiLabel1->runAction(seq5);
         
         //
-        CCMoveTo* moveTo2 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .75f));
+        CCMoveTo* moveTo2 = CCMoveTo::create(.7f, ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .8f));
         CCFadeOut* fadeOut2 = CCFadeOut::create(.3f);
         CCSequence* seq6 = CCSequence::create(CCDelayTime::create(.4f), fadeOut2, NULL);
         CCSpawn* spawn2 = CCSpawn::create(moveTo2, seq6, NULL);
@@ -432,11 +493,13 @@ void PkLayer::creatJiesuan(){
     CCMoveTo* moveTo1 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .51f, DISPLAY->ScreenHeight()* .72f));
     jiesuanSpr1->runAction(moveTo1);
     
-    CCMoveTo* moveTo2 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .51f, DISPLAY->ScreenHeight()* .72f));
-    jiesuanGuangSpr1->runAction(moveTo2);
+//    CCMoveTo* moveTo2 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .51f, DISPLAY->ScreenHeight()* .72f));
+//    jiesuanGuangSpr1->runAction(moveTo2);
+    jiesuanGuangSpr1->runAction(CCHide::create());
     
-    CCMoveTo* moveTo3 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .51f, DISPLAY->ScreenHeight()* .72f));
-    jiesuanQuanSpr->runAction(moveTo3);
+//    CCMoveTo* moveTo3 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .51f, DISPLAY->ScreenHeight()* .72f));
+//    jiesuanQuanSpr->runAction(moveTo3);
+    jiesuanQuanSpr->runAction(CCHide::create());
     
     CCMoveTo* moveTo4 = CCMoveTo::create(.8f, ccp(DISPLAY->ScreenWidth()* .51f, DISPLAY->ScreenHeight()* .72f));
     jiesuanSpr2->runAction(moveTo4);
@@ -591,7 +654,7 @@ void PkLayer::creatJiesuan(){
     jiesuanKuangSpr->addChild(opponentLabel4, 1);
     this->jiesuanAnimation(NULL, opponentLabel4, 2);
     
-    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::creatJiesuan2), .8f);
+    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::creatJiesuan2), 1.5f);
 }
 void PkLayer::jiesuanAnimation(CCSprite* spr, FlashNumberLabel* label, int type){
     CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.05f);
@@ -606,9 +669,9 @@ void PkLayer::jiesuanAnimation(CCSprite* spr, FlashNumberLabel* label, int type)
     }
 }
 void PkLayer::creatJiesuan2(){
-    int temSelfIndex1 = 5;
+    int temSelfIndex1 = 1;
     int temSelfIndex2 = 10;
-    int temOpponentIndex1 = 5;
+    int temOpponentIndex1 = 4;
     int temOpponentIndex2 = 10;
     
     if (temSelfIndex1 == 1) {
@@ -622,6 +685,25 @@ void PkLayer::creatJiesuan2(){
         labSpr1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .855f));
         jiesuanKuangSpr->addChild(labSpr1);
         this->flashNumberAnimation(labSpr1, 1);
+        
+        
+        CCSprite* xingSpr1 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr1->setPosition(ccp(labSpr1->getContentSize().width* .9f, labSpr1->getContentSize().height* .9f));
+        labSpr1->addChild(xingSpr1);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(fadeOut, CCDelayTime::create(.2f), fadeIn, CCDelayTime::create(.2f), NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr1->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* leftXinStr1 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .805f));
+        jiesuanKuangSpr->addChild(leftXinStr1, 17);
+        CCAnimation* quanAnimation1 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate1 = CCAnimate::create(quanAnimation1);
+        leftXinStr1->runAction(CCRepeatForever::create(quanAnimate1));
     }else if (temSelfIndex1 == 2){
         FlashNumberLabel* label2 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x222);
         CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(selfIndex2 += selfIndex2*(temSelfIndex2* 0.01)));
@@ -633,6 +715,25 @@ void PkLayer::creatJiesuan2(){
         labSpr2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .685f));
         jiesuanKuangSpr->addChild(labSpr2);
         this->flashNumberAnimation(labSpr2, 1);
+        
+        
+        CCSprite* xingSpr2 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr2->setPosition(ccp(labSpr2->getContentSize().width* .9f, labSpr2->getContentSize().height* .9f));
+        labSpr2->addChild(xingSpr2);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(fadeOut, CCDelayTime::create(.2f), fadeIn, CCDelayTime::create(.2f), NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr2->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* leftXinStr2 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .63f));
+        jiesuanKuangSpr->addChild(leftXinStr2, 17);
+        CCAnimation* quanAnimation2 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate2 = CCAnimate::create(quanAnimation2);
+        leftXinStr2->runAction(CCRepeatForever::create(quanAnimate2));
     }else if (temSelfIndex1 == 3){
         FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x333);
         CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(selfIndex3 += selfIndex3*(temSelfIndex2* 0.01)));
@@ -644,6 +745,25 @@ void PkLayer::creatJiesuan2(){
         labSpr3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .515f));
         jiesuanKuangSpr->addChild(labSpr3);
         this->flashNumberAnimation(labSpr3, 1);
+        
+        
+        CCSprite* xingSpr3 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr3->setPosition(ccp(labSpr3->getContentSize().width* .9f, labSpr3->getContentSize().height* .9f));
+        labSpr3->addChild(xingSpr3);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(fadeOut, CCDelayTime::create(.2f), fadeIn, CCDelayTime::create(.2f), NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr3->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* leftXinStr3 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .465f));
+        jiesuanKuangSpr->addChild(leftXinStr3, 17);
+        CCAnimation* quanAnimation3 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate3 = CCAnimate::create(quanAnimation3);
+        leftXinStr3->runAction(CCRepeatForever::create(quanAnimate3));
     }else if (temSelfIndex1 == 4){
         FlashNumberLabel* label4 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x444);
         CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(selfIndex4 += selfIndex4*(temSelfIndex2* 0.01)));
@@ -655,6 +775,25 @@ void PkLayer::creatJiesuan2(){
         labSpr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .35f));
         jiesuanKuangSpr->addChild(labSpr4);
         this->flashNumberAnimation(labSpr4, 1);
+        
+        
+        CCSprite* xingSpr4 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr4->setPosition(ccp(labSpr4->getContentSize().width* .9f, labSpr4->getContentSize().height* .9f));
+        labSpr4->addChild(xingSpr4);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(fadeOut, CCDelayTime::create(.2f), fadeIn, CCDelayTime::create(.2f), NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr4->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* leftXinStr4 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .305f));
+        jiesuanKuangSpr->addChild(leftXinStr4, 17);
+        CCAnimation* quanAnimation4 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate4 = CCAnimate::create(quanAnimation4);
+        leftXinStr4->runAction(CCRepeatForever::create(quanAnimate4));
     }else if (temSelfIndex1 == 5){
         //
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x111);
@@ -703,6 +842,35 @@ void PkLayer::creatJiesuan2(){
         labSpr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .35f));
         jiesuanKuangSpr->addChild(labSpr4);
         this->flashNumberAnimation(labSpr4, 1);
+        
+        
+        CCSprite* leftXinStr1 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .805f));
+        jiesuanKuangSpr->addChild(leftXinStr1, 17);
+        CCAnimation* quanAnimation1 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate1 = CCAnimate::create(quanAnimation1);
+        leftXinStr1->runAction(CCRepeatForever::create(quanAnimate1));
+        
+        CCSprite* leftXinStr2 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .63f));
+        jiesuanKuangSpr->addChild(leftXinStr2, 17);
+        CCAnimation* quanAnimation2 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate2 = CCAnimate::create(quanAnimation2);
+        leftXinStr2->runAction(CCRepeatForever::create(quanAnimate2));
+        
+        CCSprite* leftXinStr3 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .465f));
+        jiesuanKuangSpr->addChild(leftXinStr3, 17);
+        CCAnimation* quanAnimation3 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate3 = CCAnimate::create(quanAnimation3);
+        leftXinStr3->runAction(CCRepeatForever::create(quanAnimate3));
+        
+        CCSprite* leftXinStr4 = CCSprite::create("res/pic/pk/animation/pk_leftXin1.png");
+        leftXinStr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .07f, jiesuanKuangSpr->getContentSize().height* .305f));
+        jiesuanKuangSpr->addChild(leftXinStr4, 17);
+        CCAnimation* quanAnimation4 = CCAnimationCache::sharedAnimationCache()->animationByName("leftXinStr");
+        CCAnimate* quanAnimate4 = CCAnimate::create(quanAnimation4);
+        leftXinStr4->runAction(CCRepeatForever::create(quanAnimate4));
     }
     
     
@@ -717,6 +885,25 @@ void PkLayer::creatJiesuan2(){
         labSpr1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .855f));
         jiesuanKuangSpr->addChild(labSpr1);
         this->flashNumberAnimation(labSpr1, 2);
+        
+        
+        CCSprite* xingSpr1 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr1->setPosition(ccp(labSpr1->getContentSize().width* .9f, labSpr1->getContentSize().height* .9f));
+        labSpr1->addChild(xingSpr1);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(CCDelayTime::create(.2f), fadeOut, CCDelayTime::create(.2f), fadeIn, NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr1->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* rightXinStr1 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .795f));
+        jiesuanKuangSpr->addChild(rightXinStr1, 17);
+        CCAnimation* quanAnimation1 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate1 = CCAnimate::create(quanAnimation1);
+        rightXinStr1->runAction(CCRepeatForever::create(quanAnimate1));
     }else if (temOpponentIndex1 == 2){
         FlashNumberLabel* label2 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x666);
         CCString* scoreStr2 = CCString::createWithFormat("%d", (int)(opponentIndex2 += opponentIndex2*(temOpponentIndex2* 0.01)));
@@ -728,6 +915,25 @@ void PkLayer::creatJiesuan2(){
         labSpr2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .685f));
         jiesuanKuangSpr->addChild(labSpr2);
         this->flashNumberAnimation(labSpr2, 2);
+        
+        
+        CCSprite* xingSpr2 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr2->setPosition(ccp(labSpr2->getContentSize().width* .9f, labSpr2->getContentSize().height* .9f));
+        labSpr2->addChild(xingSpr2);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(CCDelayTime::create(.2f), fadeOut, CCDelayTime::create(.2f), fadeIn, NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr2->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* rightXinStr2 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .62f));
+        jiesuanKuangSpr->addChild(rightXinStr2, 17);
+        CCAnimation* quanAnimation2 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate2 = CCAnimate::create(quanAnimation2);
+        rightXinStr2->runAction(CCRepeatForever::create(quanAnimate2));
     }else if (temOpponentIndex1 == 3){
         FlashNumberLabel* label3 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x777);
         CCString* scoreStr3 = CCString::createWithFormat("%d", (int)(opponentIndex3 += opponentIndex3*(temOpponentIndex2* 0.01)));
@@ -739,6 +945,25 @@ void PkLayer::creatJiesuan2(){
         labSpr3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .515f));
         jiesuanKuangSpr->addChild(labSpr3);
         this->flashNumberAnimation(labSpr3, 2);
+        
+        
+        CCSprite* xingSpr3 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr3->setPosition(ccp(labSpr3->getContentSize().width* .9f, labSpr3->getContentSize().height* .9f));
+        labSpr3->addChild(xingSpr3);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(CCDelayTime::create(.2f), fadeOut, CCDelayTime::create(.2f), fadeIn, NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr3->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* rightXinStr3 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .46f));
+        jiesuanKuangSpr->addChild(rightXinStr3, 17);
+        CCAnimation* quanAnimation3 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate3 = CCAnimate::create(quanAnimation3);
+        rightXinStr3->runAction(CCRepeatForever::create(quanAnimate3));
     }else if (temOpponentIndex1 == 4){
         FlashNumberLabel* label4 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x888);
         CCString* scoreStr4 = CCString::createWithFormat("%d", (int)(opponentIndex4 += opponentIndex4*(temOpponentIndex2* 0.01)));
@@ -750,6 +975,25 @@ void PkLayer::creatJiesuan2(){
         labSpr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .35f));
         jiesuanKuangSpr->addChild(labSpr4);
         this->flashNumberAnimation(labSpr4, 2);
+        
+        
+        CCSprite* xingSpr4 = CCSprite::create("res/pic/pk/pk_guang4.png");
+        xingSpr4->setPosition(ccp(labSpr4->getContentSize().width* .9f, labSpr4->getContentSize().height* .9f));
+        labSpr4->addChild(xingSpr4);
+        CCRotateBy* action = CCRotateBy::create(1.f, 50);
+        CCFadeOut* fadeOut = CCFadeOut::create(.3f);
+        CCFadeIn* fadeIn = CCFadeIn::create(.3f);
+        CCSequence* seq = CCSequence::create(CCDelayTime::create(.2f), fadeOut, CCDelayTime::create(.2f), fadeIn, NULL);
+        CCSpawn* spawn = CCSpawn::create(action, seq, NULL);
+        xingSpr4->runAction(CCRepeatForever::create(CCRepeatForever::create(spawn)));
+        
+        
+        CCSprite* rightXinStr4 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .295f));
+        jiesuanKuangSpr->addChild(rightXinStr4, 17);
+        CCAnimation* quanAnimation4 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate4 = CCAnimate::create(quanAnimation4);
+        rightXinStr4->runAction(CCRepeatForever::create(quanAnimate4));
     }else if (temOpponentIndex1 == 5){
         //
         FlashNumberLabel* label1 = (FlashNumberLabel* )jiesuanKuangSpr->getChildByTag(0x555);
@@ -798,8 +1042,40 @@ void PkLayer::creatJiesuan2(){
         labSpr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .35f));
         jiesuanKuangSpr->addChild(labSpr4);
         this->flashNumberAnimation(labSpr4, 2);
+        
+        
+        
+        CCSprite* rightXinStr1 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .795f));
+        jiesuanKuangSpr->addChild(rightXinStr1, 17);
+        CCAnimation* quanAnimation1 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate1 = CCAnimate::create(quanAnimation1);
+        rightXinStr1->runAction(CCRepeatForever::create(quanAnimate1));
+        
+        CCSprite* rightXinStr2 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .62f));
+        jiesuanKuangSpr->addChild(rightXinStr2, 17);
+        CCAnimation* quanAnimation2 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate2 = CCAnimate::create(quanAnimation2);
+        rightXinStr2->runAction(CCRepeatForever::create(quanAnimate2));
+        
+        CCSprite* rightXinStr3 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .46f));
+        jiesuanKuangSpr->addChild(rightXinStr3, 17);
+        CCAnimation* quanAnimation3 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate3 = CCAnimate::create(quanAnimation3);
+        rightXinStr3->runAction(CCRepeatForever::create(quanAnimate3));
+        
+        CCSprite* rightXinStr4 = CCSprite::create("res/pic/pk/animation/pk_rightXin1.png");
+        rightXinStr4->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .93f, jiesuanKuangSpr->getContentSize().height* .295f));
+        jiesuanKuangSpr->addChild(rightXinStr4, 17);
+        CCAnimation* quanAnimation4 = CCAnimationCache::sharedAnimationCache()->animationByName("rightXinStr");
+        CCAnimate* quanAnimate4 = CCAnimate::create(quanAnimation4);
+        rightXinStr4->runAction(CCRepeatForever::create(quanAnimate4));
     }
     
+    
+    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::creatJiesuan3), 1.f);
 }
 void PkLayer::flashNumberAnimation(CCSprite* spr, int type){
     if (type == 1) {
@@ -809,6 +1085,211 @@ void PkLayer::flashNumberAnimation(CCSprite* spr, int type){
         CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(spr->getPosition().x + 20, spr->getPosition().y));
         spr->runAction(moveTo);
     }
+}
+void PkLayer::creatJiesuan3(){
+    CCLabelAtlas* jiesuanScoreLabel1;
+    CCLabelAtlas* jiesuanScoreLabel2;
+    CCScaleTo* scaleTo1,* scaleTo2,* scaleTo3,* scaleTo4;
+    
+    selfScore = selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4;
+    opponentScore = opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4;
+    
+    CCString* scoreStr1 = CCString::createWithFormat("%d", selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4);
+    CCString* scoreStr2 = CCString::createWithFormat("%d", opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4);
+    if (selfScore > opponentScore) {
+        jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/jiesuan/pk_number.png", 26, 35, '0');
+        jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
+        scaleTo1 = CCScaleTo::create(.5f, 1.2f);
+        scaleTo2 = CCScaleTo::create(.3f, 1.1f);
+        scaleTo3 = CCScaleTo::create(.5f, 1.05f);
+        scaleTo4 = CCScaleTo::create(.3f, 1.f);
+    }else{
+        jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
+        jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/jiesuan/pk_number.png", 26, 35, '0');
+        scaleTo1 = CCScaleTo::create(.5f, 1.05f);
+        scaleTo2 = CCScaleTo::create(.3f, 1.f);
+        scaleTo3 = CCScaleTo::create(.5f, 1.2f);
+        scaleTo4 = CCScaleTo::create(.3f, 1.1f);
+    }
+    
+    jiesuanScoreLabel1->setVisible(false);
+    jiesuanScoreLabel1->setScale(.2f);
+    jiesuanScoreLabel1->setAnchorPoint(ccp(.5f, .5f));
+    jiesuanScoreLabel1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+    jiesuanKuangSpr->addChild(jiesuanScoreLabel1);
+    
+    CCSequence* seq1 = CCSequence::create(scaleTo1, scaleTo2, NULL);
+    CCSpawn* spawn1 = CCSpawn::create(CCShow::create(), seq1, NULL);
+    CCSequence* seq2 = CCSequence::create(CCDelayTime::create(.5f), spawn1, NULL);
+    jiesuanScoreLabel1->runAction(seq2);
+    
+    
+    jiesuanScoreLabel2->setVisible(false);
+    jiesuanScoreLabel2->setScale(.2f);
+    jiesuanScoreLabel2->setAnchorPoint(ccp(.5f, .5f));
+    jiesuanScoreLabel2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+    jiesuanKuangSpr->addChild(jiesuanScoreLabel2);
+    
+    CCSequence* seq3 = CCSequence::create(scaleTo3, scaleTo4, NULL);
+    CCSpawn* spawn2 = CCSpawn::create(CCShow::create(), seq3, NULL);
+    CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::creatJiesuan4));
+    CCSequence* seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, callFuncN, NULL);
+    jiesuanScoreLabel2->runAction(seq4);
+    
+    
+    xingSpr1_1 = CCSprite::create("res/pic/pk/animation/pk_xingxing1.png");
+    if (selfScore > opponentScore) {
+        xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+    }else{
+        xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+    }
+    xingIndex1_1 = 50+ rand()%205;
+    if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
+        xingBool1_1 = false;
+    }else{
+        xingBool1_1 = true;
+    }
+    xingSpr1_1->setOpacity(xingIndex1_1);
+    jiesuanKuangSpr->addChild(xingSpr1_1, 12);
+    
+    xingSpr1_2 = CCSprite::create("res/pic/pk/animation/pk_xingxing2.png");
+    if (selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4 > opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4) {
+        xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+    }else{
+        xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+    }
+    xingIndex1_2 = 50+ rand()%205;
+    if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
+        xingBool1_2 = false;
+    }else{
+        xingBool1_2 = true;
+    }
+    xingSpr1_2->setOpacity(xingIndex1_2);
+    jiesuanKuangSpr->addChild(xingSpr1_2, 12);
+    
+    xingSpr1_3 = CCSprite::create("res/pic/pk/animation/pk_xingxing3.png");
+    if (selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4 > opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4) {
+        xingSpr1_3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+    }else{
+        xingSpr1_3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+    }
+    xingIndex1_3 = 50+ rand()%205;
+    if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
+        xingBool1_3 = false;
+    }else{
+        xingBool1_3 = true;
+    }
+    xingSpr1_3->setOpacity(xingIndex1_3);
+    jiesuanKuangSpr->addChild(xingSpr1_3, 12);
+    
+    
+    //
+    CCString* selfScoreStr1 = CCString::createWithFormat("%d", selfScore);
+    scoreLabel1->set_new_number(selfScoreStr1->getCString());
+    
+    CCString* selfScoreStr2 = CCString::createWithFormat("%d", opponentScore);
+    scoreLabel2->set_new_number2(selfScoreStr2->getCString());
+    
+    this->schedule(SEL_SCHEDULE(&PkLayer::updateOpacity), .1f);
+}
+void PkLayer::updateOpacity(float dt){
+    if (xingBool1_1) {
+        if (xingIndex1_1 > 50 && xingIndex1_1 <= 255) {
+            xingIndex1_1 -= 20;
+        }else{
+            xingBool1_1 = false;
+            xingIndex1_1 += 20;
+            if (xingIndex1_1 >= 255) {
+                xingIndex1_1 = 255;
+            }
+        }
+    }else{
+        if (xingIndex1_1 > 50 && xingIndex1_1 < 255) {
+            xingIndex1_1 += 20;
+            if (xingIndex1_1 >= 255) {
+                xingIndex1_1 = 255;
+            }
+        }else{
+            xingBool1_1 = true;
+            xingIndex1_1 -= 20;
+        }
+    }
+    xingSpr1_1->setOpacity(xingIndex1_1);
+    
+    if (xingBool1_2) {
+        if (xingIndex1_2 > 50 && xingIndex1_2 <= 255) {
+            xingIndex1_2 -= 20;
+        }else{
+            xingBool1_2 = false;
+            xingIndex1_2 += 20;
+            if (xingIndex1_2 >= 255) {
+                xingIndex1_2 = 255;
+            }
+        }
+    }else{
+        if (xingIndex1_2 > 50 && xingIndex1_2 < 255) {
+            xingIndex1_2 += 20;
+            if (xingIndex1_2 >= 255) {
+                xingIndex1_2 = 255;
+            }
+        }else{
+            xingBool1_2 = true;
+            xingIndex1_2 -= 20;
+        }
+    }
+    xingSpr1_2->setOpacity(xingIndex1_2);
+    
+    if (xingBool1_3) {
+        if (xingIndex1_3 > 50 && xingIndex1_3 <= 255) {
+            xingIndex1_3 -= 20;
+        }else{
+            xingBool1_3 = false;
+            xingIndex1_3 += 20;
+            if (xingIndex1_3 >= 255) {
+                xingIndex1_3 = 255;
+            }
+        }
+    }else{
+        if (xingIndex1_3 > 50 && xingIndex1_3 < 255) {
+            xingIndex1_3 += 20;
+            if (xingIndex1_3 >= 255) {
+                xingIndex1_3 = 255;
+            }
+        }else{
+            xingBool1_3 = true;
+            xingIndex1_3 -= 20;
+        }
+    }
+    xingSpr1_3->setOpacity(xingIndex1_3);
+}
+void PkLayer::creatJiesuan4(){
+    CCSprite* huangguanSpr = CCSprite::create("res/pic/pk/animation/pk_huangguan1.png");
+    if (selfScore > opponentScore) {
+        huangguanSpr->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .17f));
+    }else{
+        huangguanSpr->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .17f));
+    }
+    jiesuanKuangSpr->addChild(huangguanSpr);
+    
+    CCAnimation* quanAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("huangguanStr");
+    CCAnimate* quanAnimate = CCAnimate::create(quanAnimation);
+    huangguanSpr->runAction(quanAnimate);
+    
+    
+    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::nextLayer1), 1.2f);
+}
+void PkLayer::nextLayer1(){
+    LOADING->show_loading();
+    this->scheduleOnce(SEL_SCHEDULE(&PkLayer::nextLayer2), .8f);
+}
+void PkLayer::nextLayer2(){
+    LOADING->remove();
+    
+    CCScene* pScene = CCScene::create();
+    JiesuanLayer* layer = JiesuanLayer::create_with_Layer(selfScore, opponentScore, bgIndex);
+    pScene->addChild(layer);
+    CCTransitionMoveInB* trans = CCTransitionMoveInB::create(.3f, pScene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 
@@ -883,13 +1364,13 @@ void PkLayer::creat_Man2(){
     this->addChild(holesClipper);
     
     
-    int temIndex = rand()%100;
+    bgIndex = rand()%100;
     CCString* bgStr;
-    if (temIndex > 0 && temIndex <= 30) {
+    if (bgIndex > 0 && bgIndex <= 30) {
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 1);
-    }else if (temIndex > 30 && temIndex <= 60){
+    }else if (bgIndex > 30 && bgIndex <= 60){
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 2);
-    }else if (temIndex > 60 && temIndex <= 90){
+    }else if (bgIndex > 60 && bgIndex <= 90){
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 3);
     }else{
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 4);

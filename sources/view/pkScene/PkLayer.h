@@ -98,6 +98,10 @@ public:
     void jiesuanAnimation(CCSprite* spr, FlashNumberLabel* label, int type);
     void creatJiesuan2();
     void flashNumberAnimation(CCSprite* spr, int type);
+    void creatJiesuan3();
+    void creatJiesuan4();
+    void nextLayer1();
+    void nextLayer2();
     
     void creatScoreAnimation1();
     void creatScoreAnimation2();
@@ -105,7 +109,7 @@ public:
     void creatScoreAnimation4();
     void creatScoreKuang(int type);
     void updateScore(float dt);
-    
+    void updateOpacity(float dt);
     
     void creat_Man1();
     void creat_Man2();
@@ -117,6 +121,8 @@ public:
     
 public:
     int num_child;
+    
+    int bgIndex;
     int selfScore;
     int opponentScore;
     int tempSelfScore;
@@ -124,6 +130,9 @@ public:
     
     int selfIndex1, selfIndex2, selfIndex3, selfIndex4, opponentIndex1, opponentIndex2, opponentIndex3, opponentIndex4;
     
+    CCSprite* xingSpr1_1,* xingSpr1_2,* xingSpr1_3;
+    int xingIndex1_1, xingIndex1_2, xingIndex1_3;
+    bool xingBool1_1, xingBool1_2, xingBool1_3;
     
     CCSprite* jiesuanSpr1,* jiesuanGuangSpr1,* jiesuanQuanSpr,* jiesuanSpr2;
     CCSprite* jiesuanKuangSpr;
