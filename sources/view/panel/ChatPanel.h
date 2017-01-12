@@ -54,10 +54,9 @@ private:
     void initTopMessage();
     void closeChatPanel();
     
-//    void send_replay_callback();
-//    void updateSendTime();
-//    void start_updatetime(int secondLeft);
-//    void schedule_count_down(float dt);
+    void updateSendTime();
+    void start_updatetime(int secondLeft);
+    void schedule_count_down(float dt);
     
     void nc_on_emoticon(CCObject* pObj);
     
@@ -72,6 +71,9 @@ private:
     CCLabelTTF*         _text_lab;
     CCClippingNode*     _node;
     bool                isOpen;
+    
+    float               _timeLeft;
+    CCLabelAtlas*       lab_time;
 };
 
 #endif /* ChatPanel_hpp */

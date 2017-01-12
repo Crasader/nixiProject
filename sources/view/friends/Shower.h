@@ -56,6 +56,8 @@ class Shower : public CCSprite
 {
 public:
     void ondress(CCDictionary* clothes);
+    void blink();
+    CC_SYNTHESIZE_RETAIN(CCAnimate*, _blinkAnim, BlinkAnim);
     
 public:
     ~Shower();
@@ -70,6 +72,10 @@ private:
 private:
     CCSprite* _ManSpr;
     CCSprite* _touSpr;
+    
+    int         _curZRId;
+    int         _savedZRId;
+    float       _nextInterval;
     
     CCSprite* _tfSpr1; // 头发
     CCSprite* _tfSpr2;

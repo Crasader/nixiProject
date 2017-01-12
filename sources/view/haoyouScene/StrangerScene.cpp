@@ -79,7 +79,15 @@ void StrangerScene::onEnter(){
 //    nc->addObserver(this, SEL_CallFuncO(&StrangerScene::update_man), "UpdateMan", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&StrangerScene::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
 }
+
+void StrangerScene::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
+}
+
 void StrangerScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
@@ -799,6 +807,8 @@ void StrangerScene::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -815,6 +825,8 @@ void StrangerScene::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
                         }
                         break;
                     }

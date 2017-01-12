@@ -91,6 +91,9 @@ void HaoyouScene::onEnter(){
     this->schedule(SEL_SCHEDULE(&HaoyouScene::update_news_status), 3);
     
     this->scheduleOnce(SEL_SCHEDULE(&HaoyouScene::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
 }
 
 void HaoyouScene::onEnterTransitionDidFinish() {
@@ -100,6 +103,8 @@ void HaoyouScene::onEnterTransitionDidFinish() {
 }
 
 void HaoyouScene::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
+    //
     if (this->getChildByTag(0x1008)) {
         this->removeChildByTag(0x1008, true);
     }
@@ -1054,6 +1059,8 @@ void HaoyouScene::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -1070,6 +1077,8 @@ void HaoyouScene::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
                         }
                         break;
                     }

@@ -52,6 +52,7 @@ bool TaskScene::init(bool isPhaseUP){
     }
     
     num_child = 0;
+    _gotoDialog = false;
     _isPhaseUP = isPhaseUP; // 要不要显示升级动画 false不显示
     CCLOG("_isPhaseUP = %d", _isPhaseUP);
     if (_isPhaseUP == true) {
@@ -113,15 +114,23 @@ void TaskScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&TaskScene::phoneCallBack), "Guide_phoneCallBack", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskScene::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
 }
 
 void TaskScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
 
+void TaskScene::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
+}
+
 void TaskScene::onExit(){
     this->unscheduleAllSelectors();
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+
     BaseScene::onExit();
 }
 
@@ -460,7 +469,7 @@ void TaskScene::enterTheKuang(float dt){
 
 void TaskScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
-    
+
     if (DATA->getOpenGuideBool9()) {
         DATA->setOpenGuideBool9(false);
     }
@@ -884,6 +893,7 @@ void TaskScene::exitView(){
 void TaskScene::openTaskStoryScene(){
     
     if (DATA->current_guide_step() == 0 || DATA->current_guide_step() == 9) {
+        _gotoDialog = true;
         CCScene* scene = TaskStoryScene::scene();
         CCDirector::sharedDirector()->replaceScene(scene);
     }else{
@@ -900,6 +910,7 @@ void TaskScene::openTaskStoryScene(){
         NET->update_guide_905(_player->getGuide());
     }
 }
+
 void TaskScene::_905status(){
     _905Bool = true;
 }
@@ -1419,6 +1430,8 @@ void TaskScene::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -1435,6 +1448,8 @@ void TaskScene::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
                         }
                         break;
                     }

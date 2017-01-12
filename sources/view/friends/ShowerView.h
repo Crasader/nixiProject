@@ -13,6 +13,8 @@
 
 USING_NS_CC;
 
+class Shower;
+
 class ShowerView : public CCLayer
 {
 public:
@@ -30,7 +32,7 @@ private:
     void change_finish();
     
 private:
-    CCNode*             _curShower;
+    Shower*         _curShower;
 };
 
 #endif /* ShowerView_hpp */

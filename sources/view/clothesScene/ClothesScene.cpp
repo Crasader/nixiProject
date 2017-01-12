@@ -26,7 +26,6 @@
 #include "pkScene.h"
 
 
-
 ClothesScene::ClothesScene(){
     
 }
@@ -194,17 +193,24 @@ void ClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(ClothesScene::after_commit_mystery_613), "HTTP_FINISHED_613", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::after_start_tryst_task_623), "HTTP_FINISHED_623", NULL);
     
-    
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
 }
+
 void ClothesScene::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
+}
+
+void ClothesScene::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
 }
 
 void ClothesScene::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
-    
+
     BaseScene::onExit();
 }
 
@@ -415,8 +421,9 @@ cocos2d::CCScene* ClothesScene::scene(){
 }
 
 void ClothesScene::openTouch(float dt){
-    
+
 }
+
 void ClothesScene::creat_money(){
     buyClothesStr = "";
     
@@ -1307,7 +1314,7 @@ void ClothesScene::_605CallBack(CCObject* pObj){
 
 void ClothesScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
-    
+
     // talkingData
     DATA->onEvent("点击事件", "换装界面", "点击退出");
     
@@ -1482,6 +1489,7 @@ void ClothesScene::startCallBack(CCObject* pSender){
         }
     }
 }
+
 void ClothesScene::startMethods(){
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
     CCDictionary* myClothesTempDic = DATA->getClothes()->MyClothesTemp();
@@ -2389,6 +2397,9 @@ void ClothesScene::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
+                DISPLAY->setZRSpr(_zrSpr1);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -2405,6 +2416,9 @@ void ClothesScene::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
+                            DISPLAY->setZRSpr(_zrSpr1);
                         }
                         break;
                     }
@@ -2412,7 +2426,7 @@ void ClothesScene::initClothes(){//穿衣服
             }
         }
     }
-
+    
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::openTouch), 1.f);
 }
 void ClothesScene::ChangClothesIndex(CCObject* pSender){
@@ -3029,7 +3043,11 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                 _zrSpr1 = CCSprite::create(str->getCString());
                 _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 _zrSpr1->setTag(Tag_CL_ZhuangRong1);
-                _ManSpr->addChild(_zrSpr1, def_z_order);
+                _ManSpr->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
+                DISPLAY->setZRSpr(_zrSpr1);
+                DISPLAY->blink();
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
@@ -3042,6 +3060,10 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _zrSpr1->setTag(Tag_CL_ZhuangRong1);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
+                            DISPLAY->setZRSpr(_zrSpr1);
+                            DISPLAY->blink();
                         }
                         break;
                     }

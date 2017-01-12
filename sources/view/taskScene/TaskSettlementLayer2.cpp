@@ -175,10 +175,19 @@ void TaskSettlementLayer2::onEnter(){
     SPECIAL->showPetal2At(this, DISPLAY->center(), 1);
     
     this->scheduleOnce(SEL_SCHEDULE(&TaskSettlementLayer2::keyBackStatus), .8f);
+    //
+    DISPLAY->setZRSpr(_zrSpr1);
+    DISPLAY->blink();
 }
+
 void TaskSettlementLayer2::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
+
+void TaskSettlementLayer2::onExitTransitionDidStart() {
+    DISPLAY->stopBlink();
+}
+
 void TaskSettlementLayer2::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     unscheduleAllSelectors();
@@ -1365,6 +1374,8 @@ void TaskSettlementLayer2::initClothes(){//穿衣服
                 _zrSpr1->setScale(scaleFloat);
                 _zrSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_zrSpr1, 220);
+                //
+                DISPLAY->setCurZRId(90000);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -1381,6 +1392,8 @@ void TaskSettlementLayer2::initClothes(){//穿衣服
                             _zrSpr1->setScale(scaleFloat);
                             _zrSpr1->setFlipX(flipxBool);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
+                            //
+                            DISPLAY->setCurZRId(layer1->intValue());
                         }
                         break;
                     }
