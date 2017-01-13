@@ -12,7 +12,6 @@
 #include "NetManager.h"
 
 #include "RankListCell.h"
-#include "TotalRankScene.h"
 
 #include "PromptLayer.h"
 
@@ -109,7 +108,6 @@ bool RankListView::init() {
         panel->addChild(_tv);
     }
     
-    this->onTitleToggle(NULL);
     
     return true;
 }
@@ -199,7 +197,7 @@ void RankListView::onEnter(){
     
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::onAddFriend), "ON_ADD_FRIEND", NULL);
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);    
 }
 
 void RankListView::onExit(){

@@ -93,6 +93,7 @@ public:
     void shareCallBack(CCObject* pSender);
     void shareStatus(float dt);
     
+    void competition_callback_820(CCObject *pObj);
     void strangers_callback_802(CCObject* pObj);
     void all_message_callback_804(CCObject* pObj);
     void all_friends_callback_806(CCObject* pObj);
@@ -155,6 +156,5 @@ private:
     CCMenuItem*         _xiaoxiItem;
     CCMenuItem*         _zhitiaoItem;
     CCMenuItemSprite*   item_chat;
-    bool hasFriends;
 };
 #endif /* defined(__tiegao__HaoyouScene__) */

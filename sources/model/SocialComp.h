@@ -33,6 +33,8 @@ public:
     void update_strangers(Value json);
     void init_friends(Value json);
     
+    CC_SYNTHESIZE(bool, _hasInitFriends, HasInitFriends);
+    
 public:
     CCDictionary* strangers();
     CCDictionary* friends() const;      // 包括自己的Show在内

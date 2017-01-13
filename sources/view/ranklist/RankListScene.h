@@ -22,7 +22,7 @@ class NotePanel;
 class RankListScene: public BaseScene
 {
 public:
-    static CCScene* scene();
+    CC_SYNTHESIZE_PASS_BY_REF(string, _comeFrom, ComeFrom);
     
 public:
     ~RankListScene();

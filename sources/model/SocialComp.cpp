@@ -22,6 +22,8 @@ SocialComp::~SocialComp() {
 }
 
 bool SocialComp::init() {
+    _hasInitFriends= false;
+    
     _strangers = NULL;
     _friends = NULL;
     _sortedFriends = NULL;
@@ -83,6 +85,8 @@ void SocialComp::init_friends(Value json) {
     CC_SAFE_RELEASE(_friends);
     _friends = dic;
     _friends->retain();
+    
+    this->setHasInitFriends(true);
     
     CC_SAFE_RELEASE(_sortedFriends);
     _sortedFriends = this->sort_friends_by_collected(_friends);

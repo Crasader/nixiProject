@@ -128,6 +128,7 @@ public:
     void owned_clothes_400();
     void save_dressed_401(CCDictionary* dressed);  // 保留以兼容旧版
     void new_save_dressed_403(CCDictionary* dressed);
+    void save_competition_dress_405(CCDictionary* dressed); // 保存比拼装扮
     
     void ranking_list_300();
     // 每日体力奖励

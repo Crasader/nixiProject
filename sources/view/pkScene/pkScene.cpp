@@ -611,7 +611,7 @@ void pkScene::creatZhuti(){
     CCSprite* diSpr = CCSprite::create("res/pic/pk/pk_di1.png");
     diSpr->setPosition(ccp(zhutiSpr->getContentSize().width* .5f, -diSpr->getContentSize().height* .5f));
     zhutiSpr->addChild(diSpr);
-    CCString* dayStr = CCString::createWithFormat("%d", themeInfo->getDay());
+    CCString* dayStr = CCString::createWithFormat("%d", themeInfo->getDay() + 1);
     CCLabelTTF* dayLabel = CCLabelTTF::create(dayStr->getCString(), DISPLAY->fangzhengFont(), 24);
     dayLabel->setPosition(ccp(diSpr->getContentSize().width* .83f, diSpr->getContentSize().height* .5f));
     dayLabel->setColor(ccc3(255, 37, 37));

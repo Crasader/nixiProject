@@ -24,6 +24,8 @@ class RankListView
 {
 public:
     void reload();
+    void onTitleToggle(CCMenuItemToggle* btn);
+
     CC_SYNTHESIZE(CCArray*, _datasource, Datasource);
     
 public:
@@ -61,7 +63,6 @@ private:
     CCSprite* createSelfPlate(unsigned int idx, int type);
     RankListCell* createItemCell(unsigned int idx);
     
-    void onTitleToggle(CCMenuItemToggle* btn);
     void onSelfBarToggle();
     
     void onAddFriend(CCInteger* pIdx);
