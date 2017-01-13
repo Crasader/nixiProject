@@ -9,7 +9,6 @@
 #include "PkLayer.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
-#include "MainScene.h"
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"

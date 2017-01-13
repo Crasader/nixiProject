@@ -164,7 +164,8 @@ void RankListScene::gotoPkScene(CCMenuItem *btn) {
     CCLOG("RankListScene::gotoPkScene() ...");
     
     CCScene* scene = pkScene::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 void RankListScene::btn_share_callback(CCObject* pSender){

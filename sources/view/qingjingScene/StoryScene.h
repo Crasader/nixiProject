@@ -191,6 +191,7 @@ public:
     void creatButton(int dex);
     void initLabel(int dex);
     void menuEffect(int dex);
+    CCArray* split(const char* srcStr,const char* sSep);
     
     
     const char* getContent(){return content.c_str();}
