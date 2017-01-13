@@ -129,6 +129,11 @@ void HaoyouScene::creat_view(){
     roomSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(roomSpr);
     
+    shareBgSpr = CCSprite::create("res/pic/baseScene/base_shareBg.png");
+    shareBgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    this->addChild(shareBgSpr, 15);
+    shareBgSpr->setVisible(false);
+    
     CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
     CCSprite* backSpr2 = CCSprite::create("res/pic/common/btn_goback2.png");
     backSpr2->setScale(1.02f);
@@ -218,6 +223,8 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
 //    BaseScene::hideBaseScene();
     
     this->hiddenCallback2();
+    shareBgSpr->setVisible(true);
+    
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
@@ -260,6 +267,7 @@ void HaoyouScene::iOS_share_finish(CCObject* pSender) {
 
 void HaoyouScene::shareStatus(float dt){
     allMenu->setVisible(true);
+    shareBgSpr->setVisible(false);
     
     if(this->getChildByTag(0x1008)) {
         this->getChildByTag(0x1008)->setVisible(true);

@@ -9,7 +9,6 @@
 #include "pkScene.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
-#include "MainScene.h"
 #include "ConfigManager.h"
 #include "Loading2.h"
 #include "NetManager.h"
@@ -18,7 +17,7 @@
 #include "AudioManager.h"
 #include "ClothesScene.h"
 #include "PkLayer.h"
-
+#include "RankListScene.h"
 
 
 pkScene::pkScene(){
@@ -131,7 +130,7 @@ void pkScene::creat_view(){
     // 得分规则
     CCSprite* tishiKuangSpr = CCSprite::create("res/pic/pk/pk_kuang3.png");
     tishiKuangSpr->setAnchorPoint(ccp(1.f, .5f));
-    tishiKuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() - 2.f, DISPLAY->ScreenHeight()* .78f));
+    tishiKuangSpr->setPosition(ccp(DISPLAY->ScreenWidth() - 5.f, DISPLAY->ScreenHeight()* .78f));
     this->addChild(tishiKuangSpr, 5);
     this->creatScore(tishiKuangSpr);//
     
@@ -145,7 +144,7 @@ void pkScene::creat_view(){
     
     // 匹配
     CCSprite* tishiSpr1 = CCSprite::create("res/pic/pk/pk_tishi1.png");
-    tishiSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .65f));
+    tishiSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .67f));
     this->addChild(tishiSpr1, 10);
     
     
@@ -178,7 +177,7 @@ void pkScene::creat_view(){
     CCSprite* startSpr2 = CCSprite::create("res/pic/pk/pk_button3.png");
     startSpr2->setScale(1.02f);
     startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(pkScene::startCallback));
-    startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .155f));
+    startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .14f));
     this->creatStart();
     
     // 祝福
@@ -318,14 +317,113 @@ void pkScene::creatHuangguan(CCSprite* huangguanSpr){
     huangguanSpr->addChild(paimingLabel, 3);
 }
 void pkScene::creatRenwuKuang(){
+//    // 1
+//    CCSprite* kuangSpr1_1 = CCSprite::create("res/pic/pk/pk_kuang5.png");
+//    kuangSpr1_1->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+//    this->addChild(kuangSpr1_1, 10);
+//    CCRotateBy* kuangAction1 = CCRotateBy::create(25.f, 360);
+//    kuangSpr1_1->runAction(CCRepeatForever::create(CCRepeatForever::create(kuangAction1)));
+//    CCSprite* kuangSpr1_2 = CCSprite::create("res/pic/pk/pk_kuang4.png");
+//    kuangSpr1_2->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+//    this->addChild(kuangSpr1_2, 11);
+//    
+//    kuangSpr1_3 = CCSprite::create("res/pic/pk/pk_kuang1.png");
+//    kuangSpr1_3->setPosition(ccp(kuangSpr1_2->getContentSize().width* .5f, -kuangSpr1_3->getContentSize().height* .53f));
+//    kuangSpr1_2->addChild(kuangSpr1_3, 11);
+//    this->creatName1(kuangSpr1_3);
+//    
+//    xingSpr1_1 = CCSprite::create("res/pic/pk/pk_xing1.png");
+//    xingSpr1_1->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+//    xingIndex1_1 = 50+ rand()%205;
+//    if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
+//        xingBool1_1 = false;
+//    }else{
+//        xingBool1_1 = true;
+//    }
+//    xingSpr1_1->setOpacity(xingIndex1_1);
+//    this->addChild(xingSpr1_1, 12);
+//    
+//    xingSpr1_2 = CCSprite::create("res/pic/pk/pk_xing2.png");
+//    xingSpr1_2->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+//    xingIndex1_2 = 50+ rand()%205;
+//    if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
+//        xingBool1_2 = false;
+//    }else{
+//        xingBool1_2 = true;
+//    }
+//    xingSpr1_2->setOpacity(xingIndex1_2);
+//    this->addChild(xingSpr1_2, 12);
+//    
+//    xingSpr1_3 = CCSprite::create("res/pic/pk/pk_xing3.png");
+//    xingSpr1_3->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+//    xingIndex1_3 = 50+ rand()%205;
+//    if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
+//        xingBool1_3 = false;
+//    }else{
+//        xingBool1_3 = true;
+//    }
+//    xingSpr1_3->setOpacity(xingIndex1_3);
+//    this->addChild(xingSpr1_3, 12);
+//    
+//    // 2
+//    CCSprite* kuangSpr2_1 = CCSprite::create("res/pic/pk/pk_kuang5.png");
+//    kuangSpr2_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+//    this->addChild(kuangSpr2_1, 10);
+//    CCRotateBy* kuangAction2 = CCRotateBy::create(25.f, -360);
+//    kuangSpr2_1->runAction(CCRepeatForever::create(CCRepeatForever::create(kuangAction2)));
+//    CCSprite* kuangSpr2_2 = CCSprite::create("res/pic/pk/pk_kuang4.png");
+//    kuangSpr2_2->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+//    this->addChild(kuangSpr2_2, 11);
+//    
+//    kuangSpr2_3 = CCSprite::create("res/pic/pk/pk_kuang1.png");
+//    kuangSpr2_3->setPosition(ccp(kuangSpr2_2->getContentSize().width* .5f, -kuangSpr2_3->getContentSize().height* .53f));
+//    kuangSpr2_2->addChild(kuangSpr2_3, 11);
+//    this->creatName2(kuangSpr2_3, NULL);
+//    
+//    
+//    xingSpr2_1 = CCSprite::create("res/pic/pk/pk_xing1.png");
+//    xingSpr2_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+//    xingIndex2_1 = 50+ rand()%205;
+//    if (xingIndex2_1 > 50 && xingIndex2_1< 255) {
+//        xingBool2_1 = false;
+//    }else{
+//        xingBool2_1 = true;
+//    }
+//    xingSpr2_1->setOpacity(xingIndex2_1);
+//    this->addChild(xingSpr2_1, 12);
+//    
+//    xingSpr2_2 = CCSprite::create("res/pic/pk/pk_xing2.png");
+//    xingSpr2_2->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+//    xingIndex2_2 = 50+ rand()%205;
+//    if (xingIndex2_2 > 50 && xingIndex2_2< 255) {
+//        xingBool2_2 = false;
+//    }else{
+//        xingBool2_2 = true;
+//    }
+//    xingSpr2_2->setOpacity(xingIndex2_2);
+//    this->addChild(xingSpr2_2, 12);
+//    
+//    xingSpr2_3 = CCSprite::create("res/pic/pk/pk_xing3.png");
+//    xingSpr2_3->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+//    xingIndex2_3 = 50+ rand()%205;
+//    if (xingIndex2_3 > 50 && xingIndex2_3< 255) {
+//        xingBool2_3 = false;
+//    }else{
+//        xingBool2_3 = true;
+//    }
+//    xingSpr2_3->setOpacity(xingIndex2_3);
+//    this->addChild(xingSpr2_3, 12);
+    
     // 1
     CCSprite* kuangSpr1_1 = CCSprite::create("res/pic/pk/pk_kuang5.png");
-    kuangSpr1_1->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+    kuangSpr1_1->setScale(1.15f);
+    kuangSpr1_1->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(kuangSpr1_1, 10);
     CCRotateBy* kuangAction1 = CCRotateBy::create(25.f, 360);
     kuangSpr1_1->runAction(CCRepeatForever::create(CCRepeatForever::create(kuangAction1)));
     CCSprite* kuangSpr1_2 = CCSprite::create("res/pic/pk/pk_kuang4.png");
-    kuangSpr1_2->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+    kuangSpr1_2->setScale(1.15f);
+    kuangSpr1_2->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(kuangSpr1_2, 11);
     
     kuangSpr1_3 = CCSprite::create("res/pic/pk/pk_kuang1.png");
@@ -334,7 +432,8 @@ void pkScene::creatRenwuKuang(){
     this->creatName1(kuangSpr1_3);
     
     xingSpr1_1 = CCSprite::create("res/pic/pk/pk_xing1.png");
-    xingSpr1_1->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+    xingSpr1_1->setScale(1.15f);
+    xingSpr1_1->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .53f));
     xingIndex1_1 = 50+ rand()%205;
     if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
         xingBool1_1 = false;
@@ -345,7 +444,8 @@ void pkScene::creatRenwuKuang(){
     this->addChild(xingSpr1_1, 12);
     
     xingSpr1_2 = CCSprite::create("res/pic/pk/pk_xing2.png");
-    xingSpr1_2->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+    xingSpr1_2->setScale(1.15f);
+    xingSpr1_2->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .53f));
     xingIndex1_2 = 50+ rand()%205;
     if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
         xingBool1_2 = false;
@@ -356,7 +456,8 @@ void pkScene::creatRenwuKuang(){
     this->addChild(xingSpr1_2, 12);
     
     xingSpr1_3 = CCSprite::create("res/pic/pk/pk_xing3.png");
-    xingSpr1_3->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+    xingSpr1_3->setScale(1.15f);
+    xingSpr1_3->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .53f));
     xingIndex1_3 = 50+ rand()%205;
     if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
         xingBool1_3 = false;
@@ -368,12 +469,14 @@ void pkScene::creatRenwuKuang(){
     
     // 2
     CCSprite* kuangSpr2_1 = CCSprite::create("res/pic/pk/pk_kuang5.png");
-    kuangSpr2_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    kuangSpr2_1->setScale(1.15f);
+    kuangSpr2_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(kuangSpr2_1, 10);
     CCRotateBy* kuangAction2 = CCRotateBy::create(25.f, -360);
     kuangSpr2_1->runAction(CCRepeatForever::create(CCRepeatForever::create(kuangAction2)));
     CCSprite* kuangSpr2_2 = CCSprite::create("res/pic/pk/pk_kuang4.png");
-    kuangSpr2_2->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    kuangSpr2_2->setScale(1.15f);
+    kuangSpr2_2->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(kuangSpr2_2, 11);
     
     kuangSpr2_3 = CCSprite::create("res/pic/pk/pk_kuang1.png");
@@ -383,7 +486,8 @@ void pkScene::creatRenwuKuang(){
     
     
     xingSpr2_1 = CCSprite::create("res/pic/pk/pk_xing1.png");
-    xingSpr2_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    xingSpr2_1->setScale(1.15f);
+    xingSpr2_1->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     xingIndex2_1 = 50+ rand()%205;
     if (xingIndex2_1 > 50 && xingIndex2_1< 255) {
         xingBool2_1 = false;
@@ -394,7 +498,8 @@ void pkScene::creatRenwuKuang(){
     this->addChild(xingSpr2_1, 12);
     
     xingSpr2_2 = CCSprite::create("res/pic/pk/pk_xing2.png");
-    xingSpr2_2->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    xingSpr2_2->setScale(1.15f);
+    xingSpr2_2->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     xingIndex2_2 = 50+ rand()%205;
     if (xingIndex2_2 > 50 && xingIndex2_2< 255) {
         xingBool2_2 = false;
@@ -405,7 +510,8 @@ void pkScene::creatRenwuKuang(){
     this->addChild(xingSpr2_2, 12);
     
     xingSpr2_3 = CCSprite::create("res/pic/pk/pk_xing3.png");
-    xingSpr2_3->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    xingSpr2_3->setScale(1.15f);
+    xingSpr2_3->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     xingIndex2_3 = 50+ rand()%205;
     if (xingIndex2_3 > 50 && xingIndex2_3< 255) {
         xingBool2_3 = false;
@@ -414,6 +520,8 @@ void pkScene::creatRenwuKuang(){
     }
     xingSpr2_3->setOpacity(xingIndex2_3);
     this->addChild(xingSpr2_3, 12);
+    
+    
     this->schedule(SEL_SCHEDULE(&pkScene::updateOpacity), .1f);
 }
 void pkScene::creatName1(CCSprite* kuangSpr){
@@ -480,13 +588,15 @@ void pkScene::creatName2(CCSprite* kuangSpr, CompetitionItem* item){
 }
 void pkScene::creatKuangButton(){
     CCSprite* kuangSpr = CCSprite::create("res/pic/pk/pk_moban2.png");
-    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    kuangSpr->setScale(1.15f);
+    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     kuangSpr->setTag(0x99999);
     this->addChild(kuangSpr, 30);
     
     CCSprite* buttonSpr1 = CCSprite::create("res/pic/pk/pk_button1.png");
+    buttonSpr1->setScale(1.1f);
     CCSprite* buttonSpr2 = CCSprite::create("res/pic/pk/pk_button1.png");
-    buttonSpr2->setScale(1.02f);
+    buttonSpr2->setScale(1.12f);
     CCMenuItem* item = CCMenuItemSprite::create(buttonSpr1, buttonSpr2, this, menu_selector(pkScene::buttonCallBack));
     item->setPosition(ccp(kuangSpr->getContentSize().width* .5f, 5));
     CCMenu* menu = CCMenu::create(item, NULL);
@@ -551,26 +661,26 @@ void pkScene::_821Callback(CCObject *pObj){
 
 void pkScene::creatDuijue(){
     CCSprite* duijueSpr1 = CCSprite::create("res/pic/pk/pk_duijue1.png");
-    duijueSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
+    duijueSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(duijueSpr1, 15);
     CCSprite* duijueGuangSpr1 = CCSprite::create("res/pic/pk/pk_guang2.png");
-    duijueGuangSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
+    duijueGuangSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(duijueGuangSpr1, 16);
     CCRotateBy* duijueGuangAction = CCRotateBy::create(6.f, 360);
     duijueGuangSpr1->runAction(CCRepeatForever::create(CCRepeatForever::create(duijueGuangAction)));
     
     CCSprite* quanSpr = CCSprite::create("res/pic/pk/pk_quan1.png");
-    quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
+    quanSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(quanSpr, 17);
     CCAnimation* quanAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("quanStr");
     CCAnimate* quanAnimate = CCAnimate::create(quanAnimation);
     quanSpr->runAction(CCRepeatForever::create(quanAnimate));
     
     CCSprite* duijueSpr2 = CCSprite::create("res/pic/pk/pk_duijue2.png");
-    duijueSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
+    duijueSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(duijueSpr2, 18);
     CCSprite* duijueGuangSpr2 = CCSprite::create("res/pic/pk/pk_guang3.png");
-    duijueGuangSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .52f));
+    duijueGuangSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .53f));
     this->addChild(duijueGuangSpr2, 19);
     CCScaleTo* scaleTo1 = CCScaleTo::create(.5f, 1.1f);
     CCFadeOut* fadeOut1 = CCFadeOut::create(.2f);
@@ -585,7 +695,7 @@ void pkScene::creatZhuti(){
     
     // 主题
     CCSprite* zhutiSpr = CCSprite::create("res/pic/pk/pk_zhuti.png");
-    zhutiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .28f));
+    zhutiSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .26f));
     this->addChild(zhutiSpr, 10);
     
     if (tagArr->count() > 0) {
@@ -734,7 +844,7 @@ void pkScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
     num_child = 0;
-    CCScene* scene = MainScene::scene();
+    CCScene* scene = RankListScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
@@ -893,9 +1003,9 @@ void pkScene::updateOpacity(float dt){
 }
 void pkScene::creat_Man1()
 {
-    float widthFolt = .315f;
+    float widthFolt = .32f;
     float heightFloat = .34f;
-    float scaleFloat = .75f;
+    float scaleFloat = .82f;
     bool flipxBool = false;
     
     // 裁剪节点
@@ -906,7 +1016,8 @@ void pkScene::creat_Man1()
     
     // 创建遮罩模板图片，并设置到裁剪节点
     CCSprite *holeStencil = CCSprite::create("res/pic/pk/pk_moban.png");  //孔图
-    holeStencil->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .52f));
+    holeStencil->setScale(1.15f);
+    holeStencil->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .53f));
     holesClipper->setStencil( holeStencil);
     // 裁剪节点加载到背景图
     this->addChild(holesClipper, 20);
@@ -916,26 +1027,26 @@ void pkScene::creat_Man1()
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
     manSpr->setScale(scaleFloat);
     manSpr->setFlipX(flipxBool);
-    manSpr->setPosition(ccp(holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat));
+    manSpr->setPosition(ccp(holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat));
     holesClipper->addChild(manSpr, 200);
     
     CCSprite* touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
     touSpr->setScale(scaleFloat);
     touSpr->setFlipX(flipxBool);
-    touSpr->setPosition(ccp(holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat));
+    touSpr->setPosition(ccp(holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
     
     CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
-    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
+    this->initClothes(holesClipper, holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 
 
 
 void pkScene::creat_Man2(){
-    float widthFolt = .915f;
+    float widthFolt = .92f;
     float heightFloat = .34f;
-    float scaleFloat = .75f;
+    float scaleFloat = .82f;
     bool flipxBool = false;
     
     // 裁剪节点
@@ -947,7 +1058,8 @@ void pkScene::creat_Man2(){
     
     // 创建遮罩模板图片，并设置到裁剪节点
     CCSprite *holeStencil = CCSprite::create("res/pic/pk/pk_moban.png");  //孔图
-    holeStencil->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .52f));
+    holeStencil->setScale(1.15f);
+    holeStencil->setPosition(ccp(DISPLAY->ScreenWidth()* .8f, DISPLAY->ScreenHeight()* .53f));
     holesClipper->setStencil( holeStencil);
     // 裁剪节点加载到背景图
     this->addChild(holesClipper, 20);
@@ -957,18 +1069,18 @@ void pkScene::creat_Man2(){
     CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
     manSpr->setScale(scaleFloat);
     manSpr->setFlipX(flipxBool);
-    manSpr->setPosition(ccp(holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat));
+    manSpr->setPosition(ccp(holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat));
     holesClipper->addChild(manSpr, 200);
     
     CCSprite* touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
     touSpr->setScale(scaleFloat);
     touSpr->setFlipX(flipxBool);
-    touSpr->setPosition(ccp(holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat));
+    touSpr->setPosition(ccp(holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
     
     CCDictionary* clothesDic = opponentItem->getOndress(); // 男宠衣着
-    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
+    this->initClothes(holesClipper, holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 void pkScene::initClothes(CCClippingNode * _ManSpr, float widthFolt, float heightFloat, float scaleFloat, bool flipxBool, CCDictionary* myClothesTemp){//穿衣服
     
