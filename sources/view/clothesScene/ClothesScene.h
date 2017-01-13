@@ -99,7 +99,7 @@ public:
     ~ClothesScene();
     
     virtual bool init();
-    // type_id = clothesStatus - 1:换装任务, 2:纯换装, 3:神秘事件, 4:约会
+    // type_id = clothesStatus - 1:换装任务, 2:纯换装, 3:神秘事件, 4:约会, 5:比拼
     // 公司任务和换装用
     static ClothesScene* create_with_type(int _type_id, int _task_index, int _task_phase);
     void init_with_type(int _type_id, int _task_index, int _task_phase);
@@ -249,7 +249,7 @@ public:
     
 private:
     void Http_Finished_401(CCObject* pObj);
-    void Http_Finished_403(CCObject* pObj);
+//    void Http_Finished_403(CCObject* pObj);
     
 //    void Http_Finished_601(CCObject* pObj);
     void Http_Finished_603(CCObject* pObj);

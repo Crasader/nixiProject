@@ -1454,7 +1454,7 @@ void PkLayer::creat_Man1(){
     holesClipper->addChild(touSpr, 210);
     
     
-    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    CCDictionary* clothesDic = DATA->getCompetition()->getSelf()->getOndress(); //DATA->getClothes()->MyClothesTemp(); // 男宠衣着
     this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 void PkLayer::creat_Man2(){

@@ -18,7 +18,8 @@
 #include "FriendsScene.h"
 
 #include "StrangerScene.h"
-#include "TotalRankScene.h"
+//#include "TotalRankScene.h"
+#include "RankListScene.h"
 #include "Loading2.h"
 #include "NetManager.h"
 #include "MessageLayer.h"
@@ -51,8 +52,6 @@ bool HaoyouScene::init(){
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
-    hasFriends = false;
-    
     this->creat_view();
     this->creat_Man();
     this->initClothes();
@@ -74,6 +73,7 @@ void HaoyouScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::competition_callback_820), "HTTP_FINISHED_820", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::strangers_callback_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
@@ -435,24 +435,29 @@ void HaoyouScene::haoyouCallBack(CCObject* pSender){
     NET->all_friends_806();
 }
 
+void HaoyouScene::competition_callback_820(CCObject *pObj) {
+    if (DATA->getSocial()->getHasInitFriends()) {
+        this->all_friends_callback_806(NULL);
+    }
+    else {
+        NET->all_friends_806();
+    }
+}
+
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
     LOADING->remove();
-    
-    if (hasFriends) {
-        CCLayer* layer = TotalRankScene::create_with_type(2);
-        CCScene* scene = CCScene::create();
-        scene->addChild(layer);
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
-    }else{
-        CCScene* scene = FriendsScene::scene();
-        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-        CCDirector::sharedDirector()->replaceScene(trans);
-    }
-//    CCScene* scene = HaoyouRankLayer::scene();
-//    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//    CCDirector::sharedDirector()->replaceScene(trans);
-    
+//    if (_hasLoadRanklist) {
+    RankListScene* layer = RankListScene::create();
+    layer->setComeFrom("social");
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
+//    }else{
+//        CCScene* scene = FriendsScene::scene();
+//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+//        CCDirector::sharedDirector()->replaceScene(trans);
+//    }
 }
 
 void HaoyouScene::strangerCallBack(CCObject* pSender){
@@ -470,13 +475,12 @@ void HaoyouScene::paihangCallBack(CCObject* pSender){
     DATA->onEvent("点击事件", "好友界面", "点击排行");
     
     LOADING->show_loading();
-    NET->ranking_list_300();
+//    NET->ranking_list_300();
+    NET->competition_info_820();
 }
 
 void HaoyouScene::rank_list_callback_300(CCObject *pObj){    
-    hasFriends = true;
     NET->all_friends_806();
-    
 }
 
 void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){

@@ -30,12 +30,6 @@
 
 const float totalRank_z_oder = 20.f;
 
-CCScene* RankListScene::scene() {
-    RankListScene* layer = RankListScene::create();
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    return scene;
-}
 
 RankListScene::~RankListScene() {
 
@@ -46,7 +40,6 @@ bool RankListScene::init() {
         return false;
     }
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListScene::changeShower), "NEED_CHANGE_SHOWER", NULL);
     num_child = 0;
     
     CCSprite* background = CCSprite::create("pic/haoyoupaihang/rank_bg_1.png");
@@ -78,11 +71,14 @@ void RankListScene::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp321), "HTTP_FINISHED_321", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&RankListScene::changeShower), "NEED_CHANGE_SHOWER", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&RankListScene::keyBackStatus), .8f);
     
     // 静默发送
     NET->ranking_list_300();
+    this->_rlv->onTitleToggle(NULL);
+
 }
 
 void RankListScene::onExit(){
@@ -154,9 +150,16 @@ void RankListScene::createUI(){
     CCMenu* menuPlate = CCMenu::createWithItem(btnPlate);
     menuPlate->setPosition(ccp(-4, - sptPlate1->getContentSize().height * 0.125));
     tiny->addChild(menuPlate);
+    
+    // 自个分数
+    CCString* strScore = CCString::createWithFormat("分数: %d", DATA->getShow()->competition());
+    CCLabelTTF* lblScore = CCLabelTTF::create(strScore->getCString(), DISPLAY->fangzhengFont(), 22);
+    lblScore->setPosition(ccp(sptPlate1->getContentSize().width * 0.5f, sptPlate1->getContentSize().height * 0.23f));
+    btnPlate->addChild(lblScore);
 }
 
 void RankListScene::gotoPkScene(CCMenuItem *btn) {
+    AUDIO->comfirm_effect();
     CCLOG("RankListScene::gotoPkScene() ...");
     
     CCScene* scene = pkScene::scene();
@@ -269,9 +272,18 @@ void RankListScene::btn_back_callback(CCObject* pSender){
     DATA->onEvent("点击事件", "排行界面", "点击返回");
     
     num_child = 0;
-    CCScene* scene = HaoyouScene::scene();
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    CCScene* scene = NULL;
+    if (this->getComeFrom().compare("main") == 0) {
+        scene = MainScene::scene();
+    }
+    else if (this->getComeFrom().compare("social") == 0) {
+        scene = HaoyouScene::scene();
+    }
+    
+    if (scene) {
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 void RankListScene::changeShower(ShowComp* shower) {

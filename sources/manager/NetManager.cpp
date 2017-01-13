@@ -613,6 +613,30 @@ void NetManager::new_save_dressed_403(CCDictionary *dressed) {
     this->post_data(403, data);
 }
 
+void NetManager::save_competition_dress_405(CCDictionary *dressed) {
+    FastWriter writer;
+    Value root;
+    CCDictElement* pElem = NULL;
+    CCDICT_FOREACH(dressed, pElem) {
+        const char* key = pElem->getStrKey();
+        if (strcmp(key, "7") == 0) {
+            CCDictionary* part7 = (CCDictionary* )dressed->objectForKey(key);
+            int count = part7->count();
+            CCArray* keys = part7->allKeys();
+            for (int i = 0; i < count; i++) {
+                CCString* key2 = (CCString* )keys->objectAtIndex(i);
+                root["ornaments"][key2->getCString()] = ((CCInteger* )part7->objectForKey(key2->getCString()))->getValue();
+            }
+        }
+        else {
+            root["ondress"][key] = ((CCInteger* )dressed->objectForKey(key))->getValue();
+        }
+    }
+    
+    string data = writer.write(root);
+    this->post_data(405, data);
+}
+
 
 void NetManager::ranking_list_300() {
     this->post_data(300, string(""));

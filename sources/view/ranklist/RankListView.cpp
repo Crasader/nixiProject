@@ -8,11 +8,11 @@
 
 #include "RankListView.h"
 #include "DataManager.h"
+#include "AudioManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
 
 #include "RankListCell.h"
-#include "TotalRankScene.h"
 
 #include "PromptLayer.h"
 
@@ -109,7 +109,6 @@ bool RankListView::init() {
         panel->addChild(_tv);
     }
     
-    this->onTitleToggle(NULL);
     
     return true;
 }
@@ -199,7 +198,7 @@ void RankListView::onEnter(){
     
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::onAddFriend), "ON_ADD_FRIEND", NULL);
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);    
 }
 
 void RankListView::onExit(){
@@ -267,6 +266,8 @@ RankListCell* RankListView::createItemCell(unsigned int idx) {
 }
 
 void RankListView::onTitleToggle(CCMenuItemToggle *btn) {
+    AUDIO->comfirm_effect();
+    
     if (_isShowCompetition) {
         _isShowCompetition = false;
         this->setDatasource(DATA->getRanking()->ranking());
@@ -326,9 +327,10 @@ void RankListView::onAddFriend(CCInteger* pIdx) {
 
 void RankListView::tobeFriend_callback_803(){
     if (_selectedIndex >= 0) {
-        _tv->updateCellAtIndex(_selectedIndex);
         ShowComp* other = (ShowComp* )_datasource->objectAtIndex(_selectedIndex);
         other->isadd = 1;
+        //
+        _tv->updateCellAtIndex(_selectedIndex);
     }
     
     PromptLayer* tip = PromptLayer::create();
@@ -372,6 +374,8 @@ CCTableViewCell* RankListView::tableCellAtIndex(CCTableView *table, unsigned int
 
 //点击哪个cell
 void RankListView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
+    AUDIO->right_effect();
+    
     int idx = cell->getIdx();
     if (idx != _selectedIndex) {
         int oldSelected = _selectedIndex;

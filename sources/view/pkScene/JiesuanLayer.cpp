@@ -16,6 +16,7 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 #include "pkScene.h"
+#include "RankListScene.h"
 
 
 JiesuanLayer::JiesuanLayer(){
@@ -273,15 +274,14 @@ void JiesuanLayer::lingquCallback(CCObject* pSender){
 void JiesuanLayer::lingquCallback2(float dt){
     LOADING->remove();
     
-    CCScene* scene = pkScene::scene();
+    
+    RankListScene* layer = RankListScene::create();
+    layer->setComeFrom("main");
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
-
-
-
-
-
 
 void JiesuanLayer::creat_Man1(){
     
@@ -355,7 +355,7 @@ void JiesuanLayer::creat_Man1(){
     touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat));
     holesClipper->addChild(touSpr, 210);
     
-    CCDictionary* clothesDic = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    CCDictionary* clothesDic = DATA->getCompetition()->getSelf()->getOndress();
     this->initClothes(holesClipper, DISPLAY->ScreenWidth()* widthFolt, bgSpr1->getContentSize().height* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 void JiesuanLayer::creat_Man2(){

@@ -1583,7 +1583,12 @@ void MainScene::paihangCallBack(CCObject* pSender){
 //}
 
 void MainScene::competition_callback_820(CCObject *pObj) {
-    NET->all_friends_806();
+    if (DATA->getSocial()->getHasInitFriends()) {
+        this->all_friends_callback_806(NULL);
+    }
+    else {
+        NET->all_friends_806();
+    }
 }
 
 void MainScene::nc_recharge_info_304(CCObject *pObj){
@@ -1606,7 +1611,6 @@ void MainScene::nc_gashapon_info_306(CCObject *pObj) {
 }
 
 void MainScene::all_friends_callback_806(CCObject *pObj){
-    AUDIO->comfirm_effect();
     LOADING->remove();
 //    CCLayer* layer = TotalRankScene::create_with_type(1);
 //    CCScene* scene = CCScene::create();
@@ -1614,7 +1618,10 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 //    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
 //    CCDirector::sharedDirector()->replaceScene(trans);
 
-    CCScene* scene = RankListScene::scene();
+    RankListScene* layer = RankListScene::create();
+    layer->setComeFrom("main");
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

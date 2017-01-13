@@ -184,7 +184,8 @@ void ClothesScene::onEnter(){
     
     
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_401", NULL);
-    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_403), "HTTP_FINISHED_403", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_403", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_401), "HTTP_FINISHED_405", NULL);
     
 //    nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_601), "HTTP_FINISHED_601", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::Http_Finished_603), "HTTP_FINISHED_603", NULL);
@@ -1577,7 +1578,12 @@ void ClothesScene::startMethods(){
             startTask = true;
             LOADING->show_loading();
 //            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-            NET->new_save_dressed_403(DATA->getClothes()->MyClothesTemp());
+            if (clothesStatus == 5) {
+                NET->save_competition_dress_405(DATA->getClothes()->MyClothesTemp());
+            }
+            else {
+                NET->new_save_dressed_403(DATA->getClothes()->MyClothesTemp());
+            }
             
         }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold()){
             if (DATA->getPlayer()->diam < haveEnoughGold()) {
@@ -1798,7 +1804,12 @@ void ClothesScene::saveClothesMethods(){
             
             LOADING->show_loading();
 //            NET->save_dressed_401(DATA->getClothes()->MyClothesTemp());
-            NET->new_save_dressed_403(DATA->getClothes()->MyClothesTemp());
+            if (clothesStatus == 5) {
+                NET->save_competition_dress_405(DATA->getClothes()->MyClothesTemp());
+            }
+            else {
+                NET->new_save_dressed_403(DATA->getClothes()->MyClothesTemp());
+            }
             
         }else if (DATA->getPlayer()->coin < haveEnoughCoin() || DATA->getPlayer()->diam < haveEnoughGold() || DATA->getOperation()->getPiece() < haveEnoughDebris()){
             if (DATA->getPlayer()->diam < haveEnoughGold()) {
@@ -1899,6 +1910,7 @@ void ClothesScene::creat_Man(){
     _touSpr->setScale(scaleFloat);
     _ManSpr->addChild(_touSpr, 210);
 }
+
 void ClothesScene::initClothes(){//穿衣服
     float widthFolt = .5f;
     float heightFloat = .5f;
@@ -1906,7 +1918,13 @@ void ClothesScene::initClothes(){//穿衣服
     bool flipxBool = false;
     int sub_part = 0;
     
-    CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着
+    CCDictionary* dress = NULL;
+    if (clothesStatus == 5) {
+        dress = DATA->getCompetition()->getSelf()->getOndress();
+    }
+    else {
+        dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着;
+    }
     
     for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         if (i == Tag_CL_TouFa) {
@@ -3321,9 +3339,9 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
     }
 }
 
-void ClothesScene::Http_Finished_403(cocos2d::CCObject *pObj) {
-    this->Http_Finished_401(pObj);
-}
+//void ClothesScene::Http_Finished_403(cocos2d::CCObject *pObj) {
+//    this->Http_Finished_401(pObj);
+//}
 
 void ClothesScene::create_buySuccess(){
     animationBool = true;

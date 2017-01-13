@@ -13,9 +13,8 @@
 #pragma mark - Export API
 
 void ShowerView::change_shower(CCDictionary *clothes) {
-    Shower* oldShower = (Shower*)_curShower;
-    if (oldShower) {
-        oldShower->removeFromParentAndCleanup(true);
+    if (_curShower) {
+        _curShower->removeFromParentAndCleanup(true);
         _curShower = NULL;
     }
     
