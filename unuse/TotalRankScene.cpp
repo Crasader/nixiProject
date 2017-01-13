@@ -646,6 +646,9 @@ void TotalRankScene::shareStatus(float dt){
 void TotalRankScene::_321CallBack(CCObject* pSender){
     LOADING->remove();
     
+    if (this->getChildByTag(0x99999) != NULL) {
+        this->removeChildByTag(0x99999);
+    }
     if (this->getChildByTag(0x334455) != NULL) {
         this->removeChildByTag(0x334455);
     }

@@ -118,6 +118,7 @@ public:
     CCMenuItem* shareItem;
     
     CCSprite* roomSpr;
+    CCSprite* shareBgSpr;
     CCSprite* taskKuang;
     CCSprite* kuangSpr;
     CCSprite* _ManSpr;

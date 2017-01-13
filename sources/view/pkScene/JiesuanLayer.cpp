@@ -15,6 +15,7 @@
 #include "AppUtil.h"
 #include "PromptLayer.h"
 #include "AudioManager.h"
+#include "pkScene.h"
 #include "RankListScene.h"
 
 
@@ -272,6 +273,7 @@ void JiesuanLayer::lingquCallback(CCObject* pSender){
 }
 void JiesuanLayer::lingquCallback2(float dt){
     LOADING->remove();
+    
     
     RankListScene* layer = RankListScene::create();
     layer->setComeFrom("main");

@@ -108,7 +108,7 @@ void RankListScene::createUI(){
     CCSprite* shareSpr2 = CCSprite::create("pic/ranklist/rl_share.png");
     shareSpr2->setScale(1.02f);
     
-    CCMenuItemSprite* item_share = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RankListScene::testPK));
+    CCMenuItemSprite* item_share = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RankListScene::btn_share_callback));
     item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
     CCMenu* menu_share = CCMenu::create(item_share, NULL);
     menu_share->setPosition(CCPointZero);

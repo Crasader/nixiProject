@@ -742,7 +742,7 @@ void TaskSettlementLayer2::logic(float dt){
         
         coinSpr->setVisible(true);
         lingquItem->setVisible(true);
-//        shareItem->setVisible(true);
+        shareItem->setVisible(true);
         
         return;
     }else{
