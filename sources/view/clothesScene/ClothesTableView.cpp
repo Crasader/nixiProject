@@ -772,6 +772,21 @@ cocos2d::extension::CCTableViewCell* ClothesTableView::tableCellAtIndex(cocos2d:
         phaseSpr->setAnchorPoint(CCPointZero);
         phaseSpr->setPosition(CCPointZero);
         spr->addChild(phaseSpr, 100);
+        
+        CCString* labelStr;
+        if (phase == 2) {
+            labelStr = CCString::createWithFormat("二级公司解锁");
+        }else if (phase == 3){
+            labelStr = CCString::createWithFormat("三级公司解锁");
+        }else if (phase == 4){
+            labelStr = CCString::createWithFormat("四级公司解锁");
+        }else if (phase == 5){
+            labelStr = CCString::createWithFormat("五级公司解锁");
+        }
+        CCLabelTTF* costLabel = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 17, CCSizeMake(phaseSpr->getContentSize().width* .9f, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        costLabel->setPosition(ccp(phaseSpr->getContentSize().width* .5f, phaseSpr->getContentSize().height* .6f));
+        costLabel->setColor(ccWHITE);
+        phaseSpr->addChild(costLabel);
     }else if (!DATA->getClothes()->is_owned(clothesType, cloth_id)){
         int cloth_type = dic->valueForKey("type")->intValue();
         if (cloth_type == 10) {

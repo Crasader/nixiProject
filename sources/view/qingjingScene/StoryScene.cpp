@@ -136,8 +136,8 @@ void StoryScene::init_with_story_id(int _index){
     
     dialog = Dialogs::create();
     dialog->retain();
-    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
-//    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 14);
+//    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
+    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 30);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
     dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
@@ -721,8 +721,9 @@ void StoryScene::creatPassersbyMan(float dt){
 void StoryScene::creatManEyesAnimation(){
     
     if (ccs(dialogItem->getNameId())->intValue() != 0) {
-        std::string::size_type idx = dialogItem->getZishi_1().find(dialogItem->getNameId());
-        if (idx != string::npos) {
+        CCArray* printArray = split(dialogItem->getZishi_1().c_str(), "_");
+        CCString* temStr = (CCString* )printArray->objectAtIndex(0);
+        if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
 //            CCLog("字符串含有");
             std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
             if (idx1 != string::npos) {
@@ -766,10 +767,10 @@ void StoryScene::toPassersbyEyesAnimation2(){
 void StoryScene::creatPassersbyEyesAnimation(int nameIndex){
     
     if (ccs(dialogItem->getNameId())->intValue() != 0) {
-        std::string::size_type idx;
         if (nameIndex == 1) {
-            idx = dialogItem->getZishi_1().find(dialogItem->getNameId());
-            if (idx != string::npos) {
+            CCArray* printArray = split(dialogItem->getZishi_1().c_str(), "_");
+            CCString* temStr = (CCString* )printArray->objectAtIndex(0);
+            if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
                 std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
                 if (idx1 != string::npos) {
                     passersbyBool1 = true;
@@ -778,8 +779,9 @@ void StoryScene::creatPassersbyEyesAnimation(int nameIndex){
                 }
             }
         }else if (nameIndex == 2){
-            idx = dialogItem->getZishi_2().find(dialogItem->getNameId());
-            if (idx != string::npos) {
+            CCArray* printArray = split(dialogItem->getZishi_2().c_str(), "_");
+            CCString* temStr = (CCString* )printArray->objectAtIndex(0);
+            if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
                 std::string::size_type idx1 = dialogItem->getHead_2().find("_1");
                 if (idx1 != string::npos) {
                     passersbyBool2 = true;
@@ -815,8 +817,9 @@ void StoryScene::creatPassersbyBlinkEyes(){
         CCRepeatForever* rep = CCRepeatForever::create(animate);
         
         if (headSpr1 != NULL) {
-            std::string::size_type idx = dialogItem->getZishi_1().find(dialogItem->getNameId());
-            if (idx != string::npos) {
+            CCArray* printArray = split(dialogItem->getZishi_1().c_str(), "_");
+            CCString* temStr = (CCString* )printArray->objectAtIndex(0);
+            if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
                 std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
                 if (idx1 != string::npos) {
                     CCDirector::sharedDirector()->getActionManager()->addAction(rep, headSpr1, false);
@@ -831,8 +834,9 @@ void StoryScene::creatPassersbyBlinkEyes(){
         CCRepeatForever* rep = CCRepeatForever::create(animate);
         
         if (headSpr2 != NULL) {
-            std::string::size_type idx = dialogItem->getZishi_2().find(dialogItem->getNameId());
-            if (idx != string::npos) {
+            CCArray* printArray = split(dialogItem->getZishi_2().c_str(), "_");
+            CCString* temStr = (CCString* )printArray->objectAtIndex(0);
+            if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
                 std::string::size_type idx1 = dialogItem->getHead_2().find("_1");
                 if (idx1 != string::npos) {
                     CCDirector::sharedDirector()->getActionManager()->addAction(rep, headSpr2, false);
@@ -960,7 +964,7 @@ void StoryScene::logic(float dt){
         
         // 101 、1002-1014
         int nameId = atoi(dialogItem->getNameId().c_str());
-        if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+        if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202 && nameId != 1017 && nameId != 1018 && nameId != 1030) {
             
             if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
                 if (!quanBool) {
@@ -1026,7 +1030,7 @@ void StoryScene::logic(float dt){
         if (buttonBool1) {
             // 101 、1002-1014
             int nameId = atoi(dialogItem->getNameId().c_str());
-            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202 && nameId != 1017 && nameId != 1018 && nameId != 1030) {
                 
                 if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
                     wordCount = getContentLength();
@@ -4465,7 +4469,43 @@ void StoryScene::creat_Animation77(DialogItem* dialItem, int index, CCSprite* sp
 
 
 
-
+CCArray* StoryScene::split(const char* srcStr,const char* sSep)
+{
+    CCArray* stringArr = CCArray::create();
+    
+    CCString* str = CCString::create(srcStr);
+    
+    int size = strlen(srcStr);
+    
+    int istartpos = 0;
+    int iendpos   = 0;
+    iendpos = str->m_sString.find(sSep);
+    
+    CCString *strSingle = NULL;
+    
+    /*将分割的字符串添加到容器里面*/
+    while (iendpos>0)
+    {
+        strSingle = CCString::create("");
+        
+        strSingle->m_sString = str->m_sString.substr(istartpos,iendpos);
+        
+        stringArr->addObject(strSingle);
+        
+        str->m_sString = str->m_sString.substr(iendpos+1,size);
+        
+        iendpos = str->m_sString.find(sSep);
+        
+        size = str->m_sString.size();
+    }
+    
+    if (str->m_sString.compare("")!=0)
+    {
+        stringArr->addObject(CCString::create(str->m_sString));
+    }  
+    
+    return stringArr;  
+}
 
 
 
