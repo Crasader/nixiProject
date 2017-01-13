@@ -45,7 +45,9 @@ bool HaoyouScene::init(){
     if (!BaseScene::init()) {
         return false;
     }
+    
     num_child = 0;
+    _isLoadRanklist = false;
     
     allClothesDic = CONFIG->clothes();// 所有衣服
     
@@ -73,7 +75,7 @@ void HaoyouScene::onEnter(){
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::competition_callback_820), "HTTP_FINISHED_820", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::competition_callback_820), "HTTP_FINISHED_820", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::strangers_callback_802), "HTTP_FINISHED_802", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_message_callback_804), "HTTP_FINISHED_804", NULL);
     nc->addObserver(this, SEL_CallFuncO(&HaoyouScene::all_paper_callback_808), "HTTP_FINISHED_808", NULL);
@@ -103,6 +105,8 @@ void HaoyouScene::onEnterTransitionDidFinish() {
 }
 
 void HaoyouScene::onExitTransitionDidStart() {
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+
     DISPLAY->stopBlink();
     //
     if (this->getChildByTag(0x1008)) {
@@ -119,7 +123,6 @@ void HaoyouScene::keyBackStatus(float dt){
 }
 
 void HaoyouScene::onExit(){
-    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     BaseScene::onExit();
 }
@@ -428,6 +431,7 @@ void HaoyouScene::haoyouCallBack(CCObject* pSender){
 }
 
 void HaoyouScene::competition_callback_820(CCObject *pObj) {
+    _isLoadRanklist = true;
     if (DATA->getSocial()->getHasInitFriends()) {
         this->all_friends_callback_806(NULL);
     }
@@ -438,18 +442,20 @@ void HaoyouScene::competition_callback_820(CCObject *pObj) {
 
 void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
     LOADING->remove();
-//    if (_hasLoadRanklist) {
-    RankListScene* layer = RankListScene::create();
-    layer->setComeFrom("social");
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-//    }else{
-//        CCScene* scene = FriendsScene::scene();
-//        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-//        CCDirector::sharedDirector()->replaceScene(trans);
-//    }
+    if (_isLoadRanklist) {
+        RankListScene* layer = RankListScene::create();
+        layer->setComeFrom("social");
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCScene* scene = FriendsScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
+    
+    _isLoadRanklist = false;
 }
 
 void HaoyouScene::strangerCallBack(CCObject* pSender){
@@ -468,11 +474,13 @@ void HaoyouScene::paihangCallBack(CCObject* pSender){
     
     LOADING->show_loading();
 //    NET->ranking_list_300();
-    NET->competition_info_820();
+    NET->competition_info_820(! DATA->getCompetition()->hasInitRankInfo());
 }
 
-void HaoyouScene::rank_list_callback_300(CCObject *pObj){    
-    NET->all_friends_806();
+void HaoyouScene::rank_list_callback_300(CCObject *pObj){
+    if (! _isLoadRanklist) {
+        NET->all_friends_806();
+    }
 }
 
 void HaoyouScene::strangers_callback_802(cocos2d::CCObject *pSender){

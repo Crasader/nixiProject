@@ -84,6 +84,8 @@ public:
     CC_SYNTHESIZE_RETAIN(CompetitionItem*, _self, Self);            // 自己
     CC_SYNTHESIZE_RETAIN(CompetitionItem*, _opponent, Opponent);   // 对手信息
     
+    bool hasInitRankInfo();
+
 public:
     ~CompetitionComp();
     CREATE_FUNC(CompetitionComp);

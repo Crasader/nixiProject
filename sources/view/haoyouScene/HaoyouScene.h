@@ -156,5 +156,7 @@ private:
     CCMenuItem*         _xiaoxiItem;
     CCMenuItem*         _zhitiaoItem;
     CCMenuItemSprite*   item_chat;
+    
+    bool                _isLoadRanklist;
 };
 #endif /* defined(__tiegao__HaoyouScene__) */

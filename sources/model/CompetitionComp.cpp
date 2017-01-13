@@ -69,6 +69,10 @@ void CompetitionItem::config(Value json) {
     this->setBuffedDesc(json["buffed_desc"].asString());
 }
 
+bool CompetitionComp::hasInitRankInfo() {
+    return _ranklist != NULL;
+}
+
 
 #pragma mark -
 
@@ -79,6 +83,7 @@ CompetitionComp::~CompetitionComp() {
 }
 
 bool CompetitionComp::init() {
+    _ranklist = NULL;
     _theme = NULL;
     _self = NULL;
     _opponent = NULL;
