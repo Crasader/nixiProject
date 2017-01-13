@@ -16,7 +16,6 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 #include "pkScene.h"
-#include "RankListScene.h"
 
 
 JiesuanLayer::JiesuanLayer(){
@@ -275,10 +274,7 @@ void JiesuanLayer::lingquCallback2(float dt){
     LOADING->remove();
     
     
-    RankListScene* layer = RankListScene::create();
-    layer->setComeFrom("main");
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
+    CCScene* scene = pkScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
