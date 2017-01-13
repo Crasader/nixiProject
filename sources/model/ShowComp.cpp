@@ -31,7 +31,7 @@ void ShowComp::init_with_json(Value json) {
     _nickname = json["nickname"].asString();
     _id = json["id"].asString();
     _collected = json["collected"].asInt();
-    _competition = json["competition"].asInt();
+    _competition = json["last_rank"].asInt();
     _ranking = json["ranking"].asInt();
     _reset = json["reset"].asInt();
     

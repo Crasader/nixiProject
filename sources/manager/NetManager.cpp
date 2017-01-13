@@ -257,8 +257,13 @@ void NetManager::friend_break_813(const char *other_sid) {
     this->post_data(813, data);
 }
 
-void NetManager::competition_info_820() {
-    this->post_data(820, string(""));
+void NetManager::competition_info_820(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(820, data);
 }
 
 void NetManager::competition_search_opponent_821() {

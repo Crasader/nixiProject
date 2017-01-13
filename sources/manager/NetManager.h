@@ -73,7 +73,7 @@ public:
     void friend_break_813(const char* other_sid);
     
     // 比拼
-    void competition_info_820();    // 获取所有pk信息
+    void competition_info_820(bool full);    // 获取所有pk信息
     void competition_search_opponent_821(); // 查找pk对手 or 换一个pk对手
     void competition_bless_823();   // 祝福
     void competition_start_825();   // 开始pk

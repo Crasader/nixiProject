@@ -255,6 +255,9 @@ private:
     CCMenuItem*         _btnGashapon;
     CCMenuItem*         _btnEnergyLargess;
     
+    CCSprite*           _cafeiting;
+    CCSprite*           _qiqiu;
+    
     CCClippingNode*     node;
     CCMenu*             menu;
     bool                isOpen;

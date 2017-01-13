@@ -123,10 +123,9 @@ void MysteryLayer::do_enter() {
 }
 
 void MysteryLayer::do_exit() {
-    _panel->setScale(0.3);
     CCCallFunc* remove = CCCallFunc::create(this, SEL_CallFunc(&MysteryLayer::remove));
-    CCSequence* seq = CCSequence::create(CCScaleTo::create(0.4, 1.03), CCScaleTo::create(0.3, 0.3), remove, NULL);
-    _panel->runAction(CCEaseElasticOut::create(seq));
+    CCSequence* seq = CCSequence::create(CCScaleTo::create(0.2, 1.03), CCScaleTo::create(0.1, 0.3), remove, NULL);
+    _panel->runAction(seq);
 }
 
 void MysteryLayer::remove() {
