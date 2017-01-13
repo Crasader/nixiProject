@@ -136,8 +136,8 @@ void StoryScene::init_with_story_id(int _index){
     
     dialog = Dialogs::create();
     dialog->retain();
-//    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
-    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 30);
+    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
+//    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 30);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
     dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
