@@ -189,7 +189,8 @@ public:
     CC_SYNTHESIZE(bool, _theEndBool, TheEndBool);
     // 进入穿衣界面
     CC_SYNTHESIZE(bool, _ClothesBool, ClothesBool);
-    
+    // 保存排行榜入口
+    CC_SYNTHESIZE_PASS_BY_REF(string, _comeFrom, ComeFrom);
     
     // 监听切换账号
     void openUpdata();

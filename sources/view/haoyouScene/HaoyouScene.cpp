@@ -452,7 +452,7 @@ void HaoyouScene::all_friends_callback_806(CCObject* pObj) {
     LOADING->remove();
     if (_isLoadRanklist) {
         RankListScene* layer = RankListScene::create();
-        layer->setComeFrom("social");
+        DATA->setComeFrom("social");
         CCScene* scene = CCScene::create();
         scene->addChild(layer);
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

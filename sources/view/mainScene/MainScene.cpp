@@ -1628,7 +1628,7 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 //    CCDirector::sharedDirector()->replaceScene(trans);
 
     RankListScene* layer = RankListScene::create();
-    layer->setComeFrom("main");
+    DATA->setComeFrom("main");
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

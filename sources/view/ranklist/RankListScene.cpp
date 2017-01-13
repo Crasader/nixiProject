@@ -275,10 +275,10 @@ void RankListScene::btn_back_callback(CCObject* pSender){
     
     num_child = 0;
     CCScene* scene = NULL;
-    if (this->getComeFrom().compare("main") == 0) {
+    if (DATA->getComeFrom().compare("main") == 0) {
         scene = MainScene::scene();
     }
-    else if (this->getComeFrom().compare("social") == 0) {
+    else if (DATA->getComeFrom().compare("social") == 0) {
         scene = HaoyouScene::scene();
     }
     

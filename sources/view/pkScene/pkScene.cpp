@@ -844,7 +844,9 @@ void pkScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
     num_child = 0;
-    CCScene* scene = RankListScene::scene();
+    RankListScene* layer = RankListScene::create();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
