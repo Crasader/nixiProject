@@ -16,6 +16,7 @@ USING_NS_CC;
 
 class ShowerView;
 class ShowComp;
+class CompetitionItem;
 class RankListView;
 class NotePanel;
 
@@ -49,6 +50,7 @@ private:
     void createCollectionRL();
     
     void switchRankList();
+    void changeCompetition(CompetitionItem* shower);
     void changeShower(ShowComp* shower);
     void gotoPkScene(CCMenuItem* btn);
     

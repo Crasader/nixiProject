@@ -71,6 +71,8 @@ void RankListScene::onEnter() {
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp321), "HTTP_FINISHED_321", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&RankListScene::changeCompetition), "NEED_CHANGE_COMPETITION", NULL);
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::changeShower), "NEED_CHANGE_SHOWER", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&RankListScene::keyBackStatus), .8f);
@@ -78,7 +80,6 @@ void RankListScene::onEnter() {
     // 静默发送
     NET->ranking_list_300();
     this->_rlv->onTitleToggle(NULL);
-
 }
 
 void RankListScene::onExit(){
@@ -152,7 +153,7 @@ void RankListScene::createUI(){
     tiny->addChild(menuPlate);
     
     // 自个分数
-    CCString* strScore = CCString::createWithFormat("本轮分数: %d", DATA->getCompetition()->getSelf()->getScore());
+    CCString* strScore = CCString::createWithFormat("本期分数: %d", DATA->getCompetition()->getSelf()->getScore());
     CCLabelTTF* lblScore = CCLabelTTF::create(strScore->getCString(), DISPLAY->fangzhengFont(), 22);
     lblScore->setPosition(ccp(sptPlate1->getContentSize().width * 0.5f, sptPlate1->getContentSize().height * 0.23f));
     btnPlate->addChild(lblScore);
@@ -286,9 +287,17 @@ void RankListScene::btn_back_callback(CCObject* pSender){
     }
 }
 
+void RankListScene::changeCompetition(CompetitionItem *item) {
+    if (item) {
+        _shower->change_shower(item->getOndress());
+    }
+    else {
+        CCLOG("ERROR:: RankListScene::changeCompetition(CompetitionItem* item) - item is nil~");
+    }
+}
+
 void RankListScene::changeShower(ShowComp* shower) {
     if (shower) {
-//        CCLOG("RankListScene::changeShower() - nickname = %s", shower->nickname());
         _shower->change_shower(shower->ondress());
     }
     else {

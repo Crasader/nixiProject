@@ -15,6 +15,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+class CompetitionItem;
 class ShowComp;
 
 class RankListCell : public CCSprite
@@ -29,8 +30,9 @@ public:
     ~RankListCell();
     static RankListCell* create(const char *pszFileName);
     bool init(const char *pszFileName);
-    // type 0-比拼；1-衣服收集
-    void config(int idx, ShowComp* show, float cellWidth, float cellHeight, int type);
+    
+    void configCompetition(int idx, CompetitionItem *item, float cellWidth, float cellHeight);
+    void configShower(int idx, ShowComp* show, float cellWidth, float cellHeight);
         
 private:
     void toBeFriend(CCMenuItem* btn);

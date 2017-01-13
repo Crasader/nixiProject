@@ -23,6 +23,8 @@ public:
     bool init();
     void init_with_json(Value json);
     
+    CC_SYNTHESIZE(int, _selfRank, SelfRank);    // 保存自己的排名，第一为0，未上榜-1
+    
 public:
 
     CCArray* ranking();

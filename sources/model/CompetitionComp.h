@@ -68,6 +68,8 @@ public:
     CC_SYNTHESIZE(int, _buffedId, BuffedId);       // 本对象表示对手信息时，为对手的祝福效果ID，0表示无
     CC_SYNTHESIZE_PASS_BY_REF(string, _buffedDesc, BuffedDesc); // 对手的祝福描述, _buffedId=0时为空串
     
+    CC_SYNTHESIZE(bool, _added, Added);             // 客户端使用临时判断是否添加了好友
+    
 public:
     ~CompetitionItem() {}
     CREATE_FUNC(CompetitionItem);
@@ -79,6 +81,7 @@ public:
 class CompetitionComp : public CCObject
 {
 public:
+    CC_SYNTHESIZE(int, _selfRank, SelfRank);                // 保存自己的排名，第一为0，未上榜-1
     CC_SYNTHESIZE_RETAIN(CCArray*, _ranklist, Ranklist);            // 排行
     CC_SYNTHESIZE_RETAIN(CompetitionThemeInfo*, _theme, Theme);     // 主题信息
     CC_SYNTHESIZE_RETAIN(CompetitionItem*, _self, Self);            // 自己
