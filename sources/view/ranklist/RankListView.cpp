@@ -8,6 +8,7 @@
 
 #include "RankListView.h"
 #include "DataManager.h"
+#include "AudioManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
 
@@ -265,6 +266,8 @@ RankListCell* RankListView::createItemCell(unsigned int idx) {
 }
 
 void RankListView::onTitleToggle(CCMenuItemToggle *btn) {
+    AUDIO->comfirm_effect();
+    
     if (_isShowCompetition) {
         _isShowCompetition = false;
         this->setDatasource(DATA->getRanking()->ranking());
@@ -371,6 +374,8 @@ CCTableViewCell* RankListView::tableCellAtIndex(CCTableView *table, unsigned int
 
 //点击哪个cell
 void RankListView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
+    AUDIO->right_effect();
+    
     int idx = cell->getIdx();
     if (idx != _selectedIndex) {
         int oldSelected = _selectedIndex;

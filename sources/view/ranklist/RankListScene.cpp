@@ -159,6 +159,7 @@ void RankListScene::createUI(){
 }
 
 void RankListScene::gotoPkScene(CCMenuItem *btn) {
+    AUDIO->comfirm_effect();
     CCLOG("RankListScene::gotoPkScene() ...");
     
     CCScene* scene = pkScene::scene();
