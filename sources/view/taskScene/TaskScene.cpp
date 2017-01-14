@@ -788,7 +788,10 @@ void TaskScene::_startCallBack(CCObject* pSender){
     CCString* taskStr = CCString::createWithFormat("%d", id);
     DATA->onBegin(taskStr->getCString());
     
-    CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
+    //任务原先显示体力的
+//    CCLayer* layer = ClothesScene::create_with_type(1, taskIndex, taskPhase);
+    //任务新的显示碎片的
+    CCLayer* layer = ClothesScene::create_with_type(2, taskIndex, taskPhase);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
