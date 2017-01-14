@@ -781,7 +781,9 @@ void pkScene::creatZhufu(CCMenuItem *item){
 
 void pkScene::huanzhuangCallback(CCObject* pSender){
     AUDIO->common_effect();
-        
+    
+    DATA->setClothesBool(true);
+    
     CCLayer* layer = ClothesScene::create_with_type(5, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
