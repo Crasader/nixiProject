@@ -1494,7 +1494,7 @@ void PkLayer::nextLayer2(){
     CCScene* pScene = CCScene::create();
     JiesuanLayer* layer = JiesuanLayer::create_with_Layer(selfScore, opponentScore, bgIndex);
     pScene->addChild(layer);
-    CCTransitionMoveInB* trans = CCTransitionMoveInB::create(.3f, pScene);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, pScene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 
