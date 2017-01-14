@@ -1318,8 +1318,14 @@ void ClothesScene::backCallBack(CCObject* pSender){
 
     // talkingData
     DATA->onEvent("点击事件", "换装界面", "点击退出");
+    // 还原衣服
+    if (clothesStatus == 5) {
+        DATA->getClothes()->copy_clothesTemp(DATA->getCompetition()->getSelf()->getOndress());
+    }
+    else {
+        DATA->getClothes()->copy_clothesTemp(DATA->getShow()->ondress());
+    }
     
-    DATA->getClothes()->copy_clothesTemp();// 还原衣服
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     
     if (DATA->getTaskGameBool6()) {
@@ -1918,14 +1924,11 @@ void ClothesScene::initClothes(){//穿衣服
     bool flipxBool = false;
     int sub_part = 0;
     
-    CCDictionary* dress = NULL;
     if (clothesStatus == 5) {
-        dress = DATA->getCompetition()->getSelf()->getOndress();
+        DATA->getClothes()->copy_clothesTemp(DATA->getCompetition()->getSelf()->getOndress());
     }
-    else {
-        dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着;
-    }
-    
+    CCDictionary* dress = DATA->getClothes()->MyClothesTemp(); // 男宠衣着;
+
     for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
         if (i == Tag_CL_TouFa) {
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣

@@ -75,15 +75,15 @@ void ClothesComp::init_dressed(CSJson::Value json) {
     
     _dress->setObject(_ornaments, "7");
     
-    this->copy_clothesTemp();
+    this->copy_clothesTemp(_dress);
 }
 
-void ClothesComp::copy_clothesTemp(){
+void ClothesComp::copy_clothesTemp(CCDictionary* dress){
     CC_SAFE_RELEASE(_myClothesTemp);
     _myClothesTemp = CCDictionary::create();
     CCDictionary* dic = CCDictionary::create();
     CCDictElement* pElem = NULL;
-    CCDICT_FOREACH(_dress, pElem) {
+    CCDICT_FOREACH(dress, pElem) {
         const char* key = pElem->getStrKey();
         if (strcmp(key, "7") == 0) {
             CCDictElement* pElem2 = NULL;

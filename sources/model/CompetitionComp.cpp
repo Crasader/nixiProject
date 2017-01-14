@@ -101,6 +101,7 @@ void CompetitionComp::createRanklist(Value json) {
     
     string myId = DATA->getShow()->getShowID();
     if (json.isArray()) {
+        _selfRank = -1;
         CCArray* arr = CCArray::create();
         int count = json.size();
         for (int i = 0; i < count; i++) {

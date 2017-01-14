@@ -283,6 +283,9 @@ void RankListScene::btn_back_callback(CCObject* pSender){
     }
     
     if (scene) {
+        // 还原衣服
+        DATA->getClothes()->copy_clothesTemp(DATA->getShow()->ondress());
+        //
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
@@ -290,6 +293,7 @@ void RankListScene::btn_back_callback(CCObject* pSender){
 
 void RankListScene::changeCompetition(CompetitionItem *item) {
     if (item) {
+        CCLOG("RankListScene::changeCompetitio() - ID: %s,  Name: %s", item->getId().c_str(), item->getNickname().c_str());
         _shower->change_shower(item->getOndress());
     }
     else {

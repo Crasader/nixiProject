@@ -315,7 +315,7 @@ void RankListView::onTitleToggle(CCMenuItemToggle *btn) {
         _toggleSelf->setEnabled(true);
         
         if (_isShowCompetition) {
-            CCObject* item = DATA->getCompetition()->getSelf();
+            CCObject* item = this->getDatasource()->objectAtIndex(_selectedIndex);
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_COMPETITION", item);
         }
         else {
