@@ -181,6 +181,12 @@ void pkScene::creat_view(){
     startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(pkScene::startCallback));
     startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .14f));
     this->creatStart();
+    if (selfItem->getStartTimes() >= themeInfo->getStartLimit()) {
+        startItem->setEnabled(false);
+        startItem->setColor(ccGRAY);
+    }
+    
+    
     
     // 祝福
     CCSprite* zhufuSpr1 = CCSprite::create("res/pic/pk/pk_zhufu.png");
@@ -775,7 +781,9 @@ void pkScene::creatZhufu(CCMenuItem *item){
 
 void pkScene::huanzhuangCallback(CCObject* pSender){
     AUDIO->common_effect();
-        
+    
+    DATA->setClothesBool(true);
+    
     CCLayer* layer = ClothesScene::create_with_type(5, 0, 0);
     CCScene* scene = CCScene::create();
     scene->addChild(layer);

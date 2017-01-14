@@ -136,6 +136,7 @@ public:
     const char* category;
     const char* tishi;
     
+    bool pkTuoguangBool;
     bool startTask;
     bool animationBool;
     bool zhuangrongBool;
