@@ -244,6 +244,7 @@ private:
     // ]]
     
     void afterMenuItemCalled(CCMenuItem* btn);
+    void onPkCalled(CCObject *pSender);
     
 private:
     CCMenuItem*         _youjianItem;
@@ -261,6 +262,8 @@ private:
     CCClippingNode*     node;
     CCMenu*             menu;
     bool                isOpen;
+    
+    bool                _isEnterPk;
     
     CCArray*            _arrGroup1;
     CCArray*            _arrGroup2;
