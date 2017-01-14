@@ -18,6 +18,7 @@
 #include "ClothesScene.h"
 #include "PkLayer.h"
 #include "RankListScene.h"
+#include "MainScene.h"
 
 
 pkScene::pkScene(){
@@ -844,11 +845,18 @@ void pkScene::backCallBack(CCObject* pSender){
     AUDIO->goback_effect();
     
     num_child = 0;
-    RankListScene* layer = RankListScene::create();
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
+    
+    if (DATA->getPkBool()) {
+        RankListScene* layer = RankListScene::create();
+        CCScene* scene = CCScene::create();
+        scene->addChild(layer);
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }else{
+        CCScene* scene = MainScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
+    }
 }
 
 

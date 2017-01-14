@@ -311,10 +311,16 @@ void JiesuanLayer::creat_Man1(){
     float scaleFloat = 1.05f;
     bool flipxBool = false;
     if (selfScore > opponentScore) {
-        //
-        widthFolt = .45f;
-        heightFloat = .45f;
-        scaleFloat = 1.15f;
+        // 放大
+//        widthFolt = .45f;
+//        heightFloat = .45f;
+//        scaleFloat = 1.15f;
+//        flipxBool = false;
+        
+        // 正常
+        widthFolt = .4f;
+        heightFloat = .54f;
+        scaleFloat = 1.05f;
         flipxBool = false;
     }else if (selfScore < opponentScore){
         //
@@ -397,10 +403,16 @@ void JiesuanLayer::creat_Man2(){
     float scaleFloat = 1.05f;
     bool flipxBool = false;
     if (opponentScore > selfScore) {
-        //
-        widthFolt = .96f;
-        heightFloat = .45f;
-        scaleFloat = 1.15f;
+        // 放大
+//        widthFolt = .96f;
+//        heightFloat = .45f;
+//        scaleFloat = 1.15f;
+//        flipxBool = false;
+        
+        // 正常
+        widthFolt = .91f;
+        heightFloat = .54f;
+        scaleFloat = 1.05f;
         flipxBool = false;
     }else if (opponentScore < selfScore){
         //
