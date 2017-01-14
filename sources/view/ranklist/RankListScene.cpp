@@ -310,6 +310,7 @@ void RankListScene::changeShower(ShowComp* shower) {
     }
 }
 
+
 void RankListScene::testPK() {
     CCLOG("测试比拼结果 ...");
     NET->competition_start_825();

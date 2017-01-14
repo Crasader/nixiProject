@@ -228,6 +228,12 @@ void ConfigManager::save_password(const char *str) {
     CCUserDefault::sharedUserDefault()->setStringForKey(UD_PASSWORD, str);
 }
 
+int ConfigManager::pkSwitchTipCount() {
+    int count = CCUserDefault::sharedUserDefault()->getIntegerForKey("pk_tip", 5);
+    CCUserDefault::sharedUserDefault()->setIntegerForKey("pk_tip", count - 1);
+    return count;
+}
+
 #pragma mark - inner API
 
 void ConfigManager::conf_login_addr(int net) {
