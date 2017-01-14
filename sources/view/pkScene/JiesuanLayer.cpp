@@ -216,6 +216,8 @@ void JiesuanLayer::creat_jiesuan(){
     
     
     if (selfScore > opponentScore) {
+        AUDIO->pk_shengli_effect();
+        
         CCSprite* jiesuanSpr2 = CCSprite::create("res/pic/pk/jiesuan/pk_shengli.png");
         jiesuanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .47f, DISPLAY->ScreenHeight()* .65f));
         this->addChild(jiesuanSpr2, 18);
@@ -229,6 +231,8 @@ void JiesuanLayer::creat_jiesuan(){
         
         this->creat_lingqu(lingquItem, 1);
     }else if (selfScore < opponentScore){
+        AUDIO->pk_shibai_effect();
+        
         CCSprite* jiesuanSpr2 = CCSprite::create("res/pic/pk/jiesuan/pk_shibai.png");
         jiesuanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .53f, DISPLAY->ScreenHeight()* .65f));
         this->addChild(jiesuanSpr2, 18);
@@ -250,6 +254,8 @@ void JiesuanLayer::creat_jiesuan(){
         
         this->creat_lingqu(lingquItem, 2);
     }else if (selfScore == opponentScore){
+        AUDIO->pk_shengli_effect();
+        
         CCSprite* jiesuanSpr2 = CCSprite::create("res/pic/pk/jiesuan/pk_pingju.png");
         jiesuanSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .65f));
         this->addChild(jiesuanSpr2, 18);
@@ -266,6 +272,7 @@ void JiesuanLayer::creat_jiesuan(){
 }
 
 void JiesuanLayer::lingquCallback(CCObject* pSender){
+    AUDIO->common_effect();
     
     LOADING->show_loading();
     this->scheduleOnce(SEL_SCHEDULE(&JiesuanLayer::lingquCallback2), .5f);

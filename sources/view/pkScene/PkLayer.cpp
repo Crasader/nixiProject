@@ -354,6 +354,7 @@ void PkLayer::creatScoreKuang(int type){
         node->removeAllChildren();
         this->removeChildByTag(0x44444);
     }
+    AUDIO->pk_shangsheng_effect();
     
     CCSprite* dapeiSpr1_1;
     CCSprite* dapeiSpr1_2;
@@ -1196,6 +1197,8 @@ void PkLayer::creatJiesuan3(){
     CCString* scoreStr1 = CCString::createWithFormat("%d", selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4);
     CCString* scoreStr2 = CCString::createWithFormat("%d", opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4);
     if (selfScore > opponentScore) {
+        AUDIO->pk_wenzi_effect();
+        
         jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/jiesuan/pk_number.png", 26, 35, '0');
         jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
         scaleTo1 = CCScaleTo::create(.5f, 1.2f);
@@ -1203,6 +1206,8 @@ void PkLayer::creatJiesuan3(){
         scaleTo3 = CCScaleTo::create(.5f, 1.05f);
         scaleTo4 = CCScaleTo::create(.3f, 1.f);
     }else if (selfScore == opponentScore){
+        AUDIO->pk_wenzi_effect();
+        
         jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
         jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
         scaleTo1 = CCScaleTo::create(.5f, 1.05f);
@@ -1210,6 +1215,8 @@ void PkLayer::creatJiesuan3(){
         scaleTo3 = CCScaleTo::create(.5f, 1.05f);
         scaleTo4 = CCScaleTo::create(.3f, 1.1f);
     }else if (selfScore < opponentScore) {
+        AUDIO->pk_wenzi_effect();
+        
         jiesuanScoreLabel1 = CCLabelAtlas::create(scoreStr1->getCString(), "res/pic/pk/pk_number2.png", 21, 27, '0');
         jiesuanScoreLabel2 = CCLabelAtlas::create(scoreStr2->getCString(), "res/pic/pk/jiesuan/pk_number.png", 26, 35, '0');
         scaleTo1 = CCScaleTo::create(.5f, 1.05f);

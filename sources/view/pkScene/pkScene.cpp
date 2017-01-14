@@ -635,6 +635,8 @@ void pkScene::creatKuangButton(){
     }
 }
 void pkScene::buttonCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
     LOADING->show_loading();
     NET->competition_search_opponent_821();
 }
@@ -772,7 +774,7 @@ void pkScene::creatZhufu(CCMenuItem *item){
 
 
 void pkScene::huanzhuangCallback(CCObject* pSender){
-    AUDIO->comfirm_effect();
+    AUDIO->common_effect();
         
     CCLayer* layer = ClothesScene::create_with_type(5, 0, 0);
     CCScene* scene = CCScene::create();
@@ -781,6 +783,7 @@ void pkScene::huanzhuangCallback(CCObject* pSender){
     CCDirector::sharedDirector()->replaceScene(trans);
 }
 void pkScene::huanhaoCallback(CCObject* pSender){
+    AUDIO->common_effect();
     
     LOADING->show_loading();
     NET->competition_prepare_827();
@@ -811,6 +814,7 @@ void pkScene::_827Callback(CCObject *pObj){
 }
 void pkScene::startCallback(CCObject* pSender){
     LOADING->show_loading();
+    AUDIO->common_effect();
     
     temSelfIndex1 = selfItem->getBuffId()/100;
     temSelfIndex2 = selfItem->getBuffId()%100;
@@ -830,6 +834,7 @@ void pkScene::_825Callback(CCObject *pObj){
 
 void pkScene::zhufuCallback(CCObject* pSender){
     
+    AUDIO->common_effect();
     LOADING->show_loading();
     NET->competition_bless_823();
 }

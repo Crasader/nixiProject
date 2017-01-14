@@ -42,6 +42,13 @@ public:
     void enterTheHaoyou_effect();
     void enterTheClothes_effect();
     
+    
+    void pk_jiemian_effect();
+    void pk_shangsheng_effect();
+    void pk_shengli_effect();
+    void pk_shibai_effect();
+    void pk_wenzi_effect();
+    
 public:
     ~AudioManager();
     static AudioManager* Inst();

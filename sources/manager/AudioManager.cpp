@@ -99,6 +99,12 @@ void AudioManager::preload_audios()
     this->preloadEffect("audio/wav/74.wav");
     
     
+    // pk
+    this->preloadEffect("audio/wav/audio_pk_jiemian.wav");
+    this->preloadEffect("audio/wav/audio_pk_shangsheng.wav");
+    this->preloadEffect("audio/wav/audio_pk_shengli.wav");
+    this->preloadEffect("audio/wav/audio_pk_shibai.wav");
+    this->preloadEffect("audio/wav/audio_pk_wenzi.wav");
     
     
 }
@@ -268,8 +274,21 @@ void AudioManager::wrong_effect(){
 }
 
 
-
-
+void AudioManager::pk_jiemian_effect(){
+    this->play_effect("audio/wav/audio_pk_jiemian.wav", false);
+}
+void AudioManager::pk_shangsheng_effect(){
+    this->play_effect("audio/wav/audio_pk_shangsheng.wav", false);
+}
+void AudioManager::pk_shengli_effect(){
+    this->play_effect("audio/wav/audio_pk_shengli.wav", false);
+}
+void AudioManager::pk_shibai_effect(){
+    this->play_effect("audio/wav/audio_pk_shibai.wav", false);
+}
+void AudioManager::pk_wenzi_effect(){
+    this->play_effect("audio/wav/audio_pk_wenzi.wav", false);
+}
 
 
 
