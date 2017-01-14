@@ -11,6 +11,7 @@
 #include "AudioManager.h"
 #include "DisplayManager.h"
 #include "NetManager.h"
+#include "ConfigManager.h"
 
 #include "RankListCell.h"
 
@@ -203,8 +204,11 @@ void RankListView::onEnter(){
     CCLayer::onEnter();
     
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::onAddFriend), "ON_ADD_FRIEND", NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&RankListView::tobeFriend_callback_803), "HTTP_FINISHED_803", NULL);    
+    if (CONFIG->pkSwitchTipCount() > 0) {
+        this->showSwitchTip();
+    }
 }
 
 void RankListView::onExit(){
@@ -349,6 +353,32 @@ void RankListView::onSelfBarToggle() {
             CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
         }
     }
+}
+
+void RankListView::showSwitchTip() {
+    CCArray* arrowAnimations = CCArray::createWithCapacity(8);
+    char arrowStr[100] = {};
+    for (int i = 9; i <= 13; i++) {
+        
+        sprintf(arrowStr, "res/pic/guide/quan/guide_quan%d.png", i);
+        CCSpriteFrame* arrowFrame = CCSpriteFrame::create(arrowStr, CCRectMake(0, 0, 129, 129));
+        arrowAnimations->addObject(arrowFrame);
+    }
+    CCAnimation* arrowAnimation = CCAnimation::createWithSpriteFrames(arrowAnimations, .2f);
+    
+    CCSprite* quanSpr = CCSprite::create("res/pic/guide/quan/guide_quan1.png");
+    quanSpr->runAction(CCRepeatForever::create(CCAnimate::create(arrowAnimation)));
+    quanSpr->setPosition(ccp(_panel->getContentSize().width * 0.6, _panel->getContentSize().height * 0.95));
+    _panel->addChild(quanSpr);
+    
+    CCSprite* arrowSpr = CCSprite::create("res/pic/guide/guide_jiantou1.png");
+    arrowSpr->setAnchorPoint(ccp(0, 1));
+    arrowSpr->setPosition(ccp(quanSpr->getContentSize().width* .3f, quanSpr->getContentSize().height* .62f));
+    quanSpr->addChild(arrowSpr);
+    
+    CCMoveTo* moveTo1 = CCMoveTo::create(.2f, ccp(quanSpr->getContentSize().width* .45f, quanSpr->getContentSize().height* .48f));
+    CCMoveTo* moveTo2 = CCMoveTo::create(.2f, ccp(quanSpr->getContentSize().width* .3f, quanSpr->getContentSize().height* .62f));
+    arrowSpr->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.6f), NULL)));
 }
 
 void RankListView::onAddFriend(CCInteger* pIdx) {

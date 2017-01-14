@@ -153,7 +153,7 @@ void RankListScene::createUI(){
     tiny->addChild(menuPlate);
     
     // 自个分数
-    CCString* strScore = CCString::createWithFormat("本期分数: %d", DATA->getCompetition()->getSelf()->getScore());
+    CCString* strScore = CCString::createWithFormat("本轮分数: %d", DATA->getCompetition()->getSelf()->getScore());
     CCLabelTTF* lblScore = CCLabelTTF::create(strScore->getCString(), DISPLAY->fangzhengFont(), 22);
     lblScore->setPosition(ccp(sptPlate1->getContentSize().width * 0.5f, sptPlate1->getContentSize().height * 0.23f));
     btnPlate->addChild(lblScore);
@@ -309,6 +309,7 @@ void RankListScene::changeShower(ShowComp* shower) {
         CCLOG("ERROR:: RankListScene::changeShower(ShowComp* shower) - shower is nil~");
     }
 }
+
 
 void RankListScene::testPK() {
     CCLOG("测试比拼结果 ...");

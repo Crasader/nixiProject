@@ -679,7 +679,26 @@ void MainScene::creat_view(){
     paihang_bar1->setUserObject(ccs("res/pic/mainScene/paihang_bar.png"));
     _arrGroup1->addObject(paihang_bar1);
     
-        
+    // Pk动画
+
+    
+    CCSprite* pkLight = CCSprite::create("pic/mainScene/main_pk_light.png");
+    pkLight->setPosition(paihang_bar1->getPosition() + ccp(paihang_bar1->getContentSize().width * 0.5 - 7, paihang_bar1->getContentSize().height * 0.5 - 5));
+    paihang_Item->addChild(pkLight);
+    CCSequence* scale = CCSequence::create(CCScaleTo::create(0,5, 1.1), CCScaleTo::create(0.5, 0.9), NULL);
+    CCSpawn* spawn = CCSpawn::create(scale, CCRotateBy::create(2, 360), NULL);
+    pkLight->runAction(CCRepeatForever::create(spawn));
+    
+    CCSprite* pkHole = CCSprite::create("pic/mainScene/main_pk_hole.png");
+    pkHole->setPosition(pkLight->getPosition());
+    paihang_Item->addChild(pkHole);
+    pkHole->runAction(CCRepeatForever::create(CCRotateBy::create(4, -360)));
+    
+    CCSprite* pkText = CCSprite::create("pic/mainScene/main_pk_text.png");
+    pkText->setPosition(pkLight->getPosition());
+    paihang_Item->addChild(pkText);
+    
+    
     //-----3层背景------
     _layer_3 = CCSprite::create("res/pic/mainScene/three_bg.png");
     _layer_3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));

@@ -63,7 +63,8 @@ private:
     void updateSelfPlate(unsigned int idx);
     CCSprite* createPlate(unsigned int idx);
     RankListCell* createItemCell(unsigned int idx);
-    
+    void showSwitchTip();
+
     void onSelfBarToggle();
     
     void onAddFriend(CCInteger* pIdx);

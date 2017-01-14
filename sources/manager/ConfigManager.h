@@ -47,6 +47,8 @@ public: // Export
     void save_login_type(int type);
     void save_account(const char* str);
     void save_password(const char* str);
+    
+    int pkSwitchTipCount();
 
 public:
     ~ConfigManager();
