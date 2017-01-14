@@ -191,6 +191,8 @@ public:
     CC_SYNTHESIZE(bool, _ClothesBool, ClothesBool);
     // 保存排行榜入口
     CC_SYNTHESIZE_PASS_BY_REF(string, _comeFrom, ComeFrom);
+    // 进入pk界面
+    CC_SYNTHESIZE(bool, _PkBool, PkBool);
     
     
     // 监听切换账号

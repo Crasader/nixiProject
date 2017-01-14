@@ -1243,7 +1243,8 @@ void PkLayer::creatJiesuan3(){
         CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::creatJiesuan4));
         seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, callFuncN, NULL);
     }else if (selfScore == opponentScore){
-        seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, NULL);
+        CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::nextLayer1));
+        seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, CCDelayTime::create(.8f), callFuncN, NULL);
     }else if (selfScore < opponentScore) {
         CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(PkLayer::creatJiesuan4));
         seq4 = CCSequence::create(CCDelayTime::create(.5f), spawn2, callFuncN, NULL);
@@ -1251,60 +1252,144 @@ void PkLayer::creatJiesuan3(){
     jiesuanScoreLabel2->runAction(seq4);
     
     
-    xingSpr1_1 = CCSprite::create("res/pic/pk/animation/pk_xingxing1.png");
     if (selfScore > opponentScore) {
+        xingSpr1_1 = CCSprite::create("res/pic/pk/animation/pk_xingxing1.png");
         xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
-    }else{
-        xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
-    }
-    xingIndex1_1 = 50+ rand()%205;
-    if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
-        xingBool1_1 = false;
-    }else{
-        xingBool1_1 = true;
-    }
-    xingSpr1_1->setOpacity(xingIndex1_1);
-    jiesuanKuangSpr->addChild(xingSpr1_1, 12);
-    
-    xingSpr1_2 = CCSprite::create("res/pic/pk/animation/pk_xingxing2.png");
-    if (selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4 > opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4) {
+        xingIndex1_1 = 50+ rand()%205;
+        if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
+            xingBool1_1 = false;
+        }else{
+            xingBool1_1 = true;
+        }
+        xingSpr1_1->setOpacity(xingIndex1_1);
+        jiesuanKuangSpr->addChild(xingSpr1_1, 12);
+        
+        xingSpr1_2 = CCSprite::create("res/pic/pk/animation/pk_xingxing2.png");
         xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
-    }else{
-        xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
-    }
-    xingIndex1_2 = 50+ rand()%205;
-    if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
-        xingBool1_2 = false;
-    }else{
-        xingBool1_2 = true;
-    }
-    xingSpr1_2->setOpacity(xingIndex1_2);
-    jiesuanKuangSpr->addChild(xingSpr1_2, 12);
-    
-    xingSpr1_3 = CCSprite::create("res/pic/pk/animation/pk_xingxing3.png");
-    if (selfIndex1 + selfIndex2 + selfIndex3 + selfIndex4 > opponentIndex1 + opponentIndex2 + opponentIndex3 + opponentIndex4) {
+        xingIndex1_2 = 50+ rand()%205;
+        if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
+            xingBool1_2 = false;
+        }else{
+            xingBool1_2 = true;
+        }
+        xingSpr1_2->setOpacity(xingIndex1_2);
+        jiesuanKuangSpr->addChild(xingSpr1_2, 12);
+        
+        xingSpr1_3 = CCSprite::create("res/pic/pk/animation/pk_xingxing3.png");
         xingSpr1_3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
-    }else{
+        xingIndex1_3 = 50+ rand()%205;
+        if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
+            xingBool1_3 = false;
+        }else{
+            xingBool1_3 = true;
+        }
+        xingSpr1_3->setOpacity(xingIndex1_3);
+        jiesuanKuangSpr->addChild(xingSpr1_3, 12);
+        
+        CCString* selfScoreStr1 = CCString::createWithFormat("%d", selfScore);
+        scoreLabel1->set_new_number(selfScoreStr1->getCString());
+        
+        CCString* selfScoreStr2 = CCString::createWithFormat("%d", opponentScore);
+        scoreLabel2->set_new_number2(selfScoreStr2->getCString());
+        
+        this->schedule(SEL_SCHEDULE(&PkLayer::updateOpacity), .1f);
+    }else if (selfScore < opponentScore){
+        xingSpr1_1 = CCSprite::create("res/pic/pk/animation/pk_xingxing1.png");
+        xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+        xingIndex1_1 = 50+ rand()%205;
+        if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
+            xingBool1_1 = false;
+        }else{
+            xingBool1_1 = true;
+        }
+        xingSpr1_1->setOpacity(xingIndex1_1);
+        jiesuanKuangSpr->addChild(xingSpr1_1, 12);
+        
+        xingSpr1_2 = CCSprite::create("res/pic/pk/animation/pk_xingxing2.png");
+        xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+        xingIndex1_2 = 50+ rand()%205;
+        if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
+            xingBool1_2 = false;
+        }else{
+            xingBool1_2 = true;
+        }
+        xingSpr1_2->setOpacity(xingIndex1_2);
+        jiesuanKuangSpr->addChild(xingSpr1_2, 12);
+        
+        xingSpr1_3 = CCSprite::create("res/pic/pk/animation/pk_xingxing3.png");
         xingSpr1_3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+        xingIndex1_3 = 50+ rand()%205;
+        if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
+            xingBool1_3 = false;
+        }else{
+            xingBool1_3 = true;
+        }
+        xingSpr1_3->setOpacity(xingIndex1_3);
+        jiesuanKuangSpr->addChild(xingSpr1_3, 12);
+        
+        CCString* selfScoreStr1 = CCString::createWithFormat("%d", selfScore);
+        scoreLabel1->set_new_number(selfScoreStr1->getCString());
+        
+        CCString* selfScoreStr2 = CCString::createWithFormat("%d", opponentScore);
+        scoreLabel2->set_new_number2(selfScoreStr2->getCString());
+        
+        this->schedule(SEL_SCHEDULE(&PkLayer::updateOpacity), .1f);
     }
-    xingIndex1_3 = 50+ rand()%205;
-    if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
-        xingBool1_3 = false;
-    }else{
-        xingBool1_3 = true;
-    }
-    xingSpr1_3->setOpacity(xingIndex1_3);
-    jiesuanKuangSpr->addChild(xingSpr1_3, 12);
     
-    
-    //
-    CCString* selfScoreStr1 = CCString::createWithFormat("%d", selfScore);
-    scoreLabel1->set_new_number(selfScoreStr1->getCString());
-    
-    CCString* selfScoreStr2 = CCString::createWithFormat("%d", opponentScore);
-    scoreLabel2->set_new_number2(selfScoreStr2->getCString());
-    
-    this->schedule(SEL_SCHEDULE(&PkLayer::updateOpacity), .1f);
+//    xingSpr1_1 = CCSprite::create("res/pic/pk/animation/pk_xingxing1.png");
+//    if (selfScore > opponentScore) {
+//        xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+//    }else{
+//        xingSpr1_1->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+//    }
+//    xingIndex1_1 = 50+ rand()%205;
+//    if (xingIndex1_1 > 50 && xingIndex1_1< 255) {
+//        xingBool1_1 = false;
+//    }else{
+//        xingBool1_1 = true;
+//    }
+//    xingSpr1_1->setOpacity(xingIndex1_1);
+//    jiesuanKuangSpr->addChild(xingSpr1_1, 12);
+//    
+//    xingSpr1_2 = CCSprite::create("res/pic/pk/animation/pk_xingxing2.png");
+//    if (selfScore > opponentScore) {
+//        xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+//    }else{
+//        xingSpr1_2->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+//    }
+//    xingIndex1_2 = 50+ rand()%205;
+//    if (xingIndex1_2 > 50 && xingIndex1_2< 255) {
+//        xingBool1_2 = false;
+//    }else{
+//        xingBool1_2 = true;
+//    }
+//    xingSpr1_2->setOpacity(xingIndex1_2);
+//    jiesuanKuangSpr->addChild(xingSpr1_2, 12);
+//    
+//    xingSpr1_3 = CCSprite::create("res/pic/pk/animation/pk_xingxing3.png");
+//    if (selfScore > opponentScore) {
+//        xingSpr1_3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .25f, jiesuanKuangSpr->getContentSize().height* .07f));
+//    }else{
+//        xingSpr1_3->setPosition(ccp(jiesuanKuangSpr->getContentSize().width* .75f, jiesuanKuangSpr->getContentSize().height* .07f));
+//    }
+//    xingIndex1_3 = 50+ rand()%205;
+//    if (xingIndex1_3 > 50 && xingIndex1_3< 255) {
+//        xingBool1_3 = false;
+//    }else{
+//        xingBool1_3 = true;
+//    }
+//    xingSpr1_3->setOpacity(xingIndex1_3);
+//    jiesuanKuangSpr->addChild(xingSpr1_3, 12);
+//    
+//    
+//    //
+//    CCString* selfScoreStr1 = CCString::createWithFormat("%d", selfScore);
+//    scoreLabel1->set_new_number(selfScoreStr1->getCString());
+//    
+//    CCString* selfScoreStr2 = CCString::createWithFormat("%d", opponentScore);
+//    scoreLabel2->set_new_number2(selfScoreStr2->getCString());
+//    
+//    this->schedule(SEL_SCHEDULE(&PkLayer::updateOpacity), .1f);
 }
 void PkLayer::updateOpacity(float dt){
     if (xingBool1_1) {

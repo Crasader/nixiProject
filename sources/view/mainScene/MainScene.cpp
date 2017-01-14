@@ -1628,6 +1628,7 @@ void MainScene::paihangCallBack(CCObject* pSender){
 
 void MainScene::competition_callback_820(CCObject *pObj) {
     if (_isEnterPk) {
+        DATA->setPkBool(false);
         CCScene* scene = pkScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);

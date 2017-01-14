@@ -164,6 +164,7 @@ void RankListScene::gotoPkScene(CCMenuItem *btn) {
     AUDIO->comfirm_effect();
     CCLOG("RankListScene::gotoPkScene() ...");
     
+    DATA->setPkBool(true);
     CCScene* scene = pkScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
