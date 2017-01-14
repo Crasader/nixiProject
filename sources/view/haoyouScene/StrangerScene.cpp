@@ -288,6 +288,8 @@ void StrangerScene::exitMan(){
     _ManSpr->runAction(seq);
     //
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
+    //
+    DISPLAY->stopBlink();
 }
 
 void StrangerScene::enterMan(){
@@ -303,6 +305,9 @@ void StrangerScene::enterMan(){
         CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&StrangerScene::removeMask));
         CCSequence* seq = CCSequence::create(moveTo, callFunc, NULL);
         _ManSpr->runAction(seq);
+        //
+        DISPLAY->setZRSpr(_zrSpr1);
+        DISPLAY->blink();
     }
 }
 

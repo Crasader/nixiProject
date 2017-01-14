@@ -12,6 +12,7 @@
 #include "ConfigManager.h"
 #include "AudioManager.h"
 #include "NetManager.h"
+#include "ShareManager.h"
 
 #include "ShowerView.h"
 #include "NotePanel.h"
@@ -179,10 +180,11 @@ void RankListScene::btn_share_callback(CCObject* pSender){
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
     path.append("/share.png");
     
-    CCLog("图片 === %s", path.c_str());
+    CCLOG("图片 === %s", path.c_str());
     
     rt->saveToFile(path.c_str());
-
+    ShareManager::get_instance()->share_pic();
+    
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();

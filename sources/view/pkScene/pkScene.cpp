@@ -10,16 +10,17 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "ConfigManager.h"
-#include "Loading2.h"
 #include "NetManager.h"
-#include "AppUtil.h"
-#include "PromptLayer.h"
 #include "AudioManager.h"
-#include "ClothesScene.h"
+
 #include "PkLayer.h"
 #include "RankListScene.h"
+#include "ClothesScene.h"
 #include "MainScene.h"
 
+#include "AppUtil.h"
+#include "Loading2.h"
+#include "PromptLayer.h"
 
 pkScene::pkScene(){
     
@@ -193,7 +194,12 @@ void pkScene::creat_view(){
     buttonMenu->setPosition(CCPointZero);
     this->addChild(buttonMenu, 10);
     
+    // 祝福动态效果
+    CCSprite* zfAction = AppUtil::get_self_sprite("pic/pk/pk_zhufu.png");
+    zhufuSpr1->addChild(zfAction);
+    zfAction->runAction(CCRepeatForever::create(AppUtil::action_expand_fade_out(1.5f, 0.5f, 1.8f)));
     
+    //
     hzItem->setVisible(true);
     hhItem->setVisible(true);
     startItem->setVisible(false);
