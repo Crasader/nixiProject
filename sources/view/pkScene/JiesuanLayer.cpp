@@ -334,8 +334,6 @@ void JiesuanLayer::creat_Man1(){
         heightFloat = .54f;
         scaleFloat = 1.05f;
         flipxBool = false;
-        
-        
     }
     
     // 创建裁剪content图片，并加载到裁剪节点上

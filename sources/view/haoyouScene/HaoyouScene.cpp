@@ -123,6 +123,7 @@ void HaoyouScene::keyBackStatus(float dt){
 }
 
 void HaoyouScene::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
     BaseScene::onExit();
 }
@@ -234,7 +235,7 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
     path.append("/share.png");
     
-    CCLog("图片 === %s", path.c_str());
+    CCLOG("图片 === %s", path.c_str());
     
     rt->saveToFile(path.c_str());
     ShareManager::get_instance()->share_pic();
