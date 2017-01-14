@@ -19,9 +19,6 @@ using namespace cocos2d;
 using namespace cocos2d::extension;
 
 
-#define NEI_MAXNUM 30
-
-
 class MessageTableView
 : public CCLayer
 , public CCTableViewDataSource

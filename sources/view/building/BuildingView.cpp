@@ -94,6 +94,7 @@ void BuildingView::onEnter() {
     
     this->scheduleOnce(SEL_SCHEDULE(&BuildingView::keyBackStatus), .8f);
 }
+
 void BuildingView::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }

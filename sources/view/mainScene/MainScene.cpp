@@ -1029,11 +1029,11 @@ void MainScene::creat_view(){
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, _welfareItem->getContentSize().width, _welfareItem->getContentSize().height* 8 + 40));
+    stencil->setTextureRect(CCRect(0, 0, _welfareItem->getContentSize().width, _welfareItem->getContentSize().height* 9 + 40));
     stencil->setColor(ccGRAY);
     node = CCClippingNode::create(stencil);
     node->setColor(ccGRAY);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - _welfareItem->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _btnEnergyLargess->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
@@ -1061,7 +1061,7 @@ void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
     if (isOk) {
         CCMoveTo* mt = NULL;
         if (isOpen) {
-            mt = CCMoveTo::create(0.3, ccp(0, 90 * 7.5));
+            mt = CCMoveTo::create(0.3, ccp(0, 90 * 8.5));
             isOpen = false;
         }else{
             if (DATA->current_guide_step() == 6) {
