@@ -30,6 +30,7 @@ void CompetitionThemeInfo::config(Value json) {
     this->setRule(AppUtil::array_with_json(json["rule"]));
     this->setSearchFreeCount(json["search_free_count"].asInt());
     this->setStartFreeCount(json["start_free_count"].asInt());
+    this->setStartLimit(json["start_limit"].asInt());
     
     this->setDay(json["D"].asInt());
     this->setHour(json["H"].asInt());

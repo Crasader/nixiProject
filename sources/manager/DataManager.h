@@ -207,8 +207,6 @@ private:
     void handle_protocol(int cid, Value content);
     void start_check_news();
     void update_901(float dt);
-    
-    void copyPkDress();
 };
 
 #endif /* DataManager_hpp */

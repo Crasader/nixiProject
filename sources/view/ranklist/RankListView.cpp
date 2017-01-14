@@ -369,7 +369,7 @@ void RankListView::showSwitchTip() {
     CCSprite* quanSpr = CCSprite::create("res/pic/guide/quan/guide_quan1.png");
     quanSpr->runAction(CCRepeatForever::create(CCAnimate::create(arrowAnimation)));
     quanSpr->setPosition(ccp(_panel->getContentSize().width * 0.6, _panel->getContentSize().height * 0.95));
-    _panel->addChild(quanSpr);
+    _panel->addChild(quanSpr, 100);
     
     CCSprite* arrowSpr = CCSprite::create("res/pic/guide/guide_jiantou1.png");
     arrowSpr->setAnchorPoint(ccp(0, 1));

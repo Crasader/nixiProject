@@ -950,10 +950,6 @@ int DataManager::current_guide_step(){
     }
 }
 
-void DataManager::copyPkDress() {
-//    getCompetition()->getSelf()->getOndress();
-}
-
 
 
 // talkingData自定义事件

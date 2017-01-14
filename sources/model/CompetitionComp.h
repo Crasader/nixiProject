@@ -26,6 +26,7 @@ public:
     
     CC_SYNTHESIZE(int, _searchFreeCount, SearchFreeCount);  // 免费搜索对手次数的最大值
     CC_SYNTHESIZE(int, _startFreeCount, StartFreeCount);    // 免费开始次数的最大值
+    CC_SYNTHESIZE(int, _startLimit, StartLimit);            // 每日最大PK次数
     
     CC_SYNTHESIZE(int, _day, Day);
     CC_SYNTHESIZE(int, _hour, Hour);

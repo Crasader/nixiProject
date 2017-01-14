@@ -1022,7 +1022,7 @@ void MainScene::creat_view(){
                           NULL);
     menu->alignItemsVerticallyWithPadding(5);
     if (DATA->current_guide_step() == 6){
-        menu->setPosition(ccp(0, 90 * 7.5));
+        menu->setPosition(ccp(0, 90 * 8.5));
     }else{
         menu->setPosition(ccp(0, 0));
     }
