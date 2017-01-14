@@ -125,15 +125,18 @@ void StorySettlementOfTheAnimationLayer::init_with_index(int index, std::string 
             callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
             seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
         }else{// 没有通关的章节，显示第一次通关奖励
-            if (_goldIndex != 0) {// 显示
-                theEndBool = true;
-                callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::tishiCallBack));
-                seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.3f), callFunc, NULL);
-            }else{// 不显示
-                theEndBool = false;
-                callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
-                seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
-            }
+//            if (_goldIndex != 0) {// 显示
+//                theEndBool = true;
+//                callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::tishiCallBack));
+//                seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.3f), callFunc, NULL);
+//            }else{// 不显示
+//                theEndBool = false;
+//                callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
+//                seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
+//            }
+            theEndBool = false;
+            callFunc = CCCallFunc::create(this, SEL_CallFunc(&StorySettlementOfTheAnimationLayer::closeCallBack));
+            seq1 = CCSequence::create(spawn1, CCDelayTime::create(sprFloat11 + 1.f), moveTo1_2, CCDelayTime::create(.5f), callFunc, NULL);
         }
         
         CCSequence* seq2 = CCSequence::create(spawn2, CCDelayTime::create(sprFloat22 + 1.f), moveTo2_2, NULL);
