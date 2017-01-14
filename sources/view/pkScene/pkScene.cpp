@@ -181,6 +181,12 @@ void pkScene::creat_view(){
     startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(pkScene::startCallback));
     startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .14f));
     this->creatStart();
+    if (selfItem->getStartTimes() >= themeInfo->getStartLimit()) {
+        startItem->setEnabled(false);
+        startItem->setColor(ccGRAY);
+    }
+    
+    
     
     // 祝福
     CCSprite* zhufuSpr1 = CCSprite::create("res/pic/pk/pk_zhufu.png");
