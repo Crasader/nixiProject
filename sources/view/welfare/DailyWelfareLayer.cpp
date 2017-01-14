@@ -105,7 +105,7 @@ bool DailyWelfareLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent 
             if (data) {
                 CCString* id = (CCString* )data->objectForKey("id");
                 CCBool* enabled = (CCBool* )data->objectForKey("enabled");
-                if (enabled) {
+                if (enabled->getValue()) {
                     CCLOG("YES");
                     LOADING->show_loading();
                     NET->take_welfare_total_reward_633(id->getCString());
@@ -245,7 +245,6 @@ void DailyWelfareLayer::update_statis_rewards() {
             boxName = CCString::createWithFormat("pic/building/progress/pack_%d_taken.png", i);
             box = CCSprite::create(boxName->getCString());
             box->setPosition(ccp(barSize.width * precent, baseHeight));
-            box->setUserObject(CCBool::create(false));
             _totalProgress->addChild(box, HEADER_START_ZORDER-1);
             
             CCDictionary* data = CCDictionary::create();

@@ -86,8 +86,6 @@ bool TaskScene::init(bool isPhaseUP){
         }
     }
     
-
-    
     
     return true;
 }
@@ -487,10 +485,10 @@ void TaskScene::backCallBack(CCObject* pSender){
             historyBool = false;
             DATA->setTaskPhase(DATA->getPlayer()->phase);
             
-            // _isPhaseUP 要不要显示升级动画 false不显示
-            _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), false);
-            _buildingLayer->setTag(0x55555);
-            this->addChild(_buildingLayer);
+//            // _isPhaseUP 要不要显示升级动画 false不显示
+//            _buildingLayer = BuildingLayer::create(DATA->getTaskPhase(), false);
+//            _buildingLayer->setTag(0x55555);
+//            this->addChild(_buildingLayer);
             
             CCCallFunc* callFunc = CCCallFunc::create(this, SEL_CallFunc(&TaskScene::creat_view));
             CCMoveTo* moveTo = CCMoveTo::create(.5f, ccp(DISPLAY->ScreenWidth()+ 300, DISPLAY->ScreenHeight()* .54f));

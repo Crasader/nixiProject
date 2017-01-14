@@ -69,11 +69,7 @@ bool MessageTableView::init()
     clickIndex = -1;
     
     messageArr = DATA->getMessage()->messages();
-    
     _number = messageArr->count();
-    if (_number > NEI_MAXNUM) {
-        _number = NEI_MAXNUM;
-    }
     
     diSpr = CCSprite::create();
     this->addChild(diSpr);
@@ -254,7 +250,7 @@ void MessageTableView::_805CallBack(CCObject* pSender){
 
 //cell的数量
 unsigned int MessageTableView::numberOfCellsInTableView(cocos2d::extension::CCTableView *table){
-    return _number;
+    return DATA->getMessage()->messages()->count();
 }
 
 void MessageTableView::updateTableView(){

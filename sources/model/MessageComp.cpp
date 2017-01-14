@@ -60,7 +60,7 @@ void MessageComp::init_with_json(Value json) {
     _messages = array;
     _messages->retain();
     
-    this->print_messages();
+//    this->print_messages();
 }
 
 CCArray* MessageComp::messages() const {
