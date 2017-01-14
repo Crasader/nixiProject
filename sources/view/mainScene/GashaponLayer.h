@@ -92,6 +92,7 @@ public:
     void creat_gold(CCMenuItem* item, int index);
     
     void creat_Tishi(CCObject* arr);
+    void openUpdataClothes(float dt);
     
     void jiantou1CallBack(CCObject* pSender);
     void jiantou2CallBack(CCObject* pSender);

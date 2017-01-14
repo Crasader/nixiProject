@@ -49,6 +49,7 @@ void GashaponLayer::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&GashaponLayer::_307CallBack), "HTTP_FINISHED_307", NULL);
     nc->addObserver(this, SEL_CallFuncO(&GashaponLayer::_309CallBack), "HTTP_FINISHED_309", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&GashaponLayer::openUpdataClothes), "openUpdataClothes", NULL);
     
     
     this->scheduleOnce(SEL_SCHEDULE(&GashaponLayer::keyBackStatus), .8f);
@@ -520,9 +521,14 @@ void GashaponLayer::_309CallBack(CCObject* pSender){
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->creat_Tishi(pSender);
 }
+void GashaponLayer::openUpdataClothes(float dt){
+    this->schedule(SEL_SCHEDULE(&GashaponLayer::updataClothes), 5.f);
+}
 
 
 void GashaponLayer::creat_Tishi(CCObject* arr){
+    this->unschedule(SEL_SCHEDULE(&GashaponLayer::updataClothes));
+    
     RewardLayer* layer = RewardLayer::create_with_index((CCArray* )arr);
     this->addChild(layer, 100);
     

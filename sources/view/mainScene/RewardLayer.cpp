@@ -524,6 +524,7 @@ bool RewardLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
         }else{
             CCPoint location = pTouch->getLocation();
             if (! kuangSpr->boundingBox().containsPoint(location)) {
+                CCNotificationCenter::sharedNotificationCenter()->postNotification("openUpdataClothes");
                 this->removeFromParentAndCleanup(true);
             }
         }

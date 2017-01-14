@@ -976,6 +976,59 @@ void ClothesScene::crate_Tishi(){
         lblTishi->setColor(ccc3(107, 89, 99));
         renwukuangSpr1->addChild(lblTishi);
     }
+    else if (clothesStatus == 5){// pk
+        CompetitionThemeInfo* themeInfo = DATA->getCompetition()->getTheme();
+        CCArray* tagArr = themeInfo->getTags();
+        if (tagArr->count() > 0) {
+            tag1 = ((CCInteger* )tagArr->objectAtIndex(0))->getValue();
+            
+            tag2 = ((CCInteger* )tagArr->objectAtIndex(1))->getValue();
+            
+            tag3 = 0;
+        }else{
+            tag1 = 0;
+            tag2 = 0;
+            tag3 = 0;
+        }
+        
+        
+        CCSprite* renwukuangSpr1 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCSprite* renwukuangSpr2 = CCSprite::create("res/pic/clothesScene/gj_renwukuang.png");
+        CCMenuItem* renwukuangItem = CCMenuItemSprite::create(renwukuangSpr1, renwukuangSpr2, this, menu_selector(ClothesScene::renwukuangCallBack));
+        renwukuangItem->setPosition(ccp(DISPLAY->ScreenWidth()* .2f, DISPLAY->ScreenHeight()* .9f));
+        CCMenu* menu = CCMenu::create(renwukuangItem, NULL);
+        menu->setPosition(CCPointZero);
+        this->addChild(menu, 10);
+        shaixuanSpr = CCSprite::create("res/pic/clothesScene/gj_shaixuan.png");
+        shaixuanSpr->setPosition(ccp(renwukuangItem->getContentSize().width* .8f, renwukuangItem->getContentSize().height* .15f));
+        renwukuangItem->addChild(shaixuanSpr, 5);
+        yishaixuanSpr = CCSprite::create("res/pic/clothesScene/gj_yishaixuan.png");
+        yishaixuanSpr->setPosition(ccp(renwukuangItem->getContentSize().width* .88f, renwukuangItem->getContentSize().height* .4f));
+        renwukuangItem->addChild(yishaixuanSpr, 20);
+        
+        shaixuanSpr->setVisible(true);
+        yishaixuanSpr->setVisible(false);
+        
+        
+        if (tag1 > 0) {
+            CCString* tagStr1 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag1);
+            CCSprite* tagSpr1 = CCSprite::create(tagStr1->getCString());
+            tagSpr1->setPosition(ccp(renwukuangItem->getContentSize().width* .25f, renwukuangItem->getContentSize().height* .4f));
+            renwukuangItem->addChild(tagSpr1, 10);
+        }
+        if (tag2 > 0) {
+            CCString* tagStr2 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag2);
+            CCSprite* tagSpr2 = CCSprite::create(tagStr2->getCString());
+            tagSpr2->setPosition(ccp(renwukuangItem->getContentSize().width* .5f, renwukuangItem->getContentSize().height* .4f));
+            renwukuangItem->addChild(tagSpr2, 10);
+        }
+        if (tag3 > 0) {
+            CCString* tagStr3 = CCString::createWithFormat("res/pic/taskScene/biaoqian/task_biaoqian%d.png", tag3);
+            CCSprite* tagSpr3 = CCSprite::create(tagStr3->getCString());
+            tagSpr3->setPosition(ccp(renwukuangItem->getContentSize().width* .75f, renwukuangItem->getContentSize().height* .4f));
+            renwukuangItem->addChild(tagSpr3, 10);
+        }
+    }
 }
 void ClothesScene::renwukuangCallBack(CCObject* pSender){
     AUDIO->common_effect();
