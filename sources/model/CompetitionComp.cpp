@@ -16,6 +16,7 @@
 //
 
 #include "CompetitionComp.h"
+#include "DataManager.h"
 #include "ShowComp.h"
 #include "AppUtil.h"
 
@@ -41,7 +42,7 @@ void CompetitionItem::config(Value json) {
         return;
     }
     
-    this->setId(json["sid"].asString());
+    this->setId(json["id"].asString());
     this->setNickname(json["nickname"].asString());
     this->setCollected(json["collected"].asInt());
     this->setLastRank(json["last_rank"].asInt());
@@ -67,6 +68,8 @@ void CompetitionItem::config(Value json) {
     this->setBuffDesc(json["buff_desc"].asString());
     this->setBuffedId(json["buffed"].asInt());
     this->setBuffedDesc(json["buffed_desc"].asString());
+    
+    this->setAdded(false);
 }
 
 bool CompetitionComp::hasInitRankInfo() {
@@ -96,15 +99,20 @@ void CompetitionComp::createRanklist(Value json) {
         return;
     }
     
+    string myId = DATA->getShow()->getShowID();
     if (json.isArray()) {
+        _selfRank = -1;
         CCArray* arr = CCArray::create();
         int count = json.size();
         for (int i = 0; i < count; i++) {
             CSJson::Value value = json[i];
             if (value != value.jsonNull) {
-                ShowComp* shower = ShowComp::create();
-                shower->init_with_json(value);
-                arr->addObject(shower);
+                CompetitionItem* item = CompetitionItem::create();
+                item->config(value);
+                arr->addObject(item);
+                if (item->getId().compare(myId) == 0) {
+                    _selfRank = i;
+                }
             }
         }
         

@@ -60,7 +60,8 @@ private:
     
     void showUpdateDays();
     
-    CCSprite* createSelfPlate(unsigned int idx, int type);
+    void updateSelfPlate(unsigned int idx);
+    CCSprite* createPlate(unsigned int idx);
     RankListCell* createItemCell(unsigned int idx);
     
     void onSelfBarToggle();
@@ -75,6 +76,9 @@ private:
     CCMenuItemToggle* _toggleSelf;
     CCNode*         _emptyTip;
     CCSprite*       _competitionUpdateTip;
+    
+    CCSprite*       _panel;
+    CCMenu*         _menuSelf;
 };
 
 

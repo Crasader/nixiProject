@@ -50,11 +50,11 @@ bool RankListView::init() {
     _selectedIndex = 0;
     _emptyTip = NULL;
     
-    CCSprite* panel = CCSprite::create("pic/ranklist/rl_panel.png");
-    CCSize panelSize = panel->getContentSize();
-    panel->setAnchorPoint(ccp(0.5, 0));
-    panel->setPosition(ccp(DISPLAY->W() - panelSize.width * 0.5, DISPLAY->H() * 0.15));
-    this->addChild(panel);
+    _panel = CCSprite::create("pic/ranklist/rl_panel.png");
+    CCSize panelSize = _panel->getContentSize();
+    _panel->setAnchorPoint(ccp(0.5, 0));
+    _panel->setPosition(ccp(DISPLAY->W() - panelSize.width * 0.5, DISPLAY->H() * 0.15));
+    this->addChild(_panel);
     
     {
         CCMenuItem* titleCompetition = CCMenuItemImage::create("pic/ranklist/rl_title_1.png", "pic/ranklist/rl_title_1.png");
@@ -62,41 +62,9 @@ bool RankListView::init() {
         CCMenuItemToggle* toggleTitle = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&RankListView::onTitleToggle), titleCompetition, titleCollection, NULL);
         CCMenu* menuTitle = CCMenu::createWithItem(toggleTitle);
         menuTitle->setPosition(ccp(panelSize.width * 0.52, panelSize.height * 0.95));
-        panel->addChild(menuTitle);
+        _panel->addChild(menuTitle);
     }
-    {
-        int selfIndex = -1;
 
-//        RankListCell* sel1 = RankListCell::create("pic/ranklist/rl_bar_self.png");
-//        RankListCell* sel2 = RankListCell::create("pic/ranklist/rl_bar_self.png");
-//        RankListCell* sel3 = RankListCell::create("pic/ranklist/rl_bar_self.png");
-//        RankListCell* sel4 = RankListCell::create("pic/ranklist/rl_bar_self.png");
-//        
-//        sel1->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-//        sel2->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-//        sel3->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-//        sel4->config(selfIndex, selfShow, CELL_WIDTH, CELL_HEIGHT, 1);
-//        
-//        sel1->setPosition(CCPointZero);
-//        sel2->setPosition(CCPointZero);
-//        sel3->setPosition(CCPointZero);
-//        sel4->setPosition(CCPointZero);
-        
-        CCSprite* sel1 = this->createSelfPlate(selfIndex, 1);
-        CCSprite* sel2 = this->createSelfPlate(selfIndex, 1);
-        
-        CCMenuItem* btnSelf1 = CCMenuItemSprite::create(sel1, sel1);
-        CCMenuItem* btnSelf2 = CCMenuItemSprite::create(sel2, sel2);
-        
-        CCSprite* sel5 = CCSprite::create("pic/ranklist/rl_bar_selected.png");
-        sel5->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
-        btnSelf2->addChild(sel5, -1);
-        
-        _toggleSelf = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&RankListView::onSelfBarToggle), btnSelf1, btnSelf2, NULL);
-        CCMenu* menuSelf = CCMenu::createWithItem(_toggleSelf);
-        menuSelf->setPosition(ccp(panelSize.width * 0.52, panelSize.height * 0.85));
-        panel->addChild(menuSelf);
-    }
     {
         _tv = CCTableView::create(this, CCSizeMake(CELL_WIDTH, 686));
         _tv->setDirection(kCCScrollViewDirectionVertical);
@@ -106,37 +74,61 @@ bool RankListView::init() {
         _tv->setAnchorPoint(ccp(0, 0));
         _tv->setPosition(ccp(5, 2));
         _tv->setDelegate(this);
-        panel->addChild(_tv);
+        _panel->addChild(_tv);
     }
-    
     
     return true;
 }
 
-CCSprite* RankListView::createSelfPlate(unsigned int idx, int type) {
+void RankListView::updateSelfPlate(unsigned int idx) {
+    if (_menuSelf) {
+        _menuSelf->removeFromParent();
+        _menuSelf = NULL;
+    }
+    
+    int selfIndex = idx;
+    
+    CCSprite* sel1 = this->createPlate(selfIndex);
+    CCSprite* sel2 = this->createPlate(selfIndex);
+    
+    CCMenuItem* btnSelf1 = CCMenuItemSprite::create(sel1, sel1);
+    CCMenuItem* btnSelf2 = CCMenuItemSprite::create(sel2, sel2);
+    
+    CCSprite* sel5 = CCSprite::create("pic/ranklist/rl_bar_selected.png");
+    sel5->setPosition(ccp(CELL_WIDTH * 0.5, CELL_HEIGHT * 0.5));
+    btnSelf2->addChild(sel5, -1);
+    
+    CCSize panelSize = _panel->getContentSize();
+    _toggleSelf = CCMenuItemToggle::createWithTarget(this, SEL_MenuHandler(&RankListView::onSelfBarToggle), btnSelf1, btnSelf2, NULL);
+    _menuSelf = CCMenu::createWithItem(_toggleSelf);
+    _menuSelf->setPosition(ccp(panelSize.width * 0.52, panelSize.height * 0.85));
+    _panel->addChild(_menuSelf);
+}
+
+CCSprite* RankListView::createPlate(unsigned int idx) {
     CCSprite* plate = CCSprite::create("pic/ranklist/rl_bar_self.png");
     
     float cellWidth = CELL_WIDTH;
     float cellHeight = CELL_HEIGHT;
     float halfCellHeight = cellHeight * 0.5;
     
-    ShowComp* show = DATA->getShow();
-    
-    const char* nickname = show->nickname();
-    CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-    name->setPosition(ccp(cellWidth * 0.75f, cellHeight * 0.68f));
-    name->setColor(ccc3(109, 98, 96));
-    name->setTag(0x10500);
-    plate->addChild(name);
-    
-    if (type == 1) {
+    if (_isShowCompetition) {
+        CompetitionItem* item = DATA->getCompetition()->getSelf();
+        
+        const char* nickname = item->getNickname().c_str();
+        CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        name->setPosition(ccp(cellWidth * 0.75f, cellHeight * 0.68f));
+        name->setColor(ccc3(109, 98, 96));
+        name->setTag(0x10500);
+        plate->addChild(name);
+        
         CCSprite* flag = CCSprite::create("pic/ranklist/rl_text_competition.png");
         flag->setPosition(ccp(cellWidth * 0.8f, cellHeight* .375));
         flag->setAnchorPoint(ccp(1, 0.5));
         flag->setTag(0x10111);
         plate->addChild((flag));
         
-        CCString* collect_str = CCString::createWithFormat("%d", show->competition());
+        CCString* collect_str = CCString::createWithFormat("%d", item->getLastRank());
         CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
         cloth_count->setPosition(flag->getPosition() + ccp(2, -1.5));
         cloth_count->setAnchorPoint(CCPoint(0, 0.5));
@@ -144,6 +136,15 @@ CCSprite* RankListView::createSelfPlate(unsigned int idx, int type) {
         plate->addChild(cloth_count);
     }
     else {
+        ShowComp* show = DATA->getShow();
+        
+        const char* nickname = show->nickname();
+        CCLabelTTF* name = CCLabelTTF::create(nickname, DISPLAY->fangzhengFont(), 22, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        name->setPosition(ccp(cellWidth * 0.75f, cellHeight * 0.68f));
+        name->setColor(ccc3(109, 98, 96));
+        name->setTag(0x10500);
+        plate->addChild(name);
+        
         CCSprite* flag = CCSprite::create("pic/haoyoupaihang/text_collected_nor.png");
         flag->setPosition(ccp(cellWidth * 0.8f, cellHeight* .375));
         flag->setAnchorPoint(ccp(1, 0.5));
@@ -160,10 +161,15 @@ CCSprite* RankListView::createSelfPlate(unsigned int idx, int type) {
     
     int num = idx + 1;
     float numSprPosX = cellWidth * 0.17f;
-    if (num < 10) {
+    if (num <= 0) {
+        CCSprite* spr = CCSprite::create("pic/haoyoupaihang/weishangbang.png");
+        spr->setPosition(ccp(numSprPosX, cellHeight* .5f));
+        plate->addChild(spr);
+    }
+    else if (num < 10) {
         CCSprite* spr = RankListCell::getNumSprite(num);
         spr->setPosition(ccp(numSprPosX, cellHeight* .5f));
-        this->addChild(spr);
+        plate->addChild(spr);
     }
     else if (num < 100) {
         CCSprite* spr1 = RankListCell::getNumSprite((int)floor(num/10));
@@ -171,23 +177,23 @@ CCSprite* RankListView::createSelfPlate(unsigned int idx, int type) {
         this->addChild(spr1);
         CCSprite* spr2 = RankListCell::getNumSprite((int)floor(num%10));
         spr2->setPosition(ccp(numSprPosX + 7, halfCellHeight));
-        this->addChild(spr2);
+        plate->addChild(spr2);
     }
     else if (num < 1000) {
         int baiwei = (int)floor(num / 100);
         CCSprite* spr1 = RankListCell::getNumSprite(baiwei);
         spr1->setPosition(ccp(numSprPosX - 12, halfCellHeight));
-        this->addChild(spr1);
+        plate->addChild(spr1);
         
         int shiwei = (int)floor((num - baiwei * 100) / 10);
         CCSprite* spr2 = RankListCell::getNumSprite(shiwei);
         spr2->setPosition(ccp(numSprPosX, halfCellHeight));
-        this->addChild(spr2);
+        plate->addChild(spr2);
         
         int gewei = (int)floor(num % 10);
         CCSprite* spr3 = RankListCell::getNumSprite(gewei);
         spr3->setPosition(ccp(numSprPosX + 12, halfCellHeight));
-        this->addChild(spr3);
+        plate->addChild(spr3);
     }
     
     return plate;
@@ -259,8 +265,14 @@ RankListCell* RankListView::createItemCell(unsigned int idx) {
         rtn = RankListCell::create("pic/ranklist/rl_bar_other.png");
     }
     
-    ShowComp* show = (ShowComp* )_datasource->objectAtIndex(idx);
-    rtn->config(idx, show, CELL_WIDTH, CELL_HEIGHT, (int)_isShowCompetition);
+    if (_isShowCompetition) {
+        CompetitionItem* item = (CompetitionItem* )_datasource->objectAtIndex(idx);
+        rtn->configCompetition(idx, item, CELL_WIDTH, CELL_HEIGHT);
+    }
+    else {
+        ShowComp* show = (ShowComp* )_datasource->objectAtIndex(idx);
+        rtn->configShower(idx, show, CELL_WIDTH, CELL_HEIGHT);
+    }
     
     return rtn;
 }
@@ -271,19 +283,29 @@ void RankListView::onTitleToggle(CCMenuItemToggle *btn) {
     if (_isShowCompetition) {
         _isShowCompetition = false;
         this->setDatasource(DATA->getRanking()->ranking());
+        this->updateSelfPlate(DATA->getRanking()->getSelfRank());
     }
     else {
         _isShowCompetition = true;
         this->setDatasource(DATA->getCompetition()->getRanklist());
+        this->updateSelfPlate(DATA->getCompetition()->getSelfRank());
     }
     
+    
+
     if (!_datasource || (_datasource && _datasource->count() == 0)) {
         _selectedIndex = -1;
         _toggleSelf->setSelectedIndex(1);
         _toggleSelf->setEnabled(false);
         
-        CCObject* show = DATA->getShow();
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        if (_isShowCompetition) {
+            CCObject* item = DATA->getCompetition()->getSelf();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_COMPETITION", item);
+        }
+        else {
+            CCObject* show = DATA->getShow();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        }
         
         this->showEmptyTip();
     }
@@ -292,8 +314,14 @@ void RankListView::onTitleToggle(CCMenuItemToggle *btn) {
         _toggleSelf->setSelectedIndex(0);
         _toggleSelf->setEnabled(true);
         
-        CCObject* show = this->getDatasource()->objectAtIndex(_selectedIndex);
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        if (_isShowCompetition) {
+            CCObject* item = this->getDatasource()->objectAtIndex(_selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_COMPETITION", item);
+        }
+        else {
+            CCObject* show = this->getDatasource()->objectAtIndex(_selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        }
         
         this->hideEmptyTip();
     }
@@ -312,24 +340,45 @@ void RankListView::onSelfBarToggle() {
         
         _toggleSelf->setEnabled(false);
         
-        CCObject* show = DATA->getShow();
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        if (_isShowCompetition) {
+            CCObject* item = DATA->getCompetition()->getSelf();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_COMPETITION", item);
+        }
+        else {
+            CCObject* show = DATA->getShow();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        }
     }
 }
 
 void RankListView::onAddFriend(CCInteger* pIdx) {
     int index = pIdx->getValue();
-    ShowComp* other = (ShowComp* )_datasource->objectAtIndex(index);
-    if (other) {
-        NET->send_message_803(other->getShowID().c_str(), 1);
+    if (_isShowCompetition) {
+        CompetitionItem* other = (CompetitionItem* )_datasource->objectAtIndex(index);
+        if (other) {
+            NET->send_message_803(other->getId().c_str(), 1);
+        }
+    }
+    else {
+        ShowComp* other = (ShowComp* )_datasource->objectAtIndex(index);
+        if (other) {
+            NET->send_message_803(other->getShowID().c_str(), 1);
+        }
     }
 }
 
 void RankListView::tobeFriend_callback_803(){
     if (_selectedIndex >= 0) {
-        ShowComp* other = (ShowComp* )_datasource->objectAtIndex(_selectedIndex);
-        other->isadd = 1;
-        //
+        if (_isShowCompetition) {
+            CompetitionItem* other = (CompetitionItem* )_datasource->objectAtIndex(_selectedIndex);
+            other->setAdded(true);
+        }
+        else {
+            ShowComp* other = (ShowComp* )_datasource->objectAtIndex(_selectedIndex);
+            other->isadd = 1;
+        }
+
+
         _tv->updateCellAtIndex(_selectedIndex);
     }
     
@@ -389,8 +438,14 @@ void RankListView::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
         }
         
         // 通知切换shower
-        CCObject* show = this->getDatasource()->objectAtIndex(idx);
-        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        if (_isShowCompetition) {
+            CCObject* item = this->getDatasource()->objectAtIndex(_selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_COMPETITION", item);
+        }
+        else {
+            CCObject* show = this->getDatasource()->objectAtIndex(_selectedIndex);
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_CHANGE_SHOWER", show);
+        }
     }
     
     _toggleSelf->setSelectedIndex(0);

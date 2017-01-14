@@ -47,6 +47,9 @@
 #include "TrystProgress.h"
 #include "DailySigninRewardPanel.h"
 #include "WelfarePanel.h"
+#include "pkScene.h"
+
+#include "AppUtil.h"
 
 #include <time.h>
 
@@ -526,7 +529,7 @@ void MainScene::creat_view(){
     gashapon2->setScale(1.02f);
     _btnGashapon = CCMenuItemSprite::create(gashapon1, gashapon2, this, menu_selector(MainScene::gashaponCallBack));
     
-    //事件
+    // 事件
     CCMenuItem* eventItem = NULL;
     CCSprite* eventSpr1 = CCSprite::create("res/pic/mainScene/main_mystery.png");
     CCSprite* eventSpr2 = CCSprite::create("res/pic/mainScene/main_mystery.png");
@@ -534,14 +537,17 @@ void MainScene::creat_view(){
     eventItem = CCMenuItemSprite::create(eventSpr1, eventSpr2, this, menu_selector(MainScene::onEventCallback));
     
 
-    // 聊天
-//    CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
-//    CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
-//    qipao2->setScale(1.02f);
-//    item_chat = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(MainScene::openChat));
-//    item_chat->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+    // PK
+    CCSprite* pk = CCSprite::create("res/pic/mainScene/main_pk1.png");
+    CCSprite* pk2 = CCSprite::create("res/pic/mainScene/main_pk1.png");
+    pk2->setScale(1.02f);
+    CCMenuItem* pkItem = CCMenuItemSprite::create(pk, pk2, this, menu_selector(MainScene::onPkCalled));
+    pkItem->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
     
-
+    CCAnimate* anim = CCAnimate::create(AppUtil::animationWithPics("res/pic/mainScene/main_pk%d.png", 2, 1, 0.5f));
+    pk->runAction(CCRepeatForever::create(anim));
+    
+    
 //    //设置
 //    CCSprite* szSpr1 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
 //    CCSprite* szSpr2 = CCSprite::create("res/pic/mainScene/main_shezhi.png");
@@ -985,15 +991,16 @@ void MainScene::creat_view(){
     item_lingdang->addChild(lingdang_effect);
     lingdang_effect->runAction(this->getIntervalAction());
     
-    menu = CCMenu::create(        _qiandaoItem,
-                                  huanzhuangItem,
-                                  btnPurchaseAchievement,
-                                  _welfareItem,
-                                  _btnEnergyLargess,
-                                  _btnGashapon,
-                                  eventItem,
-                                  item_lingdang,
-                                  NULL);
+    menu = CCMenu::create(_qiandaoItem,
+                          huanzhuangItem,
+                          btnPurchaseAchievement,
+                          _welfareItem,
+                          _btnEnergyLargess,
+                          _btnGashapon,
+                          eventItem,
+                          pkItem,
+                          item_lingdang,
+                          NULL);
     menu->alignItemsVerticallyWithPadding(5);
     if (DATA->current_guide_step() == 6){
         menu->setPosition(ccp(0, 90 * 7.5));
@@ -1503,6 +1510,15 @@ void MainScene::onEventCallback(CCObject *pSender) {
     }
 }
 
+void MainScene::onPkCalled(CCObject *pSender) {
+    if (isOk) {
+        AUDIO->comfirm_effect();
+        LOADING->show_loading();
+        _isEnterPk = true;
+        NET->competition_info_820(! DATA->getCompetition()->hasInitRankInfo());
+    }
+}
+
 void MainScene::afterMenuItemCalled(CCMenuItem* btn) {
     CCLOG("MainScene::afterMenuItemCalled()");
     btn->setEnabled(true);
@@ -1581,8 +1597,8 @@ void MainScene::paihangCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "主界面", "点击排行");
     if (isOk) {
+        _isEnterPk = false;
         LOADING->show_loading();
-//        NET->ranking_list_300();
         NET->competition_info_820(! DATA->getCompetition()->hasInitRankInfo());
     }
 }
@@ -1592,11 +1608,18 @@ void MainScene::paihangCallBack(CCObject* pSender){
 //}
 
 void MainScene::competition_callback_820(CCObject *pObj) {
-    if (DATA->getSocial()->getHasInitFriends()) {
-        this->all_friends_callback_806(NULL);
+    if (_isEnterPk) {
+        CCScene* scene = pkScene::scene();
+        CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+        CCDirector::sharedDirector()->replaceScene(trans);
     }
     else {
-        NET->all_friends_806();
+        if (DATA->getSocial()->getHasInitFriends()) {
+            this->all_friends_callback_806(NULL);
+        }
+        else {
+            NET->all_friends_806();
+        }
     }
 }
 
@@ -1628,7 +1651,7 @@ void MainScene::all_friends_callback_806(CCObject *pObj){
 //    CCDirector::sharedDirector()->replaceScene(trans);
 
     RankListScene* layer = RankListScene::create();
-    layer->setComeFrom("main");
+    DATA->setComeFrom("main");
     CCScene* scene = CCScene::create();
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);

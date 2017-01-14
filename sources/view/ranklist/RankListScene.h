@@ -16,14 +16,12 @@ USING_NS_CC;
 
 class ShowerView;
 class ShowComp;
+class CompetitionItem;
 class RankListView;
 class NotePanel;
 
 class RankListScene: public BaseScene
-{
-public:
-    CC_SYNTHESIZE_PASS_BY_REF(string, _comeFrom, ComeFrom);
-    
+{    
 public:
     ~RankListScene();
     CREATE_FUNC(RankListScene);
@@ -49,6 +47,7 @@ private:
     void createCollectionRL();
     
     void switchRankList();
+    void changeCompetition(CompetitionItem* shower);
     void changeShower(ShowComp* shower);
     void gotoPkScene(CCMenuItem* btn);
     

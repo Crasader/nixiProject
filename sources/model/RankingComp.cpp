@@ -8,6 +8,7 @@
 
 #include "RankingComp.h"
 #include "ShowComp.h"
+#include "DataManager.h"
 
 RankingComp::~RankingComp() {
     CC_SAFE_DELETE(_ranking);
@@ -25,7 +26,9 @@ void RankingComp::init_with_json(Value json) {
         return;
     }
     
+    string myId = DATA->getShow()->getShowID();
     if (json.isArray()) {
+        _selfRank = -1;
         CCArray* arr = CCArray::create();
         int count = json.size();
         for (int i = 0; i < count; i++) {
@@ -34,6 +37,9 @@ void RankingComp::init_with_json(Value json) {
                 ShowComp* shower = ShowComp::create();
                 shower->init_with_json(value);
                 arr->addObject(shower);
+                if (shower->getShowID().compare(myId) == 0) {
+                    _selfRank = i;
+                }
             }
         }
         
