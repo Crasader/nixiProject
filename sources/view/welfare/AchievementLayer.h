@@ -20,8 +20,8 @@ class AchievementCell;
 
 class AchievementLayer
 : public CCLayer
-, CCTableViewDataSource
-, CCTableViewDelegate
+,public CCTableViewDataSource
+,public CCTableViewDelegate
 {
     
 public: // Export

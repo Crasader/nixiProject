@@ -26,7 +26,7 @@ void RankingComp::init_with_json(Value json) {
         return;
     }
     
-    string myId = DATA->getShow()->getShowID();
+    string myId = DATA->getLogin()->obtain_sid();
     if (json.isArray()) {
         _selfRank = -1;
         CCArray* arr = CCArray::create();

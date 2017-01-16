@@ -9,7 +9,6 @@
 #ifndef StrangerTableView_hpp
 #define StrangerTableView_hpp
 
-#include <iostream>
 #include "cocos2d.h"
 #include "cocos-ext.h"
 
