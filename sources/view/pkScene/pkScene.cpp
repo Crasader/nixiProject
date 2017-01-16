@@ -187,7 +187,6 @@ void pkScene::creat_view(){
     }
     
     
-    
     // 祝福
     CCSprite* zhufuSpr1 = CCSprite::create("res/pic/pk/pk_zhufu.png");
     CCSprite* zhufuSpr2 = CCSprite::create("res/pic/pk/pk_zhufu.png");
