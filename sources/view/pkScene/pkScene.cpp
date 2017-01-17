@@ -187,7 +187,6 @@ void pkScene::creat_view(){
     }
     
     
-    
     // 祝福
     CCSprite* zhufuSpr1 = CCSprite::create("res/pic/pk/pk_zhufu.png");
     CCSprite* zhufuSpr2 = CCSprite::create("res/pic/pk/pk_zhufu.png");
@@ -203,7 +202,7 @@ void pkScene::creat_view(){
     // 祝福动态效果
     CCSprite* zfAction = AppUtil::get_self_sprite("pic/pk/pk_zhufu.png");
     zhufuSpr1->addChild(zfAction);
-    zfAction->runAction(CCRepeatForever::create(AppUtil::action_expand_fade_out(1.5f, 0.5f, 1.8f)));
+    zfAction->runAction(CCRepeatForever::create(AppUtil::action_expand_fade_out()));
     
     //
     hzItem->setVisible(true);
@@ -872,6 +871,9 @@ void pkScene::backCallBack(CCObject* pSender){
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }else{
+        // 还原衣服
+        DATA->getClothes()->copy_clothesTemp(DATA->getShow()->ondress());
+        //
         CCScene* scene = MainScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);

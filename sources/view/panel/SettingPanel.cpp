@@ -131,7 +131,7 @@ bool SettingPanel::init(const char *cost) {
             CCMenuItemSprite* btnRelogin = CCMenuItemSprite::create(relogin1, relogin2, this, menu_selector(SettingPanel::on_back));
             
             CCMenu* menuBottom = CCMenu::create(btnRelogin, NULL);
-            menuBottom->setPosition(ccp(panelSize.width * 0.82, panelSize.height * 0.14));
+            menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
             _panel->addChild(menuBottom);
         }
 

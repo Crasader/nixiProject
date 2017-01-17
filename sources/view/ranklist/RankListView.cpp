@@ -70,7 +70,6 @@ bool RankListView::init() {
         _tv = CCTableView::create(this, CCSizeMake(CELL_WIDTH, 686));
         _tv->setDirection(kCCScrollViewDirectionVertical);
         _tv->setVerticalFillOrder(kCCTableViewFillTopDown);
-        _tv->setBounceable(false);
         _tv->ignoreAnchorPointForPosition(false);
         _tv->setAnchorPoint(ccp(0, 0));
         _tv->setPosition(ccp(5, 2));
@@ -378,7 +377,7 @@ void RankListView::showSwitchTip() {
     
     CCMoveTo* moveTo1 = CCMoveTo::create(.2f, ccp(quanSpr->getContentSize().width* .45f, quanSpr->getContentSize().height* .48f));
     CCMoveTo* moveTo2 = CCMoveTo::create(.2f, ccp(quanSpr->getContentSize().width* .3f, quanSpr->getContentSize().height* .62f));
-    arrowSpr->runAction(CCRepeatForever::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.6f), NULL)));
+    arrowSpr->runAction(CCSequence::create( CCRepeat::create(CCSequence::create(moveTo1, moveTo2, CCDelayTime::create(.6f), NULL), 10), CCRemoveSelf::create(), NULL));
 }
 
 void RankListView::onAddFriend(CCInteger* pIdx) {
@@ -495,7 +494,14 @@ void RankListView::tableCellUnhighlight(CCTableView* table, CCTableViewCell* cel
 #pragma mark - CCScrollViewDelegate
 
 void RankListView::scrollViewDidScroll(CCScrollView* view) {
-
+    CCPoint contOffsetPos = view->getContentOffset();
+    if (this->numberOfCellsInTableView(_tv) > 6) {
+        if (contOffsetPos.y < view->minContainerOffset().y) {
+            view->setContentOffset(CCPoint(contOffsetPos.x, view->minContainerOffset().y));
+        }else if (contOffsetPos.y > view->maxContainerOffset().y){
+            view->setContentOffset(CCPoint(contOffsetPos.x, view->maxContainerOffset().y));
+        }
+    }
 }
 
 void RankListView::scrollViewDidZoom(CCScrollView* view) {

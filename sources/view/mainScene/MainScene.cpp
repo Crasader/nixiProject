@@ -794,7 +794,7 @@ void MainScene::creat_view(){
     
     _cafeiting = CCSprite::create("pic/mainScene/coffee.png");
     _cafeiting->setAnchorPoint(ccp(0.5, 0));
-    _cafeiting->setPosition(ccp(hy_Spr1->getContentSize().width * 0.5, 0));
+    _cafeiting->setPosition(ccp(hy_Spr1->getContentSize().width * 0.5, -70));
     haoyou_Item->addChild(_cafeiting);
     
     coffee_bar1 = CCSprite::create("res/pic/mainScene/coffee_bar.png");

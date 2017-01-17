@@ -176,7 +176,7 @@ void AchievementLayer::tableCellTouched(CCTableView *table, CCTableViewCell *cel
 
 void AchievementLayer::scrollViewDidScroll(cocos2d::extension::CCScrollView* view) {
     CCPoint contOffsetPos = view->getContentOffset();
-    if (this->numberOfCellsInTableView(_tv) > 5) {
+    if (this->numberOfCellsInTableView(_tv) > 6) {
         //        _tv->setBounceable(true);
         if (contOffsetPos.y < view->minContainerOffset().y) {
             view->setContentOffset(CCPoint(contOffsetPos.x, view->minContainerOffset().y));

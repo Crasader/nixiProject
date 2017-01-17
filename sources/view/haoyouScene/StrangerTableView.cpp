@@ -41,7 +41,7 @@ bool StrangerTableView::init(){
     pTableView->setDirection(kCCScrollViewDirectionVertical);
     pTableView->setAnchorPoint(CCPointZero);
     pTableView->setPosition(CCPointZero);
-    pTableView->setBounceable(false);
+//    pTableView->setBounceable(false);
     pTableView->setDelegate(this);
     
     this->addChild(pTableView);
@@ -80,6 +80,14 @@ void StrangerTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* vi
 //            pTableView->setContentOffset(CCPoint(contOffsetPos.x, pTableView->maxContainerOffset().y));
 //        }
 //    }
+    CCPoint contOffsetPos = view->getContentOffset();
+    if (this->numberOfCellsInTableView(pTableView) > 7) {
+        if (contOffsetPos.y < view->minContainerOffset().y) {
+            view->setContentOffset(CCPoint(contOffsetPos.x, view->minContainerOffset().y));
+        }else if (contOffsetPos.y > view->maxContainerOffset().y){
+            view->setContentOffset(CCPoint(contOffsetPos.x, view->maxContainerOffset().y));
+        }
+    }
 }
 
 //点击哪个cell

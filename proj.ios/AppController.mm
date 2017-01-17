@@ -55,19 +55,19 @@
 
 - (void)addLocalNotification {
     // iOS 8.0 后需请求用户同意接收推送消息
-//    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
-//        //如果已经获得发送通知的授权则创建本地通知，否则请求授权(注意：如果不请求授权在设置中是没有对应的通知设置项的，也就是说如果从来没有发送过请求，即使通过设置也打不开消息允许设置)
-//        if ([[UIApplication sharedApplication] currentUserNotificationSettings].types == UIUserNotificationTypeNone) {
-//            // 1.
-//            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil]];
-//        }
-//        else {
-//            [self initLocalNotification];
-//        }
-//    }
-//    else {
-//        [self initLocalNotification];
-//    }
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        //如果已经获得发送通知的授权则创建本地通知，否则请求授权(注意：如果不请求授权在设置中是没有对应的通知设置项的，也就是说如果从来没有发送过请求，即使通过设置也打不开消息允许设置)
+        if ([[UIApplication sharedApplication] currentUserNotificationSettings].types == UIUserNotificationTypeNone) {
+            // 1.
+            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil]];
+        }
+        else {
+            [self initLocalNotification];
+        }
+    }
+    else {
+        [self initLocalNotification];
+    }
 }
 
 - (void)initLocalNotification {
@@ -75,8 +75,8 @@
 }
 
 - (void)initTalkingData {
-    TDCCTalkingDataGA::onStart("85C506A249F4A97CD676DE2A6D7C652B", "APPLE_APP_STORE"); // 测试用
-//    TDCCTalkingDataGA::onStart("C2DAC4224F1AA13AFD25A818B6AC6C66", "APPLE_APP_STORE"); // 正式用
+//    TDCCTalkingDataGA::onStart("85C506A249F4A97CD676DE2A6D7C652B", "APPLE_APP_STORE"); // 测试用
+    TDCCTalkingDataGA::onStart("C2DAC4224F1AA13AFD25A818B6AC6C66", "APPLE_APP_STORE"); // 正式用
 }
 
 #pragma mark -

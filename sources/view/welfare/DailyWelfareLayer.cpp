@@ -238,7 +238,7 @@ void DailyWelfareLayer::update_statis_rewards() {
             
             CCDictionary* data = CCDictionary::create();
             data->setObject(ccs(item->id), "id");
-            data->setObject(CCBool::create(false), "enabled");
+            data->setObject(CCBool::create(true), "enabled");
             box->setUserObject(data);
         }
         else {
