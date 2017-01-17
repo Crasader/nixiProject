@@ -259,6 +259,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/GashaponLa
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/AudioManager.h \
@@ -269,6 +272,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/GashaponLa
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
@@ -817,6 +821,12 @@ jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
 
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/ConfigManager.h:
@@ -836,6 +846,8 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 

@@ -236,6 +236,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/loginScene/LogoS
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/loginScene/LoginScene.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/loginScene/YiJieLoginScene.h \
@@ -712,6 +713,8 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCC
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/view/loginScene/LoginScene.h:
 

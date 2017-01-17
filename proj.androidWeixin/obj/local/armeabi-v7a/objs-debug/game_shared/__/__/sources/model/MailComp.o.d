@@ -258,7 +258,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/model/MailComp.o: \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
- jni/../../sources/model/TrystComp.h
+ jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h
 
 jni/../../sources/model/MailComp.h:
 
@@ -795,3 +798,9 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:

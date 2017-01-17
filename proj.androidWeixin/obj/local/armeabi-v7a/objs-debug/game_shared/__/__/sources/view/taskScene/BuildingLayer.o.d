@@ -261,6 +261,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/taskScene/Buildi
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -819,6 +822,12 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
 
 jni/../../sources/manager/NetManager.h:
 
