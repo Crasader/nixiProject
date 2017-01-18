@@ -2383,7 +2383,7 @@ void MainScene::update_news_status() {
     // 玩家消息
     if (news->paper + news->message > 0) {
         CCSprite* spt2 = CCSprite::create("res/pic/new.png");
-        spt2->setPosition(ccp(180, 220));
+        spt2->setPosition(ccp(164, 140));
         spt2->setTag(173);
         haoyou_Item->addChild(spt2);
     }
