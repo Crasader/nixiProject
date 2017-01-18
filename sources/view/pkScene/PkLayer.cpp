@@ -1572,14 +1572,22 @@ void PkLayer::creat_Man2(){
     
     bgIndex = rand()%100;
     CCString* bgStr;
-    if (bgIndex > 0 && bgIndex <= 30) {
+    if (bgIndex > 0 && bgIndex <= 20) {
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 1);
-    }else if (bgIndex > 30 && bgIndex <= 60){
+    }else if (bgIndex > 20 && bgIndex <= 35){
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 2);
-    }else if (bgIndex > 60 && bgIndex <= 90){
+    }else if (bgIndex > 35 && bgIndex <= 50){
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 3);
-    }else{
+    }else if (bgIndex > 50 && bgIndex <= 60){
         bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 4);
+    }else if (bgIndex > 60 && bgIndex <= 70){
+        bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 5);
+    }else if (bgIndex > 70 && bgIndex <= 80){
+        bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 6);
+    }else if (bgIndex > 80 && bgIndex <= 90){
+        bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 7);
+    }else{
+        bgStr = CCString::createWithFormat("res/pic/house/house_%d.png", 8);
     }
     CCSprite* bgSpr1 = CCSprite::create(bgStr->getCString());
     bgSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .75f, DISPLAY->ScreenHeight()* .5f));

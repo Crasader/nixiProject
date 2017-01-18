@@ -127,7 +127,7 @@ public class Tiegao extends Cocos2dxActivity {
 		
 		openProductId = false;//不需要在易接工具内添加计费点的(乐视 有计费点，但是需要选择false)
 //		openProductId = true;//需要在易接工具内添加计费点的(魅族、)
-		TalkingDataGA.init(instance, "87EB2A02216D41878FAAA9493CA83984", "mzplay");
+		TalkingDataGA.init(instance, "03BF303202380DA28B046607C2A79ABF", "mzplay");
 		
 	}
 	public static int getBaiduIndex(){
