@@ -1,4 +1,4 @@
-package com.mzplay.tiegao.baidu;
+package cn.mzplay.tiegao.meitu;
 
 import java.io.BufferedReader;
 import java.io.IOException;

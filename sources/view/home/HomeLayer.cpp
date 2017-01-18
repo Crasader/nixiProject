@@ -91,6 +91,14 @@ void HomeLayer::updataBg(){
         labelStr = CCString::createWithFormat("田园风光");
     }else if (DATA->getHouseIndex() + 1 == 4){
         labelStr = CCString::createWithFormat("罗马假日");
+    }else if (DATA->getHouseIndex() + 1 == 5){
+        labelStr = CCString::createWithFormat("欧式风情2");
+    }else if (DATA->getHouseIndex() + 1 == 6){
+        labelStr = CCString::createWithFormat("粉红心情");
+    }else if (DATA->getHouseIndex() + 1 == 7){
+        labelStr = CCString::createWithFormat("悠夜古堡");
+    }else if (DATA->getHouseIndex() + 1 == 8){
+        labelStr = CCString::createWithFormat("小轩窗");
     }
     bgLabel->setString(labelStr->getCString());
 }
@@ -219,6 +227,14 @@ void HomeLayer::creat_View(){
         labelStr = CCString::createWithFormat("田园风光");
     }else if (DATA->getHouseIndex() == 4){
         labelStr = CCString::createWithFormat("罗马假日");
+    }else if (DATA->getHouseIndex() == 5){
+        labelStr = CCString::createWithFormat("欧式风情2");
+    }else if (DATA->getHouseIndex() == 6){
+        labelStr = CCString::createWithFormat("粉红心情");
+    }else if (DATA->getHouseIndex() == 7){
+        labelStr = CCString::createWithFormat("悠夜古堡");
+    }else if (DATA->getHouseIndex() == 8){
+        labelStr = CCString::createWithFormat("小轩窗");
     }
     bgLabel = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     bgLabel->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .47f));
