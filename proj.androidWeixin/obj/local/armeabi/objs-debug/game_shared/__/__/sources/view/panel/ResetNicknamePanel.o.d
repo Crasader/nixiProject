@@ -264,6 +264,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/ResetNicknameP
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/FileManager.h \
  jni/../../sources/view/mainScene/PromptLayer.h
 
@@ -808,6 +811,12 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
 
 jni/../../sources/manager/FileManager.h:
 

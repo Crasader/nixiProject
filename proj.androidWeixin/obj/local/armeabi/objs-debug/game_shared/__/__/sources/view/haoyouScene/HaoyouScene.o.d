@@ -236,6 +236,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/HaoyouSc
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -262,6 +263,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/HaoyouSc
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
@@ -274,8 +278,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/HaoyouSc
  jni/../../sources/view/haoyouScene/NotePanel.h \
  jni/../../sources/view/common/InputBox/CursorTextField.h \
  jni/../../sources/view/haoyouScene/StrangerTableView.h \
- jni/../../sources/view/haoyouScene/TotalRankScene.h \
- jni/../../sources/view/haoyouScene/TotalRankTableView.h \
+ jni/../../sources/view/ranklist/RankListScene.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
@@ -775,6 +778,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
+
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -841,6 +846,12 @@ jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
 
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/mainScene/MainScene.h:
@@ -865,9 +876,7 @@ jni/../../sources/view/common/InputBox/CursorTextField.h:
 
 jni/../../sources/view/haoyouScene/StrangerTableView.h:
 
-jni/../../sources/view/haoyouScene/TotalRankScene.h:
-
-jni/../../sources/view/haoyouScene/TotalRankTableView.h:
+jni/../../sources/view/ranklist/RankListScene.h:
 
 jni/../../sources/view/common/Loading2/Loading2.h:
 

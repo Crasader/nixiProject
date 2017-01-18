@@ -236,6 +236,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DataManager.h \
@@ -264,6 +265,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
@@ -284,7 +288,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/taskScene/TaskSettlementLayer2.h \
- jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/common/Number/FlashNumberLabel4.h \
  jni/../../sources/utils/AppUtil.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
@@ -292,7 +295,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/view/guide/GuideLayer.h \
- jni/../../sources/view/qingjingScene/StringUtil.h
+ jni/../../sources/view/qingjingScene/StringUtil.h \
+ jni/../../sources/view/pkScene/pkScene.h
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
@@ -766,6 +770,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
+
 jni/../../sources/view/clothesScene/ClothesTableView.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
@@ -836,6 +842,12 @@ jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
 
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/SpecialManager.h:
@@ -876,8 +888,6 @@ jni/../../sources/manager/NetManager.h:
 
 jni/../../sources/view/taskScene/TaskSettlementLayer2.h:
 
-jni/../../sources/view/common/Number/FlashNumberLabel3.h:
-
 jni/../../sources/view/common/Number/FlashNumberLabel4.h:
 
 jni/../../sources/utils/AppUtil.h:
@@ -893,3 +903,5 @@ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 jni/../../sources/view/guide/GuideLayer.h:
 
 jni/../../sources/view/qingjingScene/StringUtil.h:
+
+jni/../../sources/view/pkScene/pkScene.h:

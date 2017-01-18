@@ -217,8 +217,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/manager/NetManager.o: \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
  jni/../../sources/third/Json/lib_json/config.h \
@@ -229,6 +227,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/manager/NetManager.o: \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
  jni/../../sources/third/Json/lib_json/writer.h \
+ jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/manager/DataManager.h \
  jni/../../sources/model/ClothesComp.h \
  jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
  jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
@@ -269,7 +269,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/manager/NetManager.o: \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
- jni/../../sources/model/TrystComp.h jni/../../sources/utils/IMD5.h
+ jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h jni/../../sources/utils/IMD5.h
 
 jni/../../sources/manager/NetManager.h:
 
@@ -705,10 +708,6 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
-jni/../../sources/manager/ConfigManager.h:
-
-jni/../../sources/manager/DataManager.h:
-
 jni/../../sources/third/Json/lib_json/json_lib.h:
 
 jni/../../sources/third/Json/lib_json/autolink.h:
@@ -728,6 +727,10 @@ jni/../../sources/third/Json/lib_json/features.h:
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack:
 
 jni/../../sources/third/Json/lib_json/writer.h:
+
+jni/../../sources/manager/ConfigManager.h:
+
+jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/model/ClothesComp.h:
 
@@ -824,5 +827,11 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
 
 jni/../../sources/utils/IMD5.h:

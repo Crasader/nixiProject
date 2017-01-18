@@ -263,6 +263,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/taskScene/TaskSettle
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/taskScene/TaskScene.h \
  jni/../../sources/view/base/BaseScene.h \
@@ -833,6 +836,12 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
 
 jni/../../sources/manager/ConfigManager.h:
 
