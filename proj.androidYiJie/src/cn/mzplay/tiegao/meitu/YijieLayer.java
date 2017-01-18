@@ -1,4 +1,4 @@
-package com.mzplay.tiegao.baidu;
+package cn.mzplay.tiegao.meitu;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -48,18 +48,18 @@ public class YijieLayer{
 		SFOnlineHelper.setLoginListener(instance, new SFOnlineLoginListener() {
 			@Override
 			public void onLoginSuccess(SFOnlineUser user, Object customParams) { //登陆成功回调
-//				Log.e("main", "<><> onLoginSuccess" );
-//				Log.e("main", "<><> customParams == " + customParams);
-//				Log.e("main", "<><> user == " + user);
+//				Log.i("main", "<><> onLoginSuccess" );
+//				Log.v("main", "<><> customParams == " + customParams);
+//				Log.w("main", "<><> user == " + user);
+//				Log.e("main", "<><> landBool == " + landBool);
+//				Log.e("main", "<><> baiduIndex == " + baiduIndex);
 				if(baiduIndex == 1){
 					// 百度
 					if (landBool) {
 						landBool = false;
 						Tiegao.setRestartApplication(1);
-						LoginHelper.showMessage("登陆成功回调setRestartApplication(1)", instance);
 					}else{
 						LoginCheck(user);
-						LoginHelper.showMessage("登陆成功回调LoginCheck(user)", instance);
 					}
 				}else{
 					// 其它
@@ -68,12 +68,12 @@ public class YijieLayer{
 			}
 			@Override
 			public void onLoginFailed(String reason, Object customParams) { //登陆失败回调
-//				Log.e("main", "<><> onLoginFailed: " + reason + ", " + customParams );
+				Log.e("main", "<><> onLoginFailed: " + reason + ", " + customParams );
 				if(baiduIndex == 1){
 					// 百度
 					if (landBool) {
 						Tiegao.setRestartApplication(2);
-						LoginHelper.showMessage("登陆失败回调setRestartApplication(2)", instance);
+						
 					}else{
 						Tiegao.setLandStatus(2);
 					}
@@ -87,7 +87,6 @@ public class YijieLayer{
 			public void onLogout(Object customParams) { //登出回调
 //				Log.e("main", "<><> onLogout:" + customParams);
 //				Toast.makeText(instance, "账户登出", Toast.LENGTH_SHORT).show();
-				LoginHelper.showMessage("账户登出setRestartApplication(1)", instance);
 				Tiegao.setRestartApplication(1);
 			}
 		});
@@ -132,7 +131,6 @@ public class YijieLayer{
 				if(baiduIndex == 1){
 					// 百度
 					landBool = true;
-					LoginHelper.showMessage("landBool = true", instance);
 				}else{
 					// 其它
 				}

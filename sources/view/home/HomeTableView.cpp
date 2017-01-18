@@ -25,10 +25,12 @@ bool HomeTableView::init(){
         return false;
     }
     touchHouse = 0;
+    nowHouseIndex = 0;
     
     allHomeArr = DATA->getHome()->getHouseTemplate();
     allNumber = allHomeArr->count();
     nowHouse = DATA->getHome()->getCurHouse().c_str();
+    nowHouseIndex = atoi(nowHouse.c_str());
     
     kuangSpr = CCSprite::create("res/pic/qingjingScene/qj_right.png");
     kuangSpr->retain();
@@ -64,6 +66,7 @@ void HomeTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView* view){
 void HomeTableView::tableCellTouched(cocos2d::extension::CCTableView* table, cocos2d::extension::CCTableViewCell* cell){
     touchHouse = cell->getIdx();
     DATA->setHouseIndex(touchHouse);
+    nowHouseIndex = touchHouse+1;
     
     if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
         kuangSpr->removeFromParentAndCleanup(true);
@@ -101,7 +104,7 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
     spr->addChild(bgKuangSpr);
     
     
-    if (atoi(nowHouse.c_str()) == id) {
+    if (nowHouseIndex == id) {
         if (kuangSpr != NULL && kuangSpr->getParent() != NULL) {
             kuangSpr->removeFromParentAndCleanup(true);
             kuangSpr = NULL;
@@ -138,7 +141,16 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
         nameStr = CCString::createWithFormat("田园风光");
     }else if (id == 4){
         nameStr = CCString::createWithFormat("罗马假日");
+    }else if (id == 5){
+        nameStr = CCString::createWithFormat("欧式风情2");
+    }else if (id == 6){
+        nameStr = CCString::createWithFormat("粉红心情");
+    }else if (id == 7){
+        nameStr = CCString::createWithFormat("悠夜古堡");
+    }else if (id == 8){
+        nameStr = CCString::createWithFormat("小轩窗");
     }
+    
     CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(132, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     nameLabel->setPosition(ccp(namekuang->getContentSize().width* .5f, namekuang->getContentSize().height* .5f));
     nameLabel->setColor(ccc3(113, 89, 102));

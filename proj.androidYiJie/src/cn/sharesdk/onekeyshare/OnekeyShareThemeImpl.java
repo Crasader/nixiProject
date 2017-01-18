@@ -23,6 +23,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+import cn.mzplay.tiegao.meitu.Tiegao;
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
@@ -31,7 +32,6 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.mob.tools.utils.R;
 import com.mob.tools.utils.UIHandler;
-import com.mzplay.tiegao.baidu.Tiegao;
 
 /** 快捷分享的主题样式的实现父类 */
 public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Callback {

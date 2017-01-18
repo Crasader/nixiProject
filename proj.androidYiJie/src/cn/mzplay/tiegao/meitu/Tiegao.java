@@ -21,14 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package com.mzplay.tiegao.baidu;
+package cn.mzplay.tiegao.meitu;
 
 import java.util.UUID;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
-import com.mzplay.tiegao.baidu.YijieLayer;
 import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
 import com.snowfish.cn.ganga.helper.SFOnlineHelper;
 import com.tendcloud.tenddata.TalkingDataGA;
@@ -44,6 +43,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+import cn.mzplay.tiegao.meitu.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -119,15 +119,15 @@ public class Tiegao extends Cocos2dxActivity {
 		// 9C58D9E0BC45489B8920B2712A35AE35		测试2
 		
 		
-		setBaiduIndex(1);  // baidu
-//		setBaiduIndex(0);  // other
+//		setBaiduIndex(1);  // baidu
+		setBaiduIndex(0);  // other
 		
 		setPutongIndex(1);  // 邮件发送
 //		setPutongIndex(0);  // 普通发送
 		
 		openProductId = false;//不需要在易接工具内添加计费点的(乐视 有计费点，但是需要选择false)
 //		openProductId = true;//需要在易接工具内添加计费点的(魅族、)
-		TalkingDataGA.init(instance, "C5F4CD1E92B6718262FBF57950D8829D", "mzplay");
+		TalkingDataGA.init(instance, "87EB2A02216D41878FAAA9493CA83984", "mzplay");
 		
 	}
 	public static int getBaiduIndex(){
