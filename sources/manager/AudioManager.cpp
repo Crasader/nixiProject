@@ -291,10 +291,6 @@ void AudioManager::pk_wenzi_effect(){
 }
 
 
-
-
-
-
 // 进入公司播放
 void AudioManager::enterTheTask_effect(){
     int index = 1 + rand()%3;
