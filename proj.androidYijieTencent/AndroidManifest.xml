@@ -22,9 +22,9 @@ cn.mzplay.tiegao.huawei			华为  	can 9  baiOrYijie 1
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao.huawei"
-    android:versionCode="61"
-    android:versionName="1.6.1">
+    package="com.tencent.tmgp.mzplay.tiegao"
+    android:versionCode="70"
+    android:versionName="1.7.0">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -109,7 +109,7 @@ cn.mzplay.tiegao.huawei			华为  	can 9  baiOrYijie 1
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.huawei.wxapi.WXEntryActivity" 
+     		android:name="com.tencent.tmgp.mzplay.tiegao.wxapi.WXEntryActivity" 
      		android:theme="@android:style/Theme.Translucent.NoTitleBar" 
      		android:configChanges="keyboardHidden|orientation|screenSize" 
      		android:exported="true" 
@@ -119,7 +119,7 @@ cn.mzplay.tiegao.huawei			华为  	can 9  baiOrYijie 1
         
         <service android:name="ActionService" >
             <intent-filter> 
-				<action android:name="cn.mzplay.tiegao.huawei.ActionService" /> 
+				<action android:name="com.tencent.tmgp.mzplay.tiegao.ActionService" /> 
 			</intent-filter> 
         </service>
         

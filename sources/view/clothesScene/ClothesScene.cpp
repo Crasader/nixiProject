@@ -747,7 +747,7 @@ void ClothesScene::creat_View(){
     
     buttonMenu = CCMenu::create(tfItem, wtItem, syItem, kzItem, wzItem, xzItem, spItem, baoItem, zhuangrongItem, texiaoItem, NULL);
     buttonMenu->alignItemsVerticallyWithPadding(10.f);
-    buttonMenu->setPosition(ccp(- tfItem->getContentSize().width* .5f, clothKuangSpr->getContentSize().height* .539f));
+    buttonMenu->setPosition(ccp(- tfItem->getContentSize().width* .48f, clothKuangSpr->getContentSize().height* .539f));
     buttonMenu->setTag(0x3333);
     clothKuangSpr->addChild(buttonMenu, 5);
     
@@ -888,7 +888,7 @@ void ClothesScene::creat_ViewMethods(int index) {
     DATA->setDataSource(tempArr);
     _delegate->updateTableView(index);
     
-    if (clothesStatus == 1) {// 任务
+    if (clothesStatus == 1 || clothesStatus == 5) {// 任务
         shaixuanSpr->setVisible(true);
         yishaixuanSpr->setVisible(false);
     }
