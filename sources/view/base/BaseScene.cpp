@@ -90,9 +90,12 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::on_chat_panel_close), "ON_CHAT_PANEL_CLOSE", NULL);
 }
 
-void BaseScene::onExit(){
-    this->unscheduleAllSelectors();
+void BaseScene::onExitTransitionDidStart() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+}
+
+void BaseScene::onExit() {
+    this->unscheduleAllSelectors();
     
     if (_isChatPanelShow) {
         DATA->getChat()->setNewChatCount(0);
