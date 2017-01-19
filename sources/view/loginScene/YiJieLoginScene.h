@@ -35,7 +35,7 @@ public:
 public:
     
     CCSprite* bg;
-    CCMenuItem* startItem;
+    CCMenuItem* startItem,* startItem1,* startItem2;
     
     void init_snow(int huaIndex);
     

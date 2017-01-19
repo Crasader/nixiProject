@@ -530,6 +530,7 @@ void HaoyouScene::openCallback2(){
     }
     
     allMenu->setVisible(true);
+    shareBgSpr->setVisible(false);
     
     if(this->getChildByTag(0x1008)) {
         this->getChildByTag(0x1008)->setVisible(true);

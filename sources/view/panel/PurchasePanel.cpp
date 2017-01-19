@@ -140,8 +140,8 @@ void PurchasePanel::update_content() {
     PurchaseComp* purchase = DATA->getPurchase();
     CCArray* products = purchase->products();
     int count = products->count();
-    const char* png_format = "pic/panel/iap/iap_bar_%d.png";
-    const char* png_format2 = "pic/panel/iap/iap_bar_%dx2.png";
+    const char* png_format = "pic/panel/iap/iap_bar2_%d.png";
+    const char* png_format2 = "pic/panel/iap/iap_bar2_%dx2.png";
     CCArray* arr = CCArray::createWithCapacity(count);
     for (int i = 0; i < count; ++i) {
         CCObject* pObj = products->objectAtIndex(i);

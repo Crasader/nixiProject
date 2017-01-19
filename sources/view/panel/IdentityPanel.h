@@ -44,6 +44,8 @@ private:
     bool checkSex();
     bool checkPhone();
     
+    CCArray* creat_phoneArr();
+    
     void onCheckSex(CCMenuItem* btn);
     void onCommit(CCMenuItem* btn);
     
@@ -51,7 +53,7 @@ private:
     
 private:
     int num_child;
-    
+        
     CCLayer*            _content;
     CCSprite*           _panel;
     CCPoint             _enter_pos;
