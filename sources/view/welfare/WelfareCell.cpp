@@ -134,10 +134,11 @@ void WelfareCell::goStar(int idx, int progress, int goal, int status) {
     _progress->addChild(_star);
     CCSize progressSize = _progress->getContentSize();
     float toX = progressSize.width * per;
+    _star->setPosition(ccp(toX, progressSize.height * 0.5));
     
-    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&WelfareCell::moveFinish), CCInteger::create(status));
-    CCSequence* starSeq = CCSequence::create(CCPlace::create(ccp(0, progressSize.height * 0.5)), CCMoveTo::create(duration, ccp(toX, progressSize.height * 0.5)), finish, NULL);
-    _star->runAction(starSeq);
+//    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&WelfareCell::moveFinish), CCInteger::create(status));
+//    CCSequence* starSeq = CCSequence::create(CCPlace::create(ccp(0, progressSize.height * 0.5)), CCMoveTo::create(duration, ccp(toX, progressSize.height * 0.5)), finish, NULL);
+//    _star->runAction(starSeq);
 }
 
 void WelfareCell::moveFinish(CCObject* pObj) {
