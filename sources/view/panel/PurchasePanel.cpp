@@ -106,7 +106,7 @@ void PurchasePanel::show_from(CCPoint from) {
 #pragma mark - inner
 
 void PurchasePanel::init_content() {
-    _panel = CCSprite::create("res/pic/panel/iap/iap_plane2.png");
+    _panel = CCSprite::create("res/pic/panel/iap/iap_plane.png");
     _panel->setPosition(DISPLAY->center());
     _content->addChild(_panel);
     
@@ -143,7 +143,7 @@ void PurchasePanel::update_content() {
     const char* png_format = "pic/panel/iap/iap_bar2_%d.png";
     const char* png_format2 = "pic/panel/iap/iap_bar2_%dx2.png";
     CCArray* arr = CCArray::createWithCapacity(count);
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < count; ++i) {
         CCObject* pObj = products->objectAtIndex(i);
         ProductItem* pro = (ProductItem* )pObj;
         CCSprite* pic1 = NULL;
