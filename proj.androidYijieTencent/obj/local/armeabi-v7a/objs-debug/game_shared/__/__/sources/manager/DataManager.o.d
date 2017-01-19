@@ -259,6 +259,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/manager/DataManager.o
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -281,6 +284,10 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/manager/DataManager.o
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/loginScene/LoginScene.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
+ jni/../../sources/view/loginScene/YiJieLoginScene.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/td_include/TDCCTalkingDataGA.h \
  jni/../../sources/td_include/TDCCVirtualCurrency.h \
  jni/../../sources/td_include/TDCCItem.h \
@@ -818,6 +825,12 @@ jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
 
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
 jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h:
@@ -861,6 +874,14 @@ jni/../../sources/view/common/Loading2/Loading2.h:
 jni/../../sources/view/mainScene/PromptLayer.h:
 
 jni/../../sources/view/loginScene/LoginScene.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
+
+jni/../../sources/view/loginScene/YiJieLoginScene.h:
+
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
 jni/../../sources/td_include/TDCCTalkingDataGA.h:
 

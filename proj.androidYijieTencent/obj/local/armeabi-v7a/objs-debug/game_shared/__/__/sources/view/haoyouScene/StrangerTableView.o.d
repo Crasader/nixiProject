@@ -1,7 +1,6 @@
 obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/StrangerTableView.o: \
  jni/../../sources/view/haoyouScene/StrangerTableView.cpp \
  jni/../../sources/view/haoyouScene/StrangerTableView.h \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
@@ -13,6 +12,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Stra
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/android/CCPlatformDefine.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/android/log.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/string \
  jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCGeometry.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCObject.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/math.h \
@@ -133,6 +133,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Stra
  jni/../../../../lib/cocos2d-x/cocos2dx/label_nodes/CCLabelBMFont.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/sprite_nodes/CCSpriteBatchNode.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCLayer.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCScene.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCTransition.h \
@@ -259,11 +260,15 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Stra
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
  jni/../../sources/view/common/InputBox/CursorTextField.h \
  jni/../../sources/manager/NetManager.h \
@@ -279,8 +284,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/haoyouScene/Stra
  jni/../../sources/view/common/Loading2/Loading2.h
 
 jni/../../sources/view/haoyouScene/StrangerTableView.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -303,6 +306,8 @@ jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h:
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/android/CCPlatformDefine.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/android/log.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/string:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCGeometry.h:
 
@@ -543,6 +548,8 @@ jni/../../../../lib/cocos2d-x/cocos2dx/label_nodes/CCLabelBMFont.h:
 jni/../../../../lib/cocos2d-x/cocos2dx/sprite_nodes/CCSpriteBatchNode.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCLayer.h:
 
@@ -810,6 +817,12 @@ jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
 
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/haoyouScene/StrangerScene.h:
@@ -819,6 +832,8 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/view/haoyouScene/NotePanel.h:
 

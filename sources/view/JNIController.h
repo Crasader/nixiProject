@@ -25,16 +25,16 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
 
 /**  百度  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/baidu/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/baidu/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/baidu/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/baidu/AlarmClock"
 
 /**  360  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/qihu360/Tiegao"
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/qihu360/AlarmClock"
 
 /**  小米  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mi/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/mi/AlarmClock"
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/mi/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/mi/AlarmClock"
 
 /**  新浪  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/wyx/Tiegao"
@@ -88,8 +88,8 @@ using namespace std;
 
 
 /**  单独支付Taptap  **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 
 

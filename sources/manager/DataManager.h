@@ -197,7 +197,7 @@ public:
     
     // 监听切换账号
     void openUpdata();
-    void update(float dt);
+    void updateRelogin(float dt);
     
 private:
 

@@ -236,6 +236,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/Stranger
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
  jni/../../sources/view/common/InputBox/CursorTextField.h \
  jni/../../sources/view/haoyouScene/StrangerTableView.h \
@@ -266,6 +267,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/haoyouScene/Stranger
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/view/haoyouScene/HaoyouScene.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
@@ -759,6 +763,8 @@ jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
+
 jni/../../sources/view/haoyouScene/NotePanel.h:
 
 jni/../../sources/view/common/InputBox/CursorTextField.h:
@@ -832,6 +838,12 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
 
 jni/../../sources/manager/ConfigManager.h:
 

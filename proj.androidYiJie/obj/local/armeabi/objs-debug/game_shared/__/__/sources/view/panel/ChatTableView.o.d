@@ -234,6 +234,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/ChatTableView.
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/model/ChatComp.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
@@ -261,7 +262,22 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/ChatTableView.
  jni/../../sources/model/CoffersComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
- jni/../../sources/model/TrystComp.h
+ jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/manager/NetManager.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequestDelegate.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
+ /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
+ jni/../../sources/view/common/Label/UnderlineLabel.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/panel/ChatTableView.h:
 
@@ -731,6 +747,8 @@ jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
 
 jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
 
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/model/ChatComp.h:
@@ -798,3 +816,33 @@ jni/../../sources/model/HomeComp.h:
 jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
+
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/manager/NetManager.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequestDelegate.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/lua.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../lua/lua-5.1.5/src/luaconf.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h:
+
+/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+
+jni/../../sources/view/common/Label/UnderlineLabel.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

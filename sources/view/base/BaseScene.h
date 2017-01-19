@@ -39,6 +39,7 @@ public:
     void closeBaseMenu();
     
     virtual void onEnter();
+    virtual void onExitTransitionDidStart();
     virtual void onExit();
     
     virtual bool ccTouchBegan(CCTouch * pTouch, CCEvent * pEvent);

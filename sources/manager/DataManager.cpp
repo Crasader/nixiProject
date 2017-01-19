@@ -212,17 +212,20 @@ void DataManager::openUpdata(){
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (CONFIG->channelId != 0) {
-        CCDirector::sharedDirector()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
+        CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updateRelogin), this, .1f, false);
     }
 #endif
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::updateRelogin), this, 2.f, false);
 }
-void DataManager::update(float delta){
+void DataManager::updateRelogin(float delta){
     
     if (JNIController::getRestartApplication() == 1) {
         JNIController::setRestartApplication(0);
         
         DATA->relogin();
     }
+    
+    
 }
 
 

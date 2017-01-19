@@ -90,9 +90,12 @@ void BaseScene::onEnter(){
     nc->addObserver(this, SEL_CallFuncO(&BaseScene::on_chat_panel_close), "ON_CHAT_PANEL_CLOSE", NULL);
 }
 
-void BaseScene::onExit(){
-    this->unscheduleAllSelectors();
+void BaseScene::onExitTransitionDidStart() {
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+}
+
+void BaseScene::onExit() {
+    this->unscheduleAllSelectors();
     
     if (_isChatPanelShow) {
         DATA->getChat()->setNewChatCount(0);
@@ -332,19 +335,31 @@ void BaseScene::updataMoney(){
     
     
     CCString* coinStr = CCString::createWithFormat("%d", DATA->getPlayer()->coin);
-    m_lbl_coin->set_new_number(coinStr->getCString());
+    if (m_lbl_coin != NULL) {
+        m_lbl_coin->set_new_number(coinStr->getCString());
+    }
+    
     
     CCString* goldStr = CCString::createWithFormat("%d", DATA->getPlayer()->diam);
-    m_lbl_gold->set_new_number2(goldStr->getCString());
+    if (m_lbl_gold != NULL) {
+        m_lbl_gold->set_new_number2(goldStr->getCString());
+    }
+    
     
     if (DATA->getClothesBool()) {
         CCString* debrisStr = CCString::createWithFormat("%d", DATA->getOperation()->getPiece());
-        m_lbl_debris->set_new_number3(debrisStr->getCString());
+        if (m_lbl_debris != NULL) {
+            m_lbl_debris->set_new_number3(debrisStr->getCString());
+        }
+        
     }else{
         uint energy = DATA->getPlayer()->energy;
         tili_num = energy;
         CCString* tiliStr = CCString::createWithFormat("%d/%d", tili_num, def_TiliMax);
-        m_tili_num->setString(tiliStr->getCString());
+        if (m_tili_num != NULL) {
+            m_tili_num->setString(tiliStr->getCString());
+        }
+        
         
         if (energy >= def_TiliMax) {
             this->unschedule(schedule_selector(BaseScene::updataTileTime));

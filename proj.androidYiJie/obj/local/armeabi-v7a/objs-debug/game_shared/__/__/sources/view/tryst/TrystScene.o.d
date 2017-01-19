@@ -243,6 +243,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/tryst/TrystScene
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
  jni/../../sources/view/clothesScene/ClothesTableView.h
@@ -732,6 +733,8 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 

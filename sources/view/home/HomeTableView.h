@@ -72,6 +72,7 @@ public:
     CCArray* allHomeArr;
     CCArray* haveHomeArr;
     std::string nowHouse;
+    int nowHouseIndex;
     
     CCSprite* kuangSpr;
     

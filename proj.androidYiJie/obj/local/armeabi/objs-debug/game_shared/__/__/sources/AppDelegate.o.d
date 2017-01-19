@@ -269,6 +269,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
+ jni/../../sources/model/WelfareComp.h \
+ jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/manager/WSManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
@@ -284,6 +287,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
  jni/../../sources/C2DXShareSDK/C2DXShareSDK.h \
  jni/../../sources/C2DXShareSDK/C2DXShareSDKTypeDef.h \
  jni/../../sources/manager/ShareManager.h
@@ -840,6 +844,12 @@ jni/../../sources/model/MysteryComp.h:
 
 jni/../../sources/model/TrystComp.h:
 
+jni/../../sources/model/WelfareComp.h:
+
+jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/CompetitionComp.h:
+
 jni/../../sources/manager/WSManager.h:
 
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h:
@@ -869,6 +879,8 @@ jni/../../sources/view/base/BaseScene.h:
 jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
 jni/../../sources/view/common/Number/FlashNumberLabel2.h:
+
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/C2DXShareSDK/C2DXShareSDK.h:
 
