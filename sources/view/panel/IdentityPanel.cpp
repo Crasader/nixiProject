@@ -292,18 +292,20 @@ bool IdentityPanel::checkPhone() {
         }
     }
     
-    
+    rtn = false;
     string tempText = text.substr(0, 3);
     CCArray* phoneArr = creat_phoneArr();
     for (int i = 0; i < phoneArr->count(); i++) {
         CCString* str = (CCString* )phoneArr->objectAtIndex(i);
         if (strcmp(str->getCString(), tempText.c_str()) == 0){
-        }else{
-            rtn = false;
-            PromptLayer* prompt = PromptLayer::create();
-            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的手机号码~!");
-            return rtn;
+            rtn = true;
+            break;
         }
+    }
+    
+    if (rtn == false) {
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的手机号码~!");
     }
     
     return rtn;
