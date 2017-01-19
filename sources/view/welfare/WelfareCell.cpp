@@ -126,9 +126,10 @@ void WelfareCell::configWithWelfareItem(int idx, WelfareItem *item, float cellWi
 
 void WelfareCell::goStar(int idx, int progress, int goal, int status) {
     float per = MIN(progress * 0.1 / goal * 10, 1.0);
-    float duration = 1.f * per;
+//    float duration = 1.f * per;
 
-    _progress->runAction(CCProgressFromTo::create(duration, 0, per * 100));
+//    _progress->runAction(CCProgressFromTo::create(duration, 0, per * 100));
+    _progress->setPercentage(per * 100);
     
     _star = CCSprite::create("pic/welfare/welfare_star1.png");
     _progress->addChild(_star);
@@ -136,9 +137,9 @@ void WelfareCell::goStar(int idx, int progress, int goal, int status) {
     float toX = progressSize.width * per;
     _star->setPosition(ccp(toX, progressSize.height * 0.5));
     
-//    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&WelfareCell::moveFinish), CCInteger::create(status));
-//    CCSequence* starSeq = CCSequence::create(CCPlace::create(ccp(0, progressSize.height * 0.5)), CCMoveTo::create(duration, ccp(toX, progressSize.height * 0.5)), finish, NULL);
-//    _star->runAction(starSeq);
+    CCCallFuncO* finish = CCCallFuncO::create(this, SEL_CallFuncO(&WelfareCell::moveFinish), CCInteger::create(status));
+    CCSequence* starSeq = CCSequence::create(CCPlace::create(ccp(toX, progressSize.height * 0.5)), finish, NULL);
+    _star->runAction(starSeq);
 }
 
 void WelfareCell::moveFinish(CCObject* pObj) {
