@@ -128,7 +128,7 @@ CCSprite* RankListView::createPlate(unsigned int idx) {
         flag->setTag(0x10111);
         plate->addChild((flag));
         
-        CCString* collect_str = CCString::createWithFormat("%d", item->getLastRank());
+        CCString* collect_str = CCString::createWithFormat("%d", DATA->getCompetition()->getSelf()->getScore());
         CCLabelTTF* cloth_count = CCLabelTTF::create(collect_str->getCString(), DISPLAY->fangzhengFont(), 20);
         cloth_count->setPosition(flag->getPosition() + ccp(2, -1.5));
         cloth_count->setAnchorPoint(CCPoint(0, 0.5));

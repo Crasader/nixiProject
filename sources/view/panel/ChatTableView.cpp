@@ -169,9 +169,11 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     nickname->setUnderlineColor(ccc4(112, 146, 192, 250));
     if (! chat->id.empty() && chat->id.compare(DATA->getLogin()->obtain_sid()) != 0) {
         nickname->setUnderlineEnabled(true);
+        pCell->setUserObject(ccs(chat->id));
     }
     else {
         nickname->setUnderlineEnabled(false);
+        pCell->setUserObject(ccs(""));
     }
 //    CCLabelTTF* nickname = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 20);
     nickname->setAnchorPoint(ccp(0, 0.5));
