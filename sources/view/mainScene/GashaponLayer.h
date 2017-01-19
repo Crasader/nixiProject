@@ -99,6 +99,7 @@ public:
     void updataButton();
     
     void suipianCallBack(CCObject* pSender);
+    void huanzhuangCallBack(CCObject* pSender);
     void oneCallBack(CCObject* pSender);
     void tenCallBack(CCObject* pSender);
     void _307CallBack(CCObject* pSender);

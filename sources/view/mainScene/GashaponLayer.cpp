@@ -17,6 +17,7 @@
 #include "NetManager.h"
 #include "RewardLayer.h"
 #include "ExchangeLayer.h"
+#include "ClothesScene.h"
 
 
 GashaponLayer::~GashaponLayer(){
@@ -184,16 +185,23 @@ void GashaponLayer::creat_View(){
     
     
     // 碎片兑换
-    CCSprite* spSpr1 = CCSprite::create("res/pic/gashapon/gashapon_suipian1.png");
-    spSpr1->setScale(1.2f);
-    CCSprite* spSpr2 = CCSprite::create("res/pic/gashapon/gashapon_suipian1.png");
-    spSpr2->setScale(1.22f);
-    CCMenuItem* suipianItem = CCMenuItemSprite::create(spSpr1, spSpr2, this, menu_selector(GashaponLayer::suipianCallBack));
-    suipianItem->setPosition(ccp(bgSpr->getContentSize().width* .86f, bgSpr->getContentSize().height* .93f));
-    CCSprite* suipianSpr = CCSprite::create("res/pic/gashapon/gashapon_suipian2.png");
-    suipianSpr->setPosition(ccp(suipianItem->getContentSize().width* .29f, suipianItem->getContentSize().height* .63f));
-    suipianSpr->setScale(1.3f);
-    suipianItem->addChild(suipianSpr);
+//    CCSprite* spSpr1 = CCSprite::create("res/pic/gashapon/gashapon_suipian1.png");
+//    spSpr1->setScale(1.2f);
+//    CCSprite* spSpr2 = CCSprite::create("res/pic/gashapon/gashapon_suipian1.png");
+//    spSpr2->setScale(1.22f);
+//    CCMenuItem* suipianItem = CCMenuItemSprite::create(spSpr1, spSpr2, this, menu_selector(GashaponLayer::suipianCallBack));
+//    suipianItem->setPosition(ccp(bgSpr->getContentSize().width* .86f, bgSpr->getContentSize().height* .93f));
+//    CCSprite* suipianSpr = CCSprite::create("res/pic/gashapon/gashapon_suipian2.png");
+//    suipianSpr->setPosition(ccp(suipianItem->getContentSize().width* .29f, suipianItem->getContentSize().height* .63f));
+//    suipianSpr->setScale(1.3f);
+//    suipianItem->addChild(suipianSpr);
+    
+    CCSprite* hzSpr1 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
+    CCSprite* hzSpr2 = CCSprite::create("res/pic/mainScene/main_huanzhuang.png");
+    hzSpr2->setScale(1.02f);
+    CCMenuItem* huanzhuangItem = CCMenuItemSprite::create(hzSpr1, hzSpr2, this, menu_selector(GashaponLayer::huanzhuangCallBack));
+    huanzhuangItem->setPosition(ccp(bgSpr->getContentSize().width* .89f, bgSpr->getContentSize().height* .93f));
+    
     
     // 1次
     CCSprite* oneSpr1 = CCSprite::create("res/pic/gashapon/gashapon_button1.png");
@@ -272,7 +280,8 @@ void GashaponLayer::creat_View(){
     tenItem->addChild(tenLabel);
     this->creat_gold(tenItem, 10);
     
-    CCMenu* menu = CCMenu::create(suipianItem, oneItem, tenItem, NULL);
+//    CCMenu* menu = CCMenu::create(suipianItem, oneItem, tenItem, NULL);
+    CCMenu* menu = CCMenu::create(huanzhuangItem, oneItem, tenItem, NULL);
     menu->setPosition(CCPointZero);
     bgSpr->addChild(menu, 30);
     
@@ -457,6 +466,17 @@ void GashaponLayer::suipianCallBack(CCObject* pSender){
     DATA->onEvent("点击事件", "扭蛋界面", "点击碎片兑换");
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("Creat_Exchange");
+}
+void GashaponLayer::huanzhuangCallBack(CCObject* pSender){
+    AUDIO->common_effect();
+    
+    DATA->setClothesBool(true);
+    
+    CCLayer* layer = ClothesScene::create_with_type(2, 0, 0);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void GashaponLayer::oneCallBack(CCObject* pSender){
     // talkingData

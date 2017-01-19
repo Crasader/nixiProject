@@ -131,6 +131,7 @@ public:
     CCSprite* kuangSpr1_3;
     CCSprite* kuangSpr2_3;
     CCSprite* xingSpr1_1,* xingSpr1_2,* xingSpr1_3,* xingSpr2_1,* xingSpr2_2,* xingSpr2_3;
+    CCSprite* ditiaoSpr;
     
     CCLabelTTF* slScore;
     CCLabelTTF* pjScore;

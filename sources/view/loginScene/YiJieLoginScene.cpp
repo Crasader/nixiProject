@@ -84,14 +84,35 @@ void YiJieLoginScene::onExit() {
 void YiJieLoginScene::create_views() {
     // 需要检查网络状况
     
-    CCSprite* startSpr1 = CCSprite::create("res/pic/loginScene/login_btn_fast3.png");
-    CCSprite* startSpr2 = CCSprite::create("res/pic/loginScene/login_btn_fast3.png");
-    startSpr2->setScale(1.01f);
-    startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(YiJieLoginScene::startCallBack));
-    startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 160, DISPLAY->ScreenHeight()* .3f));;
-    CCMenu* startMenu = CCMenu::create(startItem, NULL);
-    startMenu->setPosition(CCPointZero);
-    this->addChild(startMenu, 10);
+    if (CONFIG->channelId != 7) {
+        CCSprite* startSpr1 = CCSprite::create("res/pic/loginScene/login_btn_fast3.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/loginScene/login_btn_fast3.png");
+        startSpr2->setScale(1.01f);
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(YiJieLoginScene::startCallBack));
+        startItem->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 160, DISPLAY->ScreenHeight()* .3f));
+        startItem->setTag(1);
+        CCMenu* startMenu = CCMenu::create(startItem, NULL);
+        startMenu->setPosition(CCPointZero);
+        this->addChild(startMenu, 10);
+    }else{
+        CCSprite* qqSpr1 = CCSprite::create("res/pic/loginScene/login_qq.png");
+        CCSprite* qqSpr2 = CCSprite::create("res/pic/loginScene/login_qq.png");
+        qqSpr1->setScale(1.01f);
+        startItem1 = CCMenuItemSprite::create(qqSpr1, qqSpr2, this, menu_selector(YiJieLoginScene::startCallBack));
+        startItem1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f - 150, DISPLAY->ScreenHeight()* .3f));
+        startItem1->setTag(1);
+        
+        CCSprite* weixinSpr1 = CCSprite::create("res/pic/loginScene/login_wechat.png");
+        CCSprite* weixinSpr2 = CCSprite::create("res/pic/loginScene/login_wechat.png");
+        weixinSpr2->setScale(1.01f);
+        startItem2 = CCMenuItemSprite::create(weixinSpr1, weixinSpr2, this, menu_selector(YiJieLoginScene::startCallBack));
+        startItem2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 150, DISPLAY->ScreenHeight()* .3f));
+        startItem2->setTag(2);
+        
+        CCMenu* startMenu = CCMenu::create(startItem1, startItem2, NULL);
+        startMenu->setPosition(CCPointZero);
+        this->addChild(startMenu, 10);
+    }
     
     CCSprite* guangSpr = CCSprite::create("res/pic/loginScene/login_guang.png");
     guangSpr->setPosition(ccp(bg->boundingBox().size.width* .18f, bg->boundingBox().size.height* .22f));
@@ -117,7 +138,8 @@ void YiJieLoginScene::create_views() {
 }
 void YiJieLoginScene::startCallBack(CCObject* pSender){
     LOADING->show_loading();
-    JNIController::isLanding(1);
+    CCMenuItem* item = (CCMenuItem*)pSender;
+    JNIController::isLanding(item->getTag());
     this->schedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus), .5f);
 }
 void YiJieLoginScene::updataLoginStatus(float dt){
@@ -125,7 +147,12 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         JNIController::setLandStatus(0);
         LOADING->remove();
         this->unschedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus));
-        startItem->setVisible(false);
+        if (CONFIG->channelId != 7) {
+            startItem->setVisible(false);
+        }else{
+            startItem1->setVisible(false);
+            startItem2->setVisible(false);
+        }
         
         CCString* seccionStr;
         seccionStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
@@ -139,7 +166,12 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         JNIController::setLandStatus(0);
         LOADING->remove();
         this->unschedule(SEL_SCHEDULE(&YiJieLoginScene::updataLoginStatus));
-        startItem->setVisible(true);
+        if (CONFIG->channelId != 7) {
+            startItem->setVisible(true);
+        }else{
+            startItem1->setVisible(true);
+            startItem2->setVisible(true);
+        }
         
         // 添加提示 登录失败，是否重新登录   是发送isLanding  否推出游戏
         AHMessageBox* mb = AHMessageBox::create_with_message("登录失败,是否重新登录?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
