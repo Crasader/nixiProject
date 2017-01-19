@@ -287,7 +287,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/GashaponLa
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../sources/view/mainScene/RewardLayer.h \
- jni/../../sources/view/mainScene/ExchangeLayer.h
+ jni/../../sources/view/mainScene/ExchangeLayer.h \
+ jni/../../sources/view/clothesScene/ClothesScene.h \
+ jni/../../sources/view/clothesScene/ClothesTableView.h
 
 jni/../../sources/view/mainScene/GashaponLayer.h:
 
@@ -878,3 +880,7 @@ jni/../../sources/manager/NetManager.h:
 jni/../../sources/view/mainScene/RewardLayer.h:
 
 jni/../../sources/view/mainScene/ExchangeLayer.h:
+
+jni/../../sources/view/clothesScene/ClothesScene.h:
+
+jni/../../sources/view/clothesScene/ClothesTableView.h:

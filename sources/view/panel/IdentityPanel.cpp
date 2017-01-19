@@ -33,7 +33,7 @@ IdentityPanel* IdentityPanel::create() {
 bool IdentityPanel::init() {
     if (CCLayer::init()) {
         num_child = 0;
-
+        
         return true;
     }
     else {
@@ -275,10 +275,12 @@ bool IdentityPanel::checkPhone() {
     string text = _inputPhone->getText();
     size_t len = text.length();
     
-    if (text.empty() || len == 0 || len > 11 || text[0] != '1') {
+    
+    if (text.empty() || len == 0 || len != 11) {
         rtn = false;
         PromptLayer* prompt = PromptLayer::create();
         prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的手机号码~!");
+        return rtn;
     }
     
     for (size_t i = 0; i<len; i++) {
@@ -286,7 +288,21 @@ bool IdentityPanel::checkPhone() {
             rtn = false;
             PromptLayer* prompt = PromptLayer::create();
             prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "手机号码错误, 请检查后重新输入~!");
-            break;
+            return rtn;
+        }
+    }
+    
+    
+    string tempText = text.substr(0, 3);
+    CCArray* phoneArr = creat_phoneArr();
+    for (int i = 0; i < phoneArr->count(); i++) {
+        CCString* str = (CCString* )phoneArr->objectAtIndex(i);
+        if (strcmp(str->getCString(), tempText.c_str()) == 0){
+        }else{
+            rtn = false;
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "请输入正确的手机号码~!");
+            return rtn;
         }
     }
     
@@ -357,3 +373,48 @@ void IdentityPanel::keyBackClicked(){
 }
 
 
+CCArray* IdentityPanel::creat_phoneArr(){
+    CCArray* phoneArr = CCArray::createWithCapacity(50);
+    phoneArr->addObject(ccs("139"));
+    phoneArr->addObject(ccs("138"));
+    phoneArr->addObject(ccs("137"));
+    phoneArr->addObject(ccs("136"));
+    phoneArr->addObject(ccs("135"));
+    phoneArr->addObject(ccs("134"));
+    phoneArr->addObject(ccs("147"));
+    phoneArr->addObject(ccs("188"));
+    phoneArr->addObject(ccs("187"));
+    phoneArr->addObject(ccs("184"));
+    phoneArr->addObject(ccs("183"));
+    phoneArr->addObject(ccs("182"));
+    phoneArr->addObject(ccs("170"));
+    phoneArr->addObject(ccs("178"));
+    phoneArr->addObject(ccs("159"));
+    phoneArr->addObject(ccs("158"));
+    phoneArr->addObject(ccs("157"));
+    phoneArr->addObject(ccs("152"));
+    phoneArr->addObject(ccs("151"));
+    phoneArr->addObject(ccs("150"));
+    phoneArr->addObject(ccs("139"));
+    
+    phoneArr->addObject(ccs("186"));
+    phoneArr->addObject(ccs("185"));
+    phoneArr->addObject(ccs("176"));
+    phoneArr->addObject(ccs("145"));
+    phoneArr->addObject(ccs("156"));
+    phoneArr->addObject(ccs("155"));
+    phoneArr->addObject(ccs("132"));
+    phoneArr->addObject(ccs("131"));
+    phoneArr->addObject(ccs("130"));
+    phoneArr->addObject(ccs("186"));
+    
+    phoneArr->addObject(ccs("189"));
+    phoneArr->addObject(ccs("181"));
+    phoneArr->addObject(ccs("180"));
+    phoneArr->addObject(ccs("177"));
+    phoneArr->addObject(ccs("153"));
+    phoneArr->addObject(ccs("133"));
+    phoneArr->addObject(ccs("189"));
+    
+    return phoneArr;
+}
