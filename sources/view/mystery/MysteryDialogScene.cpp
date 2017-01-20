@@ -65,13 +65,11 @@ bool MysteryDialogScene::init(const char* category, CCArray* dialogs){
         bg->setPosition(DISPLAY->center());
         this->addChild(bg);
     }
-    
     // 任务数据
     curDialogDic = (CCDictionary* )dialogs->objectAtIndex(0);
     subscriptIndex = curDialogDic->valueForKey("id")->intValue();
     DATA->setStoryLabelArr(CCArray::create());
     this->init(curDialogDic);
-    
     num_child = 0;
     OpenToWhichOne = 0;
     taskPhase = 0;
@@ -88,7 +86,6 @@ bool MysteryDialogScene::init(const char* category, CCArray* dialogs){
     m_bIsKJSelect = false;
     buttonBool = false;
     startBool = false;
-    
     this->setTouchSwallowEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchEnabled(true);
@@ -174,13 +171,10 @@ bool MysteryDialogScene::init(const char* category, CCArray* dialogs){
     nameLab->setColor(ccWHITE);
     nameLab->enableStroke(ccWHITE, .4f);
     nameKuang->addChild(nameLab, 8);
-    
     this->addButton();
-    
     this->creat_Man(0, 0, 1.f);
     this->initClothes();
     this->init_Man();
-    
     return true;
 }
 
@@ -969,7 +963,7 @@ void MysteryDialogScene::init_Man(){
     }
     
     if (curDialogDic->valueForKey("states")->intValue() == 1){// ==1 一个人
-        
+        CCLOG("============     1");
         CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(0, -DISPLAY->ScreenHeight()* .2f));
         CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.2f);
         _ManSpr1->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
@@ -981,13 +975,12 @@ void MysteryDialogScene::init_Man(){
         
         this->scheduleOnce(SEL_SCHEDULE(&MysteryDialogScene::dialogueControl), .8f);
     }else if (curDialogDic->valueForKey("states")->intValue() == 2){// ==2 两个人
-        
+        CCLOG("============     2");
 //        DISPLAY->ScreenWidth()* .5f + 95
 //        CCMoveTo* moveTo = CCMoveTo::create(.4f, ccp(DISPLAY->ScreenWidth()* .4f, -DISPLAY->ScreenHeight()* .1f));
         CCFiniteTimeAction* moveTo = CCMoveBy::create(.4f, ccp(+250, -100));
         CCScaleTo* scaleTo = CCScaleTo::create(.4f, 1.f);
         _ManSpr1->runAction(CCSpawn::create(moveTo, scaleTo, NULL));
-        
         
         std::string zishiStr = curDialogDic->valueForKey("zishi_1")->getCString();
         if (zishiStr.size() > 1) {
