@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.uc;
+package com.tencent.tmgp.mzplay.tiegao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

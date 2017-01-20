@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package cn.mzplay.tiegao.uc;
+package com.tencent.tmgp.mzplay.tiegao;
 
 import java.util.UUID;
 
@@ -30,6 +30,7 @@ import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 import com.snowfish.cn.ganga.helper.SFOnlineExitListener;
 import com.snowfish.cn.ganga.helper.SFOnlineHelper;
+import com.tencent.tmgp.mzplay.tiegao.YijieLayer;
 import com.tendcloud.tenddata.TalkingDataGA;
 
 import android.app.AlertDialog;
@@ -43,7 +44,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import cn.mzplay.tiegao.uc.YijieLayer;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -117,7 +117,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// 9C58D9E0BC45489B8920B2712A35AE35		测试2
 		
 		
-		TalkingDataGA.init(instance, "F267A73DD42E495CA22458F1B3877DF4", "mzplay");
+		TalkingDataGA.init(instance, "390F4A5CC1E745A18A5FD5A0FD2B8BB2", "mzplay");
 	}
 	
 	

@@ -320,6 +320,8 @@ void PurchasePanel::send105(){
 }
 
 void PurchasePanel::updatePay(float dt){
+    LOADING->remove();
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     if (JNIController::getSmsStatus() == 1) {
         JNIController::setSmsStatus(0);
@@ -327,14 +329,13 @@ void PurchasePanel::updatePay(float dt){
         CCLog("<><><><><><> updatePay");
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
         
-        LOADING->show_loading();
         string orderId = JNIController::getCpOrderId();
         string productId = JNIController::getProductId();
         CCString* iapId = CCString::createWithFormat("%d钻石", JNIController::getGoldStatus());
         
         DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus()/100, JNIController::getGoldStatus());
         
-        
+        LOADING->show_loading();
 //        this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::send105), 2.f);
         this->scheduleOnce(SEL_SCHEDULE(&PurchasePanel::sendPay), 2.f);
     }else if (JNIController::getSmsStatus() == 2) {

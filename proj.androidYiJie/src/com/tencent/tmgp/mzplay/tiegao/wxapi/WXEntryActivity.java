@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao.uc.wxapi;
+package com.tencent.tmgp.mzplay.tiegao.wxapi;
 
 /*
  * 官网地站:http://www.mob.com
