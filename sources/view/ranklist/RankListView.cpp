@@ -54,7 +54,7 @@ bool RankListView::init() {
     _panel = CCSprite::create("pic/ranklist/rl_panel.png");
     CCSize panelSize = _panel->getContentSize();
     _panel->setAnchorPoint(ccp(0.5, 0));
-    _panel->setPosition(ccp(DISPLAY->W() - panelSize.width * 0.5, DISPLAY->H() * 0.15));
+    _panel->setPosition(ccp(DISPLAY->W() - panelSize.width * 0.5, DISPLAY->H() * 0.158));
     this->addChild(_panel);
     
     {
@@ -246,7 +246,7 @@ void RankListView::showUpdateDays() {
         CCString* strDays = CCString::createWithFormat("%d", day);
         CCLabelTTF* lblTip = CCLabelTTF::create(strDays->getCString(), DISPLAY->fangzhengFont(), 20);
         lblTip->setColor(ccc3(255, 46, 46));
-        lblTip->setPosition(ccp(_competitionUpdateTip->getContentSize().width * 0.755, _competitionUpdateTip->getContentSize().height * 0.5));
+        lblTip->setPosition(ccp(_competitionUpdateTip->getContentSize().width * 0.8, _competitionUpdateTip->getContentSize().height * 0.5));
         _competitionUpdateTip->addChild(lblTip);
     }
     

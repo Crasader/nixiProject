@@ -320,7 +320,7 @@ void pkScene::creatHuangguan(CCSprite* huangguanSpr){
     huangguanSpr2->setPosition(ccp(huangguanSpr->getContentSize().width* .503f, huangguanSpr->getContentSize().height* .1f));
     huangguanSpr->addChild(huangguanSpr2, 5);
     
-    int paimingIndex = selfItem->getLastRank();// 排名
+    int paimingIndex = DATA->getCompetition()->getSelfRank() + 1;// 排名
     int paimingFloat = 0;// 字体大小
     CCString* paimingStr;
     if (paimingIndex > 0) {
