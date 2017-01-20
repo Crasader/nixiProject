@@ -139,7 +139,7 @@ void RankListScene::createUI(){
     
     // 比拼入口
     CCSprite* tiny = CCSprite::create("pic/ranklist/rl_tiny_0.png");
-    tiny->setPosition(ccp(DISPLAY->W() - 116, DISPLAY->H() * 0.11));
+    tiny->setPosition(ccp(DISPLAY->W() - 124, 90));
     this->addChild(tiny);
     CCAnimate* anim = CCAnimate::create(AppUtil::animationWithPics("pic/ranklist/rl_tiny_%d.png", 1, 0, 0.5f));
     tiny->runAction(CCRepeatForever::create(anim));
@@ -148,15 +148,25 @@ void RankListScene::createUI(){
     CCSprite* sptPlate2 = CCSprite::create("pic/ranklist/rl_tiny_plane.png");
     sptPlate2->setScale(1.01f);
     CCMenuItemSprite* btnPlate = CCMenuItemSprite::create(sptPlate1, sptPlate2, this, menu_selector(RankListScene::gotoPkScene));
-    btnPlate->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
+//    btnPlate->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .04f));
     CCMenu* menuPlate = CCMenu::createWithItem(btnPlate);
-    menuPlate->setPosition(ccp(-4, - sptPlate1->getContentSize().height * 0.125));
-    tiny->addChild(menuPlate);
+    menuPlate->setPosition(ccp(68, 68));
+    tiny->addChild(menuPlate, -2);
+    
+    // 闪星
+    for (int i = 1; i < 6; i++) {
+        float dur = 0.5f + CCRANDOM_MINUS1_1() * 0.15;
+        CCString* str = CCString::createWithFormat("pic/ranklist/rl_plot_%d.png", i);
+        CCSprite* plot = CCSprite::create(str->getCString());
+        plot->setPosition(ccp(tiny->getContentSize().width * 0.5f, tiny->getContentSize().height * 0.6f));
+        tiny->addChild(plot);
+        plot->runAction(CCRepeatForever::create(CCSequence::create(CCFadeOut::create(dur), CCDelayTime::create(0.5), CCFadeIn::create(dur), NULL)));
+    }
     
     // 自个分数
-    CCString* strScore = CCString::createWithFormat("本轮分数: %d", DATA->getCompetition()->getSelf()->getScore());
+    CCString* strScore = CCString::createWithFormat("%d", DATA->getCompetition()->getSelf()->getScore());
     CCLabelTTF* lblScore = CCLabelTTF::create(strScore->getCString(), DISPLAY->fangzhengFont(), 22);
-    lblScore->setPosition(ccp(sptPlate1->getContentSize().width * 0.5f, sptPlate1->getContentSize().height * 0.23f));
+    lblScore->setPosition(ccp(sptPlate1->getContentSize().width * 0.75f, sptPlate1->getContentSize().height * 0.2f));
     btnPlate->addChild(lblScore);
 }
 
