@@ -1,4 +1,4 @@
-package com.tencent.tmgp.mzplay.tiegao;
+package cn.mzplay.tiegao.uc;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,13 +23,25 @@ public class YijieLayer{
 	private static String productName;
 	private static int price;
 	private static boolean landBool;
-	private static int baiduIndex;
+	
+	public static int baiduIndex = 0;
+	public static int putongIndex = 0;
+	public static boolean openProductId;
 	
 	public YijieLayer(Activity act){
 		instance = act;
 		
 		landBool = false;
-		baiduIndex = Tiegao.getBaiduIndex();
+		
+//		baiduIndex = 1;  // baidu
+		baiduIndex = 0;  // other
+		
+		putongIndex = 1;  // 邮件发送
+//		putongIndex = 0;  // 普通发送
+		
+		openProductId = false;//不需要在易接工具内添加计费点的(乐视 有计费点，但是需要选择false)
+//		openProductId = true;//需要在易接工具内添加计费点的(魅族、)
+		
 		
 		initSDK();
 	}
@@ -194,7 +206,7 @@ public class YijieLayer{
 		productName = null;
 		price = 0;
 		
-		if (Tiegao.openProductId) {
+		if (openProductId) {
 			if (index == 0) {
 				productName = "" + Tiegao.getGoldStatus();
 			}else if (index == 1) {
@@ -240,7 +252,7 @@ public class YijieLayer{
 		String channelStr = "" + Tiegao.getChannelId();
 		
 		String mzStr;
-		if (Tiegao.getPutongIndex() == 1) {// 邮件发送
+		if (putongIndex == 1) {// 邮件发送
 			mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId() + ";" + channelStr;
 		}else{// 普通发送
 			mzStr = Tiegao.getProductId() + ";" + Tiegao.getSidId();

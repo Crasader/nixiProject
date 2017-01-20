@@ -1,4 +1,4 @@
-package com.tencent.tmgp.mzplay.tiegao;
+package cn.mzplay.tiegao.uc;
 
 import java.io.BufferedReader;
 import java.io.IOException;

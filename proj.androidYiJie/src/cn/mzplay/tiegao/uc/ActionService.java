@@ -1,6 +1,4 @@
-package com.tencent.tmgp.mzplay.tiegao;
-
-import com.tencent.tmgp.mzplay.tiegao.R;
+package cn.mzplay.tiegao.uc;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -10,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import cn.mzplay.tiegao.uc.R;
 
 
 public class ActionService extends Service {

@@ -357,7 +357,7 @@ void PurchasePanel::sendPay(float dt){
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "购买成功~!稍后请去邮件查收.");
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "购买结果请去邮件确认.");
 }
 
 void PurchasePanel::keyBackClicked(){

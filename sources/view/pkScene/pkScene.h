@@ -140,7 +140,6 @@ public:
     
     CCMenuItem *hzItem, *hhItem, *startItem, *zhufuItem;
     
-    
     CompetitionThemeInfo* themeInfo;
     CompetitionItem* selfItem,* opponentItem;
     
