@@ -683,6 +683,7 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 305: {
             _operation->replace_purchase_achievement(content["pAchievement"]);
             _clothes->init_with_json(content["clothes"]);
+            _show->init_with_json(content["show"]);
         } break;
         
         case 306: {
@@ -695,6 +696,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _clothes->init_with_json(content["clothes"]);
+            _show->init_with_json(content["show"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["result"]);
             
@@ -718,6 +720,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _clothes->init_with_json(content["clothes"]);
+            _show->init_with_json(content["show"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             _operation->init_extra(content["extra"]);
             pData = AppUtil::dictionary_with_json(content["result"]);

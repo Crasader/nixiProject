@@ -253,7 +253,7 @@ void ConfigManager::conf_login_addr(int net) {
             login_addr = "http://192.168.1.234:9765/account";
             break;
         case 222:
-            login_addr = "http://192.168.1.222:9765/account";
+            login_addr = "http://192.168.3.222:9765/account";
             break;
         case 127:
             login_addr = "http://127.0.0.1:9765/account";
