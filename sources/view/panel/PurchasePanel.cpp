@@ -140,8 +140,18 @@ void PurchasePanel::update_content() {
     PurchaseComp* purchase = DATA->getPurchase();
     CCArray* products = purchase->products();
     int count = products->count();
-    const char* png_format = "pic/panel/iap/iap_bar2_%d.png";
-    const char* png_format2 = "pic/panel/iap/iap_bar2_%dx2.png";
+    
+    string png_format = "pic/panel/iap/iap_bar_%d.png";
+    string png_format2 = "pic/panel/iap/iap_bar_%dx2.png";
+    CCDictionary* conf = DATA->getLogin()->config();
+    if (conf) {
+        CCInteger* productFlag = (CCInteger*)conf->objectForKey("product");
+        if (productFlag && productFlag->getValue() == 1) {
+            png_format = "pic/panel/iap/iap_bar2_%d.png";
+            png_format2 = "pic/panel/iap/iap_bar2_%dx2.png";
+        }
+    }
+    
     CCArray* arr = CCArray::createWithCapacity(count);
     for (int i = 0; i < count; ++i) {
         CCObject* pObj = products->objectAtIndex(i);
@@ -149,12 +159,12 @@ void PurchasePanel::update_content() {
         CCSprite* pic1 = NULL;
         CCSprite* pic2 = NULL;
         if (purchase->has_purchased(pro->id.c_str())) {
-            CCString* file = CCString::createWithFormat(png_format, i);
+            CCString* file = CCString::createWithFormat(png_format.c_str(), i);
             pic1 = CCSprite::create(file->getCString());
             pic2 = CCSprite::create(file->getCString());
         }
         else {
-            CCString* file = CCString::createWithFormat(png_format2, i);
+            CCString* file = CCString::createWithFormat(png_format2.c_str(), i);
             pic1 = CCSprite::create(file->getCString());
             pic2 = CCSprite::create(file->getCString());
         }
