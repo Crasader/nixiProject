@@ -751,6 +751,18 @@ void NetManager::commit_identity_325() {
     this->post_data(325, data);
 }
 
+void NetManager::commit_identity_327(const char* name, int sex, const char* age, const char* phone) {
+    FastWriter writer;
+    Value root;
+    root["name"] = name;
+    root["sex"] = sex;
+    root["age"] = age;
+    root["phone"] = phone;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(327, data);
+}
+
 void NetManager::take_gift_333(int ChannelId, const char *code) {
     FastWriter writer;
     Value root;
