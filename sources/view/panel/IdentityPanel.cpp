@@ -141,7 +141,8 @@ void IdentityPanel::onEnter() {
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&IdentityPanel::nc_commit_identity_325), "HTTP_FINISHED_325", NULL);
+//    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&IdentityPanel::nc_commit_identity_325), "HTTP_FINISHED_325", NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&IdentityPanel::nc_commit_identity_327), "HTTP_FINISHED_327", NULL);
     
     this->create_panel();
     this->do_enter();
@@ -330,11 +331,12 @@ void IdentityPanel::onCheckSex(cocos2d::CCMenuItem *btn) {
 void IdentityPanel::onCommit(CCMenuItem *btn) {
     if (this->checkFilled()) {
         LOADING->show_loading();
-        NET->commit_identity_325();
+//        NET->commit_identity_325();
+        NET->commit_identity_327(_inputName->getText(), _sex, _inputAge->getText(), _inputPhone->getText());
     }
 }
 
-void IdentityPanel::nc_commit_identity_325(CCObject *pObj) {
+void IdentityPanel::nc_commit_identity_327(CCObject *pObj) {
     LOADING->remove();
     
     CCDictionary* reward = dynamic_cast<CCDictionary*>(pObj);

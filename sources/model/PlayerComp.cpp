@@ -67,7 +67,7 @@ void PlayerComp::init_custom(CSJson::Value json) {
 }
 
 bool PlayerComp::hasCommitIdentity() {
-    return _identity == 1;
+    return _identity == 2;
 }
 
 int PlayerComp::total_ratings() {

@@ -146,7 +146,8 @@ public:
     
     void daily_share_321();             // 每日分享
     void commit_daily_signin_323();     // 每日签到
-    void commit_identity_325();         // 完善资料
+    void commit_identity_325();         // 完善资料，兼容旧版
+    void commit_identity_327(const char* name, int sex, const char* age, const char* phone); // 完善资料
 
     void take_gift_333(int ChannelId, const char* code); // 礼包兑换
     

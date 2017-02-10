@@ -105,7 +105,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["uuid"] = uuid;
     root["type"] = 1;
     root["channel"] = channel;
-    root["ver"] = "10702";
+    root["ver"] = "10703";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -749,6 +749,18 @@ void NetManager::commit_identity_325() {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(325, data);
+}
+
+void NetManager::commit_identity_327(const char* name, int sex, const char* age, const char* phone) {
+    FastWriter writer;
+    Value root;
+    root["name"] = name;
+    root["sex"] = sex;
+    root["age"] = age;
+    root["phone"] = phone;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(327, data);
 }
 
 void NetManager::take_gift_333(int ChannelId, const char *code) {
