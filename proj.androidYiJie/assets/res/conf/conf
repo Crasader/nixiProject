@@ -1,6 +1,6 @@
 {
     "version": "1.7.2",
-    "can": 7,
+    "can": 15,
     "baiOrYijie": 1,
     "openPay": 1,
     "net": 170,

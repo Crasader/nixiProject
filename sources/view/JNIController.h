@@ -49,8 +49,8 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
 
 /**  应用宝  **/
-#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
-#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
 
 /**  UC  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/uc/Tiegao"
@@ -88,8 +88,8 @@ using namespace std;
 
 
 /**  单独支付Taptap  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 
 
