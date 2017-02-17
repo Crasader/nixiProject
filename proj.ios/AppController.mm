@@ -76,7 +76,8 @@
 
 - (void)initTalkingData {
     TDCCTalkingDataGA::onStart("85C506A249F4A97CD676DE2A6D7C652B", "APPLE_APP_STORE"); // 测试用
-//    TDCCTalkingDataGA::onStart("C2DAC4224F1AA13AFD25A818B6AC6C66", "APPLE_APP_STORE"); // 正式用
+//    TDCCTalkingDataGA::onStart("C2DAC4224F1AA13AFD25A818B6AC6C66", "APPLE_APP_STORE"); // 内部正式用
+//    TDCCTalkingDataGA::onStart("075AA39C627B43D48CD4244D75F91EA0", "APPLE_APP_STORE"); // 联运正式用
 }
 
 #pragma mark -

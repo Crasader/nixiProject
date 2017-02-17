@@ -97,9 +97,6 @@ void AchievementCell::configWithAchievementItem(int idx, AchievementItem *item, 
     _progress->addChild(_star);
     
     int status = item->getStatus();
-    if (item->getId() == 1701) {
-        CCLOG("-------- %d", item->getStatus());
-    }
     if (status == 1) {
         CCLabelTTF* lblTake1 = CCLabelTTF::create("领取", DISPLAY->fangzhengFont(), 30);
         lblTake1->setPosition(ccp(_sptButton1->getContentSize().width * 0.5, _sptButton1->getContentSize().height * 0.5));
