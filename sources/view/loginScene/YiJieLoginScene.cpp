@@ -31,7 +31,7 @@ CCScene* YiJieLoginScene::scene() {
 }
 
 bool YiJieLoginScene::init() {
-//    CCLog("<><><><><> YiJieLoginScene::init()");
+//    CCLog("========YiJieLoginScene::init=========");
     if (CCLayer::init()) {
         CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("res/pic/loginScene/login_hua.plist");
         
@@ -137,6 +137,7 @@ void YiJieLoginScene::create_views() {
     
 }
 void YiJieLoginScene::startCallBack(CCObject* pSender){
+//    CCLog("========YiJieLoginScene::startCallBack=========");
     LOADING->show_loading();
     CCMenuItem* item = (CCMenuItem*)pSender;
     JNIController::isLanding(item->getTag());
@@ -154,6 +155,8 @@ void YiJieLoginScene::updataLoginStatus(float dt){
             startItem2->setVisible(false);
         }
         
+//        CCLog("========YiJieLoginScene::updataLoginStatus=========");
+        
         CCString* seccionStr;
         seccionStr = CCString::createWithFormat("%s", JNIController::getSessionid().c_str());
         DATA->getLogin()->setUUid(seccionStr);
@@ -161,7 +164,12 @@ void YiJieLoginScene::updataLoginStatus(float dt){
         LOADING->show_loading();
 //        DATA->setLoginType(1);
         CONFIG->save_login_type(1);
+//        CCLog("<><><><> fast_login_900");
         NET->fast_login_900(seccionStr->getCString(), CONFIG->channelId);
+        
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getParent(), "登录成功");
     }else if (JNIController::getLandStatus() == 2){
         JNIController::setLandStatus(0);
         LOADING->remove();
@@ -173,10 +181,15 @@ void YiJieLoginScene::updataLoginStatus(float dt){
             startItem2->setVisible(true);
         }
         
-        // 添加提示 登录失败，是否重新登录   是发送isLanding  否推出游戏
-        AHMessageBox* mb = AHMessageBox::create_with_message("登录失败,是否重新登录?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3900);
+        if (CONFIG->channelId != 900) {
+            // 添加提示 登录失败，是否重新登录   是发送isLanding  否推出游戏
+            AHMessageBox* mb = AHMessageBox::create_with_message("登录失败,是否重新登录?", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 3900);
+        }else{
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(this->getParent(), "登录失败");
+        }
     }
 }
 
@@ -264,6 +277,8 @@ void YiJieLoginScene::show_nicknameview() {
 }
 
 void YiJieLoginScene::fast_login_callback_900(CCObject *pObj) {
+    CCLog("<><><><> fast_login_callback_900");
+    
     LOADING->remove();
     if (! CONFIG->has_saved_uuid()) {
         CONFIG->save_uuid(DATA->getLogin()->obtain_UUID());

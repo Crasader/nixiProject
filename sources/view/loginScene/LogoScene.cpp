@@ -20,7 +20,7 @@ bool LogoScene::init(){
     if (!CCLayer::init()) {
         return false;
     }
-    
+    CCLog("========LoginScene::init=========");
     this->creat_view();
     
     return true;

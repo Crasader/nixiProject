@@ -45,6 +45,8 @@ private:
     void on_free_diam(CCMenuItem* btn);
     void onBtnCommitRest(CCMenuItem *btn);
     
+    void unreloginCallback(CCObject* pSender);
+    
 private:
     int num_child;
     
