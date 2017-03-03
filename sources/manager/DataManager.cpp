@@ -223,8 +223,6 @@ void DataManager::updateRelogin(float delta){
         
         DATA->relogin();
     }
-    
-    
 }
 
 
