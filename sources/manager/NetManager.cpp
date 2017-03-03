@@ -21,6 +21,7 @@ USING_NS_CC_EXTRA;
 static NetManager* _instance = nullptr;
 
 const int CONNECT_TIMEOUT = 60;
+const float UpdateInterval = 60.f;
 
 NetManager::~NetManager() {
     
@@ -32,6 +33,15 @@ NetManager* NetManager::Inst() {
     }
     
     return _instance;
+}
+
+void NetManager::start_check_news() {
+    CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&NetManager::update_910), this);
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&NetManager::update_910), this, UpdateInterval, false);
+}
+
+void NetManager::update_910(float dt){
+    this->check_news_910();
 }
 
 string NetManager::generate_sign(int cid, const char* data) {

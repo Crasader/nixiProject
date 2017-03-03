@@ -26,7 +26,7 @@ typedef enum
     , e_NetEnv_Unknown = 3
 } NetEnv;
 
-class NetManager : public CCHTTPRequestDelegate
+class NetManager : public CCHTTPRequestDelegate, public CCObject
 {
 public:
     ~NetManager();
@@ -34,6 +34,9 @@ public:
     
     virtual void requestFinished(CCHTTPRequest* request);
     virtual void requestFailed(CCHTTPRequest* request);
+    
+    void start_check_news();
+    void update_910(float dt);
     
 public:
     NetEnv obtain_net_env();
