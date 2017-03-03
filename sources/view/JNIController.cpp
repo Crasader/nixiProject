@@ -46,6 +46,18 @@ extern "C"
 #endif
     }
     
+    // 注销
+    void JNIController::isUnLanding(){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    	JniMethodInfo jni_methodInfo;
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "isUnLanding", "()V") ){
+    		return;
+    	}
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID,  jni_methodInfo.methodID);
+    	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
+#endif
+    }
+    
     std::string JNIController::getOpenId(){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         JniMethodInfo jni_methodInfo;
