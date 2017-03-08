@@ -37,6 +37,7 @@
 #include "WelfareComp.h"
 #include "AchievementComp.h"
 #include "CompetitionComp.h"
+#include "FlashSaleComp.h"
 
 USING_NS_CC;
 using namespace CSJson;
@@ -44,7 +45,7 @@ using namespace CSJson;
 #define DATA         DataManager::Inst()
 #define def_TiliMax 100
 
-class DataManager : CCObject
+class DataManager : public CCObject
 {
 public:
     ~DataManager();
@@ -205,8 +206,6 @@ private:
 private:
     void init_data();
     void handle_protocol(int cid, Value content);
-    void start_check_news();
-    void update_901(float dt);
 };
 
 #endif /* DataManager_hpp */

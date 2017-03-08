@@ -366,6 +366,9 @@ void MainScene::onEnter(){
 //        
 //    }
     NET->fetch_tryst_info_620();
+    
+    
+    NET->flash_sale_today_160();
 }
 
 void MainScene::checkVersion() {

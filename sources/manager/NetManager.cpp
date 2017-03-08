@@ -21,6 +21,7 @@ USING_NS_CC_EXTRA;
 static NetManager* _instance = nullptr;
 
 const int CONNECT_TIMEOUT = 60;
+const float UpdateInterval = 60.f;
 
 NetManager::~NetManager() {
     
@@ -32,6 +33,15 @@ NetManager* NetManager::Inst() {
     }
     
     return _instance;
+}
+
+void NetManager::start_check_news() {
+    CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&NetManager::update_910), this);
+    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&NetManager::update_910), this, UpdateInterval, false);
+}
+
+void NetManager::update_910(float dt){
+    this->check_news_910();
 }
 
 string NetManager::generate_sign(int cid, const char* data) {
@@ -105,7 +115,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["uuid"] = uuid;
     root["type"] = 1;
     root["channel"] = channel;
-    root["ver"] = "10703";
+    root["ver"] = "10704";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -901,4 +911,9 @@ void NetManager::verify_order_iOS_133(string &orderId, string &productId, const 
     string data = writer.write(root);
     this->post_data(133, data);
 }
+
+void NetManager::flash_sale_today_160() {
+    this->post_data(160, string(""));
+}
+
 

@@ -26,7 +26,6 @@
 
 static DataManager* _instance = nullptr;
 
-const float UpdateInterval = 60.0f;
 
 DataManager::~DataManager() {
     CC_SAFE_RELEASE_NULL(_dataSource);
@@ -224,8 +223,6 @@ void DataManager::updateRelogin(float delta){
         
         DATA->relogin();
     }
-    
-    
 }
 
 
@@ -263,7 +260,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             _notif = content["notif"].asString();
             
-            this->start_check_news();
+            NET->start_check_news();
             
             this->setFirstOnMainScene(true);
         } break;
@@ -848,6 +845,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 返回订单号
             pData = ccs(content["order_id"].asString());
         } break;
+            
+            
+        case 160: {
+            FlashSaleInfo* info = FlashSaleInfo::create();
+            info->config(content);
+            pData = info;
+        } break;
         
         default:
             break;
@@ -856,13 +860,6 @@ void DataManager::handle_protocol(int cid, Value content) {
     nc->postNotification(CCString::createWithFormat(notif_format, cid)->getCString(), pData);
 }
 
-void DataManager::start_check_news() {
-    CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(SEL_SCHEDULE(&DataManager::update), this);
-    CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&DataManager::update_901), this, UpdateInterval, kCCRepeatForever, UpdateInterval, false);
-}
-void DataManager::update_901(float dt){
-    NET->check_news_910();
-}
 
 void DataManager::relogin() {
     WS->disconnect();

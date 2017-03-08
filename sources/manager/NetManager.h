@@ -26,7 +26,7 @@ typedef enum
     , e_NetEnv_Unknown = 3
 } NetEnv;
 
-class NetManager : public CCHTTPRequestDelegate
+class NetManager : public CCHTTPRequestDelegate, public CCObject
 {
 public:
     ~NetManager();
@@ -34,6 +34,9 @@ public:
     
     virtual void requestFinished(CCHTTPRequest* request);
     virtual void requestFailed(CCHTTPRequest* request);
+    
+    void start_check_news();
+    void update_910(float dt);
     
 public:
     NetEnv obtain_net_env();
@@ -173,6 +176,8 @@ public:
     void buchang_story2_113(const char* id);
     // iOS新支付验证
     void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
+    
+    void flash_sale_today_160();
     
 private:
     string generate_sign(int cid, const char* data);
