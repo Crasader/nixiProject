@@ -178,6 +178,7 @@ public:
     void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
     
     void flash_sale_today_160();
+    void flash_sale_buying_161();
     
 private:
     string generate_sign(int cid, const char* data);

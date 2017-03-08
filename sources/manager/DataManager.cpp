@@ -852,6 +852,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             info->config(content);
             pData = info;
         } break;
+            
+        case 161: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _clothes->init_with_json(content["clothes"]);
+            _show->init_with_json(content["show"]);
+        } break;
         
         default:
             break;
