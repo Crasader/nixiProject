@@ -37,6 +37,7 @@
 #include "WelfareComp.h"
 #include "AchievementComp.h"
 #include "CompetitionComp.h"
+#include "FlashSaleComp.h"
 
 USING_NS_CC;
 using namespace CSJson;

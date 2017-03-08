@@ -912,3 +912,8 @@ void NetManager::verify_order_iOS_133(string &orderId, string &productId, const 
     this->post_data(133, data);
 }
 
+void NetManager::flash_sale_today_160() {
+    this->post_data(160, string(""));
+}
+
+

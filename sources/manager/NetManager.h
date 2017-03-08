@@ -177,6 +177,8 @@ public:
     // iOS新支付验证
     void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
     
+    void flash_sale_today_160();
+    
 private:
     string generate_sign(int cid, const char* data);
     CCString* obtain_login_url(const char* sid, int cid, string sign);

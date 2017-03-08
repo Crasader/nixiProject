@@ -845,6 +845,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             // 返回订单号
             pData = ccs(content["order_id"].asString());
         } break;
+            
+            
+        case 160: {
+            FlashSaleInfo* info = FlashSaleInfo::create();
+            info->config(content);
+            pData = info;
+        } break;
         
         default:
             break;
