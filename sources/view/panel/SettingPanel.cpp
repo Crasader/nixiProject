@@ -11,6 +11,8 @@
 #include "AudioManager.h"
 #include "DataManager.h"
 #include "FileManager.h"
+#include "ConfigManager.h"
+#include "JNIController.h"
 
 #include "PromptLayer.h"
 #include "GiftPanel.h"
@@ -176,11 +178,33 @@ bool SettingPanel::init(const char *cost) {
             _panel->addChild(menuBottom);
         }
 #endif
+        
+        
+        if (CONFIG->channelId == 900) {
+            
+            CCSprite* unreloginSpr1 = CCSprite::create("pic/baseScene/base_unrelogin.png");
+            CCSprite* unreloginSpr2 = CCSprite::create("pic/baseScene/base_unrelogin.png");
+            unreloginSpr2->setScale(1.02f);
+            CCMenuItem* unreloginItem = CCMenuItemSprite::create(unreloginSpr1, unreloginSpr2, this, menu_selector(SettingPanel::unreloginCallback));
+            unreloginItem->setAnchorPoint(ccp(.5f, 1.f));
+            unreloginItem->setPosition(ccp(panelSize.width* .5f, - 10));
+            CCMenu* unreloginMenu = CCMenu::create(unreloginItem, NULL);
+            unreloginMenu->setPosition(CCPointZero);
+            _panel->addChild(unreloginMenu);
+        }
+        
+        
+        
         return true;
     }
     else {
         return false;
     }
+}
+void SettingPanel::unreloginCallback(CCObject* pSender){
+    
+    JNIController::isUnLanding();
+    DATA->relogin();
 }
 
 void SettingPanel::create_nickname_reset_bar(CCSize panelSize, const char *cost) {

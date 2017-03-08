@@ -285,11 +285,12 @@ void HaoyouScene::shareStatus(float dt){
         
         LOADING->show_loading();
         NET->daily_share_321();
-        
+        CCLog("《《《《《《 分享成功 》》》》》》》");
         this->unschedule(SEL_SCHEDULE(&HaoyouScene::shareStatus));
     }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
         JNIController::shareText();
         JNIController::setShareStatus(0);
+        CCLog("《《《《《《 分享失败 》》》》》》》");
         this->unschedule(SEL_SCHEDULE(&HaoyouScene::shareStatus));
     }
 }

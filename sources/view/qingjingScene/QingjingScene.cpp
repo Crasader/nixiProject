@@ -292,85 +292,88 @@ void QingjingScene::creat_view(){
         
         
         // 结局成就
-        CCLabelTTF* titleLabel = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-        titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
-        titleLabel->setColor(ccc3(80, 63, 68));
-//        titleLabel->enableStroke(ccc3(80, 63, 68), .4f);
-        kuangSpr->addChild(titleLabel);
-        // 显示的结局
-        CSJson::Value data = AppUtil::read_json_file("res/story/storyAchievementArr");
-        CCDictionary* dic = AppUtil::dictionary_with_json(data);
-        CCString* keyStr = CCString::createWithFormat("101_80100_%d", i);
-        CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
-        
-        
-        CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
-        CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
-        
-        CCString* story_index = CCString::createWithFormat("%d", i);
-        CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
         bool tongguanBool = false;
-        for (int j = 0; j < achievemArr->count(); j++) {
-            bool achiBool = false;
-            CCString* str = (CCString* )achievemArr->objectAtIndex(j);
-            if (storyArr != NULL) {
-                for (int k = 0; k < storyArr->count(); k++) {
-                    CCString* storyStr = (CCString* )storyArr->objectAtIndex(k);
-                    CCString* tongguanStr1 = CCString::createWithFormat("-1");
-                    CCLog("j == %d", j);
-                    CCLog("k == %d", k);
-                    CCLog("keyStr == %s", keyStr->getCString());
-                    CCLog("storyStr == %s", storyStr->getCString());
-                    CCLog("str == %s", str->getCString());
-                    if (strcmp(str->getCString(), storyStr->getCString()) == 0) {
-                        achiBool = true;
-                        CCLog("11111");
-                    }else{
-                        CCLog("22222");
-                    }
-                    CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(k);
-                    if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
-                        tongguanBool = true;
-                        CCLog("等于-1");
-                    }else{
-                        CCLog("不等于-1");
+        if (i != 30) {
+            CCLabelTTF* titleLabel = CCLabelTTF::create("结局成就", DISPLAY->fangzhengFont(), 22, CCSizeMake(385, 23), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
+            titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
+            titleLabel->setColor(ccc3(80, 63, 68));
+            //        titleLabel->enableStroke(ccc3(80, 63, 68), .4f);
+            kuangSpr->addChild(titleLabel);
+            // 显示的结局
+            CSJson::Value data = AppUtil::read_json_file("res/story/storyAchievementArr");
+            CCDictionary* dic = AppUtil::dictionary_with_json(data);
+            CCString* keyStr = CCString::createWithFormat("101_80100_%d", i);
+            CCArray* achievemArr = (CCArray* )dic->objectForKey(keyStr->getCString());
+            
+            
+            CSJson::Value storyData = AppUtil::read_json_file("story/storyAchievement");
+            CCDictionary* storyDic = AppUtil::dictionary_with_json(storyData);
+            
+            CCString* story_index = CCString::createWithFormat("%d", i);
+            CCArray* storyArr = DATA->getStory()->story_achievments(story_index->getCString());
+            
+            for (int j = 0; j < achievemArr->count(); j++) {
+                bool achiBool = false;
+                CCString* str = (CCString* )achievemArr->objectAtIndex(j);
+                if (storyArr != NULL) {
+                    for (int k = 0; k < storyArr->count(); k++) {
+                        CCString* storyStr = (CCString* )storyArr->objectAtIndex(k);
+                        CCString* tongguanStr1 = CCString::createWithFormat("-1");
+                        CCLog("j == %d", j);
+                        CCLog("k == %d", k);
+                        CCLog("keyStr == %s", keyStr->getCString());
+                        CCLog("storyStr == %s", storyStr->getCString());
+                        CCLog("str == %s", str->getCString());
+                        if (strcmp(str->getCString(), storyStr->getCString()) == 0) {
+                            achiBool = true;
+                            CCLog("11111");
+                        }else{
+                            CCLog("22222");
+                        }
+                        CCString* tongguanStr2 = (CCString* )storyArr->objectAtIndex(k);
+                        if (strcmp(tongguanStr1->getCString(), tongguanStr2->getCString()) == 0) {
+                            tongguanBool = true;
+                            CCLog("等于-1");
+                        }else{
+                            CCLog("不等于-1");
+                        }
                     }
                 }
-            }
-            
-            
-            CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
-            CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(200, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
-            if (j == 0){
-                label->setPosition(ccp(166, kuangSpr->getContentSize().height* .36f));
-            }else if (j == 1){
-                label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .36f));
-            }else if (j == 2){
-                label->setPosition(ccp(166, kuangSpr->getContentSize().height* .23f));
-            }else if (j == 3){
-                label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .23f));
-            }
-            if (achiBool) {
-                label->setColor(ccc3(80, 63, 68));
-            }else{
-                label->setColor(ccc3(139, 140, 164));
-            }
-            kuangSpr->addChild(label);
-            
-            
-            if (achiBool) {
-                CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
-                gouSpr1->setScale(1.f);
+                
+                
+                CCString* str1 = (CCString* )storyDic->objectForKey(str->getCString());
+                CCLabelTTF* label = CCLabelTTF::create(str1->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(200, 28), kCCTextAlignmentLeft,kCCVerticalTextAlignmentCenter);
                 if (j == 0){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    label->setPosition(ccp(166, kuangSpr->getContentSize().height* .36f));
                 }else if (j == 1){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .36f));
                 }else if (j == 2){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    label->setPosition(ccp(166, kuangSpr->getContentSize().height* .23f));
                 }else if (j == 3){
-                    gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    label->setPosition(ccp(kuangSpr->getContentSize().width* .5f + 100.5f, kuangSpr->getContentSize().height* .23f));
                 }
-                label->addChild(gouSpr1, 1);
+                if (achiBool) {
+                    label->setColor(ccc3(80, 63, 68));
+                }else{
+                    label->setColor(ccc3(139, 140, 164));
+                }
+                kuangSpr->addChild(label);
+                
+                
+                if (achiBool) {
+                    CCSprite* gouSpr1 = CCSprite::create("res/pic/qingjingScene/qj_right.png");
+                    gouSpr1->setScale(1.f);
+                    if (j == 0){
+                        gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    }else if (j == 1){
+                        gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    }else if (j == 2){
+                        gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    }else if (j == 3){
+                        gouSpr1->setPosition(ccp(label->getContentSize().width* .56f, label->getContentSize().height* .5f));
+                    }
+                    label->addChild(gouSpr1, 1);
+                }
             }
         }
         

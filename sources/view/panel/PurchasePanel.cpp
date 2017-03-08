@@ -356,6 +356,9 @@ void PurchasePanel::updatePay(float dt){
         CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
         JNIController::setSmsStatus(0);
         this->unschedule(SEL_SCHEDULE(&PurchasePanel::updatePay));
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getParent(), "支付失败");
     }
 #endif
 }

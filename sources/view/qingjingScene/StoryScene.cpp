@@ -137,7 +137,7 @@ void StoryScene::init_with_story_id(int _index){
     dialog = Dialogs::create();
     dialog->retain();
 //    CCString* fileStr = CCString::createWithFormat("res/story/80100/%s", DISPLAY->GetOffTheNumber(m_current_story_index_id)->getCString());
-    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 13);
+    CCString* fileStr = CCString::createWithFormat("res/story/80100/story_80100_101_%d", 38);
 //    MZLog("fileStr === %s", fileStr->getCString());
     dialog->config_with_file((char* )fileStr->getCString());
     dialogItem = (DialogItem* )dialog->getDialogs()->objectAtIndex(index);
@@ -470,7 +470,13 @@ void StoryScene::creatMan(float dt){
         this->addChild(headSpr1, 6);
         
         if (judge_biaoqing(dialogItem, 1)) {
-            this->init_biaoqing(dialogItem, 1, headSpr1);
+#warning 五级公司，记得添加下面几个人的表情
+            CCArray* strList = StringUtil::sharedStrUtil()->split(dialogItem->getHead_1().c_str(), "_");
+            CCString* str = (CCString* )strList->objectAtIndex(0);
+            int manIndex = atoi(str->getCString());
+            if (manIndex != 1016 && manIndex != 1017 && manIndex != 1018 && manIndex != 1019 && manIndex != 1030) {
+                this->init_biaoqing(dialogItem, 1, headSpr1);
+            }
         }
         
         
@@ -544,7 +550,14 @@ void StoryScene::creatPassersbyMan(float dt){
             headSpr1->setVisible(false);
             if (judge_biaoqing(dialogItem, 1)) {
                 this->addChild(headSpr1, 8);
-                this->init_biaoqing(dialogItem, 1, headSpr1);
+                
+#warning 五级公司，记得添加下面几个人的表情
+                CCArray* strList = StringUtil::sharedStrUtil()->split(dialogItem->getHead_1().c_str(), "_");
+                CCString* str = (CCString* )strList->objectAtIndex(0);
+                int manIndex = atoi(str->getCString());
+                if (manIndex != 1016 && manIndex != 1017 && manIndex != 1018 && manIndex != 1019 && manIndex != 1030) {
+                    this->init_biaoqing(dialogItem, 1, headSpr1);
+                }
             }else{
                 this->addChild(headSpr1, 7);
             }
@@ -567,7 +580,14 @@ void StoryScene::creatPassersbyMan(float dt){
             headSpr2->setVisible(false);
             if (judge_biaoqing(dialogItem, 2)) {
                 this->addChild(headSpr2, 8);
-                this->init_biaoqing(dialogItem, 2, headSpr2);
+                
+#warning 五级公司，记得添加下面几个人的表情
+                CCArray* strList = StringUtil::sharedStrUtil()->split(dialogItem->getHead_1().c_str(), "_");
+                CCString* str = (CCString* )strList->objectAtIndex(0);
+                int manIndex = atoi(str->getCString());
+                if (manIndex != 1016 && manIndex != 1017 && manIndex != 1018 && manIndex != 1019 && manIndex != 1030) {
+                    this->init_biaoqing(dialogItem, 2, headSpr2);
+                }
             }else{
                 this->addChild(headSpr2, 7);
             }
@@ -646,7 +666,14 @@ void StoryScene::creatPassersbyMan(float dt){
                 
                 if (judge_biaoqing(dialogItem, 1)) {
                     this->addChild(headSpr1, 8);
-                    this->init_biaoqing(dialogItem, 1, headSpr1);
+                    
+#warning 五级公司，记得添加下面几个人的表情
+                    CCArray* strList = StringUtil::sharedStrUtil()->split(dialogItem->getHead_1().c_str(), "_");
+                    CCString* str = (CCString* )strList->objectAtIndex(0);
+                    int manIndex = atoi(str->getCString());
+                    if (manIndex != 1016 && manIndex != 1017 && manIndex != 1018 && manIndex != 1019 && manIndex != 1030) {
+                        this->init_biaoqing(dialogItem, 1, headSpr1);
+                    }
                 }else{
                     this->addChild(headSpr1, 7);
                 }
@@ -692,7 +719,14 @@ void StoryScene::creatPassersbyMan(float dt){
                 
                 if (judge_biaoqing(dialogItem, 2)) {
                     this->addChild(headSpr2, 8);
-                    this->init_biaoqing(dialogItem, 2, headSpr2);
+                    
+#warning 五级公司，记得添加下面几个人的表情
+                    CCArray* strList = StringUtil::sharedStrUtil()->split(dialogItem->getHead_1().c_str(), "_");
+                    CCString* str = (CCString* )strList->objectAtIndex(0);
+                    int manIndex = atoi(str->getCString());
+                    if (manIndex != 1016 && manIndex != 1017 && manIndex != 1018 && manIndex != 1019 && manIndex != 1030) {
+                        this->init_biaoqing(dialogItem, 2, headSpr2);
+                    }
                 }else{
                     this->addChild(headSpr2, 7);
                 }
@@ -720,6 +754,7 @@ void StoryScene::creatPassersbyMan(float dt){
 }
 void StoryScene::creatManEyesAnimation(){
     
+    CCLog("<><><> dialogItem->getNameId())->intValue() == %d", ccs(dialogItem->getNameId())->intValue());
     if (ccs(dialogItem->getNameId())->intValue() != 0) {
         CCArray* printArray = split(dialogItem->getZishi_1().c_str(), "_");
         CCString* temStr = (CCString* )printArray->objectAtIndex(0);
@@ -769,6 +804,9 @@ void StoryScene::creatPassersbyEyesAnimation(int nameIndex){
     if (ccs(dialogItem->getNameId())->intValue() != 0) {
         if (nameIndex == 1) {
             CCArray* printArray = split(dialogItem->getZishi_1().c_str(), "_");
+            if (printArray->count() <=1) {
+                content;
+            }
             CCString* temStr = (CCString* )printArray->objectAtIndex(0);
             if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
                 std::string::size_type idx1 = dialogItem->getHead_1().find("_1");
@@ -779,7 +817,11 @@ void StoryScene::creatPassersbyEyesAnimation(int nameIndex){
                 }
             }
         }else if (nameIndex == 2){
+            CCLOG("said : %s", dialogItem->getSaid().c_str());
             CCArray* printArray = split(dialogItem->getZishi_2().c_str(), "_");
+            if (printArray->count() <=1) {
+                content;
+            }
             CCString* temStr = (CCString* )printArray->objectAtIndex(0);
             if (strcmp(temStr->getCString(), dialogItem->getNameId().c_str()) == 0) {
                 std::string::size_type idx1 = dialogItem->getHead_2().find("_1");
@@ -964,7 +1006,7 @@ void StoryScene::logic(float dt){
         
         // 101 、1002-1014
         int nameId = atoi(dialogItem->getNameId().c_str());
-        if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202 && nameId != 1017 && nameId != 1018 && nameId != 1030) {
+        if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202 && nameId != 1018 && nameId != 1019 && nameId != 1030) {
             
             if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
                 if (!quanBool) {
@@ -1030,7 +1072,7 @@ void StoryScene::logic(float dt){
         if (buttonBool1) {
             // 101 、1002-1014
             int nameId = atoi(dialogItem->getNameId().c_str());
-            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202 && nameId != 1017 && nameId != 1018 && nameId != 1030) {
+            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202 && nameId != 1018 && nameId != 1019 && nameId != 1030) {
                 
                 if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
                     wordCount = getContentLength();
@@ -2191,7 +2233,7 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
                             this->closeEyesAnimation();
                             
                             int nameId = atoi(dialogItem->getNameId().c_str());
-                            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+                            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1018 && nameId != 1019 && nameId != 1020 && nameId != 1021 && nameId != 1030 && nameId != 1102 && nameId != 1202) {
                                 
                                 if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
                                     this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
@@ -2228,7 +2270,7 @@ bool StoryScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
                             this->closeEyesAnimation();
                             
                             int nameId = atoi(dialogItem->getNameId().c_str());
-                            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1020 && nameId != 1021 && nameId != 1102 && nameId != 1202) {
+                            if (nameId > 0 && nameId != 1015 && nameId != 1016 && nameId != 1017 && nameId != 1018 && nameId != 1019 && nameId != 1020 && nameId != 1021 && nameId != 1030 && nameId != 1102 && nameId != 1202) {
                                 
                                 if (CCUserDefault::sharedUserDefault()->getBoolForKey(dialogItem->getNameId().c_str(), false)) {
                                     this->scheduleOnce(SEL_SCHEDULE(&StoryScene::openTouch), .5f);
