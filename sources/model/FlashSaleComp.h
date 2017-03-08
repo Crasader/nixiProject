@@ -24,14 +24,14 @@ public:
     CREATE_FUNC(FlashSaleInfo);
     virtual bool init() { return true; }
     void config(Value json);
-    CC_SYNTHESIZE(int, _id, Id);
-    CC_SYNTHESIZE(int, _phase, Phase);
-    CC_SYNTHESIZE(int, _type, Type);
-    CC_SYNTHESIZE(unsigned long, _deadline, Deadline);
-    CC_SYNTHESIZE(int, _oldPrice, OldPrice);
-    CC_SYNTHESIZE(float, _discount, Discount);
-    CC_SYNTHESIZE(int, _nowPrice, NowPrice);
-    CC_SYNTHESIZE_RETAIN(CCArray*, _clothes, Clothes);
+    CC_SYNTHESIZE(int, _id, Id);                            // ID，暂时用不上
+    CC_SYNTHESIZE(int, _phase, Phase);                      // 套装公司等级要求
+    CC_SYNTHESIZE(int, _type, Type);                        // 购买类型，1-金币；2-钻石
+    CC_SYNTHESIZE(unsigned long, _deadline, Deadline);      // 截止剩余时间，单位秒
+    CC_SYNTHESIZE(int, _oldPrice, OldPrice);                // 原总价
+    CC_SYNTHESIZE(float, _discount, Discount);              // 折扣比，小数
+    CC_SYNTHESIZE(int, _nowPrice, NowPrice);                // 折扣后的价格
+    CC_SYNTHESIZE_RETAIN(CCArray*, _clothes, Clothes);      // 包含的衣服，Interge数组
 };
 
 
