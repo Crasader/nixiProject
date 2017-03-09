@@ -76,6 +76,7 @@ void DataManager::init_data() {
     this->setWelfare(WelfareComp::create());
     this->setAchievement(AchievementComp::create());
     this->setCompetition(CompetitionComp::create());
+    this->setFlashSaleInfo(FlashSaleInfo::create());
 }
 
 time_t DataManager::cur_timestamp_msec() {
@@ -848,9 +849,8 @@ void DataManager::handle_protocol(int cid, Value content) {
             
             
         case 160: {
-            FlashSaleInfo* info = FlashSaleInfo::create();
-            info->config(content);
-            pData = info;
+            _flashSaleInfo->config(content);
+            pData = _flashSaleInfo;
         } break;
         
         default:

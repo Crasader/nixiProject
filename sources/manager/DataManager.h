@@ -86,6 +86,7 @@ public:
     CC_SYNTHESIZE_RETAIN(WelfareComp*, _welfare, Welfare);
     CC_SYNTHESIZE_RETAIN(AchievementComp*, _achievement, Achievement);
     CC_SYNTHESIZE_RETAIN(CompetitionComp*, _competition, Competition);
+    CC_SYNTHESIZE_RETAIN(FlashSaleInfo*, _flashSaleInfo, FlashSaleInfo);
     
     // 国庆签到信息
     CC_SYNTHESIZE_RETAIN(CCArray*, _tempSigninTemplate, TempSigninTemplate);

@@ -143,6 +143,7 @@ public:
     bool renwukuangMethodsBool;
     bool kuziBool;
     bool _manBool;
+    bool grayBool;
     
     long  changClothesIndex;
     int buttonTag;
@@ -191,6 +192,8 @@ public:
     CCSprite* _zrSpr1; // 妆容
     CCSprite* ycSpr1,* ycSpr2,* ycSpr3,* ycSpr4,* ycSpr5,* ycSpr6,* ycSpr7,* ycSpr8,* ycSpr9,* ycSpr10;
     
+    CCSprite* tishiSpr;
+    
     CCLayer* _animLayer;
     
     CCMenu* buttonMenu;
@@ -215,6 +218,8 @@ public:
     void crate_Tishi();
     void create_buySuccess();
     void removeAllSpr();
+    
+    CCSprite* creat_Gray(int type, int index, CCString* spr);
     
     void setShipinTag1(int index, CCSprite* spr);
     void setShipinTag2(int index, CCSprite* spr);
