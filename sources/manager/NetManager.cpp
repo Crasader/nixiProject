@@ -916,4 +916,11 @@ void NetManager::flash_sale_today_160() {
     this->post_data(160, string(""));
 }
 
+void NetManager::flash_sale_buying_161() {
+    FastWriter writer;
+    Value root;
+    root["id"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(161, data);
+}
 
