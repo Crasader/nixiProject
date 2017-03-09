@@ -81,6 +81,7 @@ public:
     
     void clothesCallback(CCObject* pSender);
     
+    
         
     int clothesType;
     int clothesPage;

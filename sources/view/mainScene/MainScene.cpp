@@ -18,6 +18,7 @@
 #include "AudioManager.h"
 #include "WSManager.h"
 #include "GashaponScene.h"
+#include "SalesPromotionLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -241,6 +242,9 @@ bool MainScene::init(){
 //    CCTime::gettimeofdayCocos2d(&now, NULL);
 //    CCLog("<><><><> time == %ld", now.tv_sec * 1000 + now.tv_usec / 1000);
     
+    
+//    this->scheduleOnce(SEL_SCHEDULE(&MainScene::creat_160), 6.f);
+    
     return true;
 }
 void MainScene::setStartGameData(float dt){
@@ -300,6 +304,9 @@ void MainScene::onEnter(){
     
     // 节日临时签到
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_temp_signin_info_340), "HTTP_FINISHED_340", NULL);
+    
+    // 限时购买
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::_160CallBack), "HTTP_FINISHED_160", NULL);
     
     nc->addObserver(this, SEL_CallFuncO(&MainScene::update_news_status), "UPDATE_NEWS_STATUS", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::check_free_gashapon), "CHECK_FREE_GASHAPON", NULL);
@@ -2571,8 +2578,18 @@ void MainScene::creat_guideBool(){
 }
 
 
-
-
+void MainScene::creat_160(){
+    LOADING->show_loading();
+    NET->flash_sale_today_160();
+}
+void MainScene::_160CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    CCLayer* layer = SalesPromotionLayer::create();
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCDirector::sharedDirector()->replaceScene(scene);
+}
 
 
 

@@ -178,6 +178,9 @@ public:
     void show_guoqing_signin();
     void nc_temp_signin_info_340(CCObject* pObj);
     
+    void creat_160();
+    void _160CallBack(CCObject* pSender);
+    
     void _905CallBack(CCObject *pObj);
     void isTxt_Bar();
     

@@ -79,6 +79,10 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     tag2 = 0;
     tag3 = 0;
     
+    // 显示未购买衣服为灰色 false关闭 true开启
+    grayBool = true;
+//    grayBool = false;
+    
     _animLayer = CCLayer::create();
     this->addChild(_animLayer, 9);
     
@@ -88,6 +92,10 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     bgSpr = CCSprite::create("res/pic/clothesScene/gj_bg.png");
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr);
+    
+    tishiSpr = CCSprite::create("res/pic/clothesScene/gj_tishi.png");
+    tishiSpr->setPosition(ccp(bgSpr->getContentSize().width* .4f, bgSpr->getContentSize().height* .92f));
+    bgSpr->addChild(tishiSpr);
     
     // 返回
     CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
@@ -2677,7 +2685,26 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _tfSpr1 = CCSprite::create(str1->getCString());
+                            
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _tfSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _tfSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _tfSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _tfSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _tfSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr1->setTag(Tag_CL_TouFa1);
                             _ManSpr->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -2685,7 +2712,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _tfSpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _tfSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _tfSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _tfSpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _tfSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _tfSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr2->setTag(Tag_CL_TouFa2);
                             _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -2693,7 +2738,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _tfSpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _tfSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _tfSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _tfSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _tfSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _tfSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _tfSpr3->setTag(Tag_CL_TouFa3);
                             _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -2735,7 +2798,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _wtSpr1 = CCSprite::create(str1->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _wtSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _wtSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _wtSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _wtSpr1->setTag(Tag_CL_WaiTao1);
                             _ManSpr->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -2743,7 +2824,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _wtSpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wtSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wtSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _wtSpr1 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _wtSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _wtSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _wtSpr2->setTag(Tag_CL_WaiTao2);
                             _ManSpr->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -2751,7 +2850,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _wtSpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wtSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wtSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _wtSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _wtSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _wtSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _wtSpr3->setTag(Tag_CL_WaiTao3);
                             _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -2852,7 +2969,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _sySpr1 = CCSprite::create(str1->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _sySpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _sySpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _sySpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _sySpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _sySpr1 = CCSprite::create(str1->getCString());
+                            }
                             _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _sySpr1->setTag(Tag_CL_ShangYi1);
                             _ManSpr->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -2860,7 +2995,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _sySpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _sySpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _sySpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _sySpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _sySpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _sySpr2 = CCSprite::create(str2->getCString());
+                            }
                             _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _sySpr2->setTag(Tag_CL_ShangYi2);
                             _ManSpr->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -2868,7 +3021,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _sySpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _sySpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _sySpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _sySpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _sySpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _sySpr3 = CCSprite::create(str3->getCString());
+                            }
                             _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _sySpr3->setTag(Tag_CL_ShangYi3);
                             _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -2913,7 +3084,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _kzSpr1 = CCSprite::create(str1->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _wtSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _wtSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _kzSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _kzSpr1->setTag(Tag_CL_KuZi1);
                             _ManSpr->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -2921,7 +3110,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _kzSpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _kzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _kzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _kzSpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _kzSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _kzSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _kzSpr2->setTag(Tag_CL_KuZi2);
                             _ManSpr->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -2929,7 +3136,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _kzSpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _kzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _kzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _kzSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _kzSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _kzSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _kzSpr3->setTag(Tag_CL_KuZi3);
                             _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -2972,7 +3197,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _wzSpr1 = CCSprite::create(str1->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _wzSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _wzSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _wzSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _wzSpr1->setTag(Tag_CL_WaZi1);
                             _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -2980,7 +3223,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _wzSpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _wzSpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _wzSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _wzSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _wzSpr2->setTag(Tag_CL_WaZi2);
                             _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -2988,7 +3249,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _wzSpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _wzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _wzSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _wzSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _wzSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _wzSpr3->setTag(Tag_CL_WaZi3);
                             _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -3031,7 +3310,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _xzSpr1 = CCSprite::create(str1->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _xzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _xzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _xzSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _xzSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _xzSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _xzSpr1->setTag(Tag_CL_XieZi1);
                             _ManSpr->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -3039,7 +3336,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _xzSpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _xzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _xzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _xzSpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _xzSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _xzSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _xzSpr2->setTag(Tag_CL_XieZi2);
                             _ManSpr->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -3047,7 +3362,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _xzSpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _xzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _xzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _xzSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _xzSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _xzSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _xzSpr3->setTag(Tag_CL_XieZi3);
                             _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -3110,7 +3443,26 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
+                            CCSprite* _spSpr1;
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _spSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _spSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _spSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _spSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _spSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _spSpr1->setTag(sub_part + 1000);
                             _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -3118,7 +3470,26 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
+                            CCSprite* _spSpr2;
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _spSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _spSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _spSpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _spSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _spSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _spSpr2->setTag(sub_part + 2000);
                             _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -3126,7 +3497,26 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
+                            CCSprite* _spSpr3;
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _spSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _spSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _spSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _spSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _spSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _spSpr3->setTag(sub_part + 3000);
                             _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -3173,7 +3563,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer4 =  clothDic->valueForKey("layer4");
                         if (layer1->compare("") != 0) {
                             CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _bSpr1 = CCSprite::create(str1->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _bSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                        }else{
+                                            _bSpr1 = CCSprite::create(str1->getCString());
+                                        }
+                                    }else{
+                                        _bSpr1 = CCSprite::create(str1->getCString());
+                                    }
+                                }
+                            }else{
+                                _bSpr1 = CCSprite::create(str1->getCString());
+                            }
                             _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _bSpr1->setTag(Tag_CL_Bao1);
                             _ManSpr->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
@@ -3181,7 +3589,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer2->compare("") != 0) {
                             CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _bSpr2 = CCSprite::create(str2->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _bSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _bSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
+                                        }else{
+                                            _bSpr2 = CCSprite::create(str2->getCString());
+                                        }
+                                    }else{
+                                        _bSpr2 = CCSprite::create(str2->getCString());
+                                    }
+                                }
+                            }else{
+                                _bSpr2 = CCSprite::create(str2->getCString());
+                            }
                             _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _bSpr2->setTag(Tag_CL_Bao2);
                             _ManSpr->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
@@ -3189,7 +3615,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer3->compare("") != 0) {
                             CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _bSpr3 = CCSprite::create(str3->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _bSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _bSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
+                                        }else{
+                                            _bSpr3 = CCSprite::create(str3->getCString());
+                                        }
+                                    }else{
+                                        _bSpr3 = CCSprite::create(str3->getCString());
+                                    }
+                                }
+                            }else{
+                                _bSpr3 = CCSprite::create(str3->getCString());
+                            }
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _bSpr3->setTag(Tag_CL_Bao3);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
@@ -3197,7 +3641,25 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                         
                         if (layer4->compare("") != 0) {
                             CCString* str4 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer4")->intValue());
-                            _bSpr4 = CCSprite::create(str4->getCString());
+                            if (grayBool) {
+                                int phase = clothDic->valueForKey("phase")->intValue();
+                                if (phase > DATA->getPlayer()->phase) {
+                                    _bSpr4 = creat_Gray(isClothesType, now_clothes_Id, str4);
+                                }else{
+                                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                                    if (cloth_type == 10) {
+                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                                            _bSpr4 = creat_Gray(isClothesType, now_clothes_Id, str4);
+                                        }else{
+                                            _bSpr4 = CCSprite::create(str4->getCString());
+                                        }
+                                    }else{
+                                        _bSpr4 = CCSprite::create(str4->getCString());
+                                    }
+                                }
+                            }else{
+                                _bSpr4 = CCSprite::create(str4->getCString());
+                            }
                             _bSpr4->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                             _bSpr4->setTag(Tag_CL_Bao4);
                             _ManSpr->addChild(_bSpr4, clothDic->valueForKey("z_order4")->intValue());
@@ -3255,6 +3717,105 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
         default:
             break;
     }
+    
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCDictionary* clothesTemp = DATA->getClothes()->MyClothesTemp(); // 临时数组
+    bool tishiBool = false;
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
+        CCInteger* cloth_id = (CCInteger*)clothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString());
+        
+        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
+        for (int j = 0; j < clothesArr->count(); j++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+            int now_clothes_Id = clothDic->valueForKey("id")->intValue();
+            if (cloth_id->getValue() == now_clothes_Id) {
+                int phase = clothDic->valueForKey("phase")->intValue();
+                if (phase > DATA->getPlayer()->phase) {
+                    tishiBool = true;
+                    break;
+                }else{
+                    int cloth_type = clothDic->valueForKey("type")->intValue();
+                    if (cloth_type == 10) {
+                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
+                            tishiBool = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (tishiBool) {
+            break;
+        }
+    }
+    if (tishiBool) {
+        tishiSpr->setVisible(true);
+    }else{
+        tishiSpr->setVisible(false);
+    }
+}
+CCSprite* ClothesScene::creat_Gray(int type, int index, CCString* str){
+    
+    // create CCSprite
+    CCSprite* sprite = CCSprite::create(str->getCString());
+    
+    unsigned int width = sprite->getTexture()->getPixelsWide();
+    unsigned int height = sprite->getTexture()->getPixelsHigh();
+    
+    // create CCRenderTexture base on the CCSprite
+    CCRenderTexture* r = CCRenderTexture::create(width, height);
+    r->beginWithClear(1, 1, 1, 0);
+    sprite->setPosition(ccp(width / 2.0, height/ 2.0)); // Node: set position here!
+    sprite->visit();
+    r->end();
+    
+    // create a new CCImage
+    CCImage* image = r->newCCImage();
+    
+    width = image->getWidth();
+    height= image->getHeight();
+    
+    // this data is the texture data in memery
+    unsigned char* data = image->getData();
+    
+    typedef enum {
+        RED = 0,
+        GREEN = 1,
+        BLUE = 2,
+        ALPHA = 3
+    } PIXELS;
+    
+    // convert unsigned char*(1 Byte) to uint_32_t(4 Bytes)
+    uint32_t *pixels = (uint32_t *)data;
+    
+    for(int y = 0; y < height; y++) {
+        for(int x = 0; x < width; x++) {
+            uint8_t *rgbaPixel = (uint8_t *) &pixels[y * width + x];
+            
+            // convert to grayscale using recommended method: http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+            uint32_t gray = 0.3 * rgbaPixel[RED] + 0.59 * rgbaPixel[GREEN] + 0.11 * rgbaPixel[BLUE];
+            
+            // set the pixels to gray
+            rgbaPixel[RED] = gray;
+            rgbaPixel[GREEN] = gray;
+            rgbaPixel[BLUE] = gray;
+        }
+    }
+    
+    // create a new CCTexture2D based on the CCImage data modified above
+    CCTexture2D* texture = new CCTexture2D();
+    texture->initWithImage(image);
+    
+    // create a new CCSprite to return
+    CCSprite* s = CCSprite::create();
+    s->initWithTexture(texture);
+    
+    // release other resources
+    r->release();
+    image->release();
+    sprite->release();
+    
+    return s;
 }
 
 void ClothesScene::reductionShangyi(){
@@ -3407,7 +3968,7 @@ void ClothesScene::buttonStatus(){
         if (i == Tag_CL_ShiPin) {
             bool shipinBool = false;
             CCDictionary* tempDic = (CCDictionary* )clothesTemp->objectForKey(CCString::createWithFormat("%d", i)->getCString());
-            for (int j = 11; j <= 19; j++) {
+            for (int j = 11; j <= 20; j++) {
                 CCInteger* temp_id = ((CCInteger*)tempDic->objectForKey(CCString::createWithFormat("%d", j)->getCString()));
                 if (temp_id->getValue() != 70000) {
                     shipinBool = true;
