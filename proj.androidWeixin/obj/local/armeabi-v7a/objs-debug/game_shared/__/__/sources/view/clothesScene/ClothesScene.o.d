@@ -268,6 +268,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/clothesScene/Clo
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
@@ -847,6 +848,8 @@ jni/../../sources/model/WelfareComp.h:
 jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

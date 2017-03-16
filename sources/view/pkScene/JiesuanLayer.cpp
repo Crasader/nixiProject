@@ -165,10 +165,10 @@ void JiesuanLayer::creat_view(){
     scoreLabel2->setPosition(ccp(huangguanSpr->getContentSize().width* .72f, huangguanSpr->getContentSize().height* .908f));
     huangguanSpr->addChild(scoreLabel2, 1);
     
-    CCSprite* ditiaoSpr = CCSprite::create("res/pic/pk/pk_ditiao.png");
-    ditiaoSpr->setAnchorPoint(ccp(.5f, 0));
-    ditiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 5));
-    this->addChild(ditiaoSpr, 10);
+//    CCSprite* ditiaoSpr = CCSprite::create("res/pic/pk/pk_ditiao.png");
+//    ditiaoSpr->setAnchorPoint(ccp(.5f, 0));
+//    ditiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 5));
+//    this->addChild(ditiaoSpr, 10);
 }
 void JiesuanLayer::creat_nameKuang(){
     CCSprite* nameKuangSpr1 = CCSprite::create("res/pic/pk/pk_kuang7.png");

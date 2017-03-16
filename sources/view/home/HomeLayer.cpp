@@ -99,7 +99,15 @@ void HomeLayer::updataBg(){
         labelStr = CCString::createWithFormat("悠夜古堡");
     }else if (DATA->getHouseIndex() + 1 == 8){
         labelStr = CCString::createWithFormat("小轩窗");
+    }else if (DATA->getHouseIndex() + 1 == 9){
+        labelStr = CCString::createWithFormat("花园春色");
+    }else if (DATA->getHouseIndex() + 1 == 10){
+        labelStr = CCString::createWithFormat("樱花公馆");
+    }else if (DATA->getHouseIndex() + 1 == 11){
+        labelStr = CCString::createWithFormat("海天一色");
     }
+    
+    
     bgLabel->setString(labelStr->getCString());
 }
 
@@ -235,6 +243,12 @@ void HomeLayer::creat_View(){
         labelStr = CCString::createWithFormat("悠夜古堡");
     }else if (DATA->getHouseIndex() == 8){
         labelStr = CCString::createWithFormat("小轩窗");
+    }else if (DATA->getHouseIndex() == 9){
+        labelStr = CCString::createWithFormat("花园春色");
+    }else if (DATA->getHouseIndex() == 10){
+        labelStr = CCString::createWithFormat("樱花公馆");
+    }else if (DATA->getHouseIndex() == 11){
+        labelStr = CCString::createWithFormat("海天一色");
     }
     bgLabel = CCLabelTTF::create(labelStr->getCString(), DISPLAY->fangzhengFont(), 28, CCSizeMake(titleDiSpr->getContentSize().width* .8f, 28), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     bgLabel->setPosition(ccp(titleDiSpr->getContentSize().width* .5f, titleDiSpr->getContentSize().height* .47f));

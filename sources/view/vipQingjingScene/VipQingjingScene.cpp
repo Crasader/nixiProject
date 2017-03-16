@@ -72,21 +72,24 @@ bool VipQingjingScene::init(){
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     allNumber = taskConditionsDic->count();
     
+    // 老的购买的
+//    int dicCount = taskConditionsDic->count()/3;
+//    for (int i = 0; i < dicCount; i++) {
+//        CCString* story_index = CCString::createWithFormat("%d", i*3);
+//        // 0为未购买 非0已购买 -1通关
+//        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+//        if (tempIndex == 0) {
+//            if (i < dicCount) {
+//                allNumber = (i*3) + 1;
+//            }
+//            break;
+//        }else{
+//            allNumber = taskConditionsDic->count();
+//        }
+//    }
+    allNumber = taskConditionsDic->count();
     
-    int dicCount = taskConditionsDic->count()/3;
-    for (int i = 0; i < dicCount; i++) {
-        CCString* story_index = CCString::createWithFormat("%d", i*3);
-        // 0为未购买 非0已购买 -1通关
-        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
-        if (tempIndex == 0) {
-            if (i < dicCount) {
-                allNumber = (i*3) + 1;
-            }
-            break;
-        }else{
-            allNumber = taskConditionsDic->count();
-        }
-    }
+    
     
     
     // 0为未购买 非0已购买 -1通关
@@ -300,78 +303,140 @@ void VipQingjingScene::creat_view(){
         titleLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .4f));
         titleLabel->setColor(ccc3(80, 63, 68));
         kuangSpr->addChild(titleLabel);
-
-        CCString* story_index = CCString::createWithFormat("%d", i);
-        // 0为未购买 非0已购买 -1通关
-        int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
-        // 开始故事
-        CCSprite* startSpr1;
-        CCSprite* startSpr2;
-        if (storyIndex != 0) {
-//            CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
-//            tongguanSpr->setScale(.7f);
-//            tongguanSpr->setAnchorPoint(ccp(0, .5f));
-//            tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-//            tishiLabel->addChild(tongguanSpr);
-            
-            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-            startSpr2->setScale(1.02f);
-            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
-            startItem->setTag(i);
-            startMenu = CCMenu::create(startItem, NULL);
-            startMenu->setPosition(CCPointZero);
-            startMenu->setTag(i);
-            kuangSpr->addChild(startMenu);
-            
+        
+        
+        CCSprite* startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+        CCSprite* startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+        startSpr2->setScale(1.02f);
+        startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
+        startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
+        startItem->setTag(i);
+        startMenu = CCMenu::create(startItem, NULL);
+        startMenu->setPosition(CCPointZero);
+        startMenu->setTag(i);
+        kuangSpr->addChild(startMenu);
+        
+        CCLabelTTF* tempLabel;
+        if (i >= 0 && i < 3) {
+            tempLabel = CCLabelTTF::create("2级公司开启", DISPLAY->fangzhengFont(), 25);
+        }else if (i >= 3 && i < 6){
+            tempLabel = CCLabelTTF::create("3级公司开启", DISPLAY->fangzhengFont(), 25);
+        }else if (i >= 6 && i < 9){
+            tempLabel = CCLabelTTF::create("4级公司开启", DISPLAY->fangzhengFont(), 25);
+        }else if (i >= 9 && i < 12){
+            tempLabel = CCLabelTTF::create("5级公司开启", DISPLAY->fangzhengFont(), 25);
         }else{
-            CCLabelTTF* tempLabel = CCLabelTTF::create("购买后可开启3章.", DISPLAY->fangzhengFont(), 25);
-            tempLabel->setPosition(ccp(kuangSpr->getContentSize().width* .77f, -5));
-            tempLabel->setColor(ccWHITE);
-            kuangSpr->addChild(tempLabel);
-            
-            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-            startSpr2->setScale(1.02f);
-            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
-            startItem->setTag(i);
-            
-            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
-            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
-            buySpr2->setScale(1.02f);
-            buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
-            buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
-            buyItem->setTag(i+1000);
-            
-            // 购买花费
-            CCString* strCost = CCString::createWithFormat("%d", DATA->getPlayer()->vipStoryBuyCost);
-            ccColor3B lblColor = ccc3(147, 174, 251);
-            CCSize btnSize = buySpr1->getContentSize();
-
-            {
-                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
-                lblBuyCost->setColor(lblColor);
-                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
-                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
-                buySpr1->addChild(lblBuyCost);
-            }
-            {
-                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
-                lblBuyCost->setColor(lblColor);
-                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
-                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
-                buySpr2->addChild(lblBuyCost);
-            }
-            
-            startItem->setVisible(false);
-            buyItem->setVisible(true);
-            
-            startMenu = CCMenu::create(startItem, buyItem, NULL);
-            startMenu->setPosition(CCPointZero);
-            kuangSpr->addChild(startMenu);
+            tempLabel = CCLabelTTF::create("2级公司开启", DISPLAY->fangzhengFont(), 25);
         }
+        tempLabel->setPosition(ccp(kuangSpr->getContentSize().width* .77f, -5));
+        tempLabel->setColor(ccWHITE);
+        kuangSpr->addChild(tempLabel);
+        
+        
+        if (DATA->getPlayer()->phase == 1) {
+            startItem->setColor(ccGRAY);
+            startItem->setEnabled(false);
+        }else if (DATA->getPlayer()->phase == 2){
+            if (i >= 0 && i < 3) {
+                startItem->setEnabled(true);
+            }else{
+                startItem->setColor(ccGRAY);
+                startItem->setEnabled(false);
+            }
+        }else if (DATA->getPlayer()->phase == 3){
+            if (i >= 0 && i < 6) {
+                startItem->setEnabled(true);
+            }else{
+                startItem->setColor(ccGRAY);
+                startItem->setEnabled(false);
+            }
+        }else if (DATA->getPlayer()->phase == 4){
+            if (i >= 0 && i < 9) {
+                startItem->setEnabled(true);
+            }else{
+                startItem->setColor(ccGRAY);
+                startItem->setEnabled(false);
+            }
+        }else if (DATA->getPlayer()->phase == 5){
+            if (i >= 0 && i < 12) {
+                startItem->setEnabled(true);
+            }else{
+                startItem->setColor(ccGRAY);
+                startItem->setEnabled(false);
+            }
+        }
+
+//        CCString* story_index = CCString::createWithFormat("%d", i);
+//        // 0为未购买 非0已购买 -1通关
+//        int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
+//        // 开始故事
+//        CCSprite* startSpr1;
+//        CCSprite* startSpr2;
+//        if (storyIndex != 0) {
+////            CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
+////            tongguanSpr->setScale(.7f);
+////            tongguanSpr->setAnchorPoint(ccp(0, .5f));
+////            tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
+////            tishiLabel->addChild(tongguanSpr);
+//            
+//            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+//            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+//            startSpr2->setScale(1.02f);
+//            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
+//            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
+//            startItem->setTag(i);
+//            startMenu = CCMenu::create(startItem, NULL);
+//            startMenu->setPosition(CCPointZero);
+//            startMenu->setTag(i);
+//            kuangSpr->addChild(startMenu);
+//            
+//        }else{
+//            CCLabelTTF* tempLabel = CCLabelTTF::create("购买后可开启3章.", DISPLAY->fangzhengFont(), 25);
+//            tempLabel->setPosition(ccp(kuangSpr->getContentSize().width* .77f, -5));
+//            tempLabel->setColor(ccWHITE);
+//            kuangSpr->addChild(tempLabel);
+//            
+//            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+//            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
+//            startSpr2->setScale(1.02f);
+//            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
+//            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
+//            startItem->setTag(i);
+//            
+//            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
+//            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
+//            buySpr2->setScale(1.02f);
+//            buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
+//            buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
+//            buyItem->setTag(i+1000);
+//            
+//            // 购买花费
+//            CCString* strCost = CCString::createWithFormat("%d", DATA->getPlayer()->vipStoryBuyCost);
+//            ccColor3B lblColor = ccc3(147, 174, 251);
+//            CCSize btnSize = buySpr1->getContentSize();
+//
+//            {
+//                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
+//                lblBuyCost->setColor(lblColor);
+//                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
+//                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
+//                buySpr1->addChild(lblBuyCost);
+//            }
+//            {
+//                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
+//                lblBuyCost->setColor(lblColor);
+//                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
+//                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
+//                buySpr2->addChild(lblBuyCost);
+//            }
+//            
+//            startItem->setVisible(false);
+//            buyItem->setVisible(true);
+//            
+//            startMenu = CCMenu::create(startItem, buyItem, NULL);
+//            startMenu->setPosition(CCPointZero);
+//            kuangSpr->addChild(startMenu);
+//        }
     }
     
     qingjingCoverView->setPosition(swRect.origin);
