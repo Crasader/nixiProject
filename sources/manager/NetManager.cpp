@@ -920,6 +920,14 @@ void NetManager::buy_monthly_card1_151() {
     this->post_data(151, data);
 }
 
+void NetManager::take_monthly_card1_daily_reward_153() {
+    FastWriter writer;
+    Value root;
+    root["id"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(153, data);
+}
+
 void NetManager::flash_sale_today_160() {
     this->post_data(160, string(""));
 }

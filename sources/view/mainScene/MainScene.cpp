@@ -373,6 +373,10 @@ void MainScene::onEnter(){
 //        
 //    }
     NET->fetch_tryst_info_620();
+    
+    // test
+//    NET->buy_monthly_card1_151();
+//    NET->take_monthly_card1_daily_reward_153();
 }
 
 void MainScene::checkVersion() {

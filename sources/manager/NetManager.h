@@ -178,6 +178,7 @@ public:
     void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
     
     void buy_monthly_card1_151();       // 购买钻石支付的月卡
+    void take_monthly_card1_daily_reward_153();       // 购买钻石支付的月卡
     
     void flash_sale_today_160();
     void flash_sale_buying_161();

@@ -169,7 +169,6 @@ void PurchaseComp::init_purchase(CSJson::Value json) {
     CCDictionary* deals = AppUtil::dictionary_with_json(json["deals"]);
     setDeals(deals);
     
-#error "删除该行，在这里打断点，看输出"
     CSJson::Value cards = json["cards"];
     if (cards.type() != CSJson::nullValue) {
         MonthlyCardItem* card1 = MonthlyCardItem::create();
