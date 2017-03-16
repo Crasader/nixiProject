@@ -912,6 +912,14 @@ void NetManager::verify_order_iOS_133(string &orderId, string &productId, const 
     this->post_data(133, data);
 }
 
+void NetManager::buy_monthly_card1_151() {
+    FastWriter writer;
+    Value root;
+    root["id"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(151, data);
+}
+
 void NetManager::flash_sale_today_160() {
     this->post_data(160, string(""));
 }

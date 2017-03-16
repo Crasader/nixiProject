@@ -372,7 +372,7 @@ void MainScene::onEnter(){
 //    if (DATA->getNews()->trystOn == 1) {
 //        
 //    }
-    NET->fetch_tryst_info_620();    
+    NET->fetch_tryst_info_620();
 }
 
 void MainScene::checkVersion() {
