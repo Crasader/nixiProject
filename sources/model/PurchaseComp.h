@@ -33,6 +33,22 @@ public:
 private:
 };
 
+
+class MonthlyCardItem : public CCObject
+{
+public:
+    ~MonthlyCardItem();
+    CREATE_FUNC(MonthlyCardItem);
+    bool init();
+    void init_with_json(const char* id, Value json);
+    void print_self();
+    
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(string, _cardID, CardID); // 目前好像用不上
+    CC_SYNTHESIZE_READONLY(int, _status, Status);          // 0-未获得；1-可领取；2-当日已领取
+    CC_SYNTHESIZE_READONLY(int, _daysRest, DaysRest);      // 剩余天数，未获得为0
+};
+
+
 class PurchaseComp : public CCObject
 {
 public: // Export
@@ -62,6 +78,11 @@ public:
     SYNTHESIZE_READONLY(int, _energyBoughtGain, EnergyBoughtGain);
     SYNTHESIZE_READONLY(int, _coinExchangeCost, CoinExchangeCost);
     SYNTHESIZE_READONLY(int, _coinExchangeGain, CoinExchangeGain);
+    
+    // 月卡
+    CC_SYNTHESIZE_RETAIN(MonthlyCardItem*, _monthlyCard1, MonthlyCard1);
+    CC_SYNTHESIZE_RETAIN(MonthlyCardItem*, _monthlyCard2, MonthlyCard2);
+
 private:
 
 };

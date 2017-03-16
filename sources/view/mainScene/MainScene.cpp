@@ -260,7 +260,7 @@ bool MainScene::init(){
 //    CCLog("<><><><> time == %ld", now.tv_sec * 1000 + now.tv_usec / 1000);
     
     
-//    this->scheduleOnce(SEL_SCHEDULE(&MainScene::creat_160), 6.f);
+//    this->scheduleOnce(SEL_SCHEDULE(&MainScene::creat_160), 0.3f);
     
     return true;
 }

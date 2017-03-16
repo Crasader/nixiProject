@@ -199,7 +199,7 @@ void ClothesScene::randomHint(float dt){
     CCScale9Sprite* text_bg = CCScale9Sprite::create("res/pic/panel/chat/text_bg.png", CCRectMake(0, 0, 37, 29), CCRectMake(11, 5, 21, 25));
     text_bg->setContentSize(CCSizeMake(lab_size_width + 10, lab_size_height + 10));
     text_bg->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-    this->addChild(text_bg, 1000);
+    this->addChild(text_bg, 99);
     
     CCLabelTTF* message = CCLabelTTF::create(saidStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(lab_size_width, lab_size_height + 2), kCCTextAlignmentLeft);
     message->setColor(ccc3(108, 83, 96));

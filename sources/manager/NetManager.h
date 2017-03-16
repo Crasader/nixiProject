@@ -177,8 +177,11 @@ public:
     // iOS新支付验证
     void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
     
+    void buy_monthly_card1_151();       // 购买钻石支付的月卡
+    
     void flash_sale_today_160();
     void flash_sale_buying_161();
+    
     
 private:
     string generate_sign(int cid, const char* data);

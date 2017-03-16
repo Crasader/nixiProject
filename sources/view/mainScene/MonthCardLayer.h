@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "PurchaseComp.h"
 
 USING_NS_CC;
 
@@ -42,13 +43,20 @@ public:
     CCSprite* goldTishiSpr;
     CCSprite* moneyTishiSpr;
     
+    MonthlyCardItem* goldCardItem;
+    MonthlyCardItem* moneyCardItem;
+    
     int num_child;
     
 public:
     
     void creat_view();
+    void creat_lingqu();
     
     void goldButtonCallBack(CCObject* pSender);
     void moneyButtonCallBack(CCObject* pSender);
+    
+    void goldLingquCallback(CCObject* pSender);
+    void moneyLingquCallback(CCObject* pSender);
 };
 #endif /* defined(__tiegao__MonthCardLayer__) */

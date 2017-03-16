@@ -115,7 +115,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["uuid"] = uuid;
     root["type"] = 1;
     root["channel"] = channel;
-    root["ver"] = "10704";
+    root["ver"] = "10800";
     string data = writer.write(root);
     this->post_data(900, data);
 }
@@ -910,6 +910,14 @@ void NetManager::verify_order_iOS_133(string &orderId, string &productId, const 
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(133, data);
+}
+
+void NetManager::buy_monthly_card1_151() {
+    FastWriter writer;
+    Value root;
+    root["id"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(151, data);
 }
 
 void NetManager::flash_sale_today_160() {
