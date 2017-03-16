@@ -268,6 +268,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/vipQingjingScene
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/mainScene/MainScene.h \
  jni/../../sources/view/vipQingjingScene/VipStoryScene.h \
@@ -850,6 +851,8 @@ jni/../../sources/model/WelfareComp.h:
 jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

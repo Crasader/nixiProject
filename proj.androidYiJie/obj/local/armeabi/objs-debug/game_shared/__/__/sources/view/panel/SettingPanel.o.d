@@ -267,7 +267,12 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/SettingPanel.o
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/FileManager.h \
+ jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/view/JNIController.h \
+ /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
  jni/../../sources/view/panel/GiftPanel.h \
  jni/../../sources/view/panel/IdentityPanel.h
@@ -820,7 +825,17 @@ jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
 
+jni/../../sources/model/FlashSaleComp.h:
+
 jni/../../sources/manager/FileManager.h:
+
+jni/../../sources/manager/ConfigManager.h:
+
+jni/../../sources/view/JNIController.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
 
 jni/../../sources/view/mainScene/PromptLayer.h:
 

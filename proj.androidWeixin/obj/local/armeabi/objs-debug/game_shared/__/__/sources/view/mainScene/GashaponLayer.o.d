@@ -262,6 +262,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/GashaponLa
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/AudioManager.h \
@@ -289,7 +290,8 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/GashaponLa
  jni/../../sources/view/mainScene/RewardLayer.h \
  jni/../../sources/view/mainScene/ExchangeLayer.h \
  jni/../../sources/view/clothesScene/ClothesScene.h \
- jni/../../sources/view/clothesScene/ClothesTableView.h
+ jni/../../sources/view/clothesScene/ClothesTableView.h \
+ jni/../../sources/view/mainScene/PromptLayer.h
 
 jni/../../sources/view/mainScene/GashaponLayer.h:
 
@@ -829,6 +831,8 @@ jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
 
+jni/../../sources/model/FlashSaleComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/manager/ConfigManager.h:
@@ -884,3 +888,5 @@ jni/../../sources/view/mainScene/ExchangeLayer.h:
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
 jni/../../sources/view/clothesScene/ClothesTableView.h:
+
+jni/../../sources/view/mainScene/PromptLayer.h:

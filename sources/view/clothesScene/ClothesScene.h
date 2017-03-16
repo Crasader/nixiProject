@@ -197,8 +197,9 @@ public:
     CCLayer* _animLayer;
     
     CCMenu* buttonMenu;
+    CCMenu* shareMenu;
     void openButtonMenu();
-    CCMenuItem* startItem,* saveItem;
+    CCMenuItem *startItem, *saveItem, *shareItem;
     
 public:
     
@@ -235,6 +236,11 @@ public:
     void renwukuangCallBack(CCObject* pSender);
     void renwukuangMethods(int index);
     void saveClothesMethods();
+    void shareCallBack(CCObject* pSender);
+    void shareStatus(float dt);
+    void iOS_share_finish(CCObject* pSender);
+    
+    void randomHint(float dt);
     
     int haveEnoughCoin();
     int haveEnoughGold();

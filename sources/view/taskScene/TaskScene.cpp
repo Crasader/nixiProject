@@ -87,8 +87,43 @@ bool TaskScene::init(bool isPhaseUP){
     }
     
     
+    
+    int randIndex = 1 + rand()%2;
+    if (randIndex == 2) {
+        this->scheduleOnce(SEL_SCHEDULE(&TaskScene::randomHint), 2.f);
+    }
+    
     return true;
 }
+
+
+void TaskScene::randomHint(float dt){
+    
+    float widthFolt = .57f;
+    float heightFloat = .87f;
+    
+    CCString* saidStr = CCString::createWithFormat("达到星星总数.\n就可以升级啦.");
+    CCLabelTTF* text = CCLabelTTF::create(saidStr->getCString(), DISPLAY->fangzhengFont(), 25);
+    float lab_size_height = 60;
+    float lab_size_width = text->getContentSize().width;
+    CCScale9Sprite* text_bg = CCScale9Sprite::create("res/pic/panel/chat/text_bg2.png", CCRectMake(0, 0, 37, 29), CCRectMake(5, 5, 21, 25));
+    text_bg->setContentSize(CCSizeMake(lab_size_width + 20, lab_size_height + 10));
+    text_bg->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    this->addChild(text_bg, 1000);
+    
+    CCLabelTTF* message = CCLabelTTF::create(saidStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(lab_size_width, lab_size_height + 2), kCCTextAlignmentLeft);
+    message->setColor(ccc3(108, 83, 96));
+    message->setAnchorPoint(CCPoint(0, 0.5));
+    message->setPosition(ccp(2, text_bg->getContentSize().height* .5f));
+    text_bg->addChild(message);
+    
+    
+    CCFadeOut* fadeOut = CCFadeOut::create(3.f);
+    text_bg->runAction(CCSequence::create(CCDelayTime::create(1.5f), fadeOut, NULL));
+}
+
+
+
 void TaskScene::play_music(float dt){
     AUDIO->enterTheTask_effect();
 }

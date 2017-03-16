@@ -19,6 +19,7 @@
 #include "WSManager.h"
 #include "GashaponScene.h"
 #include "SalesPromotionLayer.h"
+#include "MonthCardLayer.h"
 
 //#include "HaoyouRankLayer.h"
 #include "Shower.h"
@@ -162,6 +163,8 @@ bool MainScene::init(){
     }
     
     
+    
+    
     if (DATA->current_guide_step() == 0) {
         
     }else if (DATA->current_guide_step() == 1){
@@ -226,6 +229,20 @@ bool MainScene::init(){
         JNIController::setUserId(DATA->getLogin()->obtain_sid());
     }
 #endif
+    
+    
+    struct timeval star;
+    struct tm* time;
+    gettimeofday(&star,  NULL);
+    time = localtime(&star.tv_sec);
+    std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_MDay", "0");
+    int num = atoi(str.c_str());
+    if (num < time->tm_mday) {
+        
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_MDay", CCString::createWithFormat("%d", time->tm_mday)->getCString());
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", 0)->getCString());
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", 0)->getCString());
+    }
     
     
     
@@ -545,14 +562,32 @@ void MainScene::creat_view(){
     
 
     // PK
-    CCSprite* pk = CCSprite::create("res/pic/mainScene/main_pk1.png");
-    CCSprite* pk2 = CCSprite::create("res/pic/mainScene/main_pk1.png");
-    pk2->setScale(1.02f);
-    CCMenuItem* pkItem = CCMenuItemSprite::create(pk, pk2, this, menu_selector(MainScene::onPkCalled));
+//    CCSprite* pk = CCSprite::create("res/pic/mainScene/main_pk1.png");
+//    CCSprite* pk2 = CCSprite::create("res/pic/mainScene/main_pk1.png");
+//    pk2->setScale(1.02f);
+//    CCMenuItem* pkItem = CCMenuItemSprite::create(pk, pk2, this, menu_selector(MainScene::onPkCalled));
+//    pkItem->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+//    
+//    CCAnimate* anim = CCAnimate::create(AppUtil::animationWithPics("res/pic/mainScene/main_pk%d.png", 2, 1, 0.5f));
+//    pk->runAction(CCRepeatForever::create(anim));
+    
+    
+    // 限时抢购
+    CCSprite* xianshiSpr1 = CCSprite::create("res/pic/mainScene/xianshicuxiao.png");
+    CCSprite* xianshiSpr2 = CCSprite::create("res/pic/mainScene/xianshicuxiao.png");
+    xianshiSpr2->setScale(1.02f);
+    CCMenuItem* pkItem = CCMenuItemSprite::create(xianshiSpr1, xianshiSpr2, this, menu_selector(MainScene::xianshiCallBack));
     pkItem->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
     
-    CCAnimate* anim = CCAnimate::create(AppUtil::animationWithPics("res/pic/mainScene/main_pk%d.png", 2, 1, 0.5f));
-    pk->runAction(CCRepeatForever::create(anim));
+    
+    
+    // 月卡
+    CCSprite* monthSpr1 = CCSprite::create("res/pic/mainScene/main_month.png");
+    CCSprite* monthSpr2 = CCSprite::create("res/pic/mainScene/main_month.png");
+    monthSpr2->setScale(1.02f);
+    CCMenuItem* monthItem = CCMenuItemSprite::create(monthSpr1, monthSpr2, this, menu_selector(MainScene::monthCallBack));
+    monthItem->setPosition(ccp(DISPLAY->ScreenWidth()* .075f, DISPLAY->ScreenHeight()* .19f));
+    
     
     
 //    //设置
@@ -1025,26 +1060,36 @@ void MainScene::creat_view(){
                           _btnGashapon,
                           eventItem,
                           pkItem,
+                          monthItem,
                           item_lingdang,
                           NULL);
     menu->alignItemsVerticallyWithPadding(5);
     if (DATA->current_guide_step() == 6){
-        menu->setPosition(ccp(0, 90 * 8.5));
+        menu->setPosition(ccp(0, 90 * 9.5));
     }else{
         menu->setPosition(ccp(0, 0));
     }
     
     
     CCSprite* stencil = CCSprite::create();
-    stencil->setTextureRect(CCRect(0, 0, _welfareItem->getContentSize().width, _welfareItem->getContentSize().height* 9 + 40));
+    stencil->setTextureRect(CCRect(0, 0, _welfareItem->getContentSize().width, _welfareItem->getContentSize().height* 10 + 40));
     stencil->setColor(ccGRAY);
     node = CCClippingNode::create(stencil);
     node->setColor(ccGRAY);
-    node->setPosition(ccp(DISPLAY->ScreenWidth() - _btnEnergyLargess->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .58f));
+    node->setPosition(ccp(DISPLAY->ScreenWidth() - _btnEnergyLargess->getContentSize().width* .5f, DISPLAY->ScreenHeight()* .5f));
     node->setInverted(false);
     node->addChild(menu);
     this->addChild(node);
 }
+
+
+
+void MainScene::monthCallBack(CCObject* pSender){
+    MonthCardLayer* layer = MonthCardLayer::create();
+    this->addChild(layer, 100);
+}
+
+
 
 void MainScene::isTxt_Bar(){
     if (DATA->current_guide_step() == 8) {
@@ -1068,7 +1113,7 @@ void MainScene::lingdang_callback(cocos2d::CCObject *pSender){
     if (isOk) {
         CCMoveTo* mt = NULL;
         if (isOpen) {
-            mt = CCMoveTo::create(0.3, ccp(0, 90 * 8.5));
+            mt = CCMoveTo::create(0.3, ccp(0, 90 * 9.5));
             isOpen = false;
         }else{
             if (DATA->current_guide_step() == 6) {
@@ -2578,7 +2623,7 @@ void MainScene::creat_guideBool(){
 }
 
 
-void MainScene::creat_160(){
+void MainScene::xianshiCallBack(CCObject* pSender){
     LOADING->show_loading();
     NET->flash_sale_today_160();
 }

@@ -18,6 +18,7 @@
 #include "RewardLayer.h"
 #include "ExchangeLayer.h"
 #include "ClothesScene.h"
+#include "PromptLayer.h"
 
 
 GashaponLayer::~GashaponLayer(){
@@ -482,8 +483,18 @@ void GashaponLayer::oneCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "扭蛋界面", "点击单次");
     
-    LOADING->show_loading();
-    NET->single_lottery_307();
+    std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_One", "0");
+    int Tm_OneNum = atoi(str.c_str());
+    if (Tm_OneNum < 20) {
+        Tm_OneNum++;
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", Tm_OneNum)->getCString());
+        
+        LOADING->show_loading();
+        NET->single_lottery_307();
+    }else{
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "次数用尽了,亲.");
+    }
 }
 void GashaponLayer::_307CallBack(CCObject* pSender){
     LOADING->remove();
@@ -533,8 +544,19 @@ void GashaponLayer::tenCallBack(CCObject* pSender){
     // talkingData
     DATA->onEvent("点击事件", "扭蛋界面", "点击十次");
     
-    LOADING->show_loading();
-    NET->multiply_lottery_309();
+    
+    std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_Ten", "0");
+    int Tm_TenNum = atoi(str.c_str());
+    if (Tm_TenNum < 4) {
+        Tm_TenNum++;
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", Tm_TenNum)->getCString());
+        
+        LOADING->show_loading();
+        NET->multiply_lottery_309();
+    }else{
+        PromptLayer* layer = PromptLayer::create();
+        layer->show_prompt(this->getScene(), "次数用尽了,亲.");
+    }
 }
 void GashaponLayer::_309CallBack(CCObject* pSender){
     LOADING->remove();

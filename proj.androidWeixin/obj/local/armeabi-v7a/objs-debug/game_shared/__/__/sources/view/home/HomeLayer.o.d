@@ -277,6 +277,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/home/HomeLayer.o
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/common/Loading2/Loading2.h \
  jni/../../sources/manager/ConfigManager.h \
@@ -870,6 +871,8 @@ jni/../../sources/model/WelfareComp.h:
 jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

@@ -120,6 +120,15 @@ void CreateName::create_baes_view()
     
     //
 //    spt_inputbox->runAction(CCEaseExponentialOut::create(CCMoveTo::create(0.6f, ccp(DISPLAY->W() * 0.5f, DISPLAY->H() * 0.66f))));
+    
+    
+    struct timeval star;
+    struct tm* time;
+    gettimeofday(&star,  NULL);
+    time = localtime(&star.tv_sec);
+    CCUserDefault::sharedUserDefault()->setStringForKey("Tm_MDay", CCString::createWithFormat("%d", time->tm_mday)->getCString());
+    CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", 0)->getCString());
+    CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", 0)->getCString());
 }
 
 void CreateName::create_content_view()
