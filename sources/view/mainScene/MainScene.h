@@ -167,7 +167,7 @@ public:
 //    void rankList_callback_300(CCObject* pObj);
     void competition_callback_820(CCObject* pObj);
     
-    void nc_signin_info_302(CCObject* pObj);
+    void nc_signin_info_312(CCObject* pObj);
     void nc_gashapon_info_306(CCObject *pObj);
     void nc_recharge_info_304(CCObject *pObj);
     void nc_take_gift_333(CCObject *pObj);

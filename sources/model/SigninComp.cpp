@@ -49,11 +49,18 @@ void SigninComp::init_signin7_template(Value json) {
         CCLOG("SigninComp::init_signin7_template() json object error.");
         return;
     }
+#error "跟另一个error相关的信息"
     /*
      "id" : 跟第几天相关
-     "type" : 类型， 如："clothes",
-     "retroactive_cost" : 补签花费
-     "uri" : 资源定位，type == clothes时，为衣服的id
+     "type" : 衣服-"clothes", 其他-"wealth"
+     "rewards" : type == clothes时，为衣服的id（CCInteger）的数组CCArray，
+                 type == wealth时，为CCDictionary:
+                    "rewards": {
+                        "diam": 0,
+                        "coin": 0,
+                        "piece": 0,
+                        "energy": 0
+                    }，
      */
     CCDictionary* dic = AppUtil::dictionary_with_json(json);
     CCArray* keys = dic->allKeys();
