@@ -852,7 +852,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
             _operation->replace_gashapon_user(content["gashapon"]);
-            // 首次购买获得，字典 {"piece": 88, "diam": 40}
+            // 首次购买获得，字典 {"piece": 88}
             pData = AppUtil::dictionary_with_json(content["rewards"]);
         } break;
             
