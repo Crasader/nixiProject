@@ -425,11 +425,14 @@ void NewSignin7Panel::creat_clothes(CCArray* arr){
 }
 void NewSignin7Panel::signinCallback(CCObject* pSender){
     LOADING->show_loading();
-    NET->perform_signin7_313(CCString::createWithFormat("%d", _signin7Day)->getCString());
+    NET->perform_signin7_313();
 }
 void NewSignin7Panel::signin_callback_313(){
     LOADING->remove();
     nowPage++;
+    if (nowPage >= 7) {
+        nowPage = 7;
+    }
     this->creatNewView();
 }
 void NewSignin7Panel::creatNewView(){

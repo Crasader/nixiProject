@@ -149,7 +149,7 @@ void Signin7Panel::config_siginInfo(){
     CCARRAY_FOREACH(arr, obj){
         CCSprite* icon_bg = (CCSprite*)_panel->getChildByTag(arr->indexOfObject(obj) + 1);
         CCDictionary* dic = (CCDictionary*)obj;
-//#error "需要修改下面的代码, 上面arr及dic具体的信息参看另外一处" 
+//#error "需要修改下面的代码, 上面arr及dic具体的信息参看另外一处"
         CCString* cloth_id = (CCString*)dic->valueForKey("uri");
         CCSprite* icon = CCSprite::create(DATA->clothes_icon_path_with_id(cloth_id->intValue())->getCString());
         icon->setScale(0.6f);
@@ -236,7 +236,7 @@ void Signin7Panel::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
 // 1.8.1之前的版本
 //                    NET->perform_signin7_303(id_str->getCString());
                     // 1.8.1之后的版本
-                    NET->perform_signin7_313(id_str->getCString());
+                    NET->perform_signin7_313();
                     _signin_id = i;
                     break;
                 case e_SigninState_Done:
@@ -256,6 +256,7 @@ void Signin7Panel::signin_callback_313(){
     LOADING->remove();
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_NEWS_STATUS");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     
     CCSprite* icon_bg = (CCSprite*)_panel->getChildByTag(_signin_id);
     if (icon_bg->getChildByTag(200)) {

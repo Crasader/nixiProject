@@ -468,7 +468,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]); // 不必然
             _mystery->update_user_data(content["mystery"]);
             
-            if (content["id"] != CSJson::nullValue) {
+            if (content["id"].type() != CSJson::nullValue) {
                 pData = CCString::create(content["id"].asString());
             }
             else { // 兼容旧版本
@@ -736,10 +736,14 @@ void DataManager::handle_protocol(int cid, Value content) {
             
         case 313: {
             _player->init_with_json(content["player"]);
-            this->creat_Energy_Time();
+            if (content["player"].type() != CSJson::nullValue) {
+                this->creat_Energy_Time();
+            }
             _signin->update_signin7_info(content["signin7"]);
             _clothes->init_with_json(content["clothes"]);
-            _news->init_with_json(content["news"]);
+            _show->init_with_json(content["show"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
+            pData = AppUtil::dictionary_with_json(content["rewards"]);
             nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
         
