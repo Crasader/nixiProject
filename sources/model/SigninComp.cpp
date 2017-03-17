@@ -49,7 +49,7 @@ void SigninComp::init_signin7_template(Value json) {
         CCLOG("SigninComp::init_signin7_template() json object error.");
         return;
     }
-#error "跟另一个error相关的信息"
+//#error "跟另一个error相关的信息"
     /*
      "id" : 跟第几天相关
      "type" : 衣服-"clothes", 其他-"wealth"
@@ -84,6 +84,20 @@ void SigninComp::update_signin7_info(Value json) {
     CC_SAFE_RELEASE(_signin7Info);
     _signin7Info = AppUtil::dictionary_with_json(json);
     _signin7Info->retain();
+    
+    
+    CCArray* keys = _signin7Info->allKeys();
+    AppUtil::sort_string_array(keys);
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(keys, pObj) {
+        CCString* key = (CCString*)pObj;
+        
+        _signin7Day = atoi(key->getCString());
+        CCLog("keys == %s", key->getCString());
+        
+        _signin7Value = ((CCInteger* )_signin7Info->objectForKey(key->getCString()))->getValue();
+        CCLog("value == %d", ((CCInteger* )_signin7Info->objectForKey(key->getCString()))->getValue());
+    }
 }
 
 void SigninComp::test_signin7Template() {
@@ -91,7 +105,22 @@ void SigninComp::test_signin7Template() {
     CCARRAY_FOREACH(_signin7Template, pObj) {
         CCDictionary* item = (CCDictionary*)pObj;
         CCLOG("签到 id = %s", item->valueForKey("id")->getCString());
-        CCLOG("签到 type = %s", item->valueForKey("type")->getCString());
-        CCLOG("签到 uri = %s", item->valueForKey("uri")->getCString());
+        CCLOG("签到 type = %s", item->valueForKey("type")->getCString());        
+        
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("wealth") == 0) {
+            CCDictionary* rewardsDic = (CCDictionary* )item->objectForKey("rewards");
+            CCLog("pice == %d", ((CCInteger* )rewardsDic->objectForKey("piece"))->getValue());
+            CCLog("energy == %d", ((CCInteger* )rewardsDic->objectForKey("energy"))->getValue());
+            CCLog("diam == %d", ((CCInteger* )rewardsDic->objectForKey("diam"))->getValue());
+            CCLog("coin == %d", ((CCInteger* )rewardsDic->objectForKey("coin"))->getValue());
+            
+        }else if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            for (int i = 0; i < rewardsArr->count(); i++) {
+                
+                CCLOG("签到 clothes = %d", ((CCInteger* )rewardsArr->objectAtIndex(i))->getValue());
+            }
+        }
     }
 }

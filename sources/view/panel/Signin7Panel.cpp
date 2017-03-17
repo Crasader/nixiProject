@@ -149,7 +149,7 @@ void Signin7Panel::config_siginInfo(){
     CCARRAY_FOREACH(arr, obj){
         CCSprite* icon_bg = (CCSprite*)_panel->getChildByTag(arr->indexOfObject(obj) + 1);
         CCDictionary* dic = (CCDictionary*)obj;
-#error "需要修改下面的代码, 上面arr及dic具体的信息参看另外一处"
+//#error "需要修改下面的代码, 上面arr及dic具体的信息参看另外一处" 
         CCString* cloth_id = (CCString*)dic->valueForKey("uri");
         CCSprite* icon = CCSprite::create(DATA->clothes_icon_path_with_id(cloth_id->intValue())->getCString());
         icon->setScale(0.6f);

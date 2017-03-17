@@ -41,6 +41,9 @@ protected:
 private:
     CCArray*                _signin7Template;
     CCDictionary*           _signin7Info;
+    
+    CC_SYNTHESIZE(int, _signin7Day, Signin7Day);
+    CC_SYNTHESIZE(int, _signin7Value, Signin7Value);
 };
 
 #endif /* SigninComp_hpp */
