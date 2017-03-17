@@ -272,7 +272,8 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/manager/NetManager.o:
  jni/../../sources/model/TrystComp.h \
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
- jni/../../sources/model/CompetitionComp.h jni/../../sources/utils/IMD5.h
+ jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h jni/../../sources/utils/IMD5.h
 
 jni/../../sources/manager/NetManager.h:
 
@@ -833,5 +834,7 @@ jni/../../sources/model/WelfareComp.h:
 jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/utils/IMD5.h:

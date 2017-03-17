@@ -42,6 +42,8 @@ void PurchaseComp::print_all_products() {
 
 #pragma mark - Inherit
 
+// ------------------------ ProductItem --------------------------
+
 ProductItem::~ProductItem() {
 }
 
@@ -66,7 +68,33 @@ void ProductItem::print_self() {
     CCLOG("    money = %d", money);
 }
 
-// --------------------------------------------------
+// ------------------------ MonthlyCardItem --------------------------
+
+MonthlyCardItem::~MonthlyCardItem() {
+}
+
+bool MonthlyCardItem::init() {
+    return true;
+}
+
+void MonthlyCardItem::init_with_json(const char* id, Value json) {
+    if (!json.isObject()) {
+        CCLOG("MonthlyCardItem::init_with_json() json object error.");
+        return;
+    }
+    
+    _cardID = string(id);
+    _status = json["status"].asInt();
+    _daysRest = json["left"].asInt();
+}
+
+void MonthlyCardItem::print_self() {
+    CCLOG("====== MonthlyCardItem: < %s > ======", getCardID().c_str());
+    CCLOG("    status = %d", getStatus());
+    CCLOG("    days rest = %d", getDaysRest());
+}
+
+// ------------------------ PurchaseComp --------------------------
 
 PurchaseComp::~PurchaseComp() {
     CC_SAFE_DELETE(_products);
@@ -140,5 +168,18 @@ void PurchaseComp::init_purchase(CSJson::Value json) {
     
     CCDictionary* deals = AppUtil::dictionary_with_json(json["deals"]);
     setDeals(deals);
+    
+    CSJson::Value cards = json["cards"];
+    if (cards.type() != CSJson::nullValue) {
+        MonthlyCardItem* card1 = MonthlyCardItem::create();
+        card1->init_with_json("1", cards["1"]);
+        setMonthlyCard1(card1);
+        card1->print_self();
+        
+        MonthlyCardItem* card2 = MonthlyCardItem::create();
+        card2->init_with_json("2", cards["2"]);
+        setMonthlyCard2(card2);
+        card2->print_self();
+    }
 }
 

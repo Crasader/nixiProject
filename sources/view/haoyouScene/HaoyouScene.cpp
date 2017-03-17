@@ -186,36 +186,36 @@ void HaoyouScene::creat_view(){
     this->addChild(allMenu, 20);
     
     
-    CCSprite* shareSpr1;
-    CCSprite* shareSpr2;
-    if (DATA->getNews()->dailyShareCount == 0) {
-        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-        shareSpr2->setScale(1.02f);
-    }else{
-        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-        shareSpr2->setScale(1.02f);
-    }
-    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
-    shareItem->setAnchorPoint(ccp(0, .5f));
-    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
-    shareMenu = CCMenu::create(shareItem, NULL);
-    shareMenu->setPosition(CCPointZero);
-    shareMenu->setTag(0x334455);
-    this->addChild(shareMenu, 20);
-    
-    
-    CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
-    CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
-    hidSpr2->setScale(1.02f);
-    CCMenuItem* hidItem = CCMenuItemSprite::create(hidSpr1, hidSpr2, this, menu_selector(HaoyouScene::hiddenCallback2));
-    hidItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .85f));
-    
-    CCMenu* hidMenu = CCMenu::create(hidItem, NULL);
-    hidMenu->setPosition(CCPointZero);
-    hidMenu->setTag(0x46577);
-    this->addChild(hidMenu, 5);
+//    CCSprite* shareSpr1;
+//    CCSprite* shareSpr2;
+//    if (DATA->getNews()->dailyShareCount == 0) {
+//        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+//        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+//        shareSpr2->setScale(1.02f);
+//    }else{
+//        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+//        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+//        shareSpr2->setScale(1.02f);
+//    }
+//    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(HaoyouScene::shareCallBack));
+//    shareItem->setAnchorPoint(ccp(0, .5f));
+//    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+//    shareMenu = CCMenu::create(shareItem, NULL);
+//    shareMenu->setPosition(CCPointZero);
+//    shareMenu->setTag(0x334455);
+//    this->addChild(shareMenu, 20);
+//    
+//    
+//    CCSprite* hidSpr1 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+//    CCSprite* hidSpr2 = CCSprite::create("res/pic/haoyouScene/hy_hidden.png");
+//    hidSpr2->setScale(1.02f);
+//    CCMenuItem* hidItem = CCMenuItemSprite::create(hidSpr1, hidSpr2, this, menu_selector(HaoyouScene::hiddenCallback2));
+//    hidItem->setPosition(ccp(DISPLAY->ScreenWidth()* .92f, DISPLAY->ScreenHeight()* .85f));
+//    
+//    CCMenu* hidMenu = CCMenu::create(hidItem, NULL);
+//    hidMenu->setPosition(CCPointZero);
+//    hidMenu->setTag(0x46577);
+//    this->addChild(hidMenu, 5);
 }
 void HaoyouScene::shareCallBack(CCObject* pSender){
 //    allMenu->setVisible(false);

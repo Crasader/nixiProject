@@ -19,6 +19,7 @@
 #include "ExchangeLayer.h"
 #include "ClothesScene.h"
 #include "MainScene.h"
+#include "PromptLayer.h"
 
 
 SalesPromotionLayer::~SalesPromotionLayer(){
@@ -30,6 +31,7 @@ bool SalesPromotionLayer::init(){
     }
     
     num_child = 0;
+    clthedPhase = 0;
     
     this->creat_Clothes();
     
@@ -49,7 +51,7 @@ bool SalesPromotionLayer::init(){
 void SalesPromotionLayer::onEnter(){
     CCLayer::onEnter();
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&GashaponLayer::_307CallBack), "HTTP_FINISHED_307", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&SalesPromotionLayer::_161CallBack), "HTTP_FINISHED_161", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&SalesPromotionLayer::keyBackStatus), .8f);
 }
@@ -110,56 +112,70 @@ void SalesPromotionLayer::creat_View(){
     tishiSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, 3));
     kuangSpr->addChild(tishiSpr);
     
-    // 购买按钮
-    CCSprite* buySpr1 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
-    CCSprite* buySpr2 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
-    buySpr2->setScale(1.02f);
-    CCMenuItem* buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(SalesPromotionLayer::buyCallBack));
-    buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
-    CCMenu* buyMenu = CCMenu::create(buyItem, NULL);
-    buyMenu->setPosition(CCPointZero);
-    kuangSpr->addChild(buyMenu, 20);
     
-    CCString* zheStr = CCString::createWithFormat("%d折", (int)DATA->getFlashSaleInfo()->getDiscount());
-    CCLabelTTF* zheLabel = CCLabelTTF::create(zheStr->getCString(), DISPLAY->fangzhengFont(), 23);
-    zheLabel->setAnchorPoint(ccp(0, .5f));
-    zheLabel->setPosition(ccp(7, buyItem->getContentSize().height* .82f));
-    zheLabel->setColor(ccc3(254, 253, 131));
-    buyItem->addChild(zheLabel);
+    if (!this->judgeClothes()) {
+        // 购买按钮
+        CCSprite* buySpr1 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
+        CCSprite* buySpr2 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
+        buySpr2->setScale(1.02f);
+        CCMenuItem* buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(SalesPromotionLayer::buyCallBack));
+        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
+        buyMenu = CCMenu::create(buyItem, NULL);
+        buyMenu->setPosition(CCPointZero);
+        buyMenu->setTag(0x889988);
+        kuangSpr->addChild(buyMenu, 20);
+        
+        CCString* zheStr = CCString::createWithFormat("%d折", (int)DATA->getFlashSaleInfo()->getDiscount());
+        CCLabelTTF* zheLabel = CCLabelTTF::create(zheStr->getCString(), DISPLAY->fangzhengFont(), 23);
+        zheLabel->setAnchorPoint(ccp(0, .5f));
+        zheLabel->setPosition(ccp(7, buyItem->getContentSize().height* .82f));
+        zheLabel->setColor(ccc3(254, 253, 131));
+        buyItem->addChild(zheLabel);
+        
+        // title
+        CCLabelTTF* titleLabel = CCLabelTTF::create("全部获得", DISPLAY->fangzhengFont(), 24);
+        titleLabel->setPosition(ccp(buyItem->getContentSize().width* .5f, buyItem->getContentSize().height* .72f));
+        titleLabel->setColor(ccc3(160, 75, 46));
+        buyItem->addChild(titleLabel);
+        
+        // 钻石 old
+        CCString* oldPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getOldPrice());
+        CCLabelTTF* oldPriceLabel = CCLabelTTF::create(oldPriceStr->getCString(), DISPLAY->fangzhengFont(), 27);
+        oldPriceLabel->setPosition(ccp(buyItem->getContentSize().width* .2f, buyItem->getContentSize().height* .33f));
+        oldPriceLabel->setColor(ccc3(230, 98, 98));
+        buyItem->addChild(oldPriceLabel);
+        CCSprite* goldSpr1 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
+        goldSpr1->setPosition(ccp(oldPriceLabel->getContentSize().width + 10, oldPriceLabel->getContentSize().height* .5f));
+        oldPriceLabel->addChild(goldSpr1);
+        CCSprite* xianSpr = CCSprite::create("res/pic/salesPromotion/sp_xiegang.png");
+        xianSpr->setPosition(ccp(buyItem->getContentSize().width* .23f, buyItem->getContentSize().height* .33f));
+        buyItem->addChild(xianSpr, 5);
+        
+        // 钻石 now
+        CCSprite* nowPriceDi = CCSprite::create("res/pic/salesPromotion/sp_di.png");
+        nowPriceDi->setPosition(ccp(buyItem->getContentSize().width* .73f, buyItem->getContentSize().height* .33f));
+        buyItem->addChild(nowPriceDi);
+        CCString* nowPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getNowPrice());
+        CCLabelTTF* nowPriceLabel = CCLabelTTF::create(nowPriceStr->getCString(), DISPLAY->fangzhengFont(), 28);
+        nowPriceLabel->setPosition(ccp(nowPriceDi->getContentSize().width* .31f, nowPriceDi->getContentSize().height* .48f));
+        nowPriceLabel->setColor(ccc3(254, 253, 131));
+        nowPriceDi->addChild(nowPriceLabel);
+        CCSprite* goldSpr2 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
+        goldSpr2->setPosition(ccp(nowPriceLabel->getContentSize().width + 10, nowPriceLabel->getContentSize().height* .5f));
+        nowPriceLabel->addChild(goldSpr2);
+    }else{
+        CCSprite* changeSpr1 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
+        CCSprite* changeSpr2 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
+        changeSpr2->setScale(1.02f);
+        CCMenuItem* buyItem = CCMenuItemSprite::create(changeSpr1, changeSpr2, this, menu_selector(SalesPromotionLayer::changeCallBack));
+        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
+        buyMenu = CCMenu::create(buyItem, NULL);
+        buyMenu->setPosition(CCPointZero);
+        buyMenu->setTag(0x889988);
+        kuangSpr->addChild(buyMenu, 20);
+    }
     
     
-    // title
-    CCLabelTTF* titleLabel = CCLabelTTF::create("全部获得", DISPLAY->fangzhengFont(), 24);
-    titleLabel->setPosition(ccp(buyItem->getContentSize().width* .5f, buyItem->getContentSize().height* .72f));
-    titleLabel->setColor(ccc3(160, 75, 46));
-    buyItem->addChild(titleLabel);
-    
-    // 钻石 old
-    CCString* oldPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getOldPrice());
-    CCLabelTTF* oldPriceLabel = CCLabelTTF::create(oldPriceStr->getCString(), DISPLAY->fangzhengFont(), 27);
-    oldPriceLabel->setPosition(ccp(buyItem->getContentSize().width* .2f, buyItem->getContentSize().height* .33f));
-    oldPriceLabel->setColor(ccc3(230, 98, 98));
-    buyItem->addChild(oldPriceLabel);
-    CCSprite* goldSpr1 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
-    goldSpr1->setPosition(ccp(oldPriceLabel->getContentSize().width + 10, oldPriceLabel->getContentSize().height* .5f));
-    oldPriceLabel->addChild(goldSpr1);
-    CCSprite* xianSpr = CCSprite::create("res/pic/salesPromotion/sp_xiegang.png");
-    xianSpr->setPosition(ccp(buyItem->getContentSize().width* .23f, buyItem->getContentSize().height* .33f));
-    buyItem->addChild(xianSpr, 5);
-    
-    
-    // 钻石 now
-    CCSprite* nowPriceDi = CCSprite::create("res/pic/salesPromotion/sp_di.png");
-    nowPriceDi->setPosition(ccp(buyItem->getContentSize().width* .73f, buyItem->getContentSize().height* .33f));
-    buyItem->addChild(nowPriceDi);
-    CCString* nowPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getNowPrice());
-    CCLabelTTF* nowPriceLabel = CCLabelTTF::create(nowPriceStr->getCString(), DISPLAY->fangzhengFont(), 28);
-    nowPriceLabel->setPosition(ccp(nowPriceDi->getContentSize().width* .31f, nowPriceDi->getContentSize().height* .48f));
-    nowPriceLabel->setColor(ccc3(254, 253, 131));
-    nowPriceDi->addChild(nowPriceLabel);
-    CCSprite* goldSpr2 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
-    goldSpr2->setPosition(ccp(nowPriceLabel->getContentSize().width + 10, nowPriceLabel->getContentSize().height* .5f));
-    nowPriceLabel->addChild(goldSpr2);
     
     
     // 倒计时
@@ -203,6 +219,59 @@ void SalesPromotionLayer::creat_View(){
     this->creat_kuang();
     this->creat_Man();
     this->initClothes();
+}
+bool SalesPromotionLayer::judgeClothes(){
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
+    
+    bool judgeBool[suitsArr->count()];
+    for (int i = 0; i < suitsArr->count(); i++) {
+        judgeBool[i] = false;
+    }
+    
+    for (int i = 0; i < suitsArr->count(); i++) {
+        int index = ((CCInteger* )suitsArr->objectAtIndex(i))->getValue();
+        if (index >= 10000 && index < 20000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_TouFa, index);
+        }else if (index >= 20000 && index < 30000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_WaiTao, index);
+        }else if (index >= 30000 && index < 40000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_ShangYi, index);
+        }else if (index >= 40000 && index < 50000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_KuZi, index);
+        }else if (index >= 50000 && index < 60000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_WaZi, index);
+        }else if (index >= 60000 && index < 70000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_XieZi, index);
+        }else if (index >= 70000 && index < 80000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_ShiPin, index);
+        }else if (index >= 80000 && index < 90000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_Bao, index);
+        }else if (index >= 90000 && index < 100000){
+            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_ZhuangRong, index);
+        }
+    }
+    
+    bool tempBool = true;
+    for (int i = 0; i < suitsArr->count(); i++) {
+        if (judgeBool[i]) {
+            tempBool = true;
+        }else{
+            tempBool = false;
+            break;
+        }
+    }
+    
+    return tempBool;
+}
+void SalesPromotionLayer::changeCallBack(CCObject* pSender){
+    this->save_Clothes();
+    
+    CCLayer* layer = ClothesScene::create_with_type(6, 0, 0);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 void SalesPromotionLayer::initTime(){
     long timeLong = DATA->getFlashSaleInfo()->getDeadline();
@@ -271,6 +340,103 @@ void SalesPromotionLayer::updateTime(float dt){
 }
 void SalesPromotionLayer::buyCallBack(CCObject* pSender){
     
+    if (clthedPhase > DATA->getPlayer()->phase) {//衣服等级大于当前等级
+        AHMessageBox2* mb = AHMessageBox2::create_with_message2("衣服等级高于当前等级,是否继续购买?", this, AH_AVATAR_TYPE2_NO, AH_BUTTON_TYPE2_YESNO, false);
+        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+    }else{
+        LOADING->show_loading();
+        NET->flash_sale_buying_161();
+    }
+}
+void SalesPromotionLayer::message_box_did_selected_button2(AHMessageBox2* box, AH_BUTTON_TYPE2 button_type, AH_BUTTON_TAGS2 button_tag){
+    box->animation_out();
+    
+    if (button_type == AH_BUTTON_TYPE2_YESNO) {
+        if (button_tag == AH_BUTTON_TAG2_YES) {
+            LOADING->show_loading();
+            NET->flash_sale_buying_161();
+        }else if (button_tag == AH_BUTTON_TAG2_NO){
+            
+        }
+    }
+}
+
+void SalesPromotionLayer::_161CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "购买成功!");
+    
+    if (buyMenu != NULL) {
+        buyMenu->removeAllChildren();
+        if (this->getChildByTag(0x889988) != NULL) {
+            this->removeChildByTag(0x889988);
+        }
+    }
+    
+    if (!this->judgeClothes()) {
+        // 购买按钮
+        CCSprite* buySpr1 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
+        CCSprite* buySpr2 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
+        buySpr2->setScale(1.02f);
+        CCMenuItem* buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(SalesPromotionLayer::buyCallBack));
+        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
+        buyMenu = CCMenu::create(buyItem, NULL);
+        buyMenu->setPosition(CCPointZero);
+        buyMenu->setTag(0x889988);
+        kuangSpr->addChild(buyMenu, 20);
+        
+        CCString* zheStr = CCString::createWithFormat("%d折", (int)DATA->getFlashSaleInfo()->getDiscount());
+        CCLabelTTF* zheLabel = CCLabelTTF::create(zheStr->getCString(), DISPLAY->fangzhengFont(), 23);
+        zheLabel->setAnchorPoint(ccp(0, .5f));
+        zheLabel->setPosition(ccp(7, buyItem->getContentSize().height* .82f));
+        zheLabel->setColor(ccc3(254, 253, 131));
+        buyItem->addChild(zheLabel);
+        
+        // title
+        CCLabelTTF* titleLabel = CCLabelTTF::create("全部获得", DISPLAY->fangzhengFont(), 24);
+        titleLabel->setPosition(ccp(buyItem->getContentSize().width* .5f, buyItem->getContentSize().height* .72f));
+        titleLabel->setColor(ccc3(160, 75, 46));
+        buyItem->addChild(titleLabel);
+        
+        // 钻石 old
+        CCString* oldPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getOldPrice());
+        CCLabelTTF* oldPriceLabel = CCLabelTTF::create(oldPriceStr->getCString(), DISPLAY->fangzhengFont(), 27);
+        oldPriceLabel->setPosition(ccp(buyItem->getContentSize().width* .2f, buyItem->getContentSize().height* .33f));
+        oldPriceLabel->setColor(ccc3(230, 98, 98));
+        buyItem->addChild(oldPriceLabel);
+        CCSprite* goldSpr1 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
+        goldSpr1->setPosition(ccp(oldPriceLabel->getContentSize().width + 10, oldPriceLabel->getContentSize().height* .5f));
+        oldPriceLabel->addChild(goldSpr1);
+        CCSprite* xianSpr = CCSprite::create("res/pic/salesPromotion/sp_xiegang.png");
+        xianSpr->setPosition(ccp(buyItem->getContentSize().width* .23f, buyItem->getContentSize().height* .33f));
+        buyItem->addChild(xianSpr, 5);
+        
+        // 钻石 now
+        CCSprite* nowPriceDi = CCSprite::create("res/pic/salesPromotion/sp_di.png");
+        nowPriceDi->setPosition(ccp(buyItem->getContentSize().width* .73f, buyItem->getContentSize().height* .33f));
+        buyItem->addChild(nowPriceDi);
+        CCString* nowPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getNowPrice());
+        CCLabelTTF* nowPriceLabel = CCLabelTTF::create(nowPriceStr->getCString(), DISPLAY->fangzhengFont(), 28);
+        nowPriceLabel->setPosition(ccp(nowPriceDi->getContentSize().width* .31f, nowPriceDi->getContentSize().height* .48f));
+        nowPriceLabel->setColor(ccc3(254, 253, 131));
+        nowPriceDi->addChild(nowPriceLabel);
+        CCSprite* goldSpr2 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
+        goldSpr2->setPosition(ccp(nowPriceLabel->getContentSize().width + 10, nowPriceLabel->getContentSize().height* .5f));
+        nowPriceLabel->addChild(goldSpr2);
+    }else{
+        CCSprite* changeSpr1 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
+        CCSprite* changeSpr2 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
+        changeSpr2->setScale(1.02f);
+        CCMenuItem* buyItem = CCMenuItemSprite::create(changeSpr1, changeSpr2, this, menu_selector(SalesPromotionLayer::changeCallBack));
+        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
+        buyMenu = CCMenu::create(buyItem, NULL);
+        buyMenu->setPosition(CCPointZero);
+        buyMenu->setTag(0x889988);
+        kuangSpr->addChild(buyMenu, 20);
+    }
 }
 void SalesPromotionLayer::creat_kuang(){
     CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
@@ -360,11 +526,6 @@ void SalesPromotionLayer::haveClothes(CCSprite* spr, int index){
     if (haveBool) {
         CCSprite* haveSpr = CCSprite::create("res/pic/salesPromotion/sp_have.png");
         haveSpr->setPosition(ccp(spr->getContentSize().width* .15f, spr->getContentSize().height* .8f));
-        spr->addChild(haveSpr, 10);
-    }
-    else{
-        CCSprite* haveSpr = CCSprite::create("res/pic/salesPromotion/sp_have.png");
-        haveSpr->setPosition(ccp(spr->getContentSize().width* .26f, spr->getContentSize().height* .81f));
         spr->addChild(haveSpr, 10);
     }
 }
@@ -913,6 +1074,7 @@ void SalesPromotionLayer::creat_Clothes(){
                     }
                 }
                 if (clothesBool) {
+                    clthedPhase = clothDic->valueForKey("phase")->intValue();
                     break;
                 }
             }
@@ -962,14 +1124,85 @@ void SalesPromotionLayer::creat_Clothes(){
     }
     
 }
+void SalesPromotionLayer::save_Clothes(){
+    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+    CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
+    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp();
+    
+    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
+        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
+        bool clothesBool = false;
+        if (i != Tag_CL_ShiPin) {
+            CCInteger* clothesId;
+            CCString* keyStr;
+            for (int j = 0; j < clothesArr->count(); j++) {
+                CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                int clthedIndex = clothDic->valueForKey("id")->intValue();
+//                CCLog("clthedIndex == %d", clthedIndex);
+                keyStr = CCString::createWithFormat("%d", i);
+                for (int k = 0; k < suitsArr->count(); k++) {
+                    int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
+                    if (nowClothesId == clthedIndex) {
+                        clothesId = CCInteger::create(clthedIndex);
+                        clothesBool = true;
+                        break;
+                    }
+                }
+                if (clothesBool) {
+                    break;
+                }
+            }
+            if (clothesBool) {
+                clothesBool = false;
+                myClothesTemp->setObject(clothesId, keyStr->getCString());
+            }else{
+                clothesBool = false;
+                CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                myClothesTemp->setObject(cloth_integer, keyStr->getCString());
+            }
+        }else{
+            CCDictionary* shipinDic = CCDictionary::create();
+            CCString* keyStr = CCString::createWithFormat("%d", i);
+            
+            for (int n = 11; n <= 20; n++) {
+                CCInteger* clothesId;
+                CCString* subkeyStr;
+                for (int j = 0; j < clothesArr->count(); j++) {
+                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
+                    int clthedIndex = clothDic->valueForKey("id")->intValue();
+//                    CCLog("clthedIndex == %d", clthedIndex);
+                    subkeyStr = CCString::createWithFormat("%d", n);
+                    for (int k = 0; k < suitsArr->count(); k++) {
+                        int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
+                        if (nowClothesId == clthedIndex) {
+                            clothesBool = true;
+                            clothesId = CCInteger::create(clthedIndex);
+                            break;
+                        }
+                    }
+                    if (clothesBool) {
+                        break;
+                    }
+                }
+                if (clothesBool) {
+                    clothesBool = false;
+                    shipinDic->setObject(clothesId, subkeyStr->getCString());
+                }else{
+                    clothesBool = false;
+                    CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
+                    shipinDic->setObject(cloth_integer, subkeyStr->getCString());
+                }
+            }
+            myClothesTemp->setObject(shipinDic, keyStr->getCString());
+        }
+    }
+}
 int SalesPromotionLayer::updataClothes(int type){
     return (type) * 10000;
 }
 
 
-void SalesPromotionLayer::_160CallBack(CCObject* pSender){
-    
-}
+
 
 
 

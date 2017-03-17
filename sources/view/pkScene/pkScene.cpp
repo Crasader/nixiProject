@@ -205,15 +205,15 @@ void pkScene::creat_view(){
     zfAction->runAction(CCRepeatForever::create(AppUtil::action_expand_fade_out()));
     
     
-    ditiaoSpr = CCSprite::create("res/pic/pk/pk_ditiao.png");
-    ditiaoSpr->setAnchorPoint(ccp(.5f, 0));
-    ditiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 5));
-    this->addChild(ditiaoSpr, 10);
+//    ditiaoSpr = CCSprite::create("res/pic/pk/pk_ditiao.png");
+//    ditiaoSpr->setAnchorPoint(ccp(.5f, 0));
+//    ditiaoSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, 5));
+//    this->addChild(ditiaoSpr, 10);
     
     //
     hzItem->setVisible(true);
     hhItem->setVisible(true);
-    ditiaoSpr->setVisible(true);
+//    ditiaoSpr->setVisible(true);
     startItem->setVisible(false);
     zhufuItem->setVisible(false);
 }
@@ -670,7 +670,7 @@ void pkScene::_821Callback(CCObject *pObj){
     
     hzItem->setVisible(false);
     hhItem->setVisible(false);
-    ditiaoSpr->setVisible(false);
+//    ditiaoSpr->setVisible(false);
     startItem->setVisible(true);
     zhufuItem->setVisible(true);
     
@@ -819,7 +819,7 @@ void pkScene::_827Callback(CCObject *pObj){
     
     hzItem->setVisible(false);
     hhItem->setVisible(false);
-    ditiaoSpr->setVisible(false);
+//    ditiaoSpr->setVisible(false);
     startItem->setVisible(true);
     zhufuItem->setVisible(true);
     

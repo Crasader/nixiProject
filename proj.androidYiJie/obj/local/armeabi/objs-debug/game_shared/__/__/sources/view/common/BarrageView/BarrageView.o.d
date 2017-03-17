@@ -264,6 +264,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/common/BarrageView/B
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/WSManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
@@ -813,6 +814,8 @@ jni/../../sources/model/WelfareComp.h:
 jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/WSManager.h:
 

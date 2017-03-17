@@ -268,6 +268,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/building/Buildin
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -834,6 +835,8 @@ jni/../../sources/model/WelfareComp.h:
 jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/NetManager.h:
 

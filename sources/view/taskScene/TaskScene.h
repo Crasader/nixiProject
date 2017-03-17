@@ -69,6 +69,8 @@ public:
     void play_music(float dt);
     void play_phone_music(float dt);
     
+    void randomHint(float dt);
+    
 public:
     
     CCDictionary* allClothesDic;

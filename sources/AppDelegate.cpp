@@ -123,6 +123,7 @@ void AppDelegate::init_lua_env() {
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
     
     CCLuaStack *pStack = pEngine->getLuaStack();
+    // ek   es
     pStack->setXXTEAKeyAndSign("tiegao", strlen("tiegao"), "yunlook", strlen("yunlook"));
 /*
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

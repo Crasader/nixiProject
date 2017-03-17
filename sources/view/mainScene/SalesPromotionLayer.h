@@ -11,10 +11,13 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "AHMessageBox2.h"
 
 USING_NS_CC;
 
-class SalesPromotionLayer : public CCLayer
+class SalesPromotionLayer
+: public CCLayer
+, public AHMessageBox2Delegate
 {
 public:
     ~SalesPromotionLayer();
@@ -27,6 +30,8 @@ public:
     virtual void keyBackClicked();
     
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    
+    virtual void message_box_did_selected_button2(AHMessageBox2* box, AH_BUTTON_TYPE2 button_type, AH_BUTTON_TAGS2 button_tag);
     
 public:
     CCDictionary* nowClothesTemp;
@@ -63,6 +68,9 @@ public:
     CCSprite* _zrSpr1; // 妆容
     
     int num_child;
+    int clthedPhase;
+    
+    CCMenu* buyMenu;
     
     CCLabelTTF* timeLabel;
     
@@ -76,6 +84,8 @@ public:
     void creat_Man();
     void initClothes();
     void creat_Clothes();
+    void save_Clothes();
+    bool judgeClothes();
     void creat_kuang();
     void creat_Clothes(CCSprite* spr, int index);
     void haveClothes(CCSprite* spr, int index);
@@ -83,8 +93,9 @@ public:
     void initTime();
     void updateTime(float dt);
     
+    void changeCallBack(CCObject* pSender);
     void buyCallBack(CCObject* pSender);
-    void _160CallBack(CCObject* pSender);
+    void _161CallBack(CCObject* pSender);
     
 };
 #endif /* defined(__tiegao__SalesPromotionLayer__) */

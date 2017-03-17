@@ -149,6 +149,12 @@ cocos2d::extension::CCTableViewCell* HomeTableView::tableCellAtIndex(cocos2d::ex
         nameStr = CCString::createWithFormat("悠夜古堡");
     }else if (id == 8){
         nameStr = CCString::createWithFormat("小轩窗");
+    }else if (id == 9){
+        nameStr = CCString::createWithFormat("花园春色");
+    }else if (id == 10){
+        nameStr = CCString::createWithFormat("樱花公馆");
+    }else if (id == 11){
+        nameStr = CCString::createWithFormat("海天一色");
     }
     
     CCLabelTTF* nameLabel = CCLabelTTF::create(nameStr->getCString(), DISPLAY->fangzhengFont(), 20, CCSizeMake(132, 22), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);

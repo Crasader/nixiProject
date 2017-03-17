@@ -24,6 +24,11 @@
 #include "GuideLayer.h"
 #include "StringUtil.h"
 #include "pkScene.h"
+#include "ClothesShareLayer.h"
+#include "JNIController.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "ShareManager.h"
+#endif
 
 
 ClothesScene::ClothesScene(){
@@ -96,6 +101,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     tishiSpr = CCSprite::create("res/pic/clothesScene/gj_tishi.png");
     tishiSpr->setPosition(ccp(bgSpr->getContentSize().width* .4f, bgSpr->getContentSize().height* .92f));
     bgSpr->addChild(tishiSpr);
+    tishiSpr->setVisible(false);
     
     // 返回
     CCSprite* backSpr1 = CCSprite::create("res/pic/common/btn_goback2.png");
@@ -105,7 +111,7 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     backItem->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .037f));
     
     // 任务开始
-    if (clothesStatus == 2 || clothesStatus == 5){// 换装=2, pk=5
+    if (clothesStatus == 2 || clothesStatus == 5 || clothesStatus == 6){// 换装=2, pk=5
         CCSprite* startSpr1 = CCSprite::create("res/pic/common/btn_save.png");
         CCSprite* startSpr2 = CCSprite::create("res/pic/common/btn_save.png");
         startSpr2->setScale(1.02f);
@@ -146,12 +152,126 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     }
     
     
+    
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
+    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(ClothesScene::shareCallBack));
+    shareItem->setAnchorPoint(ccp(0, .5f));
+    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+    shareMenu = CCMenu::create(shareItem, NULL);
+    shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
+    this->addChild(shareMenu, 20);
+    
+    
     this->crate_Tishi();
     this->creat_View();
     this->creat_Man();
     this->initClothes();
+    
+    
 //    this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::openButtonMenu), .1f);
+    
+    int randIndex = 1 + rand()%2;
+    if (randIndex == 2) {
+        this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::randomHint), 2.f);
+    }
+    
 }
+void ClothesScene::randomHint(float dt){
+    
+    float widthFolt = .6f;
+    float heightFloat = .75f;
+    
+    CCString* saidStr = CCString::createWithFormat("想一键脱光光么?\n点我吧.");
+    CCLabelTTF* text = CCLabelTTF::create(saidStr->getCString(), DISPLAY->fangzhengFont(), 25);
+    float lab_size_height = 60;
+    float lab_size_width = text->getContentSize().width;
+    CCScale9Sprite* text_bg = CCScale9Sprite::create("res/pic/panel/chat/text_bg.png", CCRectMake(0, 0, 37, 29), CCRectMake(11, 5, 21, 25));
+    text_bg->setContentSize(CCSizeMake(lab_size_width + 10, lab_size_height + 10));
+    text_bg->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    this->addChild(text_bg, 99);
+    
+    CCLabelTTF* message = CCLabelTTF::create(saidStr->getCString(), DISPLAY->fangzhengFont(), 25, CCSizeMake(lab_size_width, lab_size_height + 2), kCCTextAlignmentLeft);
+    message->setColor(ccc3(108, 83, 96));
+    message->setAnchorPoint(CCPoint(0, 0.5));
+    message->setPosition(ccp(11, text_bg->getContentSize().height* .5f));
+    text_bg->addChild(message);
+    
+    
+    CCFadeOut* fadeOut = CCFadeOut::create(3.f);
+    text_bg->runAction(CCSequence::create(CCDelayTime::create(1.5f), fadeOut, NULL));
+}
+
+
+void ClothesScene::shareCallBack(CCObject* pSender){
+    ClothesShareLayer* layer = ClothesShareLayer::create();
+    layer->setTag(0x99766);
+    this->addChild(layer, 100);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
+    
+    CCLOG("图片 === %s", path.c_str());
+    
+    rt->saveToFile(path.c_str());
+    
+    ShareManager::get_instance()->share_pic();
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+    JNIController::setShareImage(path.c_str());
+    rt->saveToFile(path.c_str());
+    
+    JNIController::showShare();
+    this->schedule(SEL_SCHEDULE(&ClothesScene::shareStatus), .1f);
+#endif
+}
+void ClothesScene::shareStatus(float dt){
+    if(this->getChildByTag(0x99766) != NULL) {
+        this->removeChildByTag(0x99766);
+    }
+    
+    if (JNIController::getShareStatus() == 1) {
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        
+        LOADING->show_loading();
+        NET->daily_share_321();
+        CCLog("《《《《《《 分享成功 》》》》》》》");
+        this->unschedule(SEL_SCHEDULE(&ClothesScene::shareStatus));
+    }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        CCLog("《《《《《《 分享失败 》》》》》》》");
+        this->unschedule(SEL_SCHEDULE(&ClothesScene::shareStatus));
+    }
+}
+void ClothesScene::iOS_share_finish(CCObject* pSender){
+    LOADING->remove();
+    
+    if(this->getChildByTag(0x99766) != NULL) {
+        this->removeChildByTag(0x99766);
+    }
+}
+
+
 bool ClothesScene::init(){
     if (!BaseScene::init()) {
         return false;
@@ -202,6 +322,9 @@ void ClothesScene::onEnter(){
     
     nc->addObserver(this, menu_selector(ClothesScene::after_commit_mystery_613), "HTTP_FINISHED_613", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::after_start_tryst_task_623), "HTTP_FINISHED_623", NULL);
+    
+    
+    nc->addObserver(this, SEL_CallFuncO(&ClothesScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
     //
@@ -1415,7 +1538,7 @@ void ClothesScene::backCallBack(CCObject* pSender){
                 CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
                 CCDirector::sharedDirector()->replaceScene(trans);
             }
-            else if (clothesStatus == 2){// 换装
+            else if (clothesStatus == 2 || clothesStatus == 6){// 换装
                 if (DATA->current_guide_step() >= 6 && DATA->current_guide_step() < 8) {
                     LOADING->show_loading();
                     DATA->getPlayer()->setGuide(8);
@@ -1812,7 +1935,7 @@ void ClothesScene::saveCallBack(CCObject* pSender){
     this->saveClothesMethods();
 }
 void ClothesScene::updataSaveItemStatus(){
-    if (clothesStatus == 2 || clothesStatus == 5){// 换装
+    if (clothesStatus == 2 || clothesStatus == 5 || clothesStatus == 6){// 换装
         saveItem->setEnabled(true);
     }
 }
@@ -2834,7 +2957,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                                         if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
                                             _wtSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
                                         }else{
-                                            _wtSpr1 = CCSprite::create(str2->getCString());
+                                            _wtSpr2 = CCSprite::create(str2->getCString());
                                         }
                                     }else{
                                         _wtSpr2 = CCSprite::create(str2->getCString());
@@ -3087,17 +3210,17 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
-                                    _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                    _kzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
                                 }else{
                                     int cloth_type = clothDic->valueForKey("type")->intValue();
                                     if (cloth_type == 10) {
                                         if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
-                                            _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                            _kzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
                                         }else{
-                                            _wtSpr1 = CCSprite::create(str1->getCString());
+                                            _kzSpr1 = CCSprite::create(str1->getCString());
                                         }
                                     }else{
-                                        _wtSpr1 = CCSprite::create(str1->getCString());
+                                        _kzSpr1 = CCSprite::create(str1->getCString());
                                     }
                                 }
                             }else{
@@ -3566,7 +3689,7 @@ void ClothesScene::ChangeClothes(CCObject* pSender){
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
-                                    _wtSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                    _bSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
                                 }else{
                                     int cloth_type = clothDic->valueForKey("type")->intValue();
                                     if (cloth_type == 10) {
@@ -4022,7 +4145,7 @@ void ClothesScene::Http_Finished_401(cocos2d::CCObject *pObj) {
             LOADING->remove();
         }
     }
-    else if (clothesStatus == 2 || clothesStatus == 5){// 换装
+    else if (clothesStatus == 2 || clothesStatus == 5 || clothesStatus == 6){// 换装
         LOADING->remove();
     }
     else if (clothesStatus == 3){// 神秘事件

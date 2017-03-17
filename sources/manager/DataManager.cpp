@@ -847,6 +847,22 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = ccs(content["order_id"].asString());
         } break;
             
+        case 151: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
+            // 首次购买获得，字典 {"piece": 88}
+            pData = AppUtil::dictionary_with_json(content["rewards"]);
+        } break;
+            
+        case 153: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+            // 每日领取的奖励，字典 {"diam": 40}
+            pData = AppUtil::dictionary_with_json(content["rewards"]);
+        } break;
             
         case 160: {
             _flashSaleInfo->config(content);
