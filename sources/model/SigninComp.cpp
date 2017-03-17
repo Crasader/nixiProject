@@ -19,6 +19,9 @@ bool SigninComp::has_init_signin7_template() {
 CCArray* SigninComp::signin7_template() const {
     return _signin7Template;
 }
+CCDictionary* SigninComp::signin7_info() const{
+    return _signin7Info;
+}
 
 SigninState SigninComp::fetch_signin7_state(const string& id) {
     CCInteger* state = (CCInteger*)_signin7Info->objectForKey(id);
@@ -84,20 +87,6 @@ void SigninComp::update_signin7_info(Value json) {
     CC_SAFE_RELEASE(_signin7Info);
     _signin7Info = AppUtil::dictionary_with_json(json);
     _signin7Info->retain();
-    
-    
-    CCArray* keys = _signin7Info->allKeys();
-    AppUtil::sort_string_array(keys);
-    CCObject* pObj = NULL;
-    CCARRAY_FOREACH(keys, pObj) {
-        CCString* key = (CCString*)pObj;
-        
-        _signin7Day = atoi(key->getCString());
-        CCLog("keys == %s", key->getCString());
-        
-        _signin7Value = ((CCInteger* )_signin7Info->objectForKey(key->getCString()))->getValue();
-        CCLog("value == %d", ((CCInteger* )_signin7Info->objectForKey(key->getCString()))->getValue());
-    }
 }
 
 void SigninComp::test_signin7Template() {

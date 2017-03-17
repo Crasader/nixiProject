@@ -1,6 +1,7 @@
-obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.o: \
- jni/../../sources/view/mainScene/MainScene.cpp \
- jni/../../sources/view/mainScene/MainScene.h \
+obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/panel/NewSignin7Panel.o: \
+ jni/../../sources/view/panel/NewSignin7Panel.cpp \
+ jni/../../sources/view/panel/NewSignin7Panel.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/include/ccConfig.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
@@ -12,7 +13,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/android/CCPlatformDefine.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/android/log.h \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/string \
  jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCGeometry.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCObject.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/math.h \
@@ -133,7 +133,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../../../lib/cocos2d-x/cocos2dx/label_nodes/CCLabelBMFont.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/sprite_nodes/CCSpriteBatchNode.h \
  /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCLayer.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCScene.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCTransition.h \
@@ -208,7 +207,29 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../../../lib/cocos2d-x/cocos2dx/support/data_support/uthash.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h \
  jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h \
- jni/../../sources/view/base/BaseScene.h \
+ jni/../../sources/manager/DataManager.h \
+ jni/../../sources/third/Json/lib_json/json_lib.h \
+ jni/../../sources/third/Json/lib_json/autolink.h \
+ jni/../../sources/third/Json/lib_json/config.h \
+ jni/../../sources/third/Json/lib_json/value.h \
+ jni/../../sources/third/Json/lib_json/forwards.h \
+ jni/../../sources/third/Json/lib_json/reader.h \
+ jni/../../sources/third/Json/lib_json/features.h \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
+ /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
+ jni/../../sources/third/Json/lib_json/writer.h \
+ jni/../../sources/model/ClothesComp.h \
+ jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
+ jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
+ jni/../../sources/model/MessageComp.h \
+ jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
+ jni/../../sources/model/NoticeComp.h \
+ jni/../../sources/model/PlayerComp.h \
+ jni/../../sources/model/RankingComp.h jni/../../sources/model/ShowComp.h \
+ jni/../../sources/model/SigninComp.h \
+ jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
+ jni/../../sources/model/PaperComp.h \
+ jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h \
  jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h \
@@ -235,33 +256,6 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h \
  jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h \
- jni/../../sources/view/common/Number/FlashNumberLabel.h \
- jni/../../sources/view/common/Number/FlashNumberLabel2.h \
- jni/../../sources/view/common/Number/FlashNumberLabel3.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
- jni/../../sources/manager/DataManager.h \
- jni/../../sources/third/Json/lib_json/json_lib.h \
- jni/../../sources/third/Json/lib_json/autolink.h \
- jni/../../sources/third/Json/lib_json/config.h \
- jni/../../sources/third/Json/lib_json/value.h \
- jni/../../sources/third/Json/lib_json/forwards.h \
- jni/../../sources/third/Json/lib_json/reader.h \
- jni/../../sources/third/Json/lib_json/features.h \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/deque \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/stack \
- jni/../../sources/third/Json/lib_json/writer.h \
- jni/../../sources/model/ClothesComp.h \
- jni/../../sources/model/PurchaseComp.h jni/../../sources/extend_define.h \
- jni/../../sources/model/LoginComp.h jni/../../sources/model/MailComp.h \
- jni/../../sources/model/MessageComp.h \
- jni/../../sources/model/MissionComp.h jni/../../sources/model/NewsComp.h \
- jni/../../sources/model/NoticeComp.h \
- jni/../../sources/model/PlayerComp.h \
- jni/../../sources/model/RankingComp.h jni/../../sources/model/ShowComp.h \
- jni/../../sources/model/SigninComp.h \
- jni/../../sources/model/SocialComp.h jni/../../sources/model/StoryComp.h \
- jni/../../sources/model/PaperComp.h \
- jni/../../sources/model/CoffersComp.h jni/../../sources/model/ChatComp.h \
  jni/../../sources/model/OperationComp.h \
  jni/../../sources/model/HomeComp.h jni/../../sources/model/MysteryComp.h \
  jni/../../sources/model/TrystComp.h \
@@ -270,41 +264,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/model/CompetitionComp.h \
  jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
- jni/../../sources/view/qingjingScene/QingjingScene.h \
- jni/../../sources/view/qingjingScene/QingjingCoverView.h \
- jni/../../sources/view/qingjingScene/StoryScene.h \
- jni/../../sources/view/qingjingScene/Dialogs.h \
- jni/../../sources/view/qingjingScene/DialogItem.h \
- jni/../../sources/view/vipQingjingScene/VipQingjingScene.h \
- jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h \
- jni/../../sources/view/taskScene/TaskScene.h \
- jni/../../sources/view/clothesScene/ClothesScene.h \
- jni/../../sources/view/clothesScene/ClothesTableView.h \
- jni/../../sources/manager/NoticeManager.h \
- jni/../../sources/manager/AudioManager.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
- jni/../../sources/manager/WSManager.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h \
- /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h \
- /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef \
- /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
- /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
- /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
- jni/../../sources/view/mainScene/GashaponScene.h \
- jni/../../sources/view/mainScene/SalesPromotionLayer.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox2.h \
- jni/../../sources/view/mainScene/MonthCardLayer.h \
- jni/../../sources/view/friends/Shower.h \
- jni/../../sources/view/haoyouScene/StrangerScene.h \
- jni/../../sources/view/haoyouScene/NotePanel.h \
- jni/../../sources/view/common/InputBox/CursorTextField.h \
- jni/../../sources/view/haoyouScene/StrangerTableView.h \
- jni/../../sources/view/ranklist/RankListScene.h \
- jni/../../sources/view/haoyouScene/HaoyouScene.h \
- jni/../../sources/view/mainScene/DragLayer.h \
- jni/../../sources/view/mainScene/PromptLayer.h \
- jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/NetManager.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/network/CCHTTPRequest.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/extra/cocos2dx_extra.h \
@@ -315,32 +275,32 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaValue.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h \
- jni/../../sources/manager/ConfigManager.h \
- jni/../../sources/view/panel/MailPanel.h \
- jni/../../sources/view/panel/OperationPanel.h \
- jni/../../sources/view/panel/ChatPanel.h \
- jni/../../sources/view/panel/TotalRechargePanel.h \
- jni/../../sources/view/panel/Signin7Panel.h \
- jni/../../sources/view/panel/NewSignin7Panel.h \
- jni/../../sources/view/home/HomeLayer.h \
- jni/../../sources/view/home/HomeTableView.h \
- jni/../../sources/view/panel/EnergyLargessPanel.h \
- jni/../../sources/view/panel/TempSignin.h \
- jni/../../sources/view/mystery/MysteryLayer.h \
- jni/../../sources/view/tryst/TrystScene.h \
- jni/../../sources/view/tryst/TrystProgress.h \
- jni/../../sources/view/panel/DailySigninRewardPanel.h \
- jni/../../sources/view/welfare/WelfarePanel.h \
- jni/../../sources/view/pkScene/pkScene.h \
+ jni/../../sources/view/mainScene/MainScene.h \
+ jni/../../sources/view/base/BaseScene.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel2.h \
+ jni/../../sources/view/common/Number/FlashNumberLabel3.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/common/Loading2/Loading2.h \
+ jni/../../sources/view/clothesScene/ClothesScene.h \
+ jni/../../sources/view/clothesScene/ClothesTableView.h \
+ jni/../../sources/view/qingjingScene/QingjingScene.h \
+ jni/../../sources/view/qingjingScene/QingjingCoverView.h \
+ jni/../../sources/view/MZResourceLoader.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/utils/AppUtil.h \
- jni/../../sources/view/mainScene/RewardLayer.h \
- jni/../../sources/view/guide/GuideLayer.h \
  jni/../../sources/view/mainScene/PromptLayer.h \
+ jni/../../sources/view/taskScene/BuildingLayer.h \
+ jni/../../sources/td_include/TDCCAccount.h \
+ jni/../../sources/td_include/TDCCTalkingDataGA.h \
  jni/../../sources/view/JNIController.h \
- jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h \
- jni/../../sources/td_include/TDCCAccount.h
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
-jni/../../sources/view/mainScene/MainScene.h:
+jni/../../sources/view/panel/NewSignin7Panel.h:
+
+/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/include/cocos2d.h:
 
@@ -363,8 +323,6 @@ jni/../../../../lib/cocos2d-x/cocos2dx/platform/CCPlatformConfig.h:
 /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/cocos2dx/platform/android/CCPlatformDefine.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/android/log.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/string:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/cocoa/CCGeometry.h:
 
@@ -606,8 +564,6 @@ jni/../../../../lib/cocos2d-x/cocos2dx/sprite_nodes/CCSpriteBatchNode.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream:
 
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
-
 jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCLayer.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/layers_scenes_transitions_nodes/CCScene.h:
@@ -756,68 +712,6 @@ jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponent.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/support/component/CCComponentContainer.h:
 
-jni/../../sources/view/base/BaseScene.h:
-
-jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
-
-jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
-
-jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h:
-
-jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h:
-
-jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
-
-jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel2.h:
-
-jni/../../sources/view/common/Number/FlashNumberLabel3.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
-
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -876,6 +770,58 @@ jni/../../sources/model/CoffersComp.h:
 
 jni/../../sources/model/ChatComp.h:
 
+jni/../../../../lib/cocos2d-x/extensions/cocos-ext.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionExport.h:
+
+jni/../../../../lib/cocos2d-x/extensions/CCBReader/CCData.h:
+
+jni/../../../../lib/cocos2d-x/extensions/ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlExtensions.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCScale9Sprite.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/../../ExtensionMacros.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControl.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCInvocation.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlUtils.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlButton.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlColourPicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlHuePicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlPotentiometer.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSlider.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlStepper.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCControlExtension/CCControlSwitch.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCScrollView.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCTableViewCell.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCScrollView/CCSorting.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/CCEditBox.h:
+
+jni/../../../../lib/cocos2d-x/extensions/GUI/CCEditBox/../CCControlExtension/CCControlExtensions.h:
+
 jni/../../sources/model/OperationComp.h:
 
 jni/../../sources/model/HomeComp.h:
@@ -894,75 +840,7 @@ jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 
-jni/../../sources/view/qingjingScene/QingjingScene.h:
-
-jni/../../sources/view/qingjingScene/QingjingCoverView.h:
-
-jni/../../sources/view/qingjingScene/StoryScene.h:
-
-jni/../../sources/view/qingjingScene/Dialogs.h:
-
-jni/../../sources/view/qingjingScene/DialogItem.h:
-
-jni/../../sources/view/vipQingjingScene/VipQingjingScene.h:
-
-jni/../../sources/view/vipQingjingScene/VipQingjingCoverView.h:
-
-jni/../../sources/view/taskScene/TaskScene.h:
-
-jni/../../sources/view/clothesScene/ClothesScene.h:
-
-jni/../../sources/view/clothesScene/ClothesTableView.h:
-
-jni/../../sources/manager/NoticeManager.h:
-
-jni/../../sources/manager/AudioManager.h:
-
-jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
-
-jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
-
-jni/../../sources/manager/WSManager.h:
-
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/extensions/network/WebSocket.h:
-
-/Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/external/libwebsockets/android/include/libwebsockets.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include/cstddef:
-
-/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h:
-
-/Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
-
-jni/../../sources/view/mainScene/GashaponScene.h:
-
-jni/../../sources/view/mainScene/SalesPromotionLayer.h:
-
-jni/../../sources/view/common/AHMessageBox/AHMessageBox2.h:
-
-jni/../../sources/view/mainScene/MonthCardLayer.h:
-
-jni/../../sources/view/friends/Shower.h:
-
-jni/../../sources/view/haoyouScene/StrangerScene.h:
-
-jni/../../sources/view/haoyouScene/NotePanel.h:
-
-jni/../../sources/view/common/InputBox/CursorTextField.h:
-
-jni/../../sources/view/haoyouScene/StrangerTableView.h:
-
-jni/../../sources/view/ranklist/RankListScene.h:
-
-jni/../../sources/view/haoyouScene/HaoyouScene.h:
-
-jni/../../sources/view/mainScene/DragLayer.h:
-
-jni/../../sources/view/mainScene/PromptLayer.h:
-
-jni/../../sources/view/common/Loading2/Loading2.h:
+jni/../../sources/manager/ConfigManager.h:
 
 jni/../../sources/manager/NetManager.h:
 
@@ -984,50 +862,46 @@ jni/../../sources/manager/NetManager.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/jni.h:
 
-jni/../../sources/manager/ConfigManager.h:
+jni/../../sources/view/mainScene/MainScene.h:
 
-jni/../../sources/view/panel/MailPanel.h:
+jni/../../sources/view/base/BaseScene.h:
 
-jni/../../sources/view/panel/OperationPanel.h:
+jni/../../sources/view/common/Number/FlashNumberLabel.h:
 
-jni/../../sources/view/panel/ChatPanel.h:
+jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 
-jni/../../sources/view/panel/TotalRechargePanel.h:
+jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
-jni/../../sources/view/panel/Signin7Panel.h:
+jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
 
-jni/../../sources/view/panel/NewSignin7Panel.h:
+jni/../../sources/view/common/Loading2/Loading2.h:
 
-jni/../../sources/view/home/HomeLayer.h:
+jni/../../sources/view/clothesScene/ClothesScene.h:
 
-jni/../../sources/view/home/HomeTableView.h:
+jni/../../sources/view/clothesScene/ClothesTableView.h:
 
-jni/../../sources/view/panel/EnergyLargessPanel.h:
+jni/../../sources/view/qingjingScene/QingjingScene.h:
 
-jni/../../sources/view/panel/TempSignin.h:
+jni/../../sources/view/qingjingScene/QingjingCoverView.h:
 
-jni/../../sources/view/mystery/MysteryLayer.h:
+jni/../../sources/view/MZResourceLoader.h:
 
-jni/../../sources/view/tryst/TrystScene.h:
+jni/../../sources/manager/AudioManager.h:
 
-jni/../../sources/view/tryst/TrystProgress.h:
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
 
-jni/../../sources/view/panel/DailySigninRewardPanel.h:
-
-jni/../../sources/view/welfare/WelfarePanel.h:
-
-jni/../../sources/view/pkScene/pkScene.h:
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/utils/AppUtil.h:
 
-jni/../../sources/view/mainScene/RewardLayer.h:
-
-jni/../../sources/view/guide/GuideLayer.h:
-
 jni/../../sources/view/mainScene/PromptLayer.h:
+
+jni/../../sources/view/taskScene/BuildingLayer.h:
+
+jni/../../sources/td_include/TDCCAccount.h:
+
+jni/../../sources/td_include/TDCCTalkingDataGA.h:
 
 jni/../../sources/view/JNIController.h:
 
 jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:
-
-jni/../../sources/td_include/TDCCAccount.h:

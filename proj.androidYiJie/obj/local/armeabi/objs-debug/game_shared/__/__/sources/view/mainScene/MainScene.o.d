@@ -321,6 +321,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/mainScene/MainScene.
  jni/../../sources/view/panel/ChatPanel.h \
  jni/../../sources/view/panel/TotalRechargePanel.h \
  jni/../../sources/view/panel/Signin7Panel.h \
+ jni/../../sources/view/panel/NewSignin7Panel.h \
  jni/../../sources/view/home/HomeLayer.h \
  jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/panel/EnergyLargessPanel.h \
@@ -994,6 +995,8 @@ jni/../../sources/view/panel/ChatPanel.h:
 jni/../../sources/view/panel/TotalRechargePanel.h:
 
 jni/../../sources/view/panel/Signin7Panel.h:
+
+jni/../../sources/view/panel/NewSignin7Panel.h:
 
 jni/../../sources/view/home/HomeLayer.h:
 

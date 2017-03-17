@@ -41,6 +41,7 @@
 #include "ChatPanel.h"
 #include "TotalRechargePanel.h"
 #include "Signin7Panel.h"
+#include "NewSignin7Panel.h"
 #include "HomeLayer.h"
 #include "EnergyLargessPanel.h"
 #include "TempSignin.h"
@@ -1734,7 +1735,8 @@ void MainScene::nc_recharge_info_304(CCObject *pObj){
 
 void MainScene::nc_signin_info_312(CCObject *pObj) {
     LOADING->remove();
-    Signin7Panel::show(this->getScene());
+//    Signin7Panel::show(this->getScene());
+    NewSignin7Panel::show(this->getScene());
 }
 
 void MainScene::nc_gashapon_info_306(CCObject *pObj) {

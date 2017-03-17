@@ -1,539 +1,650 @@
 //
-//  SalesPromotionLayer.cpp
+//  NewSignin7Panel.cpp
 //  tiegao
 //
-//  Created by mac on 17-3-8.
+//  Created by mac on 17-3-17.
 //
 //
 
-#include "SalesPromotionLayer.h"
+#include "NewSignin7Panel.h"
 #include "DataManager.h"
 #include "DisplayManager.h"
 #include "ConfigManager.h"
-#include "AudioManager.h"
-#include "Shower.h"
-#include "QingjingScene.h"
-#include "Loading2.h"
 #include "NetManager.h"
-#include "RewardLayer.h"
-#include "ExchangeLayer.h"
-#include "ClothesScene.h"
 #include "MainScene.h"
+#include "Loading2.h"
+#include "ClothesScene.h"
+#include "QingjingScene.h"
+
+#include "MZResourceLoader.h"
+#include "AudioManager.h"
+#include "AppUtil.h"
 #include "PromptLayer.h"
+#include "BuildingLayer.h"
+#include "TDCCAccount.h"
+#include "TDCCTalkingDataGA.h"
+#include "JNIController.h"
 
 
-SalesPromotionLayer::~SalesPromotionLayer(){
+#pragma mark - Export
+
+void NewSignin7Panel::show(CCNode* parent) {
+    NewSignin7Panel* panel = NewSignin7Panel::create();
+    parent->addChild(panel);
+}
+
+
+#pragma mark - Super
+NewSignin7Panel::~NewSignin7Panel(){
     
 }
-bool SalesPromotionLayer::init(){
+bool NewSignin7Panel::init(){
     if (!CCLayer::init()) {
         return false;
     }
     
     num_child = 0;
-    clthedPhase = 0;
     
-    this->creat_Clothes();
+    CCSprite* diSpr = CCSprite::create("res/pic/panel/newSignin7/newSignin_di.png");
+    diSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    this->addChild(diSpr);
     
-    CCSprite* bgSpr = CCSprite::create("res/pic/gashapon/gashapon_bg2.png");
-    bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(bgSpr);
+    kuangSpr = CCSprite::create("res/pic/panel/newSignin7/newSignin_dikuang.png");
+    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+    this->addChild(kuangSpr);
+    
+    _ManSpr = CCSprite::create();
+    kuangSpr->addChild(_ManSpr, 10);
+    
     
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     this->setTouchSwallowEnabled(true);
     
-    this->creat_View();
-    
+    this->creatView();
     
     return true;
 }
-void SalesPromotionLayer::onEnter(){
+void NewSignin7Panel::onEnter(){
     CCLayer::onEnter();
-    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-    nc->addObserver(this, SEL_CallFuncO(&SalesPromotionLayer::_161CallBack), "HTTP_FINISHED_161", NULL);
     
-    this->scheduleOnce(SEL_SCHEDULE(&SalesPromotionLayer::keyBackStatus), .8f);
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, menu_selector(NewSignin7Panel::signin_callback_313), "HTTP_FINISHED_313", NULL);
+    
+    this->scheduleOnce(SEL_SCHEDULE(&NewSignin7Panel::keyBackStatus), .8f);
 }
-void SalesPromotionLayer::onExit(){
+void NewSignin7Panel::onExit(){
     CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
     this->unscheduleAllSelectors();
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("WHEN_SIGNIN7_EXIT");
     
     CCLayer::onExit();
 }
 
-void SalesPromotionLayer::keyBackStatus(float dt){
+void NewSignin7Panel::keyBackStatus(float dt){
     this->setKeypadEnabled(true);
 }
-void SalesPromotionLayer::keyBackClicked(){
+void NewSignin7Panel::keyBackClicked(){
     num_child++;
-    CCLog("===== GashaponLayer  children_num: %d", num_child);
+//    CCLog("===== GashaponScene  children_num: %d", num_child);
     if (num_child> 1) {
         num_child = 0;
         return;
     }
     
-    AUDIO->goback_effect();
-    num_child = 0;
-//    this->removeFromParentAndCleanup(true);
-    
-    CCScene* scene = MainScene::scene();
-    CCDirector::sharedDirector()->replaceScene(scene);
+    if (DATA->current_guide_step() == 0) {
+        this->removeFromParentAndCleanup(true);
+    }
 }
 
-bool SalesPromotionLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
+bool NewSignin7Panel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     CCPoint location = pTouch->getLocation();
     if (! kuangSpr->boundingBox().containsPoint(location)) {
         AUDIO->goback_effect();
         
-//        this->removeFromParentAndCleanup(true);
-        num_child = 0;
-        CCScene* scene = MainScene::scene();
-        CCDirector::sharedDirector()->replaceScene(scene);
+        this->removeFromParentAndCleanup(true);
     }
     
     return true;
 }
-void SalesPromotionLayer::creat_View(){
-    CCSprite* bgSpr2 = CCSprite::create("res/pic/mask.png");
-    bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(bgSpr2);
+
+void NewSignin7Panel::creatView(){
     
-    kuangSpr = CCSprite::create("res/pic/salesPromotion/sp_kuang.png");
-    kuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-    this->addChild(kuangSpr, 2);
+    CCSize panelSize = kuangSpr->boundingBox().size;
     
+    CCSprite* icon_1 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .78f));
+    icon_1->setTag(1);
+    kuangSpr->addChild(icon_1, 20);
+    
+    CCSprite* icon_2 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .78f));
+    icon_2->setTag(2);
+    kuangSpr->addChild(icon_2, 20);
+    
+    CCSprite* icon_3 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .6f));
+    icon_3->setTag(3);
+    kuangSpr->addChild(icon_3, 20);
+    
+    CCSprite* icon_4 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .6f));
+    icon_4->setTag(4);
+    kuangSpr->addChild(icon_4, 20);
+    
+    CCSprite* icon_5 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_5->setPosition(ccp(panelSize.width* .2f, panelSize.height* .42f));
+    icon_5->setTag(5);
+    kuangSpr->addChild(icon_5, 20);
+    
+    CCSprite* icon_6 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_6->setPosition(ccp(panelSize.width* .45f, panelSize.height* .42f));
+    icon_6->setTag(6);
+    kuangSpr->addChild(icon_6, 20);
+    
+    CCSprite* icon_7 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_7->setPosition(ccp(panelSize.width* .2f, panelSize.height* .24f));
+    icon_7->setTag(7);
+    kuangSpr->addChild(icon_7, 20);
+    
+    CCSprite* icon_8 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_8->setPosition(ccp(panelSize.width* .45f, panelSize.height* .24f));
+    icon_8->setTag(8);
+    kuangSpr->addChild(icon_8, 20);
+    
+    
+    
+    CCDictionary* _signin7_infoDic = DATA->getSignin()->signin7_info();
+    CCArray* keys = _signin7_infoDic->allKeys();
+    AppUtil::sort_string_array(keys);
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(keys, pObj) {
+        CCString* key = (CCString*)pObj;
+        _signin7Day = atoi(key->getCString());
+        nowPage = _signin7Day;
+        _signin7Value = ((CCInteger* )_signin7_infoDic->objectForKey(key->getCString()))->getValue();
+    }
+    
+    bool buttonBool = false;
+    CCArray* _signin7Arr = DATA->getSignin()->signin7_template();
+    if (_signin7Value == 1) {// 可以领
+        
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("wealth") == 0) {
+            CCDictionary* rewardsDic = (CCDictionary* )item->objectForKey("rewards");
+            this->creat_wealth(rewardsDic);
+        }else if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_clothes(rewardsArr);
+        }
+        
+        buttonBool = true;
+    }else if (_signin7Value == 2){// 签过了
+        nowPage++;
+        if (nowPage >= _signin7Arr->count()) {
+            nowPage = _signin7Arr->count();
+        }
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("wealth") == 0) {
+            CCDictionary* rewardsDic = (CCDictionary* )item->objectForKey("rewards");
+            this->creat_wealth(rewardsDic);
+        }else if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_clothes(rewardsArr);
+        }
+        
+        buttonBool = false;
+    }
+    
+    if (nowPage <= 2) {
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(1);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_Clothes(rewardsArr);
+            this->creatMan();
+            this->initClothes();
+        }
+    }else if (nowPage > 2 && nowPage <= 7){
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(6);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_Clothes(rewardsArr);
+            this->creatMan();
+            this->initClothes();
+        }
+    }
+    
+    
+    // 提示
+    CCSprite* tishiSpr = CCSprite::create("res/pic/panel/newSignin7/newSignin_tishi.png");
+    tishiSpr->setAnchorPoint(ccp(1.f, 1.f));
+    tishiSpr->setPosition(ccp(panelSize.width - 15, panelSize.height - 3));
+    kuangSpr->addChild(tishiSpr);
+    CCString* tishiStr;
+    if (_signin7Day <= 2) {
+        tishiStr = CCString::createWithFormat("%d", 2 - _signin7Day);
+    }else if (_signin7Day > 2 && _signin7Day <= 7){
+        tishiStr = CCString::createWithFormat("%d", 7 - _signin7Day);
+    }
+    CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 30);
+    tishiLabel->setPosition(ccp(tishiSpr->getContentSize().width* .5f, tishiSpr->getContentSize().height* .26f));
+    tishiLabel->setColor(ccRED);
+    tishiSpr->addChild(tishiLabel);
+    
+    
+    CCSprite* signinSpr1 = CCSprite::create("res/pic/panel/newSignin7/newSignin_lingqu.png");
+    CCSprite* signinSpr2 = CCSprite::create("res/pic/panel/newSignin7/newSignin_lingqu.png");
+    signinSpr2->setScale(1.02f);
+    CCMenuItem* signinItem;
+    if (buttonBool) {
+        signinItem = CCMenuItemSprite::create(signinSpr1, signinSpr2, this, menu_selector(NewSignin7Panel::signinCallback));
+    }else{
+        signinItem = CCMenuItemSprite::create(signinSpr1, signinSpr2);
+        signinItem->setColor(ccGRAY);
+    }
+    signinItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .1f));
+    CCMenu* menu = CCMenu::create(signinItem, NULL);
+    menu->setPosition(CCPointZero);
+    kuangSpr->addChild(menu, 50);
+    
+    
+    // 箭头
+    CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_1->setFlipX(true);
+    CCSprite* jiantouSpr1_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_2->setFlipX(true);
+    jiantouSpr1_2->setScale(1.02f);
+    CCMenuItem* jiantouItem1 = CCMenuItemSprite::create(jiantouSpr1_1, jiantouSpr1_2, this, menu_selector(NewSignin7Panel::jiantou1CallBack));
+    jiantouItem1->setPosition(ccp(-10, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo1_1 = CCMoveTo::create(.5f, ccp(-20, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo1_2 = CCMoveTo::create(.8f, ccp(-10, kuangSpr->getContentSize().height* .5f));
+    CCSequence* seq1 = CCSequence::create(moveTo1_1, moveTo1_2, NULL);
+    jiantouItem1->runAction(CCRepeatForever::create(seq1));
+    
+    CCSprite* jiantouSpr2_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    CCSprite* jiantouSpr2_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr2_2->setScale(1.02f);
+    CCMenuItem* jiantouItem2 = CCMenuItemSprite::create(jiantouSpr2_1, jiantouSpr2_2, this, menu_selector(NewSignin7Panel::jiantou2CallBack));
+    jiantouItem2->setPosition(ccp(kuangSpr->getContentSize().width + 10, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo2_1 = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width + 20, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo2_2 = CCMoveTo::create(.8f, ccp(kuangSpr->getContentSize().width + 10, kuangSpr->getContentSize().height* .5f));
+    CCSequence* seq2 = CCSequence::create(moveTo2_1, moveTo2_2, NULL);
+    jiantouItem2->runAction(CCRepeatForever::create(seq2));
+    
+    CCMenu* jiantouMenu = CCMenu::create(jiantouItem1, jiantouItem2, NULL);
+    jiantouMenu->setPosition(CCPointZero);
+    kuangSpr->addChild(jiantouMenu, 20);
+}
+
+void NewSignin7Panel::creat_wealth(CCDictionary* dic){
+    for (int i = dic->count() + 1; i <= 8; i++) {
+        CCNode* node = kuangSpr->getChildByTag(i);
+        node->setVisible(false);
+    }
+    
+    CCSize panelSize = kuangSpr->boundingBox().size;
+    CCNode* node1 = kuangSpr->getChildByTag(1);
+    node1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .65f));
+    
+    CCNode* node2 = kuangSpr->getChildByTag(2);
+    node2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .65f));
+    
+    CCNode* node3 = kuangSpr->getChildByTag(3);
+    node3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .45f));
+    
+    CCNode* node4 = kuangSpr->getChildByTag(4);
+    node4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .45f));
+    
+    
+    for (int i = 1; i <= dic->count(); i++) {
+        CCNode* node = kuangSpr->getChildByTag(i);
+        CCString* str;
+        CCSprite* spr;
+        if (i == 1) {// 碎片
+            str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("piece"))->getValue());
+            spr = CCSprite::create("pic/building/reward_piece.png");
+        }else if (i == 2){// 体力
+            str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("energy"))->getValue());
+            spr = CCSprite::create("pic/building/reward_energy.png");
+        }else if (i == 3){// 钻石
+            str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("diam"))->getValue());
+            spr = CCSprite::create("pic/building/reward_diam.png");
+        }else if (i == 4){// 金币
+            str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("coin"))->getValue());
+            spr = CCSprite::create("pic/building/reward_coin.png");
+        }
+        CCLabelTTF* label = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 30);
+        label->setPosition(ccp(node->getContentSize().width* .5f, node->getContentSize().height* .16f));
+        label->setColor(ccc3(113, 89, 102));
+        node->addChild(label);
+        
+        if (spr != NULL) {
+            spr->setScale(1.8f);
+            spr->setPosition(ccp(node->getContentSize().width* .5f, node->getContentSize().height* .6f));
+            node->addChild(spr);
+        }
+    }
+}
+void NewSignin7Panel::creat_clothes(CCArray* arr){
+    int index = arr->count();
+    for (int i = index + 1; i <= 8; i++) {
+        CCNode* node = kuangSpr->getChildByTag(i);
+        node->setVisible(false);
+    }
+    
+    
+    CCSize panelSize = kuangSpr->boundingBox().size;
+    if (index == 4) {
+        CCNode* node1 = kuangSpr->getChildByTag(1);
+        node1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .65f));
+        
+        CCNode* node2 = kuangSpr->getChildByTag(2);
+        node2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .65f));
+        
+        CCNode* node3 = kuangSpr->getChildByTag(3);
+        node3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .45f));
+        
+        CCNode* node4 = kuangSpr->getChildByTag(4);
+        node4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .45f));
+    }else if (index == 5){
+        CCNode* node1 = kuangSpr->getChildByTag(1);
+        node1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .7f));
+        
+        CCNode* node2 = kuangSpr->getChildByTag(2);
+        node2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .7f));
+        
+        CCNode* node3 = kuangSpr->getChildByTag(3);
+        node3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .5f));
+        
+        CCNode* node4 = kuangSpr->getChildByTag(4);
+        node4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .5f));
+        
+        CCNode* node5 = kuangSpr->getChildByTag(5);
+        node5->setPosition(ccp(panelSize.width* .325f, panelSize.height* .3f));
+    }else if (index == 6){
+        CCNode* node1 = kuangSpr->getChildByTag(1);
+        node1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .7f));
+        
+        CCNode* node2 = kuangSpr->getChildByTag(2);
+        node2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .7f));
+        
+        CCNode* node3 = kuangSpr->getChildByTag(3);
+        node3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .5f));
+        
+        CCNode* node4 = kuangSpr->getChildByTag(4);
+        node4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .5f));
+        
+        CCNode* node5 = kuangSpr->getChildByTag(5);
+        node5->setPosition(ccp(panelSize.width* .2f, panelSize.height* .3f));
+        
+        CCNode* node6 = kuangSpr->getChildByTag(6);
+        node6->setPosition(ccp(panelSize.width* .45f, panelSize.height* .3f));
+    }else if (index == 7){
+        CCNode* node7 = kuangSpr->getChildByTag(7);
+        node7->setPosition(ccp(panelSize.width* .325f, panelSize.height* .24f));
+    }
+    
+    
+    for (int i = 0; i < arr->count(); i++) {
+        CCNode* node = kuangSpr->getChildByTag(i + 1);
+        int index = ((CCInteger* )arr->objectAtIndex(i))->getValue();
+        CCString* str;
+        if (index >= 10000 && index < 20000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/1toufa/icon%d.png", index);
+        }else if (index >= 20000 && index < 30000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/2waitao/icon%d.png", index);
+        }else if (index >= 30000 && index < 40000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/3shangyi/icon%d.png", index);
+        }else if (index >= 40000 && index < 50000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/4kuzi/icon%d.png", index);
+        }else if (index >= 50000 && index < 60000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/5wazi/icon%d.png", index);
+        }else if (index >= 60000 && index < 70000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/6xiezi/icon%d.png", index);
+        }else if (index >= 70000 && index < 80000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/7shipin/icon%d.png", index);
+        }else if (index >= 80000 && index < 90000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/8bao/icon%d.png", index);
+        }else if (index >= 90000 && index < 100000){
+            str = CCString::createWithFormat("res/pic/clothesScene/icon/9zhuangrong/icon%d.png", index);
+        }
+        CCSprite* clothSpr = CCSprite::create(str->getCString());
+        if (!clothSpr) {
+            clothSpr = CCSprite::create("res/pic/unknown.png");
+        }
+        clothSpr->setScale(.5f);
+        clothSpr->setPosition(ccp(node->getContentSize().width* .5f, node->getContentSize().height* .5f));
+        node->addChild(clothSpr);
+    }
+}
+void NewSignin7Panel::signinCallback(CCObject* pSender){
+    LOADING->show_loading();
+    NET->perform_signin7_313(CCString::createWithFormat("%d", _signin7Day)->getCString());
+}
+void NewSignin7Panel::signin_callback_313(){
+    LOADING->remove();
+    nowPage++;
+    this->creatNewView();
+}
+void NewSignin7Panel::creatNewView(){
+    kuangSpr->removeAllChildrenWithCleanup(true);
     _ManSpr = CCSprite::create();
     kuangSpr->addChild(_ManSpr, 10);
     
-    // 提示
-    CCSprite* tishiSpr = CCSprite::create("res/pic/salesPromotion/sp_tishi.png");
-    tishiSpr->setAnchorPoint(ccp(.5f, 0));
-    tishiSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, 3));
-    kuangSpr->addChild(tishiSpr);
+    
+    CCSize panelSize = kuangSpr->boundingBox().size;
+    
+    CCSprite* icon_1 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .78f));
+    icon_1->setTag(1);
+    kuangSpr->addChild(icon_1, 20);
+    
+    CCSprite* icon_2 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .78f));
+    icon_2->setTag(2);
+    kuangSpr->addChild(icon_2, 20);
+    
+    CCSprite* icon_3 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .6f));
+    icon_3->setTag(3);
+    kuangSpr->addChild(icon_3, 20);
+    
+    CCSprite* icon_4 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .6f));
+    icon_4->setTag(4);
+    kuangSpr->addChild(icon_4, 20);
+    
+    CCSprite* icon_5 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_5->setPosition(ccp(panelSize.width* .2f, panelSize.height* .42f));
+    icon_5->setTag(5);
+    kuangSpr->addChild(icon_5, 20);
+    
+    CCSprite* icon_6 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_6->setPosition(ccp(panelSize.width* .45f, panelSize.height* .42f));
+    icon_6->setTag(6);
+    kuangSpr->addChild(icon_6, 20);
+    
+    CCSprite* icon_7 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_7->setPosition(ccp(panelSize.width* .2f, panelSize.height* .24f));
+    icon_7->setTag(7);
+    kuangSpr->addChild(icon_7, 20);
+    
+    CCSprite* icon_8 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    icon_8->setPosition(ccp(panelSize.width* .45f, panelSize.height* .24f));
+    icon_8->setTag(8);
+    kuangSpr->addChild(icon_8, 20);
     
     
-    if (!this->judgeClothes()) {
-        // 购买按钮
-        CCSprite* buySpr1 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
-        CCSprite* buySpr2 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
-        buySpr2->setScale(1.02f);
-        CCMenuItem* buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(SalesPromotionLayer::buyCallBack));
-        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
-        buyMenu = CCMenu::create(buyItem, NULL);
-        buyMenu->setPosition(CCPointZero);
-        buyMenu->setTag(0x889988);
-        kuangSpr->addChild(buyMenu, 20);
-        
-        CCString* zheStr = CCString::createWithFormat("%d折", (int)DATA->getFlashSaleInfo()->getDiscount());
-        CCLabelTTF* zheLabel = CCLabelTTF::create(zheStr->getCString(), DISPLAY->fangzhengFont(), 23);
-        zheLabel->setAnchorPoint(ccp(0, .5f));
-        zheLabel->setPosition(ccp(7, buyItem->getContentSize().height* .82f));
-        zheLabel->setColor(ccc3(254, 253, 131));
-        buyItem->addChild(zheLabel);
-        
-        // title
-        CCLabelTTF* titleLabel = CCLabelTTF::create("全部获得", DISPLAY->fangzhengFont(), 24);
-        titleLabel->setPosition(ccp(buyItem->getContentSize().width* .5f, buyItem->getContentSize().height* .72f));
-        titleLabel->setColor(ccc3(160, 75, 46));
-        buyItem->addChild(titleLabel);
-        
-        // 钻石 old
-        CCString* oldPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getOldPrice());
-        CCLabelTTF* oldPriceLabel = CCLabelTTF::create(oldPriceStr->getCString(), DISPLAY->fangzhengFont(), 27);
-        oldPriceLabel->setPosition(ccp(buyItem->getContentSize().width* .2f, buyItem->getContentSize().height* .33f));
-        oldPriceLabel->setColor(ccc3(230, 98, 98));
-        buyItem->addChild(oldPriceLabel);
-        CCSprite* goldSpr1 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
-        goldSpr1->setPosition(ccp(oldPriceLabel->getContentSize().width + 10, oldPriceLabel->getContentSize().height* .5f));
-        oldPriceLabel->addChild(goldSpr1);
-        CCSprite* xianSpr = CCSprite::create("res/pic/salesPromotion/sp_xiegang.png");
-        xianSpr->setPosition(ccp(buyItem->getContentSize().width* .23f, buyItem->getContentSize().height* .33f));
-        buyItem->addChild(xianSpr, 5);
-        
-        // 钻石 now
-        CCSprite* nowPriceDi = CCSprite::create("res/pic/salesPromotion/sp_di.png");
-        nowPriceDi->setPosition(ccp(buyItem->getContentSize().width* .73f, buyItem->getContentSize().height* .33f));
-        buyItem->addChild(nowPriceDi);
-        CCString* nowPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getNowPrice());
-        CCLabelTTF* nowPriceLabel = CCLabelTTF::create(nowPriceStr->getCString(), DISPLAY->fangzhengFont(), 28);
-        nowPriceLabel->setPosition(ccp(nowPriceDi->getContentSize().width* .31f, nowPriceDi->getContentSize().height* .48f));
-        nowPriceLabel->setColor(ccc3(254, 253, 131));
-        nowPriceDi->addChild(nowPriceLabel);
-        CCSprite* goldSpr2 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
-        goldSpr2->setPosition(ccp(nowPriceLabel->getContentSize().width + 10, nowPriceLabel->getContentSize().height* .5f));
-        nowPriceLabel->addChild(goldSpr2);
-    }else{
-        CCSprite* changeSpr1 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
-        CCSprite* changeSpr2 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
-        changeSpr2->setScale(1.02f);
-        CCMenuItem* buyItem = CCMenuItemSprite::create(changeSpr1, changeSpr2, this, menu_selector(SalesPromotionLayer::changeCallBack));
-        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
-        buyMenu = CCMenu::create(buyItem, NULL);
-        buyMenu->setPosition(CCPointZero);
-        buyMenu->setTag(0x889988);
-        kuangSpr->addChild(buyMenu, 20);
+    
+    CCDictionary* _signin7_infoDic = DATA->getSignin()->signin7_info();
+    CCArray* keys = _signin7_infoDic->allKeys();
+    AppUtil::sort_string_array(keys);
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(keys, pObj) {
+        CCString* key = (CCString*)pObj;
+        _signin7Day = atoi(key->getCString());
+        _signin7Value = ((CCInteger* )_signin7_infoDic->objectForKey(key->getCString()))->getValue();
     }
     
-    
-    
-    
-    // 倒计时
-    CCSprite* timeSpr = CCSprite::create("res/pic/salesPromotion/sp_time.png");
-    timeSpr->setAnchorPoint(ccp(1, .5f));
-    timeSpr->setPosition(ccp(kuangSpr->getContentSize().width - 7, kuangSpr->getContentSize().height* .12f));
-    kuangSpr->addChild(timeSpr, 20);
-    
-    //初始化时间
-    this->initTime();
-    CCString* timeStr;
-    CCString* hourStr;
-    CCString* minuteStr;
-    CCString* secondStr;
-    if (_hour >= 0 && _hour < 10) {
-        hourStr = CCString::createWithFormat("0%d", _hour);
-    }else{
-        hourStr = CCString::createWithFormat("%d", _hour);
-    }
-    
-    if (_minute >= 0 && _minute < 10) {
-        minuteStr = CCString::createWithFormat("0%d", _minute);
-    }else{
-        minuteStr = CCString::createWithFormat("%d", _minute);
-    }
-    
-    if (_second >= 0 && _second < 10) {
-        secondStr = CCString::createWithFormat("0%d", _second);
-    }else{
-        secondStr = CCString::createWithFormat("%d", _second);
-    }
-    timeStr = CCString::createWithFormat("  倒计时\n %s:%s:%s", hourStr->getCString(), minuteStr->getCString(), secondStr->getCString());
-    
-    timeLabel = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 18);
-    timeLabel->setPosition(ccp(timeSpr->getContentSize().width* .53f, timeSpr->getContentSize().height* .5f));
-    timeLabel->setColor(ccc3(255, 255, 255));
-    timeSpr->addChild(timeLabel);
-    this->schedule(SEL_SCHEDULE(&SalesPromotionLayer::updateTime), 1.f);
-    
-    
-    this->creat_kuang();
-    this->creat_Man();
-    this->initClothes();
-}
-bool SalesPromotionLayer::judgeClothes(){
-    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
-    CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
-    
-    bool judgeBool[suitsArr->count()];
-    for (int i = 0; i < suitsArr->count(); i++) {
-        judgeBool[i] = false;
-    }
-    
-    for (int i = 0; i < suitsArr->count(); i++) {
-        int index = ((CCInteger* )suitsArr->objectAtIndex(i))->getValue();
-        if (index >= 10000 && index < 20000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_TouFa, index);
-        }else if (index >= 20000 && index < 30000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_WaiTao, index);
-        }else if (index >= 30000 && index < 40000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_ShangYi, index);
-        }else if (index >= 40000 && index < 50000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_KuZi, index);
-        }else if (index >= 50000 && index < 60000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_WaZi, index);
-        }else if (index >= 60000 && index < 70000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_XieZi, index);
-        }else if (index >= 70000 && index < 80000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_ShiPin, index);
-        }else if (index >= 80000 && index < 90000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_Bao, index);
-        }else if (index >= 90000 && index < 100000){
-            judgeBool[i] = DATA->getClothes()->is_owned(Tag_CL_ZhuangRong, index);
-        }
-    }
-    
-    bool tempBool = true;
-    for (int i = 0; i < suitsArr->count(); i++) {
-        if (judgeBool[i]) {
-            tempBool = true;
-        }else{
-            tempBool = false;
-            break;
-        }
-    }
-    
-    return tempBool;
-}
-void SalesPromotionLayer::changeCallBack(CCObject* pSender){
-    this->save_Clothes();
-    
-    CCLayer* layer = ClothesScene::create_with_type(6, 0, 0);
-    CCScene* scene = CCScene::create();
-    scene->addChild(layer);
-    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
-    CCDirector::sharedDirector()->replaceScene(trans);
-}
-void SalesPromotionLayer::initTime(){
-    long timeLong = DATA->getFlashSaleInfo()->getDeadline();
-    _hour = (int)timeLong/3600;                             // 小时
-    _minute = (int)(timeLong - _hour*3600)/60;              // 分钟
-    _second = (int)(timeLong - _hour*3600 - _minute*60);    // 秒
-}
-void SalesPromotionLayer::updateTime(float dt){
-    CCString* hourStr;
-    CCString* minuteStr;
-    CCString* secondStr;
-    CCString* timeStr;
-    bool closedBool;
-    
-    _second--;
-    if (_hour == 0 && _minute == 0 && _second == 0) {
-        _hour = 0;
-        _minute = 0;
-        _second = 0;
-        closedBool = true;
-    }else{
-        if (_second < 0) {
-            _minute--;
-            if (_minute < 0) {
-                _hour--;
-                if (_hour < 0) {
-                    _hour = 0;
-                    _minute = 0;
-                    _second = 0;
-                    
-                    closedBool = true;
-                }else{
-                    _minute = 59;
-                    _second = 59;
-                }
-            }else{
-                _second = 59;
+    bool buttonBool = false;
+    CCArray* _signin7Arr = DATA->getSignin()->signin7_template();
+    if (nowPage == _signin7Day) {
+        if (_signin7Value == 1) {// 可以领
+            CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
+            std::string type = item->valueForKey("type")->getCString();
+            if (type.compare("wealth") == 0) {
+                CCDictionary* rewardsDic = (CCDictionary* )item->objectForKey("rewards");
+                this->creat_wealth(rewardsDic);
+            }else if (type.compare("clothes") == 0){
+                CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+                this->creat_clothes(rewardsArr);
             }
-        }
-    }
-    
-    if (_hour >= 0 && _hour < 10) {
-        hourStr = CCString::createWithFormat("0%d", _hour);
-    }else{
-        hourStr = CCString::createWithFormat("%d", _hour);
-    }
-    
-    if (_minute >= 0 && _minute < 10) {
-        minuteStr = CCString::createWithFormat("0%d", _minute);
-    }else{
-        minuteStr = CCString::createWithFormat("%d", _minute);
-    }
-    
-    if (_second >= 0 && _second < 10) {
-        secondStr = CCString::createWithFormat("0%d", _second);
-    }else{
-        secondStr = CCString::createWithFormat("%d", _second);
-    }
-    timeStr = CCString::createWithFormat("  倒计时\n %s:%s:%s", hourStr->getCString(), minuteStr->getCString(), secondStr->getCString());
-    timeLabel->setString(timeStr->getCString());
-    
-    if (closedBool) {
-        this->unschedule(SEL_SCHEDULE(&SalesPromotionLayer::updateTime));
-        return;
-    }
-}
-void SalesPromotionLayer::buyCallBack(CCObject* pSender){
-    
-    if (clthedPhase > DATA->getPlayer()->phase) {//衣服等级大于当前等级
-        AHMessageBox2* mb = AHMessageBox2::create_with_message2("衣服等级高于当前等级,是否继续购买?", this, AH_AVATAR_TYPE2_NO, AH_BUTTON_TYPE2_YESNO, false);
-        mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
-    }else{
-        LOADING->show_loading();
-        NET->flash_sale_buying_161();
-    }
-}
-void SalesPromotionLayer::message_box_did_selected_button2(AHMessageBox2* box, AH_BUTTON_TYPE2 button_type, AH_BUTTON_TAGS2 button_tag){
-    box->animation_out();
-    
-    if (button_type == AH_BUTTON_TYPE2_YESNO) {
-        if (button_tag == AH_BUTTON_TAG2_YES) {
-            LOADING->show_loading();
-            NET->flash_sale_buying_161();
-        }else if (button_tag == AH_BUTTON_TAG2_NO){
             
+            buttonBool = true;
+        }else if (_signin7Value == 2){// 签过了
+            if (nowPage >= _signin7Arr->count()) {
+                nowPage = _signin7Arr->count();
+            }
+            CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
+            std::string type = item->valueForKey("type")->getCString();
+            if (type.compare("wealth") == 0) {
+                CCDictionary* rewardsDic = (CCDictionary* )item->objectForKey("rewards");
+                this->creat_wealth(rewardsDic);
+            }else if (type.compare("clothes") == 0){
+                CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+                this->creat_clothes(rewardsArr);
+            }
+            
+            buttonBool = false;
         }
-    }
-}
-
-void SalesPromotionLayer::_161CallBack(CCObject* pSender){
-    LOADING->remove();
-    
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
-    PromptLayer* layer = PromptLayer::create();
-    layer->show_prompt(this->getScene(), "购买成功!");
-    
-    if (buyMenu != NULL) {
-        buyMenu->removeAllChildren();
-        if (this->getChildByTag(0x889988) != NULL) {
-            this->removeChildByTag(0x889988);
-        }
-    }
-    
-    if (!this->judgeClothes()) {
-        // 购买按钮
-        CCSprite* buySpr1 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
-        CCSprite* buySpr2 = CCSprite::create("res/pic/salesPromotion/sp_goumai.png");
-        buySpr2->setScale(1.02f);
-        CCMenuItem* buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(SalesPromotionLayer::buyCallBack));
-        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
-        buyMenu = CCMenu::create(buyItem, NULL);
-        buyMenu->setPosition(CCPointZero);
-        buyMenu->setTag(0x889988);
-        kuangSpr->addChild(buyMenu, 20);
-        
-        CCString* zheStr = CCString::createWithFormat("%d折", (int)DATA->getFlashSaleInfo()->getDiscount());
-        CCLabelTTF* zheLabel = CCLabelTTF::create(zheStr->getCString(), DISPLAY->fangzhengFont(), 23);
-        zheLabel->setAnchorPoint(ccp(0, .5f));
-        zheLabel->setPosition(ccp(7, buyItem->getContentSize().height* .82f));
-        zheLabel->setColor(ccc3(254, 253, 131));
-        buyItem->addChild(zheLabel);
-        
-        // title
-        CCLabelTTF* titleLabel = CCLabelTTF::create("全部获得", DISPLAY->fangzhengFont(), 24);
-        titleLabel->setPosition(ccp(buyItem->getContentSize().width* .5f, buyItem->getContentSize().height* .72f));
-        titleLabel->setColor(ccc3(160, 75, 46));
-        buyItem->addChild(titleLabel);
-        
-        // 钻石 old
-        CCString* oldPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getOldPrice());
-        CCLabelTTF* oldPriceLabel = CCLabelTTF::create(oldPriceStr->getCString(), DISPLAY->fangzhengFont(), 27);
-        oldPriceLabel->setPosition(ccp(buyItem->getContentSize().width* .2f, buyItem->getContentSize().height* .33f));
-        oldPriceLabel->setColor(ccc3(230, 98, 98));
-        buyItem->addChild(oldPriceLabel);
-        CCSprite* goldSpr1 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
-        goldSpr1->setPosition(ccp(oldPriceLabel->getContentSize().width + 10, oldPriceLabel->getContentSize().height* .5f));
-        oldPriceLabel->addChild(goldSpr1);
-        CCSprite* xianSpr = CCSprite::create("res/pic/salesPromotion/sp_xiegang.png");
-        xianSpr->setPosition(ccp(buyItem->getContentSize().width* .23f, buyItem->getContentSize().height* .33f));
-        buyItem->addChild(xianSpr, 5);
-        
-        // 钻石 now
-        CCSprite* nowPriceDi = CCSprite::create("res/pic/salesPromotion/sp_di.png");
-        nowPriceDi->setPosition(ccp(buyItem->getContentSize().width* .73f, buyItem->getContentSize().height* .33f));
-        buyItem->addChild(nowPriceDi);
-        CCString* nowPriceStr = CCString::createWithFormat("%d", DATA->getFlashSaleInfo()->getNowPrice());
-        CCLabelTTF* nowPriceLabel = CCLabelTTF::create(nowPriceStr->getCString(), DISPLAY->fangzhengFont(), 28);
-        nowPriceLabel->setPosition(ccp(nowPriceDi->getContentSize().width* .31f, nowPriceDi->getContentSize().height* .48f));
-        nowPriceLabel->setColor(ccc3(254, 253, 131));
-        nowPriceDi->addChild(nowPriceLabel);
-        CCSprite* goldSpr2 = CCSprite::create("res/pic/salesPromotion/sp_gold.png");
-        goldSpr2->setPosition(ccp(nowPriceLabel->getContentSize().width + 10, nowPriceLabel->getContentSize().height* .5f));
-        nowPriceLabel->addChild(goldSpr2);
     }else{
-        CCSprite* changeSpr1 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
-        CCSprite* changeSpr2 = CCSprite::create("res/pic/salesPromotion/sp_change.png");
-        changeSpr2->setScale(1.02f);
-        CCMenuItem* buyItem = CCMenuItemSprite::create(changeSpr1, changeSpr2, this, menu_selector(SalesPromotionLayer::changeCallBack));
-        buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
-        buyMenu = CCMenu::create(buyItem, NULL);
-        buyMenu->setPosition(CCPointZero);
-        buyMenu->setTag(0x889988);
-        kuangSpr->addChild(buyMenu, 20);
-    }
-}
-void SalesPromotionLayer::creat_kuang(){
-    CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
-    for (int i = 0; i < suitsArr->count(); i++) {
-        int idIndex = ((CCInteger* )suitsArr->objectAtIndex(i))->getValue();
-//        for (int i = 0; i < 8; i++) {
-        CCSprite* diSpr = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
-        float heightFloat1 = .81f;
-        float heightFloat2 = .18f;
-        if (i == 1 || i == 3 || i == 5 || i == 7) {
-            if (i == 1) {
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .85f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 0)));
-            }else if (i == 3){
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .85f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 1)));
-            }else if (i == 5){
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .85f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 2)));
-            }else if (i == 7){
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .85f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 3)));
-            }
-        }else{
-            if (i == 0) {
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .15f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 0)));
-            }else if (i == 2){
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .15f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 1)));
-            }else if (i == 4){
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .15f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 2)));
-            }else if (i == 6){
-                diSpr->setPosition(ccp(kuangSpr->getContentSize().width* .15f, kuangSpr->getContentSize().height* (heightFloat1 - heightFloat2* 3)));
-            }
+        if (nowPage >= _signin7Arr->count()) {
+            nowPage = _signin7Arr->count();
         }
-        this->creat_Clothes(diSpr, idIndex);
-        diSpr->setTag(i);
-        kuangSpr->addChild(diSpr, 10);
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("wealth") == 0) {
+            CCDictionary* rewardsDic = (CCDictionary* )item->objectForKey("rewards");
+            this->creat_wealth(rewardsDic);
+        }else if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_clothes(rewardsArr);
+        }
         
-    }
-}
-void SalesPromotionLayer::creat_Clothes(CCSprite* spr, int index){
-    CCString* iconStr;
-    if (index >= 10000 && index < 20000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/1toufa/icon%d.png", index);
-    }else if (index >= 20000 && index < 30000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/2waitao/icon%d.png", index);
-    }else if (index >= 30000 && index < 40000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/3shangyi/icon%d.png", index);
-    }else if (index >= 40000 && index < 50000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/4kuzi/icon%d.png", index);
-    }else if (index >= 50000 && index < 60000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/5wazi/icon%d.png", index);
-    }else if (index >= 60000 && index < 70000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/6xiezi/icon%d.png", index);
-    }else if (index >= 70000 && index < 80000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/7shipin/icon%d.png", index);;
-    }else if (index >= 80000 && index < 90000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/8bao/icon%d.png", index);
-    }else if (index >= 90000 && index < 100000){
-        iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/9zhuangrong/icon%d.png", index);
-    }
-    CCSprite* iconSpr = CCSprite::create(iconStr->getCString());
-    iconSpr->setPosition(ccp(spr->getContentSize().width* .5f, spr->getContentSize().height* .5f));
-    iconSpr->setScale(.7f);
-    spr->addChild(iconSpr);
-    
-    this->haveClothes(spr, index);
-}
-void SalesPromotionLayer::haveClothes(CCSprite* spr, int index){
-    bool haveBool = false;
-    if (index >= 10000 && index < 20000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_TouFa, index);
-    }else if (index >= 20000 && index < 30000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_WaiTao, index);
-    }else if (index >= 30000 && index < 40000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_ShangYi, index);
-    }else if (index >= 40000 && index < 50000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_KuZi, index);
-    }else if (index >= 50000 && index < 60000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_WaZi, index);
-    }else if (index >= 60000 && index < 70000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_XieZi, index);
-    }else if (index >= 70000 && index < 80000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_ShiPin, index);
-    }else if (index >= 80000 && index < 90000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_Bao, index);
-    }else if (index >= 90000 && index < 100000){
-        haveBool = DATA->getClothes()->is_owned(Tag_CL_ZhuangRong, index);
+        buttonBool = false;
     }
     
-    if (haveBool) {
-        CCSprite* haveSpr = CCSprite::create("res/pic/salesPromotion/sp_have.png");
-        haveSpr->setPosition(ccp(spr->getContentSize().width* .15f, spr->getContentSize().height* .8f));
-        spr->addChild(haveSpr, 10);
+    
+    if (nowPage <= 2) {
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(1);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_Clothes(rewardsArr);
+            this->creatMan();
+            this->initClothes();
+        }
+    }else if (nowPage > 2 && nowPage <= 7){
+        CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(6);
+        std::string type = item->valueForKey("type")->getCString();
+        if (type.compare("clothes") == 0){
+            CCArray* rewardsArr = (CCArray* )item->objectForKey("rewards");
+            this->creat_Clothes(rewardsArr);
+            this->creatMan();
+            this->initClothes();
+        }
     }
+    
+    
+    // 提示
+    CCSprite* tishiSpr = CCSprite::create("res/pic/panel/newSignin7/newSignin_tishi.png");
+    tishiSpr->setAnchorPoint(ccp(1.f, 1.f));
+    tishiSpr->setPosition(ccp(panelSize.width - 15, panelSize.height - 3));
+    kuangSpr->addChild(tishiSpr);
+    CCString* tishiStr;
+    if (_signin7Day <= 2) {
+        tishiStr = CCString::createWithFormat("%d", 2 - _signin7Day);
+    }else if (_signin7Day > 2 && _signin7Day <= 7){
+        tishiStr = CCString::createWithFormat("%d", 7 - _signin7Day);
+    }
+    CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 30);
+    tishiLabel->setPosition(ccp(tishiSpr->getContentSize().width* .5f, tishiSpr->getContentSize().height* .26f));
+    tishiLabel->setColor(ccRED);
+    tishiSpr->addChild(tishiLabel);
+    
+    
+    CCSprite* signinSpr1 = CCSprite::create("res/pic/panel/newSignin7/newSignin_lingqu.png");
+    CCSprite* signinSpr2 = CCSprite::create("res/pic/panel/newSignin7/newSignin_lingqu.png");
+    signinSpr2->setScale(1.02f);
+    CCMenuItem* signinItem;
+    if (buttonBool) {
+        signinItem = CCMenuItemSprite::create(signinSpr1, signinSpr2, this, menu_selector(NewSignin7Panel::signinCallback));
+    }else{
+        signinItem = CCMenuItemSprite::create(signinSpr1, signinSpr2);
+        signinItem->setColor(ccGRAY);
+    }
+    signinItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .1f));
+    CCMenu* menu = CCMenu::create(signinItem, NULL);
+    menu->setPosition(CCPointZero);
+    kuangSpr->addChild(menu, 50);
+    
+    
+    
+    
+    // 箭头
+    CCSprite* jiantouSpr1_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_1->setFlipX(true);
+    CCSprite* jiantouSpr1_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr1_2->setFlipX(true);
+    jiantouSpr1_2->setScale(1.02f);
+    CCMenuItem* jiantouItem1 = CCMenuItemSprite::create(jiantouSpr1_1, jiantouSpr1_2, this, menu_selector(NewSignin7Panel::jiantou1CallBack));
+    jiantouItem1->setPosition(ccp(-10, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo1_1 = CCMoveTo::create(.5f, ccp(-20, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo1_2 = CCMoveTo::create(.8f, ccp(-10, kuangSpr->getContentSize().height* .5f));
+    CCSequence* seq1 = CCSequence::create(moveTo1_1, moveTo1_2, NULL);
+    jiantouItem1->runAction(CCRepeatForever::create(seq1));
+    
+    CCSprite* jiantouSpr2_1 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    CCSprite* jiantouSpr2_2 = CCSprite::create("res/pic/qingjingScene/gj_jiantou.png");
+    jiantouSpr2_2->setScale(1.02f);
+    CCMenuItem* jiantouItem2 = CCMenuItemSprite::create(jiantouSpr2_1, jiantouSpr2_2, this, menu_selector(NewSignin7Panel::jiantou2CallBack));
+    jiantouItem2->setPosition(ccp(kuangSpr->getContentSize().width + 10, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo2_1 = CCMoveTo::create(.5f, ccp(kuangSpr->getContentSize().width + 20, kuangSpr->getContentSize().height* .5f));
+    CCMoveTo* moveTo2_2 = CCMoveTo::create(.8f, ccp(kuangSpr->getContentSize().width + 10, kuangSpr->getContentSize().height* .5f));
+    CCSequence* seq2 = CCSequence::create(moveTo2_1, moveTo2_2, NULL);
+    jiantouItem2->runAction(CCRepeatForever::create(seq2));
+    
+    CCMenu* jiantouMenu = CCMenu::create(jiantouItem1, jiantouItem2, NULL);
+    jiantouMenu->setPosition(CCPointZero);
+    kuangSpr->addChild(jiantouMenu, 20);
+}
+void NewSignin7Panel::jiantou1CallBack(CCObject* pSender){
+    nowPage--;
+    if (nowPage < 1) {
+        nowPage = 7;
+    }
+    this->creatNewView();
+}
+void NewSignin7Panel::jiantou2CallBack(CCObject* pSender){
+    nowPage++;
+    if (nowPage > 7) {
+        nowPage = 1;
+    }
+    this->creatNewView();
 }
 
 
-void SalesPromotionLayer::creat_Man(){
-    float widthFolt = .63f;
-    float heightFloat = .55f;
+void NewSignin7Panel::creatMan(){
+    // man坐标
+//    panelSize.width* .72f, panelSize.height * 0.46f
+    float widthFolt = .83f;
+    float heightFloat = .57f;
     float scaleFloat = .63f;
     bool flipxBool = false;
     
@@ -548,9 +659,9 @@ void SalesPromotionLayer::creat_Man(){
     _touSpr->setPosition(ccp(kuangSpr->getContentSize().width* widthFolt, kuangSpr->getContentSize().height * heightFloat));
     _ManSpr->addChild(_touSpr, 210);
 }
-void SalesPromotionLayer::initClothes(){//穿衣服
-    float widthFolt = .63f;
-    float heightFloat = .55f;
+void NewSignin7Panel::initClothes(){//穿衣服
+    float widthFolt = .83f;
+    float heightFloat = .57f;
     float scaleFloat = .63f;
     bool flipxBool = false;
     int sub_part = 0;
@@ -1049,9 +1160,9 @@ void SalesPromotionLayer::initClothes(){//穿衣服
         }
     }
 }
-void SalesPromotionLayer::creat_Clothes(){
+
+void NewSignin7Panel::creat_Clothes(CCArray* suitsArr){
     CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
-    CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
     nowClothesTemp = CCDictionary::create();
     
     for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
@@ -1063,7 +1174,7 @@ void SalesPromotionLayer::creat_Clothes(){
             for (int j = 0; j < clothesArr->count(); j++) {
                 CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
                 int clthedIndex = clothDic->valueForKey("id")->intValue();
-//                CCLog("clthedIndex == %d", clthedIndex);
+                //                CCLog("clthedIndex == %d", clthedIndex);
                 keyStr = CCString::createWithFormat("%d", i);
                 for (int k = 0; k < suitsArr->count(); k++) {
                     int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
@@ -1074,7 +1185,6 @@ void SalesPromotionLayer::creat_Clothes(){
                     }
                 }
                 if (clothesBool) {
-                    clthedPhase = clothDic->valueForKey("phase")->intValue();
                     break;
                 }
             }
@@ -1089,7 +1199,7 @@ void SalesPromotionLayer::creat_Clothes(){
         }else{
             CCDictionary* shipinDic = CCDictionary::create();
             CCString* keyStr = CCString::createWithFormat("%d", i);
-            
+            int k = 0;
             for (int n = 11; n <= 20; n++) {
                 CCInteger* clothesId;
                 CCString* subkeyStr;
@@ -1127,82 +1237,11 @@ void SalesPromotionLayer::creat_Clothes(){
     }
     
 }
-void SalesPromotionLayer::save_Clothes(){
-    CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
-    CCArray* suitsArr = (CCArray* )DATA->getFlashSaleInfo()->getClothes();
-    CCDictionary* myClothesTemp = DATA->getClothes()->MyClothesTemp();
-    
-    for (int i = Tag_CL_TouFa; i <= Tag_CL_ZhuangRong; i++) {
-        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(i);// 获得当前类型所有衣服
-        bool clothesBool = false;
-        if (i != Tag_CL_ShiPin) {
-            CCInteger* clothesId;
-            CCString* keyStr;
-            for (int j = 0; j < clothesArr->count(); j++) {
-                CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
-                int clthedIndex = clothDic->valueForKey("id")->intValue();
-//                CCLog("clthedIndex == %d", clthedIndex);
-                keyStr = CCString::createWithFormat("%d", i);
-                for (int k = 0; k < suitsArr->count(); k++) {
-                    int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
-                    if (nowClothesId == clthedIndex) {
-                        clothesId = CCInteger::create(clthedIndex);
-                        clothesBool = true;
-                        break;
-                    }
-                }
-                if (clothesBool) {
-                    break;
-                }
-            }
-            if (clothesBool) {
-                clothesBool = false;
-                myClothesTemp->setObject(clothesId, keyStr->getCString());
-            }else{
-                clothesBool = false;
-                CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
-                myClothesTemp->setObject(cloth_integer, keyStr->getCString());
-            }
-        }else{
-            CCDictionary* shipinDic = CCDictionary::create();
-            CCString* keyStr = CCString::createWithFormat("%d", i);
-            
-            for (int n = 11; n <= 20; n++) {
-                CCInteger* clothesId;
-                CCString* subkeyStr;
-                for (int j = 0; j < clothesArr->count(); j++) {
-                    CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
-                    int clthedIndex = clothDic->valueForKey("id")->intValue();
-//                    CCLog("clthedIndex == %d", clthedIndex);
-                    subkeyStr = CCString::createWithFormat("%d", n);
-                    for (int k = 0; k < suitsArr->count(); k++) {
-                        int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
-                        if (nowClothesId == clthedIndex) {
-                            clothesBool = true;
-                            clothesId = CCInteger::create(clthedIndex);
-                            break;
-                        }
-                    }
-                    if (clothesBool) {
-                        break;
-                    }
-                }
-                if (clothesBool) {
-                    clothesBool = false;
-                    shipinDic->setObject(clothesId, subkeyStr->getCString());
-                }else{
-                    clothesBool = false;
-                    CCInteger* cloth_integer = CCInteger::create(updataClothes(i));
-                    shipinDic->setObject(cloth_integer, subkeyStr->getCString());
-                }
-            }
-            myClothesTemp->setObject(shipinDic, keyStr->getCString());
-        }
-    }
-}
-int SalesPromotionLayer::updataClothes(int type){
+int NewSignin7Panel::updataClothes(int type){
     return (type) * 10000;
 }
+
+
 
 
 
