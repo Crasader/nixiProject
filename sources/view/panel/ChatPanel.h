@@ -26,8 +26,10 @@ public:
     virtual void onExit();
     
     void initChatPanel();
+    void updateTopMessage();
     
     void btn_sendMessage(CCMenuItem* item);
+    void btn_labaMessage(CCMenuItem* item);
     
     virtual bool ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent);
     virtual void ccTouchMoved(CCTouch* pTouch, CCEvent* pEvent);
@@ -64,6 +66,9 @@ private:
     bool                _couldClose;
     CCSprite*           _panel_bg;
     CCSprite*           _input_bg;
+    
+    CCLabelTTF*         nickname;
+    CCLabelTTF*         message;
     
     CCMenuItemSprite*   item_send;
     CCTextFieldTTF*     _input_text;

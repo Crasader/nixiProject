@@ -112,6 +112,9 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
                     
 //                    CCLOG("Message_count = %d", DATA->getChat()->getItems()->count());
                     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
+//                    if(chat->channel == 1) {
+//                        CCNotificationCenter::sharedNotificationCenter()->postNotification("Notice_chat", chat);
+//                    }
                 }
             }
         }

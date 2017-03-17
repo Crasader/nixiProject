@@ -999,8 +999,24 @@ void MainScene::creat_view(){
     menu_car2 = CCMenu::create(juqing2_Item, NULL);
     menu_car2->setPosition(ccp(_layer_1->getContentSize().width* .35f, _layer_1->getContentSize().height* .15f));
     _layer_1->addChild(menu_car2);
-    unknow_bar1->setUserObject(ccs("res/pic/mainScene/unknow_bar.png"));
-    _arrGroup1->addObject(unknow_bar1);
+    
+    if(DATA->getPlayer()->phase > 1) {
+        unknow_bar1->setUserObject(ccs("res/pic/mainScene/unknow_bar.png"));
+        _arrGroup1->addObject(unknow_bar1);
+    }else {
+        unknow_bar1->setColor(ccGRAY);
+        unknow_bar2->setColor(ccGRAY);
+        
+        CCSprite* lock1 = CCSprite::create("res/pic/mainScene/lock.png");
+        lock1->setPosition(ccp(unknow_bar1->getContentSize().width / 2, unknow_bar1->getContentSize().height / 2));
+        unknow_bar1->addChild(lock1);
+        
+        CCSprite* lock2 = CCSprite::create("res/pic/mainScene/lock.png");
+        lock2->setPosition(ccp(unknow_bar2->getContentSize().width / 2, unknow_bar2->getContentSize().height / 2));
+        unknow_bar2->addChild(lock2);
+    }
+    
+    
     
     //-----花------
     _layer_0 = CCSprite::create("res/pic/mainScene/near.png");
@@ -1342,11 +1358,16 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
 //        layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "敬请期待");
 //        WS->connect();
         
-        if (DATA->getStory()->has_init_story2()) {
-            this->_504CallBack(NULL);
-        }else{
-            LOADING->show_loading();
-            NET->completed_story2_504();
+        if(DATA->getPlayer()->phase >1) {
+            if (DATA->getStory()->has_init_story2()) {
+                this->_504CallBack(NULL);
+            }else{
+                LOADING->show_loading();
+                NET->completed_story2_504();
+            }
+        }else {
+            PromptLayer* layer = PromptLayer::create();
+            layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "二级公司开启");
         }
     }
 }
