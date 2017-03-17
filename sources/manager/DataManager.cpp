@@ -728,6 +728,20 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
         } break;
+            
+        case 312: {
+            _signin->init_signin7_template(content["template"]);
+            _signin->update_signin7_info(content["signin7"]);
+        } break;
+            
+        case 313: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _signin->update_signin7_info(content["signin7"]);
+            _clothes->init_with_json(content["clothes"]);
+            _news->init_with_json(content["news"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
+        } break;
         
         case 321: {
             _player->init_with_json(content["player"]);

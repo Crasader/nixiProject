@@ -307,7 +307,7 @@ void MainScene::onEnter(){
 //    nc->addObserver(this, SEL_CallFuncO(&MainScene::rankList_callback_300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::competition_callback_820), "HTTP_FINISHED_820", NULL);
     
-    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_302), "HTTP_FINISHED_302", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_signin_info_312), "HTTP_FINISHED_312", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_recharge_info_304), "HTTP_FINISHED_304", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::nc_gashapon_info_306), "HTTP_FINISHED_306", NULL);
     nc->addObserver(this, SEL_CallFuncO(&MainScene::_905CallBack), "HTTP_FINISHED_905", NULL);
@@ -1481,11 +1481,19 @@ void MainScene::qiandaoCallBack(CCObject* pSender){
     if (isOk) {
         AUDIO->comfirm_effect();
         LOADING->show_loading();
+// 1.8.1前的版本
+//        if (DATA->getSignin()->has_init_signin7_template()) {
+//            NET->signin7_info_302(false);
+//        }
+//        else {
+//            NET->signin7_info_302(true);
+//        }
+        // 1.8.1后的版本
         if (DATA->getSignin()->has_init_signin7_template()) {
-            NET->signin7_info_302(false);
+            NET->signin7_info_312(false);
         }
         else {
-            NET->signin7_info_302(true);
+            NET->signin7_info_312(true);
         }
         
         CCMenuItem* btn = (CCMenuItem* )pSender;
@@ -1704,7 +1712,7 @@ void MainScene::nc_recharge_info_304(CCObject *pObj){
     TotalRechargePanel::show();
 }
 
-void MainScene::nc_signin_info_302(CCObject *pObj) {
+void MainScene::nc_signin_info_312(CCObject *pObj) {
     LOADING->remove();
     Signin7Panel::show(this->getScene());
 }
@@ -2366,7 +2374,7 @@ void MainScene::showTrystEntrance() {
     menuEntrance->setPosition(_layer_3->getContentSize().width * 0.5 - 13, DISPLAY->halfH() - 12);
     _layer_3->addChild(menuEntrance);
     // 时间文字
-    CCLabelTTF* timePeriod = CCLabelTTF::create("18:00 - 23:59开启", DISPLAY->fangzhengFont(), 13.f);
+    CCLabelTTF* timePeriod = CCLabelTTF::create("约会仅在周2.4.6.日开启", DISPLAY->fangzhengFont(), 13.f);
     timePeriod->setPosition(menuEntrance->getPosition() + ccp(0, -38));
     _layer_3->addChild(timePeriod);
 }
