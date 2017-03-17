@@ -16,6 +16,7 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 #include "pkScene.h"
+#include "JNIController.h"
 
 
 JiesuanLayer::JiesuanLayer(){
@@ -63,7 +64,7 @@ void JiesuanLayer::onEnter(){
     CCLayer::onEnter();
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-//    nc->addObserver(this, SEL_CallFuncO(&StoryScene::_503CallBack), "HTTP_FINISHED_503", NULL);
+    nc->addObserver(this, SEL_CallFuncO(&JiesuanLayer::_321CallBack), "HTTP_FINISHED_321", NULL);
     
     
     this->scheduleOnce(SEL_SCHEDULE(&JiesuanLayer::keyBackStatus), .8f);
@@ -233,6 +234,26 @@ void JiesuanLayer::creat_jiesuan(){
         CCAnimate* jiesuanXingAnimate = CCAnimate::create(jiesuanXingAnimation);
         jiesuanXingSpr->runAction(CCRepeatForever::create(jiesuanXingAnimate));
         
+        
+        CCSprite* shareSpr1;
+        CCSprite* shareSpr2;
+        if (DATA->getNews()->dailyShareCount == 0) {
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2->setScale(1.02f);
+        }else{
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2->setScale(1.02f);
+        }
+        CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(JiesuanLayer::shareCallBack));
+        shareItem->setAnchorPoint(ccp(0, .5f));
+        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+        shareMenu->setPosition(CCPointZero);
+        shareMenu->setTag(0x334455);
+        this->addChild(shareMenu, 20);
+        
         this->creat_lingqu(lingquItem, 1);
     }else if (selfScore < opponentScore){
         AUDIO->pk_shibai_effect();
@@ -274,6 +295,75 @@ void JiesuanLayer::creat_jiesuan(){
         this->creat_lingqu(lingquItem, 0);
     }
 }
+void JiesuanLayer::shareCallBack(CCObject* pSender){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+    rt->saveToFile(path.c_str());
+    
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+    JNIController::setShareImage(path.c_str());
+    rt->saveToFile(path.c_str());
+    
+    JNIController::showShare(4, 0);
+    
+    this->schedule(SEL_SCHEDULE(&JiesuanLayer::shareStatus), .1f);
+#endif
+}
+void JiesuanLayer::shareStatus(float dt){
+    if (JNIController::getShareStatus() == 1) {
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        
+        LOADING->show_loading();
+        NET->daily_share_321();
+        
+        this->unschedule(SEL_SCHEDULE(&JiesuanLayer::shareStatus));
+    }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&JiesuanLayer::shareStatus));
+    }
+}
+void JiesuanLayer::_321CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    if (this->getChildByTag(0x334455) != NULL) {
+        this->removeChildByTag(0x334455);
+    }
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
+    CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(JiesuanLayer::shareCallBack));
+    shareItem->setAnchorPoint(ccp(0, .5f));
+    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+    CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+    shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
+    this->addChild(shareMenu, 20);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
+
 
 void JiesuanLayer::lingquCallback(CCObject* pSender){
     AUDIO->common_effect();

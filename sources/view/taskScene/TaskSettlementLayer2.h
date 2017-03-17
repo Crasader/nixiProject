@@ -88,7 +88,7 @@ public:
     void nextAnimation2();
     
     void nc_rewardpanel_exit();
-    
+        
 public:
     
     bool logic_open_bool;

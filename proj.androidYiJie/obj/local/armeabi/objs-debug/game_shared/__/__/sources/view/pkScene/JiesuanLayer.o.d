@@ -286,7 +286,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/pkScene/JiesuanLayer
  jni/../../sources/view/base/BaseScene.h \
  jni/../../sources/view/common/Number/FlashNumberLabel2.h \
  jni/../../sources/view/common/Number/FlashNumberLabel3.h \
- jni/../../sources/view/common/AHMessageBox/AHMessageBox.h
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
 jni/../../sources/view/pkScene/JiesuanLayer.h:
 
@@ -875,3 +877,7 @@ jni/../../sources/view/common/Number/FlashNumberLabel2.h:
 jni/../../sources/view/common/Number/FlashNumberLabel3.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:

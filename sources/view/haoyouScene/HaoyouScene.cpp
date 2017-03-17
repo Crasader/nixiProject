@@ -250,7 +250,7 @@ void HaoyouScene::shareCallBack(CCObject* pSender){
     JNIController::setShareImage(path.c_str());
     rt->saveToFile(path.c_str());
     
-    JNIController::showShare();
+    JNIController::showShare(1, 0);
     this->schedule(SEL_SCHEDULE(&HaoyouScene::shareStatus), .1f);
 #endif
 }

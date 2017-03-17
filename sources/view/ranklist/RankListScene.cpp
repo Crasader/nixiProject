@@ -106,10 +106,10 @@ void RankListScene::keyBackClicked(){
 
 void RankListScene::createUI(){
     //分享
-    CCSprite* shareSpr1 = CCSprite::create("pic/ranklist/rl_share.png");
-    CCSprite* shareSpr2 = CCSprite::create("pic/ranklist/rl_share.png");
-    shareSpr2->setScale(1.02f);
-    
+//    CCSprite* shareSpr1 = CCSprite::create("pic/ranklist/rl_share.png");
+//    CCSprite* shareSpr2 = CCSprite::create("pic/ranklist/rl_share.png");
+//    shareSpr2->setScale(1.02f);
+//    
 //    CCMenuItemSprite* item_share = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RankListScene::btn_share_callback));
 //    item_share->setPosition(ccp(DISPLAY->ScreenWidth()* .08f, DISPLAY->ScreenHeight()* .88f));
 //    CCMenu* menu_share = CCMenu::create(item_share, NULL);
@@ -205,7 +205,7 @@ void RankListScene::btn_share_callback(CCObject* pSender){
     JNIController::setShareImage(path.c_str());
     rt->saveToFile(path.c_str());
     
-    JNIController::showShare();
+    JNIController::showShare(1, 0);
     this->schedule(SEL_SCHEDULE(&RankListScene::shareStatus), .1f);
 #endif
 }

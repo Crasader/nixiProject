@@ -113,6 +113,12 @@ public:
     
     void lingquCallback(CCObject* pSender);
     void lingquCallback2(float dt);
+    
+    
+    void shareCallBack(CCObject* pSender);
+    void shareStatus(float dt);
+    void _321CallBack(CCObject* pSender);
+    
 };
 
 

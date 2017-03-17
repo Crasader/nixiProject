@@ -239,7 +239,8 @@ void ClothesScene::shareCallBack(CCObject* pSender){
     JNIController::setShareImage(path.c_str());
     rt->saveToFile(path.c_str());
     
-    JNIController::showShare();
+    int collected = DATA->getShow()->collected();
+    JNIController::showShare(1, collected);
     this->schedule(SEL_SCHEDULE(&ClothesScene::shareStatus), .1f);
 #endif
 }

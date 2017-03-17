@@ -42,9 +42,15 @@ public:
     CCSprite* kuangSpr;
     CCSprite* goldTishiSpr;
     CCSprite* moneyTishiSpr;
+    CCSprite* goldKuangSpr;
+    CCSprite* moneyKuangSpr;
     
     MonthlyCardItem* goldCardItem;
     MonthlyCardItem* moneyCardItem;
+    CCMenuItem* goldLingquItem;
+    CCMenuItem* moneyLingquItem;
+    
+    CCMenu* lingquMenu;
     
     int num_child;
     
@@ -58,5 +64,12 @@ public:
     
     void goldLingquCallback(CCObject* pSender);
     void moneyLingquCallback(CCObject* pSender);
+    
+    
+    
+    void _151Callback(CCObject* pObj);
+    void _153Callback(CCObject* pObj);
+    
+    
 };
 #endif /* defined(__tiegao__MonthCardLayer__) */

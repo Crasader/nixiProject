@@ -294,6 +294,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/view/mainScene/GashaponScene.h \
  jni/../../sources/view/mainScene/SalesPromotionLayer.h \
  jni/../../sources/view/common/AHMessageBox/AHMessageBox2.h \
+ jni/../../sources/view/mainScene/MonthCardLayer.h \
  jni/../../sources/view/friends/Shower.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
@@ -939,6 +940,8 @@ jni/../../sources/view/mainScene/GashaponScene.h:
 jni/../../sources/view/mainScene/SalesPromotionLayer.h:
 
 jni/../../sources/view/common/AHMessageBox/AHMessageBox2.h:
+
+jni/../../sources/view/mainScene/MonthCardLayer.h:
 
 jni/../../sources/view/friends/Shower.h:
 
