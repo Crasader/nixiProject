@@ -150,7 +150,7 @@ public:
     
     // 新版本1.8.1之后的7日签到
     void signin7_info_312(bool full);
-    void perform_signin7_313(string id);
+    void perform_signin7_313();
     
     void daily_share_321();             // 每日分享
     void commit_daily_signin_323();     // 每日签到

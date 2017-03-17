@@ -49,7 +49,7 @@ void SigninComp::init_signin7_template(Value json) {
         CCLOG("SigninComp::init_signin7_template() json object error.");
         return;
     }
-#error "跟另一个error相关的信息"
+
     /*
      "id" : 跟第几天相关
      "type" : 衣服-"clothes", 其他-"wealth"
