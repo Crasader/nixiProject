@@ -744,6 +744,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _show->init_with_json(content["show"]);
             _operation->replace_gashapon_user(content["gashapon"]);
             pData = AppUtil::dictionary_with_json(content["rewards"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
         
         case 321: {

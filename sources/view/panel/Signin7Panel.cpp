@@ -256,6 +256,7 @@ void Signin7Panel::signin_callback_313(){
     LOADING->remove();
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_NEWS_STATUS");
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     
     CCSprite* icon_bg = (CCSprite*)_panel->getChildByTag(_signin_id);
     if (icon_bg->getChildByTag(200)) {
