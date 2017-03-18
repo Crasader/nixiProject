@@ -30,15 +30,19 @@ public:
     string name;
     string chat;
     string id;
+    int channel;
 };
 
 class ChatComp : public CCObject
 {
 public:
     void addItem(ChatItem* item);
+    void addShoutItem(ChatItem* item);
+    
     CCColor3bObject* randColor();
     CC_SYNTHESIZE(int, _interval, Interval);
     CC_SYNTHESIZE(int, _newChatCount, NewChatCount);    // 刷新后新消息的条数
+    CC_SYNTHESIZE(int, _newShoutCount, NewShoutCount);  // 刷新后喊话的条数
     
 public:
     ~ChatComp();
@@ -48,6 +52,7 @@ public:
     
     CC_SYNTHESIZE_RETAIN(CCArray*, _colors, Colors);
     CC_SYNTHESIZE_RETAIN(CCArray*, _items, Items);
+    CC_SYNTHESIZE_RETAIN(CCArray*, _shoutItems, ShoutItems);
     
 private:
     

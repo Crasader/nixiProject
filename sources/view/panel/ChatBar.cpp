@@ -26,8 +26,10 @@ void ChatBar::update_num(int num) {
 }
 
 void ChatBar::update_display() {
-    int count = DATA->getChat()->getItems()->count();
-    int newCount = DATA->getChat()->getNewChatCount();
+//    int count = DATA->getChat()->getItems()->count();
+//    int newCount = DATA->getChat()->getNewChatCount();
+    int count = DATA->getChat()->getShoutItems()->count();
+    int newCount = DATA->getChat()->getNewShoutCount();
     _curDisplayIndex = count - newCount;
     _curDisplayIndex = MAX(_curDisplayIndex, 0);
     if (newCount != 0) {
@@ -115,7 +117,8 @@ void ChatBar::show_nmu_plate() {
     _plate->addChild(circle1);
     circle1->runAction(CCRepeatForever::create(CCSequence::create(CCHide::create(), CCDelayTime::create(1.4), CCShow::create(), CCDelayTime::create(1.4), NULL)));
     
-    int num = MIN(99, DATA->getChat()->getNewChatCount());
+//    int num = MIN(99, DATA->getChat()->getNewChatCount());
+    int num = MIN(99, DATA->getChat()->getNewShoutCount());
     CCString* startNum = CCString::createWithFormat("%d", num);
     _num = FlashNumberLabel::create_with_atlas("res/pic/baseScene/base_number4.png", startNum->getCString(), 0, .01f);
     _num->setAnchorPoint(ccp(.5f, .5f));
@@ -128,10 +131,12 @@ void ChatBar::show_nmu_plate() {
 void ChatBar::display_chat(CCInteger* index) {
     int idx = index->getValue();
     CCLOG("ChatBar::display_chat(%d)", idx);
-    CCArray* items = DATA->getChat()->getItems();
-    int count = items->count();
+//    CCArray* items = DATA->getChat()->getItems();
+//    int count = items->count();
+    CCArray* shouts = DATA->getChat()->getShoutItems();
+    int count = shouts->count();
     if (idx < count || (count == 1 && idx == 0)) {
-        ChatItem* item = (ChatItem*)items->objectAtIndex(idx);
+        ChatItem* item = (ChatItem*)shouts->objectAtIndex(idx);
         if (item) {
             _isIdle = false;
             _curDisplayIndex = idx;
