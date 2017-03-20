@@ -394,12 +394,12 @@ void DataManager::handle_protocol(int cid, Value content) {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
             _purchase->init_purchase(content["purchase"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
             //
             CCNotificationCenter::sharedNotificationCenter()->postNotification("UPDATE_MAIL_PURCHASE"),
-            //
+            //_mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
             pData = AppUtil::dictionary_with_json(content["info"]);
         } break;
-            //            _mail->handle_mail_oper(content["info"]["id"].asInt(), content["info"]["oper"].asInt());
         
         case 704: {
             _home->init_house_template(content["template"]);

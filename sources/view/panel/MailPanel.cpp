@@ -198,11 +198,17 @@ void MailPanel::config_cell(CCTableViewCell* cell, int idx) {
         reward_icons->addObject(diam);
         reward_num->addObject(CCString::createWithFormat("%d", reward->diam));
     }
+    if (reward->piece > 0) {
+        CCSprite* piece = CCSprite::create("res/pic/panel/mail/mail_piece.png");
+        reward_icons->addObject(piece);
+        reward_num->addObject(CCString::createWithFormat("%d", reward->piece));
+    }
     if (reward->energy > 0) {
         CCSprite* energy = CCSprite::create("res/pic/panel/mail/mail_energy.png");
         reward_icons->addObject(energy);
         reward_num->addObject(CCString::createWithFormat("%d", reward->energy));
     }
+    
     int icon_count = reward_icons->count();
     for (int i = 0; i < icon_count; i++) {
         CCNode* node = (CCNode* )reward_icons->objectAtIndex(i);
