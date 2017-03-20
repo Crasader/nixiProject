@@ -124,7 +124,7 @@ extern "C"
         static void exitGame(int index);
         
         // 分享
-        static void showShare();
+        static void showShare(int type, int num);
         static void setShareImage(char const* str);
         static int getShareStatus();
         static void setShareStatus(int shareStatus);

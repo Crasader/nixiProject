@@ -651,7 +651,7 @@ void BaseScene::push_Android2(CCObject* pObj){
 
 #pragma mark - ChatBar
 
-void BaseScene::openChat() {
+void BaseScene::openChat(bool isOpen) {
     DATA->setChatOut(false);
     if (WS->isConnected()) {
         
@@ -660,6 +660,8 @@ void BaseScene::openChat() {
         DATA->onEvent("连接事件", "主界面", "连接聊天服务器");
         WS->connect();
     }
+    
+    _chatBar->isTouchOpen(isOpen);
     
 //    _chatMenu->setVisible(true);
     

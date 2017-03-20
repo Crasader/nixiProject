@@ -113,7 +113,7 @@ void HomeLayer::updataBg(){
 
 void HomeLayer::onEnter(){
     BaseScene::onEnter();
-    BaseScene::openChat();
+    BaseScene::openChat(true);
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&HomeLayer::_huanzhuangCallBack), "HTTP_FINISHED_400", NULL);

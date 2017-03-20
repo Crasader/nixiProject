@@ -26,7 +26,6 @@ public:
     virtual void onExit();
     
     void initChatPanel();
-    void updateTopMessage();
     
     void btn_sendMessage(CCMenuItem* item);
     void btn_labaMessage(CCMenuItem* item);
@@ -61,6 +60,7 @@ private:
     void schedule_count_down(float dt);
     
     void nc_on_emoticon(CCObject* pObj);
+    void after_result_of_831(CCObject* pObj);
     
 private:
     bool                _couldClose;

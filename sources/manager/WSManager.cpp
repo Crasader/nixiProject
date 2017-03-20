@@ -101,20 +101,31 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
                     ChatComp* compChat = DATA->getChat();
                     compChat->addItem(chat);
                     compChat->setNewChatCount(compChat->getNewChatCount() + 1);
+                    if (chat->channel == 1) {
+                        compChat->addShoutItem(chat);
+                        compChat->setNewShoutCount(compChat->getNewShoutCount() + 1);
+                    }
+                    
+                    //
                     int length = compChat->getItems()->count();
                     if( length >= 200) {
                         CCArray* arr = CCArray::create();
+                        CCArray* shouts = CCArray::create();
+                        
                         for (int i = length - 100; i < length; i++) {
-                            arr->addObject(DATA->getChat()->getItems()->objectAtIndex(i));
+                            ChatItem* item = (ChatItem* )DATA->getChat()->getItems()->objectAtIndex(i);
+                            arr->addObject(item);
+                            if (item->channel == 1) {
+                                shouts->addObject(item);
+                            }
                         }
-                        DATA->getChat()->setItems(arr);
+                        
+                        compChat->setItems(arr);
+                        compChat->setShoutItems(shouts);
                     }
                     
 //                    CCLOG("Message_count = %d", DATA->getChat()->getItems()->count());
                     CCNotificationCenter::sharedNotificationCenter()->postNotification("NEW_CHAT", chat);
-//                    if(chat->channel == 1) {
-//                        CCNotificationCenter::sharedNotificationCenter()->postNotification("Notice_chat", chat);
-//                    }
                 }
             }
         }

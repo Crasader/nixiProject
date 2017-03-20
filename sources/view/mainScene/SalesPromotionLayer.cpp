@@ -1095,15 +1095,18 @@ void SalesPromotionLayer::creat_Clothes(){
                 CCString* subkeyStr;
                 for (int j = 0; j < clothesArr->count(); j++) {
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
-                    int clthedIndex = clothDic->valueForKey("id")->intValue();
-//                    CCLog("clthedIndex == %d", clthedIndex);
-                    subkeyStr = CCString::createWithFormat("%d", n);
-                    for (int k = 0; k < suitsArr->count(); k++) {
-                        int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
-                        if (nowClothesId == clthedIndex) {
-                            clothesBool = true;
-                            clothesId = CCInteger::create(clthedIndex);
-                            break;
+                    int sub_part = clothDic->valueForKey("sub_part")->intValue(); // 衣服的部位
+                    if (sub_part == n) {
+                        int clthedIndex = clothDic->valueForKey("id")->intValue();
+//                        CCLog("clthedIndex == %d", clthedIndex);
+                        subkeyStr = CCString::createWithFormat("%d", n);
+                        for (int k = 0; k < suitsArr->count(); k++) {
+                            int nowClothesId = ((CCInteger* )suitsArr->objectAtIndex(k))->getValue();
+                            if (nowClothesId == clthedIndex) {
+                                clothesBool = true;
+                                clothesId = CCInteger::create(clthedIndex);
+                                break;
+                            }
                         }
                     }
                     if (clothesBool) {

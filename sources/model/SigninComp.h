@@ -26,6 +26,7 @@ class SigninComp : public CCObject
 public: // Export
     bool has_init_signin7_template();
     CCArray* signin7_template() const;                          // 7日签模版
+    CCDictionary* signin7_info() const;
     SigninState fetch_signin7_state(const string& id);    // 签到状态
     
 public:

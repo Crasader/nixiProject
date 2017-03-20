@@ -478,28 +478,6 @@ void TaskSettlementLayer2::creat_view(){
     kuangSpr1->addChild(menu);
     
     
-//    CCSprite* shareSpr1;
-//    CCSprite* shareSpr2;
-//    if (DATA->getNews()->dailyShareCount == 0) {
-//        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-//        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-//        shareSpr2->setScale(1.02f);
-//    }else{
-//        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-//        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-//        shareSpr2->setScale(1.02f);
-//    }
-//    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TaskSettlementLayer2::shareCallBack));
-//    shareItem->setAnchorPoint(ccp(0, .5f));
-//    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
-//    CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
-//    shareMenu->setPosition(CCPointZero);
-//    shareMenu->setTag(0x334455);
-//    this->addChild(shareMenu, 20);
-//    coinSpr->setVisible(false);
-//    lingquItem->setVisible(false);
-//    shareItem->setVisible(false);
-    
     CCSprite* bgSpr2 = CCSprite::create("res/pic/taskSettlement/ts_bg2.png");
     bgSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr2, 20);
@@ -588,6 +566,27 @@ void TaskSettlementLayer2::creatXingXing(){
                 xingSpr5->runAction(CCSequence::create(CCDelayTime::create(time), CCShow::create(), scaleTo1, scaleTo2, scaleTo3, callFunc, NULL));
             }
         }
+        
+        
+        CCSprite* shareSpr1;
+        CCSprite* shareSpr2;
+        if (DATA->getNews()->dailyShareCount == 0) {
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+            shareSpr2->setScale(1.02f);
+        }else{
+            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+            shareSpr2->setScale(1.02f);
+        }
+        shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(TaskSettlementLayer2::shareCallBack));
+        shareItem->setAnchorPoint(ccp(0, .5f));
+        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+        shareMenu->setPosition(CCPointZero);
+        shareMenu->setTag(0x334455);
+        this->addChild(shareMenu, 20);
+        
     }else if (_rating == 4){
         xingSpr1 = CCSprite::create("res/pic/taskSettlement/ts_xing2.png");
         xingSpr1->setPosition(ccp(tiaoSpr->getContentSize().width* .275f, tiaoSpr->getContentSize().height* .69f));
@@ -829,7 +828,7 @@ void TaskSettlementLayer2::shareCallBack(CCObject* pSender){
     JNIController::setShareImage(path.c_str());
     rt->saveToFile(path.c_str());
     
-    JNIController::showShare();
+    JNIController::showShare(2, 0);
     
     this->schedule(SEL_SCHEDULE(&TaskSettlementLayer2::shareStatus), .1f);
 #endif

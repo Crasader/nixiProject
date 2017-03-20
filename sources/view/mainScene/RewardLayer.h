@@ -58,6 +58,10 @@ public:
     void openDraw();
     void openTouch();
     
+    void shareCallBack(CCObject* pSender);
+    void shareStatus(float dt);
+    void _321CallBack(CCObject* pSender);
+    
     CCString* iconWithRewardType(const CCString* type);
     CCString* descriptionWithRewardType(const CCString* type);
     CCString* descriptionWithRewardTypeOnce(const CCString* type, int num);

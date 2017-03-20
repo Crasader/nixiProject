@@ -379,6 +379,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _competition->createSelfInfo(content["competition"]);
             _competition->createOpponentInfo(content["opponent"]);
         } break;
+            
+        case 831: {
+            _player->init_with_json(content["player"]);
+        } break;
         
         case 700: {
             _mail->init_with_json(content["mail"]);
@@ -468,7 +472,7 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]); // 不必然
             _mystery->update_user_data(content["mystery"]);
             
-            if (content["id"] != CSJson::nullValue) {
+            if (content["id"].type() != CSJson::nullValue) {
                 pData = CCString::create(content["id"].asString());
             }
             else { // 兼容旧版本
@@ -727,6 +731,24 @@ void DataManager::handle_protocol(int cid, Value content) {
         case 311: {
             _clothes->init_with_json(content["clothes"]);
             _operation->replace_gashapon_user(content["gashapon"]);
+        } break;
+            
+        case 312: {
+            _signin->init_signin7_template(content["template"]);
+            _signin->update_signin7_info(content["signin7"]);
+        } break;
+            
+        case 313: {
+            _player->init_with_json(content["player"]);
+            if (content["player"].type() != CSJson::nullValue) {
+                this->creat_Energy_Time();
+            }
+            _signin->update_signin7_info(content["signin7"]);
+            _clothes->init_with_json(content["clothes"]);
+            _show->init_with_json(content["show"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
+            pData = AppUtil::dictionary_with_json(content["rewards"]);
+            nc->postNotification("UPDATE_NEWS_STATUS");
         } break;
         
         case 321: {

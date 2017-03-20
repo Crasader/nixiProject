@@ -130,7 +130,7 @@ void TaskScene::play_music(float dt){
 
 void TaskScene::onEnter(){
     BaseScene::onEnter();
-    BaseScene::openChat();
+    BaseScene::openChat(true);
     
     AUDIO->play_company_bgm();
     
@@ -416,15 +416,19 @@ void TaskScene::creat_view(){
     shangkuangSpr->setAnchorPoint(ccp(.5f, 0));
     shangkuangSpr->setPosition(ccp(taskKuang->getContentSize().width* .5f, taskKuang->getContentSize().height - 2));
     taskKuang->addChild(shangkuangSpr);
-
+    
     
 //    int curPhase = DATA->getPlayer()->phase;
     int curPhase = DATA->getTaskPhase();
     int ratingsRequire = CONFIG->phase_up_required(curPhase);
     int curRatings = DATA->getPlayer()->ratings(curPhase);
     
-    
-    CCString* shangStr = CCString::createWithFormat("总星:%d/%d", curRatings, ratingsRequire);
+    CCString* shangStr;
+    if (curPhase == 5) {
+        shangStr = CCString::createWithFormat("升级:    %d", curRatings);
+    }else{
+        shangStr = CCString::createWithFormat("升级: %d/%d", curRatings, ratingsRequire);
+    }
     CCLabelTTF* shangLabel = CCLabelTTF::create(shangStr->getCString(), DISPLAY->fangzhengFont(), 25);
     shangLabel->setAnchorPoint(ccp(0, .5f));
     shangLabel->setPosition(ccp(5.f, shangkuangSpr->getContentSize().height* .5f));

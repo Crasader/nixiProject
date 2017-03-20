@@ -183,7 +183,7 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     pCell->addChild(nickname);
     
     //===喇叭消息===
-    if(CCRANDOM_0_1() > 0.5) {
+    if(chat->channel == 1) {
         nickname->setColor(ccRED);
         CCSprite* laba = CCSprite::create("res/pic/panel/chat/notice.png");
         laba->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width + laba->getContentSize().width / 2, nickname->getPositionY()));

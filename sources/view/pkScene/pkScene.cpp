@@ -64,6 +64,7 @@ CCScene* pkScene::scene(){
 
 void pkScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat(false);
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     

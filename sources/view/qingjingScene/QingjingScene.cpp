@@ -93,6 +93,7 @@ CCScene* QingjingScene::scene(){
 
 void QingjingScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat(true);
     
     AUDIO->play_story_bgm();
     
@@ -391,6 +392,7 @@ void QingjingScene::creat_view(){
         tishiLabel->setColor(ccc3(80, 63, 68));
         kuangSpr->addChild(tishiLabel);
         
+        
         if (tongguanBool) {
             CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
             tongguanSpr->setScale(.7f);
@@ -411,7 +413,8 @@ void QingjingScene::creat_view(){
             engLabel->setColor(ccWHITE);
             startItem->addChild(engLabel);
         }else{
-            if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
+//            if (renwuIndex <= DATA->getPlayer()->ratings(phaseIndex)) {
+            if (phaseIndex <= DATA->getPlayer()->phase) {
                 CCSprite* jiesuoSpr = CCSprite::create("res/pic/qingjingScene/qj_yijiesuo.png");
                 jiesuoSpr->setScale(.7f);
                 jiesuoSpr->setAnchorPoint(ccp(0, .5f));

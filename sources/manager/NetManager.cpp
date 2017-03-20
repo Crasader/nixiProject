@@ -311,6 +311,16 @@ void NetManager::competition_prepare_827() {
     this->post_data(827, data);
 }
 
+void NetManager::before_send_shout_831() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(831, data);
+}
+
+
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
 }
@@ -689,7 +699,6 @@ void NetManager::purchase_achievement_info_304(bool full) {
     string data = writer.write(root);
     this->post_data(304, data);
 }
-
 void NetManager::take_purchase_achievement_305(string &id) {
     FastWriter writer;
     Value root;
@@ -732,6 +741,22 @@ void NetManager::exchange_clothes_311(string clothesId) {
     root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(311, data);
+}
+
+void NetManager::signin7_info_312(bool full) {
+    FastWriter writer;
+    Value root;
+    root["full"] = full;
+    string data = writer.write(root);
+    this->post_data(312, data);
+}
+
+void NetManager::perform_signin7_313() {
+    FastWriter writer;
+    Value root;
+    root["id"] = (int)DATA->cur_timestamp();;
+    string data = writer.write(root);
+    this->post_data(313, data);
 }
 
 void NetManager::daily_share_321() {

@@ -75,12 +75,15 @@ public:
     void delete_paper_811(CSJson::UInt64 id);
     void friend_break_813(const char* other_sid);
     
-    // 比拼
+    //// 比拼
     void competition_info_820(bool full);    // 获取所有pk信息
     void competition_search_opponent_821(); // 查找pk对手 or 换一个pk对手
     void competition_bless_823();   // 祝福
     void competition_start_825();   // 开始pk
     void competition_prepare_827(); // 已选好用的
+    
+    //// 喊话
+    void before_send_shout_831();
     
     void all_mails_700();
     void response_mail_701(CSJson::UInt64 id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
@@ -136,6 +139,7 @@ public:
     void ranking_list_300();
     // 每日体力奖励
     void take_energy_reward_301();
+    // 兼容旧版本的7日签到
     void signin7_info_302(bool full);
     void perform_signin7_303(string id);
     
@@ -146,6 +150,10 @@ public:
     void single_lottery_307();
     void multiply_lottery_309();
     void exchange_clothes_311(string clothesId);
+    
+    // 新版本1.8.1之后的7日签到
+    void signin7_info_312(bool full);
+    void perform_signin7_313();
     
     void daily_share_321();             // 每日分享
     void commit_daily_signin_323();     // 每日签到

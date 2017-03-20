@@ -131,6 +131,7 @@ CCScene* VipQingjingScene::scene(){
 
 void VipQingjingScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat(true);
     
     AUDIO->play_story_bgm();
     

@@ -42,7 +42,7 @@ void ShareManager::share_pic() {
         ShareManager::get_instance()->stop_share();
     }
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIController::showShare();
+    JNIController::showShare(1, 0);
     CCDirector::sharedDirector()->getScheduler()->scheduleSelector(SEL_SCHEDULE(&ShareManager::shareStatus), this, .1f, false);
 #endif
     

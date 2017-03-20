@@ -184,7 +184,7 @@ public class Tiegao extends Cocos2dxActivity {
 	}
 	
 	
-	public static void showShare() {
+	public static void showShare(int type, int num) {
 //		ShareSDK.initSDK(instance);
 //		OnekeyShare oks = new OnekeyShare();
 //		Log.i("main", "" + getShareImage());
@@ -204,7 +204,15 @@ public class Tiegao extends Cocos2dxActivity {
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
 		oks.setTitle("女总裁的贴身高手");
 		// text是分享文本，所有平台都需要这个字段
-//		oks.setText("女总裁的贴身高手");
+		if (type == 1) {
+			oks.setText("我在《女总裁的贴身高手》里已经收集" + num + "件衣服了，来和我一起吧！");
+		}else if (type == 2){
+			oks.setText("我在《女总裁的贴身高手》获得满星通关，一起创建商业帝国吧！");
+		}else if (type == 3){
+			oks.setText("我在《女总裁的贴身高手》抽到了极品服饰，来试试你的人品吧！");
+		}else if (type == 4){
+			oks.setText("我在《女总裁的贴身高手》搭配比拼中完胜对手，你敢来挑战我么？");
+		}
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		oks.setImagePath(getShareImage());//确保SDcard下面存在此张图片
 		// url仅在微信（包括好友和朋友圈）中使用

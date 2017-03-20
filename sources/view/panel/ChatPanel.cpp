@@ -17,6 +17,8 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 
+#include "NetManager.h"
+
 using namespace CSJson;
 
 ChatPanel::~ChatPanel(){
@@ -56,7 +58,7 @@ void ChatPanel::onEnter(){
     
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::nc_on_emoticon), "ON_EMOTICON", NULL);
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::updateTopMessage), "Notice_chat", NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::after_result_of_831), "HTTP_FINISHED_831", NULL);
     
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
@@ -236,22 +238,17 @@ void ChatPanel::initTopMessage(){
         notif = "欢迎来到女总的贴身高手，请小伙伴们文明发言。共同营造和谐氛围。";
     }
     
-    nickname = CCLabelTTF::create("金刚不坏:", DISPLAY->fangzhengFont(), 20);
-    nickname->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5 + 26));
-    nickname->setAnchorPoint(CCPoint(0, 0.5));
-    nickname->setColor(ccRED);
-    bg->addChild(nickname);
+//    nickname = CCLabelTTF::create("金刚不坏:", DISPLAY->fangzhengFont(), 20);
+//    nickname->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5 + 26));
+//    nickname->setAnchorPoint(CCPoint(0, 0.5));
+//    nickname->setColor(ccRED);
+//    bg->addChild(nickname);
     
-    message = CCLabelTTF::create(notif.c_str(), DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 45), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    message = CCLabelTTF::create(notif.c_str(), DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     message->setColor(ccc3(178, 117, 254));
     message->setAnchorPoint(CCPoint(0, 0.5));
-    message->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5 - 2));
+    message->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5));
     bg->addChild(message);
-}
-
-void ChatPanel::updateTopMessage() {
-    nickname->setString("");
-    message->setString("");
 }
 
 void ChatPanel::closeChatPanel(){
@@ -309,7 +306,7 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
 
 void ChatPanel::btn_labaMessage(CCMenuItem* item) {
     AUDIO->comfirm_effect();
-    
+
     FastWriter writer;
     Value root;
     
@@ -330,14 +327,23 @@ void ChatPanel::btn_labaMessage(CCMenuItem* item) {
             PromptLayer* tip = PromptLayer::create();
             tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不能使用不文明及敏感文字~!");
         }else{
-            root["name"] = DATA->getShow()->nickname();
-            root["chat"] = content;
-            root["id"] = DATA->getLogin()->obtain_sid();
-            root["channel"] = 1;                  //channel = 0表示一般聊天，= 1表示通告
-            string data = writer.write(root);
-            WS->send(data);
+            NET->before_send_shout_831();
         }
     }
+}
+
+void ChatPanel::after_result_of_831(CCObject* pObj) {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
+    
+    FastWriter writer;
+    Value root;
+    const char* content = _input_text->getString();
+    root["name"] = DATA->getShow()->nickname();
+    root["chat"] = content;
+    root["id"] = DATA->getLogin()->obtain_sid();
+    root["channel"] = 1;                  //channel = 0表示一般聊天，= 1表示通告
+    string data = writer.write(root);
+    WS->send(data);
     
     _input_text->setString("");
     _input_text->setAnchorPoint(CCPoint(0, 0.5));

@@ -297,7 +297,10 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/clothesScene/Clothes
  jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/view/guide/GuideLayer.h \
  jni/../../sources/view/qingjingScene/StringUtil.h \
- jni/../../sources/view/pkScene/pkScene.h
+ jni/../../sources/view/pkScene/pkScene.h \
+ jni/../../sources/view/clothesScene/ClothesShareLayer.h \
+ jni/../../sources/view/JNIController.h \
+ jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h
 
 jni/../../sources/view/clothesScene/ClothesScene.h:
 
@@ -908,3 +911,9 @@ jni/../../sources/view/guide/GuideLayer.h:
 jni/../../sources/view/qingjingScene/StringUtil.h:
 
 jni/../../sources/view/pkScene/pkScene.h:
+
+jni/../../sources/view/clothesScene/ClothesShareLayer.h:
+
+jni/../../sources/view/JNIController.h:
+
+jni/../../../../lib/cocos2d-x/cocos2dx/platform/android/jni/JniHelper.h:

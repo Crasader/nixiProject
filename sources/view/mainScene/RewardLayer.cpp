@@ -11,6 +11,10 @@
 #include "DisplayManager.h"
 #include "ConfigManager.h"
 #include "ClothesScene.h"
+#include "AppUtil.h"
+#include "JNIController.h"
+#include "Loading2.h"
+#include "NetManager.h"
 
 
 RewardLayer::RewardLayer(){
@@ -23,8 +27,12 @@ RewardLayer::~RewardLayer(){
 void RewardLayer::onEnter(){
     CCLayer::onEnter();
     
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, SEL_CallFuncO(&RewardLayer::_321CallBack), "HTTP_FINISHED_321", NULL);
 }
 void RewardLayer::onExit(){
+    CCNotificationCenter::sharedNotificationCenter()->removeAllObservers(this);
+    unscheduleAllSelectors();
     
     setTouchEnabled(false);
     CCLayer::onExit();
@@ -125,6 +133,7 @@ void RewardLayer::drawOnce(){
     
     CCString* iconStr;
     int z_oder = 0;
+    int clothesType = 0;
     if (index >= 10000) {
         std::string stdStr = CCUserDefault::sharedUserDefault()->getStringForKey("SaveClothes", "");
         if (stdStr.empty()) {
@@ -140,22 +149,31 @@ void RewardLayer::drawOnce(){
         
         z_oder = 1;
         if (index >= 10000 && index < 20000){
+            clothesType = Tag_CL_TouFa;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/1toufa/icon%s.png", str->getCString());
         }else if (index >= 20000 && index < 30000){
+            clothesType = Tag_CL_WaiTao;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/2waitao/icon%s.png", str->getCString());
         }else if (index >= 30000 && index < 40000){
+            clothesType = Tag_CL_ShangYi;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/3shangyi/icon%s.png", str->getCString());
         }else if (index >= 40000 && index < 50000){
+            clothesType = Tag_CL_KuZi;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/4kuzi/icon%s.png", str->getCString());
         }else if (index >= 50000 && index < 60000){
+            clothesType = Tag_CL_WaZi;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/5wazi/icon%s.png", str->getCString());
         }else if (index >= 60000 && index < 70000){
+            clothesType = Tag_CL_XieZi;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/6xiezi/icon%s.png", str->getCString());
         }else if (index >= 70000 && index < 80000){
+            clothesType = Tag_CL_ShiPin;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/7shipin/icon%s.png", str->getCString());
         }else if (index >= 80000 && index < 90000){
+            clothesType = Tag_CL_Bao;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/8bao/icon%s.png", str->getCString());
         }else if (index >= 90000 && index < 100000){
+            clothesType = Tag_CL_ZhuangRong;
             iconStr = CCString::createWithFormat("res/pic/clothesScene/icon/9zhuangrong/icon%s.png", str->getCString());
         }
         
@@ -182,6 +200,41 @@ void RewardLayer::drawOnce(){
         label->setPosition(ccp(kuangSpr->getContentSize().width* .5f, iconSpr->getContentSize().height* .1f));
         label->setColor(ccWHITE);
         kuangSpr->addChild(label);
+        
+        
+        int phase = 0;
+        CCDictionary* allClothesDic = CONFIG->clothes();// 所有衣服
+        CCArray* clothesArr = (CCArray* )allClothesDic->objectForKey(clothesType);// 获得当前类型所有衣服
+        for (int i = 0; i < clothesArr->count(); i++) {
+            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
+            int id = clothDic->valueForKey("id")->intValue();
+            if (id == index) {
+                phase = clothDic->valueForKey("phase")->intValue();
+                break;
+            }
+        }
+        
+        if (phase == 5) {
+        
+            CCSprite* shareSpr1;
+            CCSprite* shareSpr2;
+            if (DATA->getNews()->dailyShareCount == 0) {
+                shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+                shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+                shareSpr2->setScale(1.02f);
+            }else{
+                shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+                shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+                shareSpr2->setScale(1.02f);
+            }
+            CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RewardLayer::shareCallBack));
+            shareItem->setAnchorPoint(ccp(0, .5f));
+            shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+            CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+            shareMenu->setPosition(CCPointZero);
+            shareMenu->setTag(0x334455);
+            this->addChild(shareMenu, 120);
+        }
     }
     
     CCMoveTo* moveTo = CCMoveTo::create(.6f, ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .5f));
@@ -208,7 +261,74 @@ void RewardLayer::drawOnce(){
     dianSpr->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* 1.25f));
     kuangSpr->addChild(dianSpr, 60);
 }
-
+void RewardLayer::shareCallBack(CCObject* pSender){
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("/share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+    rt->saveToFile(path.c_str());
+    
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
+    std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    path.append("share.png");
+    
+    CCLog("图片 === %s", path.c_str());
+    
+    JNIController::setShareImage(path.c_str());
+    rt->saveToFile(path.c_str());
+    
+    JNIController::showShare(3, 0);
+    
+    this->schedule(SEL_SCHEDULE(&RewardLayer::shareStatus), .1f);
+#endif
+}
+void RewardLayer::shareStatus(float dt){
+    if (JNIController::getShareStatus() == 1) {
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        
+        LOADING->show_loading();
+        NET->daily_share_321();
+        
+        this->unschedule(SEL_SCHEDULE(&RewardLayer::shareStatus));
+    }else if (JNIController::getShareStatus() == 2 || JNIController::getShareStatus() == 3){
+        JNIController::shareText();
+        JNIController::setShareStatus(0);
+        this->unschedule(SEL_SCHEDULE(&RewardLayer::shareStatus));
+    }
+}
+void RewardLayer::_321CallBack(CCObject* pSender){
+    LOADING->remove();
+    
+    if (this->getChildByTag(0x334455) != NULL) {
+        this->removeChildByTag(0x334455);
+    }
+    CCSprite* shareSpr1;
+    CCSprite* shareSpr2;
+    if (DATA->getNews()->dailyShareCount == 0) {
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+        shareSpr2->setScale(1.02f);
+    }else{
+        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+        shareSpr2->setScale(1.02f);
+    }
+    CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(RewardLayer::shareCallBack));
+    shareItem->setAnchorPoint(ccp(0, .5f));
+    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+    CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+    shareMenu->setPosition(CCPointZero);
+    shareMenu->setTag(0x334455);
+    this->addChild(shareMenu, 20);
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+}
 
 CCString* RewardLayer::iconWithRewardType(const CCString* type) {
     CCString* rtn = NULL;

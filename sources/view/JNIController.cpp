@@ -85,13 +85,13 @@ extern "C"
     }
 
     // 分享
-    void JNIController::showShare(){
+    void JNIController::showShare(int type, int num){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     	JniMethodInfo jni_methodInfo;
-    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "showShare", "()V") ){
+    	if (! JniHelper::getStaticMethodInfo(jni_methodInfo, SDK_TIEGAO_CLASS, "showShare", "(II)V") ){
     		return;
     	}
-    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID,  jni_methodInfo.methodID);
+    	jni_methodInfo.env->CallStaticVoidMethod(jni_methodInfo.classID,  jni_methodInfo.methodID,type,num);
     	jni_methodInfo.env->DeleteLocalRef(jni_methodInfo.classID);
 #endif
     }
