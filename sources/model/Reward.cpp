@@ -14,6 +14,7 @@ Reward::~Reward() {
 bool Reward::init() {
     coin = 0;
     diam = 0;
+    piece = 0;
     energy = 0;
     return true;
 }
@@ -30,12 +31,21 @@ void Reward::init_with_json(Value json) {
     else {
         coin = 0;
     }
+    
     if (json.isMember("diam")) {
         diam = json["diam"].asInt();
     }
     else {
         diam = 0;
     }
+    
+    if (json.isMember("piece")) {
+        piece = json["piece"].asInt();
+    }
+    else {
+        piece = 0;
+    }
+    
     if (json.isMember("energy")) {
         energy = json["energy"].asInt();
     }
@@ -48,6 +58,7 @@ void Reward::print_self() {
     CCLOG("    Reward:");
     CCLOG("        coin = %d", coin);
     CCLOG("        diam = %d", diam);
+    CCLOG("        piece = %d", piece);
     CCLOG("        energy = %d", energy);
 }
 
