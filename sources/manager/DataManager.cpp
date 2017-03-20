@@ -379,6 +379,10 @@ void DataManager::handle_protocol(int cid, Value content) {
             _competition->createSelfInfo(content["competition"]);
             _competition->createOpponentInfo(content["opponent"]);
         } break;
+            
+        case 831: {
+            _player->init_with_json(content["player"]);
+        } break;
         
         case 700: {
             _mail->init_with_json(content["mail"]);

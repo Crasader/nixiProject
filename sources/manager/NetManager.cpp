@@ -311,6 +311,16 @@ void NetManager::competition_prepare_827() {
     this->post_data(827, data);
 }
 
+void NetManager::before_send_shout_831() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(831, data);
+}
+
+
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
 }
