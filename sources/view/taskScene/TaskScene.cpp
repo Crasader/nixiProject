@@ -261,7 +261,8 @@ void TaskScene::creat_view(){
     _buildingLayer->setTag(0x55555);
     this->addChild(_buildingLayer);
     
-    taskPhase = DATA->getTaskPhase();
+//    taskPhase = DATA->getTaskPhase();
+    taskPhase = 5;
     CCArray* tempArr = CCArray::create();
     for (int i = 0; i < taskArr->count(); i++) {
         CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(i);

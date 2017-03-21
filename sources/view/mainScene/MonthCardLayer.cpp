@@ -127,14 +127,14 @@ void MonthCardLayer::creat_view(){
         goldTishiSpr = CCSprite::create("res/pic/panel/month/month_tishi2.png");
         goldTishiSpr->setAnchorPoint(ccp(.5f, 1));
         goldTishiSpr->setPosition(ccp(goldKuangSpr->getContentSize().width* .53f, goldKuangSpr->getContentSize().height - 14));
-        moneyTishiSpr->setTag(0x334455);
+        goldTishiSpr->setTag(0x334455);
         goldKuangSpr->addChild(goldTishiSpr);
         
         CCString* goldStr = CCString::createWithFormat("%d", goldCardItem->getDaysRest());
         CCLabelTTF* goldLabel = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 25);
         goldLabel->setPosition(ccp(goldTishiSpr->getContentSize().width* .52f, goldTishiSpr->getContentSize().height* .68f));
         goldLabel->setColor(ccRED);
-        moneyTishiSpr->setTag(0x445566);
+        goldLabel->setTag(0x445566);
         goldTishiSpr->addChild(goldLabel);
     }
     
