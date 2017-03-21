@@ -93,6 +93,7 @@ CCScene* QingjingScene::scene(){
 
 void QingjingScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat(true);
     
     AUDIO->play_story_bgm();
     

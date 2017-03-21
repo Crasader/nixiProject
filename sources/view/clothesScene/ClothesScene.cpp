@@ -294,6 +294,7 @@ bool ClothesScene::init(){
 
 void ClothesScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat(false);
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(ClothesScene::ChangeClothes), "ChangeClothes", NULL);

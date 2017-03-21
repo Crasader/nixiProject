@@ -106,7 +106,7 @@ private:
     
 // 聊天框相关
 public:
-    void openChat();
+    void openChat(bool isOpen);
     void show_chat_panel();
 private:
     ChatBar*                    _chatBar;

@@ -37,6 +37,10 @@ void ChatBar::update_display() {
     }
 }
 
+void ChatBar::isTouchOpen(bool isOpen) {
+    _bar->setEnabled(isOpen);
+}
+
 
 #pragma mark - Inherit
 

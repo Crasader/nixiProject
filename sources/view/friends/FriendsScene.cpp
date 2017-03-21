@@ -82,6 +82,7 @@ bool FriendsScene::init() {
 
 void FriendsScene::onEnter() {
     BaseScene::onEnter();
+    BaseScene::openChat(true);
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&FriendsScene::nc_change_shower), "ON_CHANGE_SHOWER", NULL);

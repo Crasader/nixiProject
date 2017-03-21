@@ -69,6 +69,8 @@ void RankListScene::initDefaultRL() {
 
 void RankListScene::onEnter() {
     BaseScene::onEnter();
+    BaseScene::openChat(true);
+    
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp300), "HTTP_FINISHED_300", NULL);
     nc->addObserver(this, SEL_CallFuncO(&RankListScene::afterHttp321), "HTTP_FINISHED_321", NULL);

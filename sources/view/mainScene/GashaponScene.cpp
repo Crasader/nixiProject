@@ -61,7 +61,7 @@ bool GashaponScene::init(){
 
 void GashaponScene::onEnter(){
     BaseScene::onEnter();
-    BaseScene::openChat();
+    BaseScene::openChat(true);
     
     AUDIO->play_company_bgm();
     
