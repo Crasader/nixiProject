@@ -62,6 +62,10 @@ public:
     void goldButtonCallBack(CCObject* pSender);
     void moneyButtonCallBack(CCObject* pSender);
     
+    void updatePay(float dt);
+    void sendPay(float dt);
+    void closeMonthCardLayer(float dt);
+    
     void goldLingquCallback(CCObject* pSender);
     void moneyLingquCallback(CCObject* pSender);
     
@@ -69,7 +73,7 @@ public:
     
     void _151Callback(CCObject* pObj);
     void _153Callback(CCObject* pObj);
-    
+    void _157Callback(CCObject* pObj);
     
 };
 #endif /* defined(__tiegao__MonthCardLayer__) */

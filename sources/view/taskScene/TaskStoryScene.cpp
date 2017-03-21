@@ -72,8 +72,8 @@ bool TaskStoryScene::init(){
     // CONFIG->getMissionDialog(1, taskIndex) 这里的1应该传入DATA->getPlayer()->phase
 //    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getPlayer()->phase, taskIndex);
     // 当前
-//    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getTaskPhase(), taskIndex);
-    CCArray* missionArr = CONFIG->getMissionDialog(5, taskIndex);
+    CCArray* missionArr = CONFIG->getMissionDialog(DATA->getTaskPhase(), taskIndex);
+//    CCArray* missionArr = CONFIG->getMissionDialog(5, taskIndex);
     missionDic = (CCDictionary* )missionArr->objectAtIndex(0);
     subscriptIndex = missionDic->valueForKey("id")->intValue();
     

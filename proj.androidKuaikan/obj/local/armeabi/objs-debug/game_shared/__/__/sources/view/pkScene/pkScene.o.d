@@ -267,6 +267,7 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/view/pkScene/pkScene.o: \
  jni/../../sources/model/TrystComp.h \
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/manager/ConfigManager.h \
  jni/../../sources/manager/NetManager.h \
@@ -838,6 +839,8 @@ jni/../../sources/model/TrystComp.h:
 jni/../../sources/model/WelfareComp.h:
 
 jni/../../sources/model/AchievementComp.h:
+
+jni/../../sources/model/FlashSaleComp.h:
 
 jni/../../sources/manager/DisplayManager.h:
 

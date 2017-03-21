@@ -284,9 +284,10 @@ void SalesPromotionLayer::updateTime(float dt){
     CCString* minuteStr;
     CCString* secondStr;
     CCString* timeStr;
-    bool closedBool;
+    bool closedBool = false;
     
     _second--;
+//    CCLog("1111_hour == %d;_minute == %d;_second == %d;", _hour, _minute, _second);
     if (_hour == 0 && _minute == 0 && _second == 0) {
         _hour = 0;
         _minute = 0;
@@ -302,6 +303,7 @@ void SalesPromotionLayer::updateTime(float dt){
                     _minute = 0;
                     _second = 0;
                     
+//                    CCLog("2222_hour == %d;_minute == %d;_second == %d;", _hour, _minute, _second);
                     closedBool = true;
                 }else{
                     _minute = 59;
@@ -334,6 +336,8 @@ void SalesPromotionLayer::updateTime(float dt){
     timeLabel->setString(timeStr->getCString());
     
     if (closedBool) {
+//        CCLog("closedBool == %d", closedBool);
+//        CCLog("333_hour == %d;_minute == %d;_second == %d;", _hour, _minute, _second);
         this->unschedule(SEL_SCHEDULE(&SalesPromotionLayer::updateTime));
         return;
     }

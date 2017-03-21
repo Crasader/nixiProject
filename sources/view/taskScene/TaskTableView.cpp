@@ -408,8 +408,7 @@ cocos2d::extension::CCTableViewCell* TaskTableView::tableCellAtIndex(cocos2d::ex
     int taskId = dic->valueForKey("id")->intValue();
     OpenToWhichOne = taskId;
     
-//    int unlockCondition = DATA->getPlayer()->mission;
-    int unlockCondition = 1000;
+    int unlockCondition = DATA->getPlayer()->mission;
     if (OpenToWhichOne <= unlockCondition) {
         
         CCString* buttonStr;

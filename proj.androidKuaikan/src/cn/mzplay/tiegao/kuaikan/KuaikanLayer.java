@@ -217,7 +217,11 @@ public class KuaikanLayer{
 		}else if (index == 6) {
 			wares_id = "6";
 			productId = "tiegao_6";
-		}else {
+		}else if (index == 9) {
+			wares_id = "9";
+			productId = "tiegao_9";
+		}
+		else {
 			wares_id = "1";
 			productId = "tiegao_1";
 		}
@@ -230,17 +234,17 @@ public class KuaikanLayer{
 		orderCheck(wares_id, Tiegao.getSidId(), 900 + "_" + open_id);
 	}
 	void orderCheck(final String wares_id, final String sid, final String uuid){
-//		Log.e("main", "<><> orderCheck wares_id: " + wares_id + ";sid: " + sid + ";uuid: " + uuid);
+		Log.e("main", "<><> orderCheck wares_id: " + wares_id + ";sid: " + sid + ";uuid: " + uuid);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					String url = LoginHelper.CP_PAY_SYNC_URL + createOrderURL(wares_id, sid, uuid);
 					String result = LoginHelper.executeHttpGet(url);
-// 					Log.e("main", "<><> orderCheck result:" + result);
+ 					Log.e("main", "<><> orderCheck result:" + result);
  					isOrderAnalyticString(result);
 				} catch (Exception e) {
-//					Log.e("main", "<><> orderCheck ERROR: " + e.toString());
+					Log.e("main", "<><> orderCheck ERROR: " + e.toString());
 				}
 			}
 		}).start();

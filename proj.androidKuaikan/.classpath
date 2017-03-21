@@ -9,8 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Wechat-2.7.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Wechat-Core-2.7.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/ShareSDK-Wechat-Moments-2.7.10.jar"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="lib" path="libs/converter-gson-2.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/Game_Analytics_SDK_Android_3.1.69.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/gson-2.7.jar"/>
@@ -21,5 +19,7 @@
 	<classpathentry exported="true" kind="lib" path="libs/retrofit-2.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/SensorsAnalyticsSDK-1.6.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/rt.jar"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
