@@ -1889,6 +1889,7 @@ void VipStoryScene::onEnter()
     this->setAccelerometerEnabled(true);
     
     BaseScene::onEnter();
+    BaseScene::openChat(false);
     
     BaseScene::hideBaseScene();
     

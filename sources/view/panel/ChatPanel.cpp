@@ -17,6 +17,8 @@
 #include "PromptLayer.h"
 #include "AudioManager.h"
 
+#include "NetManager.h"
+
 using namespace CSJson;
 
 ChatPanel::~ChatPanel(){
@@ -56,6 +58,8 @@ void ChatPanel::onEnter(){
     
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::nc_on_emoticon), "ON_EMOTICON", NULL);
     
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, SEL_CallFuncO(&ChatPanel::after_result_of_831), "HTTP_FINISHED_831", NULL);
+    
     this->setTouchEnabled(true);
     this->setTouchMode(kCCTouchesOneByOne);
     if (_couldClose) {
@@ -81,13 +85,13 @@ void ChatPanel::initChatPanel(){
     CCSprite* qipao = CCSprite::create("res/pic/panel/chat/qipao.png");
     CCSprite* qipao2 = CCSprite::create("res/pic/panel/chat/qipao.png");
     CCMenuItemSprite* item_qipao = CCMenuItemSprite::create(qipao, qipao2, this, menu_selector(ChatPanel::closeChatPanel));
-    item_qipao->setPosition(ccp(_panel_bg->getContentSize().width* .10f, 30));
+    item_qipao->setPosition(ccp(_panel_bg->getContentSize().width* .070f, 30));
     CCMenu* menu_qipao = CCMenu::create(item_qipao, NULL);
     menu_qipao->setPosition(CCPointZero);
     _panel_bg->addChild(menu_qipao);
     
     _input_bg = CCSprite::create("res/pic/panel/chat/input.png");
-    _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .485f, 30));
+    _input_bg->setPosition(ccp(_panel_bg->getContentSize().width* .38f, 30));
     _panel_bg->addChild(_input_bg);
     
     CCSprite* send_spr = CCSprite::create("res/pic/panel/chat/send.png");
@@ -105,10 +109,21 @@ void ChatPanel::initChatPanel(){
     item_send->addChild(lab_time);
     
     CCMenu* menu_send = CCMenu::create(item_send, NULL);
-    menu_send->setPosition(ccp(_panel_bg->getContentSize().width* .89f, _input_bg->getPositionY()));
+    menu_send->setPosition(ccp(_panel_bg->getContentSize().width* .710f, _input_bg->getPositionY()));
     _panel_bg->addChild(menu_send);
     
+    //喇叭按钮
+    CCSprite* laba_spr = CCSprite::create("res/pic/panel/chat/btn_laba.png");
+    CCSprite* laba_spr2 = CCSprite::create("res/pic/panel/chat/btn_laba.png");
+    laba_spr2->setScale(1.02f);
+    CCMenuItemSprite* item_laba = CCMenuItemSprite::create(laba_spr, laba_spr2, this, menu_selector(ChatPanel::btn_labaMessage));
+    CCMenu* menu_laba = CCMenu::create(item_laba, NULL);
+    menu_laba->setPosition(ccp(_panel_bg->getContentSize().width* .90f, menu_send->getPositionY()));
+    _panel_bg->addChild(menu_laba);
+    CCLOG("menu_width = %f",menu_send->getContentSize().width);
+    CCLOG("menu_width = %f", menu_send->getContentSize().height);
 
+    
     _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("最多可输入40汉字", DISPLAY->fangzhengFont(), 24);
     _input_text->setAnchorPoint(CCPoint(0, 0.5));
     _input_text->setColor(ccBLACK);
@@ -222,7 +237,14 @@ void ChatPanel::initTopMessage(){
     if (notif.empty()) {
         notif = "欢迎来到女总的贴身高手，请小伙伴们文明发言。共同营造和谐氛围。";
     }
-    CCLabelTTF* message = CCLabelTTF::create(notif.c_str(), DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    
+//    nickname = CCLabelTTF::create("金刚不坏:", DISPLAY->fangzhengFont(), 20);
+//    nickname->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5 + 26));
+//    nickname->setAnchorPoint(CCPoint(0, 0.5));
+//    nickname->setColor(ccRED);
+//    bg->addChild(nickname);
+    
+    message = CCLabelTTF::create(notif.c_str(), DISPLAY->fangzhengFont(), 18, CCSizeMake(bg->getContentSize().width* .95f - notice_spr->getContentSize().width - 5, 70), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     message->setColor(ccc3(178, 117, 254));
     message->setAnchorPoint(CCPoint(0, 0.5));
     message->setPosition(ccp(notice_spr->getContentSize().width + 5, bg->getContentSize().height* .5));
@@ -269,6 +291,7 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
             root["name"] = DATA->getShow()->nickname();
             root["chat"] = content;
             root["id"] = DATA->getLogin()->obtain_sid();
+            root["channel"] = 0;                  //channel = 0表示一般聊天，= 1表示通告
             string data = writer.write(root);
             WS->send(data);
         }
@@ -279,6 +302,52 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
     _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
     
     this->updateSendTime();
+}
+
+void ChatPanel::btn_labaMessage(CCMenuItem* item) {
+    AUDIO->comfirm_effect();
+
+    FastWriter writer;
+    Value root;
+    
+    CCString* text_str = CCString::createWithFormat("%s", _input_text->getString());
+    
+    if (text_str->compare(" ") == 0) {
+        
+    }
+    else if (text_str->compare("  ") == 0) {
+        
+    }
+    else if (text_str->compare("   ") == 0) {
+        
+    }
+    else{
+        const char* content = _input_text->getString();
+        if (FILEM->is_illegal(content) == true) {
+            PromptLayer* tip = PromptLayer::create();
+            tip->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不能使用不文明及敏感文字~!");
+        }else{
+            NET->before_send_shout_831();
+        }
+    }
+}
+
+void ChatPanel::after_result_of_831(CCObject* pObj) {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
+    
+    FastWriter writer;
+    Value root;
+    const char* content = _input_text->getString();
+    root["name"] = DATA->getShow()->nickname();
+    root["chat"] = content;
+    root["id"] = DATA->getLogin()->obtain_sid();
+    root["channel"] = 1;                  //channel = 0表示一般聊天，= 1表示通告
+    string data = writer.write(root);
+    WS->send(data);
+    
+    _input_text->setString("");
+    _input_text->setAnchorPoint(CCPoint(0, 0.5));
+    _input_text->setPosition(ccp(- _input_bg->getContentSize().width* .5f, 0));
 }
 
 bool ChatPanel::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){

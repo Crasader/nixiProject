@@ -70,6 +70,7 @@ CCScene* StrangerScene::scene(){
 
 void StrangerScene::onEnter(){
     BaseScene::onEnter();
+    BaseScene::openChat(true);
     
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, SEL_CallFuncO(&StrangerScene::refresh_callback_802), "HTTP_FINISHED_802", NULL);

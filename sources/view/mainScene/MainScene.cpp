@@ -284,7 +284,7 @@ CCScene* MainScene::scene(){
 
 void MainScene::onEnter(){
     BaseScene::onEnter();
-    BaseScene::openChat();
+    BaseScene::openChat(true);
     
     this->setAccelerometerEnabled(true); // ?
     
@@ -395,6 +395,7 @@ void MainScene::onEnter(){
     // test
 //    NET->buy_monthly_card1_151();
 //    NET->take_monthly_card1_daily_reward_153();
+//    NET->before_send_shout_831();
 }
 
 void MainScene::checkVersion() {
@@ -1039,6 +1040,7 @@ void MainScene::creat_view(){
     menu_car2 = CCMenu::create(juqing2_Item, NULL);
     menu_car2->setPosition(ccp(_layer_1->getContentSize().width* .35f, _layer_1->getContentSize().height* .15f));
     _layer_1->addChild(menu_car2);
+
 //    unknow_bar1->setUserObject(ccs("res/pic/mainScene/unknow_bar.png"));
 //    _arrGroup1->addObject(unknow_bar1);
     if(DATA->getPlayer()->phase > 1) {
@@ -1056,6 +1058,8 @@ void MainScene::creat_view(){
         lock2->setPosition(ccp(unknow_bar2->getContentSize().width / 2, unknow_bar2->getContentSize().height / 2));
         unknow_bar2->addChild(lock2);
     }
+    
+    
     
     //-----花------
     _layer_0 = CCSprite::create("res/pic/mainScene/near.png");

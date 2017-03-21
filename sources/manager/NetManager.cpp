@@ -311,6 +311,16 @@ void NetManager::competition_prepare_827() {
     this->post_data(827, data);
 }
 
+void NetManager::before_send_shout_831() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 1;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(831, data);
+}
+
+
 void NetManager::all_mails_700() {
     this->post_data(700, string(""));
 }
@@ -938,9 +948,19 @@ void NetManager::buy_monthly_card1_151() {
 void NetManager::take_monthly_card1_daily_reward_153() {
     FastWriter writer;
     Value root;
-    root["id"] = (int)DATA->cur_timestamp();
+    root["id"] = 2;
+    root["extra"] = (int)DATA->cur_timestamp();
     string data = writer.write(root);
     this->post_data(153, data);
+}
+
+void NetManager::take_monthly_card2_daily_reward_157() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 3;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(157, data);
 }
 
 void NetManager::flash_sale_today_160() {

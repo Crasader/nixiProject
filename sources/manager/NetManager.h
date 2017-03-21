@@ -75,12 +75,15 @@ public:
     void delete_paper_811(CSJson::UInt64 id);
     void friend_break_813(const char* other_sid);
     
-    // 比拼
+    //// 比拼
     void competition_info_820(bool full);    // 获取所有pk信息
     void competition_search_opponent_821(); // 查找pk对手 or 换一个pk对手
     void competition_bless_823();   // 祝福
     void competition_start_825();   // 开始pk
     void competition_prepare_827(); // 已选好用的
+    
+    //// 喊话
+    void before_send_shout_831();
     
     void all_mails_700();
     void response_mail_701(CSJson::UInt64 id, int oper);         // oper： 1接受(完成后自动删除)；2不做处理，直接删除；
@@ -182,8 +185,10 @@ public:
     // iOS新支付验证
     void verify_order_iOS_133(string& orderId, string& productId, const char* receipt);
     
-    void buy_monthly_card1_151();       // 购买钻石支付的月卡
-    void take_monthly_card1_daily_reward_153();       // 购买钻石支付的月卡
+    void buy_monthly_card1_151();                       // 购买钻石支付的月卡
+    void take_monthly_card1_daily_reward_153();         // 领取钻石支付的月卡
+    
+    void take_monthly_card2_daily_reward_157();         // 领取尊贵月卡
     
     void flash_sale_today_160();
     void flash_sale_buying_161();

@@ -29,6 +29,7 @@ public:
     
     int         coin;
     int         diam;
+    int         piece;
     int         energy;
     
 private:

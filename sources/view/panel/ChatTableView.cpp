@@ -15,7 +15,8 @@
 #include "UnderlineLabel.h"
 #include "PromptLayer.h"
 
-const float CELL_WIDTH = 400;
+//const float CELL_WIDTH = 400;
+const float CELL_WIDTH = 480;
 const float CELL_HEIGHT = 60;
 
 ChatTableView::~ChatTableView(){
@@ -181,6 +182,17 @@ void ChatTableView::config_cell(CCTableViewCell *pCell, int index){
     nickname->setPosition(ccp(CELL_WIDTH* .025f, cellHeight - 15));
     pCell->addChild(nickname);
     
+    //===喇叭消息===
+    if(chat->channel == 1) {
+        nickname->setColor(ccRED);
+        CCSprite* laba = CCSprite::create("res/pic/panel/chat/notice.png");
+        laba->setPosition(ccp(nickname->getPositionX() + nickname->getContentSize().width + laba->getContentSize().width / 2, nickname->getPositionY()));
+        laba->setScale(0.8);
+        pCell->addChild(laba);
+    }
+    
+    
+    
 //    CCSprite* line_spr = CCSprite::create("res/pic/panel/chat/line.png");
 //    line_spr->setPosition(ccp(CELL_WIDTH* .5f   , 1));
 //    pCell->addChild(line_spr);
@@ -240,7 +252,7 @@ CCSize ChatTableView::tableCellSizeForIndex(cocos2d::extension::CCTableView *tab
     }else{
         cell_height = 60;
     }
-    return CCSizeMake(400, cell_height);
+    return CCSizeMake(CELL_WIDTH, cell_height);
 }
 
 void ChatTableView::scrollViewDidScroll(cocos2d::extension::CCScrollView *view){

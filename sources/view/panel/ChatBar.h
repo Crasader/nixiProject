@@ -23,6 +23,7 @@ class ChatBar : public CCLayer, FlashNumberLabelDelegate
 public: // Export
     void update_num(int num);
     void update_display();
+    void isTouchOpen(bool isOpen);
     
 public:
     ~ChatBar();

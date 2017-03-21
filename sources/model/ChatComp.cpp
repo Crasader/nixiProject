@@ -38,6 +38,14 @@ bool ChatItem::init_with_json(Value json) {
         else {
             this->id = "";
         }
+        
+        Value channel = json["channel"];
+        if (channel.type() != nullValue) {
+            this->channel = channel.asInt();
+        }
+        else {
+            this->channel = 0;
+        }
     }
 
     return btn;
@@ -58,16 +66,28 @@ void ChatComp::addItem(ChatItem* item) {
     }
 }
 
+void ChatComp::addShoutItem(ChatItem* item) {
+    if (_shoutItems) {
+        _shoutItems->addObject(item);
+    }
+}
+
 ChatComp::~ChatComp() {
     CC_SAFE_DELETE(_items);
+    CC_SAFE_DELETE(_shoutItems);
     CC_SAFE_DELETE(_colors);
 }
 
 bool ChatComp::init() {
+    this->setNewChatCount(0);
     this->setItems(CCArray::create());
+    
+    this->setNewShoutCount(0);
+    this->setShoutItems(CCArray::create());
+    
     this->setColors(CCArray::create());
     this->initColors();
-    this->setNewChatCount(0);
+    
     
     return true;
 }
