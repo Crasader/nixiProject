@@ -57,6 +57,8 @@ public:
 public:
     
     void creat_view();
+    void gold_view();
+    void money_view();
     void creat_lingqu();
     
     void goldButtonCallBack(CCObject* pSender);

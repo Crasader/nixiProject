@@ -886,6 +886,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["rewards"]);
         } break;
             
+        case 157: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+            pData = AppUtil::dictionary_with_json(content["rewards"]);
+        } break;
+            
         case 160: {
             _flashSaleInfo->config(content);
             pData = _flashSaleInfo;
@@ -995,8 +1002,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-//        return _player->getGuide();
-        return 0;
+        return _player->getGuide();
+//        return 0;
     }
     else {
         return 0;
