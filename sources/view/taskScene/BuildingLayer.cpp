@@ -59,7 +59,7 @@ bool BuildingLayer::init(int phase, bool isPhaseUp) {
     this->addAction();
     this->scheduleUpdate();
     
-    if (_phase < 4) {
+    if (_phase < 5) {
         CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", _phase);
         _building = CCSprite::create(str->getCString());
         _building->setAnchorPoint(CCPointZero);
@@ -71,7 +71,7 @@ bool BuildingLayer::init(int phase, bool isPhaseUp) {
         phaseBg->setPosition(DISPLAY->center());
         this->addChild(phaseBg);
         
-        CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", 4);
+        CCString* str = CCString::createWithFormat("pic/taskScene/task_building_%d.png", 5);
         _building = CCSprite::create(str->getCString());
         _building->setPosition(DISPLAY->center());
         this->addChild(_building);
