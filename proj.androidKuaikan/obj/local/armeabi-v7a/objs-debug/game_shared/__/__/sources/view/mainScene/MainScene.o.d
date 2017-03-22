@@ -268,6 +268,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/model/WelfareComp.h \
  jni/../../sources/model/AchievementComp.h \
  jni/../../sources/model/CompetitionComp.h \
+ jni/../../sources/model/FlashSaleComp.h \
  jni/../../sources/manager/DisplayManager.h \
  jni/../../sources/view/qingjingScene/QingjingScene.h \
  jni/../../sources/view/qingjingScene/QingjingCoverView.h \
@@ -291,6 +292,9 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
  jni/../../sources/view/mainScene/GashaponScene.h \
+ jni/../../sources/view/mainScene/SalesPromotionLayer.h \
+ jni/../../sources/view/common/AHMessageBox/AHMessageBox2.h \
+ jni/../../sources/view/mainScene/MonthCardLayer.h \
  jni/../../sources/view/friends/Shower.h \
  jni/../../sources/view/haoyouScene/StrangerScene.h \
  jni/../../sources/view/haoyouScene/NotePanel.h \
@@ -317,6 +321,7 @@ obj/local/armeabi-v7a/objs-debug/game_shared/__/__/sources/view/mainScene/MainSc
  jni/../../sources/view/panel/ChatPanel.h \
  jni/../../sources/view/panel/TotalRechargePanel.h \
  jni/../../sources/view/panel/Signin7Panel.h \
+ jni/../../sources/view/panel/NewSignin7Panel.h \
  jni/../../sources/view/home/HomeLayer.h \
  jni/../../sources/view/home/HomeTableView.h \
  jni/../../sources/view/panel/EnergyLargessPanel.h \
@@ -885,6 +890,8 @@ jni/../../sources/model/AchievementComp.h:
 
 jni/../../sources/model/CompetitionComp.h:
 
+jni/../../sources/model/FlashSaleComp.h:
+
 jni/../../sources/manager/DisplayManager.h:
 
 jni/../../sources/view/qingjingScene/QingjingScene.h:
@@ -930,6 +937,12 @@ jni/../../sources/manager/WSManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
 
 jni/../../sources/view/mainScene/GashaponScene.h:
+
+jni/../../sources/view/mainScene/SalesPromotionLayer.h:
+
+jni/../../sources/view/common/AHMessageBox/AHMessageBox2.h:
+
+jni/../../sources/view/mainScene/MonthCardLayer.h:
 
 jni/../../sources/view/friends/Shower.h:
 
@@ -982,6 +995,8 @@ jni/../../sources/view/panel/ChatPanel.h:
 jni/../../sources/view/panel/TotalRechargePanel.h:
 
 jni/../../sources/view/panel/Signin7Panel.h:
+
+jni/../../sources/view/panel/NewSignin7Panel.h:
 
 jni/../../sources/view/home/HomeLayer.h:
 

@@ -131,7 +131,8 @@ void TaskTableView::tableCellTouched(cocos2d::extension::CCTableView* table, coc
     CCDictionary* dic = (CCDictionary* )taskMission->objectAtIndex(cell->getIdx());
     OpenToWhichOne = dic->valueForKey("id")->intValue();
     
-    int unlockCondition = DATA->getPlayer()->mission;
+//    int unlockCondition = DATA->getPlayer()->mission;
+    int unlockCondition = 1000;
     if (OpenToWhichOne <= unlockCondition) {
         if (selectedIndex == -1) {
             selectedIndex = cell->getIdx();

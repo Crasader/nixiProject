@@ -120,8 +120,6 @@ void ChatPanel::initChatPanel(){
     CCMenu* menu_laba = CCMenu::create(item_laba, NULL);
     menu_laba->setPosition(ccp(_panel_bg->getContentSize().width* .90f, menu_send->getPositionY()));
     _panel_bg->addChild(menu_laba);
-    CCLOG("menu_width = %f",menu_send->getContentSize().width);
-    CCLOG("menu_width = %f", menu_send->getContentSize().height);
 
     
     _input_text = CCTextFieldTTF::textFieldWithPlaceHolder("最多可输入40汉字", DISPLAY->fangzhengFont(), 24);
@@ -282,6 +280,9 @@ void ChatPanel::btn_sendMessage(CCMenuItem *item){
     else if (text_str->compare("   ") == 0) {
         
     }
+    else if (text_str->compare("") == 0) {
+        
+    }
     else{
         const char* content = _input_text->getString();
         if (FILEM->is_illegal(content) == true) {
@@ -319,6 +320,9 @@ void ChatPanel::btn_labaMessage(CCMenuItem* item) {
         
     }
     else if (text_str->compare("   ") == 0) {
+        
+    }
+    else if (text_str->compare("") == 0) {
         
     }
     else{

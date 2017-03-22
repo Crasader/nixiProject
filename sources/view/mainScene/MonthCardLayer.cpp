@@ -39,6 +39,7 @@ void MonthCardLayer::onEnter(){
     CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
     nc->addObserver(this, menu_selector(MonthCardLayer::_151Callback), "HTTP_FINISHED_151", NULL);
     nc->addObserver(this, menu_selector(MonthCardLayer::_153Callback), "HTTP_FINISHED_153", NULL);
+    nc->addObserver(this, menu_selector(MonthCardLayer::_157Callback), "HTTP_FINISHED_157", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&MonthCardLayer::keyBackStatus), .8f);
 }
@@ -121,28 +122,14 @@ void MonthCardLayer::creat_view(){
     _888Spr->setPosition(ccp(goldButton->getContentSize().width* .5f, goldButton->getContentSize().height* .48f));
     goldButton->addChild(_888Spr);
     
-    // 剩余天数
-    if (goldCardItem->getDaysRest() > 0) {
-        
-        goldTishiSpr = CCSprite::create("res/pic/panel/month/month_tishi2.png");
-        goldTishiSpr->setAnchorPoint(ccp(.5f, 1));
-        goldTishiSpr->setPosition(ccp(goldKuangSpr->getContentSize().width* .53f, goldKuangSpr->getContentSize().height - 14));
-        moneyTishiSpr->setTag(0x334455);
-        goldKuangSpr->addChild(goldTishiSpr);
-        
-        CCString* goldStr = CCString::createWithFormat("%d", goldCardItem->getDaysRest());
-        CCLabelTTF* goldLabel = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 25);
-        goldLabel->setPosition(ccp(goldTishiSpr->getContentSize().width* .52f, goldTishiSpr->getContentSize().height* .68f));
-        goldLabel->setColor(ccRED);
-        moneyTishiSpr->setTag(0x445566);
-        goldTishiSpr->addChild(goldLabel);
-    }
+    this->gold_view();
     
     
     // rmb卡
     moneyKuangSpr = CCSprite::create("res/pic/panel/month/month_money.png");
     moneyKuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .525f, kuangSpr->getContentSize().height* .32f));
     kuangSpr->addChild(moneyKuangSpr);
+    
     CCSprite* moneyButtonSpr1 = CCSprite::create("res/pic/panel/month/month_button.png");
     CCSprite* moneyButtonSpr2 = CCSprite::create("res/pic/panel/month/month_button.png");
     moneyButtonSpr2->setScale(1.02f);
@@ -152,24 +139,7 @@ void MonthCardLayer::creat_view(){
     _30Spr->setPosition(ccp(moneyButton->getContentSize().width* .5f, moneyButton->getContentSize().height* .48f));
     moneyButton->addChild(_30Spr);
     
-    
-    
-    // 剩余天数
-    if (moneyCardItem->getDaysRest() > 0) {
-        
-        CCString* moneyStr = CCString::createWithFormat("%d", goldCardItem->getDaysRest());
-        moneyTishiSpr = CCSprite::create("res/pic/panel/month/month_tishi2.png");
-        moneyTishiSpr->setAnchorPoint(ccp(.5f, 1));
-        moneyTishiSpr->setPosition(ccp(moneyKuangSpr->getContentSize().width* .5f, moneyKuangSpr->getContentSize().height - 8));
-        moneyTishiSpr->setTag(0x556677);
-        moneyKuangSpr->addChild(moneyTishiSpr);
-        
-        CCLabelTTF* moneyLabel = CCLabelTTF::create(moneyStr->getCString(), DISPLAY->fangzhengFont(), 25);
-        moneyLabel->setPosition(ccp(moneyTishiSpr->getContentSize().width* .52f, moneyTishiSpr->getContentSize().height* .68f));
-        moneyLabel->setColor(ccRED);
-        moneyLabel->setTag(0x667788);
-        moneyTishiSpr->addChild(moneyLabel);
-    }
+    this->money_view();
     
     
     CCMenu* menu = CCMenu::create(goldButton, moneyButton, NULL);
@@ -180,6 +150,38 @@ void MonthCardLayer::creat_view(){
     
     this->creat_lingqu();
     
+}
+void MonthCardLayer::gold_view(){
+    // 剩余天数
+    if (goldCardItem->getDaysRest() > 0) {
+        
+        goldTishiSpr = CCSprite::create("res/pic/panel/month/month_tishi2.png");
+        goldTishiSpr->setAnchorPoint(ccp(.5f, 1));
+        goldTishiSpr->setPosition(ccp(goldKuangSpr->getContentSize().width* .53f, goldKuangSpr->getContentSize().height - 14));
+        goldKuangSpr->addChild(goldTishiSpr);
+        
+        CCString* goldStr = CCString::createWithFormat("%d", goldCardItem->getDaysRest());
+        CCLabelTTF* goldLabel = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 25);
+        goldLabel->setPosition(ccp(goldTishiSpr->getContentSize().width* .52f, goldTishiSpr->getContentSize().height* .68f));
+        goldLabel->setColor(ccRED);
+        goldTishiSpr->addChild(goldLabel);
+    }
+}
+void MonthCardLayer::money_view(){
+    // 剩余天数
+    if (moneyCardItem->getDaysRest() > 0) {
+        
+        CCString* moneyStr = CCString::createWithFormat("%d", moneyCardItem->getDaysRest());
+        moneyTishiSpr = CCSprite::create("res/pic/panel/month/month_tishi2.png");
+        moneyTishiSpr->setAnchorPoint(ccp(.5f, 1));
+        moneyTishiSpr->setPosition(ccp(moneyKuangSpr->getContentSize().width* .5f, moneyKuangSpr->getContentSize().height - 8));
+        moneyKuangSpr->addChild(moneyTishiSpr);
+        
+        CCLabelTTF* moneyLabel = CCLabelTTF::create(moneyStr->getCString(), DISPLAY->fangzhengFont(), 25);
+        moneyLabel->setPosition(ccp(moneyTishiSpr->getContentSize().width* .52f, moneyTishiSpr->getContentSize().height* .68f));
+        moneyLabel->setColor(ccRED);
+        moneyTishiSpr->addChild(moneyLabel);
+    }
 }
 void MonthCardLayer::creat_lingqu(){
     // 领取按钮
@@ -240,54 +242,118 @@ void MonthCardLayer::goldButtonCallBack(CCObject* pSender){
 void MonthCardLayer::_151Callback(CCObject* pObj){
     LOADING->remove();
     
+    CCLog("_151Callback_________1");
     PurchaseComp* purchase = DATA->getPurchase();
     goldCardItem = purchase->getMonthlyCard1();
     moneyCardItem = purchase->getMonthlyCard2();
-    
+    CCLog("_151Callback_________2");
     if (goldCardItem->getStatus() == 0) {// 0-未获得
         goldLingquItem->setVisible(false);
+        CCLog("_151Callback_________2_1");
     }else if (goldCardItem->getStatus() == 1){// 1-可领取
         goldLingquItem->setVisible(true);
         CCScaleTo* goldScaleTo1 = CCScaleTo::create(.5f, 1.1f);
         CCScaleTo* goldScaleTo2 = CCScaleTo::create(.5f, 1.f);
         CCSequence* goldSeq = CCSequence::create(goldScaleTo1, goldScaleTo2, NULL);
         goldLingquItem->runAction(CCRepeatForever::create(goldSeq));
+        CCLog("_151Callback_________2_2");
     }else if (goldCardItem->getStatus() == 2){// 2-当日已领取
         goldLingquItem->setVisible(true);
         goldLingquItem->setColor(ccGRAY);
+        CCLog("_151Callback_________2_3");
     }
+    CCLog("_151Callback_________3");
     
+    goldKuangSpr->removeAllChildren();
+    this->gold_view();
+    CCLog("_151Callback_________4");
+    moneyKuangSpr->removeAllChildren();
+    this->money_view();
+    CCLog("_151Callback_________5");
     
-    // 剩余天数
-    if (goldCardItem->getDaysRest() > 0) {
-        if (goldTishiSpr->getChildByTag(0x445566) != NULL) {
-            goldTishiSpr->removeChildByTag(0x445566);
-        }
-        if (goldKuangSpr->getChildByTag(0x334455) != NULL) {
-            goldKuangSpr->removeChildByTag(0x334455);
-        }
-        
-        goldTishiSpr = CCSprite::create("res/pic/panel/month/month_tishi2.png");
-        goldTishiSpr->setAnchorPoint(ccp(.5f, 1));
-        goldTishiSpr->setPosition(ccp(goldKuangSpr->getContentSize().width* .53f, goldKuangSpr->getContentSize().height - 14));
-        goldTishiSpr->setTag(0x334455);
-        goldKuangSpr->addChild(goldTishiSpr);
-        
-        CCString* goldStr = CCString::createWithFormat("%d", goldCardItem->getDaysRest());
-        CCLabelTTF* goldLabel = CCLabelTTF::create(goldStr->getCString(), DISPLAY->fangzhengFont(), 25);
-        goldLabel->setPosition(ccp(goldTishiSpr->getContentSize().width* .52f, goldTishiSpr->getContentSize().height* .68f));
-        goldLabel->setColor(ccRED);
-        goldLabel->setTag(0x445566);
-        goldTishiSpr->addChild(goldLabel);
-    }
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "购买成功");
 }
 void MonthCardLayer::moneyButtonCallBack(CCObject* pSender){
-    
+    if (CONFIG->baiOrYijie == 0) {// 白包
+        if (CONFIG->openPay == 0) {
+            // talkingData
+            DATA->onEvent("支付意向", "支付界面", "点击购买钻石");
+        }else if (CONFIG->openPay == 1){
+            LOADING->show_loading();
+            
+        }
+    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2 || CONFIG->baiOrYijie == 3){// 易接
+        if (CONFIG->openPay == 0) {
+            // talkingData
+            DATA->onEvent("支付意向", "支付界面", "点击购买钻石");
+        }else if (CONFIG->openPay == 1){
+            LOADING->show_loading();
+            
+            JNIController::setChannelId(CONFIG->channelId);
+            JNIController::setMoneyStatus(30 * 100);
+            JNIController::setGoldStatus(0);
+            JNIController::setPlayerName(DATA->getShow()->nickname());
+            JNIController::setSidId(DATA->getLogin()->obtain_sid());
+            JNIController::setProductId("tiegao_9");
+            JNIController::isGamePay(9);
+            
+            this->schedule(schedule_selector(MonthCardLayer::updatePay), 1.f);
+        }
+    }
 }
+void MonthCardLayer::updatePay(float dt){
+    LOADING->remove();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if (JNIController::getSmsStatus() == 1) {
+        JNIController::setSmsStatus(0);
+        CCLog("<><><><><><> updatePay");
+        this->unschedule(SEL_SCHEDULE(&MonthCardLayer::updatePay));
+        
+        string orderId = JNIController::getCpOrderId();
+        string productId = JNIController::getProductId();
+        CCString* iapId = CCString::createWithFormat("包月");
+        
+        DATA->onChargeRequest(orderId, iapId->getCString(), JNIController::getMoneyStatus()/100, 0);
+        
+        LOADING->show_loading();
+        this->scheduleOnce(SEL_SCHEDULE(&MonthCardLayer::sendPay), 2.f);
+    }else if (JNIController::getSmsStatus() == 2) {
+        LOADING->remove();
+        
+        CCUserDefault::sharedUserDefault()->setStringForKey("CpOrderId", "");
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("Product_Index", 100);
+        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
+        JNIController::setSmsStatus(0);
+        this->unschedule(SEL_SCHEDULE(&MonthCardLayer::updatePay));
+        
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getParent(), "支付失败");
+    }
+#endif
+}
+void MonthCardLayer::sendPay(float dt){
+    LOADING->remove();
+    
+    string orderId = JNIController::getCpOrderId();
+    DATA->onChargeSuccess(orderId);
+    
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "购买结果请稍后去邮件确认.");
+    
+    LOADING->show_loading();
+    this->scheduleOnce(SEL_SCHEDULE(&MonthCardLayer::closeMonthCardLayer), 1.f);
+}
+void MonthCardLayer::closeMonthCardLayer(float dt){
+    LOADING->remove();
+    this->removeFromParentAndCleanup(true);
+}
+
 
 void MonthCardLayer::goldLingquCallback(CCObject* pSender){
     if (goldCardItem->getStatus() == 1){
@@ -321,13 +387,32 @@ void MonthCardLayer::_153Callback(CCObject* pObj){
 
 
 void MonthCardLayer::moneyLingquCallback(CCObject* pSender){
-    if (goldCardItem->getStatus() == 1){
-        
-        
-    }else if (goldCardItem->getStatus() == 2){
+    if (moneyCardItem->getStatus() == 1){
+        LOADING->show_loading();
+        NET->take_monthly_card2_daily_reward_157();
+    }else if (moneyCardItem->getStatus() == 2){
         PromptLayer* layer = PromptLayer::create();
         layer->show_prompt(this->getScene(), "已领取");
     }
 }
-
+void MonthCardLayer::_157Callback(CCObject* pObj){
+    LOADING->remove();
+    
+    PurchaseComp* purchase = DATA->getPurchase();
+    goldCardItem = purchase->getMonthlyCard1();
+    moneyCardItem = purchase->getMonthlyCard2();
+    
+    if (moneyCardItem->getStatus() == 0) {// 0-未获得
+        moneyLingquItem->setVisible(false);
+    }else if (moneyCardItem->getStatus() == 1){// 1-可领取
+        moneyLingquItem->setVisible(true);
+    }else if (moneyCardItem->getStatus() == 2){// 2-当日已领取
+        moneyLingquItem->setVisible(true);
+        moneyLingquItem->setColor(ccGRAY);
+    }
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "领取成功");
+}
 

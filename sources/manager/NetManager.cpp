@@ -75,7 +75,12 @@ void NetManager::post_data(int cid, string data)
     else {
         url = this->obtain_game_url(login->obtain_sid(), cid, this->generate_sign(cid, data.c_str()));
     }
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     CCLOG("====== *** NetManager::post_data() *** ======\nurl >> %s\ndata >> %s", url->getCString(), data.c_str());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    CCLog("====== *** NetManager::post_data() *** ======\nurl >> %s\ndata >> %s", url->getCString(), data.c_str());
+#endif
+    
     CCHTTPRequest* request = CCHTTPRequest::createWithUrl(this, url->getCString(), kCCHTTPRequestMethodPOST);
     request->addRequestHeader("Web-Scope: mzplay");
     request->setPOSTData(data.c_str());
@@ -87,7 +92,12 @@ void NetManager::requestFinished(CCHTTPRequest *request)
 {
     int resp_code = request->getResponseStatusCode();
     std::string response = request->getResponseString();
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     CCLOG("NetManager::requestFinished(%d) -\n%s\n", resp_code, response.c_str());
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    CCLog("NetManager::requestFinished(%d) -\n%s\n", resp_code, response.c_str());
+#endif
+    
     DATA->http_response_handle(resp_code, response);
 }
 
@@ -115,7 +125,7 @@ void NetManager::fast_login_900(const char* uuid, int channel) {
     root["uuid"] = uuid;
     root["type"] = 1;
     root["channel"] = channel;
-    root["ver"] = "10800";
+    root["ver"] = "10801";
     string data = writer.write(root);
     this->post_data(900, data);
 }
