@@ -235,24 +235,24 @@ void JiesuanLayer::creat_jiesuan(){
         jiesuanXingSpr->runAction(CCRepeatForever::create(jiesuanXingAnimate));
         
         
-        CCSprite* shareSpr1;
-        CCSprite* shareSpr2;
-        if (DATA->getNews()->dailyShareCount == 0) {
-            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-            shareSpr2->setScale(1.02f);
-        }else{
-            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-            shareSpr2->setScale(1.02f);
-        }
-        CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(JiesuanLayer::shareCallBack));
-        shareItem->setAnchorPoint(ccp(0, .5f));
-        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
-        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
-        shareMenu->setPosition(CCPointZero);
-        shareMenu->setTag(0x334455);
-        this->addChild(shareMenu, 20);
+//        CCSprite* shareSpr1;
+//        CCSprite* shareSpr2;
+//        if (DATA->getNews()->dailyShareCount == 0) {
+//            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+//            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+//            shareSpr2->setScale(1.02f);
+//        }else{
+//            shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+//            shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+//            shareSpr2->setScale(1.02f);
+//        }
+//        CCMenuItem* shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(JiesuanLayer::shareCallBack));
+//        shareItem->setAnchorPoint(ccp(0, .5f));
+//        shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+//        CCMenu* shareMenu = CCMenu::create(shareItem, NULL);
+//        shareMenu->setPosition(CCPointZero);
+//        shareMenu->setTag(0x334455);
+//        this->addChild(shareMenu, 20);
         
         this->creat_lingqu(lingquItem, 1);
     }else if (selfScore < opponentScore){

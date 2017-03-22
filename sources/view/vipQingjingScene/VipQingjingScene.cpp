@@ -72,25 +72,6 @@ bool VipQingjingScene::init(){
     CCDictionary* taskConditionsDic = AppUtil::dictionary_with_json(taskConditionsData);
     allNumber = taskConditionsDic->count();
     
-    // 老的购买的
-//    int dicCount = taskConditionsDic->count()/3;
-//    for (int i = 0; i < dicCount; i++) {
-//        CCString* story_index = CCString::createWithFormat("%d", i*3);
-//        // 0为未购买 非0已购买 -1通关
-//        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
-//        if (tempIndex == 0) {
-//            if (i < dicCount) {
-//                allNumber = (i*3) + 1;
-//            }
-//            break;
-//        }else{
-//            allNumber = taskConditionsDic->count();
-//        }
-//    }
-    allNumber = taskConditionsDic->count();
-    
-    
-    
     
     // 0为未购买 非0已购买 -1通关
     int tempIndex1 = DATA->getStory()->story2_state("0");
@@ -113,11 +94,6 @@ bool VipQingjingScene::init(){
     allClothesDic = CONFIG->clothes();// 所有衣服
     
     this->creat_view();
-//    this->creat_Man();
-//    this->initClothes();
-//    
-//    this->creat_Tishi();
-//    this->EnterTheTishi();
     
     return true;
 }
@@ -366,78 +342,6 @@ void VipQingjingScene::creat_view(){
                 startItem->setEnabled(false);
             }
         }
-
-//        CCString* story_index = CCString::createWithFormat("%d", i);
-//        // 0为未购买 非0已购买 -1通关
-//        int storyIndex = DATA->getStory()->story2_state(story_index->getCString());
-//        // 开始故事
-//        CCSprite* startSpr1;
-//        CCSprite* startSpr2;
-//        if (storyIndex != 0) {
-////            CCSprite* tongguanSpr = CCSprite::create("res/pic/qingjingScene/qj_tongguan.png");
-////            tongguanSpr->setScale(.7f);
-////            tongguanSpr->setAnchorPoint(ccp(0, .5f));
-////            tongguanSpr->setPosition(ccp(tishiLabel->getContentSize().width* 1.07f, tishiLabel->getContentSize().height* .5f));
-////            tishiLabel->addChild(tongguanSpr);
-//            
-//            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-//            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-//            startSpr2->setScale(1.02f);
-//            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-//            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
-//            startItem->setTag(i);
-//            startMenu = CCMenu::create(startItem, NULL);
-//            startMenu->setPosition(CCPointZero);
-//            startMenu->setTag(i);
-//            kuangSpr->addChild(startMenu);
-//            
-//        }else{
-//            CCLabelTTF* tempLabel = CCLabelTTF::create("购买后可开启3章.", DISPLAY->fangzhengFont(), 25);
-//            tempLabel->setPosition(ccp(kuangSpr->getContentSize().width* .77f, -5));
-//            tempLabel->setColor(ccWHITE);
-//            kuangSpr->addChild(tempLabel);
-//            
-//            startSpr1 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-//            startSpr2 = CCSprite::create("res/pic/qingjingScene/qj_vipStart2.png");
-//            startSpr2->setScale(1.02f);
-//            startItem = CCMenuItemSprite::create(startSpr1, startSpr2, this, menu_selector(VipQingjingScene::startCallBack));
-//            startItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
-//            startItem->setTag(i);
-//            
-//            CCSprite* buySpr1 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
-//            CCSprite* buySpr2 = CCSprite::create("res/pic/qingjingScene/qj_vip_buy.png");
-//            buySpr2->setScale(1.02f);
-//            buyItem = CCMenuItemSprite::create(buySpr1, buySpr2, this, menu_selector(VipQingjingScene::buyCallBack));
-//            buyItem->setPosition(ccp(kuangSpr->getContentSize().width* .5f, -kuangSpr->getContentSize().height* .3f));
-//            buyItem->setTag(i+1000);
-//            
-//            // 购买花费
-//            CCString* strCost = CCString::createWithFormat("%d", DATA->getPlayer()->vipStoryBuyCost);
-//            ccColor3B lblColor = ccc3(147, 174, 251);
-//            CCSize btnSize = buySpr1->getContentSize();
-//
-//            {
-//                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
-//                lblBuyCost->setColor(lblColor);
-//                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
-//                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
-//                buySpr1->addChild(lblBuyCost);
-//            }
-//            {
-//                CCLabelTTF* lblBuyCost = CCLabelTTF::create(strCost->getCString(), DISPLAY->fangzhengFont(), 24.f);
-//                lblBuyCost->setColor(lblColor);
-//                lblBuyCost->setPosition(ccp(btnSize.width * 0.57, btnSize.height * 0.63));
-//                lblBuyCost->setAnchorPoint(ccp(1, 0.5));
-//                buySpr2->addChild(lblBuyCost);
-//            }
-//            
-//            startItem->setVisible(false);
-//            buyItem->setVisible(true);
-//            
-//            startMenu = CCMenu::create(startItem, buyItem, NULL);
-//            startMenu->setPosition(CCPointZero);
-//            kuangSpr->addChild(startMenu);
-//        }
     }
     
     qingjingCoverView->setPosition(swRect.origin);
@@ -554,39 +458,6 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
             AUDIO->comfirm_effect();
          
             this->buy_iOS_story2_515();
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-//            this->buy_iOS_story2_515();
-//            
-//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//            if (CONFIG->baiOrYijie == 0) {// 白包
-//                if (CONFIG->openPay == 0) {
-//                    LOADING->show_loading();
-//                    CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//                    NET->buy_story2_505(indexStr1->getCString());
-//                }else if (CONFIG->openPay == 1){
-//                    LOADING->show_loading();
-//                    CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//                    NET->buy_story2_505(indexStr1->getCString());
-//                }
-//            }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
-//                if (CONFIG->openPay == 0) {
-//                    LOADING->show_loading();
-//                    CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//                    NET->buy_story2_505(indexStr1->getCString());
-//                }else if (CONFIG->openPay == 1){
-//                    LOADING->show_loading();
-//                    JNIController::setMoneyStatus(6 * 100);
-//                    JNIController::setGoldStatus(0);
-//                    JNIController::setPlayerName(DATA->getShow()->nickname());
-//                    CCString* productStr = CCString::createWithFormat("story_buy2");
-//                    JNIController::setProductId(productStr->getCString());
-//                    JNIController::setSidId(DATA->getLogin()->obtain_sid());
-//                    JNIController::isGamePay(10);
-//                    
-//                    this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
-//                }
-//            }
-//#endif
         }else {
             CCSprite* tskSpr = CCSprite::create("res/pic/common/ah_box_message.png");
             tskSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .4f));
@@ -618,61 +489,7 @@ void VipQingjingScene::buyCallBack(CCObject* pSender){
         AUDIO->comfirm_effect();
         
         this->buy_iOS_story2_515();
-        
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-//        this->buy_iOS_story2_515();
-//        
-//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//        if (CONFIG->baiOrYijie == 0) {// 白包
-//            if (CONFIG->openPay == 0) {
-//                LOADING->show_loading();
-//                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//                NET->buy_story2_505(indexStr1->getCString());
-//            }else if (CONFIG->openPay == 1){
-//                LOADING->show_loading();
-//                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//                NET->buy_story2_505(indexStr1->getCString());
-//            }
-//        }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
-//            if (CONFIG->openPay == 0) {
-//                LOADING->show_loading();
-//                CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//                NET->buy_story2_505(indexStr1->getCString());
-//            }else if (CONFIG->openPay == 1){
-//                JNIController::setMoneyStatus(6 * 100);
-//                JNIController::setGoldStatus(0);
-//                JNIController::setPlayerName(DATA->getShow()->nickname());
-//                CCString* productStr = CCString::createWithFormat("story_buy2");
-//                JNIController::setProductId(productStr->getCString());
-//                JNIController::setSidId(DATA->getLogin()->obtain_sid());
-//                JNIController::isGamePay(10);
-//                
-//                this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
-//            }
-//        }
-//#endif
     }
-}
-void VipQingjingScene::updatePay(float dt){
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if (JNIController::getSmsStatus() == 1) {
-        JNIController::setSmsStatus(0);
-        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
-        
-        this->unschedule(SEL_SCHEDULE(&VipQingjingScene::updatePay));
-        
-        LOADING->show_loading();
-        this->scheduleOnce(SEL_SCHEDULE(&VipQingjingScene::send111), 2.f);
-    }else if (JNIController::getSmsStatus() == 2) {
-        LOADING->remove();
-        
-        CCUserDefault::sharedUserDefault()->setStringForKey("CpOrderId", "");
-        CCUserDefault::sharedUserDefault()->setIntegerForKey("Product_Index", 100);
-        CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
-        JNIController::setSmsStatus(0);
-        this->unschedule(SEL_SCHEDULE(&VipQingjingScene::updatePay));
-    }
-#endif
 }
 
 void VipQingjingScene::send111(){
@@ -692,12 +509,6 @@ void VipQingjingScene::_111CallBack(CCObject* pSender){
     
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "购买成功.");
-    
-//    CCMenu* menu = (CCMenu* )tempItem->getParent();
-//    CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
-//    CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);
-//    startItem->setVisible(true);
-//    buyItem->setVisible(false);
     
     storyIndex = 0;
     
@@ -752,39 +563,19 @@ void VipQingjingScene::_113CallBack(CCObject* pSender){
 }
 
 void VipQingjingScene::buy_iOS_story2_515() {
-//    if (true) {
-//        LOADING->show_loading();
-//        IOSIAPManager* d = IOSIAPManager::Inst();
-//        if (d->canMakePurchases()) {
-//            CCLOG("can purchases");
-//            d->buyProduct("tiegao_story");
-//        }
-//        else {
-//            LOADING->remove();
-//            CCLOG("can not purchases");
-//        }
-//    }
-//    else {
-//        LOADING->show_loading();
-//        CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-//        NET->buy_story2_505(indexStr->getCString());
-//    }
     LOADING->show_loading();
     CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
     NET->buy_ios_story2_515(indexStr->getCString());
 }
 
 void VipQingjingScene::nc_buy_iOS_story2(CCObject *pSender) {
-    this->_505CallBack(pSender);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+//    this->_505CallBack(pSender);
+//    CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
+    
+    LOADING->show_loading();
+    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+    NET->start_story2_509(indexStr->getCString());
 }
-
-//// iOS支付成功回调
-//void VipQingjingScene::iOS_buy_109() {
-//    LOADING->show_loading();
-//    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-//    NET->buy_story2_505(indexStr->getCString());
-//}
 
 void VipQingjingScene::quedingCallBack(CCObject* pSender){
     AUDIO->comfirm_effect();
@@ -794,42 +585,6 @@ void VipQingjingScene::quedingCallBack(CCObject* pSender){
     }
     
     this->buy_iOS_story2_515();
-//    // 就要买
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-//    this->buy_iOS_story2_515();
-////    LOADING->show_loading();
-////    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-////    NET->buy_story2_505(indexStr->getCString());
-//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//    if (CONFIG->baiOrYijie == 0) {// 白包
-//        if (CONFIG->openPay == 0) {
-//            LOADING->show_loading();
-//            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-//            NET->buy_story2_505(indexStr->getCString());
-//        }else if (CONFIG->openPay == 1){
-//            LOADING->show_loading();
-//            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-//            NET->buy_story2_505(indexStr->getCString());
-//        }
-//    }else if (CONFIG->baiOrYijie == 1 || CONFIG->baiOrYijie == 2){// 易接
-//        if (CONFIG->openPay == 0) {
-//            LOADING->show_loading();
-//            CCString* indexStr1 = CCString::createWithFormat("%d", storyIndex);
-//            NET->buy_story2_505(indexStr1->getCString());
-//        }else if (CONFIG->openPay == 1){
-//            LOADING->show_loading();
-//            JNIController::setMoneyStatus(6 * 100);
-//            JNIController::setGoldStatus(0);
-//            JNIController::setPlayerName(DATA->getShow()->nickname());
-//            CCString* productStr = CCString::createWithFormat("story_%d", storyIndex);
-//            JNIController::setProductId(productStr->getCString());
-//            JNIController::setSidId(DATA->getLogin()->obtain_sid());
-//            JNIController::isGamePay(10);
-//            
-//            this->schedule(schedule_selector(VipQingjingScene::updatePay), 1.f);
-//        }
-//    }
-//#endif
 }
 void VipQingjingScene::quxiaoCallBack(CCObject* pSender){
     if (this->getChildByTag(0x8888) != NULL) {
@@ -842,12 +597,6 @@ void VipQingjingScene::_505CallBack(CCObject* pSender){
     
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "购买成功.");
-    
-//    CCMenu* menu = (CCMenu* )tempItem->getParent();
-//    CCMenuItem* buyItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag());
-//    CCMenuItem* startItem = (CCMenuItem* )menu->getChildByTag(tempItem->getTag()-1000);
-//    startItem->setVisible(true);
-//    buyItem->setVisible(false);
     
     storyIndex = 0;
     
@@ -892,7 +641,36 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         if (tempIndex == -1) {
             tongguanBool = true;
         }
-        if (tongguanBool) {
+        
+        if (tempIndex == 0) {
+            AUDIO->comfirm_effect();
+            
+            this->buy_iOS_story2_515();
+        }else{
+            if (tongguanBool) {
+                if (DATA->getPlayer()->energy >= 9) {
+                    LOADING->show_loading();
+                    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+                    NET->start_story2_509(indexStr->getCString());
+                }else{
+                    AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+                    mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+                }
+            }else {
+                PromptLayer* layer = PromptLayer::create();
+                layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
+            }
+        }
+    }else{
+        CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+        if (tempIndex == 0) {
+            AUDIO->comfirm_effect();
+            
+            this->buy_iOS_story2_515();
+        }else{
             if (DATA->getPlayer()->energy >= 9) {
                 LOADING->show_loading();
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
@@ -902,19 +680,6 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
             }
-        }else {
-            PromptLayer* layer = PromptLayer::create();
-            layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
-        }
-    }else{
-        if (DATA->getPlayer()->energy >= 9) {
-            LOADING->show_loading();
-            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-            NET->start_story2_509(indexStr->getCString());
-        }else{
-            AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
         }
     }
 }

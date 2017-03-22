@@ -105,7 +105,6 @@ public:
 //    void displayChatItem();
     
     
-    void updatePay(float dt);
     void send111();
     
 //    void iOS_buy_109();

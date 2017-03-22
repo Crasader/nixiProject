@@ -50,6 +50,8 @@ public:
     CCMenuItem* goldLingquItem;
     CCMenuItem* moneyLingquItem;
     
+    CCLabelTTF* moneyTishiLabel;
+    
     CCMenu* lingquMenu;
     
     int num_child;

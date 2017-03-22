@@ -239,6 +239,7 @@ public:
     void shareCallBack(CCObject* pSender);
     void shareStatus(float dt);
     void iOS_share_finish(CCObject* pSender);
+    void _321CallBack(CCObject* pSender);
     
     void randomHint(float dt);
     

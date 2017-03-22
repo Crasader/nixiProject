@@ -24,13 +24,13 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
 
 
 cn.mzplay.tiegao.kuaikan					快看		can 900	baiOrYijie 1
-
+											A站		can 901	baiOrYijie 1
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.mzplay.tiegao.kuaikan"
-    android:versionCode="78"
-    android:versionName="1.7.8">
+    android:versionCode="81"
+    android:versionName="1.8.1">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />
