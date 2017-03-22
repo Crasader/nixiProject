@@ -153,24 +153,24 @@ void ClothesScene::init_with_type(int _type_id, int _task_index, int _task_phase
     
     
     
-    CCSprite* shareSpr1;
-    CCSprite* shareSpr2;
-    if (DATA->getNews()->dailyShareCount == 0) {
-        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
-        shareSpr2->setScale(1.02f);
-    }else{
-        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
-        shareSpr2->setScale(1.02f);
-    }
-    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(ClothesScene::shareCallBack));
-    shareItem->setAnchorPoint(ccp(0, .5f));
-    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
-    shareMenu = CCMenu::create(shareItem, NULL);
-    shareMenu->setPosition(CCPointZero);
-    shareMenu->setTag(0x334455);
-    this->addChild(shareMenu, 20);
+//    CCSprite* shareSpr1;
+//    CCSprite* shareSpr2;
+//    if (DATA->getNews()->dailyShareCount == 0) {
+//        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+//        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share1.png");
+//        shareSpr2->setScale(1.02f);
+//    }else{
+//        shareSpr1 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+//        shareSpr2 = CCSprite::create("res/pic/haoyoupaihang/share2.png");
+//        shareSpr2->setScale(1.02f);
+//    }
+//    shareItem = CCMenuItemSprite::create(shareSpr1, shareSpr2, this, menu_selector(ClothesScene::shareCallBack));
+//    shareItem->setAnchorPoint(ccp(0, .5f));
+//    shareItem->setPosition(ccp(5, DISPLAY->ScreenHeight()* .75f));
+//    shareMenu = CCMenu::create(shareItem, NULL);
+//    shareMenu->setPosition(CCPointZero);
+//    shareMenu->setTag(0x334455);
+//    this->addChild(shareMenu, 20);
     
     
     this->crate_Tishi();
@@ -218,6 +218,10 @@ void ClothesScene::shareCallBack(CCObject* pSender){
     layer->setTag(0x99766);
     this->addChild(layer, 100);
     
+    
+//    LOADING->show_loading();
+//    NET->daily_share_321();
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CCRenderTexture* rt = AppUtil::saveScreenAsRenderTexture();
     std::string path = CCFileUtils::sharedFileUtils()->getWritablePath();
@@ -264,12 +268,11 @@ void ClothesScene::shareStatus(float dt){
         this->unschedule(SEL_SCHEDULE(&ClothesScene::shareStatus));
     }
 }
+void ClothesScene::_321CallBack(CCObject* pSender){
+    LOADING->remove();
+}
 void ClothesScene::iOS_share_finish(CCObject* pSender){
     LOADING->remove();
-    
-    if(this->getChildByTag(0x99766) != NULL) {
-        this->removeChildByTag(0x99766);
-    }
 }
 
 
@@ -324,9 +327,9 @@ void ClothesScene::onEnter(){
     
     nc->addObserver(this, menu_selector(ClothesScene::after_commit_mystery_613), "HTTP_FINISHED_613", NULL);
     nc->addObserver(this, menu_selector(ClothesScene::after_start_tryst_task_623), "HTTP_FINISHED_623", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::_321CallBack), "HTTP_FINISHED_321", NULL);
     
-    
-    nc->addObserver(this, SEL_CallFuncO(&ClothesScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
+    nc->addObserver(this, menu_selector(ClothesScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&ClothesScene::keyBackStatus), .8f);
     //

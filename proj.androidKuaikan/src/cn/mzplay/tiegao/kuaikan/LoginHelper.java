@@ -23,15 +23,15 @@ public class LoginHelper {
 		public String orderId;
 	}
     //自建服务器
-	static public final String CP_LOGIN_CHECK_URL = "http://nixi.yunlookgame.cn:9765/kuaikan/login";// 59
-//	static public final String CP_LOGIN_CHECK_URL = "http://tiegao.yunlookgame.cn:9765/kuaikan/login";// 170
+//	static public final String CP_LOGIN_CHECK_URL = "http://nixi.yunlookgame.cn:9765/kuaikan/login";// 59
+	static public final String CP_LOGIN_CHECK_URL = "http://tiegao.yunlookgame.cn:9765/kuaikan/login";// 170
 	
 	
 	/*CP服务器地址，支付结果同步地址
 	 * 如果客户端不设置，将以在易接后台创建游戏时设置的数据同步地址进行同步
 	 * */
-	static public final String CP_PAY_SYNC_URL = "http://nixi.yunlookgame.cn:9765/kuaikan/order";// 59
-//	static public final String CP_PAY_SYNC_URL = "http://tiegao.yunlookgame.cn:9765/kuaikan/order";// 170
+//	static public final String CP_PAY_SYNC_URL = "http://nixi.yunlookgame.cn:9765/kuaikan/order";// 59
+	static public final String CP_PAY_SYNC_URL = "http://tiegao.yunlookgame.cn:9765/kuaikan/order";// 170
 	
 	
 	public static final boolean DEBUG	= false;

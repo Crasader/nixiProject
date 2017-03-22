@@ -134,7 +134,7 @@ void MonthCardLayer::creat_view(){
     moneyTishiLabel->setPosition(ccp(moneyKuangSpr->getContentSize().width - 6, -1));
     moneyTishiLabel->setColor(ccRED);
     moneyKuangSpr->addChild(moneyTishiLabel);
-//    moneyTishiLabel->setVisible(false);
+    moneyTishiLabel->setVisible(false);
     
     CCSprite* moneyButtonSpr1 = CCSprite::create("res/pic/panel/month/month_button.png");
     CCSprite* moneyButtonSpr2 = CCSprite::create("res/pic/panel/month/month_button.png");
@@ -349,6 +349,7 @@ void MonthCardLayer::sendPay(float dt){
     string orderId = JNIController::getCpOrderId();
     DATA->onChargeSuccess(orderId);
     
+    moneyTishiLabel->setVisible(true);
     
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     PromptLayer* prompt = PromptLayer::create();

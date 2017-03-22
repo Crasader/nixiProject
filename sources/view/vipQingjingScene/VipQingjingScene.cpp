@@ -641,7 +641,36 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
         if (tempIndex == -1) {
             tongguanBool = true;
         }
-        if (tongguanBool) {
+        
+        if (tempIndex == 0) {
+            AUDIO->comfirm_effect();
+            
+            this->buy_iOS_story2_515();
+        }else{
+            if (tongguanBool) {
+                if (DATA->getPlayer()->energy >= 9) {
+                    LOADING->show_loading();
+                    CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
+                    NET->start_story2_509(indexStr->getCString());
+                }else{
+                    AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
+                    mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
+                }
+            }else {
+                PromptLayer* layer = PromptLayer::create();
+                layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
+            }
+        }
+    }else{
+        CCString* story_index = CCString::createWithFormat("%d", storyIndex-1);
+        // 0为未购买 非0已购买 -1通关
+        int tempIndex = DATA->getStory()->story2_state(story_index->getCString());
+        if (tempIndex == 0) {
+            AUDIO->comfirm_effect();
+            
+            this->buy_iOS_story2_515();
+        }else{
             if (DATA->getPlayer()->energy >= 9) {
                 LOADING->show_loading();
                 CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
@@ -651,19 +680,6 @@ void VipQingjingScene::startCallBack(CCObject* pSender){
                 mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                 CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
             }
-        }else {
-            PromptLayer* layer = PromptLayer::create();
-            layer->show_prompt(this->getScene(), "亲!前面章节,没通关.");
-        }
-    }else{
-        if (DATA->getPlayer()->energy >= 9) {
-            LOADING->show_loading();
-            CCString* indexStr = CCString::createWithFormat("%d", storyIndex);
-            NET->start_story2_509(indexStr->getCString());
-        }else{
-            AHMessageBox* mb = AHMessageBox::create_with_message("体力不够,是否购买体力.", this, AH_AVATAR_TYPE_NO, AH_BUTTON_TYPE_YESNO, false);
-            mb->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(mb, 4000);
         }
     }
 }

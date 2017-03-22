@@ -118,7 +118,7 @@ public class Tiegao extends Cocos2dxActivity {
 		// 9C58D9E0BC45489B8920B2712A35AE35		测试2
 		
 		
-		TalkingDataGA.init(instance, "85C506A249F4A97CD676DE2A6D7C652B", "mzplay");
+		TalkingDataGA.init(instance, "1E05E5E92119499A8AF5C19F3FB47BAF", "mzplay");
 	}
 	
 	
@@ -198,17 +198,17 @@ public class Tiegao extends Cocos2dxActivity {
 		// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
 		//oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle("女总裁的贴身高手");
-		// text是分享文本，所有平台都需要这个字段
 		if (type == 1) {
-			oks.setText("我在《女总裁的贴身高手》里已经收集" + num + "件衣服了，来和我一起吧！");
+			oks.setTitle("我在《女总裁的贴身高手》里已经收集" + num + "件衣服了，快来和我一起玩吧！");
 		}else if (type == 2){
-			oks.setText("我在《女总裁的贴身高手》获得满星通关，一起创建商业帝国吧！");
+			oks.setTitle("我在《女总裁的贴身高手》获得满星通关，一起创建商业帝国吧！");
 		}else if (type == 3){
-			oks.setText("我在《女总裁的贴身高手》抽到了极品服饰，来试试你的人品吧！");
+			oks.setTitle("我在《女总裁的贴身高手》抽到了极品服饰，来试试你的人品吧！");
 		}else if (type == 4){
-			oks.setText("我在《女总裁的贴身高手》搭配比拼中完胜对手，你敢来挑战我么？");
+			oks.setTitle("我在《女总裁的贴身高手》搭配比拼中完胜对手，你敢来挑战我么？");
 		}
+		// text是分享文本，所有平台都需要这个字段
+//		oks.setText("女总裁的贴身高手");
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		oks.setImagePath(getShareImage());//确保SDcard下面存在此张图片
 		// url仅在微信（包括好友和朋友圈）中使用
