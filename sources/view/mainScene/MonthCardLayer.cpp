@@ -129,6 +129,12 @@ void MonthCardLayer::creat_view(){
     moneyKuangSpr = CCSprite::create("res/pic/panel/month/month_money.png");
     moneyKuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .525f, kuangSpr->getContentSize().height* .32f));
     kuangSpr->addChild(moneyKuangSpr);
+    moneyTishiLabel = CCLabelTTF::create("请先领取邮件.", DISPLAY->fangzhengFont(), 20);
+    moneyTishiLabel->setAnchorPoint(ccp(1, 1));
+    moneyTishiLabel->setPosition(ccp(moneyKuangSpr->getContentSize().width - 6, -1));
+    moneyTishiLabel->setColor(ccRED);
+    moneyKuangSpr->addChild(moneyTishiLabel);
+//    moneyTishiLabel->setVisible(false);
     
     CCSprite* moneyButtonSpr1 = CCSprite::create("res/pic/panel/month/month_button.png");
     CCSprite* moneyButtonSpr2 = CCSprite::create("res/pic/panel/month/month_button.png");
@@ -181,6 +187,8 @@ void MonthCardLayer::money_view(){
         moneyLabel->setPosition(ccp(moneyTishiSpr->getContentSize().width* .52f, moneyTishiSpr->getContentSize().height* .68f));
         moneyLabel->setColor(ccRED);
         moneyTishiSpr->addChild(moneyLabel);
+        
+        moneyTishiLabel->setVisible(false);
     }
 }
 void MonthCardLayer::creat_lingqu(){

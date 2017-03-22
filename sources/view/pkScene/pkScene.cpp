@@ -1079,7 +1079,7 @@ void pkScene::creat_Man1()
     
     
     CCDictionary* clothesDic = DATA->getCompetition()->getSelf()->getOndress();
-    this->initClothes(holesClipper, holeStencil->getPosition().x + 82, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
+    this->initClothes(holesClipper, holeStencil->getPosition().x + 87, DISPLAY->ScreenHeight()* heightFloat, scaleFloat, flipxBool, clothesDic);
 }
 
 

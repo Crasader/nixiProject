@@ -114,42 +114,42 @@ void NewSignin7Panel::creatView(){
     
     CCSize panelSize = kuangSpr->boundingBox().size;
     
-    CCSprite* icon_1 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_1 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_1->setPosition(ccp(panelSize.width* .2f, panelSize.height* .78f));
     icon_1->setTag(1);
     kuangSpr->addChild(icon_1, 20);
     
-    CCSprite* icon_2 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_2 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_2->setPosition(ccp(panelSize.width* .45f, panelSize.height* .78f));
     icon_2->setTag(2);
     kuangSpr->addChild(icon_2, 20);
     
-    CCSprite* icon_3 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_3 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_3->setPosition(ccp(panelSize.width* .2f, panelSize.height* .6f));
     icon_3->setTag(3);
     kuangSpr->addChild(icon_3, 20);
     
-    CCSprite* icon_4 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_4 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_4->setPosition(ccp(panelSize.width* .45f, panelSize.height* .6f));
     icon_4->setTag(4);
     kuangSpr->addChild(icon_4, 20);
     
-    CCSprite* icon_5 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_5 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_5->setPosition(ccp(panelSize.width* .2f, panelSize.height* .42f));
     icon_5->setTag(5);
     kuangSpr->addChild(icon_5, 20);
     
-    CCSprite* icon_6 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_6 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_6->setPosition(ccp(panelSize.width* .45f, panelSize.height* .42f));
     icon_6->setTag(6);
     kuangSpr->addChild(icon_6, 20);
     
-    CCSprite* icon_7 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_7 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_7->setPosition(ccp(panelSize.width* .2f, panelSize.height* .24f));
     icon_7->setTag(7);
     kuangSpr->addChild(icon_7, 20);
     
-    CCSprite* icon_8 = CCSprite::create("res/pic/salesPromotion/sp_kuang2.png");
+    CCSprite* icon_8 = CCSprite::create("res/pic/panel/newSignin7/newSignin_kuang.png");
     icon_8->setPosition(ccp(panelSize.width* .45f, panelSize.height* .24f));
     icon_8->setTag(8);
     kuangSpr->addChild(icon_8, 20);
@@ -168,8 +168,15 @@ void NewSignin7Panel::creatView(){
     }
     
     bool buttonBool = false;
+    CCString* tishiStr;
     CCArray* _signin7Arr = DATA->getSignin()->signin7_template();
     if (_signin7Value == 1) {// 可以领
+        
+        if (nowPage <= 2) {
+            tishiStr = CCString::createWithFormat("%d", 2 - nowPage);
+        }else if (nowPage > 2 && nowPage <= 7){
+            tishiStr = CCString::createWithFormat("%d", 7 - nowPage);
+        }
         
         CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
         std::string type = item->valueForKey("type")->getCString();
@@ -187,6 +194,13 @@ void NewSignin7Panel::creatView(){
         if (nowPage >= _signin7Arr->count()) {
             nowPage = _signin7Arr->count();
         }
+        
+        if (nowPage <= 2) {
+            tishiStr = CCString::createWithFormat("%d", 2 - nowPage);
+        }else if (nowPage > 2 && nowPage <= 7){
+            tishiStr = CCString::createWithFormat("%d", 7 - nowPage);
+        }
+        
         CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
         std::string type = item->valueForKey("type")->getCString();
         if (type.compare("wealth") == 0) {
@@ -226,12 +240,6 @@ void NewSignin7Panel::creatView(){
     tishiSpr->setAnchorPoint(ccp(1.f, 1.f));
     tishiSpr->setPosition(ccp(panelSize.width - 15, panelSize.height - 3));
     kuangSpr->addChild(tishiSpr);
-    CCString* tishiStr;
-    if (_signin7Day <= 2) {
-        tishiStr = CCString::createWithFormat("%d", 2 - _signin7Day);
-    }else if (_signin7Day > 2 && _signin7Day <= 7){
-        tishiStr = CCString::createWithFormat("%d", 7 - _signin7Day);
-    }
     CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 30);
     tishiLabel->setPosition(ccp(tishiSpr->getContentSize().width* .5f, tishiSpr->getContentSize().height* .26f));
     tishiLabel->setColor(ccRED);
@@ -308,16 +316,16 @@ void NewSignin7Panel::creat_wealth(CCDictionary* dic){
         CCSprite* spr;
         if (i == 1) {// 碎片
             str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("piece"))->getValue());
-            spr = CCSprite::create("pic/building/reward_piece.png");
+            spr = CCSprite::create("res/pic/panel/newSignin7/newSignin_piece.png");
         }else if (i == 2){// 体力
             str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("energy"))->getValue());
-            spr = CCSprite::create("pic/building/reward_energy.png");
+            spr = CCSprite::create("res/pic/panel/newSignin7/newSignin_energy.png");
         }else if (i == 3){// 钻石
             str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("diam"))->getValue());
-            spr = CCSprite::create("pic/building/reward_diam.png");
+            spr = CCSprite::create("res/pic/panel/newSignin7/newSignin_diam.png");
         }else if (i == 4){// 金币
             str = CCString::createWithFormat("%d", ((CCInteger* )dic->objectForKey("coin"))->getValue());
-            spr = CCSprite::create("pic/building/reward_coin.png");
+            spr = CCSprite::create("res/pic/panel/newSignin7/newSignin_coin.png");
         }
         CCLabelTTF* label = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 30);
         label->setPosition(ccp(node->getContentSize().width* .5f, node->getContentSize().height* .16f));
@@ -325,7 +333,7 @@ void NewSignin7Panel::creat_wealth(CCDictionary* dic){
         node->addChild(label);
         
         if (spr != NULL) {
-            spr->setScale(1.8f);
+            spr->setScale(1.f);
             spr->setPosition(ccp(node->getContentSize().width* .5f, node->getContentSize().height* .6f));
             node->addChild(spr);
         }
@@ -496,9 +504,16 @@ void NewSignin7Panel::creatNewView(){
     }
     
     bool buttonBool = false;
+    CCString* tishiStr;
     CCArray* _signin7Arr = DATA->getSignin()->signin7_template();
     if (nowPage == _signin7Day) {
         if (_signin7Value == 1) {// 可以领
+            if (nowPage <= 2) {
+                tishiStr = CCString::createWithFormat("%d", 2 - nowPage);
+            }else if (nowPage > 2 && nowPage <= 7){
+                tishiStr = CCString::createWithFormat("%d", 7 - nowPage);
+            }
+            
             CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
             std::string type = item->valueForKey("type")->getCString();
             if (type.compare("wealth") == 0) {
@@ -514,6 +529,12 @@ void NewSignin7Panel::creatNewView(){
             if (nowPage >= _signin7Arr->count()) {
                 nowPage = _signin7Arr->count();
             }
+            if (nowPage <= 2) {
+                tishiStr = CCString::createWithFormat("%d", 2 - nowPage);
+            }else if (nowPage > 2 && nowPage <= 7){
+                tishiStr = CCString::createWithFormat("%d", 7 - nowPage);
+            }
+            
             CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
             std::string type = item->valueForKey("type")->getCString();
             if (type.compare("wealth") == 0) {
@@ -530,6 +551,12 @@ void NewSignin7Panel::creatNewView(){
         if (nowPage >= _signin7Arr->count()) {
             nowPage = _signin7Arr->count();
         }
+        if (nowPage <= 2) {
+            tishiStr = CCString::createWithFormat("%d", 2 - nowPage);
+        }else if (nowPage > 2 && nowPage <= 7){
+            tishiStr = CCString::createWithFormat("%d", 7 - nowPage);
+        }
+        
         CCDictionary* item = (CCDictionary*)_signin7Arr->objectAtIndex(nowPage - 1);
         std::string type = item->valueForKey("type")->getCString();
         if (type.compare("wealth") == 0) {
@@ -570,12 +597,6 @@ void NewSignin7Panel::creatNewView(){
     tishiSpr->setAnchorPoint(ccp(1.f, 1.f));
     tishiSpr->setPosition(ccp(panelSize.width - 15, panelSize.height - 3));
     kuangSpr->addChild(tishiSpr);
-    CCString* tishiStr;
-    if (_signin7Day <= 2) {
-        tishiStr = CCString::createWithFormat("%d", 2 - _signin7Day);
-    }else if (_signin7Day > 2 && _signin7Day <= 7){
-        tishiStr = CCString::createWithFormat("%d", 7 - _signin7Day);
-    }
     CCLabelTTF* tishiLabel = CCLabelTTF::create(tishiStr->getCString(), DISPLAY->fangzhengFont(), 30);
     tishiLabel->setPosition(ccp(tishiSpr->getContentSize().width* .5f, tishiSpr->getContentSize().height* .26f));
     tishiLabel->setColor(ccRED);
