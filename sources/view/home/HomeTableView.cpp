@@ -47,6 +47,13 @@ bool HomeTableView::init(){
     pTableView->reloadData();
     
     
+    for (int i = 0; i < allHomeArr->count(); i++) {
+        CCDictionary* dic = (CCDictionary* )allHomeArr->objectAtIndex(i);
+        int id = dic->valueForKey("id")->intValue();
+        CCLog("i == %d; id == %d", i, id);
+    }
+    
+    
     return true;
 }
 

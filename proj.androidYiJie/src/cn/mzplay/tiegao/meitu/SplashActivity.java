@@ -1,4 +1,4 @@
-package cn.mzplay.tiegao;
+package cn.mzplay.tiegao.meitu;
 
 
 import java.io.ByteArrayInputStream;
