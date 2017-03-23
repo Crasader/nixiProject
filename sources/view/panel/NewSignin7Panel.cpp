@@ -167,6 +167,15 @@ void NewSignin7Panel::creatView(){
         _signin7Value = ((CCInteger* )_signin7_infoDic->objectForKey(key->getCString()))->getValue();
     }
     
+    
+    // 当前签到几天的提示
+    CCString* nowTishiStr = CCString::createWithFormat("第%d天", _signin7Day);
+    CCLabelTTF* nowTishiLabel = CCLabelTTF::create(nowTishiStr->getCString(), DISPLAY->fangzhengFont(), 27);
+    nowTishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .91f));
+    nowTishiLabel->setColor(ccc3(196, 59, 111));
+    kuangSpr->addChild(nowTishiLabel);
+    
+    
     bool buttonBool = false;
     CCString* tishiStr;
     CCArray* _signin7Arr = DATA->getSignin()->signin7_template();
@@ -329,7 +338,7 @@ void NewSignin7Panel::creat_wealth(CCDictionary* dic){
         }
         CCLabelTTF* label = CCLabelTTF::create(str->getCString(), DISPLAY->fangzhengFont(), 30);
         label->setPosition(ccp(node->getContentSize().width* .5f, node->getContentSize().height* .16f));
-        label->setColor(ccc3(113, 89, 102));
+        label->setColor(ccc3(190, 96, 151));
         node->addChild(label);
         
         if (spr != NULL) {
@@ -502,6 +511,14 @@ void NewSignin7Panel::creatNewView(){
         _signin7Day = atoi(key->getCString());
         _signin7Value = ((CCInteger* )_signin7_infoDic->objectForKey(key->getCString()))->getValue();
     }
+    
+    // 当前签到几天的提示
+    CCString* nowTishiStr = CCString::createWithFormat("第%d天", _signin7Day);
+    CCLabelTTF* nowTishiLabel = CCLabelTTF::create(nowTishiStr->getCString(), DISPLAY->fangzhengFont(), 27);
+    nowTishiLabel->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .91f));
+    nowTishiLabel->setColor(ccc3(196, 59, 111));
+    kuangSpr->addChild(nowTishiLabel);
+    
     
     bool buttonBool = false;
     CCString* tishiStr;

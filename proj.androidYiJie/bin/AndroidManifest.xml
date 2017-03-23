@@ -26,9 +26,9 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao"
-    android:versionCode="78"
-    android:versionName="1.7.8">
+    package="cn.mzplay.tiegao.meitu"
+    android:versionCode="81"
+    android:versionName="1.8.1">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -68,7 +68,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
         
         <!-- SplashActivity为闪屏Activity,继承com.snowfish.cn.ganga.helper.SFOnlineSplashActivity
          并将该Activity设置为程序启动时的Activity -->
-		<activity android:name="cn.mzplay.tiegao.SplashActivity"
+		<activity android:name="cn.mzplay.tiegao.meitu.SplashActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
@@ -79,7 +79,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
             </intent-filter>
         </activity>
 		
-        <activity android:name="cn.mzplay.tiegao.Tiegao"
+        <activity android:name="cn.mzplay.tiegao.meitu.Tiegao"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
@@ -113,7 +113,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.wxapi.WXEntryActivity"
+     		android:name="cn.mzplay.tiegao.meitu.wxapi.WXEntryActivity"
      		android:theme="@android:style/Theme.Translucent.NoTitleBar"
      		android:configChanges="keyboardHidden|orientation|screenSize"
      		android:exported="true"
@@ -123,7 +123,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
         
         <service android:name="ActionService" >
             <intent-filter>
-				<action android:name="cn.mzplay.tiegao.ActionService" />
+				<action android:name="cn.mzplay.tiegao.meitu.ActionService" />
 			</intent-filter>
         </service>
         

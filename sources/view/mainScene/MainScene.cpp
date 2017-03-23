@@ -1418,12 +1418,6 @@ void MainScene::juqing_vipCallBack(CCObject* pSender){
             PromptLayer* layer = PromptLayer::create();
             layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "二级公司开启");
         }
-        if (DATA->getStory()->has_init_story2()) {
-            this->_504CallBack(NULL);
-        }else{
-            LOADING->show_loading();
-            NET->completed_story2_504();
-        }
     }
 }
 void MainScene::_504CallBack(CCObject* pSender){
