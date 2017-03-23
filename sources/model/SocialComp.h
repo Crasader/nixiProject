@@ -52,7 +52,8 @@ public:
     const char* getSelectedRankerIDbyIndex(int idx);
     CC_SYNTHESIZE(int, _selectedStranger, SelectedStranger);
     CC_SYNTHESIZE(int, _selectedFriend, SelectedFriend);
-    CC_SYNTHESIZE(int, _selectedRanker, SelectedRanker);
+    CC_SYNTHESIZE_RETAIN(CCString*, _selectedRankerId, SelectedRankerId);
+    CC_SYNTHESIZE_RETAIN(CCString*, _selectedRankerName, SelectedRankerName);
     
 private:
     CCArray* sort_friends_by_collected(CCDictionary* dic);

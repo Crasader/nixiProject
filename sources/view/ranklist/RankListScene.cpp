@@ -270,8 +270,9 @@ void RankListScene::btn_note_callback(CCObject* pSender){
     if (arr->count() == 0) {
         
     }else{
-        ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
-        if (show->getShowID().compare(DATA->getLogin()->obtain_sid()) == 0) {
+//        ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+        CCString* otherId = DATA->getSocial()->getSelectedRankerId();
+        if (otherId->compare(DATA->getLogin()->obtain_sid()) == 0) {
             PromptLayer* layer = PromptLayer::create();
             layer->show_prompt(CCDirector::sharedDirector()->getRunningScene(), "不可以给自己发纸条哦");
         }else{
@@ -310,6 +311,8 @@ void RankListScene::changeCompetition(CompetitionItem *item) {
     if (item) {
         CCLOG("RankListScene::changeCompetitio() - ID: %s,  Name: %s", item->getId().c_str(), item->getNickname().c_str());
         _shower->change_shower(item->getOndress());
+        DATA->getSocial()->setSelectedRankerId(ccs(item->getId()));
+        DATA->getSocial()->setSelectedRankerName(ccs(item->getNickname()));
     }
     else {
         CCLOG("ERROR:: RankListScene::changeCompetition(CompetitionItem* item) - item is nil~");
@@ -319,6 +322,8 @@ void RankListScene::changeCompetition(CompetitionItem *item) {
 void RankListScene::changeShower(ShowComp* shower) {
     if (shower) {
         _shower->change_shower(shower->ondress());
+        DATA->getSocial()->setSelectedRankerId(ccs(shower->getShowID()));
+        DATA->getSocial()->setSelectedRankerName(ccs(shower->nickname()));
     }
     else {
         CCLOG("ERROR:: RankListScene::changeShower(ShowComp* shower) - shower is nil~");

@@ -88,9 +88,10 @@ void NotePanel::initView(){
         nickname = DATA->getPaper()->getNickName();
     }
     else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
-        CCArray* arr = DATA->getRanking()->ranking();
-        show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
-        nickname = show->nickname();
+//        CCArray* arr = DATA->getRanking()->ranking();
+//        show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+//        nickname = show->nickname();
+        nickname = DATA->getSocial()->getSelectedRankerName()->getCString();
     }
     CCLOG("NickName: %s", nickname);
     CCString* title_str = CCString::createWithFormat("发给 %s 的纸条:", nickname);
@@ -223,9 +224,10 @@ void NotePanel::btn_send_callback(){
         }
     }
     else if(!_entranceType.empty() && _entranceType.compare("ranker") == 0){
-        CCArray* arr = DATA->getRanking()->ranking();
-        ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
-        const char* id = show->getShowID().c_str();
+//        CCArray* arr = DATA->getRanking()->ranking();
+//        ShowComp* show = (ShowComp*)arr->objectAtIndex(DATA->getSocial()->getSelectedRanker());
+//        const char* id = show->getShowID().c_str();
+        const char* id = DATA->getSocial()->getSelectedRankerId()->getCString();
         if (id) {
             if (FILEM->is_blanked_illegal(m_text->getText().c_str()) == true) {
                 FILEM->replace_all_illegal(m_text->getText(), "**");
