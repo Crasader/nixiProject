@@ -60,6 +60,7 @@ private:
     ShowerView*         _shower;
     RankListView*       _rlv;
     NotePanel*          _note;
+    string              _curSelectedItemId; // 用于发送纸条
     
     int                 num_child;
 };

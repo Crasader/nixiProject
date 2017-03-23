@@ -285,6 +285,11 @@ void MonthCardLayer::_151Callback(CCObject* pObj){
     layer->show_prompt(this->getScene(), "购买成功");
 }
 void MonthCardLayer::moneyButtonCallBack(CCObject* pSender){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    PromptLayer* prompt = PromptLayer::create();
+    prompt->show_prompt(this->getScene(), "暂未开放，敬请期待~");
+    
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     if (CONFIG->baiOrYijie == 0) {// 白包
         if (CONFIG->openPay == 0) {
             // talkingData
@@ -311,6 +316,7 @@ void MonthCardLayer::moneyButtonCallBack(CCObject* pSender){
             this->schedule(schedule_selector(MonthCardLayer::updatePay), 1.f);
         }
     }
+#endif
 }
 void MonthCardLayer::updatePay(float dt){
     LOADING->remove();

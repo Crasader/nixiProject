@@ -7,6 +7,7 @@
 #include <string>
 
 #include "ConfigManager.h"
+#include "AudioManager.h"
 #include "DataManager.h"
 #include "WSManager.h"
 #include "AudioManager.h"
@@ -197,6 +198,7 @@ void AppDelegate::applicationWillEnterForeground()
 //    SimpleAudioEngine::sharedEngine()->resumeAllEffects();
     AUDIO->resume_music();
     AUDIO->resume_all_effects();
+//    AudioManager::Inst()->set_music_on(CCUserDefault::sharedUserDefault()->getBoolForKey("is_music_on", true));
     CCNotificationCenter::sharedNotificationCenter()->postNotification("APP_ENTER_FOREGROUND_EVENT");
     DATA->setChatOut(false);
     WSManager::Inst()->connect();

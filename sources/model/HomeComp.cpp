@@ -24,14 +24,15 @@ void HomeComp::init_house_template(Value json) {
     }
     
     CCDictionary* dic = AppUtil::dictionary_with_json(json);
-    CCArray* keys = dic->allKeys();
-    AppUtil::sort_string_array(keys);
+//    CCArray* keys = dic->allKeys();
+//    AppUtil::sort_string_array(keys);
     CCArray* arr = CCArray::create();
-    CCObject* pObj = NULL;
-    CCARRAY_FOREACH(keys, pObj) {
-        CCString* key = (CCString*)pObj;
+    int count = dic->count();
+    for (int i = 1; i <= count; i++) {
+        CCString* key = CCString::createWithFormat("%d", i);
         arr->addObject(dic->objectForKey(key->getCString()));
     }
+    
     this->setHouseTemplate(arr);
 }
 
