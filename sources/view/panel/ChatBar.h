@@ -41,7 +41,7 @@ private:
     void remove();
     
     void show_nmu_plate();
-    void display_chat(CCInteger* index);
+    void display_chat();
     void display_chat_content(const char* name, const char* content);
     void display_next_chat();
     
@@ -54,7 +54,7 @@ private:
     CCSprite*       _plate;
     FlashNumberLabel*  _num;
     
-    int             _curDisplayIndex;
+//    int             _curDisplayIndex;
     bool            _isIdle;
 };
 

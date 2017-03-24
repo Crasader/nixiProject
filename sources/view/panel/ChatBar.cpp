@@ -17,23 +17,33 @@
 void ChatBar::update_num(int num) {
     int n = MIN(99, num);
     CCString* strNum = CCString::createWithFormat("%d", n);
-    if (_num && num < 100) {
+    if (_num && n != 0 && num < 100) {
         _num->set_new_number(strNum->getCString());
         if (_isIdle) {
             this->display_next_chat();
         }
     }
+    else {
+        _isIdle = true;
+    }
 }
 
 void ChatBar::update_display() {
-//    int count = DATA->getChat()->getItems()->count();
-//    int newCount = DATA->getChat()->getNewChatCount();
+//    int count = DATA->getChat()->getShoutItems()->count();
+//    int newCount = DATA->getChat()->getNewShoutCount();
+//    _curDisplayIndex = count - newCount;
+//    _curDisplayIndex = MAX(_curDisplayIndex, 0);
+//    if (newCount != 0) {
+//        this->display_chat(CCInteger::create(_curDisplayIndex));
+//    }
     int count = DATA->getChat()->getShoutItems()->count();
-    int newCount = DATA->getChat()->getNewShoutCount();
-    _curDisplayIndex = count - newCount;
-    _curDisplayIndex = MAX(_curDisplayIndex, 0);
-    if (newCount != 0) {
-        this->display_chat(CCInteger::create(_curDisplayIndex));
+    int cursor = DATA->getChat()->getShoutCursor();
+    if ((cursor < count || (count == 1 && cursor == 0))) {
+        this->display_chat();
+    }
+    else {
+        // 隐藏
+        _isIdle = true;
     }
 }
 
@@ -50,7 +60,7 @@ ChatBar::~ChatBar() {
 
 bool ChatBar::init() {
     if (CCLayer::init()) {
-        _curDisplayIndex = 0;
+//        _curDisplayIndex = 0;
         _isIdle = true;
         
         CCSprite* bar1 = CCSprite::create("pic/panel/chat_bar/chat_bar.png");
@@ -132,24 +142,15 @@ void ChatBar::show_nmu_plate() {
     _plate->addChild(_num);
 }
 
-void ChatBar::display_chat(CCInteger* index) {
-    int idx = index->getValue();
-    CCLOG("ChatBar::display_chat(%d)", idx);
-//    CCArray* items = DATA->getChat()->getItems();
-//    int count = items->count();
+void ChatBar::display_chat() {
     CCArray* shouts = DATA->getChat()->getShoutItems();
-    int count = shouts->count();
-    if (idx < count || (count == 1 && idx == 0)) {
-        ChatItem* item = (ChatItem*)shouts->objectAtIndex(idx);
-        if (item) {
-            _isIdle = false;
-            _curDisplayIndex = idx;
-            this->display_chat_content(item->name.c_str(), item->chat.c_str());
-        }
-    }
-    else {
-        // 隐藏
-        _isIdle = true;
+    int cursor = DATA->getChat()->getShoutCursor();
+    ChatItem* item = (ChatItem*)shouts->objectAtIndex(cursor);
+    if (item) {
+        _isIdle = false;
+        cursor += 1;
+        DATA->getChat()->setShoutCursor(cursor);
+        this->display_chat_content(item->name.c_str(), item->chat.c_str());
     }
 }
 
@@ -184,11 +185,14 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
     CCCallFunc* next = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::display_next_chat));
     
     float showSize = nameWidth + lblContent->getContentSize().width;
+    
+    float fadeDuration = 0.6f;
+    float displayDuration = 1.4f;
+    float standDration = 0.8f;
     CCLog("=== showSize = %f", showSize);
     if (showSize < barWidth) {
         lblContent->setPosition(ccp(nameWidth, barHeight * 0.5));
-//        lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), CCFadeOut::create(1.0), next, NULL));
-        lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), next, NULL));
+        lblContent->runAction(CCSequence::create(CCFadeIn::create(fadeDuration), CCDelayTime::create(displayDuration), next, NULL));
     }
     else {
         lblContent->setPosition(ccp(nameWidth + barWidth * 0.15, barHeight * 0.5));
@@ -196,22 +200,22 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
         CCLog("=== distance = %f", distance);
         if (distance <= 0) {
             lblContent->setPosition(ccp(nameWidth, barHeight * 0.5));
-//            lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), CCFadeOut::create(1.0), next, NULL));
-            lblContent->runAction(CCSequence::create(CCFadeIn::create(1.0), CCDelayTime::create(2), next, NULL));
+            lblContent->runAction(CCSequence::create(CCFadeIn::create(fadeDuration), CCDelayTime::create(displayDuration), next, NULL));
         }
         else {
-            lblContent->runAction(CCSequence::create(CCMoveBy::create(MAX(distance / 34, 1.2), ccp(-distance, 0)), CCDelayTime::create(1.2), next, NULL));
+            lblContent->runAction(CCSequence::create(CCMoveBy::create(MAX(distance / 40, 1.0f), ccp(-distance, 0)), CCDelayTime::create(standDration), next, NULL));
         }
     }
 }
 
 void ChatBar::display_next_chat() {
-    CCCallFuncO* call = CCCallFuncO::create(this, SEL_CallFuncO(&ChatBar::display_chat), CCInteger::create(_curDisplayIndex + 1));
+    CCCallFunc* call = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::display_chat));
     CCSequence* seq = CCSequence::create(CCFadeOut::create(1), call, NULL);
     _content->runAction(seq);
 }
 
 void ChatBar::onClicked(CCMenuItem *btn) {
+    DATA->getChat()->setShoutCursor( DATA->getChat()->getShoutItems()->count() );
     CCNotificationCenter::sharedNotificationCenter()->postNotification("ON_CHAT_BAR_CLICKED");
 }
 

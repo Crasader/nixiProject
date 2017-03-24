@@ -43,6 +43,7 @@ public:
     CC_SYNTHESIZE(int, _interval, Interval);
     CC_SYNTHESIZE(int, _newChatCount, NewChatCount);    // 刷新后新消息的条数
     CC_SYNTHESIZE(int, _newShoutCount, NewShoutCount);  // 刷新后喊话的条数
+    CC_SYNTHESIZE(int, _shoutCursor, ShoutCursor);      // 当前正在显示的第几条喊话
     
 public:
     ~ChatComp();

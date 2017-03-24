@@ -283,6 +283,18 @@ void MonthCardLayer::_151Callback(CCObject* pObj){
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "购买成功");
+    
+    //
+    CCDictionary* reward = (CCDictionary* )pObj;
+    CCDictionary* postData = CCDictionary::create();
+    
+    postData->setObject(reward->objectForKey("piece"), "num");
+    
+    CCString* from = CCString::createWithFormat("{%f,%f}", DISPLAY->halfW(), DISPLAY->H() * 0.7f);
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
 }
 void MonthCardLayer::moneyButtonCallBack(CCObject* pSender){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
