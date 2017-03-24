@@ -81,28 +81,7 @@ public class Tiegao extends Cocos2dxActivity {
 		alarmClock = new AlarmClock(instance);
 		weixinPay = new WeixinPay(instance);
 		
-		// 3B6C85B55D277722EE4A800FCC596B17		金山云
-		
-		
-		// 49AC41ECB2C5B4A961E00B2380C21E9F		美图
-		// 87EB2A02216D41878FAAA9493CA83984		美图 修正后
-		
-		// C5F4CD1E92B6718262FBF57950D8829D		百度
-		// DB61C0FF7AD0549C91DD4FB203139909		360
-		// 03BF303202380DA28B046607C2A79ABF		小米
-		// C59DC7B087EEE431A985F76BBEEDC021		新浪
-		// 77E611BA3283B34C2124D21F0C99632F		vivo
-		// 390F4A5CC1E745A18A5FD5A0FD2B8BB2		应用宝
-		// F267A73DD42E495CA22458F1B3877DF4		UC
-		// 16366125DB1F4C8F8D0D2FB72AB03F5A		华为
-		// E16E462BDA5642D7B47D28E24779DBDA		oppo
-		// DE07CD19F8CF42B191BC300FB25268FB		乐视
 		// 65007806CDEB494CA09C780487E3580D		taptap
-		
-		
-		// 3812FAF07E794E8FA24F1C8B5F1D8554 	鱼丸
-		// AF0BCB0920DE4FE3A663D840DC389E71 	鱼丸1.4.1
-		
 		
 		// 85C506A249F4A97CD676DE2A6D7C652B		测试1
 		// 9C58D9E0BC45489B8920B2712A35AE35		测试2
@@ -169,7 +148,7 @@ public class Tiegao extends Cocos2dxActivity {
 	}
 	
 	
-	public static void showShare() {
+	public static void showShare(int type, int num) {
 //		ShareSDK.initSDK(instance);
 //		OnekeyShare oks = new OnekeyShare();
 //		Log.i("main", "" + getShareImage());
@@ -187,7 +166,15 @@ public class Tiegao extends Cocos2dxActivity {
 		// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
 		//oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle("女总裁的贴身高手");
+		if (type == 1) {
+			oks.setTitle("我在《女总裁的贴身高手》里已经收集" + num + "件衣服了，快来和我一起玩吧！");
+		}else if (type == 2){
+			oks.setTitle("我在《女总裁的贴身高手》获得满星通关，一起创建商业帝国吧！");
+		}else if (type == 3){
+			oks.setTitle("我在《女总裁的贴身高手》抽到了极品服饰，来试试你的人品吧！");
+		}else if (type == 4){
+			oks.setTitle("我在《女总裁的贴身高手》搭配比拼中完胜对手，你敢来挑战我么？");
+		}
 		// text是分享文本，所有平台都需要这个字段
 //		oks.setText("女总裁的贴身高手");
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
