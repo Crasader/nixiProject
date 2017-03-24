@@ -109,6 +109,8 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
                     //
                     int length = compChat->getItems()->count();
                     if( length >= 200) {
+                        CCLOG("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        int oldShoutCount = compChat->getShoutItems()->count();
                         CCArray* arr = CCArray::create();
                         CCArray* shouts = CCArray::create();
                         
@@ -122,7 +124,9 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
                         
                         compChat->setItems(arr);
                         compChat->setShoutItems(shouts);
-                        compChat->setShoutCursor(compChat->getShoutCursor() - 100);
+                        int newShoutCount = shouts->count();
+                        int ccc = MAX(compChat->getShoutCursor() - (oldShoutCount - newShoutCount), 0);
+                        compChat->setShoutCursor(ccc);
                     }
                     
 //                    CCLOG("Message_count = %d", DATA->getChat()->getItems()->count());
