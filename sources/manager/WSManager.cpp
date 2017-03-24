@@ -122,6 +122,7 @@ void WSManager::onMessage(WebSocket* ws, const WebSocket::Data& data) {
                         
                         compChat->setItems(arr);
                         compChat->setShoutItems(shouts);
+                        compChat->setShoutCursor(compChat->getShoutCursor() - 100);
                     }
                     
 //                    CCLOG("Message_count = %d", DATA->getChat()->getItems()->count());

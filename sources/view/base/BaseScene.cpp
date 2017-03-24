@@ -688,8 +688,9 @@ void BaseScene::show_chat_panel() {
 }
 
 void BaseScene::check_new_chat() {
-    static int oldNum = 0;
-    int newNum = DATA->getChat()->getNewShoutCount();
+//    static int oldNum = 0;
+    int newNum = DATA->getChat()->getNewShoutCount() - DATA->getChat()->getShoutCursor();
+    CCLOG("BaseScene::check_new_chat() -- newNum = %d", newNum);
     
     if (newNum > 0 && ! _isChatPanelShow) {
         if (! _isChatBarShow) {
@@ -697,10 +698,12 @@ void BaseScene::check_new_chat() {
         }
     }
     
-    if (oldNum != newNum ) {
-        _chatBar->update_num(newNum);
-        oldNum = newNum;
-    }
+    _chatBar->update_num(newNum);
+    
+//    if (oldNum != newNum ) {
+//        _chatBar->update_num(newNum);
+//        oldNum = newNum;
+//    }
 }
 
 void BaseScene::on_chat_panel_close() {
