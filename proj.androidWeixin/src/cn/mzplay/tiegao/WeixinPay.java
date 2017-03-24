@@ -74,11 +74,11 @@ public class WeixinPay {
         //Post运作传送变数必须用NameValuePair[]阵列储存
         //传参数 服务端获取的方法为request.getParameter("name")
         List <NameValuePair> params = new ArrayList<NameValuePair>();
-//        Log.i("main", "<><><><><> IP === " + getHostIP());
+        Log.i("main", "<><><><><> IP === " + getHostIP());
         params.add(new BasicNameValuePair("ip", "" + getHostIP())); //对应参数 属性， value
         params.add(new BasicNameValuePair("product_id", "" + Tiegao.getProductId()));
         params.add(new BasicNameValuePair("sid", "" + Tiegao.getUserId()));
-//        Log.i("main","<<<<<<<< params >>>>>>>>");
+        Log.i("main","<<<<<<<< params >>>>>>>>");
         try{
         	
         	//发出HTTP request

@@ -217,6 +217,9 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaEngine.h \
  /Users/mac/Documents/quick-cocos2d-x-2.2.6/lib/cocos2d-x/scripting/lua/proj.android/../cocos2dx_support/CCLuaStack.h \
  jni/../../sources/manager/ConfigManager.h \
+ jni/../../sources/manager/AudioManager.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
+ jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/manager/DataManager.h \
  jni/../../sources/third/Json/lib_json/json_lib.h \
  jni/../../sources/third/Json/lib_json/autolink.h \
@@ -280,9 +283,6 @@ obj/local/armeabi/objs-debug/game_shared/__/__/sources/AppDelegate.o: \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h \
  /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h \
- jni/../../sources/manager/AudioManager.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h \
- jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h \
  jni/../../sources/manager/SpecialManager.h \
  jni/../../sources/view/loginScene/LogoScene.h \
  jni/../../sources/view/base/BaseScene.h \
@@ -727,6 +727,12 @@ jni/../../../../lib/cocos2d-x/extensions/ProjectConfig/SimulatorConfig.h:
 
 jni/../../sources/manager/ConfigManager.h:
 
+jni/../../sources/manager/AudioManager.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
+
+jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
+
 jni/../../sources/manager/DataManager.h:
 
 jni/../../sources/third/Json/lib_json/json_lib.h:
@@ -866,12 +872,6 @@ jni/../../sources/manager/WSManager.h:
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/linux/poll.h:
 
 /Users/mac/Documents/android/android-ndk-r9d/platforms/android-19/arch-arm/usr/include/asm/poll.h:
-
-jni/../../sources/manager/AudioManager.h:
-
-jni/../../../../lib/cocos2d-x/cocosDenshion/include/SimpleAudioEngine.h:
-
-jni/../../../../lib/cocos2d-x/cocosDenshion/include/Export.h:
 
 jni/../../sources/manager/SpecialManager.h:
 

@@ -5,30 +5,34 @@ cn.mzplay.tiegao
 cn.mzplay.tiegao.ksyun.mi					金山云	can 回头打包时候再设置  	baiOrYijie 1
 
 
-cn.mzplay.tiegao.meitu  					美图		can 1  	baiOrYijie 1
-com.mzplay.tiegao.baidu						百度		can 2  	baiOrYijie 1
-cn.mzplay.tiegao.qihu360					360		can 3  	baiOrYijie 1
-cn.mzplay.tiegao.mi							小米 	can 4  	baiOrYijie 1
-cn.mzplay.tiegao.wyx						新浪 	can 5  	baiOrYijie 1
-com.mzplay.tiegao.vivo						vivo 	can 6  	baiOrYijie 1
 
 com.tencent.tmgp.mzplay.tiegao  			应用宝 	can 7  	baiOrYijie 1
-cn.mzplay.tiegao.uc            				UC      can 8  	baiOrYijie 1
-cn.mzplay.tiegao.huawei						华为  	can 9  	baiOrYijie 1
-com.mzplay.tiegao.nearme.gamecenter			oppo	can 10 	baiOrYijie 1
+com.mzplay.tiegao.baidu						百度		can 2  	baiOrYijie 1
+com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
+com.iddgame.mzplay.tiegao					东东		can 14	baiOrYijie 1
 cn.mzplay.tiegao.leshi            			乐视     can 11	baiOrYijie 1
+cn.mzplay.tiegao.meitu  					美图		can 1  	baiOrYijie 1
+cn.mzplay.tiegao.mi							小米 	can 4  	baiOrYijie 1
+com.mzplay.tiegao.nearme.gamecenter			oppo	can 10 	baiOrYijie 1
+com.mzplay.tiegao.vivo						vivo 	can 6  	baiOrYijie 1
+cn.mzplay.tiegao.uc            				UC      can 8  	baiOrYijie 1
+
+
+
+cn.mzplay.tiegao.qihu360					360		can 3  	baiOrYijie 1
+cn.mzplay.tiegao.wyx						新浪 	can 5  	baiOrYijie 1
+cn.mzplay.tiegao.huawei						华为  	can 9  	baiOrYijie 1
 cn.mzplay.tiegao.mz							魅族		can 12	baiOrYijie 1
 cn.mzplay.tiegao.PPS						爱奇艺	can 13	baiOrYijie 1
-com.iddgame.mzplay.tiegao					东东		can 14	baiOrYijie 1
-com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
+
 
 
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.mzplay.tiegao.meitu"
-    android:versionCode="81"
-    android:versionName="1.8.1">
+    package="cn.mzplay.tiegao.uc"
+    android:versionCode="83"
+    android:versionName="1.8.3">
 	
     <uses-sdk android:minSdkVersion="8" />
     <uses-feature android:glEsVersion="0x00020000" />
@@ -68,7 +72,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
         
         <!-- SplashActivity为闪屏Activity,继承com.snowfish.cn.ganga.helper.SFOnlineSplashActivity
          并将该Activity设置为程序启动时的Activity -->
-		<activity android:name="cn.mzplay.tiegao.meitu.SplashActivity"
+		<activity android:name="cn.mzplay.tiegao.uc.SplashActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
@@ -79,7 +83,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
             </intent-filter>
         </activity>
 		
-        <activity android:name="cn.mzplay.tiegao.meitu.Tiegao"
+        <activity android:name="cn.mzplay.tiegao.uc.Tiegao"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
@@ -113,7 +117,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
         
         <!-- 微信分享回调 -->
  		<activity
-     		android:name="cn.mzplay.tiegao.meitu.wxapi.WXEntryActivity"
+     		android:name="cn.mzplay.tiegao.uc.wxapi.WXEntryActivity"
      		android:theme="@android:style/Theme.Translucent.NoTitleBar"
      		android:configChanges="keyboardHidden|orientation|screenSize"
      		android:exported="true"
@@ -123,7 +127,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
         
         <service android:name="ActionService" >
             <intent-filter>
-				<action android:name="cn.mzplay.tiegao.meitu.ActionService" />
+				<action android:name="cn.mzplay.tiegao.uc.ActionService" />
 			</intent-filter>
         </service>
         

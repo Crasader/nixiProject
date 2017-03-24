@@ -88,14 +88,14 @@ using namespace std;
 
 
 /**  单独支付Taptap  **/
-//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
-//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
+#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/Tiegao"
+#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/AlarmClock"
 
 
 
 /**  快看  **/
-#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/kuaikan/Tiegao"
-#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/kuaikan/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/kuaikan/Tiegao"
+//#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/kuaikan/AlarmClock"
 
 
 /**  白包 鱼丸母包 **/
