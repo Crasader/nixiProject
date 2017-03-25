@@ -265,6 +265,8 @@ void PurchasePanel::on_bar_clicked(CCMenuItem *item) {
         else {
             LOADING->remove();
             CCLOG("can not purchases");
+            PromptLayer* prompt = PromptLayer::create();
+            prompt->show_prompt(this->getParent(), "无法连接到Appstore");
         }
     }
     else {

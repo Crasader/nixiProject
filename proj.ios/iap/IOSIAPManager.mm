@@ -43,6 +43,7 @@ IOSIAPManager* IOSIAPManager::Inst() {
         _instance->_transactions->retain();
         
         CCNotificationCenter::sharedNotificationCenter()->addObserver(_instance, SEL_CallFuncO(&IOSIAPManager::nc_verify_iOS_133), "HTTP_FINISHED_133", NULL);
+        CCNotificationCenter::sharedNotificationCenter()->addObserver(_instance, SEL_CallFuncO(&IOSIAPManager::nc_verify_iOS_card2_155), "HTTP_FINISHED_155", NULL);
         
 //        CCStore::sharedStore()->setReceiptVerifyMode(CCStoreReceiptVerifyModeDevice, false);
         CCStore::sharedStore()->setReceiptVerifyServerUrl(APPSTORE_RECEIPT_VERIFY_URL);
@@ -113,29 +114,22 @@ void IOSIAPManager::transactionCompleted(CCStorePaymentTransaction* transaction)
     }
     
     if (transaction->getTransactionState() == 2) {
-//        if (transaction->getReceiptVerifyStatus() == 0) { // 本机验证成功
-            std::string orderId = transaction->getTransactionIdentifier();
-            std::string productId = transaction->getProductIdentifier();
-//            if (productId.compare("tiegao_story") == 0) {
-//                CCLOG("购买剧情~");
-//                DATA->onChargeRequest(orderId, productId, 0, 0);
-//                DATA->onChargeSuccess(orderId);
-//                CCNotificationCenter::sharedNotificationCenter()->postNotification("IOS_BUY_FINISHED");
-//            }
-//            else {
-            // 保存待服务器验证的订单
-            _transactions->setObject(transaction, orderId);
-            // 服务器二次验证
+        std::string orderId = transaction->getTransactionIdentifier();
+        std::string productId = transaction->getProductIdentifier();
+        // 保存待服务器验证的订单
+        _transactions->setObject(transaction, orderId);
+        // 服务器二次验证
+        if (productId.compare("tiegao_9") == 0) {
+            NET->verify_iOS_card2_buy_155(orderId, [IOSIAPUtil getReceiptByProductId:transaction]);
+        }
+        else {
             NET->verify_order_iOS_133(orderId, productId, [IOSIAPUtil getReceiptByProductId:transaction]);
-            this->printTransaction(transaction);
-            
-//            }
-
-//        }
-//        else {
-//            CCNative::createAlert("支付失败", "验证失败~!", "OK");
-//            CCNative::showAlert();
-//        }
+        }
+        
+        this->printTransaction(transaction);
+    }
+    else {
+        CCStore::sharedStore()->finishTransaction(transaction);
     }
 }
 
@@ -191,6 +185,22 @@ bool IOSIAPManager::isProductLoaded(const char *productId) {
 }
 
 void IOSIAPManager::nc_verify_iOS_133(CCObject* pObj) {
+    CCString* orderId = (CCString* )pObj;
+    CCStorePaymentTransaction* transaction = (CCStorePaymentTransaction* )_transactions->objectForKey(orderId->getCString());
+    if (transaction) {
+        CCStore::sharedStore()->finishTransaction(transaction);
+    }
+    //
+    LOADING->remove();
+    
+    string orderId2 = DATA->getLogin()->obtain_UUID();
+    DATA->onChargeSuccess(orderId2);
+    
+    // TalkingData
+    DATA->onChargeSuccess(orderId->getCString());
+}
+
+void IOSIAPManager::nc_verify_iOS_card2_155(CCObject* pObj) {
     CCString* orderId = (CCString* )pObj;
     CCStorePaymentTransaction* transaction = (CCStorePaymentTransaction* )_transactions->objectForKey(orderId->getCString());
     if (transaction) {

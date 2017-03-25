@@ -51,6 +51,7 @@ public:
     CCMenuItem* moneyLingquItem;
     
     CCLabelTTF* moneyTishiLabel;
+    CCLabelTTF* moneyLabel;
     
     CCMenu* lingquMenu;
     
@@ -78,6 +79,6 @@ public:
     void _151Callback(CCObject* pObj);
     void _153Callback(CCObject* pObj);
     void _157Callback(CCObject* pObj);
-    
+    void iOS_tiegao9_buy(CCObject* pObj);
 };
 #endif /* defined(__tiegao__MonthCardLayer__) */

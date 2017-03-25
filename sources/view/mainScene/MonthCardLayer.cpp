@@ -22,7 +22,9 @@
 #include "TDCCAccount.h"
 #include "TDCCTalkingDataGA.h"
 #include "JNIController.h"
-
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "IOSIAPManager.h"
+#endif
 
 
 MonthCardLayer::MonthCardLayer(){
@@ -40,6 +42,8 @@ void MonthCardLayer::onEnter(){
     nc->addObserver(this, menu_selector(MonthCardLayer::_151Callback), "HTTP_FINISHED_151", NULL);
     nc->addObserver(this, menu_selector(MonthCardLayer::_153Callback), "HTTP_FINISHED_153", NULL);
     nc->addObserver(this, menu_selector(MonthCardLayer::_157Callback), "HTTP_FINISHED_157", NULL);
+    
+    nc->addObserver(this, SEL_CallFuncO(&MonthCardLayer::iOS_tiegao9_buy), "IOS_MONTHLY_CARD2", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&MonthCardLayer::keyBackStatus), .8f);
 }
@@ -183,7 +187,7 @@ void MonthCardLayer::money_view(){
         moneyTishiSpr->setPosition(ccp(moneyKuangSpr->getContentSize().width* .5f, moneyKuangSpr->getContentSize().height - 8));
         moneyKuangSpr->addChild(moneyTishiSpr);
         
-        CCLabelTTF* moneyLabel = CCLabelTTF::create(moneyStr->getCString(), DISPLAY->fangzhengFont(), 25);
+        moneyLabel = CCLabelTTF::create(moneyStr->getCString(), DISPLAY->fangzhengFont(), 25);
         moneyLabel->setPosition(ccp(moneyTishiSpr->getContentSize().width* .52f, moneyTishiSpr->getContentSize().height* .68f));
         moneyLabel->setColor(ccRED);
         moneyTishiSpr->addChild(moneyLabel);
@@ -298,9 +302,26 @@ void MonthCardLayer::_151Callback(CCObject* pObj){
 }
 void MonthCardLayer::moneyButtonCallBack(CCObject* pSender){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    PromptLayer* prompt = PromptLayer::create();
-    prompt->show_prompt(this->getScene(), "暂未开放，敬请期待~");
-    
+//    PromptLayer* prompt = PromptLayer::create();
+//    prompt->show_prompt(this->getScene(), "暂未开放，敬请期待~");
+    LOADING->show_loading();
+    IOSIAPManager* d = IOSIAPManager::Inst();
+    if (d->canMakePurchases()) {
+        CCLOG("can purchases");
+        string productId = "tiegao_9";
+        d->buyProduct(productId.c_str());
+        
+        // TalkingData Record
+        string orderId2 = DATA->getLogin()->obtain_UUID();
+        
+        DATA->onChargeRequest(orderId2, "尊贵月卡-iOS", 30.0, 0);
+    }
+    else {
+        LOADING->remove();
+        CCLOG("can not purchases");
+        PromptLayer* prompt = PromptLayer::create();
+        prompt->show_prompt(this->getParent(), "无法连接到Appstore");
+    }
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     if (CONFIG->baiOrYijie == 0) {// 白包
         if (CONFIG->openPay == 0) {
@@ -410,6 +431,18 @@ void MonthCardLayer::_153Callback(CCObject* pObj){
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "领取成功");
+    
+    //
+    CCDictionary* reward = (CCDictionary* )pObj;
+    CCDictionary* postData = CCDictionary::create();
+    
+    postData->setObject(reward->objectForKey("diam"), "num");
+    
+    CCString* from = CCString::createWithFormat("{%f,%f}", DISPLAY->halfW(), DISPLAY->H() * 0.62f);
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
 }
 
 
@@ -441,5 +474,39 @@ void MonthCardLayer::_157Callback(CCObject* pObj){
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney", NULL);
     PromptLayer* layer = PromptLayer::create();
     layer->show_prompt(this->getScene(), "领取成功");
+    
+    //
+    CCDictionary* reward = (CCDictionary* )pObj;
+    CCDictionary* postData = CCDictionary::create();
+    
+    postData->setObject(reward->objectForKey("diam"), "num");
+    
+    CCString* from = CCString::createWithFormat("{%f,%f}", DISPLAY->halfW(), DISPLAY->H() * 0.4f);
+    CCLOG("from -- %s", from->getCString());
+    postData->setObject(from, "from");
+    
+    CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_GOLD_FLY", postData);
+}
+
+void MonthCardLayer::iOS_tiegao9_buy(CCObject *pObj) {
+    MonthlyCardItem* card2 = DATA->getPurchase()->getMonthlyCard2();
+    CCString* leftDays = CCString::createWithFormat("%d", card2->getDaysRest());
+    moneyLabel->setString(leftDays->getCString());
+    //
+    CCDictionary* reward = (CCDictionary* )pObj;
+    if (reward) {
+        CCDictionary* postData = CCDictionary::create();
+        
+        postData->setObject(reward->objectForKey("piece"), "num");
+        
+        CCString* from = CCString::createWithFormat("{%f,%f}", DISPLAY->halfW(), DISPLAY->H() * 0.4f);
+        CCLOG("from -- %s", from->getCString());
+        postData->setObject(from, "from");
+        
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("NEED_PIECE_FLY", postData);
+    }
+    //
+    PromptLayer* layer = PromptLayer::create();
+    layer->show_prompt(this->getScene(), "购买成功");
 }
 

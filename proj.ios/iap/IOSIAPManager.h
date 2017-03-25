@@ -48,6 +48,7 @@ public:
 
 private:
     void nc_verify_iOS_133(CCObject* pObj);
+    void nc_verify_iOS_card2_155(CCObject* pObj);
     
 private:
     CC_SYNTHESIZE_RETAIN(CCArray*, _products, Products);
