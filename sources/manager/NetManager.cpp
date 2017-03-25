@@ -964,6 +964,16 @@ void NetManager::take_monthly_card1_daily_reward_153() {
     this->post_data(153, data);
 }
 
+void NetManager::verify_iOS_card2_buy_155(string &orderId, const char *receipt) {
+    FastWriter writer;
+    Value root;
+    root["order_id"] = orderId;
+    root["receipt"] = receipt;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(155, data);
+}
+
 void NetManager::take_monthly_card2_daily_reward_157() {
     FastWriter writer;
     Value root;

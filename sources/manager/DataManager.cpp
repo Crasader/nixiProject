@@ -886,6 +886,13 @@ void DataManager::handle_protocol(int cid, Value content) {
             pData = AppUtil::dictionary_with_json(content["rewards"]);
         } break;
             
+        case 155: {
+            _purchase->init_purchase(content["purchase"]);
+            _operation->replace_gashapon_user(content["gashapon"]);
+            nc->postNotification("IOS_MONTHLY_CARD2", AppUtil::dictionary_with_json(content["rewards"]));
+            pData = ccs(content["order_id"].asString());
+        } break;
+            
         case 157: {
             _player->init_with_json(content["player"]);
             this->creat_Energy_Time();
@@ -1002,8 +1009,8 @@ int DataManager::current_guide_step(){
     CCDictionary* mainConf = this->getLogin()->config();
     CCInteger* guideConf = (CCInteger*)mainConf->objectForKey("guide");
     if (guideConf->getValue() == 1) {
-//        return _player->getGuide();
-        return 0;
+        return _player->getGuide();
+//        return 0;
     }
     else {
         return 0;

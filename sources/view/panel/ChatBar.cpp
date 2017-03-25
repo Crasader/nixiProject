@@ -182,7 +182,7 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
     lblContent->setAnchorPoint(ccp(0, 0.5));
     node->addChild(lblContent);
     
-    CCCallFunc* next = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::display_next_chat));
+    CCCallFunc* next = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::update_display));
     
     float showSize = nameWidth + lblContent->getContentSize().width;
     
@@ -209,8 +209,8 @@ void ChatBar::display_chat_content(const char *name, const char *content) {
 }
 
 void ChatBar::display_next_chat() {
-    CCCallFunc* call = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::display_chat));
-    CCSequence* seq = CCSequence::create(CCFadeOut::create(1), call, NULL);
+    CCCallFunc* call = CCCallFunc::create(this, SEL_CallFunc(&ChatBar::update_display));
+    CCSequence* seq = CCSequence::create(CCFadeOut::create(0.8), call, NULL);
     _content->runAction(seq);
 }
 

@@ -188,6 +188,7 @@ public:
     void buy_monthly_card1_151();                       // 购买钻石支付的月卡
     void take_monthly_card1_daily_reward_153();         // 领取钻石支付的月卡
     
+    void verify_iOS_card2_buy_155(string& orderId, const char* receipt);
     void take_monthly_card2_daily_reward_157();         // 领取尊贵月卡
     
     void flash_sale_today_160();
