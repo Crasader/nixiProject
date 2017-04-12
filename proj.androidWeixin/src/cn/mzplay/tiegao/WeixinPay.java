@@ -225,6 +225,8 @@ public class WeixinPay {
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
 		}else if (index == 10) {
 			productName = "" + Tiegao.getGoldStatus() + "钻石";
+		}else if (index == 9) {
+			productName = "月卡";
 		}
 		
 		price = Tiegao.getMoneyStatus();

@@ -151,31 +151,44 @@ bool SettingPanel::init(const char *cost) {
             _panel->addChild(menu);
         }
         else {
-            CCSprite* gift1 = CCSprite::create("pic/panel/setting/set_gift.png");
-            CCSprite* gift2 = CCSprite::create("pic/panel/setting/set_gift.png");
-            gift2->setScale(1.02f);
-            CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+            if (CONFIG->channelId != 8) {
+                CCSprite* gift1 = CCSprite::create("pic/panel/setting/set_gift.png");
+                CCSprite* gift2 = CCSprite::create("pic/panel/setting/set_gift.png");
+                gift2->setScale(1.02f);
+                CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+                
+                CCSprite* freeDiam1 = CCSprite::create("pic/panel/setting/set_free.png");
+                CCSprite* freeDiam2 = CCSprite::create("pic/panel/setting/set_free.png");
+                freeDiam2->setScale(1.02f);
+                CCMenuItemSprite* btnFreeDiam = CCMenuItemSprite::create(freeDiam1, freeDiam2, this, menu_selector(SettingPanel::on_free_diam));
+                
+                CCLabelTTF* lbl1 = CCLabelTTF::create("免费获取", DISPLAY->fangzhengFont(), 20.f);
+                lbl1->setAnchorPoint(ccp(1, 0.5));
+                lbl1->setPosition(ccp(freeDiam1->getContentSize().width * 0.8, freeDiam1->getContentSize().height * 0.5));
+                btnFreeDiam->addChild(lbl1);
+                
+                CCSprite* diamIcon = CCSprite::create("pic/panel/setting/inde_diam_3.png");
+                diamIcon->setAnchorPoint(ccp(0, 0.5));
+                diamIcon->setPosition(lbl1->getPosition() + ccp(-2, 4));
+                btnFreeDiam->addChild(diamIcon);
+                
+                
+                CCMenu* menuBottom = CCMenu::create(btnGift, btnFreeDiam, NULL);
+                menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
+                menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+                _panel->addChild(menuBottom);
+            }else{
+                CCSprite* gift1 = CCSprite::create("pic/panel/setting/set_gift.png");
+                CCSprite* gift2 = CCSprite::create("pic/panel/setting/set_gift.png");
+                gift2->setScale(1.02f);
+                CCMenuItemSprite* btnGift = CCMenuItemSprite::create(gift1, gift2, this, menu_selector(SettingPanel::on_take_gift));
+                
+                CCMenu* menu = CCMenu::create(btnGift, NULL);
+                menu->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
+                menu->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
+                _panel->addChild(menu);
+            }
             
-            CCSprite* freeDiam1 = CCSprite::create("pic/panel/setting/set_free.png");
-            CCSprite* freeDiam2 = CCSprite::create("pic/panel/setting/set_free.png");
-            freeDiam2->setScale(1.02f);
-            CCMenuItemSprite* btnFreeDiam = CCMenuItemSprite::create(freeDiam1, freeDiam2, this, menu_selector(SettingPanel::on_free_diam));
-            
-            CCLabelTTF* lbl1 = CCLabelTTF::create("免费获取", DISPLAY->fangzhengFont(), 20.f);
-            lbl1->setAnchorPoint(ccp(1, 0.5));
-            lbl1->setPosition(ccp(freeDiam1->getContentSize().width * 0.8, freeDiam1->getContentSize().height * 0.5));
-            btnFreeDiam->addChild(lbl1);
-            
-            CCSprite* diamIcon = CCSprite::create("pic/panel/setting/inde_diam_3.png");
-            diamIcon->setAnchorPoint(ccp(0, 0.5));
-            diamIcon->setPosition(lbl1->getPosition() + ccp(-2, 4));
-            btnFreeDiam->addChild(diamIcon);
-            
-            
-            CCMenu* menuBottom = CCMenu::create(btnGift, btnFreeDiam, NULL);
-            menuBottom->alignItemsHorizontallyWithPadding(panelSize.width * 0.32);
-            menuBottom->setPosition(ccp(panelSize.width * 0.5, panelSize.height * 0.14));
-            _panel->addChild(menuBottom);
         }
 #endif
         

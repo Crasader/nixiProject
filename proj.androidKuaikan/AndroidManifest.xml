@@ -25,6 +25,7 @@ com.mzplay.tiegao.downjoy					当乐		can 15	baiOrYijie 1
 
 cn.mzplay.tiegao.kuaikan					快看		can 900	baiOrYijie 1
 											A站		can 901	baiOrYijie 1
+                                            taiwan  can 1000 baiOrYijie 1
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"

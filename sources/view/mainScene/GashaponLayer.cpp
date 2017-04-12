@@ -268,6 +268,18 @@ void GashaponLayer::creat_View(){
     diSpr2->addChild(timeLabel);
     
     
+    if (CONFIG->channelId != 900 && CONFIG->channelId != 901) {
+        std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_One", "0");
+        int Tm_OneNum = atoi(str.c_str());
+        CCString* numStr = CCString::createWithFormat("今日次数:%d/20", Tm_OneNum);
+        oneNumLabel = CCLabelTTF::create(numStr->getCString(), DISPLAY->fangzhengFont(), 17);
+        oneNumLabel->setAnchorPoint(ccp(.5f, 0.f));
+        oneNumLabel->setPosition(ccp(bgSpr->getContentSize().width* .3f, 10));
+        oneNumLabel->setColor(ccRED);
+        bgSpr->addChild(oneNumLabel);
+    }
+    
+    
     // 10次
     CCSprite* tenSpr1 = CCSprite::create("res/pic/gashapon/gashapon_button2.png");
     CCSprite* tenSpr2 = CCSprite::create("res/pic/gashapon/gashapon_button2.png");
@@ -280,6 +292,17 @@ void GashaponLayer::creat_View(){
     tenLabel->setColor(ccWHITE);
     tenItem->addChild(tenLabel);
     this->creat_gold(tenItem, 10);
+    if (CONFIG->channelId != 900 && CONFIG->channelId != 901) {
+        std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_Ten", "0");
+        int Tm_TenNum = atoi(str.c_str());
+        CCString* numStr = CCString::createWithFormat("今日次数:%d/4", Tm_TenNum);
+        tenNumLabel = CCLabelTTF::create(numStr->getCString(), DISPLAY->fangzhengFont(), 17);
+        tenNumLabel->setAnchorPoint(ccp(.5f, 0.f));
+        tenNumLabel->setPosition(ccp(bgSpr->getContentSize().width* .7f, 10));
+        tenNumLabel->setColor(ccRED);
+        bgSpr->addChild(tenNumLabel);
+    }
+    
     
 //    CCMenu* menu = CCMenu::create(suipianItem, oneItem, tenItem, NULL);
     CCMenu* menu = CCMenu::create(huanzhuangItem, oneItem, tenItem, NULL);
@@ -540,6 +563,12 @@ void GashaponLayer::_307CallBack(CCObject* pSender){
     }else{// 收费
         
     }
+    if (CONFIG->channelId != 900 && CONFIG->channelId != 901) {
+        std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_One", "0");
+        int Tm_OneNum = atoi(str.c_str());
+        CCString* numStr = CCString::createWithFormat("今日次数:%d/20", Tm_OneNum);
+        oneNumLabel->setString(numStr->getCString());
+    }
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     CCNotificationCenter::sharedNotificationCenter()->postNotification("CHECK_FREE_GASHAPON");
     this->creat_Tishi((CCArray* )pSender);
@@ -570,6 +599,12 @@ void GashaponLayer::tenCallBack(CCObject* pSender){
 }
 void GashaponLayer::_309CallBack(CCObject* pSender){
     LOADING->remove();
+    if (CONFIG->channelId != 900 && CONFIG->channelId != 901) {
+        std::string str = CCUserDefault::sharedUserDefault()->getStringForKey("Tm_Ten", "0");
+        int Tm_TenNum = atoi(str.c_str());
+        CCString* numStr = CCString::createWithFormat("今日次数:%d/4", Tm_TenNum);
+        tenNumLabel->setString(numStr->getCString());
+    }
     CCNotificationCenter::sharedNotificationCenter()->postNotification("UpdataMoney");
     this->creat_Tishi(pSender);
 }

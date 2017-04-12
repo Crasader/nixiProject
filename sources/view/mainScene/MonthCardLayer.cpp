@@ -127,34 +127,40 @@ void MonthCardLayer::creat_view(){
     goldButton->addChild(_888Spr);
     
     this->gold_view();
+    CCMenu* menu1 = CCMenu::create(goldButton, NULL);
+    menu1->setPosition(CCPointZero);
+    kuangSpr->addChild(menu1);
     
     
-    // rmb卡
-    moneyKuangSpr = CCSprite::create("res/pic/panel/month/month_money.png");
-    moneyKuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .525f, kuangSpr->getContentSize().height* .32f));
-    kuangSpr->addChild(moneyKuangSpr);
-    moneyTishiLabel = CCLabelTTF::create("请先领取邮件.", DISPLAY->fangzhengFont(), 20);
-    moneyTishiLabel->setAnchorPoint(ccp(1, 1));
-    moneyTishiLabel->setPosition(ccp(moneyKuangSpr->getContentSize().width - 6, -1));
-    moneyTishiLabel->setColor(ccRED);
-    moneyKuangSpr->addChild(moneyTishiLabel);
-    moneyTishiLabel->setVisible(false);
+    if (CONFIG->channelId == 900 || CONFIG->channelId == 901 || CONFIG->channelId == 0 || CONFIG->channelId == 1000) {
+        // rmb卡
+        moneyKuangSpr = CCSprite::create("res/pic/panel/month/month_money.png");
+        moneyKuangSpr->setPosition(ccp(kuangSpr->getContentSize().width* .525f, kuangSpr->getContentSize().height* .32f));
+        kuangSpr->addChild(moneyKuangSpr);
+        moneyTishiLabel = CCLabelTTF::create("请先领取邮件.", DISPLAY->fangzhengFont(), 20);
+        moneyTishiLabel->setAnchorPoint(ccp(1, 1));
+        moneyTishiLabel->setPosition(ccp(moneyKuangSpr->getContentSize().width - 6, -1));
+        moneyTishiLabel->setColor(ccRED);
+        moneyKuangSpr->addChild(moneyTishiLabel);
+        moneyTishiLabel->setVisible(false);
+        
+        CCSprite* moneyButtonSpr1 = CCSprite::create("res/pic/panel/month/month_button.png");
+        CCSprite* moneyButtonSpr2 = CCSprite::create("res/pic/panel/month/month_button.png");
+        moneyButtonSpr2->setScale(1.02f);
+        CCMenuItem* moneyButton = CCMenuItemSprite::create(moneyButtonSpr1, moneyButtonSpr2, this, menu_selector(MonthCardLayer::moneyButtonCallBack));
+        moneyButton->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
+        CCSprite* _30Spr = CCSprite::create("res/pic/panel/month/month_30.png");
+        _30Spr->setPosition(ccp(moneyButton->getContentSize().width* .5f, moneyButton->getContentSize().height* .48f));
+        moneyButton->addChild(_30Spr);
+        
+        this->money_view();
+        
+        
+        CCMenu* menu2 = CCMenu::create(moneyButton, NULL);
+        menu2->setPosition(CCPointZero);
+        kuangSpr->addChild(menu2);
+    }
     
-    CCSprite* moneyButtonSpr1 = CCSprite::create("res/pic/panel/month/month_button.png");
-    CCSprite* moneyButtonSpr2 = CCSprite::create("res/pic/panel/month/month_button.png");
-    moneyButtonSpr2->setScale(1.02f);
-    CCMenuItem* moneyButton = CCMenuItemSprite::create(moneyButtonSpr1, moneyButtonSpr2, this, menu_selector(MonthCardLayer::moneyButtonCallBack));
-    moneyButton->setPosition(ccp(kuangSpr->getContentSize().width* .5f, kuangSpr->getContentSize().height* .12f));
-    CCSprite* _30Spr = CCSprite::create("res/pic/panel/month/month_30.png");
-    _30Spr->setPosition(ccp(moneyButton->getContentSize().width* .5f, moneyButton->getContentSize().height* .48f));
-    moneyButton->addChild(_30Spr);
-    
-    this->money_view();
-    
-    
-    CCMenu* menu = CCMenu::create(goldButton, moneyButton, NULL);
-    menu->setPosition(CCPointZero);
-    kuangSpr->addChild(menu);
     
     
     

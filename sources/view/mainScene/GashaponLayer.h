@@ -38,6 +38,8 @@ public:
     CCLabelTTF* oneLabel;
     CCLabelTTF* oneGoldLabel;
     
+    CCLabelTTF* oneNumLabel, * tenNumLabel;
+    
     CCMenuItem* jiantouItem1,* jiantouItem2;
     
     CCMenuItem* oneItem;
