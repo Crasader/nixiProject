@@ -911,6 +911,21 @@ void DataManager::handle_protocol(int cid, Value content) {
             _clothes->init_with_json(content["clothes"]);
             _show->init_with_json(content["show"]);
         } break;
+            
+        case 171: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+//            // 返回订单号
+//            pData = ccs(content["order_id"].asString());
+        } break;
+            
+        case 173: {
+            _player->init_with_json(content["player"]);
+            this->creat_Energy_Time();
+            _purchase->init_purchase(content["purchase"]);
+            pData = AppUtil::dictionary_with_json(content["rewards"]);
+        } break;
         
         default:
             break;
