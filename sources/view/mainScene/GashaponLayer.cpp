@@ -512,6 +512,7 @@ void GashaponLayer::oneCallBack(CCObject* pSender){
         if (Tm_OneNum < 20) {
             Tm_OneNum++;
             CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", Tm_OneNum)->getCString());
+            CCUserDefault::sharedUserDefault()->flush();
             
             LOADING->show_loading();
             NET->single_lottery_307();
@@ -585,6 +586,7 @@ void GashaponLayer::tenCallBack(CCObject* pSender){
         if (Tm_TenNum < 4) {
             Tm_TenNum++;
             CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", Tm_TenNum)->getCString());
+            CCUserDefault::sharedUserDefault()->flush();
             
             LOADING->show_loading();
             NET->multiply_lottery_309();

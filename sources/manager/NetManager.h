@@ -194,6 +194,9 @@ public:
     void flash_sale_today_160();
     void flash_sale_buying_161();
     
+    // 给台服使用的
+    void diam_purchase_immediately_171(string& productId);
+    void monthly_purchase_immediately_173();
     
 private:
     string generate_sign(int cid, const char* data);

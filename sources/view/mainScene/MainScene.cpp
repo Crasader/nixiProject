@@ -201,6 +201,7 @@ bool MainScene::init(){
         bool creatNameBool = CCUserDefault::sharedUserDefault()->getBoolForKey("CreatName");
         if (!creatNameBool) {
             CCUserDefault::sharedUserDefault()->setBoolForKey("CreatName", true);
+            CCUserDefault::sharedUserDefault()->flush();
             JNIController::setData(1);
         }else{
             JNIController::setData(5);
@@ -218,6 +219,7 @@ bool MainScene::init(){
         bool creatNameBool = CCUserDefault::sharedUserDefault()->getBoolForKey("CreatName");
         if (!creatNameBool) {
             CCUserDefault::sharedUserDefault()->setBoolForKey("CreatName", true);
+            CCUserDefault::sharedUserDefault()->flush();
             JNIController::setData(1);
         }else{
             if (DATA->getYuwanBool()) {
@@ -243,8 +245,12 @@ bool MainScene::init(){
         CCUserDefault::sharedUserDefault()->setStringForKey("Tm_MDay", CCString::createWithFormat("%d", time->tm_mday)->getCString());
         CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", 0)->getCString());
         CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", 0)->getCString());
+    }else if (num > time->tm_mday) {
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_MDay", CCString::createWithFormat("%d", time->tm_mday)->getCString());
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", 0)->getCString());
+        CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", 0)->getCString());
     }
-    
+    CCUserDefault::sharedUserDefault()->flush();
     
     
     

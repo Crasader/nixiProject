@@ -995,3 +995,20 @@ void NetManager::flash_sale_buying_161() {
     this->post_data(161, data);
 }
 
+void NetManager::diam_purchase_immediately_171(string &productId) {
+    FastWriter writer;
+    Value root;
+    root["id"] = productId;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(171, data);
+}
+
+void NetManager::monthly_purchase_immediately_173() {
+    FastWriter writer;
+    Value root;
+    root["id"] = 0;
+    root["extra"] = (int)DATA->cur_timestamp();
+    string data = writer.write(root);
+    this->post_data(173, data);
+}

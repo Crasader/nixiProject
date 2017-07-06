@@ -129,6 +129,7 @@ void CreateName::create_baes_view()
     CCUserDefault::sharedUserDefault()->setStringForKey("Tm_MDay", CCString::createWithFormat("%d", time->tm_mday)->getCString());
     CCUserDefault::sharedUserDefault()->setStringForKey("Tm_One", CCString::createWithFormat("%d", 0)->getCString());
     CCUserDefault::sharedUserDefault()->setStringForKey("Tm_Ten", CCString::createWithFormat("%d", 0)->getCString());
+    CCUserDefault::sharedUserDefault()->flush();
 }
 
 void CreateName::create_content_view()

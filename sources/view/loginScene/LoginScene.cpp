@@ -18,7 +18,8 @@
 #include "RegisterView.h"
 #include "RecommendView.h"
 #include "CreateName.h"
-#include "MainScene.h"
+//#include "MainScene.h"
+#include "NXMainScene.h"
 
 LoginScene::~LoginScene() {
     CC_SAFE_DELETE(_views);
@@ -385,7 +386,7 @@ void LoginScene::game_login_callback_902(CCObject *pObj) {
         AUDIO->play_main_bgm();
     }
     else {
-        CCScene* scene = MainScene::scene();
+        CCScene* scene = NXMainScene::scene();
         CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
         CCDirector::sharedDirector()->replaceScene(trans);
     }
@@ -411,7 +412,7 @@ void LoginScene::save_nickname_callback_904(CCObject *pObj) {
     // talkingData
     DATA->onEvent("启动事件", "昵称界面", "完成昵称界面");
     
-    CCScene* scene = MainScene::scene();
+    CCScene* scene = NXMainScene::scene();
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);
 }

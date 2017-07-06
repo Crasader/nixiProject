@@ -31,7 +31,7 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.mob.tools.utils.R;
 import com.mob.tools.utils.UIHandler;
-import com.mzplay.tiegao.baidu.Tiegao;
+import com.tencent.tmgp.mzplay.tiegao.Tiegao;
 
 /** 快捷分享的主题样式的实现父类 */
 public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Callback {

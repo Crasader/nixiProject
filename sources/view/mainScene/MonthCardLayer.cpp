@@ -380,6 +380,8 @@ void MonthCardLayer::updatePay(float dt){
         CCUserDefault::sharedUserDefault()->setStringForKey("CpOrderId", "");
         CCUserDefault::sharedUserDefault()->setIntegerForKey("Product_Index", 100);
         CCUserDefault::sharedUserDefault()->setBoolForKey("PayBool", false);
+        CCUserDefault::sharedUserDefault()->flush();
+        
         JNIController::setSmsStatus(0);
         this->unschedule(SEL_SCHEDULE(&MonthCardLayer::updatePay));
         

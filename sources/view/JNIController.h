@@ -25,8 +25,8 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/meitu/AlarmClock"
 
 /**  百度  **/
-#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/baidu/Tiegao"
-#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/baidu/AlarmClock"
+//#define  SDK_TIEGAO_CLASS "com/mzplay/tiegao/baidu/Tiegao"
+//#define  SDK_CLOCK_CLASS "com/mzplay/tiegao/baidu/AlarmClock"
 
 /**  360  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/qihu360/Tiegao"
@@ -49,8 +49,8 @@ using namespace std;
 //#define  SDK_CLOCK_CLASS "cn/mzplay/tiegao/ksyun/mi/AlarmClock"
 
 /**  应用宝  **/
-//#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
-//#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
+#define  SDK_TIEGAO_CLASS "com/tencent/tmgp/mzplay/tiegao/Tiegao"
+#define  SDK_CLOCK_CLASS "com/tencent/tmgp/mzplay/tiegao/AlarmClock"
 
 /**  UC  **/
 //#define  SDK_TIEGAO_CLASS "cn/mzplay/tiegao/uc/Tiegao"
