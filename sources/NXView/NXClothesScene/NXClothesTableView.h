@@ -17,7 +17,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 #define def_TX_Time             0.7
-#define def_Page_Index          4.3
+#define def_Page_Index          5.5
 
 class NXClothesTableView
 : public CCLayer

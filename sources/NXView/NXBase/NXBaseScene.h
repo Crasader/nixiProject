@@ -61,7 +61,6 @@ public:
     
     FlashNumberLabel* m_lbl_coin;
     FlashNumberLabel* m_lbl_gold;
-    FlashNumberLabel* m_lbl_debris;
     void updataMoney();
     
     

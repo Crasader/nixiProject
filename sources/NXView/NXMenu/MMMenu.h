@@ -29,7 +29,7 @@ typedef enum
 
 enum {
     //* priority used by the menu for the event handler
-    kMMMenuHandlerPriority = -128,
+    MMMenuHandlerPriority = -128,
 };
 
 /** @brief A CCMenu
@@ -138,23 +138,25 @@ public:
      */
     void alignItemsInRowsWithArray(CCArray* columns);
     
+//    void setInitHandlePriority(int originPriority);
+    
     /** set event handler priority. By default it is: kCCMenuTouchPriority */
-    void setHandlerPriority(int newPriority);
+//    void setHandlerPriority(int newPriority);
     
     //super methods
     virtual void addChild(CCNode * child);
     virtual void addChild(CCNode * child, int zOrder);
     virtual void addChild(CCNode * child, int zOrder, int tag);
-    virtual void registerWithTouchDispatcher();
+//    virtual void registerWithTouchDispatcher();
     virtual void removeChild(CCNode* child, bool cleanup);
     
     /**
      @brief For phone event handle functions
      */
-    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
+    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+    virtual void ccTouchEnded(CCTouch* touch, CCEvent* event);
+    virtual void ccTouchCancelled(CCTouch *touch, CCEvent* event);
+    virtual void ccTouchMoved(CCTouch* touch, CCEvent* event);
     
     /**
      @since v0.99.5
@@ -177,6 +179,8 @@ public:
     static bool m_bTouchesBool;
     CCPoint m_touchBeginWorldPos;
     void setTouchesBool(bool isTouchesBool);
+    static bool m_bTouchesEndBool;
+    void setTouchesEndBool(bool isTouchesBool);
     static bool m_bCheckScissor;
     void setCheckScissor(bool isCheckScissor);
 };

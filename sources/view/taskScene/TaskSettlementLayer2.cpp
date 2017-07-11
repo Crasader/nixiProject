@@ -94,10 +94,9 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy){
     return true;
 }
 
-TaskSettlementLayer2* TaskSettlementLayer2::create(
-            int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP){
+TaskSettlementLayer2* TaskSettlementLayer2::create(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP, int diam_once, int coin_once){
     TaskSettlementLayer2* rtn = new TaskSettlementLayer2();
-    if (rtn && rtn->init(rating, coin, energy, clothesId, isPhaseUP)) {
+    if (rtn && rtn->init(rating, coin, energy, clothesId, isPhaseUP, diam_once, coin_once)) {
         rtn->autorelease();
     }
     else {
@@ -107,7 +106,7 @@ TaskSettlementLayer2* TaskSettlementLayer2::create(
     return rtn;
 }
 
-bool TaskSettlementLayer2::init(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP){
+bool TaskSettlementLayer2::init(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP, int diam_once, int coin_once){
     if (!CCLayer::init()) {
         return false;
     }
@@ -122,6 +121,11 @@ bool TaskSettlementLayer2::init(int rating, int coin, int energy, const CCString
     _rating = rating;
     _coin = coin;
     _energy = energy;
+    
+    
+    _diam_once = diam_once;
+    _coin_once = coin_once;
+    
     if (clothesId->compare("") == 0) {
         _clothesId = 0;
     }

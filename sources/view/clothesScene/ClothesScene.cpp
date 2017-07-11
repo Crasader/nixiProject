@@ -4279,6 +4279,10 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
     bool levelup = ((CCBool*)result->objectForKey("levelup"))->getValue();
     
+    // 新加的这两个字段， 不为0的，标识额外奖励的
+    int diam_once = ((CCInteger*)result->objectForKey("diam_once"))->getValue();
+    int coin_once = ((CCInteger*)result->objectForKey("coin_once"))->getValue();
+    
     CCArray* taskArr = DATA->getTaskSource();
     CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index - 1);
     int id = dic->valueForKey("id")->intValue();
@@ -4286,7 +4290,7 @@ void ClothesScene::Http_Finished_603(CCObject* pObj){
     DATA->onCompleted(taskStr->getCString());
     
     CCScene* scene = CCScene::create();
-    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, clothesId, levelup);
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, clothesId, levelup, diam_once, coin_once);
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

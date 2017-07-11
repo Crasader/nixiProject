@@ -56,9 +56,9 @@ public:
     CCSprite* _kzSpr1; // 裤子
     CCSprite* _kzSpr2;
     CCSprite* _kzSpr3;
-    CCSprite* _wzSpr1; // 袜子
-    CCSprite* _wzSpr2;
-    CCSprite* _wzSpr3;
+    CCSprite* _txSpr1; // 袜子
+    CCSprite* _txSpr2;
+    CCSprite* _txSpr3;
     CCSprite* _xzSpr1; // 鞋子
     CCSprite* _xzSpr2;
     CCSprite* _xzSpr3;

@@ -12,7 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "NXBaseScene.h"
-#include "ClothesTableView.h"
+#include "NXClothesTableView.h"
 #include "AHMessageBox.h"
 
 
@@ -25,35 +25,36 @@ typedef enum{
     Tag_NXCL_WaiTao,
     Tag_NXCL_ShangYi,
     Tag_NXCL_KuZi,
-    Tag_NXCL_WaZi,
+    Tag_NXCL_TeXiao,
     Tag_NXCL_XieZi,
     Tag_NXCL_ShiPin,
     Tag_NXCL_Bao,
     Tag_NXCL_ZhuangRong,
-    Tag_NXCL_TeXiao,
+    
     Tag_NXCL_TouFa1 = 30,
     Tag_NXCL_WaiTao1,
     Tag_NXCL_ShangYi1,
     Tag_NXCL_KuZi1,
-    Tag_NXCL_WaZi1,
+    Tag_NXCL_TeXiao1,
     Tag_NXCL_XieZi1,
     Tag_NXCL_ShiPin1,
     Tag_NXCL_Bao1,
     Tag_NXCL_ZhuangRong1,
-    Tag_NXCL_TeXiao1,
+    
     Tag_NXCL_TouFa2 = 40,
     Tag_NXCL_WaiTao2,
     Tag_NXCL_ShangYi2,
     Tag_NXCL_KuZi2,
-    Tag_NXCL_WaZi2,
+    Tag_NXCL_TeXiao2,
     Tag_NXCL_XieZi2,
     Tag_NXCL_ShiPin2,
     Tag_NXCL_Bao2,
+    
     Tag_NXCL_TouFa3 = 50,
     Tag_NXCL_WaiTao3,
     Tag_NXCL_ShangYi3,
     Tag_NXCL_KuZi3,
-    Tag_NXCL_WaZi3,
+    Tag_NXCL_TeXiao3,
     Tag_NXCL_XieZi3,
     Tag_NXCL_ShiPin3,
     Tag_NXCL_Bao3,
@@ -131,7 +132,7 @@ public:
     CREATE_FUNC(NXClothesScene);
     
 public:
-    ClothesTableView* _delegate;
+    NXClothesTableView* _delegate;
     
     // 神秘任务用
     const char* category;
@@ -180,9 +181,7 @@ public:
     CCSprite* _kzSpr1; // 裤子
     CCSprite* _kzSpr2;
     CCSprite* _kzSpr3;
-    CCSprite* _wzSpr1; // 袜子
-    CCSprite* _wzSpr2;
-    CCSprite* _wzSpr3;
+    CCSprite* _txSpr1; // 特效
     CCSprite* _xzSpr1; // 鞋子
     CCSprite* _xzSpr2;
     CCSprite* _xzSpr3;

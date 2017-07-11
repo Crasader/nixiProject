@@ -25,6 +25,7 @@
 #include "StringUtil.h"
 #include "pkScene.h"
 #include "ClothesShareLayer.h"
+#include "NXClothesShop.h"
 #include "JNIController.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ShareManager.h"
@@ -94,6 +95,7 @@ void NXClothesScene::init_with_type(int _type_id, int _task_index, int _task_pha
     _ManSpr = CCSprite::create();
     this->addChild(_ManSpr, 10);
     
+//    bgSpr = CCSprite::create("res/nxpic/NXClothesShop/NXClothesShop_bj.png");
     bgSpr = CCSprite::create("res/nxpic/NXMainscene/nx_bgImage.png");
     bgSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
     this->addChild(bgSpr);
@@ -218,7 +220,15 @@ void NXClothesScene::randomHint(float dt){
     text_bg->runAction(CCSequence::create(CCDelayTime::create(1.5f), fadeOut, NULL));
 }
 void NXClothesScene::shopCallback(CCObject* pSender){
+    AUDIO->comfirm_effect();
     
+    DATA->setClothesBool(true);
+    
+    CCLayer* layer = NXClothesShop::create_with_type(clothesStatus, task_index, task_phase, category, tishi);
+    CCScene* scene = CCScene::create();
+    scene->addChild(layer);
+    CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
+    CCDirector::sharedDirector()->replaceScene(trans);
 }
 
 
@@ -340,9 +350,9 @@ void NXClothesScene::onEnter(){
     nc->addObserver(this, menu_selector(NXClothesScene::iOS_share_finish), "IOS_SHARE_FINISH", NULL);
     
     this->scheduleOnce(SEL_SCHEDULE(&NXClothesScene::keyBackStatus), .8f);
-    //
-    DISPLAY->setZRSpr(_zrSpr1);
-    DISPLAY->blink();
+    //眨眼
+//    DISPLAY->setZRSpr(_zrSpr1);
+//    DISPLAY->blink();
 }
 
 void NXClothesScene::keyBackStatus(float dt){
@@ -808,9 +818,9 @@ void NXClothesScene::creat_View(){
     clothKuangSpr->addChild(buttonMenu, 5);
     
     
-    ClothesTableView* tabLayer = ClothesTableView::create();
-    //    tabLayer->setPosition(ccp(0, clothKuangSpr->getContentSize().height* .128f));
-    tabLayer->setPosition(ccp(0, clothKuangSpr->getContentSize().height* .16f));
+    NXClothesTableView* tabLayer = NXClothesTableView::create();
+//    tabLayer->setPosition(ccp(0, clothKuangSpr->getContentSize().height* .128f));
+    tabLayer->setPosition(ccp(5, clothKuangSpr->getContentSize().height* .07f));
     isClothesType = Tag_NXCL_TouFa;
     _delegate = tabLayer;
     tabLayer->setTag(0x77777);
@@ -850,9 +860,9 @@ void NXClothesScene::creat_View(){
         }else{
             creat_ViewMethods(isClothesType);
         }
-    }else if (buttonTag == Tag_NXCL_WaZi){
+    }else if (buttonTag == Tag_NXCL_TeXiao){
         
-        isClothesType = Tag_NXCL_WaZi;
+        isClothesType = Tag_NXCL_TeXiao;
         if (renwukuangMethodsBool) {
             renwukuangMethods(isClothesType);
         }else{
@@ -890,23 +900,6 @@ void NXClothesScene::creat_View(){
         }else{
             creat_ViewMethods(isClothesType);
         }
-    }else if (buttonTag == Tag_NXCL_TeXiao){
-        
-        isClothesType = Tag_NXCL_TeXiao;
-        
-//        CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_ZhuangRong);// 获得当前类型所有衣服
-        CCArray* tempArr = CCArray::create();
-        
-//        for (int i = 0; i < clothesArr->count(); i++) {
-//            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
-//            int sale = clothDic->valueForKey("sale")->intValue();
-//            if (sale != 0) {
-//                tempArr->addObject(clothDic);
-//            }
-//        }
-        DATA->setDataSource(tempArr);
-        _delegate->updateTableView(Tag_NXCL_TeXiao);
-        
     }
     
     this->buttonStatus();
@@ -923,20 +916,26 @@ void NXClothesScene::creat_ViewMethods(int index) {
         CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
         int sale = clothDic->valueForKey("sale")->intValue();
         int id = clothDic->valueForKey("id")->intValue();
-        //        int type = clothDic->valueForKey("type")->intValue();
-        //        if (sale != 0) {
-        //            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
-        //                tempArr->addObject(clothDic);
-        //            }
-        //        }
+//        int type = clothDic->valueForKey("type")->intValue();
+//        if (sale != 0) {
+//            if (type != 10 || DATA->getClothes()->is_owned(index, id)) {
+//                tempArr->addObject(clothDic);
+//            }
+//        }
+        
+        // 修改前版本
+//        if (DATA->getClothes()->is_owned(index, id)) {
+//            // 购买了
+//            tempArr->addObject(clothDic);
+//        }else{
+//            if (sale != 0) {
+//                tempArr->addObject(clothDic);
+//            }
+//        }
         
         if (DATA->getClothes()->is_owned(index, id)) {
             // 购买了
             tempArr->addObject(clothDic);
-        }else{
-            if (sale != 0) {
-                tempArr->addObject(clothDic);
-            }
         }
         
     }
@@ -1202,9 +1201,9 @@ void NXClothesScene::renwukuangCallBack(CCObject* pSender){
             renwukuangMethodsBool = true;
             renwukuangMethods(isClothesType);
         }
-    }else if (buttonTag == Tag_NXCL_WaZi){
+    }else if (buttonTag == Tag_NXCL_TeXiao){
         
-        isClothesType = Tag_NXCL_WaZi;
+        isClothesType = Tag_NXCL_TeXiao;
         if (renwukuangMethodsBool) {
             renwukuangMethodsBool = false;
             creat_ViewMethods(isClothesType);
@@ -1252,23 +1251,6 @@ void NXClothesScene::renwukuangCallBack(CCObject* pSender){
             renwukuangMethodsBool = true;
             renwukuangMethods(isClothesType);
         }
-    }else if (buttonTag == Tag_NXCL_TeXiao){
-        
-        isClothesType = Tag_NXCL_TeXiao;
-        
-        //        CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_ZhuangRong);// 获得当前类型所有衣服
-        CCArray* tempArr = CCArray::create();
-        
-        //        for (int i = 0; i < clothesArr->count(); i++) {
-        //            CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(i);
-        //            int sale = clothDic->valueForKey("sale")->intValue();
-        //            if (sale != 0) {
-        //                tempArr->addObject(clothDic);
-        //            }
-        //        }
-        DATA->setDataSource(tempArr);
-        _delegate->updateTableView(Tag_NXCL_TeXiao);
-        
     }
 }
 void NXClothesScene::renwukuangMethods(int index){
@@ -1357,9 +1339,9 @@ void NXClothesScene::buttonCallBack(CCObject* pSender){
     
     CCMenuItem* item = (CCMenuItem* )pSender;
     
-    //    if (MMAudioManager::get_instance()->is_effect_on()) {
-    //        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
-    //    }
+//    if (MMAudioManager::get_instance()->is_effect_on()) {
+//        MMAudioManager::get_instance()->play_effect(kAudio_Button_Common, false);
+//    }
     CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     buttonTag = item->getTag();
     CCCallFuncN* callFuncN = CCCallFuncN::create(this, callfuncN_selector(NXClothesScene::openButtonMenu));
@@ -2128,7 +2110,7 @@ void NXClothesScene::ChangeShipin(int clothesId, int sub_part){
     
     
     if (clothesId == 70000) {
-        CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+        CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", 70000);
         CCSprite* _spSpr1 = CCSprite::create(str->getCString());
         _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         _spSpr1->setTag(sub_part + 1000);
@@ -2142,7 +2124,7 @@ void NXClothesScene::ChangeShipin(int clothesId, int sub_part){
                 const CCString* layer2 =  clothDic->valueForKey("layer2");
                 const CCString* layer3 =  clothDic->valueForKey("layer3");
                 if (layer1->compare("") != 0) {
-                    CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
+                    CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
                     CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
                     _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                     _spSpr1->setTag(sub_part + 1000);
@@ -2150,7 +2132,7 @@ void NXClothesScene::ChangeShipin(int clothesId, int sub_part){
                 }
                 
                 if (layer2->compare("") != 0) {
-                    CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
+                    CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
                     CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
                     _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                     _spSpr2->setTag(sub_part + 2000);
@@ -2158,7 +2140,7 @@ void NXClothesScene::ChangeShipin(int clothesId, int sub_part){
                 }
                 
                 if (layer3->compare("") != 0) {
-                    CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
+                    CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
                     CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
                     _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                     _spSpr3->setTag(sub_part + 3000);
@@ -2176,24 +2158,30 @@ void NXClothesScene::creat_Man(){
     //    float widthFolt = .65f;
     //    float heightFloat = .3f;
     //    float scaleFloat = 1.5f;
-    float widthFolt = .5f;
-    float heightFloat = .5f;
-    float scaleFloat = 1.f;
+    float widthFolt = .34f;
+    float heightFloat = .47f;
+    float scaleFloat = .52f;
     
-    CCSprite* manSpr = CCSprite::create("res/pic/clothesScene/man/gj_man.png");
+    CCSprite* manSpr = CCSprite::create("res/nxpic/NXClothes/man/nx_man.png");
     manSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
     manSpr->setScale(scaleFloat);
     _ManSpr->addChild(manSpr, 200);
-    _touSpr = CCSprite::create("res/pic/clothesScene/man/gj_lian.png");
+    
+    CCSprite* geboSpr = CCSprite::create("res/nxpic/NXClothes/man/nx_gebo.png");
+    geboSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+    geboSpr->setScale(scaleFloat);
+    _ManSpr->addChild(geboSpr, 415);
+    
+    _touSpr = CCSprite::create("res/nxpic/NXClothes/man/nx_lian.png");
     _touSpr->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
     _touSpr->setScale(scaleFloat);
     _ManSpr->addChild(_touSpr, 210);
 }
 
 void NXClothesScene::initClothes(){//穿衣服
-    float widthFolt = .5f;
-    float heightFloat = .5f;
-    float scaleFloat = 1.f;
+    float widthFolt = .34f;
+    float heightFloat = .47f;
+    float scaleFloat = .52f;
     bool flipxBool = false;
     int sub_part = 0;
     
@@ -2213,7 +2201,7 @@ void NXClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 10000) {
-                CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10000);
+                CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", 10000);
                 _tfSpr1 = CCSprite::create(str1->getCString());
                 _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _tfSpr1->setTag(Tag_NXCL_TouFa1);
@@ -2221,7 +2209,7 @@ void NXClothesScene::initClothes(){//穿衣服
                 _tfSpr1->setFlipX(flipxBool);
                 _ManSpr->addChild(_tfSpr1, 430);
                 
-                CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10009);
+                CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", 10009);
                 _tfSpr2 = CCSprite::create(str2->getCString());
                 _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _tfSpr2->setTag(Tag_NXCL_TouFa2);
@@ -2239,7 +2227,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _tfSpr1 = CCSprite::create(str1->getCString());
                             _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr1->setTag(Tag_NXCL_TouFa1);
@@ -2249,7 +2237,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _tfSpr2 = CCSprite::create(str2->getCString());
                             _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr2->setTag(Tag_NXCL_TouFa2);
@@ -2259,7 +2247,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _tfSpr3 = CCSprite::create(str3->getCString());
                             _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr3->setTag(Tag_NXCL_TouFa3);
@@ -2276,7 +2264,7 @@ void NXClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 20000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", 20000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", 20000);
                 _wtSpr1 = CCSprite::create(str->getCString());
                 _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _wtSpr1->setTag(Tag_NXCL_WaiTao1);
@@ -2294,7 +2282,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _wtSpr1 = CCSprite::create(str1->getCString());
                             _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr1->setTag(Tag_NXCL_WaiTao1);
@@ -2304,7 +2292,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _wtSpr2 = CCSprite::create(str2->getCString());
                             _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr2->setTag(Tag_NXCL_WaiTao2);
@@ -2314,7 +2302,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _wtSpr3 = CCSprite::create(str3->getCString());
                             _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr3->setTag(Tag_NXCL_WaiTao3);
@@ -2331,7 +2319,7 @@ void NXClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 30000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", 30000);
                 _sySpr1 = CCSprite::create(str->getCString());
                 _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _sySpr1->setTag(Tag_NXCL_ShangYi1);
@@ -2351,7 +2339,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _sySpr1 = CCSprite::create(str1->getCString());
                             _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr1->setTag(Tag_NXCL_ShangYi1);
@@ -2361,7 +2349,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _sySpr2 = CCSprite::create(str2->getCString());
                             _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr2->setTag(Tag_NXCL_ShangYi2);
@@ -2371,7 +2359,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _sySpr3 = CCSprite::create(str3->getCString());
                             _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr3->setTag(Tag_NXCL_ShangYi3);
@@ -2390,7 +2378,7 @@ void NXClothesScene::initClothes(){//穿衣服
             if (cloth_id->getValue() == 40000) {
                 if (sub_part == 1) {
                     kuziBool = true;
-                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
+                    CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", 400000);
                     _kzSpr1 = CCSprite::create(str->getCString());
                     _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                     _kzSpr1->setTag(Tag_NXCL_KuZi1);
@@ -2399,7 +2387,7 @@ void NXClothesScene::initClothes(){//穿衣服
                     _ManSpr->addChild(_kzSpr1, 290);
                 }else {
                     kuziBool = false;
-                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", 40000);
                     _kzSpr1 = CCSprite::create(str->getCString());
                     _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                     _kzSpr1->setTag(Tag_NXCL_KuZi1);
@@ -2419,7 +2407,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _kzSpr1 = CCSprite::create(str1->getCString());
                             _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr1->setTag(Tag_NXCL_KuZi1);
@@ -2429,7 +2417,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _kzSpr2 = CCSprite::create(str2->getCString());
                             _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr2->setTag(Tag_NXCL_KuZi2);
@@ -2439,7 +2427,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _kzSpr3 = CCSprite::create(str3->getCString());
                             _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr3->setTag(Tag_NXCL_KuZi3);
@@ -2452,17 +2440,17 @@ void NXClothesScene::initClothes(){//穿衣服
                 }
             }
         }
-        else if (i == Tag_NXCL_WaZi){
+        else if (i == Tag_NXCL_TeXiao){
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 50000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", 50000);
-                _wzSpr1 = CCSprite::create(str->getCString());
-                _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                _wzSpr1->setTag(Tag_NXCL_WaZi1);
-                _wzSpr1->setScale(scaleFloat);
-                _wzSpr1->setFlipX(flipxBool);
-                _ManSpr->addChild(_wzSpr1, def_z_order);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/5texiao/%d.png", 50000);
+                _txSpr1 = CCSprite::create(str->getCString());
+                _txSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _txSpr1->setTag(Tag_NXCL_TeXiao1);
+                _txSpr1->setScale(scaleFloat);
+                _txSpr1->setFlipX(flipxBool);
+                _ManSpr->addChild(_txSpr1, def_z_order);
             }else{
                 CCDictionary* dic = CONFIG->clothes();// 所有衣服
                 CCArray* clothesArr = (CCArray* )dic->objectForKey(i);// 获得当前类型所有衣服
@@ -2471,36 +2459,14 @@ void NXClothesScene::initClothes(){//穿衣服
                     int now_clothes_Id = clothDic->valueForKey("id")->intValue();
                     if (now_clothes_Id == cloth_id->getValue()) {
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
-                        const CCString* layer2 =  clothDic->valueForKey("layer2");
-                        const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer1")->intValue());
-                            _wzSpr1 = CCSprite::create(str1->getCString());
-                            _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wzSpr1->setTag(Tag_NXCL_WaZi1);
-                            _wzSpr1->setScale(scaleFloat);
-                            _wzSpr1->setFlipX(flipxBool);
-                            _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
-                        }
-                        
-                        if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            _wzSpr2 = CCSprite::create(str2->getCString());
-                            _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wzSpr2->setTag(Tag_NXCL_WaZi2);
-                            _wzSpr2->setScale(scaleFloat);
-                            _wzSpr2->setFlipX(flipxBool);
-                            _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
-                        }
-                        
-                        if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            _wzSpr3 = CCSprite::create(str3->getCString());
-                            _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
-                            _wzSpr3->setTag(Tag_NXCL_WaZi3);
-                            _wzSpr3->setScale(scaleFloat);
-                            _wzSpr3->setFlipX(flipxBool);
-                            _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/5texiao/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            _txSpr1 = CCSprite::create(str1->getCString());
+                            _txSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _txSpr1->setTag(Tag_NXCL_TeXiao1);
+                            _txSpr1->setScale(scaleFloat);
+                            _txSpr1->setFlipX(flipxBool);
+                            _ManSpr->addChild(_txSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         break;
                     }
@@ -2511,7 +2477,7 @@ void NXClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 60000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", 60000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", 60000);
                 _xzSpr1 = CCSprite::create(str->getCString());
                 _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _xzSpr1->setTag(Tag_NXCL_XieZi1);
@@ -2529,7 +2495,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _xzSpr1 = CCSprite::create(str1->getCString());
                             _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr1->setTag(Tag_NXCL_XieZi1);
@@ -2539,7 +2505,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _xzSpr2 = CCSprite::create(str2->getCString());
                             _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr2->setTag(Tag_NXCL_XieZi2);
@@ -2549,7 +2515,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _xzSpr3 = CCSprite::create(str3->getCString());
                             _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr3->setTag(Tag_NXCL_XieZi3);
@@ -2569,7 +2535,7 @@ void NXClothesScene::initClothes(){//穿衣服
             for (int j = 11; j <= 20; j++) {
                 cloth_id = (CCInteger* )shipinDic->objectForKey(CCString::createWithFormat("%d", j)->getCString());
                 if (cloth_id->getValue() == 70000) {
-                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+                    CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", 70000);
                     CCSprite* _spSpr1 = CCSprite::create(str->getCString());
                     _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                     _spSpr1->setTag(j + 1000);
@@ -2587,7 +2553,7 @@ void NXClothesScene::initClothes(){//穿衣服
                             const CCString* layer2 =  clothDic->valueForKey("layer2");
                             const CCString* layer3 =  clothDic->valueForKey("layer3");
                             if (layer1->compare("") != 0) {
-                                CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
+                                CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
                                 CCSprite* _spSpr1 = CCSprite::create(str1->getCString());
                                 _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr1->setTag(j + 1000);
@@ -2597,7 +2563,7 @@ void NXClothesScene::initClothes(){//穿衣服
                             }
                             
                             if (layer2->compare("") != 0) {
-                                CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
+                                CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
                                 CCSprite* _spSpr2 = CCSprite::create(str2->getCString());
                                 _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr2->setTag(j + 2000);
@@ -2607,7 +2573,7 @@ void NXClothesScene::initClothes(){//穿衣服
                             }
                             
                             if (layer3->compare("") != 0) {
-                                CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
+                                CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
                                 CCSprite* _spSpr3 = CCSprite::create(str3->getCString());
                                 _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _spSpr3->setTag(j + 3000);
@@ -2625,7 +2591,7 @@ void NXClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 80000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", 80000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", 80000);
                 _bSpr1 = CCSprite::create(str->getCString());
                 _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _bSpr1->setTag(Tag_NXCL_Bao1);
@@ -2644,7 +2610,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         const CCString* layer4 =  clothDic->valueForKey("layer4");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _bSpr1 = CCSprite::create(str1->getCString());
                             _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr1->setTag(Tag_NXCL_Bao1);
@@ -2654,7 +2620,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer2")->intValue());
                             _bSpr2 = CCSprite::create(str2->getCString());
                             _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr2->setTag(Tag_NXCL_Bao2);
@@ -2664,7 +2630,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer3")->intValue());
                             _bSpr3 = CCSprite::create(str3->getCString());
                             _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_NXCL_Bao3);
@@ -2674,7 +2640,7 @@ void NXClothesScene::initClothes(){//穿衣服
                         }
                         
                         if (layer4->compare("") != 0) {
-                            CCString* str4 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer4")->intValue());
+                            CCString* str4 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer4")->intValue());
                             _bSpr4 = CCSprite::create(str4->getCString());
                             _bSpr4->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr4->setTag(Tag_NXCL_Bao4);
@@ -2690,7 +2656,7 @@ void NXClothesScene::initClothes(){//穿衣服
             CCInteger* cloth_id = (CCInteger*)dress->objectForKey(CCString::createWithFormat("%d", i)->getCString()); // 男宠当前所穿上衣
             
             if (cloth_id->getValue() == 90000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/90000.png");
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/9zhuangrong/90000.png");
                 _zrSpr1 = CCSprite::create(str->getCString());
                 _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _zrSpr1->setTag(Tag_NXCL_ZhuangRong1);
@@ -2709,7 +2675,7 @@ void NXClothesScene::initClothes(){//穿衣服
                     if (now_clothes_Id == cloth_id->getValue()) {
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _zrSpr1 = CCSprite::create(str1->getCString());
                             _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _zrSpr1->setTag(Tag_NXCL_ZhuangRong1);
@@ -2735,6 +2701,10 @@ void NXClothesScene::ChangClothesIndex(CCObject* pSender){
 void NXClothesScene::ChangeClothes(CCObject* pSender){
     long index = (long)pSender;
     
+    float widthFolt = .34f;
+    float heightFloat = .47f;
+    float scaleFloat = .52f;
+    
     //    if (MMAudioManager::get_instance()->is_effect_on()) {
     //        MMAudioManager::get_instance()->play_effect(kAudio_Button_Clothes, false);
     //    }
@@ -2748,7 +2718,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
     }else if (index >= 40000 && index < 50000){
         isClothesType = Tag_NXCL_KuZi;
     }else if (index >= 50000 && index < 60000){
-        isClothesType = Tag_NXCL_WaZi;
+        isClothesType = Tag_NXCL_TeXiao;
     }else if (index >= 60000 && index < 70000){
         isClothesType = Tag_NXCL_XieZi;
     }else if (index >= 70000 && index < 80000){
@@ -2776,15 +2746,17 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_TouFa);// 获得当前类型所有衣服
             
             if (index == 10000) {
-                CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10000);
+                CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", 10000);
                 _tfSpr1 = CCSprite::create(str1->getCString());
-                _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _tfSpr1->setScale(scaleFloat);
                 _tfSpr1->setTag(Tag_NXCL_TouFa1);
                 _ManSpr->addChild(_tfSpr1, 430);
                 
-                CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", 10009);
+                CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", 10009);
                 _tfSpr2 = CCSprite::create(str2->getCString());
-                _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _tfSpr2->setScale(scaleFloat);
                 _tfSpr2->setTag(Tag_NXCL_TouFa2);
                 _ManSpr->addChild(_tfSpr2, 50);
             }else{
@@ -2796,7 +2768,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", clothDic->valueForKey("layer1")->intValue());
                             
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
@@ -2817,13 +2789,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _tfSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _tfSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr1->setTag(Tag_NXCL_TouFa1);
+                            _tfSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_tfSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", clothDic->valueForKey("layer2")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -2843,13 +2816,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _tfSpr2 = CCSprite::create(str2->getCString());
                             }
-                            _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _tfSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr2->setTag(Tag_NXCL_TouFa2);
+                            _tfSpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_tfSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/1toufa/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/1toufa/%d.png", clothDic->valueForKey("layer3")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -2869,8 +2843,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _tfSpr3 = CCSprite::create(str3->getCString());
                             }
-                            _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _tfSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _tfSpr3->setTag(Tag_NXCL_TouFa3);
+                            _tfSpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_tfSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
@@ -2895,9 +2870,10 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_WaiTao);// 获得当前类型所有衣服
             
             if (index == 20000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%ld.png", index);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%ld.png", index);
                 _wtSpr1 = CCSprite::create(str->getCString());
-                _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _wtSpr1->setScale(scaleFloat);
                 _wtSpr1->setTag(Tag_NXCL_WaiTao1);
                 _ManSpr->addChild(_wtSpr1, def_z_order);
             }else{
@@ -2909,7 +2885,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -2929,13 +2905,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _wtSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wtSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr1->setTag(Tag_NXCL_WaiTao1);
+                            _wtSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_wtSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", clothDic->valueForKey("layer2")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -2955,13 +2932,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _wtSpr2 = CCSprite::create(str2->getCString());
                             }
-                            _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wtSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr2->setTag(Tag_NXCL_WaiTao2);
+                            _wtSpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_wtSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/2waitao/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/2waitao/%d.png", clothDic->valueForKey("layer3")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -2981,8 +2959,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _wtSpr3 = CCSprite::create(str3->getCString());
                             }
-                            _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _wtSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _wtSpr3->setTag(Tag_NXCL_WaiTao3);
+                            _wtSpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_wtSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
@@ -3008,10 +2987,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_ShangYi);// 获得当前类型所有衣服
             
             if (index == 30000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%ld.png", index);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%ld.png", index);
                 _sySpr1 = CCSprite::create(str->getCString());
-                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _sySpr1->setTag(Tag_NXCL_ShangYi1);
+                _sySpr1->setScale(scaleFloat);
                 _ManSpr->addChild(_sySpr1, 350);
                 if (kuziBool) {
                     kuziBool = false;
@@ -3025,10 +3005,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                     if (_ManSpr->getChildByTag(Tag_NXCL_KuZi3) != NULL) {
                         _ManSpr->removeChildByTag(Tag_NXCL_KuZi3);
                     }
-                    CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                    CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", 40000);
                     _kzSpr1 = CCSprite::create(str->getCString());
-                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                    _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                     _kzSpr1->setTag(Tag_NXCL_KuZi1);
+                    _kzSpr1->setScale(scaleFloat);
                     _ManSpr->addChild(_kzSpr1, 290);
                 }
             }else{
@@ -3048,10 +3029,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             if (_ManSpr->getChildByTag(Tag_NXCL_KuZi3) != NULL) {
                                 _ManSpr->removeChildByTag(Tag_NXCL_KuZi3);
                             }
-                            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 400000);
+                            CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", 400000);
                             _kzSpr1 = CCSprite::create(str->getCString());
-                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr1->setTag(Tag_NXCL_KuZi1);
+                            _kzSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_kzSpr1, 290);
                             
                         }else {
@@ -3068,10 +3050,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                                 if (_ManSpr->getChildByTag(Tag_NXCL_KuZi3) != NULL) {
                                     _ManSpr->removeChildByTag(Tag_NXCL_KuZi3);
                                 }
-                                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", 40000);
                                 _kzSpr1 = CCSprite::create(str->getCString());
-                                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                                 _kzSpr1->setTag(Tag_NXCL_KuZi1);
+                                _kzSpr1->setScale(scaleFloat);
                                 _ManSpr->addChild(_kzSpr1, 290);
                             }
                         }
@@ -3080,7 +3063,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3100,13 +3083,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _sySpr1 = CCSprite::create(str1->getCString());
                             }
-                            _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr1->setTag(Tag_NXCL_ShangYi1);
+                            _sySpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_sySpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3126,13 +3110,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _sySpr2 = CCSprite::create(str2->getCString());
                             }
-                            _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr2->setTag(Tag_NXCL_ShangYi2);
+                            _sySpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_sySpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3152,8 +3137,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _sySpr3 = CCSprite::create(str3->getCString());
                             }
-                            _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _sySpr3->setTag(Tag_NXCL_ShangYi3);
+                            _sySpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_sySpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
@@ -3181,10 +3167,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_KuZi);// 获得当前类型所有衣服
             
             if (index == 40000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", 40000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", 40000);
                 _kzSpr1 = CCSprite::create(str->getCString());
-                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _kzSpr1->setTag(Tag_NXCL_KuZi1);
+                _kzSpr1->setScale(scaleFloat);
                 _ManSpr->addChild(_kzSpr1, 290);
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -3195,7 +3182,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3215,13 +3202,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _kzSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr1->setTag(Tag_NXCL_KuZi1);
+                            _kzSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_kzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3241,13 +3229,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _kzSpr2 = CCSprite::create(str2->getCString());
                             }
-                            _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr2->setTag(Tag_NXCL_KuZi2);
+                            _kzSpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_kzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/4kuzi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/4kuzi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3267,8 +3256,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _kzSpr3 = CCSprite::create(str3->getCString());
                             }
-                            _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _kzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _kzSpr3->setTag(Tag_NXCL_KuZi3);
+                            _kzSpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_kzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
@@ -3280,25 +3270,26 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             break;
         }
             
-        case Tag_NXCL_WaZi:{
-            if (_ManSpr->getChildByTag(Tag_NXCL_WaZi1) != NULL) {
-                _ManSpr->removeChildByTag(Tag_NXCL_WaZi1);
+        case Tag_NXCL_TeXiao:{
+            if (_ManSpr->getChildByTag(Tag_NXCL_TeXiao1) != NULL) {
+                _ManSpr->removeChildByTag(Tag_NXCL_TeXiao1);
             }
-            if (_ManSpr->getChildByTag(Tag_NXCL_WaZi2) != NULL) {
-                _ManSpr->removeChildByTag(Tag_NXCL_WaZi2);
+            if (_ManSpr->getChildByTag(Tag_NXCL_TeXiao2) != NULL) {
+                _ManSpr->removeChildByTag(Tag_NXCL_TeXiao2);
             }
-            if (_ManSpr->getChildByTag(Tag_NXCL_WaZi3) != NULL) {
-                _ManSpr->removeChildByTag(Tag_NXCL_WaZi3);
+            if (_ManSpr->getChildByTag(Tag_NXCL_TeXiao3) != NULL) {
+                _ManSpr->removeChildByTag(Tag_NXCL_TeXiao3);
             }
             CCTextureCache::sharedTextureCache()->removeUnusedTextures();
-            CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_WaZi);// 获得当前类型所有衣服
+            CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_TeXiao);// 获得当前类型所有衣服
             
             if (index == 50000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", 50000);
-                _wzSpr1 = CCSprite::create(str->getCString());
-                _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-                _wzSpr1->setTag(Tag_NXCL_WaZi1);
-                _ManSpr->addChild(_wzSpr1, def_z_order);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/5texiao/%d.png", 50000);
+                _txSpr1 = CCSprite::create(str->getCString());
+                _txSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                _txSpr1->setTag(Tag_NXCL_TeXiao1);
+                _txSpr1->setScale(scaleFloat);
+                _ManSpr->addChild(_txSpr1, def_z_order);
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
@@ -3308,81 +3299,30 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/5texiao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
-                                    _wzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                    _txSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
                                 }else{
                                     int cloth_type = clothDic->valueForKey("type")->intValue();
                                     if (cloth_type == 10) {
                                         if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
-                                            _wzSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
+                                            _txSpr1 = creat_Gray(isClothesType, now_clothes_Id, str1);
                                         }else{
-                                            _wzSpr1 = CCSprite::create(str1->getCString());
+                                            _txSpr1 = CCSprite::create(str1->getCString());
                                         }
                                     }else{
-                                        _wzSpr1 = CCSprite::create(str1->getCString());
+                                        _txSpr1 = CCSprite::create(str1->getCString());
                                     }
                                 }
                             }else{
-                                _wzSpr1 = CCSprite::create(str1->getCString());
+                                _txSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _wzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-                            _wzSpr1->setTag(Tag_NXCL_WaZi1);
-                            _ManSpr->addChild(_wzSpr1, clothDic->valueForKey("z_order1")->intValue());
-                        }
-                        
-                        if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer2")->intValue());
-                            if (grayBool) {
-                                int phase = clothDic->valueForKey("phase")->intValue();
-                                if (phase > DATA->getPlayer()->phase) {
-                                    _wzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
-                                }else{
-                                    int cloth_type = clothDic->valueForKey("type")->intValue();
-                                    if (cloth_type == 10) {
-                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
-                                            _wzSpr2 = creat_Gray(isClothesType, now_clothes_Id, str2);
-                                        }else{
-                                            _wzSpr2 = CCSprite::create(str2->getCString());
-                                        }
-                                    }else{
-                                        _wzSpr2 = CCSprite::create(str2->getCString());
-                                    }
-                                }
-                            }else{
-                                _wzSpr2 = CCSprite::create(str2->getCString());
-                            }
-                            _wzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-                            _wzSpr2->setTag(Tag_NXCL_WaZi2);
-                            _ManSpr->addChild(_wzSpr2, clothDic->valueForKey("z_order2")->intValue());
-                        }
-                        
-                        if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/5wazi/%d.png", clothDic->valueForKey("layer3")->intValue());
-                            if (grayBool) {
-                                int phase = clothDic->valueForKey("phase")->intValue();
-                                if (phase > DATA->getPlayer()->phase) {
-                                    _wzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
-                                }else{
-                                    int cloth_type = clothDic->valueForKey("type")->intValue();
-                                    if (cloth_type == 10) {
-                                        if (!DATA->getClothes()->is_owned(isClothesType, now_clothes_Id)){
-                                            _wzSpr3 = creat_Gray(isClothesType, now_clothes_Id, str3);
-                                        }else{
-                                            _wzSpr3 = CCSprite::create(str3->getCString());
-                                        }
-                                    }else{
-                                        _wzSpr3 = CCSprite::create(str3->getCString());
-                                    }
-                                }
-                            }else{
-                                _wzSpr3 = CCSprite::create(str3->getCString());
-                            }
-                            _wzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
-                            _wzSpr3->setTag(Tag_NXCL_WaZi3);
-                            _ManSpr->addChild(_wzSpr3, clothDic->valueForKey("z_order3")->intValue());
+                            _txSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
+                            _txSpr1->setTag(Tag_NXCL_TeXiao1);
+                            _txSpr1->setScale(scaleFloat);
+                            _ManSpr->addChild(_txSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         this->showAnimationWithType(clothDic->valueForKey("type")->intValue());
@@ -3407,10 +3347,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_XieZi);// 获得当前类型所有衣服
             
             if (index == 60000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", 60000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", 60000);
                 _xzSpr1 = CCSprite::create(str->getCString());
-                _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _xzSpr1->setTag(Tag_NXCL_XieZi1);
+                _xzSpr1->setScale(scaleFloat);
                 _ManSpr->addChild(_xzSpr1, def_z_order);
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -3421,7 +3362,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", clothDic->valueForKey("layer1")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3441,13 +3382,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _xzSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _xzSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr1->setTag(Tag_NXCL_XieZi1);
+                            _xzSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_xzSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", clothDic->valueForKey("layer2")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3467,13 +3409,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _xzSpr2 = CCSprite::create(str2->getCString());
                             }
-                            _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _xzSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr2->setTag(Tag_NXCL_XieZi2);
+                            _xzSpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_xzSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/6xiezi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/6xiezi/%d.png", clothDic->valueForKey("layer3")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3493,8 +3436,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _xzSpr3 = CCSprite::create(str3->getCString());
                             }
-                            _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _xzSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _xzSpr3->setTag(Tag_NXCL_XieZi3);
+                            _xzSpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_xzSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
@@ -3540,10 +3484,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             }
             
             if (index == 70000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", 70000);
                 CCSprite* _spSpr1 = CCSprite::create(str->getCString());
-                _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _spSpr1->setTag(sub_part + 1000);
+                _spSpr1->setScale(scaleFloat);
                 _ManSpr->addChild(_spSpr1, def_z_order);
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -3554,7 +3499,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer2 =  clothDic->valueForKey("layer2");
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer1")->intValue());
                             CCSprite* _spSpr1;
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
@@ -3575,13 +3520,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _spSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _spSpr1->setTag(sub_part + 1000);
+                            _spSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_spSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer2")->intValue());
                             CCSprite* _spSpr2;
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
@@ -3602,13 +3548,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _spSpr2 = CCSprite::create(str2->getCString());
                             }
-                            _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _spSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _spSpr2->setTag(sub_part + 2000);
+                            _spSpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_spSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", clothDic->valueForKey("layer3")->intValue());
                             CCSprite* _spSpr3;
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
@@ -3629,8 +3576,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _spSpr3 = CCSprite::create(str3->getCString());
                             }
-                            _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _spSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _spSpr3->setTag(sub_part + 3000);
+                            _spSpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_spSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
@@ -3659,10 +3607,11 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_Bao);// 获得当前类型所有衣服
             
             if (index == 80000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", 80000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", 80000);
                 _bSpr1 = CCSprite::create(str->getCString());
-                _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                 _bSpr1->setTag(Tag_NXCL_Bao1);
+                _bSpr1->setScale(scaleFloat);
                 _ManSpr->addChild(_bSpr1, def_z_order);
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
@@ -3674,7 +3623,7 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                         const CCString* layer3 =  clothDic->valueForKey("layer3");
                         const CCString* layer4 =  clothDic->valueForKey("layer4");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer1")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3694,13 +3643,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _bSpr1 = CCSprite::create(str1->getCString());
                             }
-                            _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr1->setTag(Tag_NXCL_Bao1);
+                            _bSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_bSpr1, clothDic->valueForKey("z_order1")->intValue());
                         }
                         
                         if (layer2->compare("") != 0) {
-                            CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer2")->intValue());
+                            CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer2")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3720,13 +3670,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _bSpr2 = CCSprite::create(str2->getCString());
                             }
-                            _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr2->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr2->setTag(Tag_NXCL_Bao2);
+                            _bSpr2->setScale(scaleFloat);
                             _ManSpr->addChild(_bSpr2, clothDic->valueForKey("z_order2")->intValue());
                         }
                         
                         if (layer3->compare("") != 0) {
-                            CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer3")->intValue());
+                            CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer3")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3746,13 +3697,14 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _bSpr3 = CCSprite::create(str3->getCString());
                             }
-                            _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr3->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr3->setTag(Tag_NXCL_Bao3);
+                            _bSpr3->setScale(scaleFloat);
                             _ManSpr->addChild(_bSpr3, clothDic->valueForKey("z_order3")->intValue());
                         }
                         
                         if (layer4->compare("") != 0) {
-                            CCString* str4 = CCString::createWithFormat("res/pic/clothesScene/clothes/8bao/%d.png", clothDic->valueForKey("layer4")->intValue());
+                            CCString* str4 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/8bao/%d.png", clothDic->valueForKey("layer4")->intValue());
                             if (grayBool) {
                                 int phase = clothDic->valueForKey("phase")->intValue();
                                 if (phase > DATA->getPlayer()->phase) {
@@ -3772,8 +3724,9 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                             }else{
                                 _bSpr4 = CCSprite::create(str4->getCString());
                             }
-                            _bSpr4->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _bSpr4->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* heightFloat));
                             _bSpr4->setTag(Tag_NXCL_Bao4);
+                            _bSpr4->setScale(scaleFloat);
                             _ManSpr->addChild(_bSpr4, clothDic->valueForKey("z_order4")->intValue());
                         }
                         
@@ -3793,15 +3746,16 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
             CCArray* clothesArr = (CCArray* )dic->objectForKey(Tag_NXCL_ZhuangRong);// 获得当前类型所有衣服
             
             if (index == 90000) {
-                CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", 90000);
+                CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/9zhuangrong/%d.png", 90000);
                 _zrSpr1 = CCSprite::create(str->getCString());
-                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* .5f));
                 _zrSpr1->setTag(Tag_NXCL_ZhuangRong1);
+                _zrSpr1->setScale(scaleFloat);
                 _ManSpr->addChild(_zrSpr1, 220);
-                //
-                DISPLAY->setCurZRId(90000);
-                DISPLAY->setZRSpr(_zrSpr1);
-                DISPLAY->blink();
+                //眨眼
+//                DISPLAY->setCurZRId(90000);
+//                DISPLAY->setZRSpr(_zrSpr1);
+//                DISPLAY->blink();
             }else{
                 for (int j = 0; j < clothesArr->count(); j++) {
                     CCDictionary* clothDic = (CCDictionary* )clothesArr->objectAtIndex(j);
@@ -3809,15 +3763,16 @@ void NXClothesScene::ChangeClothes(CCObject* pSender){
                     if (now_clothes_Id == index) {
                         const CCString* layer1 =  clothDic->valueForKey("layer1");
                         if (layer1->compare("") != 0) {
-                            CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
+                            CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/9zhuangrong/%d.png", clothDic->valueForKey("layer1")->intValue());
                             _zrSpr1 = CCSprite::create(str1->getCString());
-                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
+                            _zrSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* widthFolt, DISPLAY->ScreenHeight()* .5f));
                             _zrSpr1->setTag(Tag_NXCL_ZhuangRong1);
+                            _zrSpr1->setScale(scaleFloat);
                             _ManSpr->addChild(_zrSpr1, clothDic->valueForKey("z_order1")->intValue());
-                            //
-                            DISPLAY->setCurZRId(layer1->intValue());
-                            DISPLAY->setZRSpr(_zrSpr1);
-                            DISPLAY->blink();
+                            //眨眼
+//                            DISPLAY->setCurZRId(layer1->intValue());
+//                            DISPLAY->setZRSpr(_zrSpr1);
+//                            DISPLAY->blink();
                         }
                         break;
                     }
@@ -3945,7 +3900,7 @@ void NXClothesScene::reductionShangyi(){
     cloth_id = (CCInteger* )clothesTemp->objectForKey(CCString::createWithFormat("%d", Tag_NXCL_ShangYi)->getCString()); // 男宠当前所穿上衣
     
     if (cloth_id->getValue() == 30000) {
-        CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", 30000);
+        CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", 30000);
         _sySpr1 = CCSprite::create(str->getCString());
         _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         _sySpr1->setTag(Tag_NXCL_ShangYi1);
@@ -3961,7 +3916,7 @@ void NXClothesScene::reductionShangyi(){
                 const CCString* layer2 =  clothDic->valueForKey("layer2");
                 const CCString* layer3 =  clothDic->valueForKey("layer3");
                 if (layer1->compare("") != 0) {
-                    CCString* str1 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
+                    CCString* str1 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer1")->intValue());
                     _sySpr1 = CCSprite::create(str1->getCString());
                     _sySpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                     _sySpr1->setTag(Tag_NXCL_ShangYi1);
@@ -3969,7 +3924,7 @@ void NXClothesScene::reductionShangyi(){
                 }
                 
                 if (layer2->compare("") != 0) {
-                    CCString* str2 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
+                    CCString* str2 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer2")->intValue());
                     _sySpr2 = CCSprite::create(str2->getCString());
                     _sySpr2->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                     _sySpr2->setTag(Tag_NXCL_ShangYi2);
@@ -3977,7 +3932,7 @@ void NXClothesScene::reductionShangyi(){
                 }
                 
                 if (layer3->compare("") != 0) {
-                    CCString* str3 = CCString::createWithFormat("res/pic/clothesScene/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
+                    CCString* str3 = CCString::createWithFormat("res/nxpic/NXClothes/clothes/3shangyi/%d.png", clothDic->valueForKey("layer3")->intValue());
                     _sySpr3 = CCSprite::create(str3->getCString());
                     _sySpr3->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
                     _sySpr3->setTag(Tag_NXCL_ShangYi3);
@@ -3999,7 +3954,7 @@ void NXClothesScene::reductionShipin(int index){
         if (_ManSpr->getChildByTag(20 + 3000) != NULL) {
             _ManSpr->removeChildByTag(20 + 3000);
         }
-        CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+        CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", 70000);
         CCSprite* _spSpr1 = CCSprite::create(str->getCString());
         _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
         _spSpr1->setTag(20 + 1000);
@@ -4016,7 +3971,7 @@ void NXClothesScene::reductionShipin(int index){
                 _ManSpr->removeChildByTag(i + 3000);
             }
             
-            CCString* str = CCString::createWithFormat("res/pic/clothesScene/clothes/7shipin/%d.png", 70000);
+            CCString* str = CCString::createWithFormat("res/nxpic/NXClothes/clothes/7shipin/%d.png", 70000);
             CCSprite* _spSpr1 = CCSprite::create(str->getCString());
             _spSpr1->setPosition(ccp(DISPLAY->ScreenWidth()* .5f, DISPLAY->ScreenHeight()* .5f));
             _spSpr1->setTag(i + 1000);
@@ -4261,6 +4216,10 @@ void NXClothesScene::Http_Finished_603(CCObject* pObj){
     int energy = ((CCInteger*)result->objectForKey("energy"))->getValue();
     bool levelup = ((CCBool*)result->objectForKey("levelup"))->getValue();
     
+    // 新加的这两个字段， 不为0的，标识额外奖励的
+    int diam_once = ((CCInteger*)result->objectForKey("diam_once"))->getValue();
+    int coin_once = ((CCInteger*)result->objectForKey("coin_once"))->getValue();
+    
     CCArray* taskArr = DATA->getTaskSource();
     CCDictionary* dic = (CCDictionary* )taskArr->objectAtIndex(task_index - 1);
     int id = dic->valueForKey("id")->intValue();
@@ -4268,7 +4227,7 @@ void NXClothesScene::Http_Finished_603(CCObject* pObj){
     DATA->onCompleted(taskStr->getCString());
     
     CCScene* scene = CCScene::create();
-    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, clothesId, levelup);
+    TaskSettlementLayer2* layer = TaskSettlementLayer2::create(rating, coin, energy, clothesId, levelup, diam_once, coin_once);
     scene->addChild(layer);
     CCTransitionFade* trans = CCTransitionFade::create(0.6, scene);
     CCDirector::sharedDirector()->replaceScene(trans);

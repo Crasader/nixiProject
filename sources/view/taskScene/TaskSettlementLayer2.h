@@ -31,8 +31,8 @@ public:
     static TaskSettlementLayer2* create(int rating, int coin, int energy); // 给神秘事件用
     virtual bool init(int rating, int coin, int energy);
     //
-    static TaskSettlementLayer2* create(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP);
-    virtual bool init(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP);
+    static TaskSettlementLayer2* create(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP, int diam_once, int coin_once);
+    virtual bool init(int rating, int coin, int energy, const CCString* clothesId, bool isPhaseUP, int diam_once, int coin_once);
     //
     virtual void onEnter();
     virtual void onExitTransitionDidStart();
@@ -166,5 +166,8 @@ private:
     int             _energy;
     int             _clothesId;
     bool            _isPhaseUP;
+    
+    int             _diam_once;
+    int             _coin_once;
 };
 #endif /* defined(__tiegao__TaskSettlementLayer2__) */

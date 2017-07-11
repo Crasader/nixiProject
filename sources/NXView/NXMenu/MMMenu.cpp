@@ -1,11 +1,3 @@
-//
-//  MMMenu.cpp
-//  mm3c
-//
-//  Created by mac on 15-5-26.
-//
-//
-
 #include "MMMenu.h"
 #include "CCDirector.h"
 #include "CCApplication.h"
@@ -29,6 +21,7 @@ using namespace std;
 NS_CC_BEGIN
 
 bool MMMenu::m_bTouchesBool = true;
+bool MMMenu::m_bTouchesEndBool = true;
 bool MMMenu::m_bCheckScissor = false;
 
 static std::vector<unsigned int> ccarray_to_std_vector(CCArray* pArray)
@@ -115,10 +108,11 @@ bool MMMenu::initWithArray(CCArray* pArrayOfItems)
 {
     if (CCLayer::init())
     {
-//        setTouchPriority(kMMMenuHandlerPriority);
-        this->setTouchSwallowEnabled(true);
-        this->setTouchMode(kCCTouchesOneByOne);
-        this->setTouchEnabled(true);
+//        setInitHandlePriority(MMMenuHandlerPriority);
+        
+        setTouchMode(kCCTouchesOneByOne);
+        setTouchEnabled(true);
+        setTouchSwallowEnabled(false);
         
         m_bEnabled = true;
         // menu in the center of the screen
@@ -205,23 +199,29 @@ void MMMenu::removeChild(CCNode* child, bool cleanup)
 
 //Menu - Events
 
-void MMMenu::setHandlerPriority(int newPriority)
-{
-    CCTouchDispatcher* pDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
-    pDispatcher->setPriority(newPriority, this);
-}
-
-void MMMenu::registerWithTouchDispatcher()
-{
-    CCDirector* pDirector = CCDirector::sharedDirector();
-    //    pDirector->getTouchDispatcher()->addTargetedDelegate(this, this->getTouchPriority(), true);
-    this->setTouchSwallowEnabled(true);
-    this->setTouchMode(kCCTouchesOneByOne);
-    this->setTouchEnabled(true);
-}
+//void MMMenu::setInitHandlePriority(int originPriority)
+//{
+//    this->m_nTouchPriority = originPriority;
+//}
+//
+//void MMMenu::setHandlerPriority(int newPriority)
+//{
+//    CCTouchDispatcher* pDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
+//    pDispatcher->setPriority(newPriority, this);
+//}
+//
+//void MMMenu::registerWithTouchDispatcher()
+//{
+//    CCDirector* pDirector = CCDirector::sharedDirector();
+////    pDirector->getTouchDispatcher()->addTargetedDelegate(this, this->getTouchPriority(), true);
+//    pDirector->getTouchDispatcher()->addTargetedDelegate(this, MMMenuHandlerPriority, m_bTouchesBool);
+//}
 
 void MMMenu::setTouchesBool(bool isTouchesBool){
     m_bTouchesBool = isTouchesBool;
+}
+void MMMenu::setTouchesEndBool(bool isTouchesBool){
+    m_bTouchesEndBool = isTouchesBool;
 }
 void MMMenu::setCheckScissor(bool isCheckScissor){
     m_bCheckScissor = isCheckScissor;
@@ -229,9 +229,11 @@ void MMMenu::setCheckScissor(bool isCheckScissor){
 
 bool MMMenu::ccTouchBegan(CCTouch* touch, CCEvent* event)
 {
+    CCLOG("MMMenu::ccTouchBegan() ...");
     CC_UNUSED_PARAM(event);
     if (m_eState != kMMMenuStateWaiting || ! m_bVisible || !m_bEnabled)
     {
+        setTouchSwallowEnabled(false);
         return false;
     }
     
@@ -239,6 +241,7 @@ bool MMMenu::ccTouchBegan(CCTouch* touch, CCEvent* event)
     {
         if (c->isVisible() == false)
         {
+            setTouchSwallowEnabled(false);
             return false;
         }
     }
@@ -247,6 +250,7 @@ bool MMMenu::ccTouchBegan(CCTouch* touch, CCEvent* event)
         CCEGLViewProtocol* eglView = CCEGLView::sharedOpenGLView();
         const CCRect & scissorBox = eglView->getScissorRect();
         if (!scissorBox.containsPoint(touch->getLocation())) {
+            setTouchSwallowEnabled(false);
             return false;
         }
     }
@@ -262,6 +266,7 @@ bool MMMenu::ccTouchBegan(CCTouch* touch, CCEvent* event)
         }
         return true;
     }
+    setTouchSwallowEnabled(false);
     return false;
 }
 
@@ -281,7 +286,6 @@ void MMMenu::ccTouchEnded(CCTouch *touch, CCEvent* event)
                     break;
                 }
             }
-            
             m_pSelectedItem->activate();
             
         } while (false);

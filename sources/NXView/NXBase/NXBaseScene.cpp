@@ -113,7 +113,7 @@ void NXBaseScene::init_UI(){
     
     dikuangSpr = CCSprite::create("res/nxpic/NXBaseScene/NXBase_dikuang1.png");
     dikuangSpr->setAnchorPoint(ccp(.5f, 1.f));
-    dikuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 20.f, DISPLAY->ScreenHeight() - 7.f));
+    dikuangSpr->setPosition(ccp(DISPLAY->ScreenWidth()* .5f + 20.f, DISPLAY->ScreenHeight() - 1.f));
     this->addChild(dikuangSpr, 10);
     
     // 姓名框
@@ -223,57 +223,39 @@ void NXBaseScene::init_UI(){
     dikuangSpr->addChild(barMenu, 10);
     
     
-//    if (DATA->getClothesBool()) {
-//        CCSprite* debrisIconSpr = CCSprite::create("res/pic/clothesScene/gj_debris.png");
-//        debrisIconSpr->setScale(1.1f);
-//        debrisIconSpr->setPosition(ccp(tiliItem->getContentSize().width* .04f, tiliItem->getContentSize().height* .5f));
-//        tiliItem->addChild(debrisIconSpr);
-//        
-//        CCString* debrisStr = CCString::createWithFormat("%d", DATA->getOperation()->getPiece());
-//        m_lbl_debris = FlashNumberLabel::create_with_atlas("res/pic/NXBaseScene/base_number.png", debrisStr->getCString(), 0, .01f);
-//        if (DATA->getPlayer()->diam > 9999999) {
-//            m_lbl_debris->setAnchorPoint(ccp(0, .5f));
-//            m_lbl_debris->set_delegate(this); // 设置代理
-//            m_lbl_debris->setPosition(ccp(tiliItem->getContentSize().width* .13f, tiliItem->getContentSize().height* .51f));
-//        }else{
-//            m_lbl_debris->setAnchorPoint(ccp(.5f, .5f));
-//            m_lbl_debris->set_delegate(this); // 设置代理
-//            m_lbl_debris->setPosition(ccp(tiliItem->getContentSize().width* .48f, tiliItem->getContentSize().height* .51f));
-//        }
-//        tiliItem->addChild(m_lbl_debris, 1);
-//    }else{
-//        
-//        
-//        tili_num = DATA->getPlayer()->energy;
-//        
-//        // 倒计时
-//        _minute = DATA->getTiliMinute();
-//        _second = DATA->getTiliSecond();
-//        CCString* timeStr;
-//        if (_second == 0) {
-//            timeStr = CCString::createWithFormat("%d:00", _minute);
-//        }else{
-//            if (_second < 10) {
-//                timeStr = CCString::createWithFormat("%d:0%d", _minute, _second);
-//            }else{
-//                timeStr = CCString::createWithFormat("%d:%d", _minute, _second);
-//            }
-//        }
-//        m_time_num = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 20);
-//        m_time_num->setPosition(ccp(tiliItem->getContentSize().width* .5f, tiliItem->getContentSize().height* .5f));
-//        m_time_num->setColor(ccWHITE);
-//        tiliItem->addChild(m_time_num);
-//        
-//        if (tili_num < def_TiliMax) {
-//            m_time_num->setVisible(true);
-//            
-//            this->schedule(schedule_selector(NXBaseScene::updataTileTime), 1.f);
-//        }else{
-//            m_time_num->setVisible(false);
-//            
-//            this->unschedule(schedule_selector(NXBaseScene::updataTileTime));
-//        }
-//    }
+    if (DATA->getClothesBool()) {
+    }else{
+        
+        tili_num = DATA->getPlayer()->energy;
+        
+        // 倒计时
+        _minute = DATA->getTiliMinute();
+        _second = DATA->getTiliSecond();
+        CCString* timeStr;
+        if (_second == 0) {
+            timeStr = CCString::createWithFormat("%d:00", _minute);
+        }else{
+            if (_second < 10) {
+                timeStr = CCString::createWithFormat("%d:0%d", _minute, _second);
+            }else{
+                timeStr = CCString::createWithFormat("%d:%d", _minute, _second);
+            }
+        }
+        m_time_num = CCLabelTTF::create(timeStr->getCString(), DISPLAY->fangzhengFont(), 20);
+        m_time_num->setPosition(ccp(tiliItem->getContentSize().width* .5f, tiliItem->getContentSize().height* .5f));
+        m_time_num->setColor(ccWHITE);
+        tiliItem->addChild(m_time_num);
+        
+        if (tili_num < def_TiliMax) {
+            m_time_num->setVisible(true);
+            
+            this->schedule(schedule_selector(NXBaseScene::updataTileTime), 1.f);
+        }else{
+            m_time_num->setVisible(false);
+            
+            this->unschedule(schedule_selector(NXBaseScene::updataTileTime));
+        }
+    }
     
     
     
@@ -350,10 +332,6 @@ void NXBaseScene::updataMoney(){
     
     
     if (DATA->getClothesBool()) {
-        CCString* debrisStr = CCString::createWithFormat("%d", DATA->getOperation()->getPiece());
-        if (m_lbl_debris != NULL) {
-            m_lbl_debris->set_new_number(debrisStr->getCString());
-        }
         
     }else{
         uint energy = DATA->getPlayer()->energy;
